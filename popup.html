@@ -1,0 +1,48 @@
+<!DOCTYPE html>
+<html lang="it">
+
+<head>
+    <meta charset="UTF-8">
+    <title>Impostazioni Netflix Skip Intro</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            width: 220px;
+            padding: 10px;
+            border: 1px solid #1e1e1e;
+            border-radius: 10px;
+            background-color: #1e1e1e;
+            color: white;
+        }
+
+        label,
+        input {
+            display: block;
+            margin-bottom: 10px;
+        }
+
+        .slider-container {
+            display: flex;
+            align-items: center;
+        }
+
+        .slider-value {
+            margin-left: 10px;
+            width: 30px;
+            text-align: center;
+        }
+    </style>
+</head>
+
+<body>
+    <label for="delay">Ritardo (secondi):</label>
+    <div class="slider-container">
+        <input type="range" id="delay" min="0" max="5" step="1" value="1">
+        <span class="slider-value" id="delay-value">1</span>s
+    </div>
+    <button id="save">Salva</button>
+
+    <script src="popup.js"></script>
+</body>
+
+</html>
