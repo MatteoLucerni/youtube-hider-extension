@@ -1,14 +1,15 @@
 {
     "manifest_version": 3,
-    "name": "Netflix Skip Intro",
-    "version": "1.1",
+    "name": "Skip Intro",
+    "version": "1.2",
     "description": "Un'estensione che salta automaticamente l'intro su Netflix",
     "permissions": [
         "storage",
         "scripting"
     ],
     "host_permissions": [
-        "https://www.netflix.com/*"
+        "https://www.netflix.com/*",
+        "https://www.primevideo.com/*"
     ],
     "background": {
         "service_worker": "background.js"
@@ -16,7 +17,8 @@
     "content_scripts": [
         {
             "matches": [
-                "https://www.netflix.com/*"
+                "https://www.netflix.com/*",
+                "https://www.primevideo.com/*"
             ],
             "js": [
                 "content.js"
