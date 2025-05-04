@@ -1,28 +1,15 @@
 function skipIntro() {
-
   const netflixBtn = document.querySelector(
     "button[data-uia='player-skip-intro']"
   );
 
-  const primeBtnAria = document.querySelector(
-    "button[aria-label='Salta intro']"
-  );
-
-  const primeBtnAriaEng = document.querySelector(
-    "button[aria-label='Skip intro']"
-  );
-
-  const primeBtnClass = document.querySelector('.skipElement');
   const primeBtnClassSkip = document.querySelector(
-    '.atvwebplayersdk-skipelement-button'
+    '[class*="skipelement-button"]'
   );
 
   const skipButton =
     netflixBtn ||
-    primeBtnClassSkip ||
-    primeBtnAria ||
-    primeBtnClass ||
-    primeBtnAriaEng;
+    primeBtnClassSkip
 
   if (skipButton) {
     chrome.storage.sync.get(['skipIntroDelay'], result => {
