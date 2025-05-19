@@ -36,7 +36,6 @@
             text-align: center;
         }
 
-        /* ----- Toggle Switch CSS ----- */
         .toggle-container {
             display: flex;
             align-items: center;
@@ -51,14 +50,12 @@
             height: 20px;
         }
 
-        /* nasconde il checkbox vero */
         .switch input {
             opacity: 0;
             width: 0;
             height: 0;
         }
 
-        /* il “track” */
         .slider {
             position: absolute;
             cursor: pointer;
@@ -67,12 +64,10 @@
             right: 0;
             bottom: 0;
             background-color: #888;
-            /* grigio quando off */
             transition: background-color .2s;
             border-radius: 20px;
         }
 
-        /* il “knob” */
         .slider:before {
             position: absolute;
             content: "";
@@ -85,17 +80,14 @@
             border-radius: 50%;
         }
 
-        /* stato checked */
         .switch input:checked+.slider {
             background-color: #008000;
-            /* verde quando on */
         }
 
         .switch input:checked+.slider:before {
             transform: translateX(20px);
         }
 
-        /* fine Toggle Switch CSS */
     </style>
 </head>
 
