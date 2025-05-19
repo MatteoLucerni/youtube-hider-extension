@@ -1,13 +1,13 @@
 <!DOCTYPE html>
-<html lang="it">
+<html lang="en">
 
 <head>
     <meta charset="UTF-8">
-    <title>Impostazioni Skip Intro</title>
+    <title>Skipper settings</title>
     <style>
         body {
             font-family: Arial, sans-serif;
-            width: 220px;
+            width: 240px;
             padding: 10px;
             border: 1px solid #1e1e1e;
             border-radius: 10px;
@@ -31,16 +31,34 @@
             width: 30px;
             text-align: center;
         }
+
+        .toggle-container {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            margin-bottom: 15px;
+        }
     </style>
 </head>
 
 <body>
-    <label for="delay">Ritardo (secondi):</label>
-    <div class="slider-container">
-        <input type="range" id="delay" min="0" max="5" step="1" value="1">
-        <span class="slider-value" id="delay-value">1</span>s
+    <div style="border: 1px solid gray; border-radius: 5px; padding: 10px;">
+        <div class="toggle-container">
+            <label style="cursor: pointer;" for="enabled">Enable</label>
+            <input style="cursor: pointer;" type="checkbox" id="enabled">
+        </div>
+
+        <label for="delay">Delay (seconds):</label>
+        <div class="slider-container">
+            <input style="cursor: pointer;" type="range" id="delay" min="0" max="5" step="1" value="1">
+            <span class="slider-value" id="delay-value">1</span>s
+        </div>
+        <button style="margin-top: 20px; cursor: pointer;" id="save">Save settings</button>
     </div>
-    <button id="save">Salva</button>
+
+
+    <p style="margin-top: 10px; font-size: 0.6rem; color: gray; text-align: center;">Icon Credits:
+        https://dragoart.com/artist/dawn</p>
 
     <script src="popup.js"></script>
 </body>

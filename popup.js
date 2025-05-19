@@ -1,13 +1,18 @@
 document.addEventListener('DOMContentLoaded', () => {
   const delaySlider = document.getElementById('delay');
   const delayValue = document.getElementById('delay-value');
+  const enabledCheckbox = document.getElementById('enabled');
   const saveButton = document.getElementById('save');
 
-  chrome.storage.sync.get(['skipIntroDelay'], result => {
+  chrome.storage.sync.get(['skipIntroDelay', 'skipEnabled'], result => {
     const delay =
       result.skipIntroDelay !== undefined ? result.skipIntroDelay : 1;
+    const enabled =
+      result.skipEnabled !== undefined ? result.skipEnabled : true;
+
     delaySlider.value = delay;
     delayValue.textContent = delay;
+    enabledCheckbox.checked = enabled;
   });
 
   delaySlider.addEventListener('input', () => {
@@ -16,8 +21,19 @@ document.addEventListener('DOMContentLoaded', () => {
 
   saveButton.addEventListener('click', () => {
     const delay = parseInt(delaySlider.value, 10);
-    chrome.storage.sync.set({ skipIntroDelay: delay }, () => {
-      alert('Ritardo salvato con successo!');
-    });
+    const enabled = enabledCheckbox.checked;
+
+    chrome.storage.sync.set(
+      {
+        skipIntroDelay: delay,
+        skipEnabled: enabled,
+      },
+      () => {
+        const msg = enabled
+          ? 'Active and delay saved!'
+          : 'Not active and delay saved!';
+        alert(msg);
+      }
+    );
   });
 });
