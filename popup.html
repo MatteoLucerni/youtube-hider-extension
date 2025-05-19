@@ -15,10 +15,14 @@
             color: white;
         }
 
-        label,
-        input {
-            display: block;
-            margin-bottom: 10px;
+        .container {
+            border: 1px solid gray;
+            border-radius: 5px;
+            padding: 10px;
+        }
+
+        label {
+            cursor: pointer;
         }
 
         .slider-container {
@@ -32,33 +36,91 @@
             text-align: center;
         }
 
+        /* ----- Toggle Switch CSS ----- */
         .toggle-container {
             display: flex;
             align-items: center;
             justify-content: space-between;
             margin-bottom: 15px;
         }
+
+        .switch {
+            position: relative;
+            display: inline-block;
+            width: 40px;
+            height: 20px;
+        }
+
+        /* nasconde il checkbox vero */
+        .switch input {
+            opacity: 0;
+            width: 0;
+            height: 0;
+        }
+
+        /* il “track” */
+        .slider {
+            position: absolute;
+            cursor: pointer;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background-color: #888;
+            /* grigio quando off */
+            transition: background-color .2s;
+            border-radius: 20px;
+        }
+
+        /* il “knob” */
+        .slider:before {
+            position: absolute;
+            content: "";
+            height: 16px;
+            width: 16px;
+            left: 2px;
+            bottom: 2px;
+            background-color: white;
+            transition: transform .2s;
+            border-radius: 50%;
+        }
+
+        /* stato checked */
+        .switch input:checked+.slider {
+            background-color: #008000;
+            /* verde quando on */
+        }
+
+        .switch input:checked+.slider:before {
+            transform: translateX(20px);
+        }
+
+        /* fine Toggle Switch CSS */
     </style>
 </head>
 
 <body>
-    <div style="border: 1px solid gray; border-radius: 5px; padding: 10px;">
+    <div class="container">
         <div class="toggle-container">
-            <label style="cursor: pointer;" for="enabled">Enable</label>
-            <input style="cursor: pointer;" type="checkbox" id="enabled">
+            <label for="enabled">Enable</label>
+            <label class="switch">
+                <input type="checkbox" id="enabled">
+                <span class="slider"></span>
+            </label>
         </div>
 
         <label for="delay">Delay (seconds):</label>
         <div class="slider-container">
-            <input style="cursor: pointer;" type="range" id="delay" min="0" max="5" step="1" value="1">
+            <input type="range" id="delay" min="0" max="5" step="1" value="1">
             <span class="slider-value" id="delay-value">1</span>s
         </div>
+
         <button style="margin-top: 20px; cursor: pointer;" id="save">Save settings</button>
     </div>
 
-
-    <p style="margin-top: 10px; font-size: 0.6rem; color: gray; text-align: center;">Icon Credits:
-        https://dragoart.com/artist/dawn</p>
+    <p style="margin-top: 10px; font-size: 0.6rem; color: gray; text-align: center;">
+        Icon Credits: https://dragoart.com/artist/dawn
+    </p>
 
     <script src="popup.js"></script>
 </body>
