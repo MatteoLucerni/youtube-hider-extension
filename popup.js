@@ -24,15 +24,18 @@ document.addEventListener('DOMContentLoaded', () => {
     const enabled = enabledCheckbox.checked;
 
     chrome.storage.sync.set(
-      {
-        skipIntroDelay: delay,
-        skipEnabled: enabled,
-      },
+      { skipIntroDelay: delay, skipEnabled: enabled },
       () => {
+        // Aggiorna badge da qui (facoltativo)
+        chrome.action.setBadgeText({ text: enabled ? 'A' : 'D' });
+        chrome.action.setBadgeBackgroundColor({
+          color: enabled ? '#008000' : '#808080',
+        });
+
         const msg = enabled
-          ? 'Active and delay saved!'
-          : 'Not active and delay saved!';
-        alert(msg);
+          ? 'Funzionalità attivata e ritardo salvato!'
+          : 'Funzionalità disattivata e ritardo salvato!';
+        console.log(msg);
       }
     );
   });
