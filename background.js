@@ -6,14 +6,16 @@ const BADGE_ON = { text: 'A', color: '#008000' };
 const BADGE_OFF = { text: 'D', color: '#808080' };
 
 function updateBadge(isEnabled) {
-  if (isEnabled) {
-    chrome.action.setBadgeText({ text: BADGE_ON.text });
-    chrome.action.setBadgeBackgroundColor({ color: BADGE_ON.color });
-  } else {
-    chrome.action.setBadgeText({ text: BADGE_OFF.text });
-    chrome.action.setBadgeBackgroundColor({ color: BADGE_OFF.color });
-  }
+  const { text, color } = isEnabled ? BADGE_ON : BADGE_OFF;
+  chrome.action.setBadgeText({ text });
+  chrome.action.setBadgeBackgroundColor({ color });
 }
+
+chrome.runtime.onStartup.addListener(() => {
+  chrome.storage.sync.get({ skipEnabled: true }, ({ skipEnabled }) => {
+    updateBadge(skipEnabled);
+  });
+});
 
 chrome.storage.sync.get({ skipEnabled: true }, ({ skipEnabled }) => {
   updateBadge(skipEnabled);
