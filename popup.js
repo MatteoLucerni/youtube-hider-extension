@@ -67,12 +67,6 @@ document.addEventListener('DOMContentLoaded', () => {
         chrome.action.setBadgeBackgroundColor({
           color: skipEnabled || hideEnabled ? '#008000' : '#808080',
         });
-
-        console.log(`Impostazioni salvate:
-  • Skip intro: ${skipEnabled ? 'attivo' : 'disattivo'}, delay = ${delay}s
-  • Hide watched: ${
-    hideEnabled ? 'attivo' : 'disattivo'
-  }, soglia = ${hideThreshold}%`);
       }
     );
   });
