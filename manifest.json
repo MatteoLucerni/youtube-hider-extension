@@ -9,9 +9,7 @@
         "128": "icons/skipper-icon-wefwefwe.png"
     },
     "permissions": [
-        "storage",
-        "scripting",
-        "activeTab"
+        "storage"
     ],
     "host_permissions": [
         "https://www.netflix.com/*",
