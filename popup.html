@@ -3,22 +3,16 @@
 
 <head>
     <meta charset="UTF-8">
+    <link rel='stylesheet' href='https://cdnjs.cloudflare.com/ajax/libs/bootstrap/5.3.3/css/bootstrap.min.css'
+        integrity='sha512-jnSuA4Ss2PkkikSOLtYs8BlYIeeIK1h99ty4YfvRPAlzr377vr3CXDb7sb7eEEBYjDtcYj+AjBH3FLv5uSJuXg=='
+        crossorigin='anonymous' />
+
     <title>Skipper settings</title>
     <style>
         body {
-            font-family: Arial, sans-serif;
-            width: 240px;
-            padding: 10px;
             border: 1px solid #1e1e1e;
-            border-radius: 10px;
             background-color: #1e1e1e;
             color: white;
-        }
-
-        .container {
-            border: 1px solid gray;
-            border-radius: 5px;
-            padding: 10px;
         }
 
         label {
@@ -91,57 +85,78 @@
         .divider {
             margin: 20px 0;
         }
+
+        .text-center {
+            text-align: center;
+        }
+
+        .setting-box {
+            background-color: #333333;
+            border: 1px solid #1e1e1e;
+        }
+
+        .setting-subtitle {
+            color: gray;
+            font-size: 0.7rem;
+            margin-bottom: 20px;
+            margin-top: 5px;
+            text-align: center;
+        }
     </style>
 </head>
 
 <body>
-    <div class="container">
-        <h3>Skip Settings</h3>
-        <div class="toggle-container">
-            <label for="skip-enabled">Enable skip</label>
-            <label class="switch">
-                <input type="checkbox" id="skip-enabled">
-                <span class="slider"></span>
-            </label>
+    <div class="container p-4">
+        <h3 class="text-center mb-3">Skipper Settings</h3>
+        <div class="setting-box rounded py-3 px-4 mb-2">
+            <h5 class="text-center mb-0">Netflix/Prime Skip</h5>
+            <p class="setting-subtitle">Skip intro and recap</p>
+            <div class="toggle-container">
+                <label for="skip-enabled">Enable skip</label>
+                <label class="switch">
+                    <input type="checkbox" id="skip-enabled">
+                    <span class="slider"></span>
+                </label>
+            </div>
+
+            <label for="delay">Delay (seconds):</label>
+            <div class="slider-container">
+                <input type="range" id="delay" min="0" max="5" step="1" value="1">
+                <span class="slider-value" id="delay-value">1</span>s
+            </div>
+
         </div>
 
-        <label for="delay">Delay (seconds):</label>
-        <div class="slider-container">
-            <input type="range" id="delay" min="0" max="5" step="1" value="1">
-            <span class="slider-value" id="delay-value">1</span>s
+        <div class="setting-box rounded mt-20 py-3 px-4">
+            <h5 class="text-center mb-0">Youtube Hider</h5>
+            <p class="setting-subtitle">Hide watched videos based on watch percentage</p>
+            <div class="toggle-container">
+                <label for="hide-home-enabled">Home and Subs</label>
+                <label class="switch">
+                    <input type="checkbox" id="hide-home-enabled">
+                    <span class="slider"></span>
+                </label>
+            </div>
+            <div class="toggle-container">
+                <label for="hide-search-enabled">Search results</label>
+                <label class="switch">
+                    <input type="checkbox" id="hide-search-enabled">
+                    <span class="slider"></span>
+                </label>
+            </div>
+
+            <label for="perc-hide">Watch Percentage:</label>
+            <div class="slider-container">
+                <input type="range" id="perc-hide" min="0" max="100" step="5" value="70">
+                <span class="slider-value" id="perc-hide-value">70</span>%
+            </div>
+
         </div>
 
-        <hr class="divider">
-
-        <h3>Hide Settings</h3>
-
-        <div class="toggle-container">
-            <label for="hide-home-enabled">Homepage</label>
-            <label class="switch">
-                <input type="checkbox" id="hide-home-enabled">
-                <span class="slider"></span>
-            </label>
+        <div class="text-center">
+            <button class="btn btn-primary mt-3" id="save">Save settings</button>
         </div>
-        <div class="toggle-container">
-            <label for="hide-search-enabled">Search results</label>
-            <label class="switch">
-                <input type="checkbox" id="hide-search-enabled">
-                <span class="slider"></span>
-            </label>
-        </div>
-
-        <label for="perc-hide">Hiding %:</label>
-        <div class="slider-container">
-            <input type="range" id="perc-hide" min="0" max="100" step="5" value="70">
-            <span class="slider-value" id="perc-hide-value">70</span>%
-        </div>
-
-        <button style="margin-top: 20px; cursor: pointer;" id="save">Save settings</button>
     </div>
-
-    <p style="margin-top: 10px; font-size: 0.6rem; color: gray; text-align: center;">
-        Icon Credits: https://dragoart.com/artist/dawn
-    </p>
 
     <script src="popup.js"></script>
 </body>
