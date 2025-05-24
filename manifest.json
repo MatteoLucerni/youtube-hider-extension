@@ -1,7 +1,7 @@
 {
     "manifest_version": 3,
     "name": "Skipper",
-    "version": "1.5.1",
+    "version": "2.0.0",
     "description": "Skipping stuff on Netflix and Prime Video to save your time or your laziness",
     "icons": {
         "16": "icons/skipper-icon-134098h7th034f.png",
@@ -10,11 +10,13 @@
     },
     "permissions": [
         "storage",
-        "scripting"
+        "scripting",
+        "activeTab"
     ],
     "host_permissions": [
         "https://www.netflix.com/*",
-        "https://www.primevideo.com/*"
+        "https://www.primevideo.com/*",
+        "https://www.youtube.com/*"
     ],
     "background": {
         "service_worker": "background.js"
@@ -23,7 +25,8 @@
         {
             "matches": [
                 "https://www.netflix.com/*",
-                "https://www.primevideo.com/*"
+                "https://www.primevideo.com/*",
+                "https://www.youtube.com/*"
             ],
             "js": [
                 "content.js"
