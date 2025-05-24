@@ -1,28 +1,44 @@
 chrome.runtime.onInstalled.addListener(() => {
-  console.log('Skipper installed');
+  console.log('Extension installed');
+  refreshBadge();
 });
 
-const BADGE_ON = { text: 'A', color: '#008000' };
-const BADGE_OFF = { text: 'D', color: '#808080' };
+chrome.runtime.onStartup.addListener(() => {
+  console.log('Extension started');
+  refreshBadge();
+});
 
-function updateBadge(isEnabled) {
-  const { text, color } = isEnabled ? BADGE_ON : BADGE_OFF;
+function refreshBadge() {
+  chrome.storage.sync.get(
+    { skipEnabled: true, hideEnabled: true },
+    ({ skipEnabled, hideEnabled }) => {
+      updateBadge(skipEnabled, hideEnabled);
+    }
+  );
+}
+
+function getBadgeText(skipEnabled, hideEnabled) {
+  if (skipEnabled && hideEnabled) {
+    return 'A';
+  } else if (skipEnabled) {
+    return 'S';
+  } else if (hideEnabled) {
+    return 'H';
+  } else {
+    return 'OFF';
+  }
+}
+
+function updateBadge(skipEnabled, hideEnabled) {
+  const text = getBadgeText(skipEnabled, hideEnabled);
+  const color = skipEnabled || hideEnabled ? '#008000' : '#808080';
   chrome.action.setBadgeText({ text });
   chrome.action.setBadgeBackgroundColor({ color });
 }
 
-chrome.runtime.onStartup.addListener(() => {
-  chrome.storage.sync.get({ skipEnabled: true }, ({ skipEnabled }) => {
-    updateBadge(skipEnabled);
-  });
-});
-
-chrome.storage.sync.get({ skipEnabled: true }, ({ skipEnabled }) => {
-  updateBadge(skipEnabled);
-});
-
 chrome.storage.onChanged.addListener((changes, area) => {
-  if (area === 'sync' && changes.skipEnabled) {
-    updateBadge(changes.skipEnabled.newValue);
+  if (area !== 'sync') return;
+  if (changes.skipEnabled || changes.hideEnabled) {
+    refreshBadge();
   }
 });

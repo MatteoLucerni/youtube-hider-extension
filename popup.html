@@ -88,15 +88,19 @@
             transform: translateX(20px);
         }
 
+        .divider {
+            margin: 20px 0;
+        }
     </style>
 </head>
 
 <body>
     <div class="container">
+        <h3>Skip Settings</h3>
         <div class="toggle-container">
-            <label for="enabled">Enable</label>
+            <label for="skip-enabled">Enable skip</label>
             <label class="switch">
-                <input type="checkbox" id="enabled">
+                <input type="checkbox" id="skip-enabled">
                 <span class="slider"></span>
             </label>
         </div>
@@ -105,6 +109,23 @@
         <div class="slider-container">
             <input type="range" id="delay" min="0" max="5" step="1" value="1">
             <span class="slider-value" id="delay-value">1</span>s
+        </div>
+
+        <hr class="divider">
+
+        <h3>Hide Settings</h3>
+        <div class="toggle-container">
+            <label for="hide-enabled">Enable hide</label>
+            <label class="switch">
+                <input type="checkbox" id="hide-enabled">
+                <span class="slider"></span>
+            </label>
+        </div>
+
+        <label for="perc-hide">Hiding %:</label>
+        <div class="slider-container">
+            <input type="range" id="perc-hide" min="0" max="100" step="5" value="70">
+            <span class="slider-value" id="perc-hide-value">70</span>%
         </div>
 
         <button style="margin-top: 20px; cursor: pointer;" id="save">Save settings</button>
