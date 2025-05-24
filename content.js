@@ -30,25 +30,40 @@ function skipIntro() {
 }
 
 function hideWatched() {
-  document
-    .querySelectorAll(
-      'ytd-thumbnail-overlay-resume-playback-renderer #progress'
-    )
-    .forEach(bar => {
-      const pct = parseFloat(bar.style.width) || 0;
-      if (pct > 70) {
-        let item = bar;
-        while (
-          item &&
-          !item.matches('ytd-rich-item-renderer, ytd-video-renderer')
-        ) {
-          item = item.parentElement;
-        }
-        if (item) {
-          item.style.display = 'none';
-        }
-      }
-    });
+  chrome.storage.sync.get(
+    ['hideThreshold', 'hideHomeEnabled', 'hideSearchEnabled'],
+    ({
+      hideThreshold = 70,
+      hideHomeEnabled = true,
+      hideSearchEnabled = true,
+    }) => {
+      document
+        .querySelectorAll(
+          'ytd-thumbnail-overlay-resume-playback-renderer #progress'
+        )
+        .forEach(bar => {
+          const pct = parseFloat(bar.style.width) || 0;
+          if (pct <= hideThreshold) return;
+
+          let item = bar;
+          while (
+            item &&
+            !item.matches('ytd-rich-item-renderer, ytd-video-renderer')
+          ) {
+            item = item.parentElement;
+          }
+          if (!item) return;
+
+          if (item.matches('ytd-rich-item-renderer') && hideHomeEnabled) {
+            item.style.display = 'none';
+          }
+
+          if (item.matches('ytd-video-renderer') && hideSearchEnabled) {
+            item.style.display = 'none';
+          }
+        });
+    }
+  );
 }
 
 function onMutations(mutations) {

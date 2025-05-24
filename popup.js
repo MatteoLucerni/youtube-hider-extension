@@ -1,4 +1,5 @@
-function getBadgeText(skipEnabled, hideEnabled) {
+function getBadgeText(skipEnabled, hideHomeCheckbox, hideSearchCheckbox) {
+  const hideEnabled = hideHomeCheckbox || hideSearchCheckbox;
   if (skipEnabled && hideEnabled) {
     return 'A';
   } else if (skipEnabled) {
@@ -18,29 +19,36 @@ document.addEventListener('DOMContentLoaded', () => {
   // hide
   const hideSlider = document.getElementById('perc-hide');
   const hideValue = document.getElementById('perc-hide-value');
-  const hideEnabledCheckbox = document.getElementById('hide-enabled');
+  const hideHomeCheckbox = document.getElementById('hide-home-enabled');
+  const hideSearchCheckbox = document.getElementById('hide-search-enabled');
   // save
   const saveButton = document.getElementById('save');
 
   chrome.storage.sync.get(
-    ['skipIntroDelay', 'skipEnabled', 'hideThreshold', 'hideEnabled'],
-    result => {
-      const delay =
-        result.skipIntroDelay !== undefined ? result.skipIntroDelay : 1;
-      const skipEnabled =
-        result.skipEnabled !== undefined ? result.skipEnabled : true;
-      const hideThreshold =
-        result.hideThreshold !== undefined ? result.hideThreshold : 70;
-      const hideEnabled =
-        result.hideEnabled !== undefined ? result.hideEnabled : true;
+    [
+      'skipIntroDelay',
+      'skipEnabled',
+      'hideThreshold',
+      'hideHomeEnabled',
+      'hideSearchEnabled',
+    ],
+    prefs => {
+      const {
+        skipIntroDelay = 1,
+        skipEnabled = true,
+        hideThreshold = 70,
+        hideHomeEnabled = true,
+        hideSearchEnabled = true,
+      } = prefs;
 
-      delaySlider.value = delay;
-      delayValue.textContent = delay;
+      delaySlider.value = skipIntroDelay;
+      delayValue.textContent = skipIntroDelay;
       skipEnabledCheckbox.checked = skipEnabled;
 
       hideSlider.value = hideThreshold;
       hideValue.textContent = hideThreshold;
-      hideEnabledCheckbox.checked = hideEnabled;
+      hideHomeCheckbox.checked = hideHomeEnabled;
+      hideSearchCheckbox.checked = hideSearchEnabled;
     }
   );
 
@@ -52,20 +60,32 @@ document.addEventListener('DOMContentLoaded', () => {
   });
 
   saveButton.addEventListener('click', () => {
-    const delay = parseInt(delaySlider.value, 10);
+    const skipIntroDelay = parseInt(delaySlider.value, 10);
     const skipEnabled = skipEnabledCheckbox.checked;
     const hideThreshold = parseInt(hideSlider.value, 10);
-    const hideEnabled = hideEnabledCheckbox.checked;
+    const hideHomeEnabled = hideHomeCheckbox.checked;
+    const hideSearchEnabled = hideSearchCheckbox.checked;
 
     chrome.storage.sync.set(
-      { skipIntroDelay: delay, skipEnabled, hideThreshold, hideEnabled },
+      {
+        skipIntroDelay,
+        skipEnabled,
+        hideThreshold,
+        hideHomeEnabled,
+        hideSearchEnabled,
+      },
       () => {
-        chrome.action.setBadgeText({
-          text: getBadgeText(skipEnabled, hideEnabled),
-        });
-
+        const text = getBadgeText(
+          skipEnabled,
+          hideHomeEnabled,
+          hideSearchEnabled
+        );
+        chrome.action.setBadgeText({ text });
         chrome.action.setBadgeBackgroundColor({
-          color: skipEnabled || hideEnabled ? '#008000' : '#808080',
+          color:
+            skipEnabled || hideHomeEnabled || hideSearchEnabled
+              ? '#008000'
+              : '#808080',
         });
       }
     );
