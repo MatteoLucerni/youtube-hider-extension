@@ -2,7 +2,7 @@
     "manifest_version": 3,
     "name": "Skipper",
     "version": "2.0.0",
-    "description": "Skipping stuff on Netflix and Prime Video to save your time or your laziness",
+    "description": "Hide Youtube watched videos and auto skip Netflix and Prime intros and recaps",
     "icons": {
         "16": "icons/skipper-icon-wefwefwe.png",
         "48": "icons/skipper-icon-wefwefwe.png",
