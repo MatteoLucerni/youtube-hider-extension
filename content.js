@@ -30,23 +30,25 @@ function skipIntro() {
 }
 
 function hideWatched() {
-  const progressBars = document.querySelectorAll(
-    'ytd-thumbnail-overlay-resume-playback-renderer #progress'
-  );
-
-  progressBars.forEach(bar => {
-    const w = bar.style.width;
-    const pct = parseFloat(w) || 0;
-    if (pct > 70) {
-      let item = bar;
-      while (item && !item.matches('ytd-rich-item-renderer')) {
-        item = item.parentElement;
+  document
+    .querySelectorAll(
+      'ytd-thumbnail-overlay-resume-playback-renderer #progress'
+    )
+    .forEach(bar => {
+      const pct = parseFloat(bar.style.width) || 0;
+      if (pct > 70) {
+        let item = bar;
+        while (
+          item &&
+          !item.matches('ytd-rich-item-renderer, ytd-video-renderer')
+        ) {
+          item = item.parentElement;
+        }
+        if (item) {
+          item.style.display = 'none';
+        }
       }
-      if (item) {
-        item.style.display = 'none';
-      }
-    }
-  });
+    });
 }
 
 function onMutations(mutations) {
