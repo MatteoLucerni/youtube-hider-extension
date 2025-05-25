@@ -2,7 +2,8 @@
 
 Skipper is a lightweight Chrome extension that hides watched YouTube videos and automatically skips intros, recaps, trailers, and promos on Netflix and Prime Video.
 
-DOWNLOAD: https://chromewebstore.google.com/detail/ebpikpmmnpjmlcpanakfcgchkdjaanmm?utm_source=item-share-cb
+Extension title: "Productivity Skipper - YouTube, Netflix and Prime"
+Chrome Web Store DOWNLOAD: https://chromewebstore.google.com/detail/ebpikpmmnpjmlcpanakfcgchkdjaanmm?utm_source=item-share-cb
 
 ## Features
 
