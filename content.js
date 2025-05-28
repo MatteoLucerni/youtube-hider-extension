@@ -4,6 +4,7 @@ const prefs = {
   hideThreshold: 70,
   hideHomeEnabled: true,
   hideSearchEnabled: true,
+  hideSubsEnabled: true,
 };
 
 (function initPrefs() {
@@ -53,7 +54,7 @@ function skipIntro() {
 }
 
 function hideWatched() {
-  const { hideThreshold, hideHomeEnabled, hideSearchEnabled } = prefs;
+  const { hideThreshold } = prefs;
 
   document
     .querySelectorAll(
@@ -72,22 +73,23 @@ function hideWatched() {
       }
       if (!item) return;
 
-      if (item.matches('ytd-rich-item-renderer') && hideHomeEnabled) {
+      if (item.matches('ytd-rich-item-renderer')) {
         item.style.display = 'none';
       }
-      if (item.matches('ytd-video-renderer') && hideSearchEnabled) {
+      if (item.matches('ytd-video-renderer')) {
         item.style.display = 'none';
       }
     });
 }
 
 function startHiding() {
+  const { hideHomeEnabled, hideSearchEnabled, hideSubsEnabled } = prefs;
   const { pathname } = window.location;
 
   if (
-    pathname === '/' ||
-    pathname === '/watch' ||
-    pathname === '/feed/subscriptions'
+    (pathname === '/' && hideHomeEnabled) ||
+    (pathname === '/results' && hideSearchEnabled) ||
+    (pathname === '/feed/subscriptions' && hideSubsEnabled)
   ) {
     hideWatched();
   }

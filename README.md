@@ -9,9 +9,9 @@ Chrome Web Store DOWNLOAD: https://chromewebstore.google.com/detail/ebpikpmmnpjm
 
 **YouTube “Hide Watched”**
 
-- Hide videos you’ve already watched in both the Home/Subs pages and Search results.
+- Hide videos you’ve already watched in Homepage, Subscriptions feed and Search results.
 - Customizable threshold (0–100%) for marking a video as watched.
-- Separate toggles for hiding in the Home feed and in Search results.
+- Separate toggles for hiding in the Home, subscriptions feed and in Search results.
 
 **Netflix & Prime “Auto-Skip”**
 
@@ -31,7 +31,7 @@ Chrome Web Store DOWNLOAD: https://chromewebstore.google.com/detail/ebpikpmmnpjm
 ## Installation for users
 
 Download it from the Chrome Web Store: https://chromewebstore.google.com/detail/ebpikpmmnpjmlcpanakfcgchkdjaanmm?utm_source=item-share-cb
- 
+
 ## Installation for dev
 
 1. Clone or download the repository.
@@ -39,21 +39,6 @@ Download it from the Chrome Web Store: https://chromewebstore.google.com/detail/
 3. Enable **Developer mode** in the top-right corner.
 4. Click **Load unpacked** and select the extension’s root folder.
 5. (Optional) Pin the Skipper icon to your toolbar.
-
-## Usage
-
-1. Click the Skipper icon in the toolbar to open the settings popup.
-2. **Auto Skip**
-
-   - Adjust the **Delay** slider (in seconds).
-   - Toggle the **Enable Skip** switch on or off.
-
-3. **Hide Watched**
-
-   - Adjust the **Threshold** slider (in percent).
-   - Toggle **Hide in Home** and **Hide in Search** as required.
-
-4. Click **Save**. Your settings are stored and the badge will update automatically.
 
 ## Configuration
 
@@ -64,6 +49,7 @@ Settings are persisted via `chrome.storage.sync`, so they remain consistent acro
 - `hideThreshold` (integer): Percentage threshold for marking a video as watched.
 - `hideHomeEnabled` (boolean): Enable hiding in YouTube Home feed.
 - `hideSearchEnabled` (boolean): Enable hiding in YouTube Search results.
+- `hideSubsEnabled` (boolean): Enable hiding in YouTube Subscriptions Feed.
 
 ## Contributing
 

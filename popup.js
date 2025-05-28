@@ -1,5 +1,12 @@
-function getBadgeText(skipEnabled, hideHomeCheckbox, hideSearchCheckbox) {
-  const hideEnabled = hideHomeCheckbox || hideSearchCheckbox;
+function getBadgeText(
+  skipEnabled,
+  hideHomeCheckbox,
+  hideSearchCheckbox,
+  hideSubsCheckbox
+) {
+  const hideEnabled =
+    hideHomeCheckbox || hideSearchCheckbox || hideSubsCheckbox;
+
   if (skipEnabled && hideEnabled) {
     return 'A';
   } else if (skipEnabled) {
@@ -20,6 +27,7 @@ document.addEventListener('DOMContentLoaded', () => {
   const hideSlider = document.getElementById('perc-hide');
   const hideValue = document.getElementById('perc-hide-value');
   const hideHomeCheckbox = document.getElementById('hide-home-enabled');
+  const hideSubsCheckbox = document.getElementById('hide-subs-enabled');
   const hideSearchCheckbox = document.getElementById('hide-search-enabled');
   // save
   const saveButton = document.getElementById('save');
@@ -31,6 +39,7 @@ document.addEventListener('DOMContentLoaded', () => {
       'hideThreshold',
       'hideHomeEnabled',
       'hideSearchEnabled',
+      'hideSubsEnabled',
     ],
     prefs => {
       const {
@@ -39,6 +48,7 @@ document.addEventListener('DOMContentLoaded', () => {
         hideThreshold = 70,
         hideHomeEnabled = true,
         hideSearchEnabled = true,
+        hideSubsEnabled = true,
       } = prefs;
 
       delaySlider.value = skipIntroDelay;
@@ -49,6 +59,7 @@ document.addEventListener('DOMContentLoaded', () => {
       hideValue.textContent = hideThreshold;
       hideHomeCheckbox.checked = hideHomeEnabled;
       hideSearchCheckbox.checked = hideSearchEnabled;
+      hideSubsCheckbox.checked = hideSubsEnabled;
     }
   );
 
@@ -65,6 +76,7 @@ document.addEventListener('DOMContentLoaded', () => {
     const hideThreshold = parseInt(hideSlider.value, 10);
     const hideHomeEnabled = hideHomeCheckbox.checked;
     const hideSearchEnabled = hideSearchCheckbox.checked;
+    const hideSubsEnabled = hideSubsCheckbox.checked;
 
     chrome.storage.sync.set(
       {
@@ -73,17 +85,22 @@ document.addEventListener('DOMContentLoaded', () => {
         hideThreshold,
         hideHomeEnabled,
         hideSearchEnabled,
+        hideSubsEnabled,
       },
       () => {
         const text = getBadgeText(
           skipEnabled,
           hideHomeEnabled,
-          hideSearchEnabled
+          hideSearchEnabled,
+          hideSubsEnabled
         );
         chrome.action.setBadgeText({ text });
         chrome.action.setBadgeBackgroundColor({
           color:
-            skipEnabled || hideHomeEnabled || hideSearchEnabled
+            skipEnabled ||
+            hideHomeEnabled ||
+            hideSearchEnabled ||
+            hideSubsEnabled
               ? '#008000'
               : '#808080',
         });
