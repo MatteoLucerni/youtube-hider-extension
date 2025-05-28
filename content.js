@@ -81,12 +81,8 @@ function hideWatched() {
     });
 }
 
-function onMutations() {
-  skipIntro();
-
+function startHiding() {
   const { pathname } = window.location;
-  console.log('onMutations');
-  console.log(pathname);
 
   if (
     pathname === '/' ||
@@ -97,19 +93,12 @@ function onMutations() {
   }
 }
 
-skipIntro();
-
-const { pathname } = window.location;
-console.log('out');
-console.log(pathname);
-
-if (
-  pathname === '/' ||
-  pathname === '/watch' ||
-  pathname === '/feed/subscriptions'
-) {
-  hideWatched();
+function onMutations() {
+  skipIntro();
+  startHiding();
 }
+
+onMutations();
 
 const observer = new MutationObserver(onMutations);
 observer.observe(document.body, { childList: true, subtree: true });
