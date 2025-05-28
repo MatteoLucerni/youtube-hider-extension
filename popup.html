@@ -42,6 +42,7 @@
             display: inline-block;
             width: 40px;
             height: 20px;
+            margin-left: 15px;
         }
 
         .switch input {
@@ -102,65 +103,100 @@
             margin-top: 5px;
             text-align: center;
         }
+
+        .save-btn-cont {
+            text-align: center;
+            position: fixed;
+            bottom: 0;
+            right: 0;
+            padding: 20px
+        }
+
+        .extra-padding-bottom {
+            padding-bottom: 80px !important;
+        }
+
+        header {
+            position: sticky;
+            top: 0;
+            background-color: #1e1e1e;
+            padding: 20px 0 15px 0;
+            z-index: 9999;
+        }
     </style>
 </head>
 
 <body>
-    <div class="container p-4">
-        <h3 class="text-center mb-3">Skipper Settings</h3>
+    <div class="container px-4 extra-padding-bottom">
+        <header>
+            <h2 class=" text-center fw-bold">Skipper Settings</h2>
+        </header>
         <div class="setting-box rounded py-3 px-4 mb-2">
             <h5 class="text-center mb-0">Netflix/Prime Skip</h5>
             <p class="setting-subtitle">Skip intro and recap</p>
-            <div class="toggle-container">
-                <label for="skip-enabled">Enable skip</label>
+
+            <div class="toggle-container bg-dark rounded p-3">
+                <label for="skip-enabled">Intro and Recap skip</label>
                 <label class="switch">
                     <input type="checkbox" id="skip-enabled">
                     <span class="slider"></span>
                 </label>
             </div>
 
-            <label for="delay">Delay (seconds):</label>
-            <div class="slider-container">
-                <input type="range" id="delay" min="0" max="5" step="1" value="1">
-                <span class="slider-value" id="delay-value">1</span>s
+            <div class="d-flex justify-content-center">
+                <div class="text-center bg-dark rounded p-3">
+                    <label class="mb-2" for="delay">Delay (seconds):</label>
+                    <div class="slider-container">
+                        <input type="range" id="delay" min="0" max="5" step="1" value="1">
+                        <span class="slider-value" id="delay-value">1</span>s
+                    </div>
+                </div>
             </div>
 
         </div>
 
-        <div class="setting-box rounded mt-20 py-3 px-4">
+        <div class="setting-box rounded mt-3 py-3 px-4">
             <h5 class="text-center mb-0">Youtube Hider</h5>
             <p class="setting-subtitle">Hide watched videos based on watch percentage</p>
-            <div class="toggle-container">
-                <label for="hide-home-enabled">Home</label>
-                <label class="switch">
-                    <input type="checkbox" id="hide-home-enabled">
-                    <span class="slider"></span>
-                </label>
+
+            <div class="d-flex gap-2">
+                <div class="toggle-container bg-dark rounded p-3">
+                    <label for="hide-home-enabled">Home</label>
+                    <label class="switch">
+                        <input type="checkbox" id="hide-home-enabled">
+                        <span class="slider"></span>
+                    </label>
+                </div>
+                <div class="toggle-container bg-dark rounded p-3">
+                    <label for="hide-search-enabled">Search</label>
+                    <label class="switch">
+                        <input type="checkbox" id="hide-search-enabled">
+                        <span class="slider"></span>
+                    </label>
+                </div>
             </div>
-            <div class="toggle-container">
+
+            <div class="toggle-container bg-dark rounded p-3">
                 <label for="hide-subs-enabled">Subscriptions</label>
                 <label class="switch">
                     <input type="checkbox" id="hide-subs-enabled">
                     <span class="slider"></span>
                 </label>
             </div>
-            <div class="toggle-container">
-                <label for="hide-search-enabled">Search results</label>
-                <label class="switch">
-                    <input type="checkbox" id="hide-search-enabled">
-                    <span class="slider"></span>
-                </label>
-            </div>
 
-            <label for="perc-hide">Watch Percentage:</label>
-            <div class="slider-container">
-                <input type="range" id="perc-hide" min="0" max="100" step="5" value="70">
-                <span class="slider-value" id="perc-hide-value">70</span>%
+            <div class="d-flex justify-content-center">
+                <div class="text-center bg-dark rounded p-3">
+                    <label class="mb-2" for="perc-hide">Watch Percentage:</label>
+                    <div class="slider-container">
+                        <input type="range" id="perc-hide" min="0" max="100" step="5" value="70">
+                        <span class="slider-value" id="perc-hide-value">70</span>%
+                    </div>
+                </div>
             </div>
 
         </div>
 
-        <div class="text-center">
+        <div class="save-btn-cont">
             <button class="btn btn-primary mt-3" id="save">Save settings</button>
         </div>
     </div>
