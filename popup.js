@@ -2,10 +2,14 @@ function getBadgeText(
   skipEnabled,
   hideHomeCheckbox,
   hideSearchCheckbox,
+  hideCorrCheckbox,
   hideSubsCheckbox
 ) {
   const hideEnabled =
-    hideHomeCheckbox || hideSearchCheckbox || hideSubsCheckbox;
+    hideHomeCheckbox ||
+    hideSearchCheckbox ||
+    hideSubsCheckbox ||
+    hideCorrCheckbox;
 
   if (skipEnabled && hideEnabled) {
     return 'A';
@@ -29,6 +33,7 @@ document.addEventListener('DOMContentLoaded', () => {
   const hideHomeCheckbox = document.getElementById('hide-home-enabled');
   const hideSubsCheckbox = document.getElementById('hide-subs-enabled');
   const hideSearchCheckbox = document.getElementById('hide-search-enabled');
+  const hideCorrCheckbox = document.getElementById('hide-corr-enabled');
   // save
   const saveButton = document.getElementById('save');
 
@@ -40,6 +45,7 @@ document.addEventListener('DOMContentLoaded', () => {
       'hideHomeEnabled',
       'hideSearchEnabled',
       'hideSubsEnabled',
+      'hideCorrEnabled',
     ],
     prefs => {
       const {
@@ -49,6 +55,7 @@ document.addEventListener('DOMContentLoaded', () => {
         hideHomeEnabled = true,
         hideSearchEnabled = true,
         hideSubsEnabled = true,
+        hideCorrEnabled = true,
       } = prefs;
 
       delaySlider.value = skipIntroDelay;
@@ -60,6 +67,7 @@ document.addEventListener('DOMContentLoaded', () => {
       hideHomeCheckbox.checked = hideHomeEnabled;
       hideSearchCheckbox.checked = hideSearchEnabled;
       hideSubsCheckbox.checked = hideSubsEnabled;
+      hideCorrCheckbox.checked = hideCorrEnabled;
     }
   );
 
@@ -77,6 +85,7 @@ document.addEventListener('DOMContentLoaded', () => {
     const hideHomeEnabled = hideHomeCheckbox.checked;
     const hideSearchEnabled = hideSearchCheckbox.checked;
     const hideSubsEnabled = hideSubsCheckbox.checked;
+    const hideCorrEnabled = hideCorrCheckbox.checked;
 
     chrome.storage.sync.set(
       {
@@ -86,12 +95,14 @@ document.addEventListener('DOMContentLoaded', () => {
         hideHomeEnabled,
         hideSearchEnabled,
         hideSubsEnabled,
+        hideCorrEnabled,
       },
       () => {
         const text = getBadgeText(
           skipEnabled,
           hideHomeEnabled,
           hideSearchEnabled,
+          hideCorrEnabled,
           hideSubsEnabled
         );
         chrome.action.setBadgeText({ text });
@@ -100,6 +111,7 @@ document.addEventListener('DOMContentLoaded', () => {
             skipEnabled ||
             hideHomeEnabled ||
             hideSearchEnabled ||
+            hideCorrEnabled ||
             hideSubsEnabled
               ? '#008000'
               : '#808080',

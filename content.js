@@ -5,6 +5,7 @@ const prefs = {
   hideHomeEnabled: true,
   hideSearchEnabled: true,
   hideSubsEnabled: true,
+  hideCorrEnabled: true,
 };
 
 (function initPrefs() {
@@ -65,30 +66,29 @@ function hideWatched() {
       if (pct <= hideThreshold) return;
 
       let item = bar;
+
       while (
         item &&
-        !item.matches('ytd-rich-item-renderer, ytd-video-renderer')
+        !item.matches(
+          'ytd-compact-video-renderer, ytd-rich-item-renderer, ytd-video-renderer'
+        )
       ) {
         item = item.parentElement;
       }
       if (!item) return;
 
-      if (item.matches('ytd-rich-item-renderer')) {
-        item.style.display = 'none';
-      }
-      if (item.matches('ytd-video-renderer')) {
-        item.style.display = 'none';
-      }
+      item.style.display = 'none';
     });
 }
 
 function startHiding() {
-  const { hideHomeEnabled, hideSearchEnabled, hideSubsEnabled } = prefs;
+  const { hideHomeEnabled, hideSearchEnabled, hideSubsEnabled, hideCorrEnabled } = prefs;
   const { pathname } = window.location;
 
   if (
     (pathname === '/' && hideHomeEnabled) ||
     (pathname === '/results' && hideSearchEnabled) ||
+    (pathname === '/watch' && hideCorrEnabled) ||
     (pathname === '/feed/subscriptions' && hideSubsEnabled)
   ) {
     hideWatched();

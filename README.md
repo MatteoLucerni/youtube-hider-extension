@@ -9,9 +9,9 @@ Chrome Web Store DOWNLOAD: https://chromewebstore.google.com/detail/ebpikpmmnpjm
 
 **YouTube “Hide Watched”**
 
-- Hide videos you’ve already watched in Homepage, Subscriptions feed and Search results.
+- Hide videos you’ve already watched in Homepage, Subscriptions feed, Correlated videos and Search results.
 - Customizable threshold (0–100%) for marking a video as watched.
-- Separate toggles for hiding in the Home, subscriptions feed and in Search results.
+- Separate toggles to choose where to hide watched videos or not.
 
 **Netflix & Prime “Auto-Skip”**
 
@@ -50,6 +50,7 @@ Settings are persisted via `chrome.storage.sync`, so they remain consistent acro
 - `hideHomeEnabled` (boolean): Enable hiding in YouTube Home feed.
 - `hideSearchEnabled` (boolean): Enable hiding in YouTube Search results.
 - `hideSubsEnabled` (boolean): Enable hiding in YouTube Subscriptions Feed.
+- `hideCorrEnabled` (boolean): Enable hiding correlated videos while watching one.
 
 ## Contributing
 

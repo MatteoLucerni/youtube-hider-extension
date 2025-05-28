@@ -17,12 +17,14 @@ function refreshBadge() {
       hideHomeEnabled: true,
       hideSearchEnabled: true,
       hideSubsEnabled: true,
+      hideCorrEnabled: true,
     },
-    ({ skipEnabled, hideHomeEnabled, hideSearchEnabled, hideSubsEnabled }) => {
+    ({ skipEnabled, hideHomeEnabled, hideSearchEnabled, hideSubsEnabled, hideCorrEnabled }) => {
       updateBadge(
         skipEnabled,
         hideHomeEnabled,
         hideSearchEnabled,
+        hideCorrEnabled,
         hideSubsEnabled
       );
     }
@@ -50,6 +52,7 @@ chrome.storage.onChanged.addListener((changes, area) => {
     changes.skipEnabled ||
     changes.hideHomeEnabled ||
     changes.hideSubsEnabled ||
+    changes.hideCorrEnabled ||
     changes.hideSearchEnabled
   ) {
     refreshBadge();
