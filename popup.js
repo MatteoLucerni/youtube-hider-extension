@@ -1,5 +1,3 @@
-import { debounce } from './utils';
-
 function getBadgeText(
   skipEnabled,
   hideHomeCheckbox,
@@ -37,7 +35,41 @@ document.addEventListener('DOMContentLoaded', () => {
   const hideSearchCheckbox = document.getElementById('hide-search-enabled');
   const hideCorrCheckbox = document.getElementById('hide-corr-enabled');
 
-  function saveSettings() {
+  chrome.storage.sync.get(
+    [
+      'skipIntroDelay',
+      'skipEnabled',
+      'hideThreshold',
+      'hideHomeEnabled',
+      'hideSearchEnabled',
+      'hideSubsEnabled',
+      'hideCorrEnabled',
+    ],
+    prefs => {
+      const {
+        skipIntroDelay = 1,
+        skipEnabled = true,
+        hideThreshold = 70,
+        hideHomeEnabled = true,
+        hideSearchEnabled = true,
+        hideSubsEnabled = true,
+        hideCorrEnabled = true,
+      } = prefs;
+
+      delaySlider.value = skipIntroDelay;
+      delayValue.textContent = skipIntroDelay;
+      skipEnabledCheckbox.checked = skipEnabled;
+
+      hideSlider.value = hideThreshold;
+      hideValue.textContent = hideThreshold;
+      hideHomeCheckbox.checked = hideHomeEnabled;
+      hideSearchCheckbox.checked = hideSearchEnabled;
+      hideSubsCheckbox.checked = hideSubsEnabled;
+      hideCorrCheckbox.checked = hideCorrEnabled;
+    }
+  );
+
+  function saveUserSettings() {
     const skipIntroDelay = parseInt(delaySlider.value, 10);
     const skipEnabled = skipEnabledCheckbox.checked;
     const hideThreshold = parseInt(hideSlider.value, 10);
@@ -79,56 +111,18 @@ document.addEventListener('DOMContentLoaded', () => {
     );
   }
 
-  saveSettings();
-
-  const saveSettingsDebounced = debounce(saveSettings, 300);
-
-  chrome.storage.sync.get(
-    [
-      'skipIntroDelay',
-      'skipEnabled',
-      'hideThreshold',
-      'hideHomeEnabled',
-      'hideSearchEnabled',
-      'hideSubsEnabled',
-      'hideCorrEnabled',
-    ],
-    prefs => {
-      const {
-        skipIntroDelay = 1,
-        skipEnabled = true,
-        hideThreshold = 70,
-        hideHomeEnabled = true,
-        hideSearchEnabled = true,
-        hideSubsEnabled = true,
-        hideCorrEnabled = true,
-      } = prefs;
-
-      delaySlider.value = skipIntroDelay;
-      delayValue.textContent = skipIntroDelay;
-      skipEnabledCheckbox.checked = skipEnabled;
-
-      hideSlider.value = hideThreshold;
-      hideValue.textContent = hideThreshold;
-      hideHomeCheckbox.checked = hideHomeEnabled;
-      hideSearchCheckbox.checked = hideSearchEnabled;
-      hideSubsCheckbox.checked = hideSubsEnabled;
-      hideCorrCheckbox.checked = hideCorrEnabled;
-    }
-  );
-
   delaySlider.addEventListener('input', () => {
     delayValue.textContent = delaySlider.value;
-    saveSettingsDebounced();
+    saveUserSettings();
   });
   hideSlider.addEventListener('input', () => {
     hideValue.textContent = hideSlider.value;
-    saveSettingsDebounced();
+    saveUserSettings();
   });
 
-  skipEnabledCheckbox.addEventListener('change', saveSettingsDebounced);
-  hideHomeCheckbox.addEventListener('change', saveSettingsDebounced);
-  hideSearchCheckbox.addEventListener('change', saveSettingsDebounced);
-  hideSubsCheckbox.addEventListener('change', saveSettingsDebounced);
-  hideCorrCheckbox.addEventListener('change', saveSettingsDebounced);
+  skipEnabledCheckbox.addEventListener('change', saveUserSettings);
+  hideHomeCheckbox.addEventListener('change', saveUserSettings);
+  hideSearchCheckbox.addEventListener('change', saveUserSettings);
+  hideSubsCheckbox.addEventListener('change', saveUserSettings);
+  hideCorrCheckbox.addEventListener('change', saveUserSettings);
 });
