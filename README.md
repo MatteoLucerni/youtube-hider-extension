@@ -28,6 +28,12 @@ Chrome Web Store DOWNLOAD: https://chromewebstore.google.com/detail/ebpikpmmnpjm
   - **H**: Hide only
   - **D**: Disabled
 
+## Future features
+
+1. SETTINGS: Auto save settings on edit, without having to click "SAVE" button
+2. YOUTUBE: Hide videos under a certain amount of visuals (with threshold)
+3. YOUTUBE: Remove shorts
+
 ## Installation for users
 
 Download it from the Chrome Web Store: https://chromewebstore.google.com/detail/ebpikpmmnpjmlcpanakfcgchkdjaanmm?utm_source=item-share-cb
