@@ -28,6 +28,11 @@ Chrome Web Store DOWNLOAD: https://chromewebstore.google.com/detail/ebpikpmmnpjm
   - **H**: Hide only
   - **D**: Disabled
 
+## Future features
+
+- YOUTUBE: Hide videos under a certain amount of visuals (with threshold)
+- YOUTUBE: Remove shorts
+
 ## Installation for users
 
 Download it from the Chrome Web Store: https://chromewebstore.google.com/detail/ebpikpmmnpjmlcpanakfcgchkdjaanmm?utm_source=item-share-cb
@@ -51,13 +56,5 @@ Settings are persisted via `chrome.storage.sync`, so they remain consistent acro
 - `hideSearchEnabled` (boolean): Enable hiding in YouTube Search results.
 - `hideSubsEnabled` (boolean): Enable hiding in YouTube Subscriptions Feed.
 - `hideCorrEnabled` (boolean): Enable hiding correlated videos while watching one.
-
-## Contributing
-
-1. Fork the repository.
-2. Create a feature branch (`git checkout -b feature/your-feature`).
-3. Commit your changes (`git commit -m "Add feature"`).
-4. Push to your branch (`git push origin feature/your-feature`).
-5. Submit a pull request for review.
 
 Thanks!

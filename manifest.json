@@ -1,7 +1,7 @@
 {
     "manifest_version": 3,
     "name": "Productivity Skipper - YouTube, Netflix and Prime",
-    "version": "1.1.0",
+    "version": "1.2.0",
     "description": "Hide Youtube watched videos and auto skip Netflix and Prime intros and recaps",
     "icons": {
         "16": "icons/skipper-icon-wefwefwe.png",

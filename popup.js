@@ -34,8 +34,6 @@ document.addEventListener('DOMContentLoaded', () => {
   const hideSubsCheckbox = document.getElementById('hide-subs-enabled');
   const hideSearchCheckbox = document.getElementById('hide-search-enabled');
   const hideCorrCheckbox = document.getElementById('hide-corr-enabled');
-  // save
-  const saveButton = document.getElementById('save');
 
   chrome.storage.sync.get(
     [
@@ -71,14 +69,7 @@ document.addEventListener('DOMContentLoaded', () => {
     }
   );
 
-  delaySlider.addEventListener('input', () => {
-    delayValue.textContent = delaySlider.value;
-  });
-  hideSlider.addEventListener('input', () => {
-    hideValue.textContent = hideSlider.value;
-  });
-
-  saveButton.addEventListener('click', () => {
+  function saveUserSettings() {
     const skipIntroDelay = parseInt(delaySlider.value, 10);
     const skipEnabled = skipEnabledCheckbox.checked;
     const hideThreshold = parseInt(hideSlider.value, 10);
@@ -118,5 +109,20 @@ document.addEventListener('DOMContentLoaded', () => {
         });
       }
     );
+  }
+
+  delaySlider.addEventListener('input', () => {
+    delayValue.textContent = delaySlider.value;
+    saveUserSettings();
   });
+  hideSlider.addEventListener('input', () => {
+    hideValue.textContent = hideSlider.value;
+    saveUserSettings();
+  });
+
+  skipEnabledCheckbox.addEventListener('change', saveUserSettings);
+  hideHomeCheckbox.addEventListener('change', saveUserSettings);
+  hideSearchCheckbox.addEventListener('change', saveUserSettings);
+  hideSubsCheckbox.addEventListener('change', saveUserSettings);
+  hideCorrCheckbox.addEventListener('change', saveUserSettings);
 });
