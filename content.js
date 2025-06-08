@@ -1,11 +1,19 @@
 const prefs = {
+  // skip
   skipIntroDelay: 1,
   skipEnabled: true,
+  // watched
   hideThreshold: 70,
   hideHomeEnabled: true,
-  hideSearchEnabled: true,
+  hideSearchEnabled: false,
   hideSubsEnabled: true,
   hideCorrEnabled: true,
+  // views
+  viewsHideThreshold: 1000,
+  viewsHideHomeEnabled: true,
+  viewsHideSearchEnabled: true,
+  viewsHideSubsEnabled: true,
+  viewsHideCorrEnabled: true,
 };
 
 (function initPrefs() {
