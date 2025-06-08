@@ -102,21 +102,23 @@ function parseToNumber(str) {
   const hasDot = str.includes('.');
   const hasComma = str.includes(',');
 
+  console.log(hasDot, hasComma);
+
   if (hasDot && hasComma) {
     if (str.lasyIndexOf('.') > str.lastIndexOf(',')) {
       return parseFloat(str.replace(/,/g, ''));
     } else {
-      return parseFloat(str.replace(/\./g, '').replace(',', '.'));
+      return parseFloat(str.replace(/\./g, '').replace(',', ''));
     }
   } else if (hasComma) {
-    return parseFloat(str.replace(',', '.'));
+    return parseFloat(str.replace(',', ''));
   } else {
     return parseFloat(str);
   }
 }
 
 function hideUnderVisuals() {
-  const { hideVisualThreshold } = prefs;
+  const { viewsHideThreshold } = prefs;
 
   document
     .querySelectorAll('#metadata-line #separator ~ span.inline-metadata-item')
@@ -124,9 +126,10 @@ function hideUnderVisuals() {
       const rawNumber = extractNumber(span.textContent);
       const views = parseToNumber(rawNumber);
 
-      console.log(views);
+      if (views >= viewsHideThreshold) return;
+      console.log(views, viewsHideThreshold);
 
-      if (isNaN(views) && views >= hideVisualThreshold) return;
+      console.log(views >= viewsHideThreshold);
 
       let item = span;
       while (
@@ -148,6 +151,10 @@ function startHiding() {
     hideSearchEnabled,
     hideSubsEnabled,
     hideCorrEnabled,
+    viewsHideHomeEnabled,
+    viewsHideSearchEnabled,
+    viewsHideSubsEnabled,
+    viewsHideCorrEnabled,
   } = prefs;
   const { pathname } = window.location;
 
@@ -158,6 +165,15 @@ function startHiding() {
     (pathname === '/feed/subscriptions' && hideSubsEnabled)
   ) {
     hideWatched();
+  }
+
+  if (
+    (pathname === '/' && viewsHideHomeEnabled) ||
+    (pathname === '/results' && viewsHideSearchEnabled) ||
+    (pathname === '/watch' && viewsHideCorrEnabled) ||
+    (pathname === '/feed/subscriptions' && viewsHideSubsEnabled)
+  ) {
+    hideUnderVisuals();
   }
 }
 
