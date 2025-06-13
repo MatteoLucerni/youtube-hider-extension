@@ -4,9 +4,9 @@
     "version": "1.4.0",
     "description": "Hides already watched videos from YouTube, as well as low views videos and remove Shorts.",
     "icons": {
-        "16": "icons/youtube-hider-logo.png",
-        "48": "icons/youtube-hider-logo.png",
-        "128": "icons/youtube-hider-logo.png"
+        "16": "icons/youtube-hider-logo-128-128-filled-gray.png",
+        "48": "icons/youtube-hider-logo-128-128-filled-gray.png",
+        "128": "icons/youtube-hider-logo-128-128-filled-gray.png"
     },
     "permissions": [
         "storage"
@@ -34,6 +34,6 @@
     ],
     "action": {
         "default_popup": "popup.html",
-        "default_icon": "icons/youtube-hider-logo.png"
+        "default_icon": "icons/youtube-hider-logo-128-128-filled-gray.png"
     }
 }
