@@ -1,12 +1,12 @@
 {
     "manifest_version": 3,
-    "name": "Productivity Skipper - YouTube, Netflix and Prime",
-    "version": "1.2.0",
-    "description": "Hide Youtube watched videos and auto skip Netflix and Prime intros and recaps",
+    "name": "Youtube Hider: watched videos, Shorts and low views",
+    "version": "1.4.0",
+    "description": "Hides already watched videos from YouTube, as well as low views videos and remove Shorts.",
     "icons": {
-        "16": "icons/skipper-icon-wefwefwe.png",
-        "48": "icons/skipper-icon-wefwefwe.png",
-        "128": "icons/skipper-icon-wefwefwe.png"
+        "16": "icons/youtube-hider-logo-128-128-filled-gray.png",
+        "48": "icons/youtube-hider-logo-128-128-filled-gray.png",
+        "128": "icons/youtube-hider-logo-128-128-filled-gray.png"
     },
     "permissions": [
         "storage"
@@ -34,6 +34,6 @@
     ],
     "action": {
         "default_popup": "popup.html",
-        "default_icon": "icons/skipper-icon-wefwefwe.png"
+        "default_icon": "icons/youtube-hider-logo-128-128-filled-gray.png"
     }
 }

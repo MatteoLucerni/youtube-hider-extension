@@ -18,30 +18,98 @@ function refreshBadge() {
       hideSearchEnabled: true,
       hideSubsEnabled: true,
       hideCorrEnabled: true,
+      viewsHideHomeEnabled: true,
+      viewsHideSearchEnabled: true,
+      viewsHideSubsEnabled: true,
+      viewsHideCorrEnabled: true,
     },
-    ({ skipEnabled, hideHomeEnabled, hideSearchEnabled, hideSubsEnabled, hideCorrEnabled }) => {
+    ({
+      skipEnabled,
+      hideHomeEnabled,
+      hideSearchEnabled,
+      hideSubsEnabled,
+      hideCorrEnabled,
+      viewsHideHomeEnabled,
+      viewsHideSearchEnabled,
+      viewsHideSubsEnabled,
+      viewsHideCorrEnabled,
+    }) => {
       updateBadge(
         skipEnabled,
         hideHomeEnabled,
         hideSearchEnabled,
         hideCorrEnabled,
-        hideSubsEnabled
+        hideSubsEnabled,
+        viewsHideHomeEnabled,
+        viewsHideSearchEnabled,
+        viewsHideSubsEnabled,
+        viewsHideCorrEnabled
       );
     }
   );
 }
 
-function getBadgeText(skipEnabled, hideHome, hideSearch, hideSubs) {
-  if (skipEnabled && (hideHome || hideSearch || hideSubs)) return 'A';
+function getBadgeText(
+  skipEnabled,
+  hideHome,
+  hideSearch,
+  hideSubs,
+  hideCorr,
+  viewsHideHomeEnabled,
+  viewsHideSearchEnabled,
+  viewsHideSubsEnabled,
+  viewsHideCorrEnabled
+) {
+  const hideCondition =
+    hideHome ||
+    hideSearch ||
+    hideSubs ||
+    hideCorr ||
+    viewsHideHomeEnabled ||
+    viewsHideSearchEnabled ||
+    viewsHideSubsEnabled ||
+    viewsHideCorrEnabled;
+
+  if (skipEnabled && hideCondition) return 'A';
   if (skipEnabled) return 'S';
-  if (hideHome || hideSearch || hideSubs) return 'H';
+  if (hideCondition) return 'H';
   return 'OFF';
 }
 
-function updateBadge(skipEnabled, hideHome, hideSearch, hideSubs) {
-  const text = getBadgeText(skipEnabled, hideHome, hideSearch, hideSubs);
-  const color =
-    skipEnabled || hideHome || hideSearch || hideSubs ? '#008000' : '#808080';
+function updateBadge(
+  skipEnabled,
+  hideHome,
+  hideSearch,
+  hideSubs,
+  hideCorr,
+  viewsHideHomeEnabled,
+  viewsHideSearchEnabled,
+  viewsHideSubsEnabled,
+  viewsHideCorrEnabled
+) {
+  const text = getBadgeText(
+    skipEnabled,
+    hideHome,
+    hideSearch,
+    hideSubs,
+    hideCorr,
+    viewsHideHomeEnabled,
+    viewsHideSearchEnabled,
+    viewsHideSubsEnabled,
+    viewsHideCorrEnabled
+  );
+
+  const oneIsOn =
+    hideHome ||
+    hideSearch ||
+    hideSubs ||
+    hideCorr ||
+    viewsHideHomeEnabled ||
+    viewsHideSearchEnabled ||
+    viewsHideSubsEnabled ||
+    viewsHideCorrEnabled;
+
+  const color = oneIsOn ? '#008000' : '#808080';
   chrome.action.setBadgeText({ text });
   chrome.action.setBadgeBackgroundColor({ color });
 }
@@ -53,7 +121,11 @@ chrome.storage.onChanged.addListener((changes, area) => {
     changes.hideHomeEnabled ||
     changes.hideSubsEnabled ||
     changes.hideCorrEnabled ||
-    changes.hideSearchEnabled
+    changes.hideSearchEnabled ||
+    changes.viewsHideEnabled ||
+    changes.viewsHideHomeEnabled ||
+    changes.viewsHideSubsEnabled ||
+    changes.viewsHideCorrEnabled
   ) {
     refreshBadge();
   }

@@ -1,11 +1,19 @@
 const prefs = {
+  // skip
   skipIntroDelay: 1,
   skipEnabled: true,
+  // watched
   hideThreshold: 70,
   hideHomeEnabled: true,
-  hideSearchEnabled: true,
+  hideSearchEnabled: false,
   hideSubsEnabled: true,
   hideCorrEnabled: true,
+  // views
+  viewsHideThreshold: 1000,
+  viewsHideHomeEnabled: true,
+  viewsHideSearchEnabled: true,
+  viewsHideSubsEnabled: true,
+  viewsHideCorrEnabled: true,
 };
 
 (function initPrefs() {
@@ -81,8 +89,79 @@ function hideWatched() {
     });
 }
 
+function extractNumberAndSuffix(input) {
+  const s = String(input).trim();
+
+  // matching number + optional suffix, case insensitive
+  const match = s.match(/^([\d.,]+)\s*(K|Mln|M|B)?/i);
+  if (!match) return { numStr: '', suffix: '' };
+  return {
+    numStr: match[1],
+    suffix: (match[2] || '').toUpperCase(),
+  };
+}
+
+function parseToNumber(input) {
+  const { numStr, suffix } = extractNumberAndSuffix(input);
+  if (!numStr) return NaN;
+
+  let multiplier = 1;
+  switch (suffix.toLowerCase()) {
+    case 'k':
+      numStr.includes('.') ? (multiplier = 1e2) : (multiplier = 1e3);
+      break;
+    case 'm':
+    case 'mln':
+      numStr.includes('.') ? (multiplier = 1e5) : (multiplier = 1e6);
+      break;
+    case 'b':
+      numStr.includes('.') ? (multiplier = 1e8) : (multiplier = 1e9);
+      break;
+  }
+
+  const normalized = numStr.replace(/\./g, '').replace(',', '.');
+
+  const base = parseFloat(normalized);
+  return isNaN(base) ? NaN : base * multiplier;
+}
+
+function hideUnderVisuals() {
+  const { viewsHideThreshold } = prefs;
+
+  document.querySelectorAll('#metadata-line').forEach(metaLine => {
+    const span = metaLine.querySelector('span.inline-metadata-item');
+    if (!span) return;
+
+    const text = span.textContent;
+
+    const views = parseToNumber(text);
+
+    if (isNaN(views) || views >= viewsHideThreshold) return;
+
+    let item = span;
+    while (
+      item &&
+      !item.matches(
+        'ytd-compact-video-renderer, ytd-rich-item-renderer, ytd-video-renderer'
+      )
+    ) {
+      item = item.parentElement;
+    }
+    if (item) item.style.display = 'none';
+  });
+}
+
 function startHiding() {
-  const { hideHomeEnabled, hideSearchEnabled, hideSubsEnabled, hideCorrEnabled } = prefs;
+  const {
+    hideHomeEnabled,
+    hideSearchEnabled,
+    hideSubsEnabled,
+    hideCorrEnabled,
+    viewsHideHomeEnabled,
+    viewsHideSearchEnabled,
+    viewsHideSubsEnabled,
+    viewsHideCorrEnabled,
+  } = prefs;
   const { pathname } = window.location;
 
   if (
@@ -92,6 +171,15 @@ function startHiding() {
     (pathname === '/feed/subscriptions' && hideSubsEnabled)
   ) {
     hideWatched();
+  }
+
+  if (
+    (pathname === '/' && viewsHideHomeEnabled) ||
+    (pathname === '/results' && viewsHideSearchEnabled) ||
+    (pathname === '/watch' && viewsHideCorrEnabled) ||
+    (pathname === '/feed/subscriptions' && viewsHideSubsEnabled)
+  ) {
+    hideUnderVisuals();
   }
 }
 
