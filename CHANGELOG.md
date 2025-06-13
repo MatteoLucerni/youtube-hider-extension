@@ -7,5 +7,5 @@
 
 ### Version 1.3.0
 
-- Popup restiring
+- Popup restiling
 - Possibility to hide videos based on minimum amount of views
