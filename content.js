@@ -89,60 +89,68 @@ function hideWatched() {
     });
 }
 
-function extractNumber(str) {
-  const cleanedStr = str.replace(/[^\d.,]/g, '');
-  const matched = cleanedStr.match(/[\d.,]+/);
+function extractNumberAndSuffix(input) {
+  const s = String(input).trim();
 
-  return matched ? matched[0] : '';
+  // matching number + optional suffix, case insensitive
+  const match = s.match(/^([\d.,]+)\s*(K|Mln|M|B)?/i);
+  if (!match) return { numStr: '', suffix: '' };
+  return {
+    numStr: match[1],
+    suffix: (match[2] || '').toUpperCase(),
+  };
 }
 
-function parseToNumber(str) {
-  if (!str) return NaN;
+function parseToNumber(input) {
+  const { numStr, suffix } = extractNumberAndSuffix(input);
+  if (!numStr) return NaN;
 
-  const hasDot = str.includes('.');
-  const hasComma = str.includes(',');
-
-  console.log(hasDot, hasComma);
-
-  if (hasDot && hasComma) {
-    if (str.lasyIndexOf('.') > str.lastIndexOf(',')) {
-      return parseFloat(str.replace(/,/g, ''));
-    } else {
-      return parseFloat(str.replace(/\./g, '').replace(',', ''));
-    }
-  } else if (hasComma) {
-    return parseFloat(str.replace(',', ''));
-  } else {
-    return parseFloat(str);
+  let multiplier = 1;
+  switch (suffix.toLowerCase()) {
+    case 'k':
+      numStr.includes('.') ? (multiplier = 1e2) : (multiplier = 1e3);
+      break;
+    case 'm':
+    case 'mln':
+      numStr.includes('.') ? (multiplier = 1e5) : (multiplier = 1e6);
+      break;
+    case 'b':
+      numStr.includes('.') ? (multiplier = 1e8) : (multiplier = 1e9);
+      break;
   }
+
+  const normalized = numStr.replace(/\./g, '').replace(',', '.');
+
+  const base = parseFloat(normalized);
+  return isNaN(base) ? NaN : base * multiplier;
 }
 
 function hideUnderVisuals() {
   const { viewsHideThreshold } = prefs;
 
-  document
-    .querySelectorAll('#metadata-line #separator ~ span.inline-metadata-item')
-    .forEach(span => {
-      const rawNumber = extractNumber(span.textContent);
-      const views = parseToNumber(rawNumber);
+  document.querySelectorAll('#metadata-line').forEach(metaLine => {
+    const span = metaLine.querySelector('span.inline-metadata-item');
+    if (!span) return;
 
-      if (views >= viewsHideThreshold) return;
-      console.log(views, viewsHideThreshold);
+    const text = span.textContent;
+    console.log('raw text:', text);
 
-      console.log(views >= viewsHideThreshold);
+    const views = parseToNumber(text);
+    console.log('views:', views);
 
-      let item = span;
-      while (
-        item &&
-        !item.matches(
-          'ytd-compact-video-renderer, ytd-rich-item-renderer, ytd-video-renderer'
-        )
-      ) {
-        item = item.parentElement;
-      }
+    if (isNaN(views) || views >= viewsHideThreshold) return;
 
-      if (item) item.style.display = 'none';
-    });
+    let item = span;
+    while (
+      item &&
+      !item.matches(
+        'ytd-compact-video-renderer, ytd-rich-item-renderer, ytd-video-renderer'
+      )
+    ) {
+      item = item.parentElement;
+    }
+    if (item) item.style.display = 'none';
+  });
 }
 
 function startHiding() {
