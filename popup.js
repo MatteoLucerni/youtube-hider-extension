@@ -173,14 +173,21 @@ document.addEventListener('DOMContentLoaded', () => {
 
   delaySlider.addEventListener('input', () => {
     delayValue.textContent = delaySlider.value;
-    saveUserSettings();
   });
   hideSlider.addEventListener('input', () => {
     hideValue.textContent = hideSlider.value;
-    saveUserSettings();
   });
   viewsHideSlider.addEventListener('input', () => {
     viewsHideValue.textContent = viewsHideSlider.value;
+  });
+
+  delaySlider.addEventListener('change', () => {
+    saveUserSettings();
+  });
+  hideSlider.addEventListener('change', () => {
+    saveUserSettings();
+  });
+  viewsHideSlider.addEventListener('change', () => {
     saveUserSettings();
   });
 
