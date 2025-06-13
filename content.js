@@ -133,10 +133,8 @@ function hideUnderVisuals() {
     if (!span) return;
 
     const text = span.textContent;
-    console.log('raw text:', text);
 
     const views = parseToNumber(text);
-    console.log('views:', views);
 
     if (isNaN(views) || views >= viewsHideThreshold) return;
 
