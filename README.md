@@ -1,9 +1,9 @@
-# Skipper
+# Youtube Hider
 
-Skipper is a lightweight Chrome extension that hides watched YouTube videos and automatically skips intros, recaps, trailers, and promos on Netflix and Prime Video.
+Youtube Hider is a lightweight Chrome extension that hides already watched videos, filters low views amount videos and removes Shorts, with custom settings.
 
-Extension title: "Productivity Skipper - YouTube, Netflix and Prime"
-Chrome Web Store DOWNLOAD: https://chromewebstore.google.com/detail/ebpikpmmnpjmlcpanakfcgchkdjaanmm?utm_source=item-share-cb
+Extension title: "Youtube Hider: watched videos, Shorts and low views"
+Get it on the Chrome Web Store: https://chromewebstore.google.com/detail/ebpikpmmnpjmlcpanakfcgchkdjaanmm?utm_source=item-share-cb
 
 ## Features
 
@@ -12,6 +12,16 @@ Chrome Web Store DOWNLOAD: https://chromewebstore.google.com/detail/ebpikpmmnpjm
 - Hide videos you’ve already watched in Homepage, Subscriptions feed, Correlated videos and Search results.
 - Customizable threshold (0–100%) for marking a video as watched.
 - Separate toggles to choose where to hide watched videos or not.
+
+**YouTube “Hide low views amount”**
+
+- Hide videos that have an amount of vies under you chosen threshold in Homepage, Subscriptions feed, Correlated videos and Search results.
+- Customizable threshold (0-100k vies).
+- Separate toggles to choose where to hide watched videos or not.
+
+**YouTube “Remove Shorts”** (Coming soon)
+
+- Completely remove Shorts from Youtube, no distractions
 
 **Netflix & Prime “Auto-Skip”**
 
@@ -28,11 +38,6 @@ Chrome Web Store DOWNLOAD: https://chromewebstore.google.com/detail/ebpikpmmnpjm
   - **H**: Hide only
   - **D**: Disabled
 
-## Future features
-
-- YOUTUBE: Hide videos under a certain amount of visuals (with threshold)
-- YOUTUBE: Remove shorts
-
 ## Installation for users
 
 Download it from the Chrome Web Store: https://chromewebstore.google.com/detail/ebpikpmmnpjmlcpanakfcgchkdjaanmm?utm_source=item-share-cb
@@ -44,17 +49,5 @@ Download it from the Chrome Web Store: https://chromewebstore.google.com/detail/
 3. Enable **Developer mode** in the top-right corner.
 4. Click **Load unpacked** and select the extension’s root folder.
 5. (Optional) Pin the Skipper icon to your toolbar.
-
-## Configuration
-
-Settings are persisted via `chrome.storage.sync`, so they remain consistent across devices:
-
-- `skipIntroDelay` (integer): Delay in seconds before clicking skip.
-- `skipEnabled` (boolean): Enable or disable auto-skip.
-- `hideThreshold` (integer): Percentage threshold for marking a video as watched.
-- `hideHomeEnabled` (boolean): Enable hiding in YouTube Home feed.
-- `hideSearchEnabled` (boolean): Enable hiding in YouTube Search results.
-- `hideSubsEnabled` (boolean): Enable hiding in YouTube Subscriptions Feed.
-- `hideCorrEnabled` (boolean): Enable hiding correlated videos while watching one.
 
 Thanks!
