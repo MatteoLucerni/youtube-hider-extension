@@ -44,7 +44,7 @@ document.addEventListener('DOMContentLoaded', () => {
     },
     shorts: {
       box: document.getElementById('hide-shorts-enabled'),
-      keys: { enabled: 'hideShorstsEnabled' },
+      keys: { enabled: 'hideShortsEnabled' },
       defaults: { enabled: true },
     },
     views: {
@@ -104,7 +104,7 @@ document.addEventListener('DOMContentLoaded', () => {
 
     // Shorts hide
     const shortsEnabled =
-      prefs[cfg.hide.keys.shorts] ?? cfg.hide.defaults.shorts;
+      prefs[cfg.shorts.keys.enabled] ?? cfg.shorts.defaults.enabled;
     cfg.shorts.box.checked = shortsEnabled;
 
     // Views hide
