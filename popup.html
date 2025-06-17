@@ -39,14 +39,14 @@
                         <div class="d-flex gap-2">
                             <div class="toggle-container bg-dark rounded">
                                 <label for="hide-home-enabled">Home</label>
-                                <label class="switch">
+                                <label class="switch mt-1">
                                     <input type="checkbox" id="hide-home-enabled">
                                     <span class="slider"></span>
                                 </label>
                             </div>
                             <div class="toggle-container bg-dark rounded">
                                 <label for="hide-subs-enabled">Subs</label>
-                                <label class="switch">
+                                <label class="switch mt-1">
                                     <input type="checkbox" id="hide-subs-enabled">
                                     <span class="slider"></span>
                                 </label>
@@ -56,14 +56,14 @@
                         <div class="d-flex gap-2">
                             <div class="toggle-container bg-dark rounded">
                                 <label for="hide-search-enabled">Search</label>
-                                <label class="switch">
+                                <label class="switch mt-1">
                                     <input type="checkbox" id="hide-search-enabled">
                                     <span class="slider"></span>
                                 </label>
                             </div>
                             <div class="toggle-container bg-dark rounded">
                                 <label for="hide-corr-enabled">Related</label>
-                                <label class="switch">
+                                <label class="switch mt-1">
                                     <input type="checkbox" id="hide-corr-enabled">
                                     <span class="slider"></span>
                                 </label>
@@ -93,14 +93,14 @@
                         <div class="d-flex gap-2">
                             <div class="toggle-container bg-dark rounded">
                                 <label for="views-hide-home-enabled">Home</label>
-                                <label class="switch">
+                                <label class="switch mt-1">
                                     <input type="checkbox" id="views-hide-home-enabled">
                                     <span class="slider"></span>
                                 </label>
                             </div>
                             <div class="toggle-container bg-dark rounded">
                                 <label for="views-hide-subs-enabled">Subs</label>
-                                <label class="switch">
+                                <label class="switch mt-1">
                                     <input type="checkbox" id="views-hide-subs-enabled">
                                     <span class="slider"></span>
                                 </label>
@@ -110,14 +110,14 @@
                         <div class="d-flex gap-2">
                             <div class="toggle-container bg-dark rounded">
                                 <label for="views-hide-search-enabled">Search</label>
-                                <label class="switch">
+                                <label class="switch mt-1">
                                     <input type="checkbox" id="views-hide-search-enabled">
                                     <span class="slider"></span>
                                 </label>
                             </div>
                             <div class="toggle-container bg-dark rounded">
                                 <label for="views-hide-corr-enabled">Related</label>
-                                <label class="switch">
+                                <label class="switch mt-1">
                                     <input type="checkbox" id="views-hide-corr-enabled">
                                     <span class="slider"></span>
                                 </label>
@@ -128,51 +128,56 @@
             </div>
             <hr class="mx-3">
             <div class="p-3">
-                <p class="box-minititile mb-2">Remove Shorts</p>
+                <p class="box-minititile mb-2">Remove Shorts everywhere</p>
 
-                <!-- coming soon message -->
                 <div class="d-flex justify-content-center">
-                    <p class="text-center text-warning box-minititile">Comming in next version, stay tuned!</p>
-                </div>
-            </div>
-        </div>
-
-        <div class="setting-box rounded py-3 px-4">
-            <h5 class="text-center mb-0">Netflix and Prime Video</h5>
-            <p class="setting-subtitle">Automatically skip intro and recap</p>
-            <div class="p-3">
-                <div class="d-flex justify-content-center">
-                    <div class="d-flex">
-                        <div class="text-center bg-dark rounded p-3 me-2">
-                            <label class="slider-text-label mb-2" for="delay">Delay (seconds):</label>
-                            <div class="slider-container">
-                                <input type="range" id="delay" min="0" max="5" step="1" value="1">
-                                <span class="slider-value" id="delay-value">1</span><span class="slider-symbol">s</span>
-                            </div>
-                        </div>
-                    </div>
-
-                    <div>
-                        <div class="d-flex gap-2">
-                            <div class="toggle-container m bg-dark rounded">
-                                <label class="text-center mx-2" for="skip-enabled">Enabled</label>
-                                <label class="switch">
-                                    <input type="checkbox" id="skip-enabled">
-                                    <span class="slider"></span>
-                                </label>
-                            </div>
-                        </div>
+                    <div class="toggle-container bg-dark rounded px-4 py-3">
+                        <label for="hide-shorts-enabled">Hide Shorts</label>
+                        <label class="switch mt-1">
+                            <input type="checkbox" id="hide-shorts-enabled">
+                            <span class="slider"></span>
+                        </label>
                     </div>
                 </div>
             </div>
-        </div>
-        <div class="d-flex justify-content-center">
-            <img class="img-fluid logo-image" src="./assets/icons/youtube-hider-logo.png"
-                alt="Youtube Hider Extension Logo">
-        </div>
-    </div>
 
-    <script src="popup.js"></script>
+            <div class="setting-box rounded py-3 px-4">
+                <h5 class="text-center mb-0">Netflix and Prime Video</h5>
+                <p class="setting-subtitle">Automatically skip intro and recap</p>
+                <div class="p-3">
+                    <div class="d-flex justify-content-center">
+                        <div class="d-flex">
+                            <div class="text-center bg-dark rounded p-3 me-2">
+                                <label class="slider-text-label mb-2" for="delay">Delay (seconds):</label>
+                                <div class="slider-container">
+                                    <input type="range" id="delay" min="0" max="5" step="1" value="1">
+                                    <span class="slider-value" id="delay-value">1</span><span
+                                        class="slider-symbol">s</span>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div>
+                            <div class="d-flex gap-2">
+                                <div class="toggle-container m bg-dark rounded">
+                                    <label class="text-center mx-2" for="skip-enabled">Enabled</label>
+                                    <label class="switch mt-1">
+                                        <input type="checkbox" id="skip-enabled">
+                                        <span class="slider"></span>
+                                    </label>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="d-flex justify-content-center">
+                <img class="img-fluid logo-image" src="./assets/icons/youtube-hider-logo.png"
+                    alt="Youtube Hider Extension Logo">
+            </div>
+        </div>
+
+        <script src="popup.js"></script>
 </body>
 
 </html>

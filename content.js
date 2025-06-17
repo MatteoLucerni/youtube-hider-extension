@@ -8,6 +8,8 @@ const prefs = {
   hideSearchEnabled: false,
   hideSubsEnabled: true,
   hideCorrEnabled: true,
+  //shorts
+  hideShorstsEnabled: true,
   // views
   viewsHideThreshold: 1000,
   viewsHideHomeEnabled: true,
@@ -152,6 +154,8 @@ function hideUnderVisuals() {
 }
 
 function hideShorts() {
+  if (!prefs.hideShorstsEnabled) return;
+  
   document
     .querySelectorAll(
       'ytd-guide-section-renderer, tp-yt-paper-item, ytd-video-renderer'
@@ -179,6 +183,7 @@ function startHiding() {
     hideSearchEnabled,
     hideSubsEnabled,
     hideCorrEnabled,
+    hideShorstsEnabled,
     viewsHideHomeEnabled,
     viewsHideSearchEnabled,
     viewsHideSubsEnabled,
@@ -203,11 +208,14 @@ function startHiding() {
   ) {
     hideUnderVisuals();
   }
+
+  if (hideShorstsEnabled) {
+    hideShorts();
+  }
 }
 
 function onMutations() {
   skipIntro();
-  hideShorts();
   startHiding();
 }
 
