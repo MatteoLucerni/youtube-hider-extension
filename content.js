@@ -154,7 +154,7 @@ function hideUnderVisuals() {
 }
 
 function hideShorts() {
-  // if (!prefs.hideSearchEnabled) return;
+  if (!prefs.hideShortsEnabled) return;
 
   document
     .querySelectorAll(
