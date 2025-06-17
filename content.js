@@ -154,14 +154,18 @@ function hideUnderVisuals() {
 }
 
 function hideShorts() {
-  if (!prefs.hideShortsEnabled) return;
+  // if (!prefs.hideSearchEnabled) return;
 
   document
     .querySelectorAll(
-      'ytd-guide-section-renderer, tp-yt-paper-item, ytd-video-renderer'
+      'ytd-guide-section-renderer, tp-yt-paper-item, ytd-video-renderer, ytd-search, ytd-reel-shelf-renderer'
     )
     .forEach(node => {
-      if (node.querySelector('ytd-thumbnail-overlay-time-status-renderer')) {
+      if (
+        node.querySelector('ytd-thumbnail-overlay-time-status-renderer') ||
+        node.querySelector('ytm-shorts-lockup-view-model') ||
+        node.querySelector('ytm-shorts-lockup-view-model-v2')
+      ) {
         node.style.display = 'none';
       }
     });
@@ -174,6 +178,18 @@ function hideShorts() {
     }
     const item = link.closest('ytd-rich-item-renderer');
     if (item) item.style.display = 'none';
+  });
+
+  document.querySelectorAll('a[title="Shorts"]').forEach(link => {
+    const entry =
+      link.closest('ytd-guide-entry-renderer') ||
+      link.closest('ytd-mini-guide-entry-renderer');
+    if (entry) entry.style.display = 'none';
+  });
+
+  document.querySelectorAll('a[title="Shorts"]').forEach(link => {
+    const entry = link.closest('ytd-guide-entry-renderer');
+    if (entry) entry.style.display = 'none';
   });
 }
 
