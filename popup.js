@@ -1,205 +1,175 @@
-function getBadgeText(
-  skipEnabled,
-  hideHomeCheckbox,
-  hideSearchCheckbox,
-  hideCorrCheckbox,
-  hideSubsCheckbox,
-  viewsHideHomeEnabled,
-  viewsHideSearchEnabled,
-  viewsHideSubsEnabled,
-  viewsHideCorrEnabled
-) {
-  const hideEnabled =
-    hideHomeCheckbox ||
-    hideSearchCheckbox ||
-    hideSubsCheckbox ||
-    hideCorrCheckbox ||
-    viewsHideHomeEnabled ||
-    viewsHideSearchEnabled ||
-    viewsHideSubsEnabled ||
-    viewsHideCorrEnabled;
+function getBadgeText(skipEnabled, hideEnabled) {
+  if (skipEnabled && hideEnabled) return 'A';
+  if (skipEnabled) return 'S';
+  if (hideEnabled) return 'H';
+  return 'OFF';
+}
 
-  if (skipEnabled && hideEnabled) {
-    return 'A';
-  } else if (skipEnabled) {
-    return 'S';
-  } else if (hideEnabled) {
-    return 'H';
-  } else {
-    return 'OFF';
-  }
+function isAnyTrue(flags) {
+  return Object.values(flags).some(Boolean);
 }
 
 document.addEventListener('DOMContentLoaded', () => {
-  // skip
-  const delaySlider = document.getElementById('delay');
-  const delayValue = document.getElementById('delay-value');
-  const skipEnabledCheckbox = document.getElementById('skip-enabled');
-  // hide
-  const hideSlider = document.getElementById('perc-hide');
-  const hideValue = document.getElementById('perc-hide-value');
-  const hideHomeCheckbox = document.getElementById('hide-home-enabled');
-  const hideSubsCheckbox = document.getElementById('hide-subs-enabled');
-  const hideSearchCheckbox = document.getElementById('hide-search-enabled');
-  const hideCorrCheckbox = document.getElementById('hide-corr-enabled');
-  // views
-  const viewsHideSlider = document.getElementById('views-hide');
-  const viewsHideValue = document.getElementById('views-hide-value');
-  const viewsHideHomeCheckbox = document.getElementById(
-    'views-hide-home-enabled'
-  );
-  const viewsHideSubsCheckbox = document.getElementById(
-    'views-hide-subs-enabled'
-  );
-  const viewsHideSearchCheckbox = document.getElementById(
-    'views-hide-search-enabled'
-  );
-  const viewsHideCorrCheckbox = document.getElementById(
-    'views-hide-corr-enabled'
-  );
-
-  chrome.storage.sync.get(
-    [
-      'skipIntroDelay',
-      'skipEnabled',
-      'hideThreshold',
-      'hideHomeEnabled',
-      'hideSearchEnabled',
-      'hideSubsEnabled',
-      'hideCorrEnabled',
-      'viewsHideThreshold',
-      'viewsHideHomeEnabled',
-      'viewsHideSearchEnabled',
-      'viewsHideSubsEnabled',
-      'viewsHideCorrEnabled',
-    ],
-    prefs => {
-      const {
-        skipIntroDelay = 1,
-        skipEnabled = true,
-        hideThreshold = 70,
-        hideHomeEnabled = true,
-        hideSearchEnabled = true,
-        hideSubsEnabled = true,
-        hideCorrEnabled = true,
-        viewsHideThreshold = 1000,
-        viewsHideHomeEnabled = true,
-        viewsHideSearchEnabled = true,
-        viewsHideSubsEnabled = true,
-        viewsHideCorrEnabled = true,
-      } = prefs;
-
-      delaySlider.value = skipIntroDelay;
-      delayValue.textContent = skipIntroDelay;
-      skipEnabledCheckbox.checked = skipEnabled;
-
-      hideSlider.value = hideThreshold;
-      hideValue.textContent = hideThreshold;
-      hideHomeCheckbox.checked = hideHomeEnabled;
-      hideSearchCheckbox.checked = hideSearchEnabled;
-      hideSubsCheckbox.checked = hideSubsEnabled;
-      hideCorrCheckbox.checked = hideCorrEnabled;
-
-      viewsHideSlider.value = viewsHideThreshold;
-      viewsHideValue.textContent = viewsHideThreshold;
-      viewsHideHomeCheckbox.checked = viewsHideHomeEnabled;
-      viewsHideSearchCheckbox.checked = viewsHideSearchEnabled;
-      viewsHideSubsCheckbox.checked = viewsHideSubsEnabled;
-      viewsHideCorrCheckbox.checked = viewsHideCorrEnabled;
-    }
-  );
-
-  function saveUserSettings() {
-    const skipIntroDelay = parseInt(delaySlider.value, 10);
-    const skipEnabled = skipEnabledCheckbox.checked;
-
-    const hideThreshold = parseInt(hideSlider.value, 10);
-    const hideHomeEnabled = hideHomeCheckbox.checked;
-    const hideSearchEnabled = hideSearchCheckbox.checked;
-    const hideSubsEnabled = hideSubsCheckbox.checked;
-    const hideCorrEnabled = hideCorrCheckbox.checked;
-
-    const viewsHideThreshold = parseInt(viewsHideSlider.value, 10);
-    const viewsHideHomeEnabled = viewsHideHomeCheckbox.checked;
-    const viewsHideSearchEnabled = viewsHideSearchCheckbox.checked;
-    const viewsHideSubsEnabled = viewsHideSubsCheckbox.checked;
-    const viewsHideCorrEnabled = viewsHideCorrCheckbox.checked;
-
-    chrome.storage.sync.set(
-      {
-        skipIntroDelay,
-        skipEnabled,
-        hideThreshold,
-        hideHomeEnabled,
-        hideSearchEnabled,
-        hideSubsEnabled,
-        hideCorrEnabled,
-        viewsHideThreshold,
-        viewsHideHomeEnabled,
-        viewsHideSearchEnabled,
-        viewsHideSubsEnabled,
-        viewsHideCorrEnabled,
+  const cfg = {
+    skip: {
+      slider: document.getElementById('delay'),
+      value: document.getElementById('delay-value'),
+      box: document.getElementById('skip-enabled'),
+      keys: { delay: 'skipIntroDelay', enabled: 'skipEnabled' },
+      defaults: { delay: 1, enabled: true },
+    },
+    hide: {
+      slider: document.getElementById('perc-hide'),
+      value: document.getElementById('perc-hide-value'),
+      boxes: {
+        home: document.getElementById('hide-home-enabled'),
+        search: document.getElementById('hide-search-enabled'),
+        subs: document.getElementById('hide-subs-enabled'),
+        corr: document.getElementById('hide-corr-enabled'),
       },
-      () => {
-        const text = getBadgeText(
-          skipEnabled,
-          hideHomeEnabled,
-          hideSearchEnabled,
-          hideCorrEnabled,
-          hideSubsEnabled,
-          viewsHideHomeEnabled,
-          viewsHideSearchEnabled,
-          viewsHideSubsEnabled,
-          viewsHideCorrEnabled
-        );
-        chrome.action.setBadgeText({ text });
-        chrome.action.setBadgeBackgroundColor({
-          color:
-            skipEnabled ||
-            hideHomeEnabled ||
-            hideSearchEnabled ||
-            hideCorrEnabled ||
-            hideSubsEnabled ||
-            viewsHideHomeEnabled ||
-            viewsHideSearchEnabled ||
-            viewsHideSubsEnabled ||
-            viewsHideCorrEnabled
-              ? '#008000'
-              : '#808080',
-        });
-      }
-    );
+      keys: {
+        threshold: 'hideThreshold',
+        home: 'hideHomeEnabled',
+        search: 'hideSearchEnabled',
+        subs: 'hideSubsEnabled',
+        corr: 'hideCorrEnabled',
+      },
+      defaults: {
+        threshold: 70,
+        home: true,
+        search: true,
+        subs: true,
+        corr: true,
+      },
+    },
+    views: {
+      slider: document.getElementById('views-hide'),
+      value: document.getElementById('views-hide-value'),
+      boxes: {
+        home: document.getElementById('views-hide-home-enabled'),
+        search: document.getElementById('views-hide-search-enabled'),
+        subs: document.getElementById('views-hide-subs-enabled'),
+        corr: document.getElementById('views-hide-corr-enabled'),
+      },
+      keys: {
+        threshold: 'viewsHideThreshold',
+        home: 'viewsHideHomeEnabled',
+        search: 'viewsHideSearchEnabled',
+        subs: 'viewsHideSubsEnabled',
+        corr: 'viewsHideCorrEnabled',
+      },
+      defaults: {
+        threshold: 1000,
+        home: true,
+        search: true,
+        subs: true,
+        corr: true,
+      },
+    },
+  };
+
+  const storageKeys = [
+    cfg.skip.keys.delay,
+    cfg.skip.keys.enabled,
+    cfg.hide.keys.threshold,
+    ...Object.values(cfg.hide.keys),
+    cfg.views.keys.threshold,
+    ...Object.values(cfg.views.keys),
+  ];
+
+  chrome.storage.sync.get(storageKeys, prefs => {
+    // Skip
+    const skipDelay = prefs[cfg.skip.keys.delay] ?? cfg.skip.defaults.delay;
+    const skipEnabled =
+      prefs[cfg.skip.keys.enabled] ?? cfg.skip.defaults.enabled;
+    cfg.skip.slider.value = skipDelay;
+    cfg.skip.value.textContent = skipDelay;
+    cfg.skip.box.checked = skipEnabled;
+
+    // Watched hide
+    const hideThresh =
+      prefs[cfg.hide.keys.threshold] ?? cfg.hide.defaults.threshold;
+    cfg.hide.slider.value = hideThresh;
+    cfg.hide.value.textContent = hideThresh;
+    for (let key in cfg.hide.boxes) {
+      cfg.hide.boxes[key].checked =
+        prefs[cfg.hide.keys[key]] ?? cfg.hide.defaults[key];
+    }
+
+    // Views hide
+    const viewsThresh =
+      prefs[cfg.views.keys.threshold] ?? cfg.views.defaults.threshold;
+    cfg.views.slider.value = viewsThresh;
+    cfg.views.value.textContent = viewsThresh;
+    for (let key in cfg.views.boxes) {
+      cfg.views.boxes[key].checked =
+        prefs[cfg.views.keys[key]] ?? cfg.views.defaults[key];
+    }
+  });
+
+  function saveSettings() {
+    const settings = {
+      // Skip
+      [cfg.skip.keys.delay]: parseInt(cfg.skip.slider.value, 10),
+      [cfg.skip.keys.enabled]: cfg.skip.box.checked,
+      // Watched hide
+      [cfg.hide.keys.threshold]: parseInt(cfg.hide.slider.value, 10),
+      ...Object.fromEntries(
+        Object.entries(cfg.hide.boxes).map(([k, box]) => [
+          cfg.hide.keys[k],
+          box.checked,
+        ])
+      ),
+      // Views hide
+      [cfg.views.keys.threshold]: parseInt(cfg.views.slider.value, 10),
+      ...Object.fromEntries(
+        Object.entries(cfg.views.boxes).map(([k, box]) => [
+          cfg.views.keys[k],
+          box.checked,
+        ])
+      ),
+    };
+
+    chrome.storage.sync.set(settings, () => {
+      const skipOn = settings[cfg.skip.keys.enabled];
+      const hideOn = isAnyTrue({
+        ...Object.fromEntries(
+          Object.entries(cfg.hide.boxes).map(([k]) => [
+            k,
+            settings[cfg.hide.keys[k]],
+          ])
+        ),
+        ...Object.fromEntries(
+          Object.entries(cfg.views.boxes).map(([k]) => [
+            k,
+            settings[cfg.views.keys[k]],
+          ])
+        ),
+      });
+
+      const text = getBadgeText(skipOn, hideOn);
+      chrome.action.setBadgeText({ text });
+      chrome.action.setBadgeBackgroundColor({
+        color: skipOn || hideOn ? '#008000' : '#808080',
+      });
+    });
   }
 
-  delaySlider.addEventListener('input', () => {
-    delayValue.textContent = delaySlider.value;
-  });
-  hideSlider.addEventListener('input', () => {
-    hideValue.textContent = hideSlider.value;
-  });
-  viewsHideSlider.addEventListener('input', () => {
-    viewsHideValue.textContent = viewsHideSlider.value;
-  });
-
-  delaySlider.addEventListener('change', () => {
-    saveUserSettings();
-  });
-  hideSlider.addEventListener('change', () => {
-    saveUserSettings();
-  });
-  viewsHideSlider.addEventListener('change', () => {
-    saveUserSettings();
+  [
+    [cfg.skip.slider, cfg.skip.value],
+    [cfg.hide.slider, cfg.hide.value],
+    [cfg.views.slider, cfg.views.value],
+  ].forEach(([slider, display]) => {
+    slider.addEventListener(
+      'input',
+      () => (display.textContent = slider.value)
+    );
+    slider.addEventListener('change', saveSettings);
   });
 
-  skipEnabledCheckbox.addEventListener('change', saveUserSettings);
-
-  hideHomeCheckbox.addEventListener('change', saveUserSettings);
-  hideSearchCheckbox.addEventListener('change', saveUserSettings);
-  hideSubsCheckbox.addEventListener('change', saveUserSettings);
-  hideCorrCheckbox.addEventListener('change', saveUserSettings);
-
-  viewsHideHomeCheckbox.addEventListener('change', saveUserSettings);
-  viewsHideSearchCheckbox.addEventListener('change', saveUserSettings);
-  viewsHideSubsCheckbox.addEventListener('change', saveUserSettings);
-  viewsHideCorrCheckbox.addEventListener('change', saveUserSettings);
+  [
+    cfg.skip.box,
+    ...Object.values(cfg.hide.boxes),
+    ...Object.values(cfg.views.boxes),
+  ].forEach(box => box.addEventListener('change', saveSettings));
 });
