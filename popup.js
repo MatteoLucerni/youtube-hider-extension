@@ -42,6 +42,11 @@ document.addEventListener('DOMContentLoaded', () => {
         corr: true,
       },
     },
+    shorts: {
+      box: document.getElementById('hide-shorts-enabled'),
+      keys: { enabled: 'hideShortsEnabled' },
+      defaults: { enabled: true },
+    },
     views: {
       slider: document.getElementById('views-hide'),
       value: document.getElementById('views-hide-value'),
@@ -75,6 +80,7 @@ document.addEventListener('DOMContentLoaded', () => {
     ...Object.values(cfg.hide.keys),
     cfg.views.keys.threshold,
     ...Object.values(cfg.views.keys),
+    cfg.shorts.keys.enabled,
   ];
 
   chrome.storage.sync.get(storageKeys, prefs => {
@@ -95,6 +101,11 @@ document.addEventListener('DOMContentLoaded', () => {
       cfg.hide.boxes[key].checked =
         prefs[cfg.hide.keys[key]] ?? cfg.hide.defaults[key];
     }
+
+    // Shorts hide
+    const shortsEnabled =
+      prefs[cfg.shorts.keys.enabled] ?? cfg.shorts.defaults.enabled;
+    cfg.shorts.box.checked = shortsEnabled;
 
     // Views hide
     const viewsThresh =
@@ -120,6 +131,8 @@ document.addEventListener('DOMContentLoaded', () => {
           box.checked,
         ])
       ),
+      // Shorts hide
+      [cfg.shorts.keys.enabled]: cfg.shorts.box.checked,
       // Views hide
       [cfg.views.keys.threshold]: parseInt(cfg.views.slider.value, 10),
       ...Object.fromEntries(
@@ -145,6 +158,7 @@ document.addEventListener('DOMContentLoaded', () => {
             settings[cfg.views.keys[k]],
           ])
         ),
+        [cfg.shorts.keys.enabled]: settings[cfg.shorts.keys.enabled],
       });
 
       const text = getBadgeText(skipOn, hideOn);
@@ -171,5 +185,6 @@ document.addEventListener('DOMContentLoaded', () => {
     cfg.skip.box,
     ...Object.values(cfg.hide.boxes),
     ...Object.values(cfg.views.boxes),
+    cfg.shorts.box,
   ].forEach(box => box.addEventListener('change', saveSettings));
 });

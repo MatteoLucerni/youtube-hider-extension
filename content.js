@@ -8,6 +8,8 @@ const prefs = {
   hideSearchEnabled: false,
   hideSubsEnabled: true,
   hideCorrEnabled: true,
+  //shorts
+  hideShortsEnabled: true,
   // views
   viewsHideThreshold: 1000,
   viewsHideHomeEnabled: true,
@@ -151,12 +153,65 @@ function hideUnderVisuals() {
   });
 }
 
+function hideShorts() {
+  if (!prefs.hideShortsEnabled) return;
+
+  document
+    .querySelectorAll(
+      'ytd-guide-section-renderer, tp-yt-paper-item, ytd-video-renderer, ytd-reel-shelf-renderer'
+    )
+    .forEach(node => {
+      if (node.querySelector('ytm-shorts-lockup-view-model')) {
+        node.style.display = 'none';
+        console.log('Hiding Shorts:', node);
+      }
+      if (
+        node.querySelector('badge-shape[aria-label="Shorts"]') ||
+        node.querySelector(
+          'ytd-thumbnail-overlay-time-status-renderer[overlay-style="SHORTS"]'
+        )
+      ) {
+        node.style.display = 'none';
+        console.log('Hiding Shorts:', node);
+      }
+    });
+
+  document.querySelectorAll('a[href^="/shorts/"]').forEach(link => {
+    const shelf = link.closest('ytd-rich-shelf-renderer');
+    if (shelf) {
+      shelf.style.display = 'none';
+      return;
+    }
+    const item = link.closest('ytd-rich-item-renderer');
+    if (item) item.style.display = 'none';
+  });
+
+  document.querySelectorAll('a[title="Shorts"]').forEach(link => {
+    const entry =
+      link.closest('ytd-guide-entry-renderer') ||
+      link.closest('ytd-mini-guide-entry-renderer');
+    if (entry) entry.style.display = 'none';
+  });
+
+  document.querySelectorAll('a[title="Shorts"]').forEach(link => {
+    const entry = link.closest('ytd-guide-entry-renderer');
+    if (entry) entry.style.display = 'none';
+  });
+
+  document
+    .querySelectorAll('yt-tab-shape[tab-title="Shorts"]')
+    .forEach(link => {
+      link.style.display = 'none';
+    });
+}
+
 function startHiding() {
   const {
     hideHomeEnabled,
     hideSearchEnabled,
     hideSubsEnabled,
     hideCorrEnabled,
+    hideShortsEnabled,
     viewsHideHomeEnabled,
     viewsHideSearchEnabled,
     viewsHideSubsEnabled,
@@ -180,6 +235,10 @@ function startHiding() {
     (pathname === '/feed/subscriptions' && viewsHideSubsEnabled)
   ) {
     hideUnderVisuals();
+  }
+
+  if (hideShortsEnabled && pathname !== '/feed/history') {
+    hideShorts();
   }
 }
 

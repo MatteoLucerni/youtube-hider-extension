@@ -22,6 +22,7 @@ function refreshBadge() {
       viewsHideSearchEnabled: true,
       viewsHideSubsEnabled: true,
       viewsHideCorrEnabled: true,
+      hideShortsEnabled: true,
     },
     ({
       skipEnabled,
@@ -33,6 +34,7 @@ function refreshBadge() {
       viewsHideSearchEnabled,
       viewsHideSubsEnabled,
       viewsHideCorrEnabled,
+      hideShortsEnabled,
     }) => {
       updateBadge(
         skipEnabled,
@@ -43,7 +45,8 @@ function refreshBadge() {
         viewsHideHomeEnabled,
         viewsHideSearchEnabled,
         viewsHideSubsEnabled,
-        viewsHideCorrEnabled
+        viewsHideCorrEnabled,
+        hideShortsEnabled
       );
     }
   );
@@ -58,7 +61,8 @@ function getBadgeText(
   viewsHideHomeEnabled,
   viewsHideSearchEnabled,
   viewsHideSubsEnabled,
-  viewsHideCorrEnabled
+  viewsHideCorrEnabled,
+  hideShortsEnabled
 ) {
   const hideCondition =
     hideHome ||
@@ -68,7 +72,8 @@ function getBadgeText(
     viewsHideHomeEnabled ||
     viewsHideSearchEnabled ||
     viewsHideSubsEnabled ||
-    viewsHideCorrEnabled;
+    viewsHideCorrEnabled ||
+    hideShortsEnabled;
 
   if (skipEnabled && hideCondition) return 'A';
   if (skipEnabled) return 'S';
@@ -85,7 +90,8 @@ function updateBadge(
   viewsHideHomeEnabled,
   viewsHideSearchEnabled,
   viewsHideSubsEnabled,
-  viewsHideCorrEnabled
+  viewsHideCorrEnabled,
+  hideShortsEnabled
 ) {
   const text = getBadgeText(
     skipEnabled,
@@ -96,7 +102,8 @@ function updateBadge(
     viewsHideHomeEnabled,
     viewsHideSearchEnabled,
     viewsHideSubsEnabled,
-    viewsHideCorrEnabled
+    viewsHideCorrEnabled,
+    hideShortsEnabled
   );
 
   const oneIsOn =
@@ -107,7 +114,8 @@ function updateBadge(
     viewsHideHomeEnabled ||
     viewsHideSearchEnabled ||
     viewsHideSubsEnabled ||
-    viewsHideCorrEnabled;
+    viewsHideCorrEnabled ||
+    hideShortsEnabled;
 
   const color = oneIsOn ? '#008000' : '#808080';
   chrome.action.setBadgeText({ text });
@@ -125,7 +133,8 @@ chrome.storage.onChanged.addListener((changes, area) => {
     changes.viewsHideEnabled ||
     changes.viewsHideHomeEnabled ||
     changes.viewsHideSubsEnabled ||
-    changes.viewsHideCorrEnabled
+    changes.viewsHideCorrEnabled ||
+    changes.hideShortsEnabled
   ) {
     refreshBadge();
   }
