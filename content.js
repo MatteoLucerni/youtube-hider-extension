@@ -151,6 +151,28 @@ function hideUnderVisuals() {
   });
 }
 
+function hideShorts() {
+  document
+    .querySelectorAll(
+      'ytd-guide-section-renderer, tp-yt-paper-item, ytd-video-renderer'
+    )
+    .forEach(node => {
+      if (node.querySelector('ytd-thumbnail-overlay-time-status-renderer')) {
+        node.style.display = 'none';
+      }
+    });
+
+  document.querySelectorAll('a[href^="/shorts/"]').forEach(link => {
+    const shelf = link.closest('ytd-rich-shelf-renderer');
+    if (shelf) {
+      shelf.style.display = 'none';
+      return;
+    }
+    const item = link.closest('ytd-rich-item-renderer');
+    if (item) item.style.display = 'none';
+  });
+}
+
 function startHiding() {
   const {
     hideHomeEnabled,
@@ -185,6 +207,7 @@ function startHiding() {
 
 function onMutations() {
   skipIntro();
+  hideShorts();
   startHiding();
 }
 
