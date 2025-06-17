@@ -191,6 +191,12 @@ function hideShorts() {
     const entry = link.closest('ytd-guide-entry-renderer');
     if (entry) entry.style.display = 'none';
   });
+
+  document
+    .querySelectorAll('yt-tab-shape[tab-title="Shorts"]')
+    .forEach(link => {
+      link.style.display = 'none';
+    });
 }
 
 function startHiding() {
