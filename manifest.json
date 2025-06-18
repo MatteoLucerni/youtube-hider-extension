@@ -1,6 +1,6 @@
 {
     "manifest_version": 3,
-    "name": "Youtube Hider: watched videos, Shorts and low views",
+    "name": "Hide Youtube watched videos, Shorts and low views",
     "version": "1.5.0",
     "description": "Hides already watched videos from YouTube, as well as low views videos and remove Shorts.",
     "icons": {
