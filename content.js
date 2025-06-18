@@ -199,6 +199,13 @@ function hideShorts() {
   });
 
   document
+    .querySelectorAll('yt-formatted-string[title="Shorts"]')
+    .forEach(link => {
+      const entry = link.closest('yt-chip-cloud-chip-renderer');
+      if (entry) entry.style.display = 'none';
+    });
+
+  document
     .querySelectorAll('yt-tab-shape[tab-title="Shorts"]')
     .forEach(link => {
       link.style.display = 'none';
