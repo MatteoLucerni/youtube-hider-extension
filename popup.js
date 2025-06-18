@@ -84,42 +84,28 @@ document.addEventListener('DOMContentLoaded', () => {
   ];
 
   chrome.storage.sync.get(storageKeys, prefs => {
-    // Skip
-    const skipDelay = prefs[cfg.skip.keys.delay] ?? cfg.skip.defaults.delay;
-    const skipEnabled =
-      prefs[cfg.skip.keys.enabled] ?? cfg.skip.defaults.enabled;
-    cfg.skip.slider.value = skipDelay;
-    cfg.skip.value.textContent = skipDelay;
-    cfg.skip.box.checked = skipEnabled;
-
-    // Watched hide
-    const hideThresh =
-      prefs[cfg.hide.keys.threshold] ?? cfg.hide.defaults.threshold;
-    cfg.hide.slider.value = hideThresh;
-    cfg.hide.value.textContent = hideThresh;
-    for (let key in cfg.hide.boxes) {
-      cfg.hide.boxes[key].checked =
-        prefs[cfg.hide.keys[key]] ?? cfg.hide.defaults[key];
-    }
-
-    // Views hide
-    const viewsThresh =
-      prefs[cfg.views.keys.threshold] ?? cfg.views.defaults.threshold;
-    cfg.views.slider.value = viewsThresh;
-    cfg.views.value.textContent = viewsThresh;
-    for (let key in cfg.views.boxes) {
-      cfg.views.boxes[key].checked =
-        prefs[cfg.views.keys[key]] ?? cfg.views.defaults[key];
-    }
-
-    // Shorts hide
-    const shortsEnabled =
-      prefs[cfg.shorts.keys.enabled] ?? cfg.shorts.defaults.enabled;
-    const shortsSearchEnabled =
-      prefs[cfg.shorts.keys.search] ?? cfg.shorts.defaults.search;
-
-    cfg.shorts.boxes.enabled.checked = shortsEnabled;
-    cfg.shorts.boxes.search.checked = shortsSearchEnabled;
+    ['skip', 'hide', 'views', 'shorts'].forEach(sectionName => {
+      const section = cfg[sectionName];
+      Object.entries(section.keys).forEach(([keyName, storageKey]) => {
+        const def = section.defaults[keyName];
+        const raw = prefs[storageKey] ?? def;
+        const val =
+          keyName === 'delay' || keyName === 'threshold'
+            ? parseInt(raw, 10)
+            : raw;
+        if (
+          section.slider &&
+          (keyName === 'delay' || keyName === 'threshold')
+        ) {
+          section.slider.value = val;
+          section.value.textContent = val;
+        } else if (section.boxes) {
+          section.boxes[keyName].checked = val;
+        } else if (section.box) {
+          section.box.checked = val;
+        }
+      });
+    });
   });
 
   function saveSettings() {
