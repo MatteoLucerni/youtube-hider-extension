@@ -18,3 +18,4 @@
 ### Version 1.5.0
 
 - Hide youtube Shorts everywhere
+- Toggle for hide Shorts in Search results
