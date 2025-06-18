@@ -8,14 +8,15 @@ const prefs = {
   hideSearchEnabled: false,
   hideSubsEnabled: true,
   hideCorrEnabled: true,
-  //shorts
-  hideShortsEnabled: true,
   // views
   viewsHideThreshold: 1000,
   viewsHideHomeEnabled: true,
   viewsHideSearchEnabled: true,
   viewsHideSubsEnabled: true,
   viewsHideCorrEnabled: true,
+  //shorts
+  hideShortsEnabled: true,
+  hideShortsSearchEnabled: false,
 };
 
 (function initPrefs() {
@@ -154,8 +155,6 @@ function hideUnderVisuals() {
 }
 
 function hideShorts() {
-  if (!prefs.hideShortsEnabled) return;
-
   document
     .querySelectorAll(
       'ytd-guide-section-renderer, tp-yt-paper-item, ytd-video-renderer, ytd-reel-shelf-renderer'
@@ -218,11 +217,12 @@ function startHiding() {
     hideSearchEnabled,
     hideSubsEnabled,
     hideCorrEnabled,
-    hideShortsEnabled,
     viewsHideHomeEnabled,
     viewsHideSearchEnabled,
     viewsHideSubsEnabled,
     viewsHideCorrEnabled,
+    hideShortsEnabled,
+    hideShortsSearchEnabled,
   } = prefs;
   const { pathname } = window.location;
 
@@ -244,7 +244,12 @@ function startHiding() {
     hideUnderVisuals();
   }
 
-  if (hideShortsEnabled && pathname !== '/feed/history') {
+  if (
+    hideShortsEnabled &&
+    pathname !== '/feed/history' &&
+    hideShortsSearchEnabled &&
+    pathname !== '/results'
+  ) {
     hideShorts();
   }
 }
