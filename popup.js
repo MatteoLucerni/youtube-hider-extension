@@ -43,9 +43,12 @@ document.addEventListener('DOMContentLoaded', () => {
       },
     },
     shorts: {
-      box: document.getElementById('hide-shorts-enabled'),
-      keys: { enabled: 'hideShortsEnabled' },
-      defaults: { enabled: true },
+      boxes: {
+        enabled: document.getElementById('hide-shorts-enabled'),
+        search: document.getElementById('hide-shorts-search-enabled'),
+      },
+      keys: { enabled: 'hideShortsEnabled', search: 'hideShortsSearchEnabled' },
+      defaults: { enabled: true, search: false },
     },
     views: {
       slider: document.getElementById('views-hide'),
@@ -74,13 +77,10 @@ document.addEventListener('DOMContentLoaded', () => {
   };
 
   const storageKeys = [
-    cfg.skip.keys.delay,
-    cfg.skip.keys.enabled,
-    cfg.hide.keys.threshold,
+    ...Object.values(cfg.skip.keys),
     ...Object.values(cfg.hide.keys),
-    cfg.views.keys.threshold,
     ...Object.values(cfg.views.keys),
-    cfg.shorts.keys.enabled,
+    ...Object.values(cfg.shorts.keys),
   ];
 
   chrome.storage.sync.get(storageKeys, prefs => {
@@ -102,11 +102,6 @@ document.addEventListener('DOMContentLoaded', () => {
         prefs[cfg.hide.keys[key]] ?? cfg.hide.defaults[key];
     }
 
-    // Shorts hide
-    const shortsEnabled =
-      prefs[cfg.shorts.keys.enabled] ?? cfg.shorts.defaults.enabled;
-    cfg.shorts.box.checked = shortsEnabled;
-
     // Views hide
     const viewsThresh =
       prefs[cfg.views.keys.threshold] ?? cfg.views.defaults.threshold;
@@ -116,49 +111,80 @@ document.addEventListener('DOMContentLoaded', () => {
       cfg.views.boxes[key].checked =
         prefs[cfg.views.keys[key]] ?? cfg.views.defaults[key];
     }
+
+    // Shorts hide
+    const shortsEnabled =
+      prefs[cfg.shorts.keys.enabled] ?? cfg.shorts.defaults.enabled;
+    const shortsSearchEnabled =
+      prefs[cfg.shorts.keys.search] ?? cfg.shorts.defaults.search;
+
+    cfg.shorts.boxes.enabled.checked = shortsEnabled;
+    cfg.shorts.boxes.search.checked = shortsSearchEnabled;
   });
 
   function saveSettings() {
     const settings = {
       // Skip
-      [cfg.skip.keys.delay]: parseInt(cfg.skip.slider.value, 10),
-      [cfg.skip.keys.enabled]: cfg.skip.box.checked,
-      // Watched hide
-      [cfg.hide.keys.threshold]: parseInt(cfg.hide.slider.value, 10),
       ...Object.fromEntries(
-        Object.entries(cfg.hide.boxes).map(([k, box]) => [
-          cfg.hide.keys[k],
-          box.checked,
+        Object.entries(cfg.skip.keys).map(([k, key]) => [
+          key,
+          k === 'delay'
+            ? parseInt(cfg.skip.slider.value, 10)
+            : cfg.skip.box.checked,
         ])
       ),
-      // Shorts hide
-      [cfg.shorts.keys.enabled]: cfg.shorts.box.checked,
-      // Views hide
-      [cfg.views.keys.threshold]: parseInt(cfg.views.slider.value, 10),
+      // Hide watched
       ...Object.fromEntries(
-        Object.entries(cfg.views.boxes).map(([k, box]) => [
-          cfg.views.keys[k],
-          box.checked,
+        Object.entries(cfg.hide.keys).map(([k, key]) => [
+          key,
+          k === 'threshold'
+            ? parseInt(cfg.hide.slider.value, 10)
+            : cfg.hide.boxes[k].checked,
+        ])
+      ),
+      // Hide Views
+      ...Object.fromEntries(
+        Object.entries(cfg.views.keys).map(([k, key]) => [
+          key,
+          k === 'threshold'
+            ? parseInt(cfg.views.slider.value, 10)
+            : cfg.views.boxes[k].checked,
+        ])
+      ),
+      // Hide Shorts
+      ...Object.fromEntries(
+        Object.entries(cfg.shorts.keys).map(([k, key]) => [
+          key,
+          cfg.shorts.boxes[k].checked,
         ])
       ),
     };
 
     chrome.storage.sync.set(settings, () => {
       const skipOn = settings[cfg.skip.keys.enabled];
+
       const hideOn = isAnyTrue({
+        // Hide watched
         ...Object.fromEntries(
           Object.entries(cfg.hide.boxes).map(([k]) => [
             k,
             settings[cfg.hide.keys[k]],
           ])
         ),
+        // Hide Views
         ...Object.fromEntries(
           Object.entries(cfg.views.boxes).map(([k]) => [
             k,
             settings[cfg.views.keys[k]],
           ])
         ),
-        [cfg.shorts.keys.enabled]: settings[cfg.shorts.keys.enabled],
+        // Hide Shorts
+        ...Object.fromEntries(
+          Object.entries(cfg.shorts.boxes).map(([k]) => [
+            k,
+            settings[cfg.shorts.keys[k]],
+          ])
+        ),
       });
 
       const text = getBadgeText(skipOn, hideOn);

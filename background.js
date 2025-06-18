@@ -9,6 +9,7 @@ const flagKeys = [
   'viewsHideSubsEnabled',
   'viewsHideCorrEnabled',
   'hideShortsEnabled',
+  'hideShortsSearchEnabled',
 ];
 
 function refreshBadge() {
