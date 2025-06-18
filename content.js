@@ -247,8 +247,7 @@ function startHiding() {
   if (
     hideShortsEnabled &&
     pathname !== '/feed/history' &&
-    hideShortsSearchEnabled &&
-    pathname !== '/results'
+    (hideShortsSearchEnabled || pathname !== '/results')
   ) {
     hideShorts();
   }
