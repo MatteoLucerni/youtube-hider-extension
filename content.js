@@ -162,7 +162,6 @@ function hideShorts() {
     .forEach(node => {
       if (node.querySelector('ytm-shorts-lockup-view-model')) {
         node.style.display = 'none';
-        console.log('Hiding Shorts:', node);
       }
       if (
         node.querySelector('badge-shape[aria-label="Shorts"]') ||
@@ -171,7 +170,6 @@ function hideShorts() {
         )
       ) {
         node.style.display = 'none';
-        console.log('Hiding Shorts:', node);
       }
     });
 
