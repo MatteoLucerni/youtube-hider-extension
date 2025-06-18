@@ -19,7 +19,7 @@ Get it on the Chrome Web Store: https://chromewebstore.google.com/detail/ebpikpm
 - Customizable threshold (0-100k vies).
 - Separate toggles to choose where to hide watched videos or not.
 
-**YouTube “Remove Shorts”** (Coming soon)
+**YouTube “Remove Shorts”**
 
 - Completely remove Shorts from Youtube, no distractions
 

@@ -1,132 +1,49 @@
-// background.js
-
-chrome.runtime.onInstalled.addListener(() => {
-  console.log('Extension installed');
-  refreshBadge();
-});
-
-chrome.runtime.onStartup.addListener(() => {
-  console.log('Extension started');
-  refreshBadge();
-});
+const flagKeys = [
+  'skipEnabled',
+  'hideHomeEnabled',
+  'hideSearchEnabled',
+  'hideSubsEnabled',
+  'hideCorrEnabled',
+  'viewsHideHomeEnabled',
+  'viewsHideSearchEnabled',
+  'viewsHideSubsEnabled',
+  'viewsHideCorrEnabled',
+  'hideShortsEnabled',
+  'hideShortsSearchEnabled',
+];
 
 function refreshBadge() {
-  chrome.storage.sync.get(
-    {
-      skipEnabled: true,
-      hideHomeEnabled: true,
-      hideSearchEnabled: true,
-      hideSubsEnabled: true,
-      hideCorrEnabled: true,
-      viewsHideHomeEnabled: true,
-      viewsHideSearchEnabled: true,
-      viewsHideSubsEnabled: true,
-      viewsHideCorrEnabled: true,
-    },
-    ({
-      skipEnabled,
-      hideHomeEnabled,
-      hideSearchEnabled,
-      hideSubsEnabled,
-      hideCorrEnabled,
-      viewsHideHomeEnabled,
-      viewsHideSearchEnabled,
-      viewsHideSubsEnabled,
-      viewsHideCorrEnabled,
-    }) => {
-      updateBadge(
-        skipEnabled,
-        hideHomeEnabled,
-        hideSearchEnabled,
-        hideCorrEnabled,
-        hideSubsEnabled,
-        viewsHideHomeEnabled,
-        viewsHideSearchEnabled,
-        viewsHideSubsEnabled,
-        viewsHideCorrEnabled
-      );
-    }
-  );
+  const defaults = Object.fromEntries(flagKeys.map(key => [key, true]));
+  chrome.storage.sync.get(defaults, prefs => {
+    updateBadge(prefs);
+  });
 }
 
-function getBadgeText(
-  skipEnabled,
-  hideHome,
-  hideSearch,
-  hideSubs,
-  hideCorr,
-  viewsHideHomeEnabled,
-  viewsHideSearchEnabled,
-  viewsHideSubsEnabled,
-  viewsHideCorrEnabled
-) {
-  const hideCondition =
-    hideHome ||
-    hideSearch ||
-    hideSubs ||
-    hideCorr ||
-    viewsHideHomeEnabled ||
-    viewsHideSearchEnabled ||
-    viewsHideSubsEnabled ||
-    viewsHideCorrEnabled;
-
+function getBadgeText({ skipEnabled, ...flags }) {
+  const hideCondition = Object.values(flags).some(Boolean);
   if (skipEnabled && hideCondition) return 'A';
   if (skipEnabled) return 'S';
   if (hideCondition) return 'H';
   return 'OFF';
 }
 
-function updateBadge(
-  skipEnabled,
-  hideHome,
-  hideSearch,
-  hideSubs,
-  hideCorr,
-  viewsHideHomeEnabled,
-  viewsHideSearchEnabled,
-  viewsHideSubsEnabled,
-  viewsHideCorrEnabled
-) {
-  const text = getBadgeText(
-    skipEnabled,
-    hideHome,
-    hideSearch,
-    hideSubs,
-    hideCorr,
-    viewsHideHomeEnabled,
-    viewsHideSearchEnabled,
-    viewsHideSubsEnabled,
-    viewsHideCorrEnabled
-  );
-
-  const oneIsOn =
-    hideHome ||
-    hideSearch ||
-    hideSubs ||
-    hideCorr ||
-    viewsHideHomeEnabled ||
-    viewsHideSearchEnabled ||
-    viewsHideSubsEnabled ||
-    viewsHideCorrEnabled;
-
-  const color = oneIsOn ? '#008000' : '#808080';
+function updateBadge(flags) {
+  const text = getBadgeText(flags);
+  const anyHide = Object.values(flags)
+    .filter((_, i) => i > 0)
+    .some(Boolean);
+  const color = anyHide ? '#008000' : '#808080';
   chrome.action.setBadgeText({ text });
   chrome.action.setBadgeBackgroundColor({ color });
 }
 
 chrome.storage.onChanged.addListener((changes, area) => {
   if (area !== 'sync') return;
-  if (
-    changes.skipEnabled ||
-    changes.hideHomeEnabled ||
-    changes.hideSubsEnabled ||
-    changes.hideCorrEnabled ||
-    changes.hideSearchEnabled ||
-    changes.viewsHideEnabled ||
-    changes.viewsHideHomeEnabled ||
-    changes.viewsHideSubsEnabled ||
-    changes.viewsHideCorrEnabled
-  ) {
+  if (Object.keys(changes).some(key => flagKeys.includes(key))) {
     refreshBadge();
   }
 });
+
+refreshBadge();
+chrome.runtime.onStartup.addListener(refreshBadge);
+chrome.runtime.onInstalled.addListener(refreshBadge);

@@ -8,161 +8,7 @@
         crossorigin='anonymous' />
 
     <title>Skipper settings</title>
-    <style>
-        body {
-            border: 1px solid #1e1e1e;
-            background-color: #1e1e1e;
-            color: white;
-            min-width: 350px;
-        }
-
-        label {
-            cursor: pointer;
-        }
-
-        .slider-container {
-            display: flex;
-            align-items: center;
-        }
-
-        .slider-value {
-            margin-left: 10px;
-            width: 20px;
-            text-align: center;
-        }
-
-        .slider-text-label,
-        .slider-symbol,
-        .slider-value,
-        .toggle-container {
-            font-size: 0.7rem;
-        }
-
-        .toggle-container {
-            display: flex;
-            flex-direction: column;
-            align-items: center;
-            min-width: 55px;
-            padding: 5px 0 7px 0;
-            margin: 2px 0;
-        }
-
-        input[type="range"] {
-            width: 100%;
-            accent-color: #FF0000;
-        }
-
-        .toggle-container label {
-            display: block;
-        }
-
-        .switch {
-            position: relative;
-            display: block;
-            width: 20px;
-            height: 12px;
-            margin-top: 2px;
-        }
-
-        .switch input {
-            opacity: 0;
-            width: 0;
-            height: 0;
-        }
-
-        .slider {
-            position: absolute;
-            cursor: pointer;
-            top: 0;
-            left: 0;
-            right: 0;
-            bottom: 0;
-            background-color: #888;
-            transition: background-color .2s;
-            border-radius: 20px;
-        }
-
-        .slider:before {
-            position: absolute;
-            content: "";
-            height: 8px;
-            width: 8px;
-            left: 2px;
-            bottom: 2px;
-            background-color: white;
-            transition: transform .2s;
-            border-radius: 50%;
-        }
-
-        .switch input:checked+.slider {
-            background-color: #FF0000;
-        }
-
-        .switch input:checked+.slider:before {
-            transform: translateX(8px);
-        }
-
-        .divider {
-            margin: 20px 0;
-        }
-
-        .text-center {
-            text-align: center;
-        }
-
-        .setting-box {
-            background-color: #333333;
-            border: 1px solid #1e1e1e;
-        }
-
-        .setting-subtitle {
-            color: gray;
-            font-size: 0.7rem;
-            margin-bottom: 0;
-            text-align: center;
-        }
-
-        .box-minititile {
-            color: white;
-            font-size: 0.8rem;
-            margin-bottom: 20px;
-            margin-top: 5px;
-            text-align: center;
-        }
-
-        .save-btn-cont {
-            text-align: center;
-            position: fixed;
-            bottom: 0;
-            right: 0;
-            padding: 20px
-        }
-
-        .extra-padding-bottom {
-            padding-bottom: 80px !important;
-        }
-
-        header {
-            position: sticky;
-            top: 0;
-            background-color: #1e1e1e;
-            padding: 20px 0 15px 0;
-            z-index: 9999;
-        }
-
-        .yt-color {
-            color: #FF0000;
-        }
-
-        .yt-bg-color {
-            background-color: #FF0000;
-        }
-
-        .logo-image {
-            width: 120px;
-            margin-top: 30px;
-        }
-    </style>
+    <link rel="stylesheet" href="./assets/css/popup.css">
 </head>
 
 <body>
@@ -174,7 +20,7 @@
         <div class="setting-box rounded my-3 py-3">
             <h5 class="text-center mb-0">Youtube</h5>
             <p class="setting-subtitle">Hide YT videos</p>
-            <div class="p-3 mb-3">
+            <div class="p-3 py-0">
                 <p class="box-minititile mb-2">Hide watched videos based on watch percentage</p>
 
                 <div class="d-flex justify-content-center">
@@ -193,14 +39,14 @@
                         <div class="d-flex gap-2">
                             <div class="toggle-container bg-dark rounded">
                                 <label for="hide-home-enabled">Home</label>
-                                <label class="switch">
+                                <label class="switch mt-1">
                                     <input type="checkbox" id="hide-home-enabled">
                                     <span class="slider"></span>
                                 </label>
                             </div>
                             <div class="toggle-container bg-dark rounded">
                                 <label for="hide-subs-enabled">Subs</label>
-                                <label class="switch">
+                                <label class="switch mt-1">
                                     <input type="checkbox" id="hide-subs-enabled">
                                     <span class="slider"></span>
                                 </label>
@@ -210,14 +56,14 @@
                         <div class="d-flex gap-2">
                             <div class="toggle-container bg-dark rounded">
                                 <label for="hide-search-enabled">Search</label>
-                                <label class="switch">
+                                <label class="switch mt-1">
                                     <input type="checkbox" id="hide-search-enabled">
                                     <span class="slider"></span>
                                 </label>
                             </div>
                             <div class="toggle-container bg-dark rounded">
                                 <label for="hide-corr-enabled">Related</label>
-                                <label class="switch">
+                                <label class="switch mt-1">
                                     <input type="checkbox" id="hide-corr-enabled">
                                     <span class="slider"></span>
                                 </label>
@@ -227,7 +73,27 @@
                 </div>
             </div>
             <hr class="mx-3">
-            <div class="p-3">
+            <div class="p-3 py-0">
+                <p class="box-minititile mb-2">Hide <span class="yt-color">Shorts</span> everywhere</p>
+                <div class="d-flex justify-content-center gap-2">
+                    <div class="toggle-container bg-dark rounded px-4 py-3">
+                        <label for="hide-shorts-enabled">Enabled</label>
+                        <label class="switch mt-1">
+                            <input type="checkbox" id="hide-shorts-enabled">
+                            <span class="slider"></span>
+                        </label>
+                    </div>
+                    <div class="toggle-container bg-dark rounded px-4 py-3">
+                        <label for="hide-shorts-search-enabled">Enable also in Search</label>
+                        <label class="switch mt-1">
+                            <input type="checkbox" id="hide-shorts-search-enabled">
+                            <span class="slider"></span>
+                        </label>
+                    </div>
+                </div>
+            </div>
+            <hr class="mx-3">
+            <div class="p-3 py-0">
                 <p class="box-minititile mb-2">Hide videos based on minimum amount of views</p>
 
                 <div class="d-flex justify-content-center">
@@ -247,14 +113,14 @@
                         <div class="d-flex gap-2">
                             <div class="toggle-container bg-dark rounded">
                                 <label for="views-hide-home-enabled">Home</label>
-                                <label class="switch">
+                                <label class="switch mt-1">
                                     <input type="checkbox" id="views-hide-home-enabled">
                                     <span class="slider"></span>
                                 </label>
                             </div>
                             <div class="toggle-container bg-dark rounded">
                                 <label for="views-hide-subs-enabled">Subs</label>
-                                <label class="switch">
+                                <label class="switch mt-1">
                                     <input type="checkbox" id="views-hide-subs-enabled">
                                     <span class="slider"></span>
                                 </label>
@@ -264,14 +130,14 @@
                         <div class="d-flex gap-2">
                             <div class="toggle-container bg-dark rounded">
                                 <label for="views-hide-search-enabled">Search</label>
-                                <label class="switch">
+                                <label class="switch mt-1">
                                     <input type="checkbox" id="views-hide-search-enabled">
                                     <span class="slider"></span>
                                 </label>
                             </div>
                             <div class="toggle-container bg-dark rounded">
                                 <label for="views-hide-corr-enabled">Related</label>
-                                <label class="switch">
+                                <label class="switch mt-1">
                                     <input type="checkbox" id="views-hide-corr-enabled">
                                     <span class="slider"></span>
                                 </label>
@@ -280,21 +146,12 @@
                     </div>
                 </div>
             </div>
-            <hr class="mx-3">
-            <div class="p-3">
-                <p class="box-minititile mb-2">Remove Shorts</p>
-
-                <!-- coming soon message -->
-                <div class="d-flex justify-content-center">
-                    <p class="text-center text-warning box-minititile">Comming in next version, stay tuned!</p>
-                </div>
-            </div>
         </div>
 
         <div class="setting-box rounded py-3 px-4">
             <h5 class="text-center mb-0">Netflix and Prime Video</h5>
             <p class="setting-subtitle">Automatically skip intro and recap</p>
-            <div class="p-3">
+            <div class="p-3 py-0">
                 <div class="d-flex justify-content-center">
                     <div class="d-flex">
                         <div class="text-center bg-dark rounded p-3 me-2">
@@ -310,7 +167,7 @@
                         <div class="d-flex gap-2">
                             <div class="toggle-container m bg-dark rounded">
                                 <label class="text-center mx-2" for="skip-enabled">Enabled</label>
-                                <label class="switch">
+                                <label class="switch mt-1">
                                     <input type="checkbox" id="skip-enabled">
                                     <span class="slider"></span>
                                 </label>
@@ -321,7 +178,8 @@
             </div>
         </div>
         <div class="d-flex justify-content-center">
-            <img class="img-fluid logo-image" src="icons/youtube-hider-logo.png" alt="Youtube Hider Extension Logo">
+            <img class="img-fluid logo-image" src="./assets/icons/youtube-hider-logo.png"
+                alt="Youtube Hider Extension Logo">
         </div>
     </div>
 
