@@ -197,6 +197,6 @@ document.addEventListener('DOMContentLoaded', () => {
     cfg.skip.box,
     ...Object.values(cfg.hide.boxes),
     ...Object.values(cfg.views.boxes),
-    cfg.shorts.box,
+    ...Object.values(cfg.shorts.boxes),
   ].forEach(box => box.addEventListener('change', saveSettings));
 });
