@@ -20,3 +20,4 @@
 - Hide youtube Shorts everywhere
 - Toggle for hide Shorts in Search results
 - Changed extension name
+- Fixed badge inizialization

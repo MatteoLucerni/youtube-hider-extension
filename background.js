@@ -43,3 +43,7 @@ chrome.storage.onChanged.addListener((changes, area) => {
     refreshBadge();
   }
 });
+
+refreshBadge();
+chrome.runtime.onStartup.addListener(refreshBadge);
+chrome.runtime.onInstalled.addListener(refreshBadge);
