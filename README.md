@@ -1,8 +1,8 @@
 # Youtube Hider
 
-Youtube Hider is a lightweight Chrome extension that hides already watched videos, filters low views amount videos and removes Shorts, with custom settings.
+Youtube Hider is a lightweight MV3 Chrome extension that hides already watched videos, filters low views amount videos and removes Shorts from Youtube, with custom settings.
 
-Extension title: "Youtube Hider: watched videos, Shorts and low views"
+Extension title: "Hide Youtube watched videos, Shorts and low views"
 Get it on the Chrome Web Store: https://chromewebstore.google.com/detail/ebpikpmmnpjmlcpanakfcgchkdjaanmm?utm_source=item-share-cb
 
 Or check the website: https://youtubehider.com/
