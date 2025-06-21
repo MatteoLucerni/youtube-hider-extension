@@ -53,3 +53,10 @@ Download it from the Chrome Web Store: https://chromewebstore.google.com/detail/
 5. (Optional) Pin the Skipper icon to your toolbar.
 
 Thanks!
+
+<div align="start">
+  <a href="https://www.youtube.com/watch?v=7_fJFpoy4_M" target="_blank">
+    <img src="https://img.youtube.com/vi/7_fJFpoy4_M/0.jpg" alt="Guarda il video" style="width:300px;">
+  </a>
+</div>
+
