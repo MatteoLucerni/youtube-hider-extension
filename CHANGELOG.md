@@ -21,3 +21,7 @@
 - Toggle for hide Shorts in Search results
 - Changed extension name
 - Fixed badge inizialization
+
+### Version 1.5.1
+
+- Icon style
