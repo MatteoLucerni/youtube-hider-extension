@@ -1,12 +1,12 @@
 {
     "manifest_version": 3,
     "name": "Hide Youtube watched videos, Shorts and low views",
-    "version": "1.5.1",
+    "version": "1.5.2",
     "description": "Hides already watched videos from YouTube, as well as low views videos and remove Shorts.",
     "icons": {
-        "16": "assets/icons/YT Hider icon v4.png",
-        "48": "assets/icons/YT Hider icon v4.png",
-        "128": "assets/icons/YT Hider icon v4.png"
+        "16": "assets/icons/YT Hider icon v6.png",
+        "48": "assets/icons/YT Hider icon v6.png",
+        "128": "assets/icons/YT Hider icon v6.png"
     },
     "permissions": [
         "storage"
@@ -34,6 +34,6 @@
     ],
     "action": {
         "default_popup": "popup.html",
-        "default_icon": "assets/icons/YT Hider icon v4.png"
+        "default_icon": "assets/icons/YT Hider icon v6.png"
     }
 }
