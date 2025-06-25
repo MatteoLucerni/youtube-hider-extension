@@ -25,3 +25,7 @@
 ### Version 1.5.1
 
 - Icon style
+
+### Version 1.5.2
+
+- Icon style
