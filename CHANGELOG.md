@@ -29,3 +29,7 @@
 ### Version 1.5.2
 
 - Icon style
+
+### Version 1.5.3
+
+- Style and alignment
