@@ -33,3 +33,7 @@
 ### Version 1.5.3
 
 - Style and alignment
+
+### Version 1.5.4
+
+- Added more selectors for hiding shorts
