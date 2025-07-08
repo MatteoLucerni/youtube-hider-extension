@@ -1,4 +1,3 @@
 dist/*
 dist/
-graphics/*
-graphics/
+*.mp4
