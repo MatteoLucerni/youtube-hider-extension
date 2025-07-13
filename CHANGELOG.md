@@ -37,3 +37,7 @@
 ### Version 1.5.4
 
 - Added more selectors for hiding shorts
+
+### Version 1.5.5
+
+- Fixed selectors for hiding related watched videos

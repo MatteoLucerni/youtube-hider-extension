@@ -21,17 +21,17 @@ const prefs = {
 
 (function initPrefs() {
   try {
-    chrome.storage.sync.get(Object.keys(prefs), (result) => {
+    chrome.storage.sync.get(Object.keys(prefs), result => {
       Object.assign(prefs, result);
-      console.log("Prefs loaded", prefs);
+      console.log('Prefs loaded', prefs);
     });
   } catch (e) {
-    console.warn("Could not load prefs (context invalidated?)", e);
+    console.warn('Could not load prefs (context invalidated?)', e);
   }
 
   try {
     chrome.storage.onChanged.addListener((changes, area) => {
-      if (area !== "sync") return;
+      if (area !== 'sync') return;
       for (let key in changes) {
         if (prefs.hasOwnProperty(key)) {
           prefs[key] = changes[key].newValue;
@@ -40,7 +40,7 @@ const prefs = {
       }
     });
   } catch (e) {
-    console.warn("Could not bind onChanged (context invalidated?)", e);
+    console.warn('Could not bind onChanged (context invalidated?)', e);
   }
 })();
 
@@ -61,7 +61,7 @@ function skipIntro() {
 
   setTimeout(() => {
     btn.click();
-    console.log("Skipped intro/recap");
+    console.log('Skipped intro/recap');
   }, prefs.skipIntroDelay * 1000);
 }
 
@@ -70,9 +70,9 @@ function hideWatched() {
 
   document
     .querySelectorAll(
-      "ytd-thumbnail-overlay-resume-playback-renderer #progress"
+      'ytd-thumbnail-overlay-resume-playback-renderer #progress, .ytThumbnailOverlayProgressBarHostWatchedProgressBarSegment'
     )
-    .forEach((bar) => {
+    .forEach(bar => {
       const pct = parseFloat(bar.style.width) || 0;
       if (pct <= hideThreshold) return;
 
@@ -81,14 +81,14 @@ function hideWatched() {
       while (
         item &&
         !item.matches(
-          "ytd-compact-video-renderer, ytd-rich-item-renderer, ytd-video-renderer"
+          'ytd-compact-video-renderer, ytd-rich-item-renderer, ytd-video-renderer, yt-lockup-view-model'
         )
       ) {
         item = item.parentElement;
       }
       if (!item) return;
 
-      item.style.display = "none";
+      item.style.display = 'none';
     });
 }
 
@@ -97,10 +97,10 @@ function extractNumberAndSuffix(input) {
 
   // matching number + optional suffix, case insensitive
   const match = s.match(/^([\d.,]+)\s*(K|Mln|M|B)?/i);
-  if (!match) return { numStr: "", suffix: "" };
+  if (!match) return { numStr: '', suffix: '' };
   return {
     numStr: match[1],
-    suffix: (match[2] || "").toUpperCase(),
+    suffix: (match[2] || '').toUpperCase(),
   };
 }
 
@@ -110,19 +110,19 @@ function parseToNumber(input) {
 
   let multiplier = 1;
   switch (suffix.toLowerCase()) {
-    case "k":
-      numStr.includes(".") ? (multiplier = 1e2) : (multiplier = 1e3);
+    case 'k':
+      numStr.includes('.') ? (multiplier = 1e2) : (multiplier = 1e3);
       break;
-    case "m":
-    case "mln":
-      numStr.includes(".") ? (multiplier = 1e5) : (multiplier = 1e6);
+    case 'm':
+    case 'mln':
+      numStr.includes('.') ? (multiplier = 1e5) : (multiplier = 1e6);
       break;
-    case "b":
-      numStr.includes(".") ? (multiplier = 1e8) : (multiplier = 1e9);
+    case 'b':
+      numStr.includes('.') ? (multiplier = 1e8) : (multiplier = 1e9);
       break;
   }
 
-  const normalized = numStr.replace(/\./g, "").replace(",", ".");
+  const normalized = numStr.replace(/\./g, '').replace(',', '.');
 
   const base = parseFloat(normalized);
   return isNaN(base) ? NaN : base * multiplier;
@@ -131,8 +131,8 @@ function parseToNumber(input) {
 function hideUnderVisuals() {
   const { viewsHideThreshold } = prefs;
 
-  document.querySelectorAll("#metadata-line").forEach((metaLine) => {
-    const span = metaLine.querySelector("span.inline-metadata-item");
+  document.querySelectorAll('#metadata-line').forEach(metaLine => {
+    const span = metaLine.querySelector('span.inline-metadata-item');
     if (!span) return;
 
     const text = span.textContent;
@@ -145,23 +145,23 @@ function hideUnderVisuals() {
     while (
       item &&
       !item.matches(
-        "ytd-compact-video-renderer, ytd-rich-item-renderer, ytd-video-renderer"
+        'ytd-compact-video-renderer, ytd-rich-item-renderer, ytd-video-renderer'
       )
     ) {
       item = item.parentElement;
     }
-    if (item) item.style.display = "none";
+    if (item) item.style.display = 'none';
   });
 }
 
 function hideShorts() {
   document
     .querySelectorAll(
-      "ytd-guide-section-renderer, tp-yt-paper-item, ytd-video-renderer, ytd-reel-shelf-renderer"
+      'ytd-guide-section-renderer, tp-yt-paper-item, ytd-video-renderer, ytd-reel-shelf-renderer'
     )
-    .forEach((node) => {
-      if (node.querySelector("ytm-shorts-lockup-view-model")) {
-        node.style.display = "none";
+    .forEach(node => {
+      if (node.querySelector('ytm-shorts-lockup-view-model')) {
+        node.style.display = 'none';
       }
       if (
         node.querySelector('badge-shape[aria-label="Shorts"]') ||
@@ -169,63 +169,63 @@ function hideShorts() {
           'ytd-thumbnail-overlay-time-status-renderer[overlay-style="SHORTS"]'
         )
       ) {
-        node.style.display = "none";
+        node.style.display = 'none';
       }
     });
 
-  document.querySelectorAll('a[href^="/shorts/"]').forEach((link) => {
-    const shelf = link.closest("ytd-rich-shelf-renderer");
+  document.querySelectorAll('a[href^="/shorts/"]').forEach(link => {
+    const shelf = link.closest('ytd-rich-shelf-renderer');
     if (shelf) {
-      shelf.style.display = "none";
+      shelf.style.display = 'none';
       return;
     }
-    const item = link.closest("ytd-rich-item-renderer");
-    if (item) item.style.display = "none";
+    const item = link.closest('ytd-rich-item-renderer');
+    if (item) item.style.display = 'none';
   });
 
-  document.querySelectorAll('a[title="Shorts"]').forEach((link) => {
+  document.querySelectorAll('a[title="Shorts"]').forEach(link => {
     const entry =
-      link.closest("ytd-guide-entry-renderer") ||
-      link.closest("ytd-mini-guide-entry-renderer");
-    if (entry) entry.style.display = "none";
+      link.closest('ytd-guide-entry-renderer') ||
+      link.closest('ytd-mini-guide-entry-renderer');
+    if (entry) entry.style.display = 'none';
   });
 
-  document.querySelectorAll('a[title="Shorts"]').forEach((link) => {
-    const entry = link.closest("ytd-guide-entry-renderer");
-    if (entry) entry.style.display = "none";
+  document.querySelectorAll('a[title="Shorts"]').forEach(link => {
+    const entry = link.closest('ytd-guide-entry-renderer');
+    if (entry) entry.style.display = 'none';
   });
 
   document
     .querySelectorAll('yt-formatted-string[title="Shorts"]')
-    .forEach((link) => {
-      const entry = link.closest("yt-chip-cloud-chip-renderer");
-      if (entry) entry.style.display = "none";
+    .forEach(link => {
+      const entry = link.closest('yt-chip-cloud-chip-renderer');
+      if (entry) entry.style.display = 'none';
     });
 
   document
     .querySelectorAll('yt-tab-shape[tab-title="Shorts"]')
-    .forEach((link) => {
-      link.style.display = "none";
+    .forEach(link => {
+      link.style.display = 'none';
     });
 
-  document.querySelectorAll("grid-shelf-view-model").forEach((node) => {
-    if (node.querySelector("ytm-shorts-lockup-view-model-v2")) {
-      node.style.display = "none";
+  document.querySelectorAll('grid-shelf-view-model').forEach(node => {
+    if (node.querySelector('ytm-shorts-lockup-view-model-v2')) {
+      node.style.display = 'none';
     }
   });
 
   document
     .querySelectorAll(
-      "grid-shelf-view-model:has(ytm-shorts-lockup-view-model-v2)"
+      'grid-shelf-view-model:has(ytm-shorts-lockup-view-model-v2)'
     )
-    .forEach((node) => {
-      node.style.display = "none";
+    .forEach(node => {
+      node.style.display = 'none';
     });
 
-  document.querySelectorAll("yt-chip-cloud-chip-renderer").forEach((node) => {
-    const label = node.querySelector(".ytChipShapeChip");
-    if (label && label.textContent.trim() === "Shorts") {
-      node.style.display = "none";
+  document.querySelectorAll('yt-chip-cloud-chip-renderer').forEach(node => {
+    const label = node.querySelector('.ytChipShapeChip');
+    if (label && label.textContent.trim() === 'Shorts') {
+      node.style.display = 'none';
     }
   });
 }
@@ -246,27 +246,27 @@ function startHiding() {
   const { pathname } = window.location;
 
   if (
-    (pathname === "/" && hideHomeEnabled) ||
-    (pathname === "/results" && hideSearchEnabled) ||
-    (pathname === "/watch" && hideCorrEnabled) ||
-    (pathname === "/feed/subscriptions" && hideSubsEnabled)
+    (pathname === '/' && hideHomeEnabled) ||
+    (pathname === '/results' && hideSearchEnabled) ||
+    (pathname === '/watch' && hideCorrEnabled) ||
+    (pathname === '/feed/subscriptions' && hideSubsEnabled)
   ) {
     hideWatched();
   }
 
   if (
-    (pathname === "/" && viewsHideHomeEnabled) ||
-    (pathname === "/results" && viewsHideSearchEnabled) ||
-    (pathname === "/watch" && viewsHideCorrEnabled) ||
-    (pathname === "/feed/subscriptions" && viewsHideSubsEnabled)
+    (pathname === '/' && viewsHideHomeEnabled) ||
+    (pathname === '/results' && viewsHideSearchEnabled) ||
+    (pathname === '/watch' && viewsHideCorrEnabled) ||
+    (pathname === '/feed/subscriptions' && viewsHideSubsEnabled)
   ) {
     hideUnderVisuals();
   }
 
   if (
     hideShortsEnabled &&
-    pathname !== "/feed/history" &&
-    (hideShortsSearchEnabled || pathname !== "/results")
+    pathname !== '/feed/history' &&
+    (hideShortsSearchEnabled || pathname !== '/results')
   ) {
     hideShorts();
   }
