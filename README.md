@@ -52,5 +52,6 @@ Download it from the Chrome Web Store: https://chromewebstore.google.com/detail/
 4. Click **Load unpacked** and select the extension’s root folder.
 5. (Optional) Pin the Skipper icon to your toolbar.
 
-Thanks!
+TIP: to filter only extension's logs on chrome console use: `url:chrome-extension://EXTENSION-ID`
 
+Thanks!
