@@ -41,3 +41,7 @@
 ### Version 1.5.5
 
 - Fixed selectors for hiding related watched videos
+
+### Version 1.5.6
+
+- Fixed selectors for hiding related low views videos
