@@ -156,7 +156,7 @@ function hideUnderVisuals() {
     .querySelectorAll('yt-content-metadata-view-model')
     .forEach(metadataContainer => {
       const metadataRows = metadataContainer.querySelectorAll(
-        '.yt-content-metadata-view-model-wiz__metadata-row'
+        '.yt-content-metadata-view-model-wiz__metadata-row, .yt-content-metadata-view-model__metadata-row'
       );
       if (metadataRows.length < 2) return;
 
@@ -176,11 +176,12 @@ function hideUnderVisuals() {
       while (
         item &&
         !item.matches(
-          'ytd-compact-video-renderer, ytd-rich-item-renderer, ytd-video-renderer, yt-lockup-view-model'
+          'ytd-compact-video-renderer, ytd-rich-item-renderer, ytd-video-renderer'
         )
       ) {
         item = item.parentElement;
       }
+
       if (item) item.style.display = 'none';
     });
 }
