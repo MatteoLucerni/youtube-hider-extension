@@ -45,3 +45,9 @@
 ### Version 1.5.6
 
 - Fixed selectors for hiding related low views videos
+
+### Version 1.5.7
+
+- Fixed selectors for hiding related and home low views videos
+- Added observer for hiding related low views videos
+- Fixed selectors for hiding related and home watched videos
