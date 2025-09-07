@@ -130,7 +130,7 @@ function parseToNumber(input) {
 
 let observerCreated = false;
 
-function hideUnderVisuals() {
+function hideUnderVisuals(pathname) {
   const { viewsHideThreshold } = prefs;
 
   document.querySelectorAll('#metadata-line').forEach(metaLine => {
@@ -154,15 +154,15 @@ function hideUnderVisuals() {
     if (item) item.style.display = 'none';
   });
 
-  hideNewFormatVideos();
+  hideNewFormatVideos(pathname);
 
   if (!observerCreated) {
-    createVideoObserver();
+    createVideoObserver(pathname);
     observerCreated = true;
   }
 }
 
-function hideNewFormatVideos() {
+function hideNewFormatVideos(pathname) {
   const { viewsHideThreshold } = prefs;
 
   document
@@ -185,8 +185,6 @@ function hideNewFormatVideos() {
 
       if (isNaN(views) || views >= viewsHideThreshold) return;
 
-      const { pathname } = window.location;
-
       let item = viewsSpan;
       while (
         item &&
@@ -203,9 +201,9 @@ function hideNewFormatVideos() {
     });
 }
 
-function createVideoObserver() {
+function createVideoObserver(pathname) {
   const observer = new MutationObserver(() => {
-    hideNewFormatVideos();
+    hideNewFormatVideos(pathname);
   });
 
   observer.observe(document.body, {
@@ -320,7 +318,8 @@ function startHiding() {
     (pathname === '/watch' && viewsHideCorrEnabled) ||
     (pathname === '/feed/subscriptions' && viewsHideSubsEnabled)
   ) {
-    hideUnderVisuals();
+    console.log(pathname === '/' && viewsHideHomeEnabled);
+    hideUnderVisuals(pathname);
   }
 
   if (
