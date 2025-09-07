@@ -1,34 +1,36 @@
 const prefs = {
-  // skip
   skipIntroDelay: 1,
   skipEnabled: true,
-  // watched
   hideThreshold: 70,
   hideHomeEnabled: true,
   hideSearchEnabled: false,
   hideSubsEnabled: true,
   hideCorrEnabled: true,
-  // views
   viewsHideThreshold: 1000,
   viewsHideHomeEnabled: true,
   viewsHideSearchEnabled: true,
   viewsHideSubsEnabled: true,
   viewsHideCorrEnabled: true,
-  //shorts
   hideShortsEnabled: true,
   hideShortsSearchEnabled: false,
 };
 
-(function initPrefs() {
-  try {
-    chrome.storage.sync.get(Object.keys(prefs), result => {
-      Object.assign(prefs, result);
-      console.log('Prefs loaded', prefs);
-    });
-  } catch (e) {
-    console.warn('Could not load prefs (context invalidated?)', e);
-  }
+function initPrefs() {
+  return new Promise(resolve => {
+    try {
+      chrome.storage.sync.get(Object.keys(prefs), result => {
+        Object.assign(prefs, result);
+        console.log('Prefs loaded', prefs);
+        resolve();
+      });
+    } catch (e) {
+      console.warn('Could not load prefs (context invalidated?)', e);
+      resolve();
+    }
+  });
+}
 
+function setupPrefsListener() {
   try {
     chrome.storage.onChanged.addListener((changes, area) => {
       if (area !== 'sync') return;
@@ -42,7 +44,7 @@ const prefs = {
   } catch (e) {
     console.warn('Could not bind onChanged (context invalidated?)', e);
   }
-})();
+}
 
 function skipIntro() {
   if (!prefs.skipEnabled) return;
@@ -95,7 +97,6 @@ function hideWatched() {
 function extractNumberAndSuffix(input) {
   const s = String(input).trim();
 
-  // matching number + optional suffix, case insensitive
   const match = s.match(/^([\d.,]+)\s*(K|Mln|M|B)?/i);
   if (!match) return { numStr: '', suffix: '' };
   return {
@@ -336,7 +337,14 @@ function onMutations() {
   startHiding();
 }
 
-onMutations();
+async function init() {
+  await initPrefs();
+  setupPrefsListener();
 
-const observer = new MutationObserver(onMutations);
-observer.observe(document.body, { childList: true, subtree: true });
+  onMutations();
+
+  const observer = new MutationObserver(onMutations);
+  observer.observe(document.body, { childList: true, subtree: true });
+}
+
+init();
