@@ -67,7 +67,7 @@ function skipIntro() {
   }, prefs.skipIntroDelay * 1000);
 }
 
-function hideWatched() {
+function hideWatched(pathname) {
   const { hideThreshold } = prefs;
 
   document
@@ -83,7 +83,9 @@ function hideWatched() {
       while (
         item &&
         !item.matches(
-          'ytd-compact-video-renderer, ytd-rich-item-renderer, ytd-video-renderer, yt-lockup-view-model'
+          pathname === '/watch'
+            ? 'ytd-compact-video-renderer, ytd-rich-item-renderer, ytd-video-renderer, yt-lockup-view-model'
+            : 'ytd-compact-video-renderer, ytd-rich-item-renderer, ytd-video-renderer'
         )
       ) {
         item = item.parentElement;
@@ -310,7 +312,7 @@ function startHiding() {
     (pathname === '/watch' && hideCorrEnabled) ||
     (pathname === '/feed/subscriptions' && hideSubsEnabled)
   ) {
-    hideWatched();
+    hideWatched(pathname);
   }
 
   if (
