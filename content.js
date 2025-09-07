@@ -128,6 +128,8 @@ function parseToNumber(input) {
   return isNaN(base) ? NaN : base * multiplier;
 }
 
+let observerCreated = false;
+
 function hideUnderVisuals() {
   const { viewsHideThreshold } = prefs;
 
@@ -152,8 +154,19 @@ function hideUnderVisuals() {
     if (item) item.style.display = 'none';
   });
 
+  hideNewFormatVideos();
+
+  if (!observerCreated) {
+    createVideoObserver();
+    observerCreated = true;
+  }
+}
+
+function hideNewFormatVideos() {
+  const { viewsHideThreshold } = prefs;
+
   document
-    .querySelectorAll('yt-content-metadata-view-model')
+    .querySelectorAll('yt-content-metadata-view-model, yt-lockup-view-model')
     .forEach(metadataContainer => {
       const metadataRows = metadataContainer.querySelectorAll(
         '.yt-content-metadata-view-model-wiz__metadata-row, .yt-content-metadata-view-model__metadata-row'
@@ -172,11 +185,15 @@ function hideUnderVisuals() {
 
       if (isNaN(views) || views >= viewsHideThreshold) return;
 
+      const { pathname } = window.location;
+
       let item = viewsSpan;
       while (
         item &&
         !item.matches(
-          'ytd-compact-video-renderer, ytd-rich-item-renderer, ytd-video-renderer'
+          pathname === '/watch'
+            ? 'ytd-compact-video-renderer, ytd-rich-item-renderer, ytd-video-renderer, yt-lockup-view-model'
+            : 'ytd-compact-video-renderer, ytd-rich-item-renderer, ytd-video-renderer'
         )
       ) {
         item = item.parentElement;
@@ -184,6 +201,17 @@ function hideUnderVisuals() {
 
       if (item) item.style.display = 'none';
     });
+}
+
+function createVideoObserver() {
+  const observer = new MutationObserver(() => {
+    hideNewFormatVideos();
+  });
+
+  observer.observe(document.body, {
+    childList: true,
+    subtree: true,
+  });
 }
 
 function hideShorts() {
