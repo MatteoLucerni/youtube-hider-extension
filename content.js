@@ -1,34 +1,36 @@
 const prefs = {
-  // skip
   skipIntroDelay: 1,
   skipEnabled: true,
-  // watched
   hideThreshold: 70,
   hideHomeEnabled: true,
   hideSearchEnabled: false,
   hideSubsEnabled: true,
   hideCorrEnabled: true,
-  // views
   viewsHideThreshold: 1000,
   viewsHideHomeEnabled: true,
   viewsHideSearchEnabled: true,
   viewsHideSubsEnabled: true,
   viewsHideCorrEnabled: true,
-  //shorts
   hideShortsEnabled: true,
   hideShortsSearchEnabled: false,
 };
 
-(function initPrefs() {
-  try {
-    chrome.storage.sync.get(Object.keys(prefs), result => {
-      Object.assign(prefs, result);
-      console.log('Prefs loaded', prefs);
-    });
-  } catch (e) {
-    console.warn('Could not load prefs (context invalidated?)', e);
-  }
+function initPrefs() {
+  return new Promise(resolve => {
+    try {
+      chrome.storage.sync.get(Object.keys(prefs), result => {
+        Object.assign(prefs, result);
+        console.log('Prefs loaded', prefs);
+        resolve();
+      });
+    } catch (e) {
+      console.warn('Could not load prefs (context invalidated?)', e);
+      resolve();
+    }
+  });
+}
 
+function setupPrefsListener() {
   try {
     chrome.storage.onChanged.addListener((changes, area) => {
       if (area !== 'sync') return;
@@ -42,7 +44,7 @@ const prefs = {
   } catch (e) {
     console.warn('Could not bind onChanged (context invalidated?)', e);
   }
-})();
+}
 
 function skipIntro() {
   if (!prefs.skipEnabled) return;
@@ -65,7 +67,7 @@ function skipIntro() {
   }, prefs.skipIntroDelay * 1000);
 }
 
-function hideWatched() {
+function hideWatched(pathname) {
   const { hideThreshold } = prefs;
 
   document
@@ -81,7 +83,9 @@ function hideWatched() {
       while (
         item &&
         !item.matches(
-          'ytd-compact-video-renderer, ytd-rich-item-renderer, ytd-video-renderer, yt-lockup-view-model'
+          pathname === '/watch'
+            ? 'ytd-compact-video-renderer, ytd-rich-item-renderer, ytd-video-renderer, yt-lockup-view-model'
+            : 'ytd-compact-video-renderer, ytd-rich-item-renderer, ytd-video-renderer'
         )
       ) {
         item = item.parentElement;
@@ -95,7 +99,6 @@ function hideWatched() {
 function extractNumberAndSuffix(input) {
   const s = String(input).trim();
 
-  // matching number + optional suffix, case insensitive
   const match = s.match(/^([\d.,]+)\s*(K|Mln|M|B)?/i);
   if (!match) return { numStr: '', suffix: '' };
   return {
@@ -128,7 +131,9 @@ function parseToNumber(input) {
   return isNaN(base) ? NaN : base * multiplier;
 }
 
-function hideUnderVisuals() {
+let observerCreated = false;
+
+function hideUnderVisuals(pathname) {
   const { viewsHideThreshold } = prefs;
 
   document.querySelectorAll('#metadata-line').forEach(metaLine => {
@@ -152,11 +157,22 @@ function hideUnderVisuals() {
     if (item) item.style.display = 'none';
   });
 
+  hideNewFormatVideos(pathname);
+
+  if (!observerCreated) {
+    createVideoObserver(pathname);
+    observerCreated = true;
+  }
+}
+
+function hideNewFormatVideos(pathname) {
+  const { viewsHideThreshold } = prefs;
+
   document
-    .querySelectorAll('yt-content-metadata-view-model')
+    .querySelectorAll('yt-content-metadata-view-model, yt-lockup-view-model')
     .forEach(metadataContainer => {
       const metadataRows = metadataContainer.querySelectorAll(
-        '.yt-content-metadata-view-model-wiz__metadata-row'
+        '.yt-content-metadata-view-model-wiz__metadata-row, .yt-content-metadata-view-model__metadata-row'
       );
       if (metadataRows.length < 2) return;
 
@@ -176,13 +192,27 @@ function hideUnderVisuals() {
       while (
         item &&
         !item.matches(
-          'ytd-compact-video-renderer, ytd-rich-item-renderer, ytd-video-renderer, yt-lockup-view-model'
+          pathname === '/watch'
+            ? 'ytd-compact-video-renderer, ytd-rich-item-renderer, ytd-video-renderer, yt-lockup-view-model'
+            : 'ytd-compact-video-renderer, ytd-rich-item-renderer, ytd-video-renderer'
         )
       ) {
         item = item.parentElement;
       }
+
       if (item) item.style.display = 'none';
     });
+}
+
+function createVideoObserver(pathname) {
+  const observer = new MutationObserver(() => {
+    hideNewFormatVideos(pathname);
+  });
+
+  observer.observe(document.body, {
+    childList: true,
+    subtree: true,
+  });
 }
 
 function hideShorts() {
@@ -282,7 +312,7 @@ function startHiding() {
     (pathname === '/watch' && hideCorrEnabled) ||
     (pathname === '/feed/subscriptions' && hideSubsEnabled)
   ) {
-    hideWatched();
+    hideWatched(pathname);
   }
 
   if (
@@ -291,7 +321,8 @@ function startHiding() {
     (pathname === '/watch' && viewsHideCorrEnabled) ||
     (pathname === '/feed/subscriptions' && viewsHideSubsEnabled)
   ) {
-    hideUnderVisuals();
+    console.log(pathname === '/' && viewsHideHomeEnabled);
+    hideUnderVisuals(pathname);
   }
 
   if (
@@ -308,7 +339,14 @@ function onMutations() {
   startHiding();
 }
 
-onMutations();
+async function init() {
+  await initPrefs();
+  setupPrefsListener();
 
-const observer = new MutationObserver(onMutations);
-observer.observe(document.body, { childList: true, subtree: true });
+  onMutations();
+
+  const observer = new MutationObserver(onMutations);
+  observer.observe(document.body, { childList: true, subtree: true });
+}
+
+init();
