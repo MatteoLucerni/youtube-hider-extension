@@ -51,3 +51,7 @@
 - Fixed selectors for hiding related and home low views videos
 - Added observer for hiding related low views videos
 - Fixed selectors for hiding related and home watched videos
+
+### Version 1.5.8
+
+- Removing section divider in home and subs pages, was causing empty boxes
