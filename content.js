@@ -306,6 +306,12 @@ function startHiding() {
   } = prefs;
   const { pathname } = window.location;
 
+  if (pathname === '/' || pathname === '/feed/subscriptions') {
+    document.querySelectorAll('ytd-rich-section-renderer').forEach(renderer => {
+      renderer.style.display = 'none';
+    });
+  }
+
   if (
     (pathname === '/' && hideHomeEnabled) ||
     (pathname === '/results' && hideSearchEnabled) ||
