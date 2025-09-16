@@ -290,17 +290,17 @@ function hideShorts() {
     }
   });
 
-  document
-    .querySelectorAll('contents > ytd-rich-section-renderer')
-    .forEach(section => {
-      const allChildren = section.querySelectorAll('*');
-      for (const child of allChildren) {
-        if (getComputedStyle(child).display === 'none') {
-          section.style.display = 'none';
-          break;
-        }
+  // TO FIX
+
+  document.querySelectorAll('ytd-rich-section-renderer').forEach(section => {
+    const allChildren = section.querySelectorAll('*');
+    for (const child of allChildren) {
+      if (getComputedStyle(child).display === 'none') {
+        section.style.display = 'none';
+        break;
       }
-    });
+    }
+  });
 }
 
 function startHiding() {
