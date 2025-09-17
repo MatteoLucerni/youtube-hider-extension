@@ -295,7 +295,7 @@ function hideShorts() {
   document.querySelectorAll('ytd-rich-section-renderer').forEach(section => {
     const allChildren = section.querySelectorAll('*');
     for (const child of allChildren) {
-      if (getComputedStyle(child).display === 'none') {
+      if (child.style.display === 'none') {
         section.style.display = 'none';
         break;
       }
