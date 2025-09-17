@@ -289,6 +289,18 @@ function hideShorts() {
       node.style.display = 'none';
     }
   });
+
+  // TO FIX
+
+  document.querySelectorAll('ytd-rich-section-renderer').forEach(section => {
+    const allChildren = section.querySelectorAll('*');
+    for (const child of allChildren) {
+      if (child.style.display === 'none') {
+        section.style.display = 'none';
+        break;
+      }
+    }
+  });
 }
 
 function startHiding() {
@@ -306,11 +318,19 @@ function startHiding() {
   } = prefs;
   const { pathname } = window.location;
 
-  if (pathname === '/' || pathname === '/feed/subscriptions') {
-    document.querySelectorAll('ytd-rich-section-renderer').forEach(renderer => {
-      renderer.style.display = 'none';
-    });
-  }
+  console.log('Current path:', pathname);
+  console.log('Hiding prefs:', {
+    hideHomeEnabled,
+    hideSearchEnabled,
+    hideSubsEnabled,
+    hideCorrEnabled,
+    viewsHideHomeEnabled,
+    viewsHideSearchEnabled,
+    viewsHideSubsEnabled,
+    viewsHideCorrEnabled,
+    hideShortsEnabled,
+    hideShortsSearchEnabled,
+  });
 
   if (
     (pathname === '/' && hideHomeEnabled) ||
@@ -318,6 +338,7 @@ function startHiding() {
     (pathname === '/watch' && hideCorrEnabled) ||
     (pathname === '/feed/subscriptions' && hideSubsEnabled)
   ) {
+    console.log('Hiding watched videos on', pathname);
     hideWatched(pathname);
   }
 
@@ -327,7 +348,7 @@ function startHiding() {
     (pathname === '/watch' && viewsHideCorrEnabled) ||
     (pathname === '/feed/subscriptions' && viewsHideSubsEnabled)
   ) {
-    console.log(pathname === '/' && viewsHideHomeEnabled);
+    console.log('Hiding low view count videos on', pathname);
     hideUnderVisuals(pathname);
   }
 
@@ -336,6 +357,7 @@ function startHiding() {
     pathname !== '/feed/history' &&
     (hideShortsSearchEnabled || pathname !== '/results')
   ) {
+    console.log('Hiding shorts on', pathname);
     hideShorts();
   }
 }

@@ -55,3 +55,7 @@
 ### Version 1.5.8
 
 - Removing section divider in home and subs pages, was causing empty boxes
+
+### Version 1.5.9
+
+- Corrected hide shorts bug, was hiding also if disabled
