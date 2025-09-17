@@ -59,3 +59,7 @@
 ### Version 1.5.9
 
 - Corrected hide shorts bug, was hiding also if disabled
+
+### Version 1.6.0
+
+- Now views selector has fixed values
