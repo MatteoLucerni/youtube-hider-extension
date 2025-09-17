@@ -9,6 +9,35 @@ function isAnyTrue(flags) {
   return Object.values(flags).some(Boolean);
 }
 
+const viewsSteps = [
+  0, 100, 500, 1000, 2500, 5000, 7500, 10000, 15000, 25000, 50000, 75000,
+  100000, 150000, 250000, 500000, 1000000, 10000000,
+];
+
+function formatViews(views) {
+  if (views >= 1000000) {
+    return (views / 1000000).toFixed(views % 1000000 === 0 ? 0 : 1) + 'M';
+  } else if (views >= 1000) {
+    return (views / 1000).toFixed(views % 1000 === 0 ? 0 : 1) + 'K';
+  }
+  return views.toString();
+}
+
+function findClosestViewsIndex(value) {
+  let closestIndex = 0;
+  let minDiff = Math.abs(viewsSteps[0] - value);
+
+  for (let i = 1; i < viewsSteps.length; i++) {
+    const diff = Math.abs(viewsSteps[i] - value);
+    if (diff < minDiff) {
+      minDiff = diff;
+      closestIndex = i;
+    }
+  }
+
+  return closestIndex;
+}
+
 document.addEventListener('DOMContentLoaded', () => {
   const cfg = {
     skip: {
@@ -93,10 +122,19 @@ document.addEventListener('DOMContentLoaded', () => {
           keyName === 'delay' || keyName === 'threshold'
             ? parseInt(raw, 10)
             : raw;
-        if (
+
+        if (section.slider && keyName === 'delay') {
+          section.slider.value = val;
+          section.value.textContent = val;
+        } else if (
           section.slider &&
-          (keyName === 'delay' || keyName === 'threshold')
+          keyName === 'threshold' &&
+          sectionName === 'views'
         ) {
+          const index = findClosestViewsIndex(val);
+          section.slider.value = index;
+          section.value.textContent = formatViews(viewsSteps[index]);
+        } else if (section.slider && keyName === 'threshold') {
           section.slider.value = val;
           section.value.textContent = val;
         } else if (section.boxes) {
@@ -110,7 +148,6 @@ document.addEventListener('DOMContentLoaded', () => {
 
   function saveSettings() {
     const settings = {
-      // Skip
       ...Object.fromEntries(
         Object.entries(cfg.skip.keys).map(([k, key]) => [
           key,
@@ -119,7 +156,6 @@ document.addEventListener('DOMContentLoaded', () => {
             : cfg.skip.box.checked,
         ])
       ),
-      // Hide watched
       ...Object.fromEntries(
         Object.entries(cfg.hide.keys).map(([k, key]) => [
           key,
@@ -128,16 +164,14 @@ document.addEventListener('DOMContentLoaded', () => {
             : cfg.hide.boxes[k].checked,
         ])
       ),
-      // Hide Views
       ...Object.fromEntries(
         Object.entries(cfg.views.keys).map(([k, key]) => [
           key,
           k === 'threshold'
-            ? parseInt(cfg.views.slider.value, 10)
+            ? viewsSteps[parseInt(cfg.views.slider.value, 10)]
             : cfg.views.boxes[k].checked,
         ])
       ),
-      // Hide Shorts
       ...Object.fromEntries(
         Object.entries(cfg.shorts.keys).map(([k, key]) => [
           key,
@@ -150,21 +184,18 @@ document.addEventListener('DOMContentLoaded', () => {
       const skipOn = settings[cfg.skip.keys.enabled];
 
       const hideOn = isAnyTrue({
-        // Hide watched
         ...Object.fromEntries(
           Object.entries(cfg.hide.boxes).map(([k]) => [
             k,
             settings[cfg.hide.keys[k]],
           ])
         ),
-        // Hide Views
         ...Object.fromEntries(
           Object.entries(cfg.views.boxes).map(([k]) => [
             k,
             settings[cfg.views.keys[k]],
           ])
         ),
-        // Hide Shorts
         ...Object.fromEntries(
           Object.entries(cfg.shorts.boxes).map(([k]) => [
             k,
@@ -184,7 +215,6 @@ document.addEventListener('DOMContentLoaded', () => {
   [
     [cfg.skip.slider, cfg.skip.value],
     [cfg.hide.slider, cfg.hide.value],
-    [cfg.views.slider, cfg.views.value],
   ].forEach(([slider, display]) => {
     slider.addEventListener(
       'input',
@@ -192,6 +222,12 @@ document.addEventListener('DOMContentLoaded', () => {
     );
     slider.addEventListener('change', saveSettings);
   });
+
+  cfg.views.slider.addEventListener('input', () => {
+    const index = parseInt(cfg.views.slider.value, 10);
+    cfg.views.value.textContent = formatViews(viewsSteps[index]);
+  });
+  cfg.views.slider.addEventListener('change', saveSettings);
 
   [
     cfg.skip.box,
