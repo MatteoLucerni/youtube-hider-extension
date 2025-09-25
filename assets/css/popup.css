@@ -31,9 +31,31 @@ label {
     display: flex;
     flex-direction: column;
     align-items: center;
-    min-width: 55px;
-    padding: 5px 0 7px 0;
+    justify-content: center;
+    width: 55px;
+    height: 55px;
     margin: 2px 0;
+    cursor: pointer;
+    transition: all 0.3s ease;
+    border: 2px solid transparent !important;
+    background-color: #212529 !important;
+}
+
+.toggle-container.px-4 {
+    width: auto;
+    min-width: 80px;
+    height: 55px;
+    padding: 0 15px !important;
+}
+
+.toggle-container:hover {
+    transform: scale(1.05);
+}
+
+.toggle-container.active {
+    border: 2px solid #FF0000 !important;
+    background: linear-gradient(135deg, rgba(255, 0, 0, 0.4), rgba(255, 0, 0, 0.2)) !important;
+    box-shadow: 0 0 15px rgba(255, 0, 0, 0.5) !important;
 }
 
 input[type="range"] {
@@ -43,52 +65,7 @@ input[type="range"] {
 
 .toggle-container label {
     display: block;
-}
-
-.switch {
-    position: relative;
-    display: block;
-    width: 20px;
-    height: 12px;
-    margin-top: 2px;
-}
-
-.switch input {
-    opacity: 0;
-    width: 0;
-    height: 0;
-}
-
-.slider {
-    position: absolute;
-    cursor: pointer;
-    top: 0;
-    left: 0;
-    right: 0;
-    bottom: 0;
-    background-color: #888;
-    transition: background-color .2s;
-    border-radius: 20px;
-}
-
-.slider:before {
-    position: absolute;
-    content: "";
-    height: 8px;
-    width: 8px;
-    left: 2px;
-    bottom: 2px;
-    background-color: white;
-    transition: transform .2s;
-    border-radius: 50%;
-}
-
-.switch input:checked+.slider {
-    background-color: #FF0000;
-}
-
-.switch input:checked+.slider:before {
-    transform: translateX(8px);
+    pointer-events: none;
 }
 
 .divider {

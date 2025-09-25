@@ -43,7 +43,7 @@ document.addEventListener('DOMContentLoaded', () => {
     skip: {
       slider: document.getElementById('delay'),
       value: document.getElementById('delay-value'),
-      box: document.getElementById('skip-enabled'),
+      box: document.querySelector('[data-key="skip-enabled"]'),
       keys: { delay: 'skipIntroDelay', enabled: 'skipEnabled' },
       defaults: { delay: 1, enabled: true },
     },
@@ -51,10 +51,10 @@ document.addEventListener('DOMContentLoaded', () => {
       slider: document.getElementById('perc-hide'),
       value: document.getElementById('perc-hide-value'),
       boxes: {
-        home: document.getElementById('hide-home-enabled'),
-        search: document.getElementById('hide-search-enabled'),
-        subs: document.getElementById('hide-subs-enabled'),
-        corr: document.getElementById('hide-corr-enabled'),
+        home: document.querySelector('[data-key="hide-home-enabled"]'),
+        search: document.querySelector('[data-key="hide-search-enabled"]'),
+        subs: document.querySelector('[data-key="hide-subs-enabled"]'),
+        corr: document.querySelector('[data-key="hide-corr-enabled"]'),
       },
       keys: {
         threshold: 'hideThreshold',
@@ -73,8 +73,10 @@ document.addEventListener('DOMContentLoaded', () => {
     },
     shorts: {
       boxes: {
-        enabled: document.getElementById('hide-shorts-enabled'),
-        search: document.getElementById('hide-shorts-search-enabled'),
+        enabled: document.querySelector('[data-key="hide-shorts-enabled"]'),
+        search: document.querySelector(
+          '[data-key="hide-shorts-search-enabled"]'
+        ),
       },
       keys: { enabled: 'hideShortsEnabled', search: 'hideShortsSearchEnabled' },
       defaults: { enabled: true, search: false },
@@ -83,10 +85,12 @@ document.addEventListener('DOMContentLoaded', () => {
       slider: document.getElementById('views-hide'),
       value: document.getElementById('views-hide-value'),
       boxes: {
-        home: document.getElementById('views-hide-home-enabled'),
-        search: document.getElementById('views-hide-search-enabled'),
-        subs: document.getElementById('views-hide-subs-enabled'),
-        corr: document.getElementById('views-hide-corr-enabled'),
+        home: document.querySelector('[data-key="views-hide-home-enabled"]'),
+        search: document.querySelector(
+          '[data-key="views-hide-search-enabled"]'
+        ),
+        subs: document.querySelector('[data-key="views-hide-subs-enabled"]'),
+        corr: document.querySelector('[data-key="views-hide-corr-enabled"]'),
       },
       keys: {
         threshold: 'viewsHideThreshold',
@@ -137,10 +141,18 @@ document.addEventListener('DOMContentLoaded', () => {
         } else if (section.slider && keyName === 'threshold') {
           section.slider.value = val;
           section.value.textContent = val;
-        } else if (section.boxes) {
-          section.boxes[keyName].checked = val;
+        } else if (section.boxes && section.boxes[keyName]) {
+          if (val) {
+            section.boxes[keyName].classList.add('active');
+          } else {
+            section.boxes[keyName].classList.remove('active');
+          }
         } else if (section.box) {
-          section.box.checked = val;
+          if (val) {
+            section.box.classList.add('active');
+          } else {
+            section.box.classList.remove('active');
+          }
         }
       });
     });
@@ -153,7 +165,7 @@ document.addEventListener('DOMContentLoaded', () => {
           key,
           k === 'delay'
             ? parseInt(cfg.skip.slider.value, 10)
-            : cfg.skip.box.checked,
+            : cfg.skip.box.classList.contains('active'),
         ])
       ),
       ...Object.fromEntries(
@@ -161,7 +173,7 @@ document.addEventListener('DOMContentLoaded', () => {
           key,
           k === 'threshold'
             ? parseInt(cfg.hide.slider.value, 10)
-            : cfg.hide.boxes[k].checked,
+            : cfg.hide.boxes[k].classList.contains('active'),
         ])
       ),
       ...Object.fromEntries(
@@ -169,13 +181,13 @@ document.addEventListener('DOMContentLoaded', () => {
           key,
           k === 'threshold'
             ? viewsSteps[parseInt(cfg.views.slider.value, 10)]
-            : cfg.views.boxes[k].checked,
+            : cfg.views.boxes[k].classList.contains('active'),
         ])
       ),
       ...Object.fromEntries(
         Object.entries(cfg.shorts.keys).map(([k, key]) => [
           key,
-          cfg.shorts.boxes[k].checked,
+          cfg.shorts.boxes[k].classList.contains('active'),
         ])
       ),
     };
@@ -229,10 +241,19 @@ document.addEventListener('DOMContentLoaded', () => {
   });
   cfg.views.slider.addEventListener('change', saveSettings);
 
-  [
+  const allToggleContainers = [
     cfg.skip.box,
     ...Object.values(cfg.hide.boxes),
     ...Object.values(cfg.views.boxes),
     ...Object.values(cfg.shorts.boxes),
-  ].forEach(box => box.addEventListener('change', saveSettings));
+  ];
+
+  allToggleContainers.forEach(container => {
+    if (container) {
+      container.addEventListener('click', () => {
+        container.classList.toggle('active');
+        saveSettings();
+      });
+    }
+  });
 });
