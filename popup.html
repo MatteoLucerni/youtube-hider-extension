@@ -29,8 +29,10 @@
                             <label class="slider-text-label mb-2" for="perc-hide">Watch percentage</label>
                             <div class="slider-container">
                                 <input type="range" id="perc-hide" min="0" max="100" step="5" value="70">
-                                <span class="slider-value" id="perc-hide-value">70</span><span
-                                    class="slider-symbol">%</span>
+                                <div class="slider-value-container">
+                                    <span class="slider-value" id="perc-hide-value">70</span><span
+                                        class="slider-symbol">%</span>
+                                </div>
                             </div>
                         </div>
                     </div>
@@ -76,9 +78,9 @@
                     <div class="d-flex">
                         <div class="text-center bg-dark rounded p-3 me-2">
                             <label class="slider-text-label mb-2" for="views-hide">Minimum views</label>
-                            <div class="d-flex flex-column align-items-center">
+                            <div class="slider-container">
                                 <input type="range" id="views-hide" min="0" max="17" step="1" value="3">
-                                <div>
+                                <div class="slider-value-container">
                                     <span class="slider-value" id="views-hide-value">1000</span>
                                 </div>
                             </div>
@@ -118,7 +120,10 @@
                             <label class="slider-text-label mb-2" for="delay">Delay (seconds):</label>
                             <div class="slider-container">
                                 <input type="range" id="delay" min="0" max="5" step="1" value="1">
-                                <span class="slider-value" id="delay-value">1</span><span class="slider-symbol">s</span>
+                                <div class="slider-value-container">
+                                    <span class="slider-value" id="delay-value">1</span><span
+                                        class="slider-symbol">s</span>
+                                </div>
                             </div>
                         </div>
                     </div>

@@ -116,47 +116,51 @@ document.addEventListener('DOMContentLoaded', () => {
     ...Object.values(cfg.shorts.keys),
   ];
 
-  chrome.storage.sync.get(storageKeys, prefs => {
-    ['skip', 'hide', 'views', 'shorts'].forEach(sectionName => {
-      const section = cfg[sectionName];
-      Object.entries(section.keys).forEach(([keyName, storageKey]) => {
-        const def = section.defaults[keyName];
-        const raw = prefs[storageKey] ?? def;
-        const val =
-          keyName === 'delay' || keyName === 'threshold'
-            ? parseInt(raw, 10)
-            : raw;
+  if (typeof chrome !== 'undefined' && chrome.storage && chrome.storage.sync) {
+    chrome.storage.sync.get(storageKeys, prefs => {
+      ['skip', 'hide', 'views', 'shorts'].forEach(sectionName => {
+        const section = cfg[sectionName];
+        Object.entries(section.keys).forEach(([keyName, storageKey]) => {
+          const def = section.defaults[keyName];
+          const raw = prefs[storageKey] ?? def;
+          const val =
+            keyName === 'delay' || keyName === 'threshold'
+              ? parseInt(raw, 10)
+              : raw;
 
-        if (section.slider && keyName === 'delay') {
-          section.slider.value = val;
-          section.value.textContent = val;
-        } else if (
-          section.slider &&
-          keyName === 'threshold' &&
-          sectionName === 'views'
-        ) {
-          const index = findClosestViewsIndex(val);
-          section.slider.value = index;
-          section.value.textContent = formatViews(viewsSteps[index]);
-        } else if (section.slider && keyName === 'threshold') {
-          section.slider.value = val;
-          section.value.textContent = val;
-        } else if (section.boxes && section.boxes[keyName]) {
-          if (val) {
-            section.boxes[keyName].classList.add('active');
-          } else {
-            section.boxes[keyName].classList.remove('active');
+          if (section.slider && keyName === 'delay') {
+            section.slider.value = val;
+            section.value.textContent = val;
+          } else if (
+            section.slider &&
+            keyName === 'threshold' &&
+            sectionName === 'views'
+          ) {
+            const index = findClosestViewsIndex(val);
+            section.slider.value = index;
+            section.value.textContent = formatViews(viewsSteps[index]);
+          } else if (section.slider && keyName === 'threshold') {
+            section.slider.value = val;
+            section.value.textContent = val;
+          } else if (section.boxes && section.boxes[keyName]) {
+            if (val) {
+              section.boxes[keyName].classList.add('active');
+            } else {
+              section.boxes[keyName].classList.remove('active');
+            }
+          } else if (section.box) {
+            if (val) {
+              section.box.classList.add('active');
+            } else {
+              section.box.classList.remove('active');
+            }
           }
-        } else if (section.box) {
-          if (val) {
-            section.box.classList.add('active');
-          } else {
-            section.box.classList.remove('active');
-          }
-        }
+        });
       });
     });
-  });
+  } else {
+    console.warn('Chrome extension API not available');
+  }
 
   function saveSettings() {
     const settings = {
@@ -192,36 +196,46 @@ document.addEventListener('DOMContentLoaded', () => {
       ),
     };
 
-    chrome.storage.sync.set(settings, () => {
-      const skipOn = settings[cfg.skip.keys.enabled];
+    if (
+      typeof chrome !== 'undefined' &&
+      chrome.storage &&
+      chrome.storage.sync
+    ) {
+      chrome.storage.sync.set(settings, () => {
+        const skipOn = settings[cfg.skip.keys.enabled];
 
-      const hideOn = isAnyTrue({
-        ...Object.fromEntries(
-          Object.entries(cfg.hide.boxes).map(([k]) => [
-            k,
-            settings[cfg.hide.keys[k]],
-          ])
-        ),
-        ...Object.fromEntries(
-          Object.entries(cfg.views.boxes).map(([k]) => [
-            k,
-            settings[cfg.views.keys[k]],
-          ])
-        ),
-        ...Object.fromEntries(
-          Object.entries(cfg.shorts.boxes).map(([k]) => [
-            k,
-            settings[cfg.shorts.keys[k]],
-          ])
-        ),
-      });
+        const hideOn = isAnyTrue({
+          ...Object.fromEntries(
+            Object.entries(cfg.hide.boxes).map(([k]) => [
+              k,
+              settings[cfg.hide.keys[k]],
+            ])
+          ),
+          ...Object.fromEntries(
+            Object.entries(cfg.views.boxes).map(([k]) => [
+              k,
+              settings[cfg.views.keys[k]],
+            ])
+          ),
+          ...Object.fromEntries(
+            Object.entries(cfg.shorts.boxes).map(([k]) => [
+              k,
+              settings[cfg.shorts.keys[k]],
+            ])
+          ),
+        });
 
-      const text = getBadgeText(skipOn, hideOn);
-      chrome.action.setBadgeText({ text });
-      chrome.action.setBadgeBackgroundColor({
-        color: skipOn || hideOn ? '#008000' : '#808080',
+        const text = getBadgeText(skipOn, hideOn);
+        if (chrome.action && chrome.action.setBadgeText) {
+          chrome.action.setBadgeText({ text });
+          chrome.action.setBadgeBackgroundColor({
+            color: skipOn || hideOn ? '#008000' : '#808080',
+          });
+        }
       });
-    });
+    } else {
+      console.warn('Chrome extension API not available - settings not saved');
+    }
   }
 
   [
