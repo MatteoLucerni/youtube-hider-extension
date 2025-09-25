@@ -201,6 +201,9 @@ header {
     background-color: #2a2a2a !important;
     border: 1px solid #444;
     transition: all 0.2s ease;
+    min-width: 140px;
+    width: 140px;
+    box-sizing: border-box;
 }
 
 .slider-text-label {
