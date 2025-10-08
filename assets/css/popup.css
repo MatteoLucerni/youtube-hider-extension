@@ -3,9 +3,9 @@
     --bg-secondary: #222222;
     --bg-tertiary: #2a2a2a;
     --bg-quaternary: #313131;
-    --text-primary: #d0d0d0;
-    --text-secondary: #9a9a9a;
-    --text-tertiary: #707070;
+    --text-primary: #ebebeb;
+    --text-secondary: #b8b8b8;
+    --text-tertiary: #888888;
     --border-color: #3a3a3a;
     --accent-red: #FF0000;
     --accent-green: #10b981;
@@ -51,7 +51,7 @@ header {
     font-weight: 700;
     letter-spacing: -0.5px;
     margin: 0;
-    color: #e8e8e8;
+    color: #f5f5f5;
 }
 
 .header-subtitle {
@@ -77,11 +77,12 @@ header {
 }
 
 .section-title {
-    font-size: 16px;
+    font-size: 17px;
     font-weight: 700;
-    margin: 0 0 var(--spacing-xs) 0;
+    margin: 0 0 var(--spacing-sm) 0;
     color: var(--text-primary);
-    letter-spacing: -0.2px;
+    letter-spacing: -0.3px;
+    text-transform: none;
 }
 
 .section-description {
@@ -104,7 +105,7 @@ header {
 }
 
 .card-title {
-    font-size: 12.5px;
+    font-size: 12px;
     font-weight: 600;
     margin: 0 0 var(--spacing-xs) 0;
     color: var(--text-primary);
@@ -139,7 +140,7 @@ header {
     font-size: 10px;
     font-weight: 600;
     color: var(--text-secondary);
-    margin-bottom: var(--spacing-sm);
+    margin-bottom: var(--spacing-lg);
     text-transform: uppercase;
     letter-spacing: 0.5px;
     text-align: center;
