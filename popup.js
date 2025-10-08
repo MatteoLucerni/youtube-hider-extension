@@ -26,7 +26,6 @@ function formatViews(views) {
 function findClosestViewsIndex(value) {
   let closestIndex = 0;
   let minDiff = Math.abs(viewsSteps[0] - value);
-
   for (let i = 1; i < viewsSteps.length; i++) {
     const diff = Math.abs(viewsSteps[i] - value);
     if (diff < minDiff) {
@@ -34,7 +33,6 @@ function findClosestViewsIndex(value) {
       closestIndex = i;
     }
   }
-
   return closestIndex;
 }
 
@@ -122,7 +120,6 @@ document.addEventListener('DOMContentLoaded', () => {
           keyName === 'delay' || keyName === 'threshold'
             ? parseInt(raw, 10)
             : raw;
-
         if (section.slider && keyName === 'delay') {
           section.slider.value = val;
           section.value.textContent = val;
@@ -182,7 +179,6 @@ document.addEventListener('DOMContentLoaded', () => {
 
     chrome.storage.sync.set(settings, () => {
       const skipOn = settings[cfg.skip.keys.enabled];
-
       const hideOn = isAnyTrue({
         ...Object.fromEntries(
           Object.entries(cfg.hide.boxes).map(([k]) => [
@@ -203,7 +199,6 @@ document.addEventListener('DOMContentLoaded', () => {
           ])
         ),
       });
-
       const text = getBadgeText(skipOn, hideOn);
       chrome.action.setBadgeText({ text });
       chrome.action.setBadgeBackgroundColor({
