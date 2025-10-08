@@ -3,21 +3,21 @@
     --bg-secondary: #252525;
     --bg-tertiary: #2d2d2d;
     --text-primary: #ffffff;
-    --text-secondary: #a0a0a0;
-    --text-tertiary: #707070;
+    --text-secondary: #b8b8b8;
+    --text-tertiary: #888888;
     --border-color: #3a3a3a;
     --accent-red: #FF0000;
-    --accent-green: #10b981;
+    --accent-active: #e8e8e8;
     --toggle-inactive: #4a4a4a;
     --spacing-xs: 4px;
     --spacing-sm: 8px;
-    --spacing-md: 12px;
-    --spacing-lg: 16px;
-    --spacing-xl: 20px;
-    --spacing-2xl: 24px;
+    --spacing-md: 10px;
+    --spacing-lg: 12px;
+    --spacing-xl: 16px;
+    --spacing-2xl: 20px;
     --radius-sm: 6px;
     --radius-md: 8px;
-    --radius-lg: 12px;
+    --radius-lg: 10px;
 }
 
 * {
@@ -32,7 +32,7 @@ body {
     font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, sans-serif;
     font-size: 14px;
     line-height: 1.5;
-    width: 420px;
+    width: 400px;
     min-height: 400px;
 }
 
@@ -42,10 +42,11 @@ header {
     position: sticky;
     top: 0;
     z-index: 100;
+    padding: var(--spacing-lg) var(--spacing-xl);
 }
 
 .header-title {
-    font-size: 24px;
+    font-size: 22px;
     font-weight: 700;
     letter-spacing: -0.5px;
     margin: 0;
@@ -62,19 +63,19 @@ header {
 }
 
 .content-wrapper {
-    padding-top: var(--spacing-lg);
+    padding-top: var(--spacing-md);
 }
 
 .setting-section {
-    margin-bottom: var(--spacing-2xl);
+    margin-bottom: var(--spacing-xl);
 }
 
 .section-header {
-    margin-bottom: var(--spacing-lg);
+    margin-bottom: var(--spacing-md);
 }
 
 .section-title {
-    font-size: 16px;
+    font-size: 15px;
     font-weight: 600;
     margin: 0 0 var(--spacing-xs) 0;
     color: var(--text-primary);
@@ -91,7 +92,7 @@ header {
     border: 1px solid var(--border-color);
     border-radius: var(--radius-lg);
     padding: var(--spacing-lg);
-    margin-bottom: var(--spacing-md);
+    margin-bottom: var(--spacing-lg);
 }
 
 .setting-card:last-child {
@@ -99,21 +100,21 @@ header {
 }
 
 .card-title {
-    font-size: 14px;
+    font-size: 13px;
     font-weight: 600;
     margin: 0 0 var(--spacing-xs) 0;
     color: var(--text-primary);
 }
 
 .card-description {
-    font-size: 11px;
-    color: var(--text-tertiary);
-    margin: 0 0 var(--spacing-lg) 0;
+    font-size: 12px;
+    color: var(--text-secondary);
+    margin: 0 0 var(--spacing-md) 0;
 }
 
 .setting-group {
     display: flex;
-    gap: var(--spacing-lg);
+    gap: var(--spacing-md);
     align-items: flex-start;
 }
 
@@ -121,13 +122,13 @@ header {
     background-color: var(--bg-tertiary);
     border-radius: var(--radius-md);
     padding: var(--spacing-md);
-    min-width: 160px;
+    min-width: 140px;
 }
 
 .control-label {
     display: block;
     font-size: 11px;
-    font-weight: 500;
+    font-weight: 600;
     color: var(--text-secondary);
     margin-bottom: var(--spacing-sm);
     text-transform: uppercase;
@@ -188,7 +189,7 @@ header {
 }
 
 .slider-value {
-    font-size: 20px;
+    font-size: 18px;
     font-weight: 600;
     color: var(--text-primary);
     min-width: 50px;
@@ -196,7 +197,7 @@ header {
 }
 
 .slider-unit {
-    font-size: 14px;
+    font-size: 13px;
     color: var(--text-secondary);
 }
 
@@ -231,11 +232,11 @@ header {
     cursor: pointer;
     user-select: none;
     height: 100%;
-    min-height: 68px;
+    min-height: 58px;
 }
 
 .toggle-text {
-    font-size: 12px;
+    font-size: 13px;
     font-weight: 500;
     color: var(--text-primary);
     text-align: center;
@@ -244,8 +245,8 @@ header {
 .toggle-switch {
     position: relative;
     display: inline-block;
-    width: 44px;
-    height: 24px;
+    width: 36px;
+    height: 20px;
 }
 
 .toggle-switch input {
@@ -264,14 +265,14 @@ header {
     bottom: 0;
     background-color: var(--toggle-inactive);
     transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
-    border-radius: 24px;
+    border-radius: 20px;
 }
 
 .toggle-slider:before {
     position: absolute;
     content: "";
-    height: 18px;
-    width: 18px;
+    height: 14px;
+    width: 14px;
     left: 3px;
     bottom: 3px;
     background-color: var(--text-primary);
@@ -280,29 +281,30 @@ header {
 }
 
 .toggle-switch input:checked+.toggle-slider {
-    background-color: var(--accent-green);
+    background-color: var(--accent-active);
 }
 
 .toggle-switch input:checked+.toggle-slider:before {
-    transform: translateX(20px);
+    transform: translateX(16px);
+    background-color: var(--bg-primary);
 }
 
 .toggle-switch input:focus+.toggle-slider {
-    box-shadow: 0 0 0 2px var(--bg-primary), 0 0 0 4px var(--accent-green);
+    box-shadow: 0 0 0 2px var(--bg-primary), 0 0 0 4px var(--accent-active);
 }
 
 .footer-logo {
     display: flex;
     justify-content: center;
     align-items: center;
-    padding: var(--spacing-2xl) 0;
-    margin-top: var(--spacing-xl);
+    padding: var(--spacing-xl) 0;
+    margin-top: var(--spacing-lg);
 }
 
 .logo-image {
-    width: 100px;
+    width: 80px;
     height: auto;
-    opacity: 0.6;
+    opacity: 1;
     transition: opacity 0.2s ease;
 }
 
