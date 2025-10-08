@@ -9,6 +9,14 @@ function isAnyTrue(flags) {
   return Object.values(flags).some(Boolean);
 }
 
+function updateSliderBackground(slider) {
+  const min = slider.min || 0;
+  const max = slider.max || 100;
+  const value = slider.value;
+  const percentage = ((value - min) / (max - min)) * 100;
+  slider.style.background = `linear-gradient(to right, #ebebeb ${percentage}%, #4a4a4a ${percentage}%)`;
+}
+
 const viewsSteps = [
   0, 100, 500, 1000, 2500, 5000, 7500, 10000, 15000, 25000, 50000, 75000,
   100000, 150000, 250000, 500000, 1000000, 10000000,
@@ -123,6 +131,7 @@ document.addEventListener('DOMContentLoaded', () => {
         if (section.slider && keyName === 'delay') {
           section.slider.value = val;
           section.value.textContent = val;
+          updateSliderBackground(section.slider);
         } else if (
           section.slider &&
           keyName === 'threshold' &&
@@ -131,9 +140,11 @@ document.addEventListener('DOMContentLoaded', () => {
           const index = findClosestViewsIndex(val);
           section.slider.value = index;
           section.value.textContent = formatViews(viewsSteps[index]);
+          updateSliderBackground(section.slider);
         } else if (section.slider && keyName === 'threshold') {
           section.slider.value = val;
           section.value.textContent = val;
+          updateSliderBackground(section.slider);
         } else if (section.boxes) {
           section.boxes[keyName].checked = val;
         } else if (section.box) {
@@ -211,16 +222,17 @@ document.addEventListener('DOMContentLoaded', () => {
     [cfg.skip.slider, cfg.skip.value],
     [cfg.hide.slider, cfg.hide.value],
   ].forEach(([slider, display]) => {
-    slider.addEventListener(
-      'input',
-      () => (display.textContent = slider.value)
-    );
+    slider.addEventListener('input', () => {
+      display.textContent = slider.value;
+      updateSliderBackground(slider);
+    });
     slider.addEventListener('change', saveSettings);
   });
 
   cfg.views.slider.addEventListener('input', () => {
     const index = parseInt(cfg.views.slider.value, 10);
     cfg.views.value.textContent = formatViews(viewsSteps[index]);
+    updateSliderBackground(cfg.views.slider);
   });
   cfg.views.slider.addEventListener('change', saveSettings);
 
