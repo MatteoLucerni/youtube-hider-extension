@@ -201,6 +201,10 @@ header {
     gap: 3px;
 }
 
+.slider-display-with-unit {
+    padding-left: 14px;
+}
+
 .slider-value {
     font-size: 16px;
     font-weight: 600;
