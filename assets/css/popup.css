@@ -105,14 +105,14 @@ header {
 }
 
 .card-title {
-    font-size: 12px;
+    font-size: 13px;
     font-weight: 600;
     margin: 0 0 var(--spacing-xs) 0;
     color: var(--text-primary);
 }
 
 .card-description {
-    font-size: 11.5px;
+    font-size: 12px;
     color: var(--text-secondary);
     margin: 0 0 var(--spacing-lg) 0;
     line-height: 1.4;
@@ -137,7 +137,7 @@ header {
 
 .control-label {
     display: block;
-    font-size: 10px;
+    font-size: 10.5px;
     font-weight: 600;
     color: var(--text-secondary);
     margin-bottom: var(--spacing-lg);
@@ -151,6 +151,7 @@ header {
     flex-direction: column;
     gap: var(--spacing-sm);
     width: 100%;
+    align-items: center;
 }
 
 .slider {
@@ -197,15 +198,14 @@ header {
     display: flex;
     align-items: baseline;
     justify-content: center;
-    gap: 2px;
+    gap: 3px;
 }
 
 .slider-value {
     font-size: 16px;
     font-weight: 600;
     color: var(--text-primary);
-    text-align: right;
-    min-width: 40px;
+    text-align: center;
 }
 
 .slider-unit {
