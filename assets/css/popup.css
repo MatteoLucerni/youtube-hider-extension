@@ -9,7 +9,7 @@
     --border-color: #3a3a3a;
     --accent-red: #FF0000;
     --accent-green: #10b981;
-    --toggle-inactive: #4a4a4a;
+    --toggle-inactive: #575656;
     --spacing-xs: 4px;
     --spacing-sm: 6px;
     --spacing-md: 8px;
@@ -39,7 +39,6 @@ body {
 
 header {
     background-color: var(--bg-primary);
-    border-bottom: 1px solid var(--border-color);
     position: sticky;
     top: 0;
     z-index: 100;
@@ -47,7 +46,7 @@ header {
 }
 
 .header-title {
-    font-size: 20px;
+    font-size: 25px;
     font-weight: 700;
     letter-spacing: -0.5px;
     margin: 0;
@@ -66,6 +65,7 @@ header {
 
 .content-wrapper {
     padding: var(--spacing-2xl) var(--spacing-xl);
+    padding-top: 5px;
 }
 
 .setting-section {
@@ -269,7 +269,6 @@ header {
 
 .toggle-text {
     font-size: 12.5px;
-    font-weight: 500;
     color: var(--text-primary);
     text-align: center;
     line-height: 1.3;
