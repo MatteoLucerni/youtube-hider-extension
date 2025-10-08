@@ -235,7 +235,7 @@ header {
 }
 
 .toggle-item {
-    background-color: var(--bg-quaternary);
+    background-color: var(--bg-tertiary);
     border-radius: var(--radius-md);
     overflow: hidden;
     display: flex;
