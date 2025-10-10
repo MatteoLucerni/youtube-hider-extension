@@ -328,6 +328,8 @@ function startHiding() {
     viewsHideCorrEnabled,
     hideShortsEnabled,
     hideShortsSearchEnabled,
+    viewsHideThreshold: prefs.viewsHideThreshold,
+    hideThreshold: prefs.hideThreshold,
   });
 
   if (
