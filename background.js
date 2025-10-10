@@ -1,3 +1,20 @@
+const DEV_MODE = false;
+
+const logger = {
+  log: (...args) => {
+    if (DEV_MODE) logger.log(...args);
+  },
+  warn: (...args) => {
+    if (DEV_MODE) console.warn(...args);
+  },
+  error: (...args) => {
+    if (DEV_MODE) console.error(...args);
+  },
+  info: (...args) => {
+    if (DEV_MODE) console.info(...args);
+  },
+};
+
 const flagKeys = [
   'skipEnabled',
   'hideHomeEnabled',
@@ -16,7 +33,7 @@ const defaultSettings = {
   easyModeEnabled: true,
   skipIntroDelay: 1,
   skipEnabled: true,
-  hideThreshold: 30,
+  hideThreshold: 70,
   hideHomeEnabled: true,
   hideSearchEnabled: true,
   hideSubsEnabled: true,
@@ -33,7 +50,7 @@ const defaultSettings = {
 function initializeSettings() {
   chrome.storage.sync.get(null, items => {
     if (chrome.runtime.lastError) {
-      console.log('Storage error:', chrome.runtime.lastError.message);
+      logger.log('Storage error:', chrome.runtime.lastError.message);
       return;
     }
 
@@ -42,12 +59,12 @@ function initializeSettings() {
     if (isFirstInstall) {
       chrome.storage.sync.set(defaultSettings, () => {
         if (chrome.runtime.lastError) {
-          console.log(
+          logger.log(
             'Error setting defaults:',
             chrome.runtime.lastError.message
           );
         } else {
-          console.log('Default settings initialized');
+          logger.log('Default settings initialized');
           updateBadge(defaultSettings);
         }
       });
@@ -61,7 +78,7 @@ function refreshBadge() {
   const defaults = Object.fromEntries(flagKeys.map(key => [key, true]));
   chrome.storage.sync.get(defaults, prefs => {
     if (chrome.runtime.lastError) {
-      console.log('Storage error:', chrome.runtime.lastError.message);
+      logger.log('Storage error:', chrome.runtime.lastError.message);
       return;
     }
     if (prefs) {
@@ -90,13 +107,13 @@ function updateBadge(flags = {}) {
 
   chrome.action.setBadgeText({ text }, () => {
     if (chrome.runtime.lastError) {
-      console.log('Badge text error:', chrome.runtime.lastError.message);
+      logger.log('Badge text error:', chrome.runtime.lastError.message);
     }
   });
 
   chrome.action.setBadgeBackgroundColor({ color }, () => {
     if (chrome.runtime.lastError) {
-      console.log('Badge color error:', chrome.runtime.lastError.message);
+      logger.log('Badge color error:', chrome.runtime.lastError.message);
     }
   });
 }

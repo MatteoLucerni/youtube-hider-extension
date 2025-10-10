@@ -1,7 +1,7 @@
 const prefs = {
   skipIntroDelay: 1,
   skipEnabled: true,
-  hideThreshold: 30,
+  hideThreshold: 70,
   hideHomeEnabled: true,
   hideSearchEnabled: true,
   hideSubsEnabled: true,
@@ -20,11 +20,11 @@ function initPrefs() {
     try {
       chrome.storage.sync.get(Object.keys(prefs), result => {
         Object.assign(prefs, result);
-        console.log('Prefs loaded', prefs);
+        logger.log('Prefs loaded', prefs);
         resolve();
       });
     } catch (e) {
-      console.warn('Could not load prefs (context invalidated?)', e);
+      logger.warn('Could not load prefs (context invalidated?)', e);
       resolve();
     }
   });
@@ -37,12 +37,12 @@ function setupPrefsListener() {
       for (let key in changes) {
         if (prefs.hasOwnProperty(key)) {
           prefs[key] = changes[key].newValue;
-          console.log(`Pref ${key} changed to`, changes[key].newValue);
+          logger.log(`Pref ${key} changed to`, changes[key].newValue);
         }
       }
     });
   } catch (e) {
-    console.warn('Could not bind onChanged (context invalidated?)', e);
+    logger.warn('Could not bind onChanged (context invalidated?)', e);
   }
 }
 
@@ -63,7 +63,7 @@ function skipIntro() {
 
   setTimeout(() => {
     btn.click();
-    console.log('Skipped intro/recap');
+    logger.log('Skipped intro/recap');
   }, prefs.skipIntroDelay * 1000);
 }
 
@@ -316,8 +316,8 @@ function startHiding() {
   } = prefs;
   const { pathname } = window.location;
 
-  console.log('Current path:', pathname);
-  console.log('Hiding prefs:', {
+  logger.log('Current path:', pathname);
+  logger.log('Hiding prefs:', {
     hideHomeEnabled,
     hideSearchEnabled,
     hideSubsEnabled,
@@ -336,7 +336,7 @@ function startHiding() {
     (pathname === '/watch' && hideCorrEnabled) ||
     (pathname === '/feed/subscriptions' && hideSubsEnabled)
   ) {
-    console.log('Hiding watched videos on', pathname);
+    logger.log('Hiding watched videos on', pathname);
     hideWatched(pathname);
   }
 
@@ -346,7 +346,7 @@ function startHiding() {
     (pathname === '/watch' && viewsHideCorrEnabled) ||
     (pathname === '/feed/subscriptions' && viewsHideSubsEnabled)
   ) {
-    console.log('Hiding low view count videos on', pathname);
+    logger.log('Hiding low view count videos on', pathname);
     hideUnderVisuals(pathname);
   }
 
@@ -355,7 +355,7 @@ function startHiding() {
     pathname !== '/feed/history' &&
     (hideShortsSearchEnabled || pathname !== '/results')
   ) {
-    console.log('Hiding shorts on', pathname);
+    logger.log('Hiding shorts on', pathname);
     hideShorts();
   }
 }

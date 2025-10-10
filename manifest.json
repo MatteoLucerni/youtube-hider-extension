@@ -27,6 +27,8 @@
                 "https://www.youtube.com/*"
             ],
             "js": [
+                "env.js",
+                "utils.js",
                 "content.js"
             ],
             "run_at": "document_idle"
