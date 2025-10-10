@@ -45,8 +45,14 @@ header {
     padding: var(--spacing-2xl) var(--spacing-xl);
 }
 
+hr {
+    border: none;
+    border-top: 1px solid var(--border-color);
+    opacity: 1;
+}
+
 .header-title {
-    font-size: 25px;
+    font-size: 20px;
     font-weight: 700;
     letter-spacing: -0.5px;
     margin: 0;
@@ -65,7 +71,6 @@ header {
 
 .content-wrapper {
     padding: var(--spacing-2xl) var(--spacing-xl);
-    padding-top: 5px;
 }
 
 .setting-section {
@@ -80,6 +85,7 @@ header {
     font-size: 17px;
     font-weight: 700;
     margin: 0;
+    padding-left: var(--spacing-lg);
     color: var(--text-primary);
     letter-spacing: -0.3px;
     text-transform: none;
@@ -269,6 +275,7 @@ header {
 
 .toggle-text {
     font-size: 12.5px;
+    font-weight: 500;
     color: var(--text-primary);
     text-align: center;
     line-height: 1.3;
