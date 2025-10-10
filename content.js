@@ -1,3 +1,6 @@
+import { loadEnvironment, devLog } from './utils.js';
+loadEnvironment();
+
 const prefs = {
   skipIntroDelay: 1,
   skipEnabled: true,
@@ -20,7 +23,7 @@ function initPrefs() {
     try {
       chrome.storage.sync.get(Object.keys(prefs), result => {
         Object.assign(prefs, result);
-        console.log('Prefs loaded', prefs);
+        devLog('Prefs loaded', prefs);
         resolve();
       });
     } catch (e) {
@@ -37,7 +40,7 @@ function setupPrefsListener() {
       for (let key in changes) {
         if (prefs.hasOwnProperty(key)) {
           prefs[key] = changes[key].newValue;
-          console.log(`Pref ${key} changed to`, changes[key].newValue);
+          devLog(`Pref ${key} changed to`, changes[key].newValue);
         }
       }
     });
@@ -63,7 +66,7 @@ function skipIntro() {
 
   setTimeout(() => {
     btn.click();
-    console.log('Skipped intro/recap');
+    devLog('Skipped intro/recap');
   }, prefs.skipIntroDelay * 1000);
 }
 
@@ -316,8 +319,8 @@ function startHiding() {
   } = prefs;
   const { pathname } = window.location;
 
-  console.log('Current path:', pathname);
-  console.log('Hiding prefs:', {
+  devLog('Current path:', pathname);
+  devLog('Hiding prefs:', {
     hideHomeEnabled,
     hideSearchEnabled,
     hideSubsEnabled,
@@ -338,7 +341,7 @@ function startHiding() {
     (pathname === '/watch' && hideCorrEnabled) ||
     (pathname === '/feed/subscriptions' && hideSubsEnabled)
   ) {
-    console.log('Hiding watched videos on', pathname);
+    devLog('Hiding watched videos on', pathname);
     hideWatched(pathname);
   }
 
@@ -348,7 +351,7 @@ function startHiding() {
     (pathname === '/watch' && viewsHideCorrEnabled) ||
     (pathname === '/feed/subscriptions' && viewsHideSubsEnabled)
   ) {
-    console.log('Hiding low view count videos on', pathname);
+    devLog('Hiding low view count videos on', pathname);
     hideUnderVisuals(pathname);
   }
 
@@ -357,7 +360,7 @@ function startHiding() {
     pathname !== '/feed/history' &&
     (hideShortsSearchEnabled || pathname !== '/results')
   ) {
-    console.log('Hiding shorts on', pathname);
+    devLog('Hiding shorts on', pathname);
     hideShorts();
   }
 }

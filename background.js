@@ -1,3 +1,6 @@
+import { loadEnvironment, devLog } from './utils.js';
+loadEnvironment();
+
 const flagKeys = [
   'skipEnabled',
   'hideHomeEnabled',
@@ -33,7 +36,7 @@ const defaultSettings = {
 function initializeSettings() {
   chrome.storage.sync.get(null, items => {
     if (chrome.runtime.lastError) {
-      console.log('Storage error:', chrome.runtime.lastError.message);
+      devLog('Storage error:', chrome.runtime.lastError.message);
       return;
     }
 
@@ -42,12 +45,9 @@ function initializeSettings() {
     if (isFirstInstall) {
       chrome.storage.sync.set(defaultSettings, () => {
         if (chrome.runtime.lastError) {
-          console.log(
-            'Error setting defaults:',
-            chrome.runtime.lastError.message
-          );
+          devLog('Error setting defaults:', chrome.runtime.lastError.message);
         } else {
-          console.log('Default settings initialized');
+          devLog('Default settings initialized');
           updateBadge(defaultSettings);
         }
       });
@@ -61,7 +61,7 @@ function refreshBadge() {
   const defaults = Object.fromEntries(flagKeys.map(key => [key, true]));
   chrome.storage.sync.get(defaults, prefs => {
     if (chrome.runtime.lastError) {
-      console.log('Storage error:', chrome.runtime.lastError.message);
+      devLog('Storage error:', chrome.runtime.lastError.message);
       return;
     }
     if (prefs) {
@@ -90,13 +90,13 @@ function updateBadge(flags = {}) {
 
   chrome.action.setBadgeText({ text }, () => {
     if (chrome.runtime.lastError) {
-      console.log('Badge text error:', chrome.runtime.lastError.message);
+      devLog('Badge text error:', chrome.runtime.lastError.message);
     }
   });
 
   chrome.action.setBadgeBackgroundColor({ color }, () => {
     if (chrome.runtime.lastError) {
-      console.log('Badge color error:', chrome.runtime.lastError.message);
+      devLog('Badge color error:', chrome.runtime.lastError.message);
     }
   });
 }
