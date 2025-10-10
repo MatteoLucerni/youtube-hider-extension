@@ -86,7 +86,7 @@ hr {
 }
 
 .easy-mode-text {
-    font-size: 11px;
+    font-size: 10px;
     font-weight: 600;
     color: #ffffff;
     text-transform: uppercase;
@@ -121,6 +121,63 @@ hr {
     border-radius: var(--radius-lg);
     padding: var(--spacing-lg);
     margin-bottom: var(--spacing-lg);
+}
+
+.setting-card-compact {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: var(--spacing-lg);
+}
+
+.card-compact-header {
+    display: flex;
+    align-items: center;
+    gap: var(--spacing-lg);
+}
+
+.card-compact-info {
+    display: flex;
+    flex-direction: column;
+}
+
+.setting-card-compact .card-title {
+    margin-bottom: 2px;
+}
+
+.setting-card-compact .card-description {
+    margin-bottom: 0;
+}
+
+.setting-card-compact .setting-group-compact {
+    flex-direction: row;
+    align-items: center;
+    justify-content: flex-end;
+    flex-shrink: 0;
+}
+
+.setting-card-compact .toggle-grid-single {
+    width: auto;
+}
+
+.setting-card-compact .easy-mode-simple .toggle-label {
+    flex-direction: column;
+    gap: var(--spacing-sm);
+    min-height: auto;
+    padding: var(--spacing-md);
+}
+
+.setting-card-compact .easy-mode-advanced {
+    flex-direction: column;
+}
+
+.setting-card-compact:has(.easy-mode-advanced:not([style*="display: none"])) {
+    display: block;
+}
+
+.setting-card-compact:has(.easy-mode-advanced:not([style*="display: none"])) .setting-group-compact {
+    flex-direction: row;
+    justify-content: center;
 }
 
 .setting-card:last-child {
