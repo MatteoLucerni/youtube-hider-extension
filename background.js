@@ -1,3 +1,20 @@
+const DEV_MODE = false;
+
+const logger = {
+  log: (...args) => {
+    if (DEV_MODE) logger.log(...args);
+  },
+  warn: (...args) => {
+    if (DEV_MODE) console.warn(...args);
+  },
+  error: (...args) => {
+    if (DEV_MODE) console.error(...args);
+  },
+  info: (...args) => {
+    if (DEV_MODE) console.info(...args);
+  },
+};
+
 const flagKeys = [
   'skipEnabled',
   'hideHomeEnabled',
@@ -12,11 +29,56 @@ const flagKeys = [
   'hideShortsSearchEnabled',
 ];
 
+const defaultSettings = {
+  easyModeEnabled: true,
+  skipIntroDelay: 1,
+  skipEnabled: true,
+  hideThreshold: 70,
+  hideHomeEnabled: true,
+  hideSearchEnabled: true,
+  hideSubsEnabled: true,
+  hideCorrEnabled: true,
+  viewsHideThreshold: 1000,
+  viewsHideHomeEnabled: true,
+  viewsHideSearchEnabled: true,
+  viewsHideSubsEnabled: true,
+  viewsHideCorrEnabled: true,
+  hideShortsEnabled: true,
+  hideShortsSearchEnabled: true,
+};
+
+function initializeSettings() {
+  chrome.storage.sync.get(null, items => {
+    if (chrome.runtime.lastError) {
+      logger.log('Storage error:', chrome.runtime.lastError.message);
+      return;
+    }
+
+    const isFirstInstall = Object.keys(items).length === 0;
+
+    if (isFirstInstall) {
+      chrome.storage.sync.set(defaultSettings, () => {
+        if (chrome.runtime.lastError) {
+          logger.log(
+            'Error setting defaults:',
+            chrome.runtime.lastError.message
+          );
+        } else {
+          logger.log('Default settings initialized');
+          updateBadge(defaultSettings);
+        }
+      });
+    } else {
+      refreshBadge();
+    }
+  });
+}
+
 function refreshBadge() {
   const defaults = Object.fromEntries(flagKeys.map(key => [key, true]));
   chrome.storage.sync.get(defaults, prefs => {
     if (chrome.runtime.lastError) {
-      console.log('Storage error:', chrome.runtime.lastError.message);
+      logger.log('Storage error:', chrome.runtime.lastError.message);
       return;
     }
     if (prefs) {
@@ -36,20 +98,22 @@ function getBadgeText(flags = {}) {
 
 function updateBadge(flags = {}) {
   const text = getBadgeText(flags);
-  const anyHide = Object.values(flags)
-    .filter((_, i) => i > 0)
-    .some(Boolean);
-  const color = anyHide ? '#008000' : '#808080';
+  const anyEnabled =
+    flags.skipEnabled ||
+    Object.keys(flags)
+      .filter(key => key !== 'skipEnabled')
+      .some(key => flags[key]);
+  const color = anyEnabled ? '#008000' : '#808080';
 
   chrome.action.setBadgeText({ text }, () => {
     if (chrome.runtime.lastError) {
-      console.log('Badge text error:', chrome.runtime.lastError.message);
+      logger.log('Badge text error:', chrome.runtime.lastError.message);
     }
   });
 
   chrome.action.setBadgeBackgroundColor({ color }, () => {
     if (chrome.runtime.lastError) {
-      console.log('Badge color error:', chrome.runtime.lastError.message);
+      logger.log('Badge color error:', chrome.runtime.lastError.message);
     }
   });
 }
@@ -61,6 +125,12 @@ chrome.storage.onChanged.addListener((changes, area) => {
   }
 });
 
-refreshBadge();
-chrome.runtime.onStartup.addListener(refreshBadge);
-chrome.runtime.onInstalled.addListener(refreshBadge);
+chrome.runtime.onStartup.addListener(() => {
+  refreshBadge();
+});
+
+chrome.runtime.onInstalled.addListener(() => {
+  initializeSettings();
+});
+
+initializeSettings();
