@@ -88,7 +88,7 @@ document.addEventListener('DOMContentLoaded', () => {
         corr: 'hideCorrEnabled',
       },
       defaults: {
-        threshold: 70,
+        threshold: 30,
         home: true,
         search: true,
         subs: true,
@@ -138,6 +138,8 @@ document.addEventListener('DOMContentLoaded', () => {
   ];
 
   chrome.storage.sync.get(storageKeys, prefs => {
+    const isFirstInstall = Object.keys(prefs).length === 0;
+
     const easyMode = prefs.easyModeEnabled ?? true;
     easyModeToggle.checked = easyMode;
     updateEasyModeUI(easyMode);
@@ -194,6 +196,10 @@ document.addEventListener('DOMContentLoaded', () => {
       subs: prefs.viewsHideSubsEnabled ?? cfg.views.defaults.subs,
       corr: prefs.viewsHideCorrEnabled ?? cfg.views.defaults.corr,
     });
+
+    if (isFirstInstall) {
+      saveSettings();
+    }
   });
 
   function saveSettings() {

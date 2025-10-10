@@ -1,9 +1,9 @@
 const prefs = {
   skipIntroDelay: 1,
   skipEnabled: true,
-  hideThreshold: 70,
+  hideThreshold: 30,
   hideHomeEnabled: true,
-  hideSearchEnabled: false,
+  hideSearchEnabled: true,
   hideSubsEnabled: true,
   hideCorrEnabled: true,
   viewsHideThreshold: 1000,
@@ -12,7 +12,7 @@ const prefs = {
   viewsHideSubsEnabled: true,
   viewsHideCorrEnabled: true,
   hideShortsEnabled: true,
-  hideShortsSearchEnabled: false,
+  hideShortsSearchEnabled: true,
 };
 
 function initPrefs() {
@@ -289,8 +289,6 @@ function hideShorts() {
       node.style.display = 'none';
     }
   });
-
-  // TO FIX
 
   document.querySelectorAll('ytd-rich-section-renderer').forEach(section => {
     const allChildren = section.querySelectorAll('*');
