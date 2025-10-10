@@ -9,6 +9,7 @@
     --border-color: #3a3a3a;
     --accent-red: #FF0000;
     --accent-green: #10b981;
+    --accent-blue: #8ab4f8;
     --toggle-inactive: #4a4a4a;
     --spacing-xs: 4px;
     --spacing-sm: 6px;
@@ -47,6 +48,9 @@ header {
     top: 0;
     z-index: 100;
     padding: var(--spacing-2xl) var(--spacing-xl);
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
 }
 
 hr {
@@ -65,6 +69,28 @@ hr {
 
 .yt-color {
     color: var(--accent-red);
+}
+
+.easy-mode-toggle {
+    display: flex;
+    align-items: center;
+}
+
+.easy-mode-label {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 4px;
+    cursor: pointer;
+    user-select: none;
+}
+
+.easy-mode-text {
+    font-size: 11px;
+    font-weight: 600;
+    color: #ffffff;
+    text-transform: uppercase;
+    letter-spacing: 0.3px;
 }
 
 .content-wrapper {
@@ -118,7 +144,8 @@ hr {
 .setting-group {
     display: flex;
     gap: var(--spacing-md);
-    align-items: stretch;
+    align-items: center;
+    justify-content: center;
 }
 
 .slider-control {
@@ -242,6 +269,14 @@ hr {
 
 .toggle-grid-single {
     grid-template-columns: 1fr;
+}
+
+.easy-mode-simple {
+    display: none;
+}
+
+.easy-mode-advanced {
+    display: grid;
 }
 
 .toggle-item {

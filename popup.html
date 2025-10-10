@@ -14,9 +14,18 @@
     <div class="container-fluid px-0">
         <header class="text-center">
             <h1 class="header-title mb-0"><span class="yt-color">Youtube</span> Hider</h1>
+            <div class="easy-mode-toggle">
+                <label class="easy-mode-label" for="easy-mode-enabled">
+                    <span class="easy-mode-text">Easy Mode</span>
+                    <div class="toggle-switch">
+                        <input type="checkbox" id="easy-mode-enabled">
+                        <span class="toggle-slider"></span>
+                    </div>
+                </label>
+            </div>
         </header>
 
-        <hr class="mx-5 mt-0 mb-3">
+        <hr class="mx-4 mt-0 mb-3">
 
         <div class="content-wrapper">
             <section class="setting-section">
@@ -40,7 +49,19 @@
                             </div>
                         </div>
 
-                        <div class="toggle-grid">
+                        <div class="toggle-grid-single easy-mode-simple">
+                            <div class="toggle-item">
+                                <label class="toggle-label" for="hide-watched-master">
+                                    <span class="toggle-text">Enable Feature</span>
+                                    <div class="toggle-switch">
+                                        <input type="checkbox" id="hide-watched-master">
+                                        <span class="toggle-slider"></span>
+                                    </div>
+                                </label>
+                            </div>
+                        </div>
+
+                        <div class="toggle-grid easy-mode-advanced">
                             <div class="toggle-item">
                                 <label class="toggle-label" for="hide-home-enabled">
                                     <span class="toggle-text">Home</span>
@@ -86,7 +107,19 @@
                     <p class="card-description">Remove Shorts from your YouTube</p>
 
                     <div class="setting-group">
-                        <div class="toggle-grid toggle-grid-large">
+                        <div class="toggle-grid-single easy-mode-simple">
+                            <div class="toggle-item">
+                                <label class="toggle-label" for="hide-shorts-master">
+                                    <span class="toggle-text">Enable Feature</span>
+                                    <div class="toggle-switch">
+                                        <input type="checkbox" id="hide-shorts-master">
+                                        <span class="toggle-slider"></span>
+                                    </div>
+                                </label>
+                            </div>
+                        </div>
+
+                        <div class="toggle-grid toggle-grid-large easy-mode-advanced">
                             <div class="toggle-item">
                                 <label class="toggle-label" for="hide-shorts-enabled">
                                     <span class="toggle-text">Hide Shorts</span>
@@ -124,7 +157,19 @@
                             </div>
                         </div>
 
-                        <div class="toggle-grid">
+                        <div class="toggle-grid-single easy-mode-simple">
+                            <div class="toggle-item">
+                                <label class="toggle-label" for="views-hide-master">
+                                    <span class="toggle-text">Enable Feature</span>
+                                    <div class="toggle-switch">
+                                        <input type="checkbox" id="views-hide-master">
+                                        <span class="toggle-slider"></span>
+                                    </div>
+                                </label>
+                            </div>
+                        </div>
+
+                        <div class="toggle-grid easy-mode-advanced">
                             <div class="toggle-item">
                                 <label class="toggle-label" for="views-hide-home-enabled">
                                     <span class="toggle-text">Home</span>
