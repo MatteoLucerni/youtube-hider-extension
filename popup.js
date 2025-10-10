@@ -266,6 +266,22 @@ document.addEventListener('DOMContentLoaded', () => {
   easyModeToggle.addEventListener('change', () => {
     const isEasyMode = easyModeToggle.checked;
     updateEasyModeUI(isEasyMode);
+
+    if (isEasyMode) {
+      Object.values(cfg.hide.boxes).forEach(box => {
+        box.checked = true;
+      });
+      Object.values(cfg.shorts.boxes).forEach(box => {
+        box.checked = true;
+      });
+      Object.values(cfg.views.boxes).forEach(box => {
+        box.checked = true;
+      });
+      hideWatchedMaster.checked = true;
+      hideShortsMaster.checked = true;
+      viewsHideMaster.checked = true;
+    }
+
     saveSettings();
   });
 
