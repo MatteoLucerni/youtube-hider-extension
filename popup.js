@@ -44,7 +44,25 @@ function findClosestViewsIndex(value) {
   return closestIndex;
 }
 
+function updateEasyModeUI(isEasyMode) {
+  const simpleElements = document.querySelectorAll('.easy-mode-simple');
+  const advancedElements = document.querySelectorAll('.easy-mode-advanced');
+
+  simpleElements.forEach(el => {
+    el.style.display = isEasyMode ? 'grid' : 'none';
+  });
+
+  advancedElements.forEach(el => {
+    el.style.display = isEasyMode ? 'none' : 'grid';
+  });
+}
+
 document.addEventListener('DOMContentLoaded', () => {
+  const easyModeToggle = document.getElementById('easy-mode-enabled');
+  const hideWatchedMaster = document.getElementById('hide-watched-master');
+  const hideShortsMaster = document.getElementById('hide-shorts-master');
+  const viewsHideMaster = document.getElementById('views-hide-master');
+
   const cfg = {
     skip: {
       slider: document.getElementById('delay'),
@@ -112,6 +130,7 @@ document.addEventListener('DOMContentLoaded', () => {
   };
 
   const storageKeys = [
+    'easyModeEnabled',
     ...Object.values(cfg.skip.keys),
     ...Object.values(cfg.hide.keys),
     ...Object.values(cfg.views.keys),
@@ -119,6 +138,10 @@ document.addEventListener('DOMContentLoaded', () => {
   ];
 
   chrome.storage.sync.get(storageKeys, prefs => {
+    const easyMode = prefs.easyModeEnabled ?? true;
+    easyModeToggle.checked = easyMode;
+    updateEasyModeUI(easyMode);
+
     ['skip', 'hide', 'views', 'shorts'].forEach(sectionName => {
       const section = cfg[sectionName];
       Object.entries(section.keys).forEach(([keyName, storageKey]) => {
@@ -152,10 +175,32 @@ document.addEventListener('DOMContentLoaded', () => {
         }
       });
     });
+
+    hideWatchedMaster.checked = isAnyTrue({
+      home: prefs.hideHomeEnabled ?? cfg.hide.defaults.home,
+      search: prefs.hideSearchEnabled ?? cfg.hide.defaults.search,
+      subs: prefs.hideSubsEnabled ?? cfg.hide.defaults.subs,
+      corr: prefs.hideCorrEnabled ?? cfg.hide.defaults.corr,
+    });
+
+    hideShortsMaster.checked = isAnyTrue({
+      enabled: prefs.hideShortsEnabled ?? cfg.shorts.defaults.enabled,
+      search: prefs.hideShortsSearchEnabled ?? cfg.shorts.defaults.search,
+    });
+
+    viewsHideMaster.checked = isAnyTrue({
+      home: prefs.viewsHideHomeEnabled ?? cfg.views.defaults.home,
+      search: prefs.viewsHideSearchEnabled ?? cfg.views.defaults.search,
+      subs: prefs.viewsHideSubsEnabled ?? cfg.views.defaults.subs,
+      corr: prefs.viewsHideCorrEnabled ?? cfg.views.defaults.corr,
+    });
   });
 
   function saveSettings() {
+    const easyMode = easyModeToggle.checked;
+
     const settings = {
+      easyModeEnabled: easyMode,
       ...Object.fromEntries(
         Object.entries(cfg.skip.keys).map(([k, key]) => [
           key,
@@ -217,6 +262,36 @@ document.addEventListener('DOMContentLoaded', () => {
       });
     });
   }
+
+  easyModeToggle.addEventListener('change', () => {
+    const isEasyMode = easyModeToggle.checked;
+    updateEasyModeUI(isEasyMode);
+    saveSettings();
+  });
+
+  hideWatchedMaster.addEventListener('change', () => {
+    const isEnabled = hideWatchedMaster.checked;
+    Object.values(cfg.hide.boxes).forEach(box => {
+      box.checked = isEnabled;
+    });
+    saveSettings();
+  });
+
+  hideShortsMaster.addEventListener('change', () => {
+    const isEnabled = hideShortsMaster.checked;
+    Object.values(cfg.shorts.boxes).forEach(box => {
+      box.checked = isEnabled;
+    });
+    saveSettings();
+  });
+
+  viewsHideMaster.addEventListener('change', () => {
+    const isEnabled = viewsHideMaster.checked;
+    Object.values(cfg.views.boxes).forEach(box => {
+      box.checked = isEnabled;
+    });
+    saveSettings();
+  });
 
   [
     [cfg.skip.slider, cfg.skip.value],
