@@ -333,4 +333,15 @@ document.addEventListener('DOMContentLoaded', () => {
     ...Object.values(cfg.views.boxes),
     ...Object.values(cfg.shorts.boxes),
   ].forEach(box => box.addEventListener('change', saveSettings));
+
+  document
+    .querySelectorAll('.card-compact-toggle .toggle-switch-large')
+    .forEach(el => {
+      el.addEventListener('click', e => {
+        if (e.target.tagName.toLowerCase() === 'input') return;
+        const input = el.querySelector('input');
+        input.checked = !input.checked;
+        input.dispatchEvent(new Event('change', { bubbles: true }));
+      });
+    });
 });

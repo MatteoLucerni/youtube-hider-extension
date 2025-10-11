@@ -204,6 +204,7 @@ hr {
     align-items: center;
     justify-content: flex-start;
     gap: var(--spacing-sm);
+    max-width: 260px;
 }
 
 .slider-control-center {
