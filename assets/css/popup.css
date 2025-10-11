@@ -543,3 +543,14 @@ body.easy-mode-on .setting-card-easy-mode .card-compact-header {
 body.easy-mode-on .setting-card-compact .setting-group-compact {
     display: none;
 }
+
+body.easy-mode-off .streaming-card .slider-control {
+    flex-direction: row;
+    align-items: center;
+    gap: var(--spacing-sm);
+}
+
+body.easy-mode-off .streaming-card .slider-control-right {
+    min-width: 40px;
+    margin-top: 0;
+}
