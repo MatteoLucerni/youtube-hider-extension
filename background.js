@@ -33,7 +33,7 @@ const defaultSettings = {
   easyModeEnabled: true,
   skipIntroDelay: 1,
   skipEnabled: true,
-  hideThreshold: 70,
+  hideThreshold: 30,
   hideHomeEnabled: true,
   hideSearchEnabled: true,
   hideSubsEnabled: true,
