@@ -49,7 +49,7 @@ function updateEasyModeUI(isEasyMode) {
   const advancedElements = document.querySelectorAll('.easy-mode-advanced');
 
   simpleElements.forEach(el => {
-    el.style.display = isEasyMode ? 'grid' : 'none';
+    el.style.display = isEasyMode ? 'flex' : 'none';
   });
 
   advancedElements.forEach(el => {
