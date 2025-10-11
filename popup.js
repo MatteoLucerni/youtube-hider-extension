@@ -47,14 +47,17 @@ function findClosestViewsIndex(value) {
 function updateEasyModeUI(isEasyMode) {
   const simpleElements = document.querySelectorAll('.easy-mode-simple');
   const advancedElements = document.querySelectorAll('.easy-mode-advanced');
-
   simpleElements.forEach(el => {
     el.style.display = isEasyMode ? 'flex' : 'none';
   });
-
   advancedElements.forEach(el => {
     el.style.display = isEasyMode ? 'none' : 'grid';
   });
+}
+
+function setEasyModeClass(isEasy) {
+  document.body.classList.toggle('easy-mode-on', isEasy);
+  document.body.classList.toggle('easy-mode-off', !isEasy);
 }
 
 document.addEventListener('DOMContentLoaded', () => {
@@ -143,6 +146,7 @@ document.addEventListener('DOMContentLoaded', () => {
     const easyMode = prefs.easyModeEnabled ?? true;
     easyModeToggle.checked = easyMode;
     updateEasyModeUI(easyMode);
+    setEasyModeClass(easyMode);
 
     ['skip', 'hide', 'views', 'shorts'].forEach(sectionName => {
       const section = cfg[sectionName];
@@ -272,7 +276,6 @@ document.addEventListener('DOMContentLoaded', () => {
   easyModeToggle.addEventListener('change', () => {
     const isEasyMode = easyModeToggle.checked;
     updateEasyModeUI(isEasyMode);
-
     if (isEasyMode) {
       Object.values(cfg.hide.boxes).forEach(box => {
         box.checked = true;
@@ -287,7 +290,7 @@ document.addEventListener('DOMContentLoaded', () => {
       hideShortsMaster.checked = true;
       viewsHideMaster.checked = true;
     }
-
+    setEasyModeClass(isEasyMode);
     saveSettings();
   });
 

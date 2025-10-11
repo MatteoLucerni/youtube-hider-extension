@@ -537,3 +537,51 @@ hr {
         transition-duration: 0.01ms !important;
     }
 }
+
+/* Overrides */
+.toggle-text {
+    color: #ffffff;
+}
+
+.slider-value {
+    color: #ffffff;
+}
+
+.slider-wrapper {
+    padding-bottom: var(--spacing-md);
+}
+
+.slider-control {
+    gap: var(--spacing-lg);
+}
+
+.setting-card-compact .card-description {
+    margin-bottom: 0;
+}
+
+.streaming-card .card-compact-toggle {
+    position: absolute;
+    top: var(--spacing-lg);
+    right: var(--spacing-lg);
+}
+
+.streaming-card .card-compact-header {
+    padding-right: 50px;
+}
+
+.easy-mode-off .slider-control {
+    flex-direction: column;
+    align-items: stretch;
+    gap: var(--spacing-sm);
+}
+
+.easy-mode-off .slider-control-right {
+    align-items: center;
+    justify-content: center;
+    min-width: unset;
+    margin-top: var(--spacing-sm);
+}
+
+.easy-mode-off .slider-display {
+    margin-top: var(--spacing-xs);
+}
