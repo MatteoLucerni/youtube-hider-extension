@@ -191,7 +191,7 @@ hr {
     align-items: center;
     justify-content: center;
     flex-wrap: wrap;
-    margin-top: 0;
+    margin-top: var(--spacing-xl);
 }
 
 .slider-control {
