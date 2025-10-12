@@ -44,17 +44,13 @@ function findClosestViewsIndex(value) {
   return closestIndex;
 }
 
+function setEasyModeClass(isEasy) {
+  document.body.classList.toggle('easy-mode-on', isEasy);
+  document.body.classList.toggle('easy-mode-off', !isEasy);
+}
+
 function updateEasyModeUI(isEasyMode) {
-  const simpleElements = document.querySelectorAll('.easy-mode-simple');
-  const advancedElements = document.querySelectorAll('.easy-mode-advanced');
-
-  simpleElements.forEach(el => {
-    el.style.display = isEasyMode ? 'grid' : 'none';
-  });
-
-  advancedElements.forEach(el => {
-    el.style.display = isEasyMode ? 'none' : 'grid';
-  });
+  setEasyModeClass(isEasyMode);
 }
 
 document.addEventListener('DOMContentLoaded', () => {
@@ -272,7 +268,6 @@ document.addEventListener('DOMContentLoaded', () => {
   easyModeToggle.addEventListener('change', () => {
     const isEasyMode = easyModeToggle.checked;
     updateEasyModeUI(isEasyMode);
-
     if (isEasyMode) {
       Object.values(cfg.hide.boxes).forEach(box => {
         box.checked = true;
@@ -287,7 +282,6 @@ document.addEventListener('DOMContentLoaded', () => {
       hideShortsMaster.checked = true;
       viewsHideMaster.checked = true;
     }
-
     saveSettings();
   });
 
@@ -339,4 +333,15 @@ document.addEventListener('DOMContentLoaded', () => {
     ...Object.values(cfg.views.boxes),
     ...Object.values(cfg.shorts.boxes),
   ].forEach(box => box.addEventListener('change', saveSettings));
+
+  document
+    .querySelectorAll('.card-compact-toggle .toggle-switch-large')
+    .forEach(el => {
+      el.addEventListener('click', e => {
+        if (e.target.tagName.toLowerCase() === 'input') return;
+        const input = el.querySelector('input');
+        input.checked = !input.checked;
+        input.dispatchEvent(new Event('change', { bubbles: true }));
+      });
+    });
 });
