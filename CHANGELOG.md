@@ -63,3 +63,9 @@
 ### Version 1.6.0
 
 - Now views selector has fixed values
+
+### Version 2.0.0
+
+- New popup UI/UX
+- Introducing "Easy Mode"
+- Env variable for logging

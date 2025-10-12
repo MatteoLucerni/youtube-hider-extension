@@ -9,6 +9,14 @@ function isAnyTrue(flags) {
   return Object.values(flags).some(Boolean);
 }
 
+function updateSliderBackground(slider) {
+  const min = slider.min || 0;
+  const max = slider.max || 100;
+  const value = slider.value;
+  const percentage = ((value - min) / (max - min)) * 100;
+  slider.style.background = `linear-gradient(to right, #ebebeb ${percentage}%, #4a4a4a ${percentage}%)`;
+}
+
 const viewsSteps = [
   0, 100, 500, 1000, 2500, 5000, 7500, 10000, 15000, 25000, 50000, 75000,
   100000, 150000, 250000, 500000, 1000000, 10000000,
@@ -26,7 +34,6 @@ function formatViews(views) {
 function findClosestViewsIndex(value) {
   let closestIndex = 0;
   let minDiff = Math.abs(viewsSteps[0] - value);
-
   for (let i = 1; i < viewsSteps.length; i++) {
     const diff = Math.abs(viewsSteps[i] - value);
     if (diff < minDiff) {
@@ -34,11 +41,24 @@ function findClosestViewsIndex(value) {
       closestIndex = i;
     }
   }
-
   return closestIndex;
 }
 
+function setEasyModeClass(isEasy) {
+  document.body.classList.toggle('easy-mode-on', isEasy);
+  document.body.classList.toggle('easy-mode-off', !isEasy);
+}
+
+function updateEasyModeUI(isEasyMode) {
+  setEasyModeClass(isEasyMode);
+}
+
 document.addEventListener('DOMContentLoaded', () => {
+  const easyModeToggle = document.getElementById('easy-mode-enabled');
+  const hideWatchedMaster = document.getElementById('hide-watched-master');
+  const hideShortsMaster = document.getElementById('hide-shorts-master');
+  const viewsHideMaster = document.getElementById('views-hide-master');
+
   const cfg = {
     skip: {
       slider: document.getElementById('delay'),
@@ -64,7 +84,7 @@ document.addEventListener('DOMContentLoaded', () => {
         corr: 'hideCorrEnabled',
       },
       defaults: {
-        threshold: 70,
+        threshold: 20,
         home: true,
         search: true,
         subs: true,
@@ -106,6 +126,7 @@ document.addEventListener('DOMContentLoaded', () => {
   };
 
   const storageKeys = [
+    'easyModeEnabled',
     ...Object.values(cfg.skip.keys),
     ...Object.values(cfg.hide.keys),
     ...Object.values(cfg.views.keys),
@@ -113,6 +134,12 @@ document.addEventListener('DOMContentLoaded', () => {
   ];
 
   chrome.storage.sync.get(storageKeys, prefs => {
+    const isFirstInstall = Object.keys(prefs).length === 0;
+
+    const easyMode = prefs.easyModeEnabled ?? true;
+    easyModeToggle.checked = easyMode;
+    updateEasyModeUI(easyMode);
+
     ['skip', 'hide', 'views', 'shorts'].forEach(sectionName => {
       const section = cfg[sectionName];
       Object.entries(section.keys).forEach(([keyName, storageKey]) => {
@@ -122,10 +149,10 @@ document.addEventListener('DOMContentLoaded', () => {
           keyName === 'delay' || keyName === 'threshold'
             ? parseInt(raw, 10)
             : raw;
-
         if (section.slider && keyName === 'delay') {
           section.slider.value = val;
           section.value.textContent = val;
+          updateSliderBackground(section.slider);
         } else if (
           section.slider &&
           keyName === 'threshold' &&
@@ -134,9 +161,11 @@ document.addEventListener('DOMContentLoaded', () => {
           const index = findClosestViewsIndex(val);
           section.slider.value = index;
           section.value.textContent = formatViews(viewsSteps[index]);
+          updateSliderBackground(section.slider);
         } else if (section.slider && keyName === 'threshold') {
           section.slider.value = val;
           section.value.textContent = val;
+          updateSliderBackground(section.slider);
         } else if (section.boxes) {
           section.boxes[keyName].checked = val;
         } else if (section.box) {
@@ -144,10 +173,36 @@ document.addEventListener('DOMContentLoaded', () => {
         }
       });
     });
+
+    hideWatchedMaster.checked = isAnyTrue({
+      home: prefs.hideHomeEnabled ?? cfg.hide.defaults.home,
+      search: prefs.hideSearchEnabled ?? cfg.hide.defaults.search,
+      subs: prefs.hideSubsEnabled ?? cfg.hide.defaults.subs,
+      corr: prefs.hideCorrEnabled ?? cfg.hide.defaults.corr,
+    });
+
+    hideShortsMaster.checked = isAnyTrue({
+      enabled: prefs.hideShortsEnabled ?? cfg.shorts.defaults.enabled,
+      search: prefs.hideShortsSearchEnabled ?? cfg.shorts.defaults.search,
+    });
+
+    viewsHideMaster.checked = isAnyTrue({
+      home: prefs.viewsHideHomeEnabled ?? cfg.views.defaults.home,
+      search: prefs.viewsHideSearchEnabled ?? cfg.views.defaults.search,
+      subs: prefs.viewsHideSubsEnabled ?? cfg.views.defaults.subs,
+      corr: prefs.viewsHideCorrEnabled ?? cfg.views.defaults.corr,
+    });
+
+    if (isFirstInstall) {
+      saveSettings();
+    }
   });
 
   function saveSettings() {
+    const easyMode = easyModeToggle.checked;
+
     const settings = {
+      easyModeEnabled: easyMode,
       ...Object.fromEntries(
         Object.entries(cfg.skip.keys).map(([k, key]) => [
           key,
@@ -182,7 +237,6 @@ document.addEventListener('DOMContentLoaded', () => {
 
     chrome.storage.sync.set(settings, () => {
       const skipOn = settings[cfg.skip.keys.enabled];
-
       const hideOn = isAnyTrue({
         ...Object.fromEntries(
           Object.entries(cfg.hide.boxes).map(([k]) => [
@@ -203,7 +257,6 @@ document.addEventListener('DOMContentLoaded', () => {
           ])
         ),
       });
-
       const text = getBadgeText(skipOn, hideOn);
       chrome.action.setBadgeText({ text });
       chrome.action.setBadgeBackgroundColor({
@@ -212,20 +265,65 @@ document.addEventListener('DOMContentLoaded', () => {
     });
   }
 
+  easyModeToggle.addEventListener('change', () => {
+    const isEasyMode = easyModeToggle.checked;
+    updateEasyModeUI(isEasyMode);
+    if (isEasyMode) {
+      Object.values(cfg.hide.boxes).forEach(box => {
+        box.checked = true;
+      });
+      Object.values(cfg.shorts.boxes).forEach(box => {
+        box.checked = true;
+      });
+      Object.values(cfg.views.boxes).forEach(box => {
+        box.checked = true;
+      });
+      hideWatchedMaster.checked = true;
+      hideShortsMaster.checked = true;
+      viewsHideMaster.checked = true;
+    }
+    saveSettings();
+  });
+
+  hideWatchedMaster.addEventListener('change', () => {
+    const isEnabled = hideWatchedMaster.checked;
+    Object.values(cfg.hide.boxes).forEach(box => {
+      box.checked = isEnabled;
+    });
+    saveSettings();
+  });
+
+  hideShortsMaster.addEventListener('change', () => {
+    const isEnabled = hideShortsMaster.checked;
+    Object.values(cfg.shorts.boxes).forEach(box => {
+      box.checked = isEnabled;
+    });
+    saveSettings();
+  });
+
+  viewsHideMaster.addEventListener('change', () => {
+    const isEnabled = viewsHideMaster.checked;
+    Object.values(cfg.views.boxes).forEach(box => {
+      box.checked = isEnabled;
+    });
+    saveSettings();
+  });
+
   [
     [cfg.skip.slider, cfg.skip.value],
     [cfg.hide.slider, cfg.hide.value],
   ].forEach(([slider, display]) => {
-    slider.addEventListener(
-      'input',
-      () => (display.textContent = slider.value)
-    );
+    slider.addEventListener('input', () => {
+      display.textContent = slider.value;
+      updateSliderBackground(slider);
+    });
     slider.addEventListener('change', saveSettings);
   });
 
   cfg.views.slider.addEventListener('input', () => {
     const index = parseInt(cfg.views.slider.value, 10);
     cfg.views.value.textContent = formatViews(viewsSteps[index]);
+    updateSliderBackground(cfg.views.slider);
   });
   cfg.views.slider.addEventListener('change', saveSettings);
 
@@ -235,4 +333,15 @@ document.addEventListener('DOMContentLoaded', () => {
     ...Object.values(cfg.views.boxes),
     ...Object.values(cfg.shorts.boxes),
   ].forEach(box => box.addEventListener('change', saveSettings));
+
+  document
+    .querySelectorAll('.card-compact-toggle .toggle-switch-large')
+    .forEach(el => {
+      el.addEventListener('click', e => {
+        if (e.target.tagName.toLowerCase() === 'input') return;
+        const input = el.querySelector('input');
+        input.checked = !input.checked;
+        input.dispatchEvent(new Event('change', { bubbles: true }));
+      });
+    });
 });

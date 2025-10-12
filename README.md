@@ -55,3 +55,60 @@ Download it from the Chrome Web Store: https://chromewebstore.google.com/detail/
 TIP: to filter only extension's logs on chrome console use: `url:chrome-extension://EXTENSION-ID`
 
 Thanks!
+
+## Project Tree
+
+```
+chrome-auto-skip-intro
+├─ assets
+│  ├─ css
+│  │  └─ popup.css
+│  └─ icons
+│     ├─ youtube-hider-logo.png
+│     ├─ YT Hider icon v6 padding 128 128.png
+│     ├─ YT Hider icon v6 padding.png
+│     └─ YT Hider icon v6.png
+├─ background.js
+├─ CHANGELOG.md
+├─ content.js
+├─ env.js
+├─ graphics
+│  ├─ audio
+│  │  ├─ audio-promo.mp3
+│  │  └─ audio-promo.txt
+│  ├─ images
+│  │  ├─ full
+│  │  │  ├─ full-640-400.png
+│  │  │  ├─ full-streched.png
+│  │  │  ├─ full-v3.png
+│  │  │  ├─ full.png
+│  │  │  └─ photo-collage.png.png
+│  │  ├─ icon
+│  │  │  ├─ youtube-hider-logo-128-128-filled-gray.png
+│  │  │  ├─ youtube-hider-logo-128-128.png
+│  │  │  ├─ youtube-hider-logo-black.png
+│  │  │  ├─ youtube-hider-logo.png
+│  │  │  ├─ YT Hider icon v4 128 128.png
+│  │  │  ├─ YT Hider icon v4.png
+│  │  │  ├─ YT Hider icon v5 128 128.png
+│  │  │  └─ YT Hider icon v5.png
+│  │  ├─ marquee promo tile
+│  │  │  └─ wide-graphic-1400-560.png
+│  │  ├─ show
+│  │  │  ├─ show-1.png
+│  │  │  ├─ show-2.png
+│  │  │  └─ show-3.png
+│  │  └─ small promo tile
+│  │     ├─ graphic-1-440-280.png
+│  │     ├─ graphic-1.png
+│  │     ├─ Small promo tile v2 440 280.png
+│  │     ├─ Small promo tile v3 440 280.png
+│  │     └─ Small promo tile v3.png
+│  └─ video
+├─ manifest.json
+├─ popup.html
+├─ popup.js
+├─ README.md
+└─ utils.js
+
+```
