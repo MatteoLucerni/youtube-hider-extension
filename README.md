@@ -71,6 +71,7 @@ chrome-auto-skip-intro
 ├─ background.js
 ├─ CHANGELOG.md
 ├─ content.js
+├─ env.js
 ├─ graphics
 │  ├─ audio
 │  │  ├─ audio-promo.mp3
