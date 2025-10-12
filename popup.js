@@ -84,7 +84,7 @@ document.addEventListener('DOMContentLoaded', () => {
         corr: 'hideCorrEnabled',
       },
       defaults: {
-        threshold: 30,
+        threshold: 20,
         home: true,
         search: true,
         subs: true,

@@ -1,7 +1,7 @@
 const prefs = {
   skipIntroDelay: 1,
   skipEnabled: true,
-  hideThreshold: 30,
+  hideThreshold: 20,
   hideHomeEnabled: true,
   hideSearchEnabled: true,
   hideSubsEnabled: true,
