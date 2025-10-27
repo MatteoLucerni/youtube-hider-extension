@@ -46,9 +46,12 @@ function setupPrefsListener() {
   }
 }
 
+let skipClickedButtons = new WeakSet();
+let skipTimeout = null;
+
 function skipIntro() {
   if (!prefs.skipEnabled) return;
-
+  
   const netflixBtn = document.querySelector(
     "button[data-uia='player-skip-intro']"
   );
@@ -57,13 +60,21 @@ function skipIntro() {
     document.querySelector(
       "button[data-uia='viewer-skip-recap'], button[data-uia='player-skip-recap']"
     ) || document.querySelector('[class*="skip-recap"], [class*="SkipRecap"]');
-
+  
   const btn = netflixBtn || primeBtn || recapBtn;
-  if (!btn) return;
-
-  setTimeout(() => {
+  
+  if (!btn || skipClickedButtons.has(btn)) return;
+  
+  if (skipTimeout) {
+    clearTimeout(skipTimeout);
+  }
+  
+  skipClickedButtons.add(btn);
+  
+  skipTimeout = setTimeout(() => {
     btn.click();
     logger.log('Skipped intro/recap');
+    skipTimeout = null;
   }, prefs.skipIntroDelay * 1000);
 }
 

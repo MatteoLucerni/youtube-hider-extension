@@ -73,3 +73,7 @@
 ### Version 2.0.1
 
 - Changed header title style
+
+### Version 2.0.2
+
+- Fixed autoskip repeated click bug
