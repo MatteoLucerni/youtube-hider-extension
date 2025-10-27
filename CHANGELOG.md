@@ -69,3 +69,7 @@
 - New popup UI/UX
 - Introducing "Easy Mode"
 - Env variable for logging
+
+### Version 2.0.1
+
+- Changed header title style
