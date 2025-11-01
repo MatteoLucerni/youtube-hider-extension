@@ -72,39 +72,6 @@ chrome-auto-skip-intro
 ├─ CHANGELOG.md
 ├─ content.js
 ├─ env.js
-├─ graphics
-│  ├─ audio
-│  │  ├─ audio-promo.mp3
-│  │  └─ audio-promo.txt
-│  ├─ images
-│  │  ├─ full
-│  │  │  ├─ full-640-400.png
-│  │  │  ├─ full-streched.png
-│  │  │  ├─ full-v3.png
-│  │  │  ├─ full.png
-│  │  │  └─ photo-collage.png.png
-│  │  ├─ icon
-│  │  │  ├─ youtube-hider-logo-128-128-filled-gray.png
-│  │  │  ├─ youtube-hider-logo-128-128.png
-│  │  │  ├─ youtube-hider-logo-black.png
-│  │  │  ├─ youtube-hider-logo.png
-│  │  │  ├─ YT Hider icon v4 128 128.png
-│  │  │  ├─ YT Hider icon v4.png
-│  │  │  ├─ YT Hider icon v5 128 128.png
-│  │  │  └─ YT Hider icon v5.png
-│  │  ├─ marquee promo tile
-│  │  │  └─ wide-graphic-1400-560.png
-│  │  ├─ show
-│  │  │  ├─ show-1.png
-│  │  │  ├─ show-2.png
-│  │  │  └─ show-3.png
-│  │  └─ small promo tile
-│  │     ├─ graphic-1-440-280.png
-│  │     ├─ graphic-1.png
-│  │     ├─ Small promo tile v2 440 280.png
-│  │     ├─ Small promo tile v3 440 280.png
-│  │     └─ Small promo tile v3.png
-│  └─ video
 ├─ manifest.json
 ├─ popup.html
 ├─ popup.js
