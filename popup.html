@@ -2,12 +2,12 @@
 <html lang="en">
 
 <head>
-    <meta charset="UTF-8">
+    <meta charset="UTF-8" />
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap/5.3.3/css/bootstrap.min.css"
         integrity="sha512-jnSuA4Ss2PkkikSOLtYs8BlYIeeIK1h99ty4YfvRPAlzr377vr3CXDb7sb7eEEBYjDtcYj+AjBH3FLv5uSJuXg=="
         crossorigin="anonymous" />
     <title>Youtube Hider Extension</title>
-    <link rel="stylesheet" href="./assets/css/popup.css">
+    <link rel="stylesheet" href="./assets/css/popup.css" />
 </head>
 
 <body>
@@ -21,14 +21,14 @@
                 <label class="easy-mode-label" for="easy-mode-enabled">
                     <span class="easy-mode-text">Easy Mode</span>
                     <div class="toggle-switch-large">
-                        <input type="checkbox" id="easy-mode-enabled">
+                        <input type="checkbox" id="easy-mode-enabled" />
                         <span class="toggle-slider"></span>
                     </div>
                 </label>
             </div>
         </header>
 
-        <hr class="mx-4 mt-0 mb-2">
+        <hr class="mx-4 mt-0 mb-2" />
 
         <div class="content-wrapper">
             <section class="setting-section">
@@ -40,11 +40,13 @@
                     <div class="card-compact-header">
                         <div class="card-compact-info">
                             <h3 class="card-title">Hide Watched Videos</h3>
-                            <p class="card-description">Hide videos based on watch percentage threshold</p>
+                            <p class="card-description">
+                                Hide videos based on watch percentage threshold
+                            </p>
                         </div>
                         <div class="card-compact-toggle easy-mode-simple">
                             <div class="toggle-switch-large">
-                                <input type="checkbox" id="hide-watched-master">
+                                <input type="checkbox" id="hide-watched-master" />
                                 <span class="toggle-slider"></span>
                             </div>
                         </div>
@@ -56,7 +58,7 @@
                                 <label class="control-label">Watch Percentage</label>
                                 <div class="slider-wrapper">
                                     <input type="range" class="slider" id="perc-hide" min="0" max="100" step="5"
-                                        value="20">
+                                        value="20" />
                                 </div>
                             </div>
                             <div class="slider-control-right">
@@ -72,7 +74,7 @@
                                 <label class="toggle-label" for="hide-home-enabled">
                                     <span class="toggle-text">Home</span>
                                     <div class="toggle-switch">
-                                        <input type="checkbox" id="hide-home-enabled">
+                                        <input type="checkbox" id="hide-home-enabled" />
                                         <span class="toggle-slider"></span>
                                     </div>
                                 </label>
@@ -81,7 +83,7 @@
                                 <label class="toggle-label" for="hide-subs-enabled">
                                     <span class="toggle-text">Subs</span>
                                     <div class="toggle-switch">
-                                        <input type="checkbox" id="hide-subs-enabled">
+                                        <input type="checkbox" id="hide-subs-enabled" />
                                         <span class="toggle-slider"></span>
                                     </div>
                                 </label>
@@ -90,7 +92,7 @@
                                 <label class="toggle-label" for="hide-search-enabled">
                                     <span class="toggle-text">Search</span>
                                     <div class="toggle-switch">
-                                        <input type="checkbox" id="hide-search-enabled">
+                                        <input type="checkbox" id="hide-search-enabled" />
                                         <span class="toggle-slider"></span>
                                     </div>
                                 </label>
@@ -99,7 +101,7 @@
                                 <label class="toggle-label" for="hide-corr-enabled">
                                     <span class="toggle-text">Related</span>
                                     <div class="toggle-switch">
-                                        <input type="checkbox" id="hide-corr-enabled">
+                                        <input type="checkbox" id="hide-corr-enabled" />
                                         <span class="toggle-slider"></span>
                                     </div>
                                 </label>
@@ -116,7 +118,7 @@
                         </div>
                         <div class="card-compact-toggle easy-mode-simple">
                             <div class="toggle-switch-large">
-                                <input type="checkbox" id="hide-shorts-master">
+                                <input type="checkbox" id="hide-shorts-master" />
                                 <span class="toggle-slider"></span>
                             </div>
                         </div>
@@ -128,7 +130,7 @@
                                 <label class="toggle-label" for="hide-shorts-enabled">
                                     <span class="toggle-text">Hide Shorts</span>
                                     <div class="toggle-switch">
-                                        <input type="checkbox" id="hide-shorts-enabled">
+                                        <input type="checkbox" id="hide-shorts-enabled" />
                                         <span class="toggle-slider"></span>
                                     </div>
                                 </label>
@@ -137,7 +139,7 @@
                                 <label class="toggle-label" for="hide-shorts-search-enabled">
                                     <span class="toggle-text">Hide in Search</span>
                                     <div class="toggle-switch">
-                                        <input type="checkbox" id="hide-shorts-search-enabled">
+                                        <input type="checkbox" id="hide-shorts-search-enabled" />
                                         <span class="toggle-slider"></span>
                                     </div>
                                 </label>
@@ -150,11 +152,13 @@
                     <div class="card-compact-header">
                         <div class="card-compact-info">
                             <h3 class="card-title">Minimum Views Filter</h3>
-                            <p class="card-description">Hide videos below a certain view count</p>
+                            <p class="card-description">
+                                Hide videos below a certain view count
+                            </p>
                         </div>
                         <div class="card-compact-toggle easy-mode-simple">
                             <div class="toggle-switch-large">
-                                <input type="checkbox" id="views-hide-master">
+                                <input type="checkbox" id="views-hide-master" />
                                 <span class="toggle-slider"></span>
                             </div>
                         </div>
@@ -166,7 +170,7 @@
                                 <label class="control-label">Minimum Views</label>
                                 <div class="slider-wrapper">
                                     <input type="range" class="slider" id="views-hide" min="0" max="17" step="1"
-                                        value="3">
+                                        value="3" />
                                 </div>
                             </div>
                             <div class="slider-control-right">
@@ -181,7 +185,7 @@
                                 <label class="toggle-label" for="views-hide-home-enabled">
                                     <span class="toggle-text">Home</span>
                                     <div class="toggle-switch">
-                                        <input type="checkbox" id="views-hide-home-enabled">
+                                        <input type="checkbox" id="views-hide-home-enabled" />
                                         <span class="toggle-slider"></span>
                                     </div>
                                 </label>
@@ -190,7 +194,7 @@
                                 <label class="toggle-label" for="views-hide-subs-enabled">
                                     <span class="toggle-text">Subs</span>
                                     <div class="toggle-switch">
-                                        <input type="checkbox" id="views-hide-subs-enabled">
+                                        <input type="checkbox" id="views-hide-subs-enabled" />
                                         <span class="toggle-slider"></span>
                                     </div>
                                 </label>
@@ -199,7 +203,7 @@
                                 <label class="toggle-label" for="views-hide-search-enabled">
                                     <span class="toggle-text">Search</span>
                                     <div class="toggle-switch">
-                                        <input type="checkbox" id="views-hide-search-enabled">
+                                        <input type="checkbox" id="views-hide-search-enabled" />
                                         <span class="toggle-slider"></span>
                                     </div>
                                 </label>
@@ -208,7 +212,7 @@
                                 <label class="toggle-label" for="views-hide-corr-enabled">
                                     <span class="toggle-text">Related</span>
                                     <div class="toggle-switch">
-                                        <input type="checkbox" id="views-hide-corr-enabled">
+                                        <input type="checkbox" id="views-hide-corr-enabled" />
                                         <span class="toggle-slider"></span>
                                     </div>
                                 </label>
@@ -227,11 +231,13 @@
                     <div class="card-compact-header">
                         <div class="card-compact-info">
                             <h3 class="card-title">Netflix and Prime Video</h3>
-                            <p class="card-description">Automatically skip intros and recaps</p>
+                            <p class="card-description">
+                                Automatically skip intros and recaps
+                            </p>
                         </div>
                         <div class="card-compact-toggle">
                             <div class="toggle-switch-large">
-                                <input type="checkbox" id="skip-enabled">
+                                <input type="checkbox" id="skip-enabled" />
                                 <span class="toggle-slider"></span>
                             </div>
                         </div>
@@ -242,7 +248,7 @@
                             <div class="slider-control-left">
                                 <label class="control-label">Skip Delay</label>
                                 <div class="slider-wrapper">
-                                    <input type="range" class="slider" id="delay" min="0" max="5" step="1" value="1">
+                                    <input type="range" class="slider" id="delay" min="0" max="5" step="1" value="1" />
                                 </div>
                             </div>
                             <div class="slider-control-right">
@@ -256,8 +262,29 @@
                 </div>
             </section>
 
-            <div class="footer-logo">
-                <img class="logo-image" src="assets/icons/youtube-hider-logo.png" alt="Youtube Hider Extension Logo">
+            <div class="footer-container">
+                <div class="footer-logo">
+                    <img class="logo-image" src="assets/icons/youtube-hider-logo.png"
+                        alt="Youtube Hider Extension Logo" />
+                </div>
+                <div class="footer-links">
+                    <a href="https://forms.gle/oAqtSjQHQeEp9TFKA" target="_blank" class="footer-link">
+                        Request a Feature
+                        <svg class="external-icon" width="12" height="12" viewBox="0 0 12 12" fill="none">
+                            <path d="M10.5 1.5L4.5 7.5M10.5 1.5H6.5M10.5 1.5V5.5M10.5 10.5H1.5V1.5H5.5"
+                                stroke="currentColor" stroke-width="1.5" stroke-linecap="round"
+                                stroke-linejoin="round" />
+                        </svg>
+                    </a>
+                    <a href="https://forms.gle/oAqtSjQHQeEp9TFKA" target="_blank" class="footer-link">
+                        Report a Bug
+                        <svg class="external-icon" width="12" height="12" viewBox="0 0 12 12" fill="none">
+                            <path d="M10.5 1.5L4.5 7.5M10.5 1.5H6.5M10.5 1.5V5.5M10.5 10.5H1.5V1.5H5.5"
+                                stroke="currentColor" stroke-width="1.5" stroke-linecap="round"
+                                stroke-linejoin="round" />
+                        </svg>
+                    </a>
+                </div>
             </div>
         </div>
     </div>
