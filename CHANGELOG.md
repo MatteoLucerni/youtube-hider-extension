@@ -77,3 +77,9 @@
 ### Version 2.0.2
 
 - Fixed autoskip repeated click bug
+
+### Version 2.1.0
+
+- Fixed path handle
+- After uninstall form for feedback
+- Popup link to report bug/give feedback

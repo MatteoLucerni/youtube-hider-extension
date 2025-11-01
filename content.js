@@ -312,78 +312,162 @@ function hideShorts() {
   });
 }
 
-function startHiding() {
+let currentPath = window.location.pathname;
+let pageLoadTimeout = null;
+
+const PAGE_SELECTORS = {
+  '/': ['ytd-rich-grid-renderer', 'ytd-two-column-browse-results-renderer'],
+  '/results': ['ytd-search', 'ytd-item-section-renderer'],
+  '/watch': ['ytd-watch-flexy', '#primary'],
+  '/feed/subscriptions': ['ytd-browse', 'ytd-section-list-renderer']
+};
+
+function waitForPageElements(pathname, timeout = 3000) {
+  return new Promise((resolve) => {
+    const selectors = PAGE_SELECTORS[pathname];
+    
+    if (!selectors) {
+      resolve(true);
+      return;
+    }
+
+    const checkElements = () => {
+      for (const selector of selectors) {
+        if (document.querySelector(selector)) {
+          logger.log(`Page ready: found ${selector} for ${pathname}`);
+          resolve(true);
+          return true;
+        }
+      }
+      return false;
+    };
+
+    if (checkElements()) return;
+
+    const startTime = Date.now();
+    const interval = setInterval(() => {
+      if (checkElements()) {
+        clearInterval(interval);
+      } else if (Date.now() - startTime > timeout) {
+        logger.warn(`Timeout waiting for page elements on ${pathname}`);
+        clearInterval(interval);
+        resolve(false);
+      }
+    }, 100);
+  });
+}
+
+function shouldHideWatched(pathname) {
   const {
     hideHomeEnabled,
     hideSearchEnabled,
     hideSubsEnabled,
     hideCorrEnabled,
-    viewsHideHomeEnabled,
-    viewsHideSearchEnabled,
-    viewsHideSubsEnabled,
-    viewsHideCorrEnabled,
-    hideShortsEnabled,
-    hideShortsSearchEnabled,
   } = prefs;
-  const { pathname } = window.location;
 
-  logger.log('Current path:', pathname);
-  logger.log('Hiding prefs:', {
-    hideHomeEnabled,
-    hideSearchEnabled,
-    hideSubsEnabled,
-    hideCorrEnabled,
-    viewsHideHomeEnabled,
-    viewsHideSearchEnabled,
-    viewsHideSubsEnabled,
-    viewsHideCorrEnabled,
-    hideShortsEnabled,
-    hideShortsSearchEnabled,
-  });
-
-  if (
+  return (
     (pathname === '/' && hideHomeEnabled) ||
     (pathname === '/results' && hideSearchEnabled) ||
     (pathname === '/watch' && hideCorrEnabled) ||
     (pathname === '/feed/subscriptions' && hideSubsEnabled)
-  ) {
-    logger.log('Hiding watched videos on', pathname);
-    hideWatched(pathname);
-  }
+  );
+}
 
-  if (
+function shouldHideViews(pathname) {
+  const {
+    viewsHideHomeEnabled,
+    viewsHideSearchEnabled,
+    viewsHideSubsEnabled,
+    viewsHideCorrEnabled,
+  } = prefs;
+
+  return (
     (pathname === '/' && viewsHideHomeEnabled) ||
     (pathname === '/results' && viewsHideSearchEnabled) ||
     (pathname === '/watch' && viewsHideCorrEnabled) ||
     (pathname === '/feed/subscriptions' && viewsHideSubsEnabled)
-  ) {
+  );
+}
+
+function shouldHideShorts(pathname) {
+  const { hideShortsEnabled, hideShortsSearchEnabled } = prefs;
+
+  return (
+    hideShortsEnabled &&
+    pathname !== '/feed/history' &&
+    (hideShortsSearchEnabled || pathname !== '/results')
+  );
+}
+
+async function startHiding(pathname) {
+  logger.log('Starting hide operations for:', pathname);
+  
+  await waitForPageElements(pathname);
+
+  if (shouldHideWatched(pathname)) {
+    logger.log('Hiding watched videos on', pathname);
+    hideWatched(pathname);
+  }
+
+  if (shouldHideViews(pathname)) {
     logger.log('Hiding low view count videos on', pathname);
     hideUnderVisuals(pathname);
   }
 
-  if (
-    hideShortsEnabled &&
-    pathname !== '/feed/history' &&
-    (hideShortsSearchEnabled || pathname !== '/results')
-  ) {
+  if (shouldHideShorts(pathname)) {
     logger.log('Hiding shorts on', pathname);
     hideShorts();
   }
 }
 
+function detectPageChange() {
+  const newPath = window.location.pathname;
+  
+  if (newPath !== currentPath) {
+    logger.log(`Page changed: ${currentPath} -> ${newPath}`);
+    currentPath = newPath;
+    
+    if (pageLoadTimeout) {
+      clearTimeout(pageLoadTimeout);
+    }
+    
+    pageLoadTimeout = setTimeout(() => {
+      startHiding(currentPath);
+      pageLoadTimeout = null;
+    }, 200);
+    
+    return true;
+  }
+  
+  return false;
+}
+
+const debouncedHiding = debounce(() => {
+  if (!detectPageChange()) {
+    startHiding(currentPath);
+  }
+}, 300);
+
 function onMutations() {
   skipIntro();
-  startHiding();
+  debouncedHiding();
 }
 
 async function init() {
   await initPrefs();
   setupPrefsListener();
 
-  onMutations();
+  logger.log('Extension initialized on', currentPath);
+  await startHiding(currentPath);
 
   const observer = new MutationObserver(onMutations);
   observer.observe(document.body, { childList: true, subtree: true });
+  
+  logger.log('MutationObserver started');
 }
 
-init();
+if (document.readyState === 'loading') {
+  document.addEventListener('DOMContentLoaded', init);
+} else {
+  init();
+}
