@@ -344,6 +344,22 @@ function hideShorts() {
       }
     }
   });
+
+  document
+    .querySelectorAll('ytd-mini-guide-entry-renderer a[href^="/shorts"]')
+    .forEach(link => {
+      const entry = link.closest('ytd-mini-guide-entry-renderer');
+      if (entry) entry.style.display = 'none';
+    });
+
+  document
+    .querySelectorAll('a[aria-label="Shorts"][href^="/shorts"]')
+    .forEach(link => {
+      const mini = link.closest('ytd-mini-guide-entry-renderer');
+      const guide = link.closest('ytd-guide-entry-renderer');
+      if (mini) mini.style.display = 'none';
+      if (guide) guide.style.display = 'none';
+    });
 }
 
 let currentPath = window.location.pathname;
