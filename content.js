@@ -160,7 +160,15 @@ function hideUnderVisuals(pathname) {
   const isChannelPage = pathname && pathname.startsWith('/@');
 
   document.querySelectorAll('#metadata-line').forEach(metaLine => {
-    const span = metaLine.querySelector('span.inline-metadata-item');
+    let span;
+
+    if (isChannelPage) {
+      const spans = metaLine.querySelectorAll('span.style-scope');
+      span = spans[0];
+    } else {
+      span = metaLine.querySelector('span.inline-metadata-item');
+    }
+
     if (!span) return;
 
     const text = span.textContent;
@@ -210,6 +218,17 @@ function hideNewFormatVideos(pathname) {
 
       const text = viewsSpan.textContent;
       const views = parseToNumber(text);
+
+      // Debug log: parsed views and threshold used for hiding (new format)
+      try {
+        logger.log('views-check', {
+          views,
+          threshold: viewsHideThreshold,
+          pathname,
+        });
+      } catch (e) {
+        /* ignore logging errors */
+      }
 
       if (isNaN(views) || views >= viewsHideThreshold) return;
 
