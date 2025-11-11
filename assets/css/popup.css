@@ -34,7 +34,7 @@ body {
     font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, sans-serif;
     font-size: 13.5px;
     line-height: 1.5;
-    width: 350px;
+    width: 400px;
     min-height: 400px;
 }
 
@@ -229,7 +229,7 @@ hr {
 .setting-group {
     display: flex;
     gap: var(--spacing-md);
-    align-items: center;
+    align-items: flex-start;
     justify-content: center;
     flex-wrap: wrap;
     margin-top: var(--spacing-xl);
@@ -369,7 +369,6 @@ hr {
     gap: var(--spacing-md);
     flex: 1;
     align-items: stretch;
-    margin-top: var(--spacing-sm);
 }
 
 .toggle-grid-large {
@@ -397,6 +396,7 @@ hr {
     border-radius: var(--radius-md);
     overflow: hidden;
     display: flex;
+    min-width: 0;
 }
 
 .toggle-label {
@@ -409,6 +409,7 @@ hr {
     user-select: none;
     width: 100%;
     min-height: 50px;
+    min-width: 0;
 }
 
 .toggle-text {
@@ -417,8 +418,9 @@ hr {
     color: #ffffff;
     text-align: center;
     line-height: 1.3;
-    word-wrap: break-word;
-    overflow-wrap: break-word;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
     max-width: 100%;
 }
 
