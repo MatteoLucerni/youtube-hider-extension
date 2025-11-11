@@ -229,7 +229,7 @@ hr {
 .setting-group {
     display: flex;
     gap: var(--spacing-md);
-    align-items: center;
+    align-items: flex-start;
     justify-content: center;
     flex-wrap: wrap;
     margin-top: var(--spacing-xl);
@@ -369,7 +369,6 @@ hr {
     gap: var(--spacing-md);
     flex: 1;
     align-items: stretch;
-    margin-top: var(--spacing-sm);
 }
 
 .toggle-grid-large {
