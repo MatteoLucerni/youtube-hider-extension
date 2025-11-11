@@ -1,3 +1,9 @@
+const TIMING = {
+  DEBOUNCE_MUTATIONS: 100,
+  PAGE_CHANGE_DELAY: 100,
+  ELEMENT_POLL_INTERVAL: 50,
+};
+
 const prefs = {
   skipIntroDelay: 1,
   skipEnabled: true,
@@ -51,7 +57,7 @@ let skipTimeout = null;
 
 function skipIntro() {
   if (!prefs.skipEnabled) return;
-  
+
   const netflixBtn = document.querySelector(
     "button[data-uia='player-skip-intro']"
   );
@@ -60,17 +66,17 @@ function skipIntro() {
     document.querySelector(
       "button[data-uia='viewer-skip-recap'], button[data-uia='player-skip-recap']"
     ) || document.querySelector('[class*="skip-recap"], [class*="SkipRecap"]');
-  
+
   const btn = netflixBtn || primeBtn || recapBtn;
-  
+
   if (!btn || skipClickedButtons.has(btn)) return;
-  
+
   if (skipTimeout) {
     clearTimeout(skipTimeout);
   }
-  
+
   skipClickedButtons.add(btn);
-  
+
   skipTimeout = setTimeout(() => {
     btn.click();
     logger.log('Skipped intro/recap');
@@ -319,13 +325,13 @@ const PAGE_SELECTORS = {
   '/': ['ytd-rich-grid-renderer', 'ytd-two-column-browse-results-renderer'],
   '/results': ['ytd-search', 'ytd-item-section-renderer'],
   '/watch': ['ytd-watch-flexy', '#primary'],
-  '/feed/subscriptions': ['ytd-browse', 'ytd-section-list-renderer']
+  '/feed/subscriptions': ['ytd-browse', 'ytd-section-list-renderer'],
 };
 
 function waitForPageElements(pathname, timeout = 3000) {
-  return new Promise((resolve) => {
+  return new Promise(resolve => {
     const selectors = PAGE_SELECTORS[pathname];
-    
+
     if (!selectors) {
       resolve(true);
       return;
@@ -353,7 +359,7 @@ function waitForPageElements(pathname, timeout = 3000) {
         clearInterval(interval);
         resolve(false);
       }
-    }, 100);
+    }, TIMING.ELEMENT_POLL_INTERVAL);
   });
 }
 
@@ -401,7 +407,7 @@ function shouldHideShorts(pathname) {
 
 async function startHiding(pathname) {
   logger.log('Starting hide operations for:', pathname);
-  
+
   await waitForPageElements(pathname);
 
   if (shouldHideWatched(pathname)) {
@@ -422,23 +428,23 @@ async function startHiding(pathname) {
 
 function detectPageChange() {
   const newPath = window.location.pathname;
-  
+
   if (newPath !== currentPath) {
     logger.log(`Page changed: ${currentPath} -> ${newPath}`);
     currentPath = newPath;
-    
+
     if (pageLoadTimeout) {
       clearTimeout(pageLoadTimeout);
     }
-    
+
     pageLoadTimeout = setTimeout(() => {
       startHiding(currentPath);
       pageLoadTimeout = null;
-    }, 200);
-    
+    }, TIMING.PAGE_CHANGE_DELAY);
+
     return true;
   }
-  
+
   return false;
 }
 
@@ -446,7 +452,7 @@ const debouncedHiding = debounce(() => {
   if (!detectPageChange()) {
     startHiding(currentPath);
   }
-}, 300);
+}, TIMING.DEBOUNCE_MUTATIONS);
 
 function onMutations() {
   skipIntro();
@@ -462,7 +468,7 @@ async function init() {
 
   const observer = new MutationObserver(onMutations);
   observer.observe(document.body, { childList: true, subtree: true });
-  
+
   logger.log('MutationObserver started');
 }
 
