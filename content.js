@@ -99,14 +99,16 @@ function hideWatched(pathname) {
 
       let item = bar;
 
-      while (
-        item &&
-        !item.matches(
-          pathname === '/watch'
-            ? 'ytd-compact-video-renderer, ytd-rich-item-renderer, ytd-video-renderer, yt-lockup-view-model'
-            : 'ytd-compact-video-renderer, ytd-rich-item-renderer, ytd-video-renderer'
-        )
-      ) {
+      const isChannelPage = pathname && pathname.startsWith('/@');
+
+      const selectors =
+        pathname === '/watch'
+          ? 'ytd-compact-video-renderer, ytd-rich-item-renderer, ytd-video-renderer, yt-lockup-view-model'
+          : isChannelPage
+          ? 'ytd-compact-video-renderer, ytd-rich-item-renderer, ytd-video-renderer, ytd-grid-video-renderer'
+          : 'ytd-compact-video-renderer, ytd-rich-item-renderer, ytd-video-renderer';
+
+      while (item && !item.matches(selectors)) {
         item = item.parentElement;
       }
       if (!item) return;
@@ -155,6 +157,8 @@ let observerCreated = false;
 function hideUnderVisuals(pathname) {
   const { viewsHideThreshold } = prefs;
 
+  const isChannelPage = pathname && pathname.startsWith('/@');
+
   document.querySelectorAll('#metadata-line').forEach(metaLine => {
     const span = metaLine.querySelector('span.inline-metadata-item');
     if (!span) return;
@@ -165,12 +169,12 @@ function hideUnderVisuals(pathname) {
     if (isNaN(views) || views >= viewsHideThreshold) return;
 
     let item = span;
-    while (
-      item &&
-      !item.matches(
-        'ytd-compact-video-renderer, ytd-rich-item-renderer, ytd-video-renderer, yt-lockup-view-model'
-      )
-    ) {
+
+    const selectors = isChannelPage
+      ? 'ytd-compact-video-renderer, ytd-rich-item-renderer, ytd-video-renderer, ytd-grid-video-renderer, yt-lockup-view-model'
+      : 'ytd-compact-video-renderer, ytd-rich-item-renderer, ytd-video-renderer, yt-lockup-view-model';
+
+    while (item && !item.matches(selectors)) {
       item = item.parentElement;
     }
     if (item) item.style.display = 'none';
@@ -186,6 +190,8 @@ function hideUnderVisuals(pathname) {
 
 function hideNewFormatVideos(pathname) {
   const { viewsHideThreshold } = prefs;
+
+  const isChannelPage = pathname && pathname.startsWith('/@');
 
   document
     .querySelectorAll('yt-content-metadata-view-model, yt-lockup-view-model')
@@ -208,14 +214,15 @@ function hideNewFormatVideos(pathname) {
       if (isNaN(views) || views >= viewsHideThreshold) return;
 
       let item = viewsSpan;
-      while (
-        item &&
-        !item.matches(
-          pathname === '/watch'
-            ? 'ytd-compact-video-renderer, ytd-rich-item-renderer, ytd-video-renderer, yt-lockup-view-model'
-            : 'ytd-compact-video-renderer, ytd-rich-item-renderer, ytd-video-renderer'
-        )
-      ) {
+
+      const selectors =
+        pathname === '/watch'
+          ? 'ytd-compact-video-renderer, ytd-rich-item-renderer, ytd-video-renderer, yt-lockup-view-model'
+          : isChannelPage
+          ? 'ytd-compact-video-renderer, ytd-rich-item-renderer, ytd-video-renderer, ytd-grid-video-renderer'
+          : 'ytd-compact-video-renderer, ytd-rich-item-renderer, ytd-video-renderer';
+
+      while (item && !item.matches(selectors)) {
         item = item.parentElement;
       }
 
