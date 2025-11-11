@@ -9,11 +9,13 @@ const prefs = {
   skipEnabled: true,
   hideThreshold: 20,
   hideHomeEnabled: true,
+  hideChannelEnabled: true,
   hideSearchEnabled: true,
   hideSubsEnabled: true,
   hideCorrEnabled: true,
   viewsHideThreshold: 1000,
   viewsHideHomeEnabled: true,
+  viewsHideChannelEnabled: true,
   viewsHideSearchEnabled: true,
   viewsHideSubsEnabled: true,
   viewsHideCorrEnabled: true,
@@ -330,7 +332,12 @@ const PAGE_SELECTORS = {
 
 function waitForPageElements(pathname, timeout = 3000) {
   return new Promise(resolve => {
-    const selectors = PAGE_SELECTORS[pathname];
+    let selectors = PAGE_SELECTORS[pathname];
+
+    // Channel pages like /@ChannelName should be treated like the homepage for waiting elements
+    if (!selectors && pathname && pathname.startsWith('/@')) {
+      selectors = PAGE_SELECTORS['/'];
+    }
 
     if (!selectors) {
       resolve(true);
@@ -366,6 +373,7 @@ function waitForPageElements(pathname, timeout = 3000) {
 function shouldHideWatched(pathname) {
   const {
     hideHomeEnabled,
+    hideChannelEnabled,
     hideSearchEnabled,
     hideSubsEnabled,
     hideCorrEnabled,
@@ -373,6 +381,7 @@ function shouldHideWatched(pathname) {
 
   return (
     (pathname === '/' && hideHomeEnabled) ||
+    (pathname && pathname.startsWith('/@') && hideChannelEnabled) ||
     (pathname === '/results' && hideSearchEnabled) ||
     (pathname === '/watch' && hideCorrEnabled) ||
     (pathname === '/feed/subscriptions' && hideSubsEnabled)
@@ -382,6 +391,7 @@ function shouldHideWatched(pathname) {
 function shouldHideViews(pathname) {
   const {
     viewsHideHomeEnabled,
+    viewsHideChannelEnabled,
     viewsHideSearchEnabled,
     viewsHideSubsEnabled,
     viewsHideCorrEnabled,
@@ -389,6 +399,7 @@ function shouldHideViews(pathname) {
 
   return (
     (pathname === '/' && viewsHideHomeEnabled) ||
+    (pathname && pathname.startsWith('/@') && viewsHideChannelEnabled) ||
     (pathname === '/results' && viewsHideSearchEnabled) ||
     (pathname === '/watch' && viewsHideCorrEnabled) ||
     (pathname === '/feed/subscriptions' && viewsHideSubsEnabled)
@@ -410,17 +421,34 @@ async function startHiding(pathname) {
 
   await waitForPageElements(pathname);
 
-  if (shouldHideWatched(pathname)) {
+  // Compute effective actions and log relevant prefs so it's clear why something runs
+  const canHideWatched = shouldHideWatched(pathname);
+  const canHideViews = shouldHideViews(pathname);
+  const canHideShortsFlag = shouldHideShorts(pathname);
+
+  logger.log('Hide decision for', pathname, {
+    hideWatched: canHideWatched,
+    hideViews: canHideViews,
+    hideShorts: canHideShortsFlag,
+    relevantPrefs: {
+      hideChannelEnabled: prefs.hideChannelEnabled,
+      viewsHideChannelEnabled: prefs.viewsHideChannelEnabled,
+      hideShortsEnabled: prefs.hideShortsEnabled,
+      hideShortsSearchEnabled: prefs.hideShortsSearchEnabled,
+    },
+  });
+
+  if (canHideWatched) {
     logger.log('Hiding watched videos on', pathname);
     hideWatched(pathname);
   }
 
-  if (shouldHideViews(pathname)) {
+  if (canHideViews) {
     logger.log('Hiding low view count videos on', pathname);
     hideUnderVisuals(pathname);
   }
 
-  if (shouldHideShorts(pathname)) {
+  if (canHideShortsFlag) {
     logger.log('Hiding shorts on', pathname);
     hideShorts();
   }

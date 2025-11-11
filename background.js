@@ -21,10 +21,12 @@ const flagKeys = [
   'hideHomeEnabled',
   'hideSearchEnabled',
   'hideSubsEnabled',
+  'hideChannelEnabled',
   'hideCorrEnabled',
   'viewsHideHomeEnabled',
   'viewsHideSearchEnabled',
   'viewsHideSubsEnabled',
+  'viewsHideChannelEnabled',
   'viewsHideCorrEnabled',
   'hideShortsEnabled',
   'hideShortsSearchEnabled',
@@ -35,11 +37,13 @@ const defaultSettings = {
   skipEnabled: true,
   hideThreshold: 20,
   hideHomeEnabled: true,
+  hideChannelEnabled: true,
   hideSearchEnabled: true,
   hideSubsEnabled: true,
   hideCorrEnabled: true,
   viewsHideThreshold: 1000,
   viewsHideHomeEnabled: true,
+  viewsHideChannelEnabled: true,
   viewsHideSearchEnabled: true,
   viewsHideSubsEnabled: true,
   viewsHideCorrEnabled: true,
@@ -118,17 +122,17 @@ chrome.storage.onChanged.addListener((changes, area) => {
 chrome.runtime.onStartup.addListener(() => {
   refreshBadge();
 });
-chrome.runtime.onInstalled.addListener((details) => {
+chrome.runtime.onInstalled.addListener(details => {
   if (details.reason === chrome.runtime.OnInstalledReason.INSTALL) {
     chrome.runtime.setUninstallURL(UNINSTALL_SURVEY_URL);
     logger.log('Uninstall URL set for new installation');
   }
-  
+
   if (details.reason === chrome.runtime.OnInstalledReason.UPDATE) {
     chrome.runtime.setUninstallURL(UNINSTALL_SURVEY_URL);
     logger.log('Uninstall URL updated');
   }
-  
+
   initializeSettings();
 });
 initializeSettings();
