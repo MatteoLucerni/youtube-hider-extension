@@ -83,3 +83,9 @@
 - Fixed path handle
 - After uninstall form for feedback
 - Popup link to report bug/give feedback
+
+### Version 2.2.0
+
+- Now hiding also in Channel page
+- Fixed shorts icon not hiding
+- Reduced debounce time

@@ -72,6 +72,7 @@ document.addEventListener('DOMContentLoaded', () => {
       value: document.getElementById('perc-hide-value'),
       boxes: {
         home: document.getElementById('hide-home-enabled'),
+        channel: document.getElementById('hide-channel-enabled'),
         search: document.getElementById('hide-search-enabled'),
         subs: document.getElementById('hide-subs-enabled'),
         corr: document.getElementById('hide-corr-enabled'),
@@ -79,6 +80,7 @@ document.addEventListener('DOMContentLoaded', () => {
       keys: {
         threshold: 'hideThreshold',
         home: 'hideHomeEnabled',
+        channel: 'hideChannelEnabled',
         search: 'hideSearchEnabled',
         subs: 'hideSubsEnabled',
         corr: 'hideCorrEnabled',
@@ -86,6 +88,7 @@ document.addEventListener('DOMContentLoaded', () => {
       defaults: {
         threshold: 20,
         home: true,
+        channel: true,
         search: true,
         subs: true,
         corr: true,
@@ -104,6 +107,7 @@ document.addEventListener('DOMContentLoaded', () => {
       value: document.getElementById('views-hide-value'),
       boxes: {
         home: document.getElementById('views-hide-home-enabled'),
+        channel: document.getElementById('views-hide-channel-enabled'),
         search: document.getElementById('views-hide-search-enabled'),
         subs: document.getElementById('views-hide-subs-enabled'),
         corr: document.getElementById('views-hide-corr-enabled'),
@@ -111,6 +115,7 @@ document.addEventListener('DOMContentLoaded', () => {
       keys: {
         threshold: 'viewsHideThreshold',
         home: 'viewsHideHomeEnabled',
+        channel: 'viewsHideChannelEnabled',
         search: 'viewsHideSearchEnabled',
         subs: 'viewsHideSubsEnabled',
         corr: 'viewsHideCorrEnabled',
@@ -118,6 +123,7 @@ document.addEventListener('DOMContentLoaded', () => {
       defaults: {
         threshold: 1000,
         home: true,
+        channel: true,
         search: true,
         subs: true,
         corr: true,
@@ -176,6 +182,7 @@ document.addEventListener('DOMContentLoaded', () => {
 
     hideWatchedMaster.checked = isAnyTrue({
       home: prefs.hideHomeEnabled ?? cfg.hide.defaults.home,
+      channel: prefs.hideChannelEnabled ?? cfg.hide.defaults.channel,
       search: prefs.hideSearchEnabled ?? cfg.hide.defaults.search,
       subs: prefs.hideSubsEnabled ?? cfg.hide.defaults.subs,
       corr: prefs.hideCorrEnabled ?? cfg.hide.defaults.corr,
@@ -188,6 +195,7 @@ document.addEventListener('DOMContentLoaded', () => {
 
     viewsHideMaster.checked = isAnyTrue({
       home: prefs.viewsHideHomeEnabled ?? cfg.views.defaults.home,
+      channel: prefs.viewsHideChannelEnabled ?? cfg.views.defaults.channel,
       search: prefs.viewsHideSearchEnabled ?? cfg.views.defaults.search,
       subs: prefs.viewsHideSubsEnabled ?? cfg.views.defaults.subs,
       corr: prefs.viewsHideCorrEnabled ?? cfg.views.defaults.corr,
