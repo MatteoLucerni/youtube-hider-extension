@@ -91,7 +91,7 @@ function hideWatched(pathname) {
 
   document
     .querySelectorAll(
-      'ytd-thumbnail-overlay-resume-playback-renderer #progress, .ytThumbnailOverlayProgressBarHostWatchedProgressBarSegment'
+      'ytd-thumbnail-overlay-resume-playback-renderer #progress, .ytThumbnailOverlayProgressBarHostWatchedProgressBarSegment, ytm-thumbnail-overlay-resume-playback-renderer .thumbnail-overlay-resume-playback-progress'
     )
     .forEach(bar => {
       const pct = parseFloat(bar.style.width) || 0;
@@ -103,10 +103,10 @@ function hideWatched(pathname) {
 
       const selectors =
         pathname === '/watch'
-          ? 'ytd-compact-video-renderer, ytd-rich-item-renderer, ytd-video-renderer, yt-lockup-view-model'
+          ? 'ytd-compact-video-renderer, ytd-rich-item-renderer, ytd-video-renderer, yt-lockup-view-model, ytm-video-with-context-renderer, ytm-compact-video-renderer'
           : isChannelPage
-          ? 'ytd-compact-video-renderer, ytd-rich-item-renderer, ytd-video-renderer, ytd-grid-video-renderer'
-          : 'ytd-compact-video-renderer, ytd-rich-item-renderer, ytd-video-renderer';
+          ? 'ytd-compact-video-renderer, ytd-rich-item-renderer, ytd-video-renderer, ytd-grid-video-renderer, ytm-video-with-context-renderer, ytm-compact-video-renderer'
+          : 'ytd-compact-video-renderer, ytd-rich-item-renderer, ytd-video-renderer, ytm-video-with-context-renderer, ytm-compact-video-renderer, ytm-rich-item-renderer';
 
       while (item && !item.matches(selectors)) {
         item = item.parentElement;
@@ -159,34 +159,40 @@ function hideUnderVisuals(pathname) {
 
   const isChannelPage = pathname && pathname.startsWith('/@');
 
-  document.querySelectorAll('#metadata-line').forEach(metaLine => {
-    let span;
+  document
+    .querySelectorAll('#metadata-line, .ytm-badge-and-byline-item-text')
+    .forEach(metaLine => {
+      let span;
 
-    if (isChannelPage) {
-      const spans = metaLine.querySelectorAll('span.style-scope');
-      span = spans[0];
-    } else {
-      span = metaLine.querySelector('span.inline-metadata-item');
-    }
+      if (metaLine.classList.contains('ytm-badge-and-byline-item-text')) {
+        span = metaLine;
+      } else {
+        if (isChannelPage) {
+          const spans = metaLine.querySelectorAll('span.style-scope');
+          span = spans[0];
+        } else {
+          span = metaLine.querySelector('span.inline-metadata-item');
+        }
+      }
 
-    if (!span) return;
+      if (!span) return;
 
-    const text = span.textContent;
-    const views = parseToNumber(text);
+      const text = span.textContent;
+      const views = parseToNumber(text);
 
-    if (isNaN(views) || views >= viewsHideThreshold) return;
+      if (isNaN(views) || views >= viewsHideThreshold) return;
 
-    let item = span;
+      let item = span;
 
-    const selectors = isChannelPage
-      ? 'ytd-compact-video-renderer, ytd-rich-item-renderer, ytd-video-renderer, ytd-grid-video-renderer, yt-lockup-view-model'
-      : 'ytd-compact-video-renderer, ytd-rich-item-renderer, ytd-video-renderer, yt-lockup-view-model';
+      const selectors = isChannelPage
+        ? 'ytd-compact-video-renderer, ytd-rich-item-renderer, ytd-video-renderer, ytd-grid-video-renderer, yt-lockup-view-model, ytm-video-with-context-renderer, ytm-compact-video-renderer'
+        : 'ytd-compact-video-renderer, ytd-rich-item-renderer, ytd-video-renderer, yt-lockup-view-model, ytm-video-with-context-renderer, ytm-compact-video-renderer, ytm-rich-item-renderer';
 
-    while (item && !item.matches(selectors)) {
-      item = item.parentElement;
-    }
-    if (item) item.style.display = 'none';
-  });
+      while (item && !item.matches(selectors)) {
+        item = item.parentElement;
+      }
+      if (item) item.style.display = 'none';
+    });
 
   hideNewFormatVideos(pathname);
 
@@ -219,7 +225,6 @@ function hideNewFormatVideos(pathname) {
       const text = viewsSpan.textContent;
       const views = parseToNumber(text);
 
-      // Debug log: parsed views and threshold used for hiding (new format)
       try {
         logger.log('views-check', {
           views,
@@ -236,9 +241,9 @@ function hideNewFormatVideos(pathname) {
 
       const selectors =
         pathname === '/watch'
-          ? 'ytd-compact-video-renderer, ytd-rich-item-renderer, ytd-video-renderer, yt-lockup-view-model'
+          ? 'ytd-compact-video-renderer, ytd-rich-item-renderer, ytd-video-renderer, yt-lockup-view-model, ytm-video-with-context-renderer, ytm-compact-video-renderer'
           : isChannelPage
-          ? 'ytd-compact-video-renderer, ytd-rich-item-renderer, ytd-video-renderer, ytd-grid-video-renderer'
+          ? 'ytd-compact-video-renderer, ytd-rich-item-renderer, ytd-video-renderer, ytd-grid-video-renderer, ytm-video-with-context-renderer, ytm-compact-video-renderer'
           : 'ytd-compact-video-renderer, ytd-rich-item-renderer, ytd-video-renderer';
 
       while (item && !item.matches(selectors)) {
@@ -261,9 +266,15 @@ function createVideoObserver(pathname) {
 }
 
 function hideShorts() {
+  document.querySelectorAll('ytm-rich-section-renderer').forEach(section => {
+    if (section.querySelector('ytm-shorts-lockup-view-model')) {
+      section.style.display = 'none';
+    }
+  });
+
   document
     .querySelectorAll(
-      'ytd-guide-section-renderer, tp-yt-paper-item, ytd-video-renderer, ytd-reel-shelf-renderer'
+      'ytd-guide-section-renderer, tp-yt-paper-item, ytd-video-renderer, ytd-reel-shelf-renderer, ytm-reel-shelf-renderer'
     )
     .forEach(node => {
       if (node.querySelector('ytm-shorts-lockup-view-model')) {
@@ -280,19 +291,24 @@ function hideShorts() {
     });
 
   document.querySelectorAll('a[href^="/shorts/"]').forEach(link => {
-    const shelf = link.closest('ytd-rich-shelf-renderer');
+    const shelf = link.closest(
+      'ytd-rich-shelf-renderer, ytm-reel-shelf-renderer'
+    );
     if (shelf) {
       shelf.style.display = 'none';
       return;
     }
-    const item = link.closest('ytd-rich-item-renderer');
+    const item = link.closest(
+      'ytd-rich-item-renderer, ytm-video-with-context-renderer'
+    );
     if (item) item.style.display = 'none';
   });
 
   document.querySelectorAll('a[title="Shorts"]').forEach(link => {
     const entry =
       link.closest('ytd-guide-entry-renderer') ||
-      link.closest('ytd-mini-guide-entry-renderer');
+      link.closest('ytd-mini-guide-entry-renderer') ||
+      link.closest('ytm-pivot-bar-item-renderer');
     if (entry) entry.style.display = 'none';
   });
 
@@ -308,6 +324,12 @@ function hideShorts() {
       if (entry) entry.style.display = 'none';
     });
 
+  document.querySelectorAll('ytm-chip-cloud-chip-renderer').forEach(chip => {
+    if (chip.textContent.trim() === 'Shorts') {
+      chip.style.display = 'none';
+    }
+  });
+
   document
     .querySelectorAll('yt-tab-shape[tab-title="Shorts"]')
     .forEach(link => {
@@ -315,14 +337,18 @@ function hideShorts() {
     });
 
   document.querySelectorAll('grid-shelf-view-model').forEach(node => {
-    if (node.querySelector('ytm-shorts-lockup-view-model-v2')) {
+    if (
+      node.querySelector(
+        'ytm-shorts-lockup-view-model-v2, ytm-shorts-lockup-view-model'
+      )
+    ) {
       node.style.display = 'none';
     }
   });
 
   document
     .querySelectorAll(
-      'grid-shelf-view-model:has(ytm-shorts-lockup-view-model-v2)'
+      'grid-shelf-view-model:has(ytm-shorts-lockup-view-model-v2), grid-shelf-view-model:has(ytm-shorts-lockup-view-model)'
     )
     .forEach(node => {
       node.style.display = 'none';
@@ -357,8 +383,10 @@ function hideShorts() {
     .forEach(link => {
       const mini = link.closest('ytd-mini-guide-entry-renderer');
       const guide = link.closest('ytd-guide-entry-renderer');
+      const pivot = link.closest('ytm-pivot-bar-item-renderer');
       if (mini) mini.style.display = 'none';
       if (guide) guide.style.display = 'none';
+      if (pivot) pivot.style.display = 'none';
     });
 }
 
@@ -366,17 +394,35 @@ let currentPath = window.location.pathname;
 let pageLoadTimeout = null;
 
 const PAGE_SELECTORS = {
-  '/': ['ytd-rich-grid-renderer', 'ytd-two-column-browse-results-renderer'],
-  '/results': ['ytd-search', 'ytd-item-section-renderer'],
-  '/watch': ['ytd-watch-flexy', '#primary'],
-  '/feed/subscriptions': ['ytd-browse', 'ytd-section-list-renderer'],
+  '/': [
+    'ytd-rich-grid-renderer',
+    'ytd-two-column-browse-results-renderer',
+    'ytm-browse',
+    'ytm-rich-grid-renderer',
+  ],
+  '/results': [
+    'ytd-search',
+    'ytd-item-section-renderer',
+    'ytm-search',
+    'ytm-section-list-renderer',
+  ],
+  '/watch': [
+    'ytd-watch-flexy',
+    '#primary',
+    'ytm-watch',
+    'ytm-single-column-watch-next-results-renderer',
+  ],
+  '/feed/subscriptions': [
+    'ytd-browse',
+    'ytd-section-list-renderer',
+    'ytm-browse',
+  ],
 };
 
 function waitForPageElements(pathname, timeout = 3000) {
   return new Promise(resolve => {
     let selectors = PAGE_SELECTORS[pathname];
 
-    // Channel pages like /@ChannelName should be treated like the homepage for waiting elements
     if (!selectors && pathname && pathname.startsWith('/@')) {
       selectors = PAGE_SELECTORS['/'];
     }
@@ -463,7 +509,6 @@ async function startHiding(pathname) {
 
   await waitForPageElements(pathname);
 
-  // Compute effective actions and log relevant prefs so it's clear why something runs
   const canHideWatched = shouldHideWatched(pathname);
   const canHideViews = shouldHideViews(pathname);
   const canHideShortsFlag = shouldHideShorts(pathname);
