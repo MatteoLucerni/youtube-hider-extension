@@ -31,7 +31,7 @@ let rapidLoaderCount = 0;
 let lastScrollY = 0;
 let lastLoaderTime = 0;
 const LOADER_THRESHOLD = 4;
-const LOADER_RESET_TIME = 5000;
+const LOADER_RESET_TIME = 10000;
 
 function removeWarning() {
   if (warningElement) {
