@@ -192,6 +192,7 @@ function showHighFilteringWarning() {
 
 function detectInfiniteLoaderLoop(mutations) {
   if (warningDismissed || warningElement) return;
+  if (window.location.pathname === '/watch') return;
 
   const now = Date.now();
   const currentScroll = window.scrollY;
@@ -205,7 +206,6 @@ function detectInfiniteLoaderLoop(mutations) {
     if (mutation.type === 'childList' && mutation.addedNodes.length > 0) {
       for (const node of mutation.addedNodes) {
         if (node.nodeType !== 1) continue;
-
         const loaderSelectors =
           'ytd-continuation-item-renderer, ytm-continuation-item-renderer, ytm-spinner, .spinner, .yt-spinner, .loading-spinner';
 
