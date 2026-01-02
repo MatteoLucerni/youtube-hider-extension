@@ -23,6 +23,126 @@ const prefs = {
   hideShortsSearchEnabled: true,
 };
 
+let hiddenItemsCount = 0;
+let warningDismissed = false;
+let warningElement = null;
+let consecutiveHighLoadStrikes = 0;
+const HIDE_WARNING_THRESHOLD = 15;
+const HIDE_WARNING_INTERVAL = 2000;
+const STRIKES_REQUIRED = 4;
+
+setInterval(() => {
+  if (hiddenItemsCount > HIDE_WARNING_THRESHOLD) {
+    consecutiveHighLoadStrikes++;
+  } else {
+    consecutiveHighLoadStrikes = 0;
+  }
+
+  if (consecutiveHighLoadStrikes >= STRIKES_REQUIRED && !warningDismissed) {
+    showHighFilteringWarning();
+  }
+  hiddenItemsCount = 0;
+}, HIDE_WARNING_INTERVAL);
+
+function incrementHiddenCounter() {
+  if (!warningDismissed) {
+    hiddenItemsCount++;
+  }
+}
+
+function showHighFilteringWarning() {
+  if (warningElement || warningDismissed) return;
+
+  warningElement = document.createElement('div');
+  warningElement.id = 'yh-filter-warning';
+
+  Object.assign(warningElement.style, {
+    position: 'fixed',
+    bottom: '24px',
+    right: '24px',
+    backgroundColor: '#222222',
+    border: '1px solid #3a3a3a',
+    color: '#ebebeb',
+    padding: '16px',
+    borderRadius: '8px',
+    zIndex: '2147483647',
+    boxShadow: '0 4px 20px rgba(0,0,0,0.6)',
+    fontFamily:
+      '-apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif',
+    fontSize: '13.5px',
+    maxWidth: '320px',
+    display: 'flex',
+    flexDirection: 'column',
+    gap: '12px',
+    animation: 'fadeIn 0.3s ease-out',
+  });
+
+  const titleRow = document.createElement('div');
+  titleRow.style.display = 'flex';
+  titleRow.style.alignItems = 'center';
+  titleRow.style.gap = '8px';
+  titleRow.style.marginBottom = '4px';
+
+  const title = document.createElement('span');
+  title.textContent = 'High Filtering Detected';
+  title.style.fontWeight = '700';
+  title.style.color = '#8ab4f8';
+  title.style.fontSize = '14px';
+
+  titleRow.appendChild(title);
+
+  const msg = document.createElement('span');
+  msg.textContent =
+    'Many videos are being hidden rapidly. This might cause infinite loading. Consider lowering your filter settings.';
+  msg.style.color = '#b8b8b8';
+  msg.style.lineHeight = '1.4';
+
+  const btnRow = document.createElement('div');
+  btnRow.style.display = 'flex';
+  btnRow.style.justifyContent = 'flex-end';
+  btnRow.style.marginTop = '4px';
+
+  const closeBtn = document.createElement('button');
+  closeBtn.textContent = 'Dismiss';
+  Object.assign(closeBtn.style, {
+    backgroundColor: '#3a3a3a',
+    color: '#8ab4f8',
+    border: 'none',
+    padding: '6px 12px',
+    borderRadius: '5px',
+    cursor: 'pointer',
+    fontWeight: '600',
+    fontSize: '12px',
+    transition: 'background-color 0.2s',
+    outline: 'none',
+  });
+
+  closeBtn.onmouseover = () => {
+    closeBtn.style.backgroundColor = '#4a4a4a';
+  };
+  closeBtn.onmouseout = () => {
+    closeBtn.style.backgroundColor = '#3a3a3a';
+  };
+
+  closeBtn.onclick = () => {
+    if (warningElement) {
+      warningElement.style.opacity = '0';
+      setTimeout(() => {
+        if (warningElement) warningElement.remove();
+        warningElement = null;
+      }, 300);
+    }
+    warningDismissed = true;
+  };
+
+  btnRow.appendChild(closeBtn);
+  warningElement.appendChild(titleRow);
+  warningElement.appendChild(msg);
+  warningElement.appendChild(btnRow);
+
+  document.body.appendChild(warningElement);
+}
+
 function initPrefs() {
   return new Promise(resolve => {
     try {
@@ -94,6 +214,9 @@ function hideWatched(pathname) {
       'ytd-thumbnail-overlay-resume-playback-renderer #progress, .ytThumbnailOverlayProgressBarHostWatchedProgressBarSegment, ytm-thumbnail-overlay-resume-playback-renderer .thumbnail-overlay-resume-playback-progress'
     )
     .forEach(bar => {
+      const alreadyHidden = bar.getAttribute('data-yh-hidden');
+      if (alreadyHidden) return;
+
       const pct = parseFloat(bar.style.width) || 0;
       if (pct <= hideThreshold) return;
 
@@ -113,7 +236,11 @@ function hideWatched(pathname) {
       }
       if (!item) return;
 
-      item.style.display = 'none';
+      if (item.style.display !== 'none') {
+        item.style.display = 'none';
+        bar.setAttribute('data-yh-hidden', 'true');
+        incrementHiddenCounter();
+      }
     });
 }
 
@@ -158,7 +285,6 @@ function hideUnderVisuals(pathname) {
   const { viewsHideThreshold } = prefs;
   const isChannelPage = pathname && pathname.startsWith('/@');
 
-  // --- DESKTOP LOGIC ---
   document.querySelectorAll('#metadata-line').forEach(metaLine => {
     let span;
     if (isChannelPage) {
@@ -169,6 +295,9 @@ function hideUnderVisuals(pathname) {
     }
 
     if (!span) return;
+
+    if (span.getAttribute('data-yh-checked')) return;
+
     const text = span.textContent;
 
     if (
@@ -188,13 +317,19 @@ function hideUnderVisuals(pathname) {
     while (item && !item.matches(selectors)) {
       item = item.parentElement;
     }
-    if (item) item.style.display = 'none';
+
+    if (item && item.style.display !== 'none') {
+      item.style.display = 'none';
+      span.setAttribute('data-yh-checked', 'true');
+      incrementHiddenCounter();
+    }
   });
 
-  // --- MOBILE LOGIC ---
   document
     .querySelectorAll('.YtmBadgeAndBylineRendererItemByline')
     .forEach(span => {
+      if (span.getAttribute('data-yh-checked')) return;
+
       const text = span.textContent.trim();
 
       const timeKeywords =
@@ -216,8 +351,11 @@ function hideUnderVisuals(pathname) {
         'ytm-video-with-context-renderer, ytm-rich-item-renderer, ytm-compact-video-renderer'
       );
 
-      if (container) {
+      if (container && container.style.display !== 'none') {
         container.style.display = 'none';
+        span.setAttribute('data-yh-checked', 'true');
+        incrementHiddenCounter();
+
         const wrapper = container.closest('ytm-rich-item-renderer');
         if (wrapper) wrapper.style.display = 'none';
       }
@@ -250,6 +388,7 @@ function hideNewFormatVideos(pathname) {
       );
 
       if (!viewsSpan) return;
+      if (viewsSpan.getAttribute('data-yh-checked')) return;
 
       const text = viewsSpan.textContent;
       const views = parseToNumber(text);
@@ -260,9 +399,7 @@ function hideNewFormatVideos(pathname) {
           threshold: viewsHideThreshold,
           pathname,
         });
-      } catch (e) {
-        /* ignore logging errors */
-      }
+      } catch (e) {}
 
       if (isNaN(views) || views >= viewsHideThreshold) return;
 
@@ -279,7 +416,11 @@ function hideNewFormatVideos(pathname) {
         item = item.parentElement;
       }
 
-      if (item) item.style.display = 'none';
+      if (item && item.style.display !== 'none') {
+        item.style.display = 'none';
+        viewsSpan.setAttribute('data-yh-checked', 'true');
+        incrementHiddenCounter();
+      }
     });
 }
 
@@ -297,7 +438,10 @@ function createVideoObserver(pathname) {
 function hideShorts() {
   document.querySelectorAll('ytm-rich-section-renderer').forEach(section => {
     if (section.querySelector('ytm-shorts-lockup-view-model')) {
-      section.style.display = 'none';
+      if (section.style.display !== 'none') {
+        section.style.display = 'none';
+        incrementHiddenCounter();
+      }
     }
   });
 
@@ -312,16 +456,19 @@ function hideShorts() {
       'ytd-guide-section-renderer, tp-yt-paper-item, ytd-video-renderer, ytd-reel-shelf-renderer, ytm-reel-shelf-renderer'
     )
     .forEach(node => {
-      if (node.querySelector('ytm-shorts-lockup-view-model')) {
-        node.style.display = 'none';
-      }
+      let shouldHide = false;
+      if (node.querySelector('ytm-shorts-lockup-view-model')) shouldHide = true;
       if (
         node.querySelector('badge-shape[aria-label="Shorts"]') ||
         node.querySelector(
           'ytd-thumbnail-overlay-time-status-renderer[overlay-style="SHORTS"]'
         )
-      ) {
+      )
+        shouldHide = true;
+
+      if (shouldHide && node.style.display !== 'none') {
         node.style.display = 'none';
+        incrementHiddenCounter();
       }
     });
 
@@ -330,13 +477,19 @@ function hideShorts() {
       'ytd-rich-shelf-renderer, ytm-reel-shelf-renderer'
     );
     if (shelf) {
-      shelf.style.display = 'none';
+      if (shelf.style.display !== 'none') {
+        shelf.style.display = 'none';
+        incrementHiddenCounter();
+      }
       return;
     }
     const item = link.closest(
       'ytd-rich-item-renderer, ytm-video-with-context-renderer'
     );
-    if (item) item.style.display = 'none';
+    if (item && item.style.display !== 'none') {
+      item.style.display = 'none';
+      incrementHiddenCounter();
+    }
   });
 
   document.querySelectorAll('a[title="Shorts"]').forEach(link => {
@@ -377,7 +530,10 @@ function hideShorts() {
         'ytm-shorts-lockup-view-model-v2, ytm-shorts-lockup-view-model'
       )
     ) {
-      node.style.display = 'none';
+      if (node.style.display !== 'none') {
+        node.style.display = 'none';
+        incrementHiddenCounter();
+      }
     }
   });
 
@@ -386,7 +542,10 @@ function hideShorts() {
       'grid-shelf-view-model:has(ytm-shorts-lockup-view-model-v2), grid-shelf-view-model:has(ytm-shorts-lockup-view-model)'
     )
     .forEach(node => {
-      node.style.display = 'none';
+      if (node.style.display !== 'none') {
+        node.style.display = 'none';
+        incrementHiddenCounter();
+      }
     });
 
   document.querySelectorAll('yt-chip-cloud-chip-renderer').forEach(node => {
