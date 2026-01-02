@@ -23,6 +23,222 @@ const prefs = {
   hideShortsSearchEnabled: true,
 };
 
+let warningDismissed = false;
+let warningElement = null;
+let warningProgressInterval = null;
+
+let rapidLoaderCount = 0;
+let lastScrollY = 0;
+let lastLoaderTime = 0;
+const LOADER_THRESHOLD = 4;
+const LOADER_RESET_TIME = 5000;
+
+function removeWarning() {
+  if (warningElement) {
+    warningElement.remove();
+    warningElement = null;
+  }
+  if (warningProgressInterval) {
+    clearInterval(warningProgressInterval);
+    warningProgressInterval = null;
+  }
+  warningDismissed = true;
+}
+
+function showHighFilteringWarning() {
+  if (warningElement || warningDismissed) return;
+
+  warningElement = document.createElement('div');
+  warningElement.id = 'yh-filter-warning';
+
+  Object.assign(warningElement.style, {
+    position: 'fixed',
+    bottom: '20px',
+    right: '20px',
+    backgroundColor: '#222222',
+    borderLeft: '4px solid #8ab4f8',
+    color: '#ebebeb',
+    padding: '12px 16px 16px 16px',
+    borderRadius: '4px',
+    zIndex: '2147483647',
+    boxShadow: '0 4px 12px rgba(0,0,0,0.4)',
+    fontFamily:
+      '-apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif',
+    fontSize: '13px',
+    maxWidth: '280px',
+    display: 'flex',
+    flexDirection: 'column',
+    gap: '6px',
+    opacity: '0',
+    transition: 'opacity 0.3s ease',
+    overflow: 'hidden',
+    pointerEvents: 'auto',
+  });
+
+  const headerRow = document.createElement('div');
+  Object.assign(headerRow.style, {
+    display: 'flex',
+    alignItems: 'center',
+    justifyContent: 'space-between',
+    width: '100%',
+    marginBottom: '2px',
+  });
+
+  const branding = document.createElement('div');
+  Object.assign(branding.style, {
+    display: 'flex',
+    alignItems: 'center',
+    gap: '8px',
+  });
+
+  const icon = document.createElement('img');
+  icon.src = chrome.runtime.getURL('assets/icons/youtube-hider-logo.png');
+  Object.assign(icon.style, {
+    width: '16px',
+    height: '16px',
+    display: 'block',
+    objectFit: 'contain',
+  });
+
+  const title = document.createElement('span');
+  title.textContent = 'Youtube Hider Extension';
+  Object.assign(title.style, {
+    fontWeight: '600',
+    fontSize: '12px',
+    color: '#8ab4f8',
+  });
+
+  branding.appendChild(icon);
+  branding.appendChild(title);
+
+  const closeBtn = document.createElement('div');
+  closeBtn.textContent = '✕';
+  Object.assign(closeBtn.style, {
+    cursor: 'pointer',
+    color: '#aaa',
+    fontSize: '14px',
+    fontWeight: 'bold',
+    lineHeight: '1',
+    padding: '2px',
+  });
+
+  closeBtn.onmouseenter = () => {
+    closeBtn.style.color = '#fff';
+  };
+  closeBtn.onmouseleave = () => {
+    closeBtn.style.color = '#aaa';
+  };
+  closeBtn.onclick = e => {
+    e.stopPropagation();
+    removeWarning();
+  };
+
+  headerRow.appendChild(branding);
+  headerRow.appendChild(closeBtn);
+
+  const msg = document.createElement('span');
+  msg.textContent =
+    'High filtering detected. Try lowering filters if loading gets stuck.';
+  msg.style.lineHeight = '1.4';
+  msg.style.color = '#e0e0e0';
+
+  const progressBar = document.createElement('div');
+  Object.assign(progressBar.style, {
+    position: 'absolute',
+    bottom: '0',
+    left: '0',
+    height: '3px',
+    backgroundColor: '#8ab4f8',
+    width: '100%',
+    transition: 'width 0.1s linear',
+  });
+
+  warningElement.appendChild(headerRow);
+  warningElement.appendChild(msg);
+  warningElement.appendChild(progressBar);
+  document.body.appendChild(warningElement);
+
+  requestAnimationFrame(() => {
+    if (warningElement) warningElement.style.opacity = '1';
+  });
+
+  let timeLeft = 10000;
+  const updateInterval = 100;
+  let isPaused = false;
+
+  warningElement.onmouseenter = () => {
+    isPaused = true;
+  };
+  warningElement.onmouseleave = () => {
+    isPaused = false;
+  };
+  warningElement.onclick = () => removeWarning();
+
+  warningProgressInterval = setInterval(() => {
+    if (isPaused) return;
+
+    timeLeft -= updateInterval;
+    const percentage = (timeLeft / 10000) * 100;
+
+    if (progressBar) {
+      progressBar.style.width = `${percentage}%`;
+    }
+
+    if (timeLeft <= 0) {
+      removeWarning();
+    }
+  }, updateInterval);
+}
+
+function detectInfiniteLoaderLoop(mutations) {
+  if (warningDismissed || warningElement) return;
+
+  const now = Date.now();
+  const currentScroll = window.scrollY;
+  let loaderFound = false;
+
+  if (now - lastLoaderTime > LOADER_RESET_TIME) {
+    rapidLoaderCount = 0;
+  }
+
+  for (const mutation of mutations) {
+    if (mutation.type === 'childList' && mutation.addedNodes.length > 0) {
+      for (const node of mutation.addedNodes) {
+        if (node.nodeType !== 1) continue;
+
+        const loaderSelectors =
+          'ytd-continuation-item-renderer, ytm-continuation-item-renderer, ytm-spinner, .spinner, .yt-spinner, .loading-spinner';
+
+        if (
+          node.matches(loaderSelectors) ||
+          node.querySelector(loaderSelectors)
+        ) {
+          loaderFound = true;
+          break;
+        }
+      }
+    }
+    if (loaderFound) break;
+  }
+
+  if (loaderFound) {
+    const scrollDiff = Math.abs(currentScroll - lastScrollY);
+
+    if (scrollDiff < 100) {
+      rapidLoaderCount++;
+      lastLoaderTime = now;
+
+      if (rapidLoaderCount >= LOADER_THRESHOLD) {
+        showHighFilteringWarning();
+      }
+    } else {
+      rapidLoaderCount = 0;
+    }
+
+    lastScrollY = currentScroll;
+  }
+}
+
 function initPrefs() {
   return new Promise(resolve => {
     try {
@@ -91,7 +307,7 @@ function hideWatched(pathname) {
 
   document
     .querySelectorAll(
-      'ytd-thumbnail-overlay-resume-playback-renderer #progress, .ytThumbnailOverlayProgressBarHostWatchedProgressBarSegment'
+      'ytd-thumbnail-overlay-resume-playback-renderer #progress, .ytThumbnailOverlayProgressBarHostWatchedProgressBarSegment, ytm-thumbnail-overlay-resume-playback-renderer .thumbnail-overlay-resume-playback-progress'
     )
     .forEach(bar => {
       const pct = parseFloat(bar.style.width) || 0;
@@ -103,10 +319,10 @@ function hideWatched(pathname) {
 
       const selectors =
         pathname === '/watch'
-          ? 'ytd-compact-video-renderer, ytd-rich-item-renderer, ytd-video-renderer, yt-lockup-view-model'
+          ? 'ytd-compact-video-renderer, ytd-rich-item-renderer, ytd-video-renderer, yt-lockup-view-model, ytm-video-with-context-renderer, ytm-compact-video-renderer'
           : isChannelPage
-          ? 'ytd-compact-video-renderer, ytd-rich-item-renderer, ytd-video-renderer, ytd-grid-video-renderer'
-          : 'ytd-compact-video-renderer, ytd-rich-item-renderer, ytd-video-renderer';
+          ? 'ytd-compact-video-renderer, ytd-rich-item-renderer, ytd-video-renderer, ytd-grid-video-renderer, ytm-video-with-context-renderer, ytm-compact-video-renderer'
+          : 'ytd-compact-video-renderer, ytd-rich-item-renderer, ytd-video-renderer, ytm-video-with-context-renderer, ytm-compact-video-renderer, ytm-rich-item-renderer';
 
       while (item && !item.matches(selectors)) {
         item = item.parentElement;
@@ -156,12 +372,10 @@ let observerCreated = false;
 
 function hideUnderVisuals(pathname) {
   const { viewsHideThreshold } = prefs;
-
   const isChannelPage = pathname && pathname.startsWith('/@');
 
   document.querySelectorAll('#metadata-line').forEach(metaLine => {
     let span;
-
     if (isChannelPage) {
       const spans = metaLine.querySelectorAll('span.style-scope');
       span = spans[0];
@@ -172,12 +386,17 @@ function hideUnderVisuals(pathname) {
     if (!span) return;
 
     const text = span.textContent;
-    const views = parseToNumber(text);
 
+    if (
+      /ago|fa|ore|hours|mesi|months|anni|years/.test(text) &&
+      !/views|visualizzazioni/.test(text)
+    )
+      return;
+
+    const views = parseToNumber(text);
     if (isNaN(views) || views >= viewsHideThreshold) return;
 
     let item = span;
-
     const selectors = isChannelPage
       ? 'ytd-compact-video-renderer, ytd-rich-item-renderer, ytd-video-renderer, ytd-grid-video-renderer, yt-lockup-view-model'
       : 'ytd-compact-video-renderer, ytd-rich-item-renderer, ytd-video-renderer, yt-lockup-view-model';
@@ -187,6 +406,37 @@ function hideUnderVisuals(pathname) {
     }
     if (item) item.style.display = 'none';
   });
+
+  document
+    .querySelectorAll('.YtmBadgeAndBylineRendererItemByline')
+    .forEach(span => {
+      const text = span.textContent.trim();
+
+      const timeKeywords =
+        /ago|fa|ore|hours|mesi|months|anni|years|settimane|weeks|giorni|days/i;
+      const viewKeywords = /views|visualizzazioni|vistas|vues|aufrufe/i;
+
+      if (timeKeywords.test(text)) return;
+
+      const { suffix } = extractNumberAndSuffix(text);
+      const hasSuffix = ['K', 'M', 'MLN', 'B'].includes(suffix);
+      const isExplicitViewString = viewKeywords.test(text);
+
+      if (!hasSuffix && !isExplicitViewString) return;
+
+      const views = parseToNumber(text);
+      if (isNaN(views) || views >= viewsHideThreshold) return;
+
+      const container = span.closest(
+        'ytm-video-with-context-renderer, ytm-rich-item-renderer, ytm-compact-video-renderer'
+      );
+
+      if (container) {
+        container.style.display = 'none';
+        const wrapper = container.closest('ytm-rich-item-renderer');
+        if (wrapper) wrapper.style.display = 'none';
+      }
+    });
 
   hideNewFormatVideos(pathname);
 
@@ -219,16 +469,13 @@ function hideNewFormatVideos(pathname) {
       const text = viewsSpan.textContent;
       const views = parseToNumber(text);
 
-      // Debug log: parsed views and threshold used for hiding (new format)
       try {
         logger.log('views-check', {
           views,
           threshold: viewsHideThreshold,
           pathname,
         });
-      } catch (e) {
-        /* ignore logging errors */
-      }
+      } catch (e) {}
 
       if (isNaN(views) || views >= viewsHideThreshold) return;
 
@@ -236,9 +483,9 @@ function hideNewFormatVideos(pathname) {
 
       const selectors =
         pathname === '/watch'
-          ? 'ytd-compact-video-renderer, ytd-rich-item-renderer, ytd-video-renderer, yt-lockup-view-model'
+          ? 'ytd-compact-video-renderer, ytd-rich-item-renderer, ytd-video-renderer, yt-lockup-view-model, ytm-video-with-context-renderer, ytm-compact-video-renderer'
           : isChannelPage
-          ? 'ytd-compact-video-renderer, ytd-rich-item-renderer, ytd-video-renderer, ytd-grid-video-renderer'
+          ? 'ytd-compact-video-renderer, ytd-rich-item-renderer, ytd-video-renderer, ytd-grid-video-renderer, ytm-video-with-context-renderer, ytm-compact-video-renderer'
           : 'ytd-compact-video-renderer, ytd-rich-item-renderer, ytd-video-renderer';
 
       while (item && !item.matches(selectors)) {
@@ -261,9 +508,21 @@ function createVideoObserver(pathname) {
 }
 
 function hideShorts() {
+  document.querySelectorAll('ytm-rich-section-renderer').forEach(section => {
+    if (section.querySelector('ytm-shorts-lockup-view-model')) {
+      section.style.display = 'none';
+    }
+  });
+
+  document.querySelectorAll('ytm-pivot-bar-item-renderer').forEach(item => {
+    if (item.querySelector('.pivot-shorts')) {
+      item.style.display = 'none';
+    }
+  });
+
   document
     .querySelectorAll(
-      'ytd-guide-section-renderer, tp-yt-paper-item, ytd-video-renderer, ytd-reel-shelf-renderer'
+      'ytd-guide-section-renderer, tp-yt-paper-item, ytd-video-renderer, ytd-reel-shelf-renderer, ytm-reel-shelf-renderer'
     )
     .forEach(node => {
       if (node.querySelector('ytm-shorts-lockup-view-model')) {
@@ -280,19 +539,24 @@ function hideShorts() {
     });
 
   document.querySelectorAll('a[href^="/shorts/"]').forEach(link => {
-    const shelf = link.closest('ytd-rich-shelf-renderer');
+    const shelf = link.closest(
+      'ytd-rich-shelf-renderer, ytm-reel-shelf-renderer'
+    );
     if (shelf) {
       shelf.style.display = 'none';
       return;
     }
-    const item = link.closest('ytd-rich-item-renderer');
+    const item = link.closest(
+      'ytd-rich-item-renderer, ytm-video-with-context-renderer'
+    );
     if (item) item.style.display = 'none';
   });
 
   document.querySelectorAll('a[title="Shorts"]').forEach(link => {
     const entry =
       link.closest('ytd-guide-entry-renderer') ||
-      link.closest('ytd-mini-guide-entry-renderer');
+      link.closest('ytd-mini-guide-entry-renderer') ||
+      link.closest('ytm-pivot-bar-item-renderer');
     if (entry) entry.style.display = 'none';
   });
 
@@ -308,6 +572,12 @@ function hideShorts() {
       if (entry) entry.style.display = 'none';
     });
 
+  document.querySelectorAll('ytm-chip-cloud-chip-renderer').forEach(chip => {
+    if (chip.textContent.trim() === 'Shorts') {
+      chip.style.display = 'none';
+    }
+  });
+
   document
     .querySelectorAll('yt-tab-shape[tab-title="Shorts"]')
     .forEach(link => {
@@ -315,14 +585,18 @@ function hideShorts() {
     });
 
   document.querySelectorAll('grid-shelf-view-model').forEach(node => {
-    if (node.querySelector('ytm-shorts-lockup-view-model-v2')) {
+    if (
+      node.querySelector(
+        'ytm-shorts-lockup-view-model-v2, ytm-shorts-lockup-view-model'
+      )
+    ) {
       node.style.display = 'none';
     }
   });
 
   document
     .querySelectorAll(
-      'grid-shelf-view-model:has(ytm-shorts-lockup-view-model-v2)'
+      'grid-shelf-view-model:has(ytm-shorts-lockup-view-model-v2), grid-shelf-view-model:has(ytm-shorts-lockup-view-model)'
     )
     .forEach(node => {
       node.style.display = 'none';
@@ -357,8 +631,10 @@ function hideShorts() {
     .forEach(link => {
       const mini = link.closest('ytd-mini-guide-entry-renderer');
       const guide = link.closest('ytd-guide-entry-renderer');
+      const pivot = link.closest('ytm-pivot-bar-item-renderer');
       if (mini) mini.style.display = 'none';
       if (guide) guide.style.display = 'none';
+      if (pivot) pivot.style.display = 'none';
     });
 }
 
@@ -366,17 +642,35 @@ let currentPath = window.location.pathname;
 let pageLoadTimeout = null;
 
 const PAGE_SELECTORS = {
-  '/': ['ytd-rich-grid-renderer', 'ytd-two-column-browse-results-renderer'],
-  '/results': ['ytd-search', 'ytd-item-section-renderer'],
-  '/watch': ['ytd-watch-flexy', '#primary'],
-  '/feed/subscriptions': ['ytd-browse', 'ytd-section-list-renderer'],
+  '/': [
+    'ytd-rich-grid-renderer',
+    'ytd-two-column-browse-results-renderer',
+    'ytm-browse',
+    'ytm-rich-grid-renderer',
+  ],
+  '/results': [
+    'ytd-search',
+    'ytd-item-section-renderer',
+    'ytm-search',
+    'ytm-section-list-renderer',
+  ],
+  '/watch': [
+    'ytd-watch-flexy',
+    '#primary',
+    'ytm-watch',
+    'ytm-single-column-watch-next-results-renderer',
+  ],
+  '/feed/subscriptions': [
+    'ytd-browse',
+    'ytd-section-list-renderer',
+    'ytm-browse',
+  ],
 };
 
 function waitForPageElements(pathname, timeout = 3000) {
   return new Promise(resolve => {
     let selectors = PAGE_SELECTORS[pathname];
 
-    // Channel pages like /@ChannelName should be treated like the homepage for waiting elements
     if (!selectors && pathname && pathname.startsWith('/@')) {
       selectors = PAGE_SELECTORS['/'];
     }
@@ -463,7 +757,6 @@ async function startHiding(pathname) {
 
   await waitForPageElements(pathname);
 
-  // Compute effective actions and log relevant prefs so it's clear why something runs
   const canHideWatched = shouldHideWatched(pathname);
   const canHideViews = shouldHideViews(pathname);
   const canHideShortsFlag = shouldHideShorts(pathname);
@@ -503,6 +796,10 @@ function detectPageChange() {
     logger.log(`Page changed: ${currentPath} -> ${newPath}`);
     currentPath = newPath;
 
+    removeWarning();
+    rapidLoaderCount = 0;
+    warningDismissed = false;
+
     if (pageLoadTimeout) {
       clearTimeout(pageLoadTimeout);
     }
@@ -524,7 +821,9 @@ const debouncedHiding = debounce(() => {
   }
 }, TIMING.DEBOUNCE_MUTATIONS);
 
-function onMutations() {
+function onMutations(mutations) {
+  detectInfiniteLoaderLoop(mutations);
+
   skipIntro();
   debouncedHiding();
 }

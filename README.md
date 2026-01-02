@@ -11,13 +11,13 @@ Or check the website: https://youtubehider.com/
 
 **YouTube “Hide Watched”**
 
-- Hide videos you’ve already watched in Homepage, Subscriptions feed, Correlated videos and Search results.
+- Hide videos you’ve already watched in Homepage, Channel pages, Subscriptions feed, Correlated videos and Search results.
 - Customizable threshold (0–100%) for marking a video as watched.
 - Separate toggles to choose where to hide watched videos or not.
 
 **YouTube “Hide low views amount”**
 
-- Hide videos that have an amount of vies under you chosen threshold in Homepage, Subscriptions feed, Correlated videos and Search results.
+- Hide videos that have an amount of vies under you chosen threshold in Homepage, Channel pages, Subscriptions feed, Correlated videos and Search results.
 - Customizable threshold (0-100k vies).
 - Separate toggles to choose where to hide watched videos or not.
 

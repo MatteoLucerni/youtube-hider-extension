@@ -273,7 +273,6 @@ hr {
     font-size: 10px;
     font-weight: 600;
     color: #95c4f5;
-    margin-bottom: var(--spacing-sm);
     text-transform: uppercase;
     letter-spacing: 0.5px;
     text-align: left;
@@ -645,4 +644,83 @@ body.easy-mode-off .streaming-card .slider-control {
 body.easy-mode-off .streaming-card .slider-control-right {
     min-width: 40px;
     margin-top: 0;
+}
+
+/* Tooltip Styling */
+.label-content {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 4px;
+    width: 100%;
+    margin-bottom: var(--spacing-md);
+}
+
+.tooltip-container {
+    position: relative;
+    display: inline-flex;
+    align-items: center;
+}
+
+.info-icon {
+    width: 12px;
+    height: 12px;
+    color: var(--text-tertiary);
+    cursor: help;
+    transition: color 0.2s ease;
+}
+
+.info-icon:hover {
+    color: var(--accent-blue);
+}
+
+.tooltip-text {
+    visibility: hidden;
+    width: 160px;
+    background-color: var(--bg-quaternary);
+    color: var(--text-primary);
+    text-align: center;
+    border-radius: var(--radius-sm);
+    padding: 8px;
+    position: absolute;
+    z-index: 1000;
+    bottom: 125%;
+    left: 50%;
+    transform: translateX(-50%);
+    opacity: 0;
+    transition: opacity 0.3s;
+    font-size: 11px;
+    font-weight: 400;
+    line-height: 1.4;
+    border: 1px solid var(--border-color);
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.3);
+    pointer-events: none;
+    white-space: normal;
+}
+
+.tooltip-text::after {
+    content: "";
+    position: absolute;
+    top: 100%;
+    left: 50%;
+    margin-left: -5px;
+    border-width: 5px;
+    border-style: solid;
+    border-color: var(--bg-quaternary) transparent transparent transparent;
+}
+
+.info-icon:hover+.tooltip-text {
+    visibility: visible;
+    opacity: 1;
+}
+
+/* Adjust tooltip position for sliders to avoid going off-screen if needed */
+.slider-control-left .tooltip-text {
+    left: 0;
+    transform: translateX(0);
+}
+
+.slider-control-left .tooltip-text::after {
+    left: 10px;
+    margin-left: 0;
 }
