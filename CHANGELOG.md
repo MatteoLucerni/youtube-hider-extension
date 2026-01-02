@@ -93,3 +93,5 @@
 ### Version 2.3.0
 
 - Added mobile youtube (m.youtube.com) support
+- Added infinite loading warning
+- Added tooltips for filter sliders
