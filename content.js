@@ -75,6 +75,67 @@ function showHighFilteringWarning() {
     pointerEvents: 'auto',
   });
 
+  const headerRow = document.createElement('div');
+  Object.assign(headerRow.style, {
+    display: 'flex',
+    alignItems: 'center',
+    justifyContent: 'space-between',
+    width: '100%',
+    marginBottom: '2px',
+  });
+
+  const branding = document.createElement('div');
+  Object.assign(branding.style, {
+    display: 'flex',
+    alignItems: 'center',
+    gap: '8px',
+  });
+
+  const icon = document.createElement('img');
+  icon.src = chrome.runtime.getURL('assets/icons/youtube-hider-logo.png');
+  Object.assign(icon.style, {
+    width: '16px',
+    height: '16px',
+    display: 'block',
+    objectFit: 'contain',
+  });
+
+  const title = document.createElement('span');
+  title.textContent = 'Youtube Hider Extension';
+  Object.assign(title.style, {
+    fontWeight: '600',
+    fontSize: '12px',
+    color: '#8ab4f8',
+  });
+
+  branding.appendChild(icon);
+  branding.appendChild(title);
+
+  const closeBtn = document.createElement('div');
+  closeBtn.textContent = '✕';
+  Object.assign(closeBtn.style, {
+    cursor: 'pointer',
+    color: '#aaa',
+    fontSize: '14px',
+    fontWeight: 'bold',
+    lineHeight: '1',
+    padding: '2px',
+  });
+
+  closeBtn.onmouseenter = () => {
+    closeBtn.style.color = '#fff';
+  };
+  closeBtn.onmouseleave = () => {
+    closeBtn.style.color = '#aaa';
+  };
+  closeBtn.onclick = e => {
+    e.stopPropagation();
+    removeWarning();
+  };
+
+  headerRow.appendChild(branding);
+  headerRow.appendChild(closeBtn);
+
   const msg = document.createElement('span');
   msg.textContent =
     'High filtering detected. Try lowering filters if loading gets stuck.';
@@ -92,6 +153,7 @@ function showHighFilteringWarning() {
     transition: 'width 0.1s linear',
   });
 
+  warningElement.appendChild(headerRow);
   warningElement.appendChild(msg);
   warningElement.appendChild(progressBar);
   document.body.appendChild(warningElement);
@@ -144,8 +206,6 @@ function detectInfiniteLoaderLoop(mutations) {
       for (const node of mutation.addedNodes) {
         if (node.nodeType !== 1) continue;
 
-        // Updated: Check both the node itself AND inside the node
-        // Often on mobile the loader is wrapped inside a container div
         const loaderSelectors =
           'ytd-continuation-item-renderer, ytm-continuation-item-renderer, ytm-spinner, .spinner, .yt-spinner, .loading-spinner';
 
@@ -164,7 +224,6 @@ function detectInfiniteLoaderLoop(mutations) {
   if (loaderFound) {
     const scrollDiff = Math.abs(currentScroll - lastScrollY);
 
-    // Only count as "infinite loop" if the user hasn't scrolled significantly
     if (scrollDiff < 100) {
       rapidLoaderCount++;
       lastLoaderTime = now;
