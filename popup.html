@@ -55,7 +55,20 @@
                     <div class="setting-group">
                         <div class="slider-control slider-control-center">
                             <div class="slider-control-left">
-                                <label class="control-label">Watch Percentage</label>
+                                <div class="label-content">
+                                    <label class="control-label mb-0">Watch Percentage</label>
+                                    <div class="tooltip-container">
+                                        <svg xmlns="http://www.w3.org/2000/svg" width="12" height="12"
+                                            viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"
+                                            stroke-linecap="round" stroke-linejoin="round" class="info-icon">
+                                            <circle cx="12" cy="12" r="10"></circle>
+                                            <path d="M9.09 9a3 3 0 0 1 5.83 1c0 2-3 3-3 3"></path>
+                                            <line x1="12" y1="17" x2="12.01" y2="17"></line>
+                                        </svg>
+                                        <span class="tooltip-text">Hides videos if you have watched more than this % of
+                                            the total duration.</span>
+                                    </div>
+                                </div>
                                 <div class="slider-wrapper">
                                     <input type="range" class="slider" id="perc-hide" min="0" max="100" step="5"
                                         value="20" />
@@ -72,7 +85,19 @@
                         <div class="toggle-grid easy-mode-advanced">
                             <div class="toggle-item">
                                 <label class="toggle-label" for="hide-home-enabled">
-                                    <span class="toggle-text">Home</span>
+                                    <div class="label-content">
+                                        <span class="toggle-text">Home</span>
+                                        <div class="tooltip-container">
+                                            <svg xmlns="http://www.w3.org/2000/svg" width="12" height="12"
+                                                viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"
+                                                stroke-linecap="round" stroke-linejoin="round" class="info-icon">
+                                                <circle cx="12" cy="12" r="10"></circle>
+                                                <path d="M9.09 9a3 3 0 0 1 5.83 1c0 2-3 3-3 3"></path>
+                                                <line x1="12" y1="17" x2="12.01" y2="17"></line>
+                                            </svg>
+                                            <span class="tooltip-text">Hides watched videos on the Home feed.</span>
+                                        </div>
+                                    </div>
                                     <div class="toggle-switch">
                                         <input type="checkbox" id="hide-home-enabled" />
                                         <span class="toggle-slider"></span>
@@ -81,7 +106,19 @@
                             </div>
                             <div class="toggle-item">
                                 <label class="toggle-label" for="hide-channel-enabled">
-                                    <span class="toggle-text">Channel</span>
+                                    <div class="label-content">
+                                        <span class="toggle-text">Channel</span>
+                                        <div class="tooltip-container">
+                                            <svg xmlns="http://www.w3.org/2000/svg" width="12" height="12"
+                                                viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"
+                                                stroke-linecap="round" stroke-linejoin="round" class="info-icon">
+                                                <circle cx="12" cy="12" r="10"></circle>
+                                                <path d="M9.09 9a3 3 0 0 1 5.83 1c0 2-3 3-3 3"></path>
+                                                <line x1="12" y1="17" x2="12.01" y2="17"></line>
+                                            </svg>
+                                            <span class="tooltip-text">Hides watched videos on Channel pages.</span>
+                                        </div>
+                                    </div>
                                     <div class="toggle-switch">
                                         <input type="checkbox" id="hide-channel-enabled" />
                                         <span class="toggle-slider"></span>
@@ -90,7 +127,20 @@
                             </div>
                             <div class="toggle-item">
                                 <label class="toggle-label" for="hide-subs-enabled">
-                                    <span class="toggle-text">Subs</span>
+                                    <div class="label-content">
+                                        <span class="toggle-text">Subs</span>
+                                        <div class="tooltip-container">
+                                            <svg xmlns="http://www.w3.org/2000/svg" width="12" height="12"
+                                                viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"
+                                                stroke-linecap="round" stroke-linejoin="round" class="info-icon">
+                                                <circle cx="12" cy="12" r="10"></circle>
+                                                <path d="M9.09 9a3 3 0 0 1 5.83 1c0 2-3 3-3 3"></path>
+                                                <line x1="12" y1="17" x2="12.01" y2="17"></line>
+                                            </svg>
+                                            <span class="tooltip-text">Hides watched videos in the Subscriptions
+                                                feed.</span>
+                                        </div>
+                                    </div>
                                     <div class="toggle-switch">
                                         <input type="checkbox" id="hide-subs-enabled" />
                                         <span class="toggle-slider"></span>
@@ -99,7 +149,19 @@
                             </div>
                             <div class="toggle-item">
                                 <label class="toggle-label" for="hide-search-enabled">
-                                    <span class="toggle-text">Search</span>
+                                    <div class="label-content">
+                                        <span class="toggle-text">Search</span>
+                                        <div class="tooltip-container">
+                                            <svg xmlns="http://www.w3.org/2000/svg" width="12" height="12"
+                                                viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"
+                                                stroke-linecap="round" stroke-linejoin="round" class="info-icon">
+                                                <circle cx="12" cy="12" r="10"></circle>
+                                                <path d="M9.09 9a3 3 0 0 1 5.83 1c0 2-3 3-3 3"></path>
+                                                <line x1="12" y1="17" x2="12.01" y2="17"></line>
+                                            </svg>
+                                            <span class="tooltip-text">Hides watched videos in Search results.</span>
+                                        </div>
+                                    </div>
                                     <div class="toggle-switch">
                                         <input type="checkbox" id="hide-search-enabled" />
                                         <span class="toggle-slider"></span>
@@ -108,7 +170,20 @@
                             </div>
                             <div class="toggle-item">
                                 <label class="toggle-label" for="hide-corr-enabled">
-                                    <span class="toggle-text">Related</span>
+                                    <div class="label-content">
+                                        <span class="toggle-text">Related</span>
+                                        <div class="tooltip-container">
+                                            <svg xmlns="http://www.w3.org/2000/svg" width="12" height="12"
+                                                viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"
+                                                stroke-linecap="round" stroke-linejoin="round" class="info-icon">
+                                                <circle cx="12" cy="12" r="10"></circle>
+                                                <path d="M9.09 9a3 3 0 0 1 5.83 1c0 2-3 3-3 3"></path>
+                                                <line x1="12" y1="17" x2="12.01" y2="17"></line>
+                                            </svg>
+                                            <span class="tooltip-text">Hides watched videos in the 'Related Videos'
+                                                sidebar.</span>
+                                        </div>
+                                    </div>
                                     <div class="toggle-switch">
                                         <input type="checkbox" id="hide-corr-enabled" />
                                         <span class="toggle-slider"></span>
@@ -137,7 +212,19 @@
                         <div class="toggle-grid toggle-grid-large easy-mode-advanced">
                             <div class="toggle-item">
                                 <label class="toggle-label" for="hide-shorts-enabled">
-                                    <span class="toggle-text">Hide Shorts</span>
+                                    <div class="label-content">
+                                        <span class="toggle-text">Hide Shorts</span>
+                                        <div class="tooltip-container">
+                                            <svg xmlns="http://www.w3.org/2000/svg" width="12" height="12"
+                                                viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"
+                                                stroke-linecap="round" stroke-linejoin="round" class="info-icon">
+                                                <circle cx="12" cy="12" r="10"></circle>
+                                                <path d="M9.09 9a3 3 0 0 1 5.83 1c0 2-3 3-3 3"></path>
+                                                <line x1="12" y1="17" x2="12.01" y2="17"></line>
+                                            </svg>
+                                            <span class="tooltip-text">Removes the Shorts shelf and Shorts tab.</span>
+                                        </div>
+                                    </div>
                                     <div class="toggle-switch">
                                         <input type="checkbox" id="hide-shorts-enabled" />
                                         <span class="toggle-slider"></span>
@@ -146,7 +233,19 @@
                             </div>
                             <div class="toggle-item">
                                 <label class="toggle-label" for="hide-shorts-search-enabled">
-                                    <span class="toggle-text">Hide in Search</span>
+                                    <div class="label-content">
+                                        <span class="toggle-text">Hide in Search</span>
+                                        <div class="tooltip-container">
+                                            <svg xmlns="http://www.w3.org/2000/svg" width="12" height="12"
+                                                viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"
+                                                stroke-linecap="round" stroke-linejoin="round" class="info-icon">
+                                                <circle cx="12" cy="12" r="10"></circle>
+                                                <path d="M9.09 9a3 3 0 0 1 5.83 1c0 2-3 3-3 3"></path>
+                                                <line x1="12" y1="17" x2="12.01" y2="17"></line>
+                                            </svg>
+                                            <span class="tooltip-text">Removes Shorts videos from Search results.</span>
+                                        </div>
+                                    </div>
                                     <div class="toggle-switch">
                                         <input type="checkbox" id="hide-shorts-search-enabled" />
                                         <span class="toggle-slider"></span>
@@ -176,7 +275,20 @@
                     <div class="setting-group">
                         <div class="slider-control slider-control-center">
                             <div class="slider-control-left">
-                                <label class="control-label">Minimum Views</label>
+                                <div class="label-content">
+                                    <label class="control-label mb-0">Minimum Views</label>
+                                    <div class="tooltip-container">
+                                        <svg xmlns="http://www.w3.org/2000/svg" width="12" height="12"
+                                            viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"
+                                            stroke-linecap="round" stroke-linejoin="round" class="info-icon">
+                                            <circle cx="12" cy="12" r="10"></circle>
+                                            <path d="M9.09 9a3 3 0 0 1 5.83 1c0 2-3 3-3 3"></path>
+                                            <line x1="12" y1="17" x2="12.01" y2="17"></line>
+                                        </svg>
+                                        <span class="tooltip-text">Videos with fewer views than this number will be
+                                            hidden.</span>
+                                    </div>
+                                </div>
                                 <div class="slider-wrapper">
                                     <input type="range" class="slider" id="views-hide" min="0" max="17" step="1"
                                         value="3" />
@@ -192,7 +304,19 @@
                         <div class="toggle-grid easy-mode-advanced">
                             <div class="toggle-item">
                                 <label class="toggle-label" for="views-hide-home-enabled">
-                                    <span class="toggle-text">Home</span>
+                                    <div class="label-content">
+                                        <span class="toggle-text">Home</span>
+                                        <div class="tooltip-container">
+                                            <svg xmlns="http://www.w3.org/2000/svg" width="12" height="12"
+                                                viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"
+                                                stroke-linecap="round" stroke-linejoin="round" class="info-icon">
+                                                <circle cx="12" cy="12" r="10"></circle>
+                                                <path d="M9.09 9a3 3 0 0 1 5.83 1c0 2-3 3-3 3"></path>
+                                                <line x1="12" y1="17" x2="12.01" y2="17"></line>
+                                            </svg>
+                                            <span class="tooltip-text">Hides low view count videos on Home.</span>
+                                        </div>
+                                    </div>
                                     <div class="toggle-switch">
                                         <input type="checkbox" id="views-hide-home-enabled" />
                                         <span class="toggle-slider"></span>
@@ -201,7 +325,19 @@
                             </div>
                             <div class="toggle-item">
                                 <label class="toggle-label" for="views-hide-channel-enabled">
-                                    <span class="toggle-text">Channel</span>
+                                    <div class="label-content">
+                                        <span class="toggle-text">Channel</span>
+                                        <div class="tooltip-container">
+                                            <svg xmlns="http://www.w3.org/2000/svg" width="12" height="12"
+                                                viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"
+                                                stroke-linecap="round" stroke-linejoin="round" class="info-icon">
+                                                <circle cx="12" cy="12" r="10"></circle>
+                                                <path d="M9.09 9a3 3 0 0 1 5.83 1c0 2-3 3-3 3"></path>
+                                                <line x1="12" y1="17" x2="12.01" y2="17"></line>
+                                            </svg>
+                                            <span class="tooltip-text">Hides low view count videos on Channels.</span>
+                                        </div>
+                                    </div>
                                     <div class="toggle-switch">
                                         <input type="checkbox" id="views-hide-channel-enabled" />
                                         <span class="toggle-slider"></span>
@@ -210,7 +346,19 @@
                             </div>
                             <div class="toggle-item">
                                 <label class="toggle-label" for="views-hide-subs-enabled">
-                                    <span class="toggle-text">Subs</span>
+                                    <div class="label-content">
+                                        <span class="toggle-text">Subs</span>
+                                        <div class="tooltip-container">
+                                            <svg xmlns="http://www.w3.org/2000/svg" width="12" height="12"
+                                                viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"
+                                                stroke-linecap="round" stroke-linejoin="round" class="info-icon">
+                                                <circle cx="12" cy="12" r="10"></circle>
+                                                <path d="M9.09 9a3 3 0 0 1 5.83 1c0 2-3 3-3 3"></path>
+                                                <line x1="12" y1="17" x2="12.01" y2="17"></line>
+                                            </svg>
+                                            <span class="tooltip-text">Hides low view count videos in Subs.</span>
+                                        </div>
+                                    </div>
                                     <div class="toggle-switch">
                                         <input type="checkbox" id="views-hide-subs-enabled" />
                                         <span class="toggle-slider"></span>
@@ -219,7 +367,19 @@
                             </div>
                             <div class="toggle-item">
                                 <label class="toggle-label" for="views-hide-search-enabled">
-                                    <span class="toggle-text">Search</span>
+                                    <div class="label-content">
+                                        <span class="toggle-text">Search</span>
+                                        <div class="tooltip-container">
+                                            <svg xmlns="http://www.w3.org/2000/svg" width="12" height="12"
+                                                viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"
+                                                stroke-linecap="round" stroke-linejoin="round" class="info-icon">
+                                                <circle cx="12" cy="12" r="10"></circle>
+                                                <path d="M9.09 9a3 3 0 0 1 5.83 1c0 2-3 3-3 3"></path>
+                                                <line x1="12" y1="17" x2="12.01" y2="17"></line>
+                                            </svg>
+                                            <span class="tooltip-text">Hides low view count videos in Search.</span>
+                                        </div>
+                                    </div>
                                     <div class="toggle-switch">
                                         <input type="checkbox" id="views-hide-search-enabled" />
                                         <span class="toggle-slider"></span>
@@ -228,7 +388,19 @@
                             </div>
                             <div class="toggle-item">
                                 <label class="toggle-label" for="views-hide-corr-enabled">
-                                    <span class="toggle-text">Related</span>
+                                    <div class="label-content">
+                                        <span class="toggle-text">Related</span>
+                                        <div class="tooltip-container">
+                                            <svg xmlns="http://www.w3.org/2000/svg" width="12" height="12"
+                                                viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"
+                                                stroke-linecap="round" stroke-linejoin="round" class="info-icon">
+                                                <circle cx="12" cy="12" r="10"></circle>
+                                                <path d="M9.09 9a3 3 0 0 1 5.83 1c0 2-3 3-3 3"></path>
+                                                <line x1="12" y1="17" x2="12.01" y2="17"></line>
+                                            </svg>
+                                            <span class="tooltip-text">Hides low view count videos in Related.</span>
+                                        </div>
+                                    </div>
                                     <div class="toggle-switch">
                                         <input type="checkbox" id="views-hide-corr-enabled" />
                                         <span class="toggle-slider"></span>
@@ -264,7 +436,19 @@
                     <div class="setting-group">
                         <div class="slider-control slider-control-center">
                             <div class="slider-control-left">
-                                <label class="control-label">Skip Delay</label>
+                                <div class="label-content">
+                                    <label class="control-label mb-0">Skip Delay</label>
+                                    <div class="tooltip-container">
+                                        <svg xmlns="http://www.w3.org/2000/svg" width="12" height="12"
+                                            viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"
+                                            stroke-linecap="round" stroke-linejoin="round" class="info-icon">
+                                            <circle cx="12" cy="12" r="10"></circle>
+                                            <path d="M9.09 9a3 3 0 0 1 5.83 1c0 2-3 3-3 3"></path>
+                                            <line x1="12" y1="17" x2="12.01" y2="17"></line>
+                                        </svg>
+                                        <span class="tooltip-text">Wait time (seconds) before clicking skip.</span>
+                                    </div>
+                                </div>
                                 <div class="slider-wrapper">
                                     <input type="range" class="slider" id="delay" min="0" max="5" step="1" value="1" />
                                 </div>
