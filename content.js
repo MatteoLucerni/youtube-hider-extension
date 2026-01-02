@@ -30,8 +30,8 @@ let warningProgressInterval = null;
 let rapidLoaderCount = 0;
 let lastScrollY = 0;
 let lastLoaderTime = 0;
-const LOADER_THRESHOLD = 5;
-const LOADER_RESET_TIME = 2000;
+const LOADER_THRESHOLD = 4;
+const LOADER_RESET_TIME = 5000;
 
 function removeWarning() {
   if (warningElement) {
