@@ -89,3 +89,7 @@
 - Now hiding also in Channel page
 - Fixed shorts icon not hiding
 - Reduced debounce time
+
+### Version 2.3.0
+
+- Added mobile youtube (m.youtube.com) support
