@@ -23,31 +23,26 @@ const prefs = {
   hideShortsSearchEnabled: true,
 };
 
-let hiddenItemsCount = 0;
 let warningDismissed = false;
 let warningElement = null;
-let consecutiveHighLoadStrikes = 0;
-const HIDE_WARNING_THRESHOLD = 15;
-const HIDE_WARNING_INTERVAL = 2000;
-const STRIKES_REQUIRED = 4;
+let warningProgressInterval = null;
 
-setInterval(() => {
-  if (hiddenItemsCount > HIDE_WARNING_THRESHOLD) {
-    consecutiveHighLoadStrikes++;
-  } else {
-    consecutiveHighLoadStrikes = 0;
-  }
+let rapidLoaderCount = 0;
+let lastScrollY = 0;
+let lastLoaderTime = 0;
+const LOADER_THRESHOLD = 5;
+const LOADER_RESET_TIME = 2000;
 
-  if (consecutiveHighLoadStrikes >= STRIKES_REQUIRED && !warningDismissed) {
-    showHighFilteringWarning();
+function removeWarning() {
+  if (warningElement) {
+    warningElement.remove();
+    warningElement = null;
   }
-  hiddenItemsCount = 0;
-}, HIDE_WARNING_INTERVAL);
-
-function incrementHiddenCounter() {
-  if (!warningDismissed) {
-    hiddenItemsCount++;
+  if (warningProgressInterval) {
+    clearInterval(warningProgressInterval);
+    warningProgressInterval = null;
   }
+  warningDismissed = true;
 }
 
 function showHighFilteringWarning() {
@@ -58,89 +53,131 @@ function showHighFilteringWarning() {
 
   Object.assign(warningElement.style, {
     position: 'fixed',
-    bottom: '24px',
-    right: '24px',
+    bottom: '20px',
+    right: '20px',
     backgroundColor: '#222222',
-    border: '1px solid #3a3a3a',
+    borderLeft: '4px solid #8ab4f8',
     color: '#ebebeb',
-    padding: '16px',
-    borderRadius: '8px',
+    padding: '12px 16px 16px 16px',
+    borderRadius: '4px',
     zIndex: '2147483647',
-    boxShadow: '0 4px 20px rgba(0,0,0,0.6)',
+    boxShadow: '0 4px 12px rgba(0,0,0,0.4)',
     fontFamily:
       '-apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif',
-    fontSize: '13.5px',
-    maxWidth: '320px',
+    fontSize: '13px',
+    maxWidth: '280px',
     display: 'flex',
     flexDirection: 'column',
-    gap: '12px',
-    animation: 'fadeIn 0.3s ease-out',
+    gap: '6px',
+    opacity: '0',
+    transition: 'opacity 0.3s ease',
+    overflow: 'hidden',
+    pointerEvents: 'auto',
   });
-
-  const titleRow = document.createElement('div');
-  titleRow.style.display = 'flex';
-  titleRow.style.alignItems = 'center';
-  titleRow.style.gap = '8px';
-  titleRow.style.marginBottom = '4px';
-
-  const title = document.createElement('span');
-  title.textContent = 'High Filtering Detected';
-  title.style.fontWeight = '700';
-  title.style.color = '#8ab4f8';
-  title.style.fontSize = '14px';
-
-  titleRow.appendChild(title);
 
   const msg = document.createElement('span');
   msg.textContent =
-    'Many videos are being hidden rapidly. This might cause infinite loading. Consider lowering your filter settings.';
-  msg.style.color = '#b8b8b8';
+    'High filtering detected. Try lowering filters if loading gets stuck.';
   msg.style.lineHeight = '1.4';
+  msg.style.color = '#e0e0e0';
 
-  const btnRow = document.createElement('div');
-  btnRow.style.display = 'flex';
-  btnRow.style.justifyContent = 'flex-end';
-  btnRow.style.marginTop = '4px';
-
-  const closeBtn = document.createElement('button');
-  closeBtn.textContent = 'Dismiss';
-  Object.assign(closeBtn.style, {
-    backgroundColor: '#3a3a3a',
-    color: '#8ab4f8',
-    border: 'none',
-    padding: '6px 12px',
-    borderRadius: '5px',
-    cursor: 'pointer',
-    fontWeight: '600',
-    fontSize: '12px',
-    transition: 'background-color 0.2s',
-    outline: 'none',
+  const progressBar = document.createElement('div');
+  Object.assign(progressBar.style, {
+    position: 'absolute',
+    bottom: '0',
+    left: '0',
+    height: '3px',
+    backgroundColor: '#8ab4f8',
+    width: '100%',
+    transition: 'width 0.1s linear',
   });
 
-  closeBtn.onmouseover = () => {
-    closeBtn.style.backgroundColor = '#4a4a4a';
-  };
-  closeBtn.onmouseout = () => {
-    closeBtn.style.backgroundColor = '#3a3a3a';
-  };
-
-  closeBtn.onclick = () => {
-    if (warningElement) {
-      warningElement.style.opacity = '0';
-      setTimeout(() => {
-        if (warningElement) warningElement.remove();
-        warningElement = null;
-      }, 300);
-    }
-    warningDismissed = true;
-  };
-
-  btnRow.appendChild(closeBtn);
-  warningElement.appendChild(titleRow);
   warningElement.appendChild(msg);
-  warningElement.appendChild(btnRow);
-
+  warningElement.appendChild(progressBar);
   document.body.appendChild(warningElement);
+
+  requestAnimationFrame(() => {
+    if (warningElement) warningElement.style.opacity = '1';
+  });
+
+  let timeLeft = 10000;
+  const updateInterval = 100;
+  let isPaused = false;
+
+  warningElement.onmouseenter = () => {
+    isPaused = true;
+  };
+  warningElement.onmouseleave = () => {
+    isPaused = false;
+  };
+  warningElement.onclick = () => removeWarning();
+
+  warningProgressInterval = setInterval(() => {
+    if (isPaused) return;
+
+    timeLeft -= updateInterval;
+    const percentage = (timeLeft / 10000) * 100;
+
+    if (progressBar) {
+      progressBar.style.width = `${percentage}%`;
+    }
+
+    if (timeLeft <= 0) {
+      removeWarning();
+    }
+  }, updateInterval);
+}
+
+function detectInfiniteLoaderLoop(mutations) {
+  if (warningDismissed || warningElement) return;
+
+  const now = Date.now();
+  const currentScroll = window.scrollY;
+  let loaderFound = false;
+
+  if (now - lastLoaderTime > LOADER_RESET_TIME) {
+    rapidLoaderCount = 0;
+  }
+
+  for (const mutation of mutations) {
+    if (mutation.type === 'childList' && mutation.addedNodes.length > 0) {
+      for (const node of mutation.addedNodes) {
+        if (node.nodeType !== 1) continue;
+
+        // Updated: Check both the node itself AND inside the node
+        // Often on mobile the loader is wrapped inside a container div
+        const loaderSelectors =
+          'ytd-continuation-item-renderer, ytm-continuation-item-renderer, ytm-spinner, .spinner, .yt-spinner, .loading-spinner';
+
+        if (
+          node.matches(loaderSelectors) ||
+          node.querySelector(loaderSelectors)
+        ) {
+          loaderFound = true;
+          break;
+        }
+      }
+    }
+    if (loaderFound) break;
+  }
+
+  if (loaderFound) {
+    const scrollDiff = Math.abs(currentScroll - lastScrollY);
+
+    // Only count as "infinite loop" if the user hasn't scrolled significantly
+    if (scrollDiff < 100) {
+      rapidLoaderCount++;
+      lastLoaderTime = now;
+
+      if (rapidLoaderCount >= LOADER_THRESHOLD) {
+        showHighFilteringWarning();
+      }
+    } else {
+      rapidLoaderCount = 0;
+    }
+
+    lastScrollY = currentScroll;
+  }
 }
 
 function initPrefs() {
@@ -214,9 +251,6 @@ function hideWatched(pathname) {
       'ytd-thumbnail-overlay-resume-playback-renderer #progress, .ytThumbnailOverlayProgressBarHostWatchedProgressBarSegment, ytm-thumbnail-overlay-resume-playback-renderer .thumbnail-overlay-resume-playback-progress'
     )
     .forEach(bar => {
-      const alreadyHidden = bar.getAttribute('data-yh-hidden');
-      if (alreadyHidden) return;
-
       const pct = parseFloat(bar.style.width) || 0;
       if (pct <= hideThreshold) return;
 
@@ -236,11 +270,7 @@ function hideWatched(pathname) {
       }
       if (!item) return;
 
-      if (item.style.display !== 'none') {
-        item.style.display = 'none';
-        bar.setAttribute('data-yh-hidden', 'true');
-        incrementHiddenCounter();
-      }
+      item.style.display = 'none';
     });
 }
 
@@ -296,8 +326,6 @@ function hideUnderVisuals(pathname) {
 
     if (!span) return;
 
-    if (span.getAttribute('data-yh-checked')) return;
-
     const text = span.textContent;
 
     if (
@@ -317,19 +345,12 @@ function hideUnderVisuals(pathname) {
     while (item && !item.matches(selectors)) {
       item = item.parentElement;
     }
-
-    if (item && item.style.display !== 'none') {
-      item.style.display = 'none';
-      span.setAttribute('data-yh-checked', 'true');
-      incrementHiddenCounter();
-    }
+    if (item) item.style.display = 'none';
   });
 
   document
     .querySelectorAll('.YtmBadgeAndBylineRendererItemByline')
     .forEach(span => {
-      if (span.getAttribute('data-yh-checked')) return;
-
       const text = span.textContent.trim();
 
       const timeKeywords =
@@ -351,11 +372,8 @@ function hideUnderVisuals(pathname) {
         'ytm-video-with-context-renderer, ytm-rich-item-renderer, ytm-compact-video-renderer'
       );
 
-      if (container && container.style.display !== 'none') {
+      if (container) {
         container.style.display = 'none';
-        span.setAttribute('data-yh-checked', 'true');
-        incrementHiddenCounter();
-
         const wrapper = container.closest('ytm-rich-item-renderer');
         if (wrapper) wrapper.style.display = 'none';
       }
@@ -388,7 +406,6 @@ function hideNewFormatVideos(pathname) {
       );
 
       if (!viewsSpan) return;
-      if (viewsSpan.getAttribute('data-yh-checked')) return;
 
       const text = viewsSpan.textContent;
       const views = parseToNumber(text);
@@ -416,11 +433,7 @@ function hideNewFormatVideos(pathname) {
         item = item.parentElement;
       }
 
-      if (item && item.style.display !== 'none') {
-        item.style.display = 'none';
-        viewsSpan.setAttribute('data-yh-checked', 'true');
-        incrementHiddenCounter();
-      }
+      if (item) item.style.display = 'none';
     });
 }
 
@@ -438,10 +451,7 @@ function createVideoObserver(pathname) {
 function hideShorts() {
   document.querySelectorAll('ytm-rich-section-renderer').forEach(section => {
     if (section.querySelector('ytm-shorts-lockup-view-model')) {
-      if (section.style.display !== 'none') {
-        section.style.display = 'none';
-        incrementHiddenCounter();
-      }
+      section.style.display = 'none';
     }
   });
 
@@ -456,19 +466,16 @@ function hideShorts() {
       'ytd-guide-section-renderer, tp-yt-paper-item, ytd-video-renderer, ytd-reel-shelf-renderer, ytm-reel-shelf-renderer'
     )
     .forEach(node => {
-      let shouldHide = false;
-      if (node.querySelector('ytm-shorts-lockup-view-model')) shouldHide = true;
+      if (node.querySelector('ytm-shorts-lockup-view-model')) {
+        node.style.display = 'none';
+      }
       if (
         node.querySelector('badge-shape[aria-label="Shorts"]') ||
         node.querySelector(
           'ytd-thumbnail-overlay-time-status-renderer[overlay-style="SHORTS"]'
         )
-      )
-        shouldHide = true;
-
-      if (shouldHide && node.style.display !== 'none') {
+      ) {
         node.style.display = 'none';
-        incrementHiddenCounter();
       }
     });
 
@@ -477,19 +484,13 @@ function hideShorts() {
       'ytd-rich-shelf-renderer, ytm-reel-shelf-renderer'
     );
     if (shelf) {
-      if (shelf.style.display !== 'none') {
-        shelf.style.display = 'none';
-        incrementHiddenCounter();
-      }
+      shelf.style.display = 'none';
       return;
     }
     const item = link.closest(
       'ytd-rich-item-renderer, ytm-video-with-context-renderer'
     );
-    if (item && item.style.display !== 'none') {
-      item.style.display = 'none';
-      incrementHiddenCounter();
-    }
+    if (item) item.style.display = 'none';
   });
 
   document.querySelectorAll('a[title="Shorts"]').forEach(link => {
@@ -530,10 +531,7 @@ function hideShorts() {
         'ytm-shorts-lockup-view-model-v2, ytm-shorts-lockup-view-model'
       )
     ) {
-      if (node.style.display !== 'none') {
-        node.style.display = 'none';
-        incrementHiddenCounter();
-      }
+      node.style.display = 'none';
     }
   });
 
@@ -542,10 +540,7 @@ function hideShorts() {
       'grid-shelf-view-model:has(ytm-shorts-lockup-view-model-v2), grid-shelf-view-model:has(ytm-shorts-lockup-view-model)'
     )
     .forEach(node => {
-      if (node.style.display !== 'none') {
-        node.style.display = 'none';
-        incrementHiddenCounter();
-      }
+      node.style.display = 'none';
     });
 
   document.querySelectorAll('yt-chip-cloud-chip-renderer').forEach(node => {
@@ -742,6 +737,10 @@ function detectPageChange() {
     logger.log(`Page changed: ${currentPath} -> ${newPath}`);
     currentPath = newPath;
 
+    removeWarning();
+    rapidLoaderCount = 0;
+    warningDismissed = false;
+
     if (pageLoadTimeout) {
       clearTimeout(pageLoadTimeout);
     }
@@ -763,7 +762,9 @@ const debouncedHiding = debounce(() => {
   }
 }, TIMING.DEBOUNCE_MUTATIONS);
 
-function onMutations() {
+function onMutations(mutations) {
+  detectInfiniteLoaderLoop(mutations);
+
   skipIntro();
   debouncedHiding();
 }
