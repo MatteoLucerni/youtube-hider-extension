@@ -156,42 +156,88 @@ let observerCreated = false;
 
 function hideUnderVisuals(pathname) {
   const { viewsHideThreshold } = prefs;
-
   const isChannelPage = pathname && pathname.startsWith('/@');
 
-  document
-    .querySelectorAll('#metadata-line, .ytm-badge-and-byline-item-text')
-    .forEach(metaLine => {
-      let span;
+  // --- DESKTOP LOGIC ---
+  document.querySelectorAll('#metadata-line').forEach(metaLine => {
+    let span;
+    if (isChannelPage) {
+      const spans = metaLine.querySelectorAll('span.style-scope');
+      span = spans[0];
+    } else {
+      span = metaLine.querySelector('span.inline-metadata-item');
+    }
 
-      if (metaLine.classList.contains('ytm-badge-and-byline-item-text')) {
-        span = metaLine;
-      } else {
-        if (isChannelPage) {
-          const spans = metaLine.querySelectorAll('span.style-scope');
-          span = spans[0];
-        } else {
-          span = metaLine.querySelector('span.inline-metadata-item');
-        }
+    if (!span) return;
+    const text = span.textContent;
+
+    // Ignore time strings on desktop just in case
+    if (
+      /ago|fa|ore|hours|mesi|months|anni|years/.test(text) &&
+      !/views|visualizzazioni/.test(text)
+    )
+      return;
+
+    const views = parseToNumber(text);
+    if (isNaN(views) || views >= viewsHideThreshold) return;
+
+    let item = span;
+    const selectors = isChannelPage
+      ? 'ytd-compact-video-renderer, ytd-rich-item-renderer, ytd-video-renderer, ytd-grid-video-renderer, yt-lockup-view-model'
+      : 'ytd-compact-video-renderer, ytd-rich-item-renderer, ytd-video-renderer, yt-lockup-view-model';
+
+    while (item && !item.matches(selectors)) {
+      item = item.parentElement;
+    }
+    if (item) item.style.display = 'none';
+  });
+
+  // --- MOBILE LOGIC (Updated for ytm-badge-and-byline-renderer) ---
+  // We target the specific class for metadata items found in your HTML
+  document
+    .querySelectorAll('.YtmBadgeAndBylineRendererItemByline')
+    .forEach(span => {
+      const text = span.textContent.trim();
+
+      // Safety Check: We must NOT hide based on Date (e.g. "1 month ago" -> 1).
+      // View strings usually contain: "views", "visualizzazioni" OR have suffixes like K, M, B.
+      // Date strings usually contain: "ago", "fa", "hours", "ore", "mesi", "anni", "setimane".
+
+      const timeKeywords =
+        /ago|fa|ore|hours|mesi|months|anni|years|settimane|weeks|giorni|days/i;
+      const viewKeywords = /views|visualizzazioni|vistas|vues|aufrufe/i;
+
+      // If it looks like a date, skip it immediately
+      if (timeKeywords.test(text)) return;
+
+      // To be safe, we process it if it has "views" keyword OR a suffix (109K)
+      const { suffix } = extractNumberAndSuffix(text);
+      const hasSuffix = ['K', 'M', 'MLN', 'B'].includes(suffix);
+      const isExplicitViewString = viewKeywords.test(text);
+
+      // Only proceed if we are reasonably sure it's a view count
+      if (!hasSuffix && !isExplicitViewString) {
+        // Edge case: low views like "12 visualizzazioni" might not have suffix,
+        // but matched isExplicitViewString.
+        // If we just have a number "12", it's risky.
+        return;
       }
 
-      if (!span) return;
-
-      const text = span.textContent;
       const views = parseToNumber(text);
 
       if (isNaN(views) || views >= viewsHideThreshold) return;
 
-      let item = span;
+      // Find the container to hide
+      const container = span.closest(
+        'ytm-video-with-context-renderer, ytm-rich-item-renderer, ytm-compact-video-renderer'
+      );
 
-      const selectors = isChannelPage
-        ? 'ytd-compact-video-renderer, ytd-rich-item-renderer, ytd-video-renderer, ytd-grid-video-renderer, yt-lockup-view-model, ytm-video-with-context-renderer, ytm-compact-video-renderer'
-        : 'ytd-compact-video-renderer, ytd-rich-item-renderer, ytd-video-renderer, yt-lockup-view-model, ytm-video-with-context-renderer, ytm-compact-video-renderer, ytm-rich-item-renderer';
-
-      while (item && !item.matches(selectors)) {
-        item = item.parentElement;
+      if (container) {
+        container.style.display = 'none';
+        // Hide the parent rich item wrapper if it exists (fixes layout gaps)
+        const wrapper = container.closest('ytm-rich-item-renderer');
+        if (wrapper) wrapper.style.display = 'none';
       }
-      if (item) item.style.display = 'none';
     });
 
   hideNewFormatVideos(pathname);
