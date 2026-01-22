@@ -747,3 +747,28 @@ body.easy-mode-off .streaming-card .slider-control-right {
 .toggle-item:has(.info-icon:hover) {
     z-index: 10;
 }
+
+/* Tooltip positioning for toggle-grid items to prevent overflow */
+/* Left column items: align tooltip to left */
+.toggle-grid .toggle-item:nth-child(odd) .tooltip-text {
+    left: 0;
+    transform: translateX(0);
+}
+
+.toggle-grid .toggle-item:nth-child(odd) .tooltip-text::after {
+    left: 15px;
+    margin-left: 0;
+}
+
+/* Right column items: align tooltip to right */
+.toggle-grid .toggle-item:nth-child(even) .tooltip-text {
+    left: auto;
+    right: 0;
+    transform: translateX(0);
+}
+
+.toggle-grid .toggle-item:nth-child(even) .tooltip-text::after {
+    left: auto;
+    right: 15px;
+    margin-left: 0;
+}
