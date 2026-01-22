@@ -393,9 +393,10 @@ hr {
 .toggle-item {
     background-color: var(--bg-tertiary);
     border-radius: var(--radius-md);
-    overflow: hidden;
+    overflow: visible;
     display: flex;
     min-width: 0;
+    position: relative;
 }
 
 .toggle-label {
@@ -723,4 +724,26 @@ body.easy-mode-off .streaming-card .slider-control-right {
 .slider-control-left .tooltip-text::after {
     left: 10px;
     margin-left: 0;
+}
+
+/* Remove margin-bottom for toggle-item labels and improve alignment */
+.toggle-item .label-content {
+    margin-bottom: 0;
+}
+
+/* Ensure tooltip icon is vertically aligned with text */
+.tooltip-container {
+    display: inline-flex;
+    align-items: center;
+    vertical-align: middle;
+}
+
+.toggle-text {
+    display: inline-flex;
+    align-items: center;
+}
+
+/* Elevate z-index when tooltip is hovered to prevent overlap from adjacent items */
+.toggle-item:has(.info-icon:hover) {
+    z-index: 10;
 }
