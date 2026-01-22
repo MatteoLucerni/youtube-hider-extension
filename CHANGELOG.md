@@ -95,3 +95,9 @@
 - Added mobile youtube (m.youtube.com) support
 - Added infinite loading warning
 - Added tooltips for filter sliders
+
+### Version 2.3.1
+
+- Fixed tooltips visibility for page options
+- Fixed tooltips overflow preventing text from being cut off
+- Improved tooltip icon vertical alignment with labels
