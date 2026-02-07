@@ -919,7 +919,6 @@ function getFloatingButtonCSS() {
       font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
       font-size: 13px;
       color: #ebebeb;
-      overflow: hidden;
       transform: scale(0.92) translateY(8px);
       opacity: 0;
       pointer-events: none;
@@ -981,7 +980,6 @@ function getFloatingButtonCSS() {
     .yh-panel-group {
       background: #2a2a2a;
       border-radius: 6px;
-      overflow: hidden;
     }
     .yh-panel-row {
       display: flex;
@@ -1058,7 +1056,6 @@ function getFloatingButtonCSS() {
       display: flex;
       flex-direction: column;
       gap: 6px;
-      border-top: 1px solid #333;
     }
     .yh-panel-sublabel {
       font-size: 10px;
@@ -1146,24 +1143,24 @@ function getFloatingButtonCSS() {
     }
 
     .yh-panel-footer {
-      padding: 8px 14px 12px;
+      padding: 6px 14px 8px;
       border-top: 1px solid #3a3a3a;
       display: flex;
       flex-direction: column;
-      gap: 4px;
+      gap: 2px;
     }
     .yh-panel-hint {
       font-size: 10px;
       color: #777;
-      line-height: 1.4;
-      padding: 2px 0 4px;
+      line-height: 1.3;
+      padding: 0;
     }
     .yh-panel-link {
       font-size: 12px;
       color: #8ab4f8;
       text-decoration: none;
       cursor: pointer;
-      padding: 4px 0;
+      padding: 2px 0;
       transition: color 0.15s;
     }
     .yh-panel-link:hover {
