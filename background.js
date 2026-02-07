@@ -49,6 +49,12 @@ const defaultSettings = {
   viewsHideCorrEnabled: true,
   hideShortsEnabled: true,
   hideShortsSearchEnabled: true,
+  floatingButtonEnabled: true,
+  welcomeToastCount: 0,
+  welcomeToastDismissed: false,
+  fabPulseCount: 0,
+  firstActionToastShown: false,
+  panelTooltipShown: false,
 };
 function initializeSettings() {
   chrome.storage.sync.get(null, items => {
@@ -62,7 +68,7 @@ function initializeSettings() {
         if (chrome.runtime.lastError) {
           logger.log(
             'Error setting defaults:',
-            chrome.runtime.lastError.message
+            chrome.runtime.lastError.message,
           );
         } else {
           logger.log('Default settings initialized');
@@ -70,9 +76,26 @@ function initializeSettings() {
         }
       });
     } else {
+      migrateSettings(items);
       refreshBadge();
     }
   });
+}
+
+function migrateSettings(currentSettings) {
+  const newKeys = {};
+  for (const [key, value] of Object.entries(defaultSettings)) {
+    if (!(key in currentSettings)) {
+      newKeys[key] = value;
+    }
+  }
+  if (Object.keys(newKeys).length > 0) {
+    chrome.storage.sync.set(newKeys, () => {
+      if (!chrome.runtime.lastError) {
+        logger.log('Migrated new settings:', Object.keys(newKeys));
+      }
+    });
+  }
 }
 function refreshBadge() {
   const defaults = Object.fromEntries(flagKeys.map(key => [key, true]));
@@ -126,6 +149,12 @@ chrome.runtime.onInstalled.addListener(details => {
   if (details.reason === chrome.runtime.OnInstalledReason.INSTALL) {
     chrome.runtime.setUninstallURL(UNINSTALL_SURVEY_URL);
     logger.log('Uninstall URL set for new installation');
+
+    chrome.tabs.create({
+      url: 'https://youtubehider.com/welcome.html',
+      active: true,
+    });
+    logger.log('Welcome page opened');
   }
 
   if (details.reason === chrome.runtime.OnInstalledReason.UPDATE) {
@@ -135,4 +164,16 @@ chrome.runtime.onInstalled.addListener(details => {
 
   initializeSettings();
 });
+
+chrome.runtime.onMessage.addListener((message, sender, sendResponse) => {
+  if (message.action === 'openSettings') {
+    chrome.tabs.create({
+      url: chrome.runtime.getURL('popup.html?standalone=true'),
+      active: true,
+    });
+    sendResponse({ success: true });
+  }
+  return false;
+});
+
 initializeSettings();
