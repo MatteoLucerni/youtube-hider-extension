@@ -577,6 +577,18 @@ hr {
     }
 }
 
+/* Standalone mode: when popup.html is opened in a full browser tab */
+@media (min-width: 500px) {
+    body {
+        width: 100%;
+        max-width: 420px;
+        margin: 0 auto;
+        min-height: 100vh;
+        border-left: 1px solid var(--border-color);
+        border-right: 1px solid var(--border-color);
+    }
+}
+
 .streaming-card .card-compact-toggle {
     position: absolute;
     top: var(--spacing-lg);

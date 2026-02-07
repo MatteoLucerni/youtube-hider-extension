@@ -101,3 +101,20 @@
 - Fixed tooltips visibility for page options
 - Fixed tooltips overflow preventing text from being cut off
 - Improved tooltip icon vertical alignment with labels
+
+### Version 2.4.0
+
+- Welcome page now redirects to youtubehider.com
+- Removed local welcome page files (HTML, JS, CSS)
+- Welcome toast moved to top-right corner, closer to the toolbar
+- Added bouncing arrow animation pointing to toolbar icon
+- Increased welcome toast appearances from 3 to 5 visits
+- Floating button now pulses on first 2 sessions to attract attention
+- Added confirmation toast on first setting change from mini-panel
+- Panel rows highlight on first open to guide new users
+- Mini-panel: added minimum views slider
+- Mini-panel: grouped toggles and sliders into visual cards
+- Mini-panel: added info icon tooltips on each setting
+- Mini-panel: added toolbar hint text in footer
+- Mini-panel: replaced arrow with external redirect icon on "Open full settings"
+- Compacted mini-panel footer layout
