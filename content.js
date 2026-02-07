@@ -850,7 +850,7 @@ function getMiniPanelHTML() {
       </div>
     </div>
     <div class="yh-panel-footer">
-      <a href="#" class="yh-panel-link" id="yh-p-open-full">Open full settings &rarr;</a>
+      <a href="#" class="yh-panel-link" id="yh-p-open-full">Open full settings <svg class="yh-external-icon" viewBox="0 0 16 16" xmlns="http://www.w3.org/2000/svg"><path d="M6 3h7v7m0-7L6 10" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg></a>
       <span class="yh-panel-hint">You can also change settings by clicking the extension icon in your toolbar</span>
       <a href="#" class="yh-panel-link yh-panel-link-muted" id="yh-p-hide-btn">Hide this button</a>
     </div>
@@ -1014,6 +1014,8 @@ function getFloatingButtonCSS() {
       cursor: help;
       transition: color 0.15s;
       flex-shrink: 0;
+      vertical-align: middle;
+      margin-top: -1px;
     }
     .yh-info-wrap:hover .yh-info-icon {
       color: #aaa;
@@ -1162,6 +1164,14 @@ function getFloatingButtonCSS() {
       cursor: pointer;
       padding: 2px 0;
       transition: color 0.15s;
+      display: inline-flex;
+      align-items: center;
+      gap: 4px;
+    }
+    .yh-external-icon {
+      width: 11px;
+      height: 11px;
+      flex-shrink: 0;
     }
     .yh-panel-link:hover {
       color: #aac8ff;
