@@ -9,8 +9,7 @@
         "128": "assets/icons/YT Hider icon v6.png"
     },
     "permissions": [
-        "storage",
-        "tabs"
+        "storage"
     ],
     "host_permissions": [
         "https://www.netflix.com/*",
