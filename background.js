@@ -50,7 +50,6 @@ const defaultSettings = {
   hideShortsEnabled: true,
   hideShortsSearchEnabled: true,
   floatingButtonEnabled: true,
-  onboardingCompleted: false,
   welcomeToastCount: 0,
   welcomeToastDismissed: false,
 };
@@ -149,7 +148,7 @@ chrome.runtime.onInstalled.addListener(details => {
     logger.log('Uninstall URL set for new installation');
 
     chrome.tabs.create({
-      url: chrome.runtime.getURL('welcome.html'),
+      url: 'https://youtubehider.com/welcome.html',
       active: true,
     });
     logger.log('Welcome page opened');
