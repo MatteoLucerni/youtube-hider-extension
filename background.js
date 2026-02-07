@@ -52,6 +52,9 @@ const defaultSettings = {
   floatingButtonEnabled: true,
   welcomeToastCount: 0,
   welcomeToastDismissed: false,
+  fabPulseCount: 0,
+  firstActionToastShown: false,
+  panelTooltipShown: false,
 };
 function initializeSettings() {
   chrome.storage.sync.get(null, items => {

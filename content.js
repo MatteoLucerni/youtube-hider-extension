@@ -24,6 +24,9 @@ const prefs = {
   floatingButtonEnabled: true,
   welcomeToastCount: 0,
   welcomeToastDismissed: false,
+  fabPulseCount: 0,
+  firstActionToastShown: false,
+  panelTooltipShown: false,
 };
 
 let warningDismissed = false;
@@ -266,7 +269,7 @@ function showWelcomeToast() {
   if (!isYouTube()) return;
   if (welcomeToastElement) return;
   if (prefs.welcomeToastDismissed) return;
-  if (prefs.welcomeToastCount >= 3) return;
+  if (prefs.welcomeToastCount >= 5) return;
 
   chrome.storage.sync.set({ welcomeToastCount: prefs.welcomeToastCount + 1 });
 
@@ -275,7 +278,7 @@ function showWelcomeToast() {
 
   Object.assign(welcomeToastElement.style, {
     position: 'fixed',
-    bottom: '20px',
+    top: '20px',
     right: '20px',
     backgroundColor: '#222222',
     borderLeft: '4px solid #10b981',
@@ -358,7 +361,15 @@ function showWelcomeToast() {
 
   const msg = document.createElement('span');
   msg.innerHTML =
-    'Click the extension icon <span style="font-size:15px;">⬆</span> in your toolbar to customize settings.';
+    'Click the extension icon <span style="font-size:15px; display:inline-block; animation: yhArrowBounce 0.6s ease-in-out 3;">⬆</span> in your toolbar to customize settings.';
+
+  // Inject bounce keyframes for the arrow
+  if (!document.getElementById('yh-toast-keyframes')) {
+    const ks = document.createElement('style');
+    ks.id = 'yh-toast-keyframes';
+    ks.textContent = `@keyframes yhArrowBounce { 0%,100% { transform: translateY(0); } 50% { transform: translateY(-4px); } }`;
+    document.head.appendChild(ks);
+  }
   Object.assign(msg.style, {
     lineHeight: '1.5',
     color: '#e0e0e0',
@@ -428,6 +439,60 @@ function showWelcomeToast() {
   }, updateInterval);
 }
 
+// ─── First-Action Confirmation Toast ─────────────────────────────────────────
+let firstActionToastElement = null;
+
+function showFirstActionToast() {
+  if (prefs.firstActionToastShown) return;
+  if (firstActionToastElement) return;
+
+  prefs.firstActionToastShown = true;
+  chrome.storage.sync.set({ firstActionToastShown: true });
+
+  firstActionToastElement = document.createElement('div');
+  firstActionToastElement.id = 'yh-first-action-toast';
+
+  Object.assign(firstActionToastElement.style, {
+    position: 'fixed',
+    top: '20px',
+    right: '20px',
+    backgroundColor: '#222222',
+    borderLeft: '4px solid #10b981',
+    color: '#ebebeb',
+    padding: '12px 16px',
+    borderRadius: '4px',
+    zIndex: '2147483646',
+    boxShadow: '0 4px 16px rgba(0,0,0,0.5)',
+    fontFamily:
+      '-apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif',
+    fontSize: '13px',
+    maxWidth: '280px',
+    opacity: '0',
+    transition: 'opacity 0.3s ease',
+    pointerEvents: 'none',
+  });
+
+  firstActionToastElement.textContent =
+    'Settings saved! Your changes apply instantly.';
+  document.body.appendChild(firstActionToastElement);
+
+  requestAnimationFrame(() => {
+    if (firstActionToastElement) firstActionToastElement.style.opacity = '1';
+  });
+
+  setTimeout(() => {
+    if (firstActionToastElement) {
+      firstActionToastElement.style.opacity = '0';
+      setTimeout(() => {
+        if (firstActionToastElement) {
+          firstActionToastElement.remove();
+          firstActionToastElement = null;
+        }
+      }, 300);
+    }
+  }, 4000);
+}
+
 // ─── Floating Button & Mini-Panel (Shadow DOM) ──────────────────────────────
 let floatingButtonHost = null;
 let miniPanelOpen = false;
@@ -483,13 +548,43 @@ function createFloatingButton() {
 
   document.body.appendChild(floatingButtonHost);
 
+  // Pulse animation for first 2 sessions
+  if (prefs.fabPulseCount < 2) {
+    fab.classList.add('pulse');
+    fab.addEventListener(
+      'animationend',
+      () => {
+        fab.classList.remove('pulse');
+      },
+      { once: true },
+    );
+    chrome.storage.sync.set({ fabPulseCount: prefs.fabPulseCount + 1 });
+  }
+
   // Event handlers
   fab.addEventListener('click', e => {
     e.stopPropagation();
     miniPanelOpen = !miniPanelOpen;
     panel.classList.toggle('open', miniPanelOpen);
     fab.classList.toggle('active', miniPanelOpen);
-    if (miniPanelOpen) syncPanelToPrefs(shadow);
+    if (miniPanelOpen) {
+      syncPanelToPrefs(shadow);
+      // Highlight panel rows on first open
+      if (!prefs.panelTooltipShown) {
+        prefs.panelTooltipShown = true;
+        chrome.storage.sync.set({ panelTooltipShown: true });
+        const rows = shadow.querySelectorAll('.yh-panel-row');
+        rows.forEach((row, i) => {
+          setTimeout(() => {
+            row.style.transition = 'background 0.3s ease';
+            row.style.background = 'rgba(16, 185, 129, 0.15)';
+            setTimeout(() => {
+              row.style.background = '';
+            }, 600);
+          }, i * 200);
+        });
+      }
+    }
   });
 
   // Close on outside click
@@ -570,6 +665,7 @@ function bindPanelEvents(shadow) {
         hideSubsEnabled: val,
         hideCorrEnabled: val,
       });
+      showFirstActionToast();
     });
   }
 
@@ -579,6 +675,7 @@ function bindPanelEvents(shadow) {
         hideShortsEnabled: hideShortsToggle.checked,
         hideShortsSearchEnabled: hideShortsToggle.checked,
       });
+      showFirstActionToast();
     });
   }
 
@@ -592,6 +689,7 @@ function bindPanelEvents(shadow) {
         viewsHideSubsEnabled: val,
         viewsHideCorrEnabled: val,
       });
+      showFirstActionToast();
     });
   }
 
@@ -605,6 +703,7 @@ function bindPanelEvents(shadow) {
       chrome.storage.sync.set({
         hideThreshold: parseInt(thresholdSlider.value, 10),
       });
+      showFirstActionToast();
     });
   }
 
@@ -690,6 +789,11 @@ function getFloatingButtonCSS() {
       flex-direction: column;
       align-items: flex-end;
     }
+    @keyframes yhFabPulse {
+      0% { transform: scale(1); box-shadow: 0 2px 10px rgba(0,0,0,0.4); }
+      50% { transform: scale(1.15); box-shadow: 0 0 16px rgba(16,185,129,0.4), 0 2px 10px rgba(0,0,0,0.4); }
+      100% { transform: scale(1); box-shadow: 0 2px 10px rgba(0,0,0,0.4); }
+    }
     .yh-fab {
       width: 40px;
       height: 40px;
@@ -705,6 +809,10 @@ function getFloatingButtonCSS() {
       transition: opacity 0.2s ease, transform 0.2s ease, box-shadow 0.2s ease;
       padding: 0;
       outline: none;
+    }
+    .yh-fab.pulse {
+      opacity: 1;
+      animation: yhFabPulse 0.8s ease-in-out 3;
     }
     .yh-fab:hover {
       opacity: 1;
@@ -1541,7 +1649,7 @@ async function init() {
 
   logger.log('MutationObserver started');
 
-  // Onboarding: welcome toast on YouTube (first 3 visits)
+  // Onboarding: welcome toast on YouTube (first 5 visits)
   if (isYouTube()) {
     setTimeout(() => showWelcomeToast(), 1500);
     createFloatingButton();
