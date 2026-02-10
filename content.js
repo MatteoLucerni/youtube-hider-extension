@@ -22,6 +22,7 @@ const prefs = {
   hideShortsEnabled: true,
   hideShortsSearchEnabled: true,
   floatingButtonEnabled: true,
+  floatingButtonSide: 'right',
   welcomeToastCount: 0,
   welcomeToastDismissed: false,
   fabPulseCount: 0,
@@ -504,17 +505,45 @@ function isYouTube() {
   );
 }
 
+function isWatchPage() {
+  return window.location.pathname === '/watch';
+}
+
+function applyFabSide(host, shadow, side) {
+  if (side === 'left') {
+    Object.assign(host.style, { left: '20px', right: 'auto' });
+    const wrapper = shadow.querySelector('.yh-fab-wrapper');
+    if (wrapper) wrapper.style.alignItems = 'flex-start';
+    const panel = shadow.querySelector('.yh-panel');
+    if (panel) {
+      panel.style.right = 'auto';
+      panel.style.left = '0';
+      panel.style.transformOrigin = 'bottom left';
+    }
+  } else {
+    Object.assign(host.style, { right: '20px', left: 'auto' });
+    const wrapper = shadow.querySelector('.yh-fab-wrapper');
+    if (wrapper) wrapper.style.alignItems = 'flex-end';
+    const panel = shadow.querySelector('.yh-panel');
+    if (panel) {
+      panel.style.left = 'auto';
+      panel.style.right = '0';
+      panel.style.transformOrigin = 'bottom right';
+    }
+  }
+}
+
 function createFloatingButton() {
   if (!isYouTube()) return;
   if (floatingButtonHost) return;
   if (!prefs.floatingButtonEnabled) return;
+  if (isWatchPage()) return;
 
   floatingButtonHost = document.createElement('div');
   floatingButtonHost.id = 'yh-floating-host';
   Object.assign(floatingButtonHost.style, {
     position: 'fixed',
     bottom: '20px',
-    right: '20px',
     zIndex: '2147483640',
     pointerEvents: 'auto',
   });
@@ -528,7 +557,6 @@ function createFloatingButton() {
   const wrapper = document.createElement('div');
   wrapper.className = 'yh-fab-wrapper';
 
-  // Floating Action Button
   const fab = document.createElement('button');
   fab.className = 'yh-fab';
   fab.title = 'Youtube Hider Settings';
@@ -537,7 +565,6 @@ function createFloatingButton() {
   fabImg.className = 'yh-fab-icon';
   fab.appendChild(fabImg);
 
-  // Mini-panel
   const panel = document.createElement('div');
   panel.className = 'yh-panel';
   panel.innerHTML = getMiniPanelHTML();
@@ -548,7 +575,8 @@ function createFloatingButton() {
 
   document.body.appendChild(floatingButtonHost);
 
-  // Pulse animation for first 2 sessions
+  applyFabSide(floatingButtonHost, shadow, prefs.floatingButtonSide);
+
   if (prefs.fabPulseCount < 2) {
     fab.classList.add('pulse');
     fab.addEventListener(
@@ -561,15 +589,103 @@ function createFloatingButton() {
     chrome.storage.sync.set({ fabPulseCount: prefs.fabPulseCount + 1 });
   }
 
-  // Event handlers
+  let isDragging = false;
+  let dragStartX = 0;
+  let dragStartY = 0;
+  let hostStartX = 0;
+  let hostStartY = 0;
+  const DRAG_THRESHOLD = 5;
+
+  function onPointerDown(e) {
+    if (e.button && e.button !== 0) return;
+    const point = e.touches ? e.touches[0] : e;
+    dragStartX = point.clientX;
+    dragStartY = point.clientY;
+    const rect = floatingButtonHost.getBoundingClientRect();
+    hostStartX = rect.left;
+    hostStartY = rect.top;
+    isDragging = false;
+
+    document.addEventListener('mousemove', onPointerMove);
+    document.addEventListener('mouseup', onPointerUp);
+    document.addEventListener('touchmove', onPointerMove, { passive: false });
+    document.addEventListener('touchend', onPointerUp);
+  }
+
+  function onPointerMove(e) {
+    const point = e.touches ? e.touches[0] : e;
+    const dx = point.clientX - dragStartX;
+    const dy = point.clientY - dragStartY;
+
+    if (!isDragging && Math.sqrt(dx * dx + dy * dy) < DRAG_THRESHOLD) return;
+
+    if (!isDragging) {
+      isDragging = true;
+      floatingButtonHost.style.transition = 'none';
+      fab.style.cursor = 'grabbing';
+    }
+
+    if (e.cancelable) e.preventDefault();
+
+    const hostW = floatingButtonHost.offsetWidth;
+    const hostH = floatingButtonHost.offsetHeight;
+    let newX = hostStartX + dx;
+    let newY = hostStartY + dy;
+    newX = Math.max(0, Math.min(window.innerWidth - hostW, newX));
+    newY = Math.max(0, Math.min(window.innerHeight - hostH, newY));
+
+    Object.assign(floatingButtonHost.style, {
+      left: newX + 'px',
+      top: newY + 'px',
+      right: 'auto',
+      bottom: 'auto',
+    });
+  }
+
+  function onPointerUp() {
+    document.removeEventListener('mousemove', onPointerMove);
+    document.removeEventListener('mouseup', onPointerUp);
+    document.removeEventListener('touchmove', onPointerMove);
+    document.removeEventListener('touchend', onPointerUp);
+    fab.style.cursor = '';
+
+    if (isDragging) {
+      const rect = floatingButtonHost.getBoundingClientRect();
+      const centerX = rect.left + rect.width / 2;
+      const newSide = centerX < window.innerWidth / 2 ? 'left' : 'right';
+
+      floatingButtonHost.style.transition = 'all 0.3s ease';
+      Object.assign(floatingButtonHost.style, {
+        top: 'auto',
+        bottom: '20px',
+      });
+      applyFabSide(floatingButtonHost, shadow, newSide);
+
+      prefs.floatingButtonSide = newSide;
+      chrome.storage.local.set({ floatingButtonSide: newSide });
+
+      setTimeout(() => {
+        if (floatingButtonHost) floatingButtonHost.style.transition = '';
+      }, 300);
+
+      isDragging = false;
+    }
+  }
+
+  fab.addEventListener('mousedown', onPointerDown);
+  fab.addEventListener('touchstart', onPointerDown, { passive: true });
+
   fab.addEventListener('click', e => {
+    if (isDragging) {
+      e.stopPropagation();
+      return;
+    }
     e.stopPropagation();
     miniPanelOpen = !miniPanelOpen;
     panel.classList.toggle('open', miniPanelOpen);
     fab.classList.toggle('active', miniPanelOpen);
     if (miniPanelOpen) {
       syncPanelToPrefs(shadow);
-      // Highlight panel rows on first open
       if (!prefs.panelTooltipShown) {
         prefs.panelTooltipShown = true;
         chrome.storage.sync.set({ panelTooltipShown: true });
@@ -587,7 +703,6 @@ function createFloatingButton() {
     }
   });
 
-  // Close on outside click
   document.addEventListener('click', e => {
     if (miniPanelOpen && !floatingButtonHost.contains(e.target)) {
       miniPanelOpen = false;
@@ -596,7 +711,6 @@ function createFloatingButton() {
     }
   });
 
-  // Escape key close
   document.addEventListener('keydown', e => {
     if (e.key === 'Escape' && miniPanelOpen) {
       miniPanelOpen = false;
@@ -605,7 +719,6 @@ function createFloatingButton() {
     }
   });
 
-  // Panel toggle listeners
   bindPanelEvents(shadow);
 }
 
@@ -877,7 +990,7 @@ function getFloatingButtonCSS() {
       border: none;
       background: #222222;
       box-shadow: 0 2px 10px rgba(0,0,0,0.4);
-      cursor: pointer;
+      cursor: grab;
       display: flex;
       align-items: center;
       justify-content: center;
@@ -885,6 +998,8 @@ function getFloatingButtonCSS() {
       transition: opacity 0.2s ease, transform 0.2s ease, box-shadow 0.2s ease;
       padding: 0;
       outline: none;
+      user-select: none;
+      -webkit-user-select: none;
     }
     .yh-fab.pulse {
       opacity: 1;
@@ -1192,8 +1307,13 @@ function initPrefs() {
     try {
       chrome.storage.sync.get(Object.keys(prefs), result => {
         Object.assign(prefs, result);
-        logger.log('Prefs loaded', prefs);
-        resolve();
+        chrome.storage.local.get('floatingButtonSide', localResult => {
+          if (localResult.floatingButtonSide) {
+            prefs.floatingButtonSide = localResult.floatingButtonSide;
+          }
+          logger.log('Prefs loaded', prefs);
+          resolve();
+        });
       });
     } catch (e) {
       logger.warn('Could not load prefs (context invalidated?)', e);
@@ -1205,20 +1325,23 @@ function initPrefs() {
 function setupPrefsListener() {
   try {
     chrome.storage.onChanged.addListener((changes, area) => {
-      if (area !== 'sync') return;
-      for (let key in changes) {
-        if (prefs.hasOwnProperty(key)) {
-          prefs[key] = changes[key].newValue;
-          logger.log(`Pref ${key} changed to`, changes[key].newValue);
+      if (area === 'sync') {
+        for (let key in changes) {
+          if (prefs.hasOwnProperty(key)) {
+            prefs[key] = changes[key].newValue;
+            logger.log(`Pref ${key} changed to`, changes[key].newValue);
+          }
+        }
+        if (changes.floatingButtonEnabled) {
+          if (changes.floatingButtonEnabled.newValue && !isWatchPage()) {
+            createFloatingButton();
+          } else {
+            removeFloatingButton();
+          }
         }
       }
-      // React to floating button toggle
-      if (changes.floatingButtonEnabled) {
-        if (changes.floatingButtonEnabled.newValue) {
-          createFloatingButton();
-        } else {
-          removeFloatingButton();
-        }
+      if (area === 'local' && changes.floatingButtonSide) {
+        prefs.floatingButtonSide = changes.floatingButtonSide.newValue;
       }
     });
   } catch (e) {
@@ -1756,6 +1879,12 @@ function detectPageChange() {
     rapidLoaderCount = 0;
     warningDismissed = false;
 
+    if (currentPath === '/watch') {
+      removeFloatingButton();
+    } else if (prefs.floatingButtonEnabled && !floatingButtonHost && isYouTube()) {
+      createFloatingButton();
+    }
+
     if (pageLoadTimeout) {
       clearTimeout(pageLoadTimeout);
     }
@@ -1796,10 +1925,11 @@ async function init() {
 
   logger.log('MutationObserver started');
 
-  // Onboarding: welcome toast on YouTube (first 5 visits)
   if (isYouTube()) {
     setTimeout(() => showWelcomeToast(), 1500);
-    createFloatingButton();
+    if (!isWatchPage()) {
+      createFloatingButton();
+    }
   }
 }
 

@@ -1,5 +1,17 @@
 # Changelog
 
+### Version 2.5.0
+
+- Floating button is now hidden on video watch pages (`/watch?`) for a cleaner viewing experience
+- Floating button is now draggable — drag it anywhere and it snaps to the nearest bottom corner on release
+- Floating button remembers its side preference (left or right) across page reloads (stored locally per device)
+- Mini-panel automatically aligns to the correct side when FAB is on the left
+- Added build script (`build.ps1`) for packaging the extension for Chrome Web Store upload
+- Added `short_name` to manifest.json
+- Rewrote README with shields.io badges, richer feature descriptions and project documentation
+- Added MIT LICENSE file
+- Improved `.gitignore` with standard patterns for OS files, editor settings, build artifacts and promo graphics
+
 ### Version 1.2.0
 
 - Auto save settings on edit
