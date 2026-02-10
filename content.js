@@ -22,7 +22,7 @@ const prefs = {
   hideShortsEnabled: true,
   hideShortsSearchEnabled: true,
   floatingButtonEnabled: true,
-  floatingButtonSide: 'right',
+  floatingButtonPosition: { edge: 'bottom', offset: 20 },
   welcomeToastCount: 0,
   welcomeToastDismissed: false,
   fabPulseCount: 0,
@@ -509,26 +509,63 @@ function isWatchPage() {
   return window.location.pathname === '/watch';
 }
 
-function applyFabSide(host, shadow, side) {
-  if (side === 'left') {
-    Object.assign(host.style, { left: '20px', right: 'auto' });
-    const wrapper = shadow.querySelector('.yh-fab-wrapper');
+function applyFabPosition(host, shadow, pos) {
+  const MARGIN = 20;
+  const hostW = host.offsetWidth || 40;
+  const hostH = host.offsetHeight || 40;
+  const vw = window.innerWidth;
+  const vh = window.innerHeight;
+  const offset = Math.max(0, pos.offset);
+
+  host.style.top = 'auto';
+  host.style.bottom = 'auto';
+  host.style.left = 'auto';
+  host.style.right = 'auto';
+
+  if (pos.edge === 'left') {
+    host.style.left = MARGIN + 'px';
+    host.style.top = Math.min(offset, vh - hostH) + 'px';
+  } else if (pos.edge === 'right') {
+    host.style.right = MARGIN + 'px';
+    host.style.top = Math.min(offset, vh - hostH) + 'px';
+  } else if (pos.edge === 'top') {
+    host.style.top = MARGIN + 'px';
+    host.style.left = Math.min(offset, vw - hostW) + 'px';
+  } else {
+    host.style.bottom = MARGIN + 'px';
+    host.style.left = Math.min(offset, vw - hostW) + 'px';
+  }
+
+  const isLeftHalf = (pos.edge === 'left') ||
+    ((pos.edge === 'top' || pos.edge === 'bottom') && offset + hostW / 2 < vw / 2);
+
+  const wrapper = shadow.querySelector('.yh-fab-wrapper');
+  const panel = shadow.querySelector('.yh-panel');
+  if (isLeftHalf) {
     if (wrapper) wrapper.style.alignItems = 'flex-start';
-    const panel = shadow.querySelector('.yh-panel');
     if (panel) {
       panel.style.right = 'auto';
       panel.style.left = '0';
       panel.style.transformOrigin = 'bottom left';
     }
   } else {
-    Object.assign(host.style, { right: '20px', left: 'auto' });
-    const wrapper = shadow.querySelector('.yh-fab-wrapper');
     if (wrapper) wrapper.style.alignItems = 'flex-end';
-    const panel = shadow.querySelector('.yh-panel');
     if (panel) {
       panel.style.left = 'auto';
       panel.style.right = '0';
       panel.style.transformOrigin = 'bottom right';
+    }
+  }
+
+  if (pos.edge === 'top' || pos.edge === 'left' || pos.edge === 'right') {
+    if (panel) {
+      panel.style.bottom = 'auto';
+      panel.style.top = '52px';
+    }
+  } else {
+    if (panel) {
+      panel.style.top = 'auto';
+      panel.style.bottom = '52px';
     }
   }
 }
@@ -575,7 +612,7 @@ function createFloatingButton() {
 
   document.body.appendChild(floatingButtonHost);
 
-  applyFabSide(floatingButtonHost, shadow, prefs.floatingButtonSide);
+  applyFabPosition(floatingButtonHost, shadow, prefs.floatingButtonPosition);
 
   if (prefs.fabPulseCount < 2) {
     fab.classList.add('pulse');
@@ -590,11 +627,13 @@ function createFloatingButton() {
   }
 
   let isDragging = false;
+  let wasDragged = false;
   let dragStartX = 0;
   let dragStartY = 0;
   let hostStartX = 0;
   let hostStartY = 0;
   const DRAG_THRESHOLD = 5;
+  const EDGE_MARGIN = 20;
 
   function onPointerDown(e) {
     if (e.button && e.button !== 0) return;
@@ -623,6 +662,11 @@ function createFloatingButton() {
       isDragging = true;
       floatingButtonHost.style.transition = 'none';
       fab.style.cursor = 'grabbing';
+      if (miniPanelOpen) {
+        miniPanelOpen = false;
+        panel.classList.remove('open');
+        fab.classList.remove('active');
+      }
     }
 
     if (e.cancelable) e.preventDefault();
@@ -650,25 +694,42 @@ function createFloatingButton() {
     fab.style.cursor = '';
 
     if (isDragging) {
+      wasDragged = true;
+      isDragging = false;
+
       const rect = floatingButtonHost.getBoundingClientRect();
-      const centerX = rect.left + rect.width / 2;
-      const newSide = centerX < window.innerWidth / 2 ? 'left' : 'right';
+      const cx = rect.left + rect.width / 2;
+      const cy = rect.top + rect.height / 2;
+      const vw = window.innerWidth;
+      const vh = window.innerHeight;
+
+      const distLeft = rect.left;
+      const distRight = vw - rect.right;
+      const distTop = rect.top;
+      const distBottom = vh - rect.bottom;
+      const minDist = Math.min(distLeft, distRight, distTop, distBottom);
+
+      let newPos;
+      if (minDist === distLeft) {
+        newPos = { edge: 'left', offset: Math.max(EDGE_MARGIN, rect.top) };
+      } else if (minDist === distRight) {
+        newPos = { edge: 'right', offset: Math.max(EDGE_MARGIN, rect.top) };
+      } else if (minDist === distTop) {
+        newPos = { edge: 'top', offset: Math.max(EDGE_MARGIN, rect.left) };
+      } else {
+        newPos = { edge: 'bottom', offset: Math.max(EDGE_MARGIN, rect.left) };
+      }
 
       floatingButtonHost.style.transition = 'all 0.3s ease';
-      Object.assign(floatingButtonHost.style, {
-        top: 'auto',
-        bottom: '20px',
-      });
-      applyFabSide(floatingButtonHost, shadow, newSide);
+      applyFabPosition(floatingButtonHost, shadow, newPos);
 
-      prefs.floatingButtonSide = newSide;
-      chrome.storage.local.set({ floatingButtonSide: newSide });
+      prefs.floatingButtonPosition = newPos;
+      chrome.storage.local.set({ floatingButtonPosition: newPos });
 
       setTimeout(() => {
         if (floatingButtonHost) floatingButtonHost.style.transition = '';
+        wasDragged = false;
       }, 300);
-
-      isDragging = false;
     }
   }
 
@@ -676,11 +737,8 @@ function createFloatingButton() {
   fab.addEventListener('touchstart', onPointerDown, { passive: true });
 
   fab.addEventListener('click', e => {
-    if (isDragging) {
-      e.stopPropagation();
-      return;
-    }
     e.stopPropagation();
+    if (wasDragged) return;
     miniPanelOpen = !miniPanelOpen;
     panel.classList.toggle('open', miniPanelOpen);
     fab.classList.toggle('active', miniPanelOpen);
@@ -1307,9 +1365,9 @@ function initPrefs() {
     try {
       chrome.storage.sync.get(Object.keys(prefs), result => {
         Object.assign(prefs, result);
-        chrome.storage.local.get('floatingButtonSide', localResult => {
-          if (localResult.floatingButtonSide) {
-            prefs.floatingButtonSide = localResult.floatingButtonSide;
+        chrome.storage.local.get('floatingButtonPosition', localResult => {
+          if (localResult.floatingButtonPosition) {
+            prefs.floatingButtonPosition = localResult.floatingButtonPosition;
           }
           logger.log('Prefs loaded', prefs);
           resolve();
@@ -1340,8 +1398,8 @@ function setupPrefsListener() {
           }
         }
       }
-      if (area === 'local' && changes.floatingButtonSide) {
-        prefs.floatingButtonSide = changes.floatingButtonSide.newValue;
+      if (area === 'local' && changes.floatingButtonPosition) {
+        prefs.floatingButtonPosition = changes.floatingButtonPosition.newValue;
       }
     });
   } catch (e) {
