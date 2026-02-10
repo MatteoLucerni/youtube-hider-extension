@@ -497,6 +497,7 @@ function showFirstActionToast() {
 // ─── Floating Button & Mini-Panel (Shadow DOM) ──────────────────────────────
 let floatingButtonHost = null;
 let miniPanelOpen = false;
+let fabResizeTimer = null;
 
 function isYouTube() {
   return (
@@ -513,9 +514,11 @@ function applyFabPosition(host, shadow, pos) {
   const MARGIN = 20;
   const hostW = host.offsetWidth || 40;
   const hostH = host.offsetHeight || 40;
+  const scrollbarW = window.innerWidth - document.documentElement.clientWidth;
   const vw = window.innerWidth;
   const vh = window.innerHeight;
   const offset = Math.max(0, pos.offset);
+  const rightMargin = MARGIN + scrollbarW;
 
   host.style.top = 'auto';
   host.style.bottom = 'auto';
@@ -526,46 +529,70 @@ function applyFabPosition(host, shadow, pos) {
     host.style.left = MARGIN + 'px';
     host.style.top = Math.min(offset, vh - hostH) + 'px';
   } else if (pos.edge === 'right') {
-    host.style.right = MARGIN + 'px';
+    host.style.right = rightMargin + 'px';
     host.style.top = Math.min(offset, vh - hostH) + 'px';
   } else if (pos.edge === 'top') {
     host.style.top = MARGIN + 'px';
-    host.style.left = Math.min(offset, vw - hostW) + 'px';
+    host.style.left = Math.min(offset, vw - hostW - scrollbarW) + 'px';
   } else {
     host.style.bottom = MARGIN + 'px';
-    host.style.left = Math.min(offset, vw - hostW) + 'px';
+    host.style.left = Math.min(offset, vw - hostW - scrollbarW) + 'px';
+  }
+
+  let buttonTopPx;
+  if (pos.edge === 'bottom') {
+    buttonTopPx = vh - MARGIN - hostH;
+  } else if (pos.edge === 'top') {
+    buttonTopPx = MARGIN;
+  } else {
+    buttonTopPx = Math.min(offset, vh - hostH);
   }
 
   const isLeftHalf = (pos.edge === 'left') ||
     ((pos.edge === 'top' || pos.edge === 'bottom') && offset + hostW / 2 < vw / 2);
+  const isBottomHalf = (buttonTopPx + hostH / 2) > (vh / 2);
 
   const wrapper = shadow.querySelector('.yh-fab-wrapper');
   const panel = shadow.querySelector('.yh-panel');
+
+  const panelH = 350;
+  let openAbove = isBottomHalf;
+  if (openAbove && buttonTopPx - panelH - 12 < 0) {
+    openAbove = false;
+  } else if (!openAbove && buttonTopPx + hostH + panelH + 12 > vh) {
+    openAbove = true;
+  }
+
+  const originV = openAbove ? 'bottom' : 'top';
+  const originH = isLeftHalf ? 'left' : 'right';
+
   if (isLeftHalf) {
     if (wrapper) wrapper.style.alignItems = 'flex-start';
     if (panel) {
       panel.style.right = 'auto';
       panel.style.left = '0';
-      panel.style.transformOrigin = 'bottom left';
     }
   } else {
     if (wrapper) wrapper.style.alignItems = 'flex-end';
     if (panel) {
       panel.style.left = 'auto';
       panel.style.right = '0';
-      panel.style.transformOrigin = 'bottom right';
     }
   }
 
-  if (pos.edge === 'top' || pos.edge === 'left' || pos.edge === 'right') {
-    if (panel) {
-      panel.style.bottom = 'auto';
-      panel.style.top = '52px';
-    }
-  } else {
+  if (panel) {
+    panel.style.transformOrigin = originV + ' ' + originH;
+  }
+
+  if (openAbove) {
     if (panel) {
       panel.style.top = 'auto';
       panel.style.bottom = '52px';
+    }
+  } else {
+    if (panel) {
+      panel.style.bottom = 'auto';
+      panel.style.top = '52px';
     }
   }
 }
@@ -673,9 +700,10 @@ function createFloatingButton() {
 
     const hostW = floatingButtonHost.offsetWidth;
     const hostH = floatingButtonHost.offsetHeight;
+    const scrollbarW = window.innerWidth - document.documentElement.clientWidth;
     let newX = hostStartX + dx;
     let newY = hostStartY + dy;
-    newX = Math.max(0, Math.min(window.innerWidth - hostW, newX));
+    newX = Math.max(0, Math.min(window.innerWidth - hostW - scrollbarW, newX));
     newY = Math.max(0, Math.min(window.innerHeight - hostH, newY));
 
     Object.assign(floatingButtonHost.style, {
@@ -735,6 +763,22 @@ function createFloatingButton() {
 
   fab.addEventListener('mousedown', onPointerDown);
   fab.addEventListener('touchstart', onPointerDown, { passive: true });
+
+  function onViewportResize() {
+    clearTimeout(fabResizeTimer);
+    fabResizeTimer = setTimeout(() => {
+      if (!floatingButtonHost) return;
+      const resetPos = {
+        edge: 'right',
+        offset: Math.max(EDGE_MARGIN, window.innerHeight - (floatingButtonHost.offsetHeight || 40) - EDGE_MARGIN)
+      };
+      applyFabPosition(floatingButtonHost, shadow, resetPos);
+      prefs.floatingButtonPosition = resetPos;
+      chrome.storage.local.set({ floatingButtonPosition: resetPos });
+    }, 200);
+  }
+  window.addEventListener('resize', onViewportResize);
+  floatingButtonHost._onViewportResize = onViewportResize;
 
   fab.addEventListener('click', e => {
     e.stopPropagation();
@@ -961,6 +1005,10 @@ function bindPanelEvents(shadow) {
 
 function removeFloatingButton() {
   if (floatingButtonHost) {
+    if (floatingButtonHost._onViewportResize) {
+      window.removeEventListener('resize', floatingButtonHost._onViewportResize);
+    }
+    clearTimeout(fabResizeTimer);
     floatingButtonHost.remove();
     floatingButtonHost = null;
     miniPanelOpen = false;
