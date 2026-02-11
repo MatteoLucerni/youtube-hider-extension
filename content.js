@@ -28,6 +28,7 @@ const prefs = {
   fabPulseCount: 0,
   firstActionToastShown: false,
   panelTooltipShown: false,
+  fabHideTipCount: 0,
 };
 
 let warningDismissed = false;
@@ -270,7 +271,7 @@ function showWelcomeToast() {
   if (!isYouTube()) return;
   if (welcomeToastElement) return;
   if (prefs.welcomeToastDismissed) return;
-  if (prefs.welcomeToastCount >= 5) return;
+  if (prefs.welcomeToastCount >= 2) return;
 
   chrome.storage.sync.set({ welcomeToastCount: prefs.welcomeToastCount + 1 });
 
@@ -517,7 +518,7 @@ function applyFabPosition(host, shadow, pos) {
   const scrollbarW = window.innerWidth - document.documentElement.clientWidth;
   const vw = window.innerWidth;
   const vh = window.innerHeight;
-  const offset = Math.max(0, pos.offset);
+  const offset = Math.max(MARGIN, pos.offset);
   const rightMargin = MARGIN + scrollbarW;
 
   host.style.top = 'auto';
@@ -527,16 +528,16 @@ function applyFabPosition(host, shadow, pos) {
 
   if (pos.edge === 'left') {
     host.style.left = MARGIN + 'px';
-    host.style.top = Math.min(offset, vh - hostH) + 'px';
+    host.style.top = Math.max(MARGIN, Math.min(offset, vh - hostH - MARGIN)) + 'px';
   } else if (pos.edge === 'right') {
     host.style.right = rightMargin + 'px';
-    host.style.top = Math.min(offset, vh - hostH) + 'px';
+    host.style.top = Math.max(MARGIN, Math.min(offset, vh - hostH - MARGIN)) + 'px';
   } else if (pos.edge === 'top') {
     host.style.top = MARGIN + 'px';
-    host.style.left = Math.min(offset, vw - hostW - scrollbarW) + 'px';
+    host.style.left = Math.max(MARGIN, Math.min(offset, vw - hostW - scrollbarW - MARGIN)) + 'px';
   } else {
     host.style.bottom = MARGIN + 'px';
-    host.style.left = Math.min(offset, vw - hostW - scrollbarW) + 'px';
+    host.style.left = Math.max(MARGIN, Math.min(offset, vw - hostW - scrollbarW - MARGIN)) + 'px';
   }
 
   let buttonTopPx;
@@ -584,16 +585,43 @@ function applyFabPosition(host, shadow, pos) {
     panel.style.transformOrigin = originV + ' ' + originH;
   }
 
+  const tipBubble = shadow.querySelector('.yh-fab-tip');
+  if (tipBubble) {
+    tipBubble.style.transformOrigin = originV + ' ' + originH;
+    if (isLeftHalf) {
+      tipBubble.style.right = 'auto';
+      tipBubble.style.left = '0';
+    } else {
+      tipBubble.style.left = 'auto';
+      tipBubble.style.right = '0';
+    }
+  }
+
   if (openAbove) {
     if (panel) {
       panel.style.top = 'auto';
       panel.style.bottom = '52px';
+    }
+    if (tipBubble) {
+      tipBubble.style.top = 'auto';
+      tipBubble.style.bottom = '52px';
     }
   } else {
     if (panel) {
       panel.style.bottom = 'auto';
       panel.style.top = '52px';
     }
+    if (tipBubble) {
+      tipBubble.style.bottom = 'auto';
+      tipBubble.style.top = '52px';
+    }
+  }
+
+  const tipArrow = tipBubble ? tipBubble.querySelector('.yh-fab-tip-arrow') : null;
+  if (tipArrow) {
+    tipArrow.classList.remove('arrow-down', 'arrow-up', 'arrow-left', 'arrow-right');
+    tipArrow.classList.add(openAbove ? 'arrow-down' : 'arrow-up');
+    tipArrow.classList.add(isLeftHalf ? 'arrow-left' : 'arrow-right');
   }
 }
 
@@ -636,6 +664,50 @@ function createFloatingButton() {
   wrapper.appendChild(panel);
   wrapper.appendChild(fab);
   shadow.appendChild(wrapper);
+
+  const tipBubble = document.createElement('div');
+  tipBubble.className = 'yh-fab-tip';
+  tipBubble.innerHTML = `
+    <div class="yh-fab-tip-close" id="yh-tip-close">✕</div>
+    <p class="yh-fab-tip-text">Does this button bother you? You can hide it from the settings.</p>
+    <p class="yh-fab-tip-drag">💡 Tip: this button is draggable!</p>
+    <a href="#" class="yh-fab-tip-hide" id="yh-tip-hide"><svg class="yh-hide-icon" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M17.94 17.94A10.07 10.07 0 0 1 12 20c-7 0-11-8-11-8a18.45 18.45 0 0 1 5.06-5.94"/><path d="M9.9 4.24A9.12 9.12 0 0 1 12 4c7 0 11 8 11 8a18.5 18.5 0 0 1-2.16 3.19"/><line x1="1" y1="1" x2="23" y2="23"/></svg> Hide button</a>
+    <div class="yh-fab-tip-arrow arrow-down arrow-right"></div>
+  `;
+  wrapper.appendChild(tipBubble);
+
+  let tipBubbleVisible = false;
+  function showTipBubble() {
+    if (prefs.fabHideTipCount >= 2) return;
+    tipBubble.classList.add('visible');
+    fab.classList.add('tip-highlight');
+    tipBubbleVisible = true;
+    prefs.fabHideTipCount = (prefs.fabHideTipCount || 0) + 1;
+    chrome.storage.sync.set({ fabHideTipCount: prefs.fabHideTipCount });
+  }
+  function dismissTipBubble() {
+    if (!tipBubbleVisible) return;
+    tipBubble.classList.remove('visible');
+    fab.classList.remove('tip-highlight');
+    tipBubbleVisible = false;
+  }
+
+  tipBubble.querySelector('#yh-tip-close').addEventListener('click', e => {
+    e.stopPropagation();
+    dismissTipBubble();
+  });
+  tipBubble.querySelector('#yh-tip-hide').addEventListener('click', e => {
+    e.preventDefault();
+    e.stopPropagation();
+    chrome.storage.sync.set({ floatingButtonEnabled: false });
+    prefs.floatingButtonEnabled = false;
+    removeFloatingButton();
+  });
+
+  let tipBubbleTimer = null;
+  if (prefs.fabHideTipCount < 2) {
+    tipBubbleTimer = setTimeout(() => showTipBubble(), 2000);
+  }
 
   document.body.appendChild(floatingButtonHost);
 
@@ -689,6 +761,7 @@ function createFloatingButton() {
       isDragging = true;
       floatingButtonHost.style.transition = 'none';
       fab.style.cursor = 'grabbing';
+      dismissTipBubble();
       if (miniPanelOpen) {
         miniPanelOpen = false;
         panel.classList.remove('open');
@@ -783,6 +856,7 @@ function createFloatingButton() {
   fab.addEventListener('click', e => {
     e.stopPropagation();
     if (wasDragged) return;
+    dismissTipBubble();
     miniPanelOpen = !miniPanelOpen;
     panel.classList.toggle('open', miniPanelOpen);
     fab.classList.toggle('active', miniPanelOpen);
@@ -1070,8 +1144,7 @@ function getMiniPanelHTML() {
     </div>
     <div class="yh-panel-footer">
       <a href="#" class="yh-panel-link" id="yh-p-open-full">Open full settings <svg class="yh-external-icon" viewBox="0 0 16 16" xmlns="http://www.w3.org/2000/svg"><path d="M6 3h7v7m0-7L6 10" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg></a>
-      <span class="yh-panel-hint">You can also change settings by clicking the extension icon in your toolbar</span>
-      <a href="#" class="yh-panel-link yh-panel-link-muted" id="yh-p-hide-btn">Hide this button</a>
+      <a href="#" class="yh-panel-hide-btn" id="yh-p-hide-btn"><svg class="yh-hide-icon" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M17.94 17.94A10.07 10.07 0 0 1 12 20c-7 0-11-8-11-8a18.45 18.45 0 0 1 5.06-5.94"/><path d="M9.9 4.24A9.12 9.12 0 0 1 12 4c7 0 11 8 11 8a18.5 18.5 0 0 1-2.16 3.19"/><line x1="1" y1="1" x2="23" y2="23"/></svg> Hide this button</a>
     </div>
   `;
 }
@@ -1119,6 +1192,10 @@ function getFloatingButtonCSS() {
     .yh-fab.active {
       opacity: 1;
       box-shadow: 0 0 0 2px #8ab4f8, 0 4px 16px rgba(0,0,0,0.5);
+    }
+    .yh-fab.tip-highlight {
+      opacity: 1;
+      box-shadow: 0 0 12px rgba(138, 180, 248, 0.4), 0 2px 10px rgba(0,0,0,0.4);
     }
     .yh-fab-icon {
       width: 22px;
@@ -1366,17 +1443,11 @@ function getFloatingButtonCSS() {
     }
 
     .yh-panel-footer {
-      padding: 6px 14px 8px;
+      padding: 6px 14px 14px;
       border-top: 1px solid #3a3a3a;
       display: flex;
       flex-direction: column;
       gap: 2px;
-    }
-    .yh-panel-hint {
-      font-size: 10px;
-      color: #777;
-      line-height: 1.3;
-      padding: 0;
     }
     .yh-panel-link {
       font-size: 12px;
@@ -1398,12 +1469,135 @@ function getFloatingButtonCSS() {
       color: #aac8ff;
       text-decoration: underline;
     }
-    .yh-panel-link-muted {
-      color: #666;
-      font-size: 11px;
+    .yh-panel-hide-btn {
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      gap: 6px;
+      width: 100%;
+      padding: 7px 0;
+      margin-top: 4px;
+      font-size: 12px;
+      font-weight: 500;
+      color: #ccc;
+      background: #333;
+      border: 1px solid #4a4a4a;
+      border-radius: 6px;
+      text-decoration: none;
+      cursor: pointer;
+      transition: background 0.15s, color 0.15s, border-color 0.15s;
     }
-    .yh-panel-link-muted:hover {
+    .yh-panel-hide-btn:hover {
+      background: #3f3f3f;
+      color: #fff;
+      border-color: #666;
+    }
+    .yh-hide-icon {
+      width: 14px;
+      height: 14px;
+      flex-shrink: 0;
+    }
+
+    /* Tip Bubble */
+    .yh-fab-tip {
+      position: absolute;
+      bottom: 52px;
+      right: 0;
+      width: 230px;
+      background: #222222;
+      border: 1px solid #3a3a3a;
+      border-radius: 10px;
+      box-shadow: 0 8px 32px rgba(0,0,0,0.5);
+      font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
+      font-size: 12px;
+      color: #e0e0e0;
+      padding: 12px 14px;
+      opacity: 0;
+      transform: scale(0.92) translateY(8px);
+      pointer-events: none;
+      transition: transform 0.25s cubic-bezier(0.4, 0, 0.2, 1), opacity 0.25s ease;
+      transform-origin: bottom right;
+      z-index: 5;
+    }
+    .yh-fab-tip.visible {
+      opacity: 1;
+      transform: scale(1) translateY(0);
+      pointer-events: auto;
+    }
+    .yh-fab-tip-close {
+      position: absolute;
+      top: 8px;
+      right: 10px;
+      cursor: pointer;
+      color: #aaa;
+      font-size: 13px;
+      font-weight: bold;
+      line-height: 1;
+      padding: 2px 4px;
+      border-radius: 4px;
+      transition: color 0.15s, background 0.15s;
+    }
+    .yh-fab-tip-close:hover {
+      color: #fff;
+      background: #3a3a3a;
+    }
+    .yh-fab-tip-text {
+      margin: 0 0 6px 0;
+      line-height: 1.45;
+      color: #e0e0e0;
+      padding-right: 18px;
+    }
+    .yh-fab-tip-drag {
+      margin: 0 0 10px 0;
+      font-size: 11px;
       color: #999;
+      line-height: 1.4;
+    }
+    .yh-fab-tip-hide {
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      gap: 6px;
+      width: 100%;
+      padding: 7px 0;
+      font-size: 12px;
+      font-weight: 500;
+      color: #ccc;
+      background: #333;
+      border: 1px solid #4a4a4a;
+      border-radius: 6px;
+      text-decoration: none;
+      cursor: pointer;
+      transition: background 0.15s, color 0.15s, border-color 0.15s;
+    }
+    .yh-fab-tip-hide:hover {
+      background: #3f3f3f;
+      color: #fff;
+      border-color: #666;
+    }
+    .yh-fab-tip-arrow {
+      position: absolute;
+      width: 0;
+      height: 0;
+      border: 6px solid transparent;
+    }
+    .yh-fab-tip-arrow.arrow-down {
+      bottom: -12px;
+      border-bottom: none;
+      border-top-color: #3a3a3a;
+    }
+    .yh-fab-tip-arrow.arrow-up {
+      top: -12px;
+      border-top: none;
+      border-bottom-color: #3a3a3a;
+    }
+    .yh-fab-tip-arrow.arrow-right {
+      right: 14px;
+      left: auto;
+    }
+    .yh-fab-tip-arrow.arrow-left {
+      left: 14px;
+      right: auto;
     }
   `;
 }
