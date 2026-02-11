@@ -518,7 +518,7 @@ function applyFabPosition(host, shadow, pos) {
   const scrollbarW = window.innerWidth - document.documentElement.clientWidth;
   const vw = window.innerWidth;
   const vh = window.innerHeight;
-  const offset = Math.max(0, pos.offset);
+  const offset = Math.max(MARGIN, pos.offset);
   const rightMargin = MARGIN + scrollbarW;
 
   host.style.top = 'auto';
@@ -528,16 +528,16 @@ function applyFabPosition(host, shadow, pos) {
 
   if (pos.edge === 'left') {
     host.style.left = MARGIN + 'px';
-    host.style.top = Math.min(offset, vh - hostH) + 'px';
+    host.style.top = Math.max(MARGIN, Math.min(offset, vh - hostH - MARGIN)) + 'px';
   } else if (pos.edge === 'right') {
     host.style.right = rightMargin + 'px';
-    host.style.top = Math.min(offset, vh - hostH) + 'px';
+    host.style.top = Math.max(MARGIN, Math.min(offset, vh - hostH - MARGIN)) + 'px';
   } else if (pos.edge === 'top') {
     host.style.top = MARGIN + 'px';
-    host.style.left = Math.min(offset, vw - hostW - scrollbarW) + 'px';
+    host.style.left = Math.max(MARGIN, Math.min(offset, vw - hostW - scrollbarW - MARGIN)) + 'px';
   } else {
     host.style.bottom = MARGIN + 'px';
-    host.style.left = Math.min(offset, vw - hostW - scrollbarW) + 'px';
+    host.style.left = Math.max(MARGIN, Math.min(offset, vw - hostW - scrollbarW - MARGIN)) + 'px';
   }
 
   let buttonTopPx;
