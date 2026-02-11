@@ -173,6 +173,50 @@ hr {
     position: relative;
 }
 
+.restart-tutorial-footer {
+    padding: 0 16px 12px;
+    text-align: left;
+}
+
+.restart-tutorial-btn {
+    display: inline-flex;
+    align-items: center;
+    gap: 5px;
+    padding: 6px 12px;
+    font-size: 11px;
+    font-weight: 500;
+    color: #999;
+    background: #2a2a2a;
+    border: 1px solid #3a3a3a;
+    border-radius: 6px;
+    cursor: pointer;
+    transition: color 0.2s ease, background 0.2s ease, border-color 0.2s ease;
+    font-family: inherit;
+    line-height: 1;
+}
+
+.restart-tutorial-btn:hover {
+    color: #e0e0e0;
+    background: #333;
+    border-color: #555;
+}
+
+.restart-tutorial-btn:active {
+    background: #3a3a3a;
+}
+
+.restart-tutorial-btn svg {
+    flex-shrink: 0;
+}
+
+.restart-tutorial-confirm {
+    display: none;
+    font-size: 11px;
+    color: #10b981;
+    align-items: center;
+    gap: 4px;
+}
+
 .card-compact-header {
     display: flex;
     align-items: center;

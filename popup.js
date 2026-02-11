@@ -301,22 +301,13 @@ document.addEventListener('DOMContentLoaded', () => {
     chrome.storage.sync.set({ floatingButtonEnabled: floatingButtonToggle.checked });
   });
 
-  const restartTutorialLink = document.getElementById('restart-tutorial');
+  const restartTutorialBtn = document.getElementById('restart-tutorial');
   const restartTutorialConfirm = document.getElementById('restart-tutorial-confirm');
-  if (restartTutorialLink) {
-    restartTutorialLink.addEventListener('click', e => {
-      e.preventDefault();
+  if (restartTutorialBtn) {
+    restartTutorialBtn.addEventListener('click', () => {
       chrome.storage.sync.set({ tutorialCompleted: false });
-      restartTutorialLink.style.display = 'none';
-      if (restartTutorialConfirm) restartTutorialConfirm.style.display = 'inline';
-    });
-    restartTutorialLink.addEventListener('mouseenter', () => {
-      restartTutorialLink.style.color = '#ccc';
-      restartTutorialLink.style.textDecoration = 'underline';
-    });
-    restartTutorialLink.addEventListener('mouseleave', () => {
-      restartTutorialLink.style.color = '#888';
-      restartTutorialLink.style.textDecoration = 'none';
+      restartTutorialBtn.style.display = 'none';
+      if (restartTutorialConfirm) restartTutorialConfirm.style.display = 'inline-flex';
     });
   }
 

@@ -1334,10 +1334,13 @@ function startSpotlightTour() {
       desc: 'Here you can toggle Hide Watched Videos, Hide Shorts, and Minimum Views Filter. Changes are applied instantly!',
       getTarget: () => fabPanel,
       onEnter: () => {
-        miniPanelOpen = true;
-        fabPanel.classList.add('open');
-        fabElement.classList.add('active');
-        syncPanelToPrefs(fabShadow);
+        if (!miniPanelOpen) {
+          miniPanelOpen = true;
+          fabPanel.classList.add('open');
+          void fabPanel.offsetHeight;
+          fabElement.classList.add('active');
+          syncPanelToPrefs(fabShadow);
+        }
       },
     },
     {
@@ -1348,20 +1351,9 @@ function startSpotlightTour() {
         if (!miniPanelOpen) {
           miniPanelOpen = true;
           fabPanel.classList.add('open');
+          void fabPanel.offsetHeight;
           fabElement.classList.add('active');
           syncPanelToPrefs(fabShadow);
-        }
-      },
-    },
-    {
-      title: 'Drag It Anywhere!',
-      desc: 'The floating button is fully draggable — click and drag it to snap it to any edge of the screen. Place it wherever suits you best.',
-      getTarget: () => fabElement,
-      onEnter: () => {
-        if (miniPanelOpen) {
-          miniPanelOpen = false;
-          fabPanel.classList.remove('open');
-          fabElement.classList.remove('active');
         }
       },
     },
@@ -1370,10 +1362,25 @@ function startSpotlightTour() {
       desc: 'Click "Open full settings" to access per-page controls, Easy Mode, streaming skip settings, and more. All the customization you need in one place!',
       getTarget: () => fabShadow.querySelector('#yh-p-open-full') || fabPanel,
       onEnter: () => {
-        miniPanelOpen = true;
-        fabPanel.classList.add('open');
-        fabElement.classList.add('active');
-        syncPanelToPrefs(fabShadow);
+        if (!miniPanelOpen) {
+          miniPanelOpen = true;
+          fabPanel.classList.add('open');
+          void fabPanel.offsetHeight;
+          fabElement.classList.add('active');
+          syncPanelToPrefs(fabShadow);
+        }
+      },
+    },
+    {
+      title: 'Drag It Anywhere!',
+      desc: 'The floating button is fully draggable. Click and drag it to snap it to any edge of the screen. Place it wherever suits you best.',
+      getTarget: () => fabElement,
+      onEnter: () => {
+        if (miniPanelOpen) {
+          miniPanelOpen = false;
+          fabPanel.classList.remove('open');
+          fabElement.classList.remove('active');
+        }
       },
     },
   ];
@@ -1431,6 +1438,10 @@ function startSpotlightTour() {
     }
 
     if (el === fabPanel) {
+      const r = el.getBoundingClientRect();
+      if (r.width > 0 && r.height > 0) {
+        return { top: r.top, left: r.left, width: r.width, height: r.height };
+      }
       const panelW = el.offsetWidth || 260;
       const panelH = el.offsetHeight || 320;
       let panelTop, panelLeft;
@@ -1448,13 +1459,16 @@ function startSpotlightTour() {
     }
 
     if (el.getRootNode() !== document) {
+      const r = el.getBoundingClientRect();
+      if (r.width > 0 && r.height > 0) {
+        return { top: r.top, left: r.left, width: r.width, height: r.height };
+      }
       const panelRect = computeTargetRect({ getTarget: () => fabPanel });
-      const elRect = el.getBoundingClientRect();
       return {
-        top: panelRect.top + elRect.top,
-        left: panelRect.left + elRect.left,
-        width: elRect.width,
-        height: elRect.height,
+        top: panelRect.top,
+        left: panelRect.left,
+        width: panelRect.width,
+        height: panelRect.height,
       };
     }
 
@@ -1490,68 +1504,99 @@ function startSpotlightTour() {
     tooltip.style.width = tooltipW + 'px';
   }
 
-  function renderStep() {
-    const step = steps[currentStep];
-    step.onEnter();
+  function waitForPanelTransition() {
+    return new Promise(resolve => {
+      let resolved = false;
+      const done = () => {
+        if (resolved) return;
+        resolved = true;
+        fabPanel.removeEventListener('transitionend', onEnd);
+        resolve();
+      };
+      const onEnd = (e) => {
+        if (e.target === fabPanel) done();
+      };
+      fabPanel.addEventListener('transitionend', onEnd);
+      setTimeout(done, 300);
+    });
+  }
 
-    setTimeout(() => {
-      requestAnimationFrame(() => {
-        requestAnimationFrame(() => {
-          const PAD = 8;
-          const rect = computeTargetRect(step);
+  function measureAndPosition(step) {
+    const PAD = 8;
+    const vw = window.innerWidth;
+    const vh = window.innerHeight;
+    const rect = computeTargetRect(step);
 
-          hole.style.top = (rect.top - PAD) + 'px';
-          hole.style.left = (rect.left - PAD) + 'px';
-          hole.style.width = (rect.width + PAD * 2) + 'px';
-          hole.style.height = (rect.height + PAD * 2) + 'px';
+    rect.top = Math.max(0, Math.min(rect.top, vh - rect.height));
+    rect.left = Math.max(0, Math.min(rect.left, vw - rect.width));
 
-          const dotsHTML = steps.map((_, i) =>
-            `<div class="yh-spot-dot${i === currentStep ? ' active' : ''}"></div>`
-          ).join('');
+    hole.style.top = (rect.top - PAD) + 'px';
+    hole.style.left = (rect.left - PAD) + 'px';
+    hole.style.width = (rect.width + PAD * 2) + 'px';
+    hole.style.height = (rect.height + PAD * 2) + 'px';
 
-          const backBtn = currentStep > 0
-            ? `<button class="yh-spot-btn yh-spot-btn-back" id="yh-tour-back">Back</button>`
-            : '';
-          const nextLabel = currentStep === steps.length - 1 ? 'Done' : 'Next';
+    const dotsHTML = steps.map((_, i) =>
+      `<div class="yh-spot-dot${i === currentStep ? ' active' : ''}"></div>`
+    ).join('');
 
-          tooltip.innerHTML = `
-            <div class="yh-spot-step-badge">Step ${currentStep + 1} of ${steps.length}</div>
-            <div class="yh-spot-title">${step.title}</div>
-            <div class="yh-spot-desc">${step.desc}</div>
-            <div class="yh-spot-footer">
-              <div class="yh-spot-dots">${dotsHTML}</div>
-              <div class="yh-spot-btns">
-                ${backBtn}
-                <button class="yh-spot-btn yh-spot-btn-next" id="yh-tour-next">${nextLabel}</button>
-              </div>
-            </div>
-          `;
+    const backBtn = currentStep > 0
+      ? `<button class="yh-spot-btn yh-spot-btn-back" id="yh-tour-back">Back</button>`
+      : '';
+    const nextLabel = currentStep === steps.length - 1 ? 'Done' : 'Next';
 
-          positionTooltip(rect);
+    tooltip.innerHTML = `
+      <div class="yh-spot-step-badge">Step ${currentStep + 1} of ${steps.length}</div>
+      <div class="yh-spot-title">${step.title}</div>
+      <div class="yh-spot-desc">${step.desc}</div>
+      <div class="yh-spot-footer">
+        <div class="yh-spot-dots">${dotsHTML}</div>
+        <div class="yh-spot-btns">
+          ${backBtn}
+          <button class="yh-spot-btn yh-spot-btn-next" id="yh-tour-next">${nextLabel}</button>
+        </div>
+      </div>
+    `;
 
-          const nextEl = tourShadow.querySelector('#yh-tour-next');
-          const backEl = tourShadow.querySelector('#yh-tour-back');
+    positionTooltip(rect);
 
-          nextEl.addEventListener('click', () => {
-            if (currentStep < steps.length - 1) {
-              currentStep++;
-              renderStep();
-            } else {
-              finishTour();
-            }
-          });
+    const nextEl = tourShadow.querySelector('#yh-tour-next');
+    const backEl = tourShadow.querySelector('#yh-tour-back');
 
-          if (backEl) {
-            backEl.addEventListener('click', () => {
-              if (currentStep > 0) {
-                currentStep--;
-                renderStep();
-              }
-            });
-          }
-        });
+    nextEl.addEventListener('click', () => {
+      if (currentStep < steps.length - 1) {
+        currentStep++;
+        renderStep();
+      } else {
+        finishTour();
+      }
+    });
+
+    if (backEl) {
+      backEl.addEventListener('click', () => {
+        if (currentStep > 0) {
+          currentStep--;
+          renderStep();
+        }
       });
-    }, 50);
+    }
+  }
+
+  async function renderStep() {
+    const step = steps[currentStep];
+    const wasPanelOpen = miniPanelOpen;
+    step.onEnter();
+    const isPanelOpen = miniPanelOpen;
+    const panelTransitioned = wasPanelOpen !== isPanelOpen;
+
+    if (panelTransitioned) {
+      await waitForPanelTransition();
+    }
+
+    requestAnimationFrame(() => {
+      requestAnimationFrame(() => {
+        measureAndPosition(step);
+      });
+    });
   }
 
   function finishTour() {
