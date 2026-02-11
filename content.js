@@ -535,6 +535,7 @@ function createFloatingButton() {
   });
 
   document.addEventListener('click', e => {
+    if (tutorialActive) return;
     if (miniPanelOpen && !floatingButtonHost.contains(e.target)) {
       miniPanelOpen = false;
       panel.classList.remove('open');
@@ -543,6 +544,7 @@ function createFloatingButton() {
   });
 
   document.addEventListener('keydown', e => {
+    if (tutorialActive) return;
     if (e.key === 'Escape' && miniPanelOpen) {
       miniPanelOpen = false;
       panel.classList.remove('open');
