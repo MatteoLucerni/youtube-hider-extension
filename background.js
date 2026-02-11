@@ -55,6 +55,7 @@ const defaultSettings = {
   fabPulseCount: 0,
   firstActionToastShown: false,
   panelTooltipShown: false,
+  fabHideTipCount: 0,
 };
 function initializeSettings() {
   chrome.storage.sync.get(null, items => {
