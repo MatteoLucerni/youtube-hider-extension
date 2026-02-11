@@ -45,7 +45,7 @@ Automatically detects and clicks "Skip Intro", "Skip Recap" and similar buttons 
 
 ### Floating Quick-Settings Button
 
-A draggable floating button on YouTube pages gives you instant access to toggle settings without opening the extension popup. Drag it to any edge of the screen and it snaps to the nearest viewport border, remembering its position. Automatically hidden on video watch pages for a clean viewing experience.
+A draggable floating button on YouTube pages gives you instant access to toggle settings without opening the extension popup. Drag it to any edge of the screen and it snaps to the nearest viewport border, remembering its position. Automatically hidden on video watch pages for a clean viewing experience. On first install, a guided spotlight tutorial walks you through the button and its features — you can restart it anytime from the popup.
 
 ### Easy Mode & Advanced Mode
 
@@ -111,7 +111,7 @@ youtube-hider-extension
 ├── background.js          Service worker (badge, lifecycle, messaging)
 ├── build.ps1              Build/packaging script
 ├── CHANGELOG.md           Version history
-├── content.js             Core content script (hiding, floating button, toasts)
+├── content.js             Core content script (hiding, floating button, spotlight tutorial)
 ├── env.js                 DEV_MODE flag
 ├── LICENSE                MIT License
 ├── manifest.json          Extension manifest (MV3)
