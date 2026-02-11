@@ -1443,7 +1443,7 @@ function getFloatingButtonCSS() {
     }
 
     .yh-panel-footer {
-      padding: 6px 14px 8px;
+      padding: 6px 14px 14px;
       border-top: 1px solid #3a3a3a;
       display: flex;
       flex-direction: column;
