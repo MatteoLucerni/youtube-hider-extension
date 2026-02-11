@@ -301,6 +301,16 @@ document.addEventListener('DOMContentLoaded', () => {
     chrome.storage.sync.set({ floatingButtonEnabled: floatingButtonToggle.checked });
   });
 
+  const restartTutorialBtn = document.getElementById('restart-tutorial');
+  const restartTutorialConfirm = document.getElementById('restart-tutorial-confirm');
+  if (restartTutorialBtn) {
+    restartTutorialBtn.addEventListener('click', () => {
+      chrome.storage.sync.set({ tutorialCompleted: false });
+      restartTutorialBtn.style.display = 'none';
+      if (restartTutorialConfirm) restartTutorialConfirm.style.display = 'inline-flex';
+    });
+  }
+
   hideWatchedMaster.addEventListener('change', () => {
     const isEnabled = hideWatchedMaster.checked;
     Object.values(cfg.hide.boxes).forEach(box => {

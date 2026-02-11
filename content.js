@@ -23,12 +23,7 @@ const prefs = {
   hideShortsSearchEnabled: true,
   floatingButtonEnabled: true,
   floatingButtonPosition: { edge: 'bottom', offset: 20 },
-  welcomeToastCount: 0,
-  welcomeToastDismissed: false,
-  fabPulseCount: 0,
-  firstActionToastShown: false,
-  panelTooltipShown: false,
-  fabHideTipCount: 0,
+  tutorialCompleted: false,
 };
 
 let warningDismissed = false;
@@ -247,258 +242,13 @@ function detectInfiniteLoaderLoop(mutations) {
   }
 }
 
-// ─── Welcome Toast (shown on first N YouTube visits) ─────────────────────────
-let welcomeToastElement = null;
-let welcomeToastInterval = null;
-
-function removeWelcomeToast() {
-  if (welcomeToastElement) {
-    welcomeToastElement.style.opacity = '0';
-    setTimeout(() => {
-      if (welcomeToastElement) {
-        welcomeToastElement.remove();
-        welcomeToastElement = null;
-      }
-    }, 300);
-  }
-  if (welcomeToastInterval) {
-    clearInterval(welcomeToastInterval);
-    welcomeToastInterval = null;
-  }
-}
-
-function showWelcomeToast() {
-  if (!isYouTube()) return;
-  if (welcomeToastElement) return;
-  if (prefs.welcomeToastDismissed) return;
-  if (prefs.welcomeToastCount >= 2) return;
-
-  chrome.storage.sync.set({ welcomeToastCount: prefs.welcomeToastCount + 1 });
-
-  welcomeToastElement = document.createElement('div');
-  welcomeToastElement.id = 'yh-welcome-toast';
-
-  Object.assign(welcomeToastElement.style, {
-    position: 'fixed',
-    top: '20px',
-    right: '20px',
-    backgroundColor: '#222222',
-    borderLeft: '4px solid #10b981',
-    color: '#ebebeb',
-    padding: '14px 18px 18px 18px',
-    borderRadius: '4px',
-    zIndex: '2147483646',
-    boxShadow: '0 4px 16px rgba(0,0,0,0.5)',
-    fontFamily:
-      '-apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif',
-    fontSize: '13px',
-    maxWidth: '300px',
-    display: 'flex',
-    flexDirection: 'column',
-    gap: '8px',
-    opacity: '0',
-    transition: 'opacity 0.3s ease',
-    overflow: 'hidden',
-    pointerEvents: 'auto',
-  });
-
-  const headerRow = document.createElement('div');
-  Object.assign(headerRow.style, {
-    display: 'flex',
-    alignItems: 'center',
-    justifyContent: 'space-between',
-    width: '100%',
-  });
-
-  const branding = document.createElement('div');
-  Object.assign(branding.style, {
-    display: 'flex',
-    alignItems: 'center',
-    gap: '8px',
-  });
-
-  const icon = document.createElement('img');
-  icon.src = chrome.runtime.getURL('assets/icons/youtube-hider-logo.png');
-  Object.assign(icon.style, {
-    width: '18px',
-    height: '18px',
-    display: 'block',
-    objectFit: 'contain',
-  });
-
-  const title = document.createElement('span');
-  title.textContent = 'Youtube Hider is active!';
-  Object.assign(title.style, {
-    fontWeight: '600',
-    fontSize: '13px',
-    color: '#10b981',
-  });
-
-  branding.appendChild(icon);
-  branding.appendChild(title);
-
-  const closeBtn = document.createElement('div');
-  closeBtn.textContent = '✕';
-  Object.assign(closeBtn.style, {
-    cursor: 'pointer',
-    color: '#aaa',
-    fontSize: '14px',
-    fontWeight: 'bold',
-    lineHeight: '1',
-    padding: '2px',
-  });
-  closeBtn.onmouseenter = () => {
-    closeBtn.style.color = '#fff';
-  };
-  closeBtn.onmouseleave = () => {
-    closeBtn.style.color = '#aaa';
-  };
-  closeBtn.onclick = e => {
-    e.stopPropagation();
-    removeWelcomeToast();
-  };
-
-  headerRow.appendChild(branding);
-  headerRow.appendChild(closeBtn);
-
-  const msg = document.createElement('span');
-  msg.innerHTML =
-    'Click the extension icon <span style="font-size:15px; display:inline-block; animation: yhArrowBounce 0.6s ease-in-out 3;">⬆</span> in your toolbar to customize settings.';
-
-  // Inject bounce keyframes for the arrow
-  if (!document.getElementById('yh-toast-keyframes')) {
-    const ks = document.createElement('style');
-    ks.id = 'yh-toast-keyframes';
-    ks.textContent = `@keyframes yhArrowBounce { 0%,100% { transform: translateY(0); } 50% { transform: translateY(-4px); } }`;
-    document.head.appendChild(ks);
-  }
-  Object.assign(msg.style, {
-    lineHeight: '1.5',
-    color: '#e0e0e0',
-    fontSize: '12px',
-  });
-
-  const dismissBtn = document.createElement('div');
-  dismissBtn.textContent = "Don't show again";
-  Object.assign(dismissBtn.style, {
-    cursor: 'pointer',
-    color: '#888',
-    fontSize: '11px',
-    textDecoration: 'underline',
-    alignSelf: 'flex-end',
-    padding: '2px 0',
-  });
-  dismissBtn.onmouseenter = () => {
-    dismissBtn.style.color = '#bbb';
-  };
-  dismissBtn.onmouseleave = () => {
-    dismissBtn.style.color = '#888';
-  };
-  dismissBtn.onclick = e => {
-    e.stopPropagation();
-    chrome.storage.sync.set({ welcomeToastDismissed: true });
-    prefs.welcomeToastDismissed = true;
-    removeWelcomeToast();
-  };
-
-  const progressBar = document.createElement('div');
-  Object.assign(progressBar.style, {
-    position: 'absolute',
-    bottom: '0',
-    left: '0',
-    height: '3px',
-    backgroundColor: '#10b981',
-    width: '100%',
-    transition: 'width 0.1s linear',
-  });
-
-  welcomeToastElement.appendChild(headerRow);
-  welcomeToastElement.appendChild(msg);
-  welcomeToastElement.appendChild(dismissBtn);
-  welcomeToastElement.appendChild(progressBar);
-  document.body.appendChild(welcomeToastElement);
-
-  requestAnimationFrame(() => {
-    if (welcomeToastElement) welcomeToastElement.style.opacity = '1';
-  });
-
-  let timeLeft = 8000;
-  const updateInterval = 100;
-  let isPaused = false;
-
-  welcomeToastElement.onmouseenter = () => {
-    isPaused = true;
-  };
-  welcomeToastElement.onmouseleave = () => {
-    isPaused = false;
-  };
-
-  welcomeToastInterval = setInterval(() => {
-    if (isPaused) return;
-    timeLeft -= updateInterval;
-    progressBar.style.width = `${(timeLeft / 8000) * 100}%`;
-    if (timeLeft <= 0) removeWelcomeToast();
-  }, updateInterval);
-}
-
-// ─── First-Action Confirmation Toast ─────────────────────────────────────────
-let firstActionToastElement = null;
-
-function showFirstActionToast() {
-  if (prefs.firstActionToastShown) return;
-  if (firstActionToastElement) return;
-
-  prefs.firstActionToastShown = true;
-  chrome.storage.sync.set({ firstActionToastShown: true });
-
-  firstActionToastElement = document.createElement('div');
-  firstActionToastElement.id = 'yh-first-action-toast';
-
-  Object.assign(firstActionToastElement.style, {
-    position: 'fixed',
-    top: '20px',
-    right: '20px',
-    backgroundColor: '#222222',
-    borderLeft: '4px solid #10b981',
-    color: '#ebebeb',
-    padding: '12px 16px',
-    borderRadius: '4px',
-    zIndex: '2147483646',
-    boxShadow: '0 4px 16px rgba(0,0,0,0.5)',
-    fontFamily:
-      '-apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif',
-    fontSize: '13px',
-    maxWidth: '280px',
-    opacity: '0',
-    transition: 'opacity 0.3s ease',
-    pointerEvents: 'none',
-  });
-
-  firstActionToastElement.textContent =
-    'Settings saved! Your changes apply instantly.';
-  document.body.appendChild(firstActionToastElement);
-
-  requestAnimationFrame(() => {
-    if (firstActionToastElement) firstActionToastElement.style.opacity = '1';
-  });
-
-  setTimeout(() => {
-    if (firstActionToastElement) {
-      firstActionToastElement.style.opacity = '0';
-      setTimeout(() => {
-        if (firstActionToastElement) {
-          firstActionToastElement.remove();
-          firstActionToastElement = null;
-        }
-      }, 300);
-    }
-  }, 4000);
-}
-
 // ─── Floating Button & Mini-Panel (Shadow DOM) ──────────────────────────────
 let floatingButtonHost = null;
 let miniPanelOpen = false;
 let fabResizeTimer = null;
+let fabElement = null;
+let fabShadow = null;
+let fabPanel = null;
 
 function isYouTube() {
   return (
@@ -585,50 +335,23 @@ function applyFabPosition(host, shadow, pos) {
     panel.style.transformOrigin = originV + ' ' + originH;
   }
 
-  const tipBubble = shadow.querySelector('.yh-fab-tip');
-  if (tipBubble) {
-    tipBubble.style.transformOrigin = originV + ' ' + originH;
-    if (isLeftHalf) {
-      tipBubble.style.right = 'auto';
-      tipBubble.style.left = '0';
-    } else {
-      tipBubble.style.left = 'auto';
-      tipBubble.style.right = '0';
-    }
-  }
-
   if (openAbove) {
     if (panel) {
       panel.style.top = 'auto';
       panel.style.bottom = '52px';
-    }
-    if (tipBubble) {
-      tipBubble.style.top = 'auto';
-      tipBubble.style.bottom = '52px';
     }
   } else {
     if (panel) {
       panel.style.bottom = 'auto';
       panel.style.top = '52px';
     }
-    if (tipBubble) {
-      tipBubble.style.bottom = 'auto';
-      tipBubble.style.top = '52px';
-    }
-  }
-
-  const tipArrow = tipBubble ? tipBubble.querySelector('.yh-fab-tip-arrow') : null;
-  if (tipArrow) {
-    tipArrow.classList.remove('arrow-down', 'arrow-up', 'arrow-left', 'arrow-right');
-    tipArrow.classList.add(openAbove ? 'arrow-down' : 'arrow-up');
-    tipArrow.classList.add(isLeftHalf ? 'arrow-left' : 'arrow-right');
   }
 }
 
-function createFloatingButton() {
+function createFloatingButton(forceForTutorial = false) {
   if (!isYouTube()) return;
   if (floatingButtonHost) return;
-  if (!prefs.floatingButtonEnabled) return;
+  if (!forceForTutorial && !prefs.floatingButtonEnabled) return;
   if (isWatchPage()) return;
 
   floatingButtonHost = document.createElement('div');
@@ -641,6 +364,7 @@ function createFloatingButton() {
   });
 
   const shadow = floatingButtonHost.attachShadow({ mode: 'closed' });
+  fabShadow = shadow;
 
   const style = document.createElement('style');
   style.textContent = getFloatingButtonCSS();
@@ -665,65 +389,12 @@ function createFloatingButton() {
   wrapper.appendChild(fab);
   shadow.appendChild(wrapper);
 
-  const tipBubble = document.createElement('div');
-  tipBubble.className = 'yh-fab-tip';
-  tipBubble.innerHTML = `
-    <div class="yh-fab-tip-close" id="yh-tip-close">✕</div>
-    <p class="yh-fab-tip-text">Does this button bother you? You can hide it from the settings.</p>
-    <p class="yh-fab-tip-drag">💡 Tip: this button is draggable!</p>
-    <a href="#" class="yh-fab-tip-hide" id="yh-tip-hide"><svg class="yh-hide-icon" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M17.94 17.94A10.07 10.07 0 0 1 12 20c-7 0-11-8-11-8a18.45 18.45 0 0 1 5.06-5.94"/><path d="M9.9 4.24A9.12 9.12 0 0 1 12 4c7 0 11 8 11 8a18.5 18.5 0 0 1-2.16 3.19"/><line x1="1" y1="1" x2="23" y2="23"/></svg> Hide button</a>
-    <div class="yh-fab-tip-arrow arrow-down arrow-right"></div>
-  `;
-  wrapper.appendChild(tipBubble);
-
-  let tipBubbleVisible = false;
-  function showTipBubble() {
-    if (prefs.fabHideTipCount >= 2) return;
-    tipBubble.classList.add('visible');
-    fab.classList.add('tip-highlight');
-    tipBubbleVisible = true;
-    prefs.fabHideTipCount = (prefs.fabHideTipCount || 0) + 1;
-    chrome.storage.sync.set({ fabHideTipCount: prefs.fabHideTipCount });
-  }
-  function dismissTipBubble() {
-    if (!tipBubbleVisible) return;
-    tipBubble.classList.remove('visible');
-    fab.classList.remove('tip-highlight');
-    tipBubbleVisible = false;
-  }
-
-  tipBubble.querySelector('#yh-tip-close').addEventListener('click', e => {
-    e.stopPropagation();
-    dismissTipBubble();
-  });
-  tipBubble.querySelector('#yh-tip-hide').addEventListener('click', e => {
-    e.preventDefault();
-    e.stopPropagation();
-    chrome.storage.sync.set({ floatingButtonEnabled: false });
-    prefs.floatingButtonEnabled = false;
-    removeFloatingButton();
-  });
-
-  let tipBubbleTimer = null;
-  if (prefs.fabHideTipCount < 2) {
-    tipBubbleTimer = setTimeout(() => showTipBubble(), 2000);
-  }
+  fabElement = fab;
+  fabPanel = panel;
 
   document.body.appendChild(floatingButtonHost);
 
   applyFabPosition(floatingButtonHost, shadow, prefs.floatingButtonPosition);
-
-  if (prefs.fabPulseCount < 2) {
-    fab.classList.add('pulse');
-    fab.addEventListener(
-      'animationend',
-      () => {
-        fab.classList.remove('pulse');
-      },
-      { once: true },
-    );
-    chrome.storage.sync.set({ fabPulseCount: prefs.fabPulseCount + 1 });
-  }
 
   let isDragging = false;
   let wasDragged = false;
@@ -761,7 +432,6 @@ function createFloatingButton() {
       isDragging = true;
       floatingButtonHost.style.transition = 'none';
       fab.style.cursor = 'grabbing';
-      dismissTipBubble();
       if (miniPanelOpen) {
         miniPanelOpen = false;
         panel.classList.remove('open');
@@ -825,7 +495,7 @@ function createFloatingButton() {
       applyFabPosition(floatingButtonHost, shadow, newPos);
 
       prefs.floatingButtonPosition = newPos;
-      chrome.storage.local.set({ floatingButtonPosition: newPos });
+      safeStorageSet('local', { floatingButtonPosition: newPos });
 
       setTimeout(() => {
         if (floatingButtonHost) floatingButtonHost.style.transition = '';
@@ -841,13 +511,24 @@ function createFloatingButton() {
     clearTimeout(fabResizeTimer);
     fabResizeTimer = setTimeout(() => {
       if (!floatingButtonHost) return;
-      const resetPos = {
-        edge: 'right',
-        offset: Math.max(EDGE_MARGIN, window.innerHeight - (floatingButtonHost.offsetHeight || 40) - EDGE_MARGIN)
+      const current = prefs.floatingButtonPosition || { edge: 'bottom', offset: 20 };
+      const hostW = floatingButtonHost.offsetWidth || 40;
+      const hostH = floatingButtonHost.offsetHeight || 40;
+      const vw = window.innerWidth;
+      const vh = window.innerHeight;
+      let maxOffset;
+      if (current.edge === 'left' || current.edge === 'right') {
+        maxOffset = vh - hostH - EDGE_MARGIN;
+      } else {
+        maxOffset = vw - hostW - EDGE_MARGIN;
+      }
+      const clampedPos = {
+        edge: current.edge,
+        offset: Math.max(EDGE_MARGIN, Math.min(current.offset, maxOffset)),
       };
-      applyFabPosition(floatingButtonHost, shadow, resetPos);
-      prefs.floatingButtonPosition = resetPos;
-      chrome.storage.local.set({ floatingButtonPosition: resetPos });
+      applyFabPosition(floatingButtonHost, shadow, clampedPos);
+      prefs.floatingButtonPosition = clampedPos;
+      safeStorageSet('local', { floatingButtonPosition: clampedPos });
     }, 200);
   }
   window.addEventListener('resize', onViewportResize);
@@ -856,44 +537,36 @@ function createFloatingButton() {
   fab.addEventListener('click', e => {
     e.stopPropagation();
     if (wasDragged) return;
-    dismissTipBubble();
     miniPanelOpen = !miniPanelOpen;
     panel.classList.toggle('open', miniPanelOpen);
     fab.classList.toggle('active', miniPanelOpen);
     if (miniPanelOpen) {
       syncPanelToPrefs(shadow);
-      if (!prefs.panelTooltipShown) {
-        prefs.panelTooltipShown = true;
-        chrome.storage.sync.set({ panelTooltipShown: true });
-        const rows = shadow.querySelectorAll('.yh-panel-row');
-        rows.forEach((row, i) => {
-          setTimeout(() => {
-            row.style.transition = 'background 0.3s ease';
-            row.style.background = 'rgba(16, 185, 129, 0.15)';
-            setTimeout(() => {
-              row.style.background = '';
-            }, 600);
-          }, i * 200);
-        });
-      }
     }
   });
 
-  document.addEventListener('click', e => {
-    if (miniPanelOpen && !floatingButtonHost.contains(e.target)) {
+  function onDocumentClick(e) {
+    if (tutorialActive) return;
+    if (miniPanelOpen && floatingButtonHost && !floatingButtonHost.contains(e.target)) {
       miniPanelOpen = false;
       panel.classList.remove('open');
       fab.classList.remove('active');
     }
-  });
+  }
 
-  document.addEventListener('keydown', e => {
+  function onDocumentKeydown(e) {
+    if (tutorialActive) return;
     if (e.key === 'Escape' && miniPanelOpen) {
       miniPanelOpen = false;
       panel.classList.remove('open');
       fab.classList.remove('active');
     }
-  });
+  }
+
+  document.addEventListener('click', onDocumentClick);
+  document.addEventListener('keydown', onDocumentKeydown);
+  floatingButtonHost._onDocumentClick = onDocumentClick;
+  floatingButtonHost._onDocumentKeydown = onDocumentKeydown;
 
   bindPanelEvents(shadow);
 }
@@ -985,38 +658,35 @@ function bindPanelEvents(shadow) {
   if (hideWatchedToggle) {
     hideWatchedToggle.addEventListener('change', () => {
       const val = hideWatchedToggle.checked;
-      chrome.storage.sync.set({
+      safeStorageSet('sync', {
         hideHomeEnabled: val,
         hideChannelEnabled: val,
         hideSearchEnabled: val,
         hideSubsEnabled: val,
         hideCorrEnabled: val,
       });
-      showFirstActionToast();
     });
   }
 
   if (hideShortsToggle) {
     hideShortsToggle.addEventListener('change', () => {
-      chrome.storage.sync.set({
+      safeStorageSet('sync', {
         hideShortsEnabled: hideShortsToggle.checked,
         hideShortsSearchEnabled: hideShortsToggle.checked,
       });
-      showFirstActionToast();
     });
   }
 
   if (viewsFilterToggle) {
     viewsFilterToggle.addEventListener('change', () => {
       const val = viewsFilterToggle.checked;
-      chrome.storage.sync.set({
+      safeStorageSet('sync', {
         viewsHideHomeEnabled: val,
         viewsHideChannelEnabled: val,
         viewsHideSearchEnabled: val,
         viewsHideSubsEnabled: val,
         viewsHideCorrEnabled: val,
       });
-      showFirstActionToast();
     });
   }
 
@@ -1027,10 +697,9 @@ function bindPanelEvents(shadow) {
       updateMiniSliderBg(thresholdSlider);
     });
     thresholdSlider.addEventListener('change', () => {
-      chrome.storage.sync.set({
+      safeStorageSet('sync', {
         hideThreshold: parseInt(thresholdSlider.value, 10),
       });
-      showFirstActionToast();
     });
   }
 
@@ -1043,26 +712,21 @@ function bindPanelEvents(shadow) {
     });
     viewsSlider.addEventListener('change', () => {
       const idx = parseInt(viewsSlider.value, 10);
-      chrome.storage.sync.set({ viewsHideThreshold: miniViewsSteps[idx] });
-      showFirstActionToast();
+      safeStorageSet('sync', { viewsHideThreshold: miniViewsSteps[idx] });
     });
   }
 
   if (openFullBtn) {
     openFullBtn.addEventListener('click', e => {
       e.preventDefault();
-      try {
-        chrome.runtime.sendMessage({ action: 'openSettings' });
-      } catch (err) {
-        logger.warn('Could not open settings', err);
-      }
+      safeSendMessage({ action: 'openSettings' });
     });
   }
 
   if (hideButtonLink) {
     hideButtonLink.addEventListener('click', e => {
       e.preventDefault();
-      chrome.storage.sync.set({ floatingButtonEnabled: false });
+      safeStorageSet('sync', { floatingButtonEnabled: false });
       prefs.floatingButtonEnabled = false;
       removeFloatingButton();
     });
@@ -1082,9 +746,18 @@ function removeFloatingButton() {
     if (floatingButtonHost._onViewportResize) {
       window.removeEventListener('resize', floatingButtonHost._onViewportResize);
     }
+    if (floatingButtonHost._onDocumentClick) {
+      document.removeEventListener('click', floatingButtonHost._onDocumentClick);
+    }
+    if (floatingButtonHost._onDocumentKeydown) {
+      document.removeEventListener('keydown', floatingButtonHost._onDocumentKeydown);
+    }
     clearTimeout(fabResizeTimer);
     floatingButtonHost.remove();
     floatingButtonHost = null;
+    fabElement = null;
+    fabShadow = null;
+    fabPanel = null;
     miniPanelOpen = false;
   }
 }
@@ -1157,11 +830,6 @@ function getFloatingButtonCSS() {
       flex-direction: column;
       align-items: flex-end;
     }
-    @keyframes yhFabPulse {
-      0% { transform: scale(1); box-shadow: 0 2px 10px rgba(0,0,0,0.4); }
-      50% { transform: scale(1.15); box-shadow: 0 0 16px rgba(16,185,129,0.4), 0 2px 10px rgba(0,0,0,0.4); }
-      100% { transform: scale(1); box-shadow: 0 2px 10px rgba(0,0,0,0.4); }
-    }
     .yh-fab {
       width: 40px;
       height: 40px;
@@ -1180,10 +848,6 @@ function getFloatingButtonCSS() {
       user-select: none;
       -webkit-user-select: none;
     }
-    .yh-fab.pulse {
-      opacity: 1;
-      animation: yhFabPulse 0.8s ease-in-out 3;
-    }
     .yh-fab:hover {
       opacity: 1;
       transform: scale(1.08);
@@ -1192,10 +856,6 @@ function getFloatingButtonCSS() {
     .yh-fab.active {
       opacity: 1;
       box-shadow: 0 0 0 2px #8ab4f8, 0 4px 16px rgba(0,0,0,0.5);
-    }
-    .yh-fab.tip-highlight {
-      opacity: 1;
-      box-shadow: 0 0 12px rgba(138, 180, 248, 0.4), 0 2px 10px rgba(0,0,0,0.4);
     }
     .yh-fab-icon {
       width: 22px;
@@ -1497,109 +1157,532 @@ function getFloatingButtonCSS() {
       height: 14px;
       flex-shrink: 0;
     }
-
-    /* Tip Bubble */
-    .yh-fab-tip {
-      position: absolute;
-      bottom: 52px;
-      right: 0;
-      width: 230px;
-      background: #222222;
-      border: 1px solid #3a3a3a;
-      border-radius: 10px;
-      box-shadow: 0 8px 32px rgba(0,0,0,0.5);
-      font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
-      font-size: 12px;
-      color: #e0e0e0;
-      padding: 12px 14px;
-      opacity: 0;
-      transform: scale(0.92) translateY(8px);
-      pointer-events: none;
-      transition: transform 0.25s cubic-bezier(0.4, 0, 0.2, 1), opacity 0.25s ease;
-      transform-origin: bottom right;
-      z-index: 5;
-    }
-    .yh-fab-tip.visible {
-      opacity: 1;
-      transform: scale(1) translateY(0);
-      pointer-events: auto;
-    }
-    .yh-fab-tip-close {
-      position: absolute;
-      top: 8px;
-      right: 10px;
-      cursor: pointer;
-      color: #aaa;
-      font-size: 13px;
-      font-weight: bold;
-      line-height: 1;
-      padding: 2px 4px;
-      border-radius: 4px;
-      transition: color 0.15s, background 0.15s;
-    }
-    .yh-fab-tip-close:hover {
-      color: #fff;
-      background: #3a3a3a;
-    }
-    .yh-fab-tip-text {
-      margin: 0 0 6px 0;
-      line-height: 1.45;
-      color: #e0e0e0;
-      padding-right: 18px;
-    }
-    .yh-fab-tip-drag {
-      margin: 0 0 10px 0;
-      font-size: 11px;
-      color: #999;
-      line-height: 1.4;
-    }
-    .yh-fab-tip-hide {
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      gap: 6px;
-      width: 100%;
-      padding: 7px 0;
-      font-size: 12px;
-      font-weight: 500;
-      color: #ccc;
-      background: #333;
-      border: 1px solid #4a4a4a;
-      border-radius: 6px;
-      text-decoration: none;
-      cursor: pointer;
-      transition: background 0.15s, color 0.15s, border-color 0.15s;
-    }
-    .yh-fab-tip-hide:hover {
-      background: #3f3f3f;
-      color: #fff;
-      border-color: #666;
-    }
-    .yh-fab-tip-arrow {
-      position: absolute;
-      width: 0;
-      height: 0;
-      border: 6px solid transparent;
-    }
-    .yh-fab-tip-arrow.arrow-down {
-      bottom: -12px;
-      border-bottom: none;
-      border-top-color: #3a3a3a;
-    }
-    .yh-fab-tip-arrow.arrow-up {
-      top: -12px;
-      border-top: none;
-      border-bottom-color: #3a3a3a;
-    }
-    .yh-fab-tip-arrow.arrow-right {
-      right: 14px;
-      left: auto;
-    }
-    .yh-fab-tip-arrow.arrow-left {
-      left: 14px;
-      right: auto;
-    }
   `;
+}
+
+// ─── Tutorial: Welcome Card & Spotlight Tour ────────────────────────────────
+let tutorialOverlay = null;
+let tutorialActive = false;
+let tutorialSkipInterval = null;
+let tourHost = null;
+let tourBlocker = null;
+
+function getTutorialCSS() {
+  return `
+    * { box-sizing: border-box; margin: 0; padding: 0; }
+    .yh-tutorial-overlay {
+      position: fixed; inset: 0; z-index: 2147483647;
+      background: rgba(0,0,0,0.7);
+      font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
+      transition: opacity 0.3s ease;
+    }
+    .yh-welcome-card {
+      position: absolute; top: 50%; left: 50%;
+      transform: translate(-50%, -50%);
+      background: #1e1e1e; border: 1px solid #333; border-radius: 12px;
+      padding: 32px 28px 24px; width: 380px; max-width: 90vw;
+      text-align: center; color: #e0e0e0;
+      box-shadow: 0 8px 32px rgba(0,0,0,0.6);
+    }
+    .yh-welcome-logo { width: 48px; height: 48px; margin-bottom: 16px; }
+    .yh-welcome-title {
+      font-size: 20px; font-weight: 700; margin-bottom: 8px;
+      background: linear-gradient(135deg, #10b981, #3b82f6);
+      -webkit-background-clip: text; -webkit-text-fill-color: transparent;
+    }
+    .yh-welcome-desc { font-size: 13px; line-height: 1.6; color: #aaa; margin-bottom: 24px; }
+    .yh-welcome-actions { display: flex; gap: 12px; justify-content: center; }
+    .yh-welcome-btn {
+      padding: 10px 24px; border-radius: 8px; font-size: 13px; font-weight: 600;
+      cursor: pointer; border: none; transition: all 0.2s ease;
+    }
+    .yh-welcome-btn-start {
+      background: #10b981; color: #fff;
+    }
+    .yh-welcome-btn-start:hover { background: #0d9668; }
+    .yh-welcome-btn-skip {
+      background: #333; color: #888; border: 1px solid #444;
+    }
+    .yh-welcome-btn-skip:not(:disabled):hover { background: #444; color: #ccc; }
+    .yh-welcome-btn-skip:disabled { opacity: 0.5; cursor: not-allowed; }
+    .yh-spotlight-hole {
+      position: fixed; z-index: 2147483647;
+      border-radius: 8px;
+      box-shadow: 0 0 0 9999px rgba(0,0,0,0.7);
+      transition: all 0.4s ease;
+      pointer-events: none;
+    }
+    .yh-spotlight-tooltip {
+      position: fixed; z-index: 2147483647;
+      background: #1e1e1e; border: 1px solid #333; border-radius: 10px;
+      padding: 20px; width: 320px; max-width: 90vw;
+      color: #e0e0e0;
+      box-shadow: 0 4px 20px rgba(0,0,0,0.5);
+      transition: all 0.4s ease;
+    }
+    .yh-spot-step-badge {
+      display: inline-block; font-size: 11px; font-weight: 600;
+      color: #10b981; background: rgba(16,185,129,0.12);
+      padding: 2px 10px; border-radius: 20px; margin-bottom: 10px;
+    }
+    .yh-spot-title { font-size: 15px; font-weight: 700; margin-bottom: 6px; color: #f0f0f0; }
+    .yh-spot-desc { font-size: 12.5px; line-height: 1.6; color: #aaa; margin-bottom: 16px; }
+    .yh-spot-footer { display: flex; align-items: center; justify-content: space-between; }
+    .yh-spot-dots { display: flex; gap: 6px; }
+    .yh-spot-dot {
+      width: 7px; height: 7px; border-radius: 50%; background: #444;
+      transition: background 0.2s ease;
+    }
+    .yh-spot-dot.active { background: #10b981; }
+    .yh-spot-btns { display: flex; gap: 8px; }
+    .yh-spot-btn {
+      padding: 7px 16px; border-radius: 6px; font-size: 12px; font-weight: 600;
+      cursor: pointer; border: none; transition: all 0.2s ease;
+    }
+    .yh-spot-btn-back { background: #333; color: #aaa; }
+    .yh-spot-btn-back:hover { background: #444; color: #ddd; }
+    .yh-spot-btn-next { background: #10b981; color: #fff; }
+    .yh-spot-btn-next:hover { background: #0d9668; }
+  `;
+}
+
+function showTutorialWelcomeCard() {
+  if (tutorialOverlay) return;
+  if (prefs.tutorialCompleted) return;
+
+  tutorialOverlay = document.createElement('div');
+  tutorialOverlay.id = 'yh-tutorial-host';
+  const shadow = tutorialOverlay.attachShadow({ mode: 'closed' });
+
+  const style = document.createElement('style');
+  style.textContent = getTutorialCSS();
+  shadow.appendChild(style);
+
+  const overlay = document.createElement('div');
+  overlay.className = 'yh-tutorial-overlay';
+
+  const card = document.createElement('div');
+  card.className = 'yh-welcome-card';
+
+  const logo = document.createElement('img');
+  logo.src = chrome.runtime.getURL('assets/icons/youtube-hider-logo.png');
+  logo.className = 'yh-welcome-logo';
+
+  const title = document.createElement('div');
+  title.className = 'yh-welcome-title';
+  title.textContent = 'Welcome to Youtube Hider!';
+
+  const desc = document.createElement('div');
+  desc.className = 'yh-welcome-desc';
+  desc.textContent = 'Take a quick tour to discover how to use the floating button, customize your settings, and get the most out of the extension.';
+
+  const actions = document.createElement('div');
+  actions.className = 'yh-welcome-actions';
+
+  const startBtn = document.createElement('button');
+  startBtn.className = 'yh-welcome-btn yh-welcome-btn-start';
+  startBtn.textContent = 'Start Tutorial';
+
+  const skipBtn = document.createElement('button');
+  skipBtn.className = 'yh-welcome-btn yh-welcome-btn-skip';
+  skipBtn.disabled = true;
+  let skipCountdown = 5;
+  skipBtn.textContent = `Skip (${skipCountdown}s)`;
+  tutorialSkipInterval = setInterval(() => {
+    skipCountdown--;
+    if (skipCountdown <= 0) {
+      clearInterval(tutorialSkipInterval);
+      tutorialSkipInterval = null;
+      skipBtn.textContent = 'Skip';
+      skipBtn.disabled = false;
+    } else {
+      skipBtn.textContent = `Skip (${skipCountdown}s)`;
+    }
+  }, 1000);
+
+  startBtn.addEventListener('click', () => {
+    clearInterval(tutorialSkipInterval);
+    tutorialSkipInterval = null;
+    removeTutorialOverlay();
+    startSpotlightTour();
+  });
+
+  skipBtn.addEventListener('click', () => {
+    if (skipBtn.disabled) return;
+    clearInterval(tutorialSkipInterval);
+    tutorialSkipInterval = null;
+    prefs.tutorialCompleted = true;
+    safeStorageSet('sync', { tutorialCompleted: true });
+    removeTutorialOverlay();
+  });
+
+  actions.appendChild(startBtn);
+  actions.appendChild(skipBtn);
+  card.appendChild(logo);
+  card.appendChild(title);
+  card.appendChild(desc);
+  card.appendChild(actions);
+  overlay.appendChild(card);
+  shadow.appendChild(overlay);
+
+  document.body.appendChild(tutorialOverlay);
+}
+
+function cleanupTour() {
+  if (tutorialActive) {
+    tutorialActive = false;
+    miniPanelOpen = false;
+
+    if (floatingButtonHost) {
+      floatingButtonHost.style.zIndex = '2147483640';
+      floatingButtonHost.style.pointerEvents = 'auto';
+    }
+    if (fabPanel) fabPanel.style.pointerEvents = '';
+    if (fabElement) fabElement.style.pointerEvents = '';
+  }
+  if (tourHost) {
+    tourHost.remove();
+    tourHost = null;
+  }
+  if (tourBlocker) {
+    tourBlocker.remove();
+    tourBlocker = null;
+  }
+}
+
+function removeTutorialOverlay() {
+  if (tutorialSkipInterval) {
+    clearInterval(tutorialSkipInterval);
+    tutorialSkipInterval = null;
+  }
+  if (tutorialOverlay) {
+    tutorialOverlay.remove();
+    tutorialOverlay = null;
+  }
+}
+
+function startSpotlightTour() {
+  if (!floatingButtonHost || !fabElement) {
+    prefs.tutorialCompleted = true;
+    safeStorageSet('sync', { tutorialCompleted: true });
+    return;
+  }
+
+  tutorialActive = true;
+
+  const steps = [
+    {
+      title: 'Your Quick Settings Button',
+      desc: 'This is the Youtube Hider floating button. Click it anytime to access quick settings without leaving YouTube.',
+      getTarget: () => fabElement,
+      onEnter: () => {
+        if (miniPanelOpen) {
+          miniPanelOpen = false;
+          fabPanel.classList.remove('open');
+          fabElement.classList.remove('active');
+        }
+      },
+    },
+    {
+      title: 'Quick Settings Panel',
+      desc: 'Here you can toggle Hide Watched Videos, Hide Shorts, and Minimum Views Filter. Changes are applied instantly!',
+      getTarget: () => fabPanel,
+      onEnter: () => {
+        if (!miniPanelOpen) {
+          miniPanelOpen = true;
+          fabPanel.classList.add('open');
+          void fabPanel.offsetHeight;
+          fabElement.classList.add('active');
+          syncPanelToPrefs(fabShadow);
+        }
+      },
+    },
+    {
+      title: 'Hide This Button',
+      desc: "If the floating button bothers you, click \"Hide this button\" at the bottom of the panel. Don't worry, the extension keeps working in the background and you can re-enable it from settings!",
+      getTarget: () => fabShadow.querySelector('#yh-p-hide-btn') || fabPanel,
+      onEnter: () => {
+        if (!miniPanelOpen) {
+          miniPanelOpen = true;
+          fabPanel.classList.add('open');
+          void fabPanel.offsetHeight;
+          fabElement.classList.add('active');
+          syncPanelToPrefs(fabShadow);
+        }
+      },
+    },
+    {
+      title: 'Advanced Settings',
+      desc: 'Click "Open full settings" to access per-page controls, Easy Mode, streaming skip settings, and more. All the customization you need in one place!',
+      getTarget: () => fabShadow.querySelector('#yh-p-open-full') || fabPanel,
+      onEnter: () => {
+        if (!miniPanelOpen) {
+          miniPanelOpen = true;
+          fabPanel.classList.add('open');
+          void fabPanel.offsetHeight;
+          fabElement.classList.add('active');
+          syncPanelToPrefs(fabShadow);
+        }
+      },
+    },
+    {
+      title: 'Drag It Anywhere!',
+      desc: 'The floating button is fully draggable. Click and drag it to snap it to any edge of the screen. Place it wherever suits you best.',
+      getTarget: () => fabElement,
+      onEnter: () => {
+        if (miniPanelOpen) {
+          miniPanelOpen = false;
+          fabPanel.classList.remove('open');
+          fabElement.classList.remove('active');
+        }
+      },
+    },
+  ];
+
+  let currentStep = 0;
+  let hole = null;
+  let tooltip = null;
+  let tourShadow = null;
+
+  function createTourElements() {
+    tourBlocker = document.createElement('div');
+    tourBlocker.id = 'yh-tour-blocker';
+    Object.assign(tourBlocker.style, {
+      position: 'fixed', inset: '0', zIndex: '2147483645', pointerEvents: 'auto',
+      background: 'transparent',
+    });
+    document.body.appendChild(tourBlocker);
+
+    floatingButtonHost.style.zIndex = '2147483646';
+    floatingButtonHost.style.pointerEvents = 'none';
+    fabPanel.style.pointerEvents = 'none';
+    fabElement.style.pointerEvents = 'none';
+
+    tourHost = document.createElement('div');
+    tourHost.id = 'yh-spotlight-host';
+    Object.assign(tourHost.style, {
+      position: 'fixed', inset: '0', zIndex: '2147483647', pointerEvents: 'none',
+    });
+    tourShadow = tourHost.attachShadow({ mode: 'closed' });
+
+    const style = document.createElement('style');
+    style.textContent = getTutorialCSS();
+    tourShadow.appendChild(style);
+
+    hole = document.createElement('div');
+    hole.className = 'yh-spotlight-hole';
+    tourShadow.appendChild(hole);
+
+    tooltip = document.createElement('div');
+    tooltip.className = 'yh-spotlight-tooltip';
+    tooltip.style.pointerEvents = 'auto';
+    tourShadow.appendChild(tooltip);
+
+    document.body.appendChild(tourHost);
+  }
+
+  function computeTargetRect(step) {
+    const el = step.getTarget();
+    if (!el) return { top: 100, left: 100, width: 40, height: 40 };
+
+    const hostRect = floatingButtonHost.getBoundingClientRect();
+
+    if (el === fabElement) {
+      return { top: hostRect.top, left: hostRect.left, width: hostRect.width, height: hostRect.height };
+    }
+
+    if (el === fabPanel) {
+      const r = el.getBoundingClientRect();
+      if (r.width > 0 && r.height > 0) {
+        return { top: r.top, left: r.left, width: r.width, height: r.height };
+      }
+      const panelW = el.offsetWidth || 260;
+      const panelH = el.offsetHeight || 320;
+      let panelTop, panelLeft;
+      if (el.style.bottom && el.style.bottom !== 'auto') {
+        panelTop = hostRect.top - panelH - 12;
+      } else {
+        panelTop = hostRect.bottom + 12;
+      }
+      if (el.style.right && el.style.right !== 'auto' && el.style.right !== '') {
+        panelLeft = hostRect.right - panelW;
+      } else {
+        panelLeft = hostRect.left;
+      }
+      return { top: panelTop, left: panelLeft, width: panelW, height: panelH };
+    }
+
+    if (el.getRootNode() !== document) {
+      const r = el.getBoundingClientRect();
+      if (r.width > 0 && r.height > 0) {
+        return { top: r.top, left: r.left, width: r.width, height: r.height };
+      }
+      const panelRect = computeTargetRect({ getTarget: () => fabPanel });
+      return {
+        top: panelRect.top,
+        left: panelRect.left,
+        width: panelRect.width,
+        height: panelRect.height,
+      };
+    }
+
+    const r = el.getBoundingClientRect();
+    return { top: r.top, left: r.left, width: r.width, height: r.height };
+  }
+
+  function positionTooltip(rect) {
+    const PADDING = 12;
+    const tooltipW = 320;
+    const tooltipH = tooltip.offsetHeight || 180;
+    const vw = window.innerWidth;
+    const vh = window.innerHeight;
+
+    let top, left;
+    const spaceBelow = vh - (rect.top + rect.height + PADDING);
+    const spaceAbove = rect.top - PADDING;
+
+    if (spaceBelow >= tooltipH + PADDING) {
+      top = rect.top + rect.height + PADDING;
+    } else if (spaceAbove >= tooltipH + PADDING) {
+      top = rect.top - tooltipH - PADDING;
+    } else {
+      top = Math.max(PADDING, Math.min(vh - tooltipH - PADDING, rect.top));
+    }
+
+    const centerX = rect.left + rect.width / 2;
+    left = centerX - tooltipW / 2;
+    left = Math.max(PADDING, Math.min(vw - tooltipW - PADDING, left));
+
+    tooltip.style.top = top + 'px';
+    tooltip.style.left = left + 'px';
+    tooltip.style.width = tooltipW + 'px';
+  }
+
+  function waitForPanelTransition() {
+    return new Promise(resolve => {
+      let resolved = false;
+      const done = () => {
+        if (resolved) return;
+        resolved = true;
+        fabPanel.removeEventListener('transitionend', onEnd);
+        resolve();
+      };
+      const onEnd = (e) => {
+        if (e.target === fabPanel) done();
+      };
+      fabPanel.addEventListener('transitionend', onEnd);
+      setTimeout(done, 300);
+    });
+  }
+
+  function measureAndPosition(step) {
+    const PAD = 8;
+    const vw = window.innerWidth;
+    const vh = window.innerHeight;
+    const rect = computeTargetRect(step);
+
+    rect.top = Math.max(0, Math.min(rect.top, vh - rect.height));
+    rect.left = Math.max(0, Math.min(rect.left, vw - rect.width));
+
+    hole.style.top = (rect.top - PAD) + 'px';
+    hole.style.left = (rect.left - PAD) + 'px';
+    hole.style.width = (rect.width + PAD * 2) + 'px';
+    hole.style.height = (rect.height + PAD * 2) + 'px';
+
+    const dotsHTML = steps.map((_, i) =>
+      `<div class="yh-spot-dot${i === currentStep ? ' active' : ''}"></div>`
+    ).join('');
+
+    const backBtn = currentStep > 0
+      ? `<button class="yh-spot-btn yh-spot-btn-back" id="yh-tour-back">Back</button>`
+      : '';
+    const nextLabel = currentStep === steps.length - 1 ? 'Done' : 'Next';
+
+    tooltip.innerHTML = `
+      <div class="yh-spot-step-badge">Step ${currentStep + 1} of ${steps.length}</div>
+      <div class="yh-spot-title">${step.title}</div>
+      <div class="yh-spot-desc">${step.desc}</div>
+      <div class="yh-spot-footer">
+        <div class="yh-spot-dots">${dotsHTML}</div>
+        <div class="yh-spot-btns">
+          ${backBtn}
+          <button class="yh-spot-btn yh-spot-btn-next" id="yh-tour-next">${nextLabel}</button>
+        </div>
+      </div>
+    `;
+
+    positionTooltip(rect);
+
+    const nextEl = tourShadow.querySelector('#yh-tour-next');
+    const backEl = tourShadow.querySelector('#yh-tour-back');
+
+    nextEl.addEventListener('click', () => {
+      if (currentStep < steps.length - 1) {
+        currentStep++;
+        renderStep();
+      } else {
+        finishTour();
+      }
+    });
+
+    if (backEl) {
+      backEl.addEventListener('click', () => {
+        if (currentStep > 0) {
+          currentStep--;
+          renderStep();
+        }
+      });
+    }
+  }
+
+  async function renderStep() {
+    const step = steps[currentStep];
+    const wasPanelOpen = miniPanelOpen;
+    step.onEnter();
+    const isPanelOpen = miniPanelOpen;
+    const panelTransitioned = wasPanelOpen !== isPanelOpen;
+
+    if (panelTransitioned) {
+      await waitForPanelTransition();
+    }
+
+    requestAnimationFrame(() => {
+      requestAnimationFrame(() => {
+        measureAndPosition(step);
+      });
+    });
+  }
+
+  function finishTour() {
+    tutorialActive = false;
+    prefs.tutorialCompleted = true;
+    safeStorageSet('sync', { tutorialCompleted: true });
+
+    if (miniPanelOpen && fabPanel && fabElement) {
+      miniPanelOpen = false;
+      fabPanel.classList.remove('open');
+      fabElement.classList.remove('active');
+    }
+
+    if (floatingButtonHost) {
+      floatingButtonHost.style.zIndex = '2147483640';
+      floatingButtonHost.style.pointerEvents = 'auto';
+    }
+    if (fabPanel) fabPanel.style.pointerEvents = '';
+    if (fabElement) fabElement.style.pointerEvents = '';
+
+    if (tourHost) {
+      tourHost.remove();
+      tourHost = null;
+    }
+    if (tourBlocker) {
+      tourBlocker.remove();
+      tourBlocker = null;
+    }
+  }
+
+  createTourElements();
+  renderStep();
 }
 
 function initPrefs() {
@@ -1636,6 +1719,8 @@ function setupPrefsListener() {
           if (changes.floatingButtonEnabled.newValue && !isWatchPage()) {
             createFloatingButton();
           } else {
+            cleanupTour();
+            removeTutorialOverlay();
             removeFloatingButton();
           }
         }
@@ -2179,6 +2264,9 @@ function detectPageChange() {
     rapidLoaderCount = 0;
     warningDismissed = false;
 
+    cleanupTour();
+    removeTutorialOverlay();
+
     if (currentPath === '/watch') {
       removeFloatingButton();
     } else if (prefs.floatingButtonEnabled && !floatingButtonHost && isYouTube()) {
@@ -2226,9 +2314,12 @@ async function init() {
   logger.log('MutationObserver started');
 
   if (isYouTube()) {
-    setTimeout(() => showWelcomeToast(), 1500);
+    const tutorialPending = !prefs.tutorialCompleted && !isWatchPage();
     if (!isWatchPage()) {
-      createFloatingButton();
+      createFloatingButton(tutorialPending);
+    }
+    if (tutorialPending && floatingButtonHost) {
+      setTimeout(() => showTutorialWelcomeCard(), 1500);
     }
   }
 }

@@ -145,6 +145,12 @@ try {
         Copy-Item -Path $src -Destination $dst
     }
 
+    $envFile = Join-Path $tempDir 'env.js'
+    if (Test-Path $envFile) {
+        Set-Content -Path $envFile -Value 'window.DEV_MODE = false;' -Encoding UTF8
+        Write-Host '  DEV_MODE forced to false in env.js' -ForegroundColor DarkYellow
+    }
+
     if (Test-Path $zipPath) {
         Remove-Item $zipPath -Force
     }
