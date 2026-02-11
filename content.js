@@ -1341,6 +1341,19 @@ function startSpotlightTour() {
       },
     },
     {
+      title: 'Hide This Button',
+      desc: "If the floating button bothers you, click \"Hide this button\" at the bottom of the panel. Don't worry, the extension keeps working in the background and you can re-enable it from settings!",
+      getTarget: () => fabShadow.querySelector('#yh-p-hide-btn') || fabPanel,
+      onEnter: () => {
+        if (!miniPanelOpen) {
+          miniPanelOpen = true;
+          fabPanel.classList.add('open');
+          fabElement.classList.add('active');
+          syncPanelToPrefs(fabShadow);
+        }
+      },
+    },
+    {
       title: 'Drag It Anywhere!',
       desc: 'The floating button is fully draggable — click and drag it to snap it to any edge of the screen. Place it wherever suits you best.',
       getTarget: () => fabElement,
@@ -1351,12 +1364,6 @@ function startSpotlightTour() {
           fabElement.classList.remove('active');
         }
       },
-    },
-    {
-      title: 'Hide This Button',
-      desc: "If the floating button bothers you, you can disable it from the full settings page. Don't worry, the extension keeps working in the background!",
-      getTarget: () => fabElement,
-      onEnter: () => {},
     },
     {
       title: 'Advanced Settings',
@@ -1376,8 +1383,20 @@ function startSpotlightTour() {
   let tooltip = null;
   let tourHost = null;
   let tourShadow = null;
+  let tourBlocker = null;
 
   function createTourElements() {
+    tourBlocker = document.createElement('div');
+    tourBlocker.id = 'yh-tour-blocker';
+    Object.assign(tourBlocker.style, {
+      position: 'fixed', inset: '0', zIndex: '2147483645', pointerEvents: 'auto',
+      background: 'transparent',
+    });
+    document.body.appendChild(tourBlocker);
+
+    floatingButtonHost.style.zIndex = '2147483646';
+    floatingButtonHost.style.pointerEvents = 'none';
+
     tourHost = document.createElement('div');
     tourHost.id = 'yh-spotlight-host';
     Object.assign(tourHost.style, {
@@ -1401,41 +1420,19 @@ function startSpotlightTour() {
     document.body.appendChild(tourHost);
   }
 
-  function getElementRect(el) {
-    if (!el) return { top: 0, left: 0, width: 0, height: 0 };
-    const hostRect = floatingButtonHost.getBoundingClientRect();
-    const elRects = el.getClientRects();
-    if (elRects.length > 0 && el !== fabElement && el !== fabPanel) {
-      const r = elRects[0];
-      return { top: r.top, left: r.left, width: r.width, height: r.height };
-    }
-    if (el === fabElement) {
-      return { top: hostRect.top, left: hostRect.left, width: hostRect.width, height: hostRect.height };
-    }
-    if (el === fabPanel) {
-      const panelRect = el.getBoundingClientRect();
-      return {
-        top: hostRect.top + panelRect.top - el.offsetParent?.getBoundingClientRect().top || 0,
-        left: hostRect.left + panelRect.left - (el.offsetParent?.getBoundingClientRect().left || 0),
-        width: panelRect.width || 260,
-        height: panelRect.height || 320,
-      };
-    }
-    const r = el.getBoundingClientRect();
-    return { top: r.top, left: r.left, width: r.width, height: r.height };
-  }
-
   function computeTargetRect(step) {
     const el = step.getTarget();
     if (!el) return { top: 100, left: 100, width: 40, height: 40 };
 
+    const hostRect = floatingButtonHost.getBoundingClientRect();
+
+    if (el === fabElement) {
+      return { top: hostRect.top, left: hostRect.left, width: hostRect.width, height: hostRect.height };
+    }
+
     if (el === fabPanel) {
-      const hostRect = floatingButtonHost.getBoundingClientRect();
-      const wrapperEl = fabShadow.querySelector('.yh-fab-wrapper');
-      const panelComputedStyle = getComputedStyle(el);
       const panelW = el.offsetWidth || 260;
       const panelH = el.offsetHeight || 320;
-
       let panelTop, panelLeft;
       if (el.style.bottom && el.style.bottom !== 'auto') {
         panelTop = hostRect.top - panelH - 12;
@@ -1450,16 +1447,8 @@ function startSpotlightTour() {
       return { top: panelTop, left: panelLeft, width: panelW, height: panelH };
     }
 
-    if (el === fabElement) {
-      const hostRect = floatingButtonHost.getBoundingClientRect();
-      return { top: hostRect.top, left: hostRect.left, width: hostRect.width, height: hostRect.height };
-    }
-
     if (el.getRootNode() !== document) {
-      const hostRect = floatingButtonHost.getBoundingClientRect();
-      const panelTarget = steps[4].getTarget();
-      const panelParent = fabPanel;
-      const panelRect = computeTargetRect({ getTarget: () => panelParent });
+      const panelRect = computeTargetRect({ getTarget: () => fabPanel });
       const elRect = el.getBoundingClientRect();
       return {
         top: panelRect.top + elRect.top,
@@ -1505,62 +1494,64 @@ function startSpotlightTour() {
     const step = steps[currentStep];
     step.onEnter();
 
-    requestAnimationFrame(() => {
+    setTimeout(() => {
       requestAnimationFrame(() => {
-        const PAD = 8;
-        const rect = computeTargetRect(step);
+        requestAnimationFrame(() => {
+          const PAD = 8;
+          const rect = computeTargetRect(step);
 
-        hole.style.top = (rect.top - PAD) + 'px';
-        hole.style.left = (rect.left - PAD) + 'px';
-        hole.style.width = (rect.width + PAD * 2) + 'px';
-        hole.style.height = (rect.height + PAD * 2) + 'px';
+          hole.style.top = (rect.top - PAD) + 'px';
+          hole.style.left = (rect.left - PAD) + 'px';
+          hole.style.width = (rect.width + PAD * 2) + 'px';
+          hole.style.height = (rect.height + PAD * 2) + 'px';
 
-        const dotsHTML = steps.map((_, i) =>
-          `<div class="yh-spot-dot${i === currentStep ? ' active' : ''}"></div>`
-        ).join('');
+          const dotsHTML = steps.map((_, i) =>
+            `<div class="yh-spot-dot${i === currentStep ? ' active' : ''}"></div>`
+          ).join('');
 
-        const backBtn = currentStep > 0
-          ? `<button class="yh-spot-btn yh-spot-btn-back" id="yh-tour-back">Back</button>`
-          : '';
-        const nextLabel = currentStep === steps.length - 1 ? 'Done' : 'Next';
+          const backBtn = currentStep > 0
+            ? `<button class="yh-spot-btn yh-spot-btn-back" id="yh-tour-back">Back</button>`
+            : '';
+          const nextLabel = currentStep === steps.length - 1 ? 'Done' : 'Next';
 
-        tooltip.innerHTML = `
-          <div class="yh-spot-step-badge">Step ${currentStep + 1} of ${steps.length}</div>
-          <div class="yh-spot-title">${step.title}</div>
-          <div class="yh-spot-desc">${step.desc}</div>
-          <div class="yh-spot-footer">
-            <div class="yh-spot-dots">${dotsHTML}</div>
-            <div class="yh-spot-btns">
-              ${backBtn}
-              <button class="yh-spot-btn yh-spot-btn-next" id="yh-tour-next">${nextLabel}</button>
+          tooltip.innerHTML = `
+            <div class="yh-spot-step-badge">Step ${currentStep + 1} of ${steps.length}</div>
+            <div class="yh-spot-title">${step.title}</div>
+            <div class="yh-spot-desc">${step.desc}</div>
+            <div class="yh-spot-footer">
+              <div class="yh-spot-dots">${dotsHTML}</div>
+              <div class="yh-spot-btns">
+                ${backBtn}
+                <button class="yh-spot-btn yh-spot-btn-next" id="yh-tour-next">${nextLabel}</button>
+              </div>
             </div>
-          </div>
-        `;
+          `;
 
-        positionTooltip(rect);
+          positionTooltip(rect);
 
-        const nextEl = tourShadow.querySelector('#yh-tour-next');
-        const backEl = tourShadow.querySelector('#yh-tour-back');
+          const nextEl = tourShadow.querySelector('#yh-tour-next');
+          const backEl = tourShadow.querySelector('#yh-tour-back');
 
-        nextEl.addEventListener('click', () => {
-          if (currentStep < steps.length - 1) {
-            currentStep++;
-            renderStep();
-          } else {
-            finishTour();
-          }
-        });
-
-        if (backEl) {
-          backEl.addEventListener('click', () => {
-            if (currentStep > 0) {
-              currentStep--;
+          nextEl.addEventListener('click', () => {
+            if (currentStep < steps.length - 1) {
+              currentStep++;
               renderStep();
+            } else {
+              finishTour();
             }
           });
-        }
+
+          if (backEl) {
+            backEl.addEventListener('click', () => {
+              if (currentStep > 0) {
+                currentStep--;
+                renderStep();
+              }
+            });
+          }
+        });
       });
-    });
+    }, 50);
   }
 
   function finishTour() {
@@ -1574,9 +1565,18 @@ function startSpotlightTour() {
       fabElement.classList.remove('active');
     }
 
+    if (floatingButtonHost) {
+      floatingButtonHost.style.zIndex = '2147483640';
+      floatingButtonHost.style.pointerEvents = 'auto';
+    }
+
     if (tourHost) {
       tourHost.remove();
       tourHost = null;
+    }
+    if (tourBlocker) {
+      tourBlocker.remove();
+      tourBlocker = null;
     }
   }
 
