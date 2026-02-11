@@ -616,6 +616,13 @@ function applyFabPosition(host, shadow, pos) {
       tipBubble.style.top = '52px';
     }
   }
+
+  const tipArrow = tipBubble ? tipBubble.querySelector('.yh-fab-tip-arrow') : null;
+  if (tipArrow) {
+    tipArrow.classList.remove('arrow-down', 'arrow-up', 'arrow-left', 'arrow-right');
+    tipArrow.classList.add(openAbove ? 'arrow-down' : 'arrow-up');
+    tipArrow.classList.add(isLeftHalf ? 'arrow-left' : 'arrow-right');
+  }
 }
 
 function createFloatingButton() {
@@ -665,6 +672,7 @@ function createFloatingButton() {
     <p class="yh-fab-tip-text">Does this button bother you? You can hide it from the settings.</p>
     <p class="yh-fab-tip-drag">💡 Tip: this button is draggable!</p>
     <a href="#" class="yh-fab-tip-hide" id="yh-tip-hide"><svg class="yh-hide-icon" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M17.94 17.94A10.07 10.07 0 0 1 12 20c-7 0-11-8-11-8a18.45 18.45 0 0 1 5.06-5.94"/><path d="M9.9 4.24A9.12 9.12 0 0 1 12 4c7 0 11 8 11 8a18.5 18.5 0 0 1-2.16 3.19"/><line x1="1" y1="1" x2="23" y2="23"/></svg> Hide button</a>
+    <div class="yh-fab-tip-arrow arrow-down arrow-right"></div>
   `;
   wrapper.appendChild(tipBubble);
 
@@ -672,6 +680,7 @@ function createFloatingButton() {
   function showTipBubble() {
     if (prefs.fabHideTipCount >= 2) return;
     tipBubble.classList.add('visible');
+    fab.classList.add('tip-highlight');
     tipBubbleVisible = true;
     prefs.fabHideTipCount = (prefs.fabHideTipCount || 0) + 1;
     chrome.storage.sync.set({ fabHideTipCount: prefs.fabHideTipCount });
@@ -679,6 +688,7 @@ function createFloatingButton() {
   function dismissTipBubble() {
     if (!tipBubbleVisible) return;
     tipBubble.classList.remove('visible');
+    fab.classList.remove('tip-highlight');
     tipBubbleVisible = false;
   }
 
@@ -1183,6 +1193,10 @@ function getFloatingButtonCSS() {
       opacity: 1;
       box-shadow: 0 0 0 2px #8ab4f8, 0 4px 16px rgba(0,0,0,0.5);
     }
+    .yh-fab.tip-highlight {
+      opacity: 1;
+      box-shadow: 0 0 12px rgba(138, 180, 248, 0.4), 0 2px 10px rgba(0,0,0,0.4);
+    }
     .yh-fab-icon {
       width: 22px;
       height: 22px;
@@ -1560,6 +1574,30 @@ function getFloatingButtonCSS() {
       background: #3f3f3f;
       color: #fff;
       border-color: #666;
+    }
+    .yh-fab-tip-arrow {
+      position: absolute;
+      width: 0;
+      height: 0;
+      border: 6px solid transparent;
+    }
+    .yh-fab-tip-arrow.arrow-down {
+      bottom: -12px;
+      border-bottom: none;
+      border-top-color: #3a3a3a;
+    }
+    .yh-fab-tip-arrow.arrow-up {
+      top: -12px;
+      border-top: none;
+      border-bottom-color: #3a3a3a;
+    }
+    .yh-fab-tip-arrow.arrow-right {
+      right: 14px;
+      left: auto;
+    }
+    .yh-fab-tip-arrow.arrow-left {
+      left: 14px;
+      right: auto;
     }
   `;
 }
