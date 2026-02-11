@@ -348,10 +348,10 @@ function applyFabPosition(host, shadow, pos) {
   }
 }
 
-function createFloatingButton() {
+function createFloatingButton(forceForTutorial = false) {
   if (!isYouTube()) return;
   if (floatingButtonHost) return;
-  if (!prefs.floatingButtonEnabled) return;
+  if (!forceForTutorial && !prefs.floatingButtonEnabled) return;
   if (isWatchPage()) return;
 
   floatingButtonHost = document.createElement('div');
@@ -495,7 +495,7 @@ function createFloatingButton() {
       applyFabPosition(floatingButtonHost, shadow, newPos);
 
       prefs.floatingButtonPosition = newPos;
-      chrome.storage.local.set({ floatingButtonPosition: newPos });
+      safeStorageSet('local', { floatingButtonPosition: newPos });
 
       setTimeout(() => {
         if (floatingButtonHost) floatingButtonHost.style.transition = '';
@@ -511,13 +511,24 @@ function createFloatingButton() {
     clearTimeout(fabResizeTimer);
     fabResizeTimer = setTimeout(() => {
       if (!floatingButtonHost) return;
-      const resetPos = {
-        edge: 'right',
-        offset: Math.max(EDGE_MARGIN, window.innerHeight - (floatingButtonHost.offsetHeight || 40) - EDGE_MARGIN)
+      const current = prefs.floatingButtonPosition || { edge: 'bottom', offset: 20 };
+      const hostW = floatingButtonHost.offsetWidth || 40;
+      const hostH = floatingButtonHost.offsetHeight || 40;
+      const vw = window.innerWidth;
+      const vh = window.innerHeight;
+      let maxOffset;
+      if (current.edge === 'left' || current.edge === 'right') {
+        maxOffset = vh - hostH - EDGE_MARGIN;
+      } else {
+        maxOffset = vw - hostW - EDGE_MARGIN;
+      }
+      const clampedPos = {
+        edge: current.edge,
+        offset: Math.max(EDGE_MARGIN, Math.min(current.offset, maxOffset)),
       };
-      applyFabPosition(floatingButtonHost, shadow, resetPos);
-      prefs.floatingButtonPosition = resetPos;
-      chrome.storage.local.set({ floatingButtonPosition: resetPos });
+      applyFabPosition(floatingButtonHost, shadow, clampedPos);
+      prefs.floatingButtonPosition = clampedPos;
+      safeStorageSet('local', { floatingButtonPosition: clampedPos });
     }, 200);
   }
   window.addEventListener('resize', onViewportResize);
@@ -534,23 +545,28 @@ function createFloatingButton() {
     }
   });
 
-  document.addEventListener('click', e => {
+  function onDocumentClick(e) {
     if (tutorialActive) return;
-    if (miniPanelOpen && !floatingButtonHost.contains(e.target)) {
+    if (miniPanelOpen && floatingButtonHost && !floatingButtonHost.contains(e.target)) {
       miniPanelOpen = false;
       panel.classList.remove('open');
       fab.classList.remove('active');
     }
-  });
+  }
 
-  document.addEventListener('keydown', e => {
+  function onDocumentKeydown(e) {
     if (tutorialActive) return;
     if (e.key === 'Escape' && miniPanelOpen) {
       miniPanelOpen = false;
       panel.classList.remove('open');
       fab.classList.remove('active');
     }
-  });
+  }
+
+  document.addEventListener('click', onDocumentClick);
+  document.addEventListener('keydown', onDocumentKeydown);
+  floatingButtonHost._onDocumentClick = onDocumentClick;
+  floatingButtonHost._onDocumentKeydown = onDocumentKeydown;
 
   bindPanelEvents(shadow);
 }
@@ -642,7 +658,7 @@ function bindPanelEvents(shadow) {
   if (hideWatchedToggle) {
     hideWatchedToggle.addEventListener('change', () => {
       const val = hideWatchedToggle.checked;
-      chrome.storage.sync.set({
+      safeStorageSet('sync', {
         hideHomeEnabled: val,
         hideChannelEnabled: val,
         hideSearchEnabled: val,
@@ -654,7 +670,7 @@ function bindPanelEvents(shadow) {
 
   if (hideShortsToggle) {
     hideShortsToggle.addEventListener('change', () => {
-      chrome.storage.sync.set({
+      safeStorageSet('sync', {
         hideShortsEnabled: hideShortsToggle.checked,
         hideShortsSearchEnabled: hideShortsToggle.checked,
       });
@@ -664,7 +680,7 @@ function bindPanelEvents(shadow) {
   if (viewsFilterToggle) {
     viewsFilterToggle.addEventListener('change', () => {
       const val = viewsFilterToggle.checked;
-      chrome.storage.sync.set({
+      safeStorageSet('sync', {
         viewsHideHomeEnabled: val,
         viewsHideChannelEnabled: val,
         viewsHideSearchEnabled: val,
@@ -681,7 +697,7 @@ function bindPanelEvents(shadow) {
       updateMiniSliderBg(thresholdSlider);
     });
     thresholdSlider.addEventListener('change', () => {
-      chrome.storage.sync.set({
+      safeStorageSet('sync', {
         hideThreshold: parseInt(thresholdSlider.value, 10),
       });
     });
@@ -696,25 +712,21 @@ function bindPanelEvents(shadow) {
     });
     viewsSlider.addEventListener('change', () => {
       const idx = parseInt(viewsSlider.value, 10);
-      chrome.storage.sync.set({ viewsHideThreshold: miniViewsSteps[idx] });
+      safeStorageSet('sync', { viewsHideThreshold: miniViewsSteps[idx] });
     });
   }
 
   if (openFullBtn) {
     openFullBtn.addEventListener('click', e => {
       e.preventDefault();
-      try {
-        chrome.runtime.sendMessage({ action: 'openSettings' });
-      } catch (err) {
-        logger.warn('Could not open settings', err);
-      }
+      safeSendMessage({ action: 'openSettings' });
     });
   }
 
   if (hideButtonLink) {
     hideButtonLink.addEventListener('click', e => {
       e.preventDefault();
-      chrome.storage.sync.set({ floatingButtonEnabled: false });
+      safeStorageSet('sync', { floatingButtonEnabled: false });
       prefs.floatingButtonEnabled = false;
       removeFloatingButton();
     });
@@ -733,6 +745,12 @@ function removeFloatingButton() {
   if (floatingButtonHost) {
     if (floatingButtonHost._onViewportResize) {
       window.removeEventListener('resize', floatingButtonHost._onViewportResize);
+    }
+    if (floatingButtonHost._onDocumentClick) {
+      document.removeEventListener('click', floatingButtonHost._onDocumentClick);
+    }
+    if (floatingButtonHost._onDocumentKeydown) {
+      document.removeEventListener('keydown', floatingButtonHost._onDocumentKeydown);
     }
     clearTimeout(fabResizeTimer);
     floatingButtonHost.remove();
@@ -1145,6 +1163,9 @@ function getFloatingButtonCSS() {
 // ─── Tutorial: Welcome Card & Spotlight Tour ────────────────────────────────
 let tutorialOverlay = null;
 let tutorialActive = false;
+let tutorialSkipInterval = null;
+let tourHost = null;
+let tourBlocker = null;
 
 function getTutorialCSS() {
   return `
@@ -1267,10 +1288,11 @@ function showTutorialWelcomeCard() {
   skipBtn.disabled = true;
   let skipCountdown = 5;
   skipBtn.textContent = `Skip (${skipCountdown}s)`;
-  const skipInterval = setInterval(() => {
+  tutorialSkipInterval = setInterval(() => {
     skipCountdown--;
     if (skipCountdown <= 0) {
-      clearInterval(skipInterval);
+      clearInterval(tutorialSkipInterval);
+      tutorialSkipInterval = null;
       skipBtn.textContent = 'Skip';
       skipBtn.disabled = false;
     } else {
@@ -1279,16 +1301,18 @@ function showTutorialWelcomeCard() {
   }, 1000);
 
   startBtn.addEventListener('click', () => {
-    clearInterval(skipInterval);
+    clearInterval(tutorialSkipInterval);
+    tutorialSkipInterval = null;
     removeTutorialOverlay();
     startSpotlightTour();
   });
 
   skipBtn.addEventListener('click', () => {
     if (skipBtn.disabled) return;
-    clearInterval(skipInterval);
+    clearInterval(tutorialSkipInterval);
+    tutorialSkipInterval = null;
     prefs.tutorialCompleted = true;
-    chrome.storage.sync.set({ tutorialCompleted: true });
+    safeStorageSet('sync', { tutorialCompleted: true });
     removeTutorialOverlay();
   });
 
@@ -1304,7 +1328,33 @@ function showTutorialWelcomeCard() {
   document.body.appendChild(tutorialOverlay);
 }
 
+function cleanupTour() {
+  if (tutorialActive) {
+    tutorialActive = false;
+    miniPanelOpen = false;
+
+    if (floatingButtonHost) {
+      floatingButtonHost.style.zIndex = '2147483640';
+      floatingButtonHost.style.pointerEvents = 'auto';
+    }
+    if (fabPanel) fabPanel.style.pointerEvents = '';
+    if (fabElement) fabElement.style.pointerEvents = '';
+  }
+  if (tourHost) {
+    tourHost.remove();
+    tourHost = null;
+  }
+  if (tourBlocker) {
+    tourBlocker.remove();
+    tourBlocker = null;
+  }
+}
+
 function removeTutorialOverlay() {
+  if (tutorialSkipInterval) {
+    clearInterval(tutorialSkipInterval);
+    tutorialSkipInterval = null;
+  }
   if (tutorialOverlay) {
     tutorialOverlay.remove();
     tutorialOverlay = null;
@@ -1312,11 +1362,13 @@ function removeTutorialOverlay() {
 }
 
 function startSpotlightTour() {
-  if (!floatingButtonHost || !fabElement) return;
+  if (!floatingButtonHost || !fabElement) {
+    prefs.tutorialCompleted = true;
+    safeStorageSet('sync', { tutorialCompleted: true });
+    return;
+  }
 
   tutorialActive = true;
-
-  const fabWasDisabled = !prefs.floatingButtonEnabled;
 
   const steps = [
     {
@@ -1390,9 +1442,7 @@ function startSpotlightTour() {
   let currentStep = 0;
   let hole = null;
   let tooltip = null;
-  let tourHost = null;
   let tourShadow = null;
-  let tourBlocker = null;
 
   function createTourElements() {
     tourBlocker = document.createElement('div');
@@ -1606,9 +1656,9 @@ function startSpotlightTour() {
   function finishTour() {
     tutorialActive = false;
     prefs.tutorialCompleted = true;
-    chrome.storage.sync.set({ tutorialCompleted: true });
+    safeStorageSet('sync', { tutorialCompleted: true });
 
-    if (miniPanelOpen) {
+    if (miniPanelOpen && fabPanel && fabElement) {
       miniPanelOpen = false;
       fabPanel.classList.remove('open');
       fabElement.classList.remove('active');
@@ -1618,8 +1668,8 @@ function startSpotlightTour() {
       floatingButtonHost.style.zIndex = '2147483640';
       floatingButtonHost.style.pointerEvents = 'auto';
     }
-    fabPanel.style.pointerEvents = '';
-    fabElement.style.pointerEvents = '';
+    if (fabPanel) fabPanel.style.pointerEvents = '';
+    if (fabElement) fabElement.style.pointerEvents = '';
 
     if (tourHost) {
       tourHost.remove();
@@ -2212,6 +2262,9 @@ function detectPageChange() {
     rapidLoaderCount = 0;
     warningDismissed = false;
 
+    cleanupTour();
+    removeTutorialOverlay();
+
     if (currentPath === '/watch') {
       removeFloatingButton();
     } else if (prefs.floatingButtonEnabled && !floatingButtonHost && isYouTube()) {
@@ -2259,10 +2312,11 @@ async function init() {
   logger.log('MutationObserver started');
 
   if (isYouTube()) {
+    const tutorialPending = !prefs.tutorialCompleted && !isWatchPage();
     if (!isWatchPage()) {
-      createFloatingButton();
+      createFloatingButton(tutorialPending);
     }
-    if (!prefs.tutorialCompleted && !isWatchPage() && floatingButtonHost) {
+    if (tutorialPending && floatingButtonHost) {
       setTimeout(() => showTutorialWelcomeCard(), 1500);
     }
   }
