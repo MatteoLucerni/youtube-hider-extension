@@ -1719,6 +1719,8 @@ function setupPrefsListener() {
           if (changes.floatingButtonEnabled.newValue && !isWatchPage()) {
             createFloatingButton();
           } else {
+            cleanupTour();
+            removeTutorialOverlay();
             removeFloatingButton();
           }
         }
