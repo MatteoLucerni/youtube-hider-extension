@@ -1405,6 +1405,8 @@ function startSpotlightTour() {
 
     floatingButtonHost.style.zIndex = '2147483646';
     floatingButtonHost.style.pointerEvents = 'none';
+    fabPanel.style.pointerEvents = 'none';
+    fabElement.style.pointerEvents = 'none';
 
     tourHost = document.createElement('div');
     tourHost.id = 'yh-spotlight-host';
@@ -1616,6 +1618,8 @@ function startSpotlightTour() {
       floatingButtonHost.style.zIndex = '2147483640';
       floatingButtonHost.style.pointerEvents = 'auto';
     }
+    fabPanel.style.pointerEvents = '';
+    fabElement.style.pointerEvents = '';
 
     if (tourHost) {
       tourHost.remove();
