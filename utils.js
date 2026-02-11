@@ -22,3 +22,25 @@ const logger = {
     if (DEV_MODE) console.info(...args);
   },
 };
+
+function safeStorageSet(area, data) {
+  try {
+    chrome.storage[area].set(data, () => {
+      if (chrome.runtime.lastError) {
+        logger.warn('Storage set failed:', chrome.runtime.lastError.message);
+      }
+    });
+  } catch (e) {
+    logger.warn('Storage unavailable:', e);
+  }
+}
+
+function safeSendMessage(msg) {
+  try {
+    chrome.runtime.sendMessage(msg).catch(err => {
+      logger.warn('sendMessage failed:', err);
+    });
+  } catch (e) {
+    logger.warn('sendMessage unavailable:', e);
+  }
+}

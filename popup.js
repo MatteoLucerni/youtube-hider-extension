@@ -58,6 +58,7 @@ document.addEventListener('DOMContentLoaded', () => {
   const hideWatchedMaster = document.getElementById('hide-watched-master');
   const hideShortsMaster = document.getElementById('hide-shorts-master');
   const viewsHideMaster = document.getElementById('views-hide-master');
+  const floatingButtonToggle = document.getElementById('floating-button-enabled');
 
   const cfg = {
     skip: {
@@ -133,6 +134,7 @@ document.addEventListener('DOMContentLoaded', () => {
 
   const storageKeys = [
     'easyModeEnabled',
+    'floatingButtonEnabled',
     ...Object.values(cfg.skip.keys),
     ...Object.values(cfg.hide.keys),
     ...Object.values(cfg.views.keys),
@@ -145,6 +147,8 @@ document.addEventListener('DOMContentLoaded', () => {
     const easyMode = prefs.easyModeEnabled ?? true;
     easyModeToggle.checked = easyMode;
     updateEasyModeUI(easyMode);
+
+    floatingButtonToggle.checked = prefs.floatingButtonEnabled ?? true;
 
     ['skip', 'hide', 'views', 'shorts'].forEach(sectionName => {
       const section = cfg[sectionName];
@@ -292,6 +296,20 @@ document.addEventListener('DOMContentLoaded', () => {
     }
     saveSettings();
   });
+
+  floatingButtonToggle.addEventListener('change', () => {
+    chrome.storage.sync.set({ floatingButtonEnabled: floatingButtonToggle.checked });
+  });
+
+  const restartTutorialBtn = document.getElementById('restart-tutorial');
+  const restartTutorialConfirm = document.getElementById('restart-tutorial-confirm');
+  if (restartTutorialBtn) {
+    restartTutorialBtn.addEventListener('click', () => {
+      chrome.storage.sync.set({ tutorialCompleted: false });
+      restartTutorialBtn.style.display = 'none';
+      if (restartTutorialConfirm) restartTutorialConfirm.style.display = 'inline-flex';
+    });
+  }
 
   hideWatchedMaster.addEventListener('change', () => {
     const isEnabled = hideWatchedMaster.checked;

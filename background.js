@@ -50,11 +50,7 @@ const defaultSettings = {
   hideShortsEnabled: true,
   hideShortsSearchEnabled: true,
   floatingButtonEnabled: true,
-  welcomeToastCount: 0,
-  welcomeToastDismissed: false,
-  fabPulseCount: 0,
-  firstActionToastShown: false,
-  panelTooltipShown: false,
+  tutorialCompleted: false,
 };
 function initializeSettings() {
   chrome.storage.sync.get(null, items => {
@@ -86,7 +82,11 @@ function migrateSettings(currentSettings) {
   const newKeys = {};
   for (const [key, value] of Object.entries(defaultSettings)) {
     if (!(key in currentSettings)) {
-      newKeys[key] = value;
+      if (key === 'tutorialCompleted') {
+        newKeys[key] = true;
+      } else {
+        newKeys[key] = value;
+      }
     }
   }
   if (Object.keys(newKeys).length > 0) {

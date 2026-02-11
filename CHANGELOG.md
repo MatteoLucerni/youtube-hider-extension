@@ -1,5 +1,34 @@
 # Changelog
 
+### Version 2.5.1
+
+**Added**
+
+- Guided spotlight tutorial: 5-step tour replaces the old onboarding system (welcome toast, FAB pulse, tip bubble, panel green flash, first-action toast)
+- Welcome card on first YouTube visit with "Start Tutorial" and "Skip" (disabled for 5 seconds)
+- Tour spotlight with blocking overlay and cutout on the highlighted element
+- "Restart Tutorial" button in the Floating Button card (popup) with visual confirmation
+- `safeStorageSet()` utility in utils.js with `chrome.runtime.lastError` check
+- `safeSendMessage()` utility in utils.js with `.catch()` error handling
+
+**Fixed**
+
+- Crash in `finishTour()` when floating button is removed during the tour
+- Orphaned tutorial overlay and tour elements during SPA navigation (new `cleanupTour()`)
+- `skipInterval` timer leak on navigation
+- Document `click`/`keydown` listeners never removed after floating button removal
+- Resize resetting the button position instead of clamping to current edge
+- `DEV_MODE = true` shipped in production builds (build.ps1 now forces `false`)
+- Tutorial impossible when floating button is disabled (`forceForTutorial` parameter)
+- Tutorial repeating infinitely when FAB is missing at start time
+- Disabling floating button from popup during active tour now runs proper cleanup
+- "Restart Tutorial" button padding misaligned
+
+**Removed**
+
+- Old onboarding system (6 separate mechanisms)
+- Dead code `fabWasDisabled`
+
 ### Version 2.5.0
 
 - Floating button is now hidden on video watch pages for a cleaner viewing experience
