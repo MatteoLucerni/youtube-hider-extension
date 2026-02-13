@@ -1797,99 +1797,185 @@ function hideWatched(pathname) {
     });
 }
 
-function extractNumberAndSuffix(input) {
-  const s = String(input).trim();
+const SUFFIX_MULTIPLIERS = {
+  k: 1e3,
+  m: 1e6,
+  mln: 1e6,
+  mio: 1e6,
+  mn: 1e6,
+  b: 1e9,
+  md: 1e9,
+  '万': 1e4,
+  '만': 1e4,
+  '억': 1e8,
+  'тыс': 1e3,
+  'млн': 1e6,
+  'млрд': 1e9,
+  mi: 1e3,
+  mil: 1e3,
+  rb: 1e3,
+  lakh: 1e5,
+  cr: 1e7,
+};
 
-  const match = s.match(/^([\d.,]+)\s*(K|Mln|M|B)?/i);
-  if (!match) return { numStr: '', suffix: '' };
-  return {
-    numStr: match[1],
-    suffix: (match[2] || '').toUpperCase(),
-  };
+const SUFFIX_REGEX = new RegExp(
+  '(' +
+    Object.keys(SUFFIX_MULTIPLIERS)
+      .sort((a, b) => b.length - a.length)
+      .map(s => s.replace(/[.*+?^${}()|[\]\\]/g, '\\$&'))
+      .join('|') +
+  ')\\.?',
+  'i',
+);
+
+function extractNumberAndSuffix(input) {
+  const s = String(input).trim().replace(/\s+(?=\d)/g, '');
+  const numMatch = s.match(/^([\d.,]+)/);
+  if (!numMatch) return { numStr: '', suffix: '', remainder: s };
+
+  const numStr = numMatch[1];
+  const afterNum = s.slice(numMatch[0].length).trimStart();
+
+  const suffixMatch = afterNum.match(SUFFIX_REGEX);
+  if (suffixMatch && afterNum.indexOf(suffixMatch[0]) === 0) {
+    const suffix = suffixMatch[1].toLowerCase();
+    const remainder = afterNum.slice(suffixMatch[0].length).trim();
+    return { numStr, suffix, remainder };
+  }
+
+  return { numStr, suffix: '', remainder: afterNum.trim() };
+}
+
+function normalizeNumStr(numStr) {
+  const dots = (numStr.match(/\./g) || []).length;
+  const commas = (numStr.match(/,/g) || []).length;
+
+  if (dots > 0 && commas > 0) {
+    const lastDot = numStr.lastIndexOf('.');
+    const lastComma = numStr.lastIndexOf(',');
+    if (lastDot > lastComma) {
+      return numStr.replace(/,/g, '');
+    } else {
+      return numStr.replace(/\./g, '').replace(',', '.');
+    }
+  }
+
+  if (dots > 1) return numStr.replace(/\./g, '');
+  if (commas > 1) return numStr.replace(/,/g, '');
+
+  if (commas === 1) return numStr.replace(',', '.');
+
+  return numStr;
 }
 
 function parseToNumber(input) {
   const { numStr, suffix } = extractNumberAndSuffix(input);
   if (!numStr) return NaN;
 
-  let multiplier = 1;
-  switch (suffix.toLowerCase()) {
-    case 'k':
-      numStr.includes('.') ? (multiplier = 1e2) : (multiplier = 1e3);
-      break;
-    case 'm':
-    case 'mln':
-      numStr.includes('.') ? (multiplier = 1e5) : (multiplier = 1e6);
-      break;
-    case 'b':
-      numStr.includes('.') ? (multiplier = 1e8) : (multiplier = 1e9);
-      break;
-  }
-
-  const normalized = numStr.replace(/\./g, '').replace(',', '.');
-
+  const normalized = normalizeNumStr(numStr);
   const base = parseFloat(normalized);
-  return isNaN(base) ? NaN : base * multiplier;
+  if (isNaN(base)) return NaN;
+
+  const multiplier = suffix ? (SUFFIX_MULTIPLIERS[suffix] || 1) : 1;
+  return base * multiplier;
 }
 
-let observerCreated = false;
+function extractViewCount(text) {
+  const s = String(text).trim();
+  if (!/\d/.test(s)) return NaN;
 
-function hideUnderVisuals(pathname) {
-  const { viewsHideThreshold } = prefs;
+  const { numStr, suffix, remainder } = extractNumberAndSuffix(s);
+  if (!numStr) return NaN;
+
+  const normalized = normalizeNumStr(numStr);
+  const base = parseFloat(normalized);
+  if (isNaN(base)) return NaN;
+
+  if (suffix && SUFFIX_MULTIPLIERS[suffix]) {
+    return { views: base * SUFFIX_MULTIPLIERS[suffix], confidence: 'high' };
+  }
+
+  if (!remainder) {
+    return { views: base, confidence: 'low' };
+  }
+
+  const words = remainder.split(/\s+/).filter(Boolean);
+  if (words.length === 1 && /^[\p{Script=Latin}]+$/u.test(words[0])) {
+    return { views: base, confidence: 'low' };
+  }
+
+  return NaN;
+}
+
+function getVideoContainerSelectors() {
+  const pathname = window.location.pathname;
   const isChannelPage = pathname && pathname.startsWith('/@');
 
+  if (pathname === '/watch') {
+    return 'ytd-compact-video-renderer, ytd-rich-item-renderer, ytd-video-renderer, yt-lockup-view-model, ytm-video-with-context-renderer, ytm-compact-video-renderer';
+  }
+  if (isChannelPage) {
+    return 'ytd-compact-video-renderer, ytd-rich-item-renderer, ytd-video-renderer, ytd-grid-video-renderer, ytm-video-with-context-renderer, ytm-compact-video-renderer';
+  }
+  return 'ytd-compact-video-renderer, ytd-rich-item-renderer, ytd-video-renderer, ytm-video-with-context-renderer, ytm-compact-video-renderer, ytm-rich-item-renderer';
+}
+
+function findAndHideContainer(element, selectors) {
+  let item = element;
+  while (item && !item.matches(selectors)) {
+    item = item.parentElement;
+  }
+  if (item) item.style.display = 'none';
+}
+
+function resolveViewsFromSpans(spans) {
+  let lowCandidate = null;
+  let anchorSpan = null;
+
+  for (const span of spans) {
+    const text = (span.textContent || '').trim();
+    const result = extractViewCount(text);
+    if (result && typeof result === 'object') {
+      if (result.confidence === 'high') {
+        return { views: result.views, span };
+      }
+      if (!lowCandidate) {
+        lowCandidate = result.views;
+        anchorSpan = span;
+      }
+    }
+  }
+
+  if (lowCandidate !== null) {
+    return { views: lowCandidate, span: anchorSpan };
+  }
+  return null;
+}
+
+function hideUnderVisuals() {
+  const { viewsHideThreshold } = prefs;
+  const selectors = getVideoContainerSelectors();
+
   document.querySelectorAll('#metadata-line').forEach(metaLine => {
-    let span;
-    if (isChannelPage) {
-      const spans = metaLine.querySelectorAll('span.style-scope');
-      span = spans[0];
-    } else {
-      span = metaLine.querySelector('span.inline-metadata-item');
+    let spans = metaLine.querySelectorAll('span.inline-metadata-item');
+    if (!spans.length) {
+      spans = metaLine.querySelectorAll('span');
     }
+    if (!spans.length) return;
 
-    if (!span) return;
+    const result = resolveViewsFromSpans(spans);
+    if (!result || result.views >= viewsHideThreshold) return;
 
-    const text = span.textContent;
-
-    if (
-      /ago|fa|ore|hours|mesi|months|anni|years/.test(text) &&
-      !/views|visualizzazioni/.test(text)
-    )
-      return;
-
-    const views = parseToNumber(text);
-    if (isNaN(views) || views >= viewsHideThreshold) return;
-
-    let item = span;
-    const selectors = isChannelPage
-      ? 'ytd-compact-video-renderer, ytd-rich-item-renderer, ytd-video-renderer, ytd-grid-video-renderer, yt-lockup-view-model'
-      : 'ytd-compact-video-renderer, ytd-rich-item-renderer, ytd-video-renderer, yt-lockup-view-model';
-
-    while (item && !item.matches(selectors)) {
-      item = item.parentElement;
-    }
-    if (item) item.style.display = 'none';
+    findAndHideContainer(result.span, selectors);
   });
 
   document
     .querySelectorAll('.YtmBadgeAndBylineRendererItemByline')
     .forEach(span => {
-      const text = span.textContent.trim();
-
-      const timeKeywords =
-        /ago|fa|ore|hours|mesi|months|anni|years|settimane|weeks|giorni|days/i;
-      const viewKeywords = /views|visualizzazioni|vistas|vues|aufrufe/i;
-
-      if (timeKeywords.test(text)) return;
-
-      const { suffix } = extractNumberAndSuffix(text);
-      const hasSuffix = ['K', 'M', 'MLN', 'B'].includes(suffix);
-      const isExplicitViewString = viewKeywords.test(text);
-
-      if (!hasSuffix && !isExplicitViewString) return;
-
-      const views = parseToNumber(text);
-      if (isNaN(views) || views >= viewsHideThreshold) return;
+      const text = (span.textContent || '').trim();
+      const result = extractViewCount(text);
+      if (!result || typeof result !== 'object') return;
+      if (result.views >= viewsHideThreshold) return;
 
       const container = span.closest(
         'ytm-video-with-context-renderer, ytm-rich-item-renderer, ytm-compact-video-renderer',
@@ -1902,18 +1988,12 @@ function hideUnderVisuals(pathname) {
       }
     });
 
-  hideNewFormatVideos(pathname);
-
-  if (!observerCreated) {
-    createVideoObserver(pathname);
-    observerCreated = true;
-  }
+  hideNewFormatVideos();
 }
 
-function hideNewFormatVideos(pathname) {
+function hideNewFormatVideos() {
   const { viewsHideThreshold } = prefs;
-
-  const isChannelPage = pathname && pathname.startsWith('/@');
+  const selectors = getVideoContainerSelectors();
 
   document
     .querySelectorAll('yt-content-metadata-view-model, yt-lockup-view-model')
@@ -1921,54 +2001,28 @@ function hideNewFormatVideos(pathname) {
       const metadataRows = metadataContainer.querySelectorAll(
         '.yt-content-metadata-view-model-wiz__metadata-row, .yt-content-metadata-view-model__metadata-row',
       );
-      if (metadataRows.length < 2) return;
+      if (!metadataRows.length) return;
 
-      const viewsRow = metadataRows[1];
-      const viewsSpan = viewsRow.querySelector(
-        'span.yt-core-attributed-string',
-      );
+      const allSpans = [];
+      metadataRows.forEach(row => {
+        const span = row.querySelector('span.yt-core-attributed-string');
+        if (span) allSpans.push(span);
+      });
 
-      if (!viewsSpan) return;
-
-      const text = viewsSpan.textContent;
-      const views = parseToNumber(text);
+      const result = resolveViewsFromSpans(allSpans);
 
       try {
         logger.log('views-check', {
-          views,
+          views: result ? result.views : NaN,
           threshold: viewsHideThreshold,
-          pathname,
+          pathname: window.location.pathname,
         });
       } catch (e) {}
 
-      if (isNaN(views) || views >= viewsHideThreshold) return;
+      if (!result || result.views >= viewsHideThreshold) return;
 
-      let item = viewsSpan;
-
-      const selectors =
-        pathname === '/watch'
-          ? 'ytd-compact-video-renderer, ytd-rich-item-renderer, ytd-video-renderer, yt-lockup-view-model, ytm-video-with-context-renderer, ytm-compact-video-renderer'
-          : isChannelPage
-            ? 'ytd-compact-video-renderer, ytd-rich-item-renderer, ytd-video-renderer, ytd-grid-video-renderer, ytm-video-with-context-renderer, ytm-compact-video-renderer'
-            : 'ytd-compact-video-renderer, ytd-rich-item-renderer, ytd-video-renderer';
-
-      while (item && !item.matches(selectors)) {
-        item = item.parentElement;
-      }
-
-      if (item) item.style.display = 'none';
+      findAndHideContainer(result.span, selectors);
     });
-}
-
-function createVideoObserver(pathname) {
-  const observer = new MutationObserver(() => {
-    hideNewFormatVideos(pathname);
-  });
-
-  observer.observe(document.body, {
-    childList: true,
-    subtree: true,
-  });
 }
 
 function hideShorts() {
@@ -2244,7 +2298,7 @@ async function startHiding(pathname) {
 
   if (canHideViews) {
     logger.log('Hiding low view count videos on', pathname);
-    hideUnderVisuals(pathname);
+    hideUnderVisuals();
   }
 
   if (canHideShortsFlag) {

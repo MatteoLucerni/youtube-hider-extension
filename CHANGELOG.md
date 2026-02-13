@@ -1,5 +1,17 @@
 # Changelog
 
+### Version 2.5.2
+
+**Fixed**
+
+- Minimum Views Filter rewritten with language-agnostic parsing (works with all YouTube interface languages)
+- View count parser now supports 17+ suffix formats (K, M, Mln, Mio, 万, 만, тыс, млн, etc.)
+- Fixed decimal/thousands separator detection across locales
+- Fixed Strategy A only checking the first metadata span instead of all spans
+- Fixed Strategy C hardcoding the second metadata row as views
+- Removed duplicate un-debounced MutationObserver
+- Fixed stale pathname bug after SPA navigation
+
 ### Version 2.5.1
 
 **Added**
