@@ -1912,7 +1912,7 @@ function getVideoContainerSelectors() {
   const isChannelPage = pathname && pathname.startsWith('/@');
 
   if (pathname === '/watch') {
-    return 'ytd-compact-video-renderer, ytd-rich-item-renderer, ytd-video-renderer, ytm-video-with-context-renderer, ytm-compact-video-renderer';
+    return 'ytd-compact-video-renderer, ytd-rich-item-renderer, ytd-video-renderer, yt-lockup-view-model, ytm-video-with-context-renderer, ytm-compact-video-renderer';
   }
   if (isChannelPage) {
     return 'ytd-compact-video-renderer, ytd-rich-item-renderer, ytd-video-renderer, ytd-grid-video-renderer, ytm-video-with-context-renderer, ytm-compact-video-renderer';
