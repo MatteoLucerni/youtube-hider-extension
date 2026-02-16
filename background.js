@@ -17,7 +17,6 @@ const logger = {
 const UNINSTALL_SURVEY_URL = 'https://forms.gle/RAcQp2acFGkjfuS86';
 
 const flagKeys = [
-  'skipEnabled',
   'hideHomeEnabled',
   'hideSearchEnabled',
   'hideSubsEnabled',
@@ -33,8 +32,6 @@ const flagKeys = [
 ];
 const defaultSettings = {
   easyModeEnabled: true,
-  skipIntroDelay: 1,
-  skipEnabled: true,
   hideThreshold: 20,
   hideHomeEnabled: true,
   hideChannelEnabled: true,
@@ -110,20 +107,13 @@ function refreshBadge() {
   });
 }
 function getBadgeText(flags = {}) {
-  const { skipEnabled = false, ...otherFlags } = flags;
-  const hideCondition = Object.values(otherFlags).some(Boolean);
-  if (skipEnabled && hideCondition) return 'A';
-  if (skipEnabled) return 'S';
-  if (hideCondition) return 'H';
+  const hideCondition = Object.values(flags).some(Boolean);
+  if (hideCondition) return '';
   return 'OFF';
 }
 function updateBadge(flags = {}) {
   const text = getBadgeText(flags);
-  const anyEnabled =
-    flags.skipEnabled ||
-    Object.keys(flags)
-      .filter(key => key !== 'skipEnabled')
-      .some(key => flags[key]);
+  const anyEnabled = Object.values(flags).some(Boolean);
   const color = anyEnabled ? '#008000' : '#808080';
   chrome.action.setBadgeText({ text }, () => {
     if (chrome.runtime.lastError) {

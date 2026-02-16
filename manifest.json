@@ -2,7 +2,7 @@
     "manifest_version": 3,
     "name": "Youtube Hider: hide watched videos, Shorts and low views",
     "short_name": "YouTube Hider",
-    "version": "2.5.2",
+    "version": "2.6.0",
     "description": "Hides already watched videos from YouTube, as well as low views videos and remove Shorts.",
     "icons": {
         "16": "assets/icons/YT Hider icon v6.png",
@@ -13,8 +13,6 @@
         "storage"
     ],
     "host_permissions": [
-        "https://www.netflix.com/*",
-        "https://www.primevideo.com/*",
         "https://www.youtube.com/*",
         "https://m.youtube.com/*"
     ],
@@ -36,8 +34,6 @@
     "content_scripts": [
         {
             "matches": [
-                "https://www.netflix.com/*",
-                "https://www.primevideo.com/*",
                 "https://www.youtube.com/*",
                 "https://m.youtube.com/*"
             ],
