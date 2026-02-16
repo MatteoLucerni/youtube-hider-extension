@@ -8,6 +8,10 @@
 - Removed Netflix and Prime Video host permissions and content script injection
 - Simplified badge indicator: no badge when active, "OFF" when all disabled (removed "A", "S", "H" states)
 
+**Added**
+
+- Changelog link and dynamic version number in popup footer
+
 ### Version 2.5.2
 
 **Fixed**
