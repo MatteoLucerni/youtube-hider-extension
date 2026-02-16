@@ -1,5 +1,5 @@
 function getBadgeText(hideEnabled) {
-  if (hideEnabled) return 'ON';
+  if (hideEnabled) return '';
   return 'OFF';
 }
 

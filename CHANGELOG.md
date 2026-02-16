@@ -6,7 +6,7 @@
 
 - Removed Auto-Skip feature for Netflix and Prime Video (Chrome Web Store Single Purpose policy compliance)
 - Removed Netflix and Prime Video host permissions and content script injection
-- Simplified badge indicator to ON/OFF only (removed "A", "S", "H" states)
+- Simplified badge indicator: no badge when active, "OFF" when all disabled (removed "A", "S", "H" states)
 
 ### Version 2.5.2
 

@@ -108,7 +108,7 @@ function refreshBadge() {
 }
 function getBadgeText(flags = {}) {
   const hideCondition = Object.values(flags).some(Boolean);
-  if (hideCondition) return 'ON';
+  if (hideCondition) return '';
   return 'OFF';
 }
 function updateBadge(flags = {}) {

@@ -51,7 +51,7 @@ A draggable floating button on YouTube pages gives you instant access to toggle 
 
 The extension icon shows a badge reflecting the current state:
 
-- **ON** - Features enabled
+- _(no badge)_ - Features enabled
 - **OFF** - All disabled
 
 ---
