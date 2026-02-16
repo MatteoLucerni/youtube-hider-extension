@@ -1,7 +1,5 @@
-function getBadgeText(skipEnabled, hideEnabled) {
-  if (skipEnabled && hideEnabled) return 'A';
-  if (skipEnabled) return 'S';
-  if (hideEnabled) return 'H';
+function getBadgeText(hideEnabled) {
+  if (hideEnabled) return 'ON';
   return 'OFF';
 }
 
@@ -61,13 +59,6 @@ document.addEventListener('DOMContentLoaded', () => {
   const floatingButtonToggle = document.getElementById('floating-button-enabled');
 
   const cfg = {
-    skip: {
-      slider: document.getElementById('delay'),
-      value: document.getElementById('delay-value'),
-      box: document.getElementById('skip-enabled'),
-      keys: { delay: 'skipIntroDelay', enabled: 'skipEnabled' },
-      defaults: { delay: 1, enabled: true },
-    },
     hide: {
       slider: document.getElementById('perc-hide'),
       value: document.getElementById('perc-hide-value'),
@@ -135,7 +126,6 @@ document.addEventListener('DOMContentLoaded', () => {
   const storageKeys = [
     'easyModeEnabled',
     'floatingButtonEnabled',
-    ...Object.values(cfg.skip.keys),
     ...Object.values(cfg.hide.keys),
     ...Object.values(cfg.views.keys),
     ...Object.values(cfg.shorts.keys),
@@ -150,7 +140,7 @@ document.addEventListener('DOMContentLoaded', () => {
 
     floatingButtonToggle.checked = prefs.floatingButtonEnabled ?? true;
 
-    ['skip', 'hide', 'views', 'shorts'].forEach(sectionName => {
+    ['hide', 'views', 'shorts'].forEach(sectionName => {
       const section = cfg[sectionName];
       Object.entries(section.keys).forEach(([keyName, storageKey]) => {
         const def = section.defaults[keyName];
@@ -216,14 +206,6 @@ document.addEventListener('DOMContentLoaded', () => {
     const settings = {
       easyModeEnabled: easyMode,
       ...Object.fromEntries(
-        Object.entries(cfg.skip.keys).map(([k, key]) => [
-          key,
-          k === 'delay'
-            ? parseInt(cfg.skip.slider.value, 10)
-            : cfg.skip.box.checked,
-        ])
-      ),
-      ...Object.fromEntries(
         Object.entries(cfg.hide.keys).map(([k, key]) => [
           key,
           k === 'threshold'
@@ -248,7 +230,6 @@ document.addEventListener('DOMContentLoaded', () => {
     };
 
     chrome.storage.sync.set(settings, () => {
-      const skipOn = settings[cfg.skip.keys.enabled];
       const hideOn = isAnyTrue({
         ...Object.fromEntries(
           Object.entries(cfg.hide.boxes).map(([k]) => [
@@ -269,10 +250,10 @@ document.addEventListener('DOMContentLoaded', () => {
           ])
         ),
       });
-      const text = getBadgeText(skipOn, hideOn);
+      const text = getBadgeText(hideOn);
       chrome.action.setBadgeText({ text });
       chrome.action.setBadgeBackgroundColor({
-        color: skipOn || hideOn ? '#008000' : '#808080',
+        color: hideOn ? '#008000' : '#808080',
       });
     });
   }
@@ -336,7 +317,6 @@ document.addEventListener('DOMContentLoaded', () => {
   });
 
   [
-    [cfg.skip.slider, cfg.skip.value],
     [cfg.hide.slider, cfg.hide.value],
   ].forEach(([slider, display]) => {
     slider.addEventListener('input', () => {
@@ -354,7 +334,6 @@ document.addEventListener('DOMContentLoaded', () => {
   cfg.views.slider.addEventListener('change', saveSettings);
 
   [
-    cfg.skip.box,
     ...Object.values(cfg.hide.boxes),
     ...Object.values(cfg.views.boxes),
     ...Object.values(cfg.shorts.boxes),
