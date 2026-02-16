@@ -604,6 +604,13 @@ hr {
     opacity: 1;
 }
 
+.footer-version {
+    font-size: 11px;
+    color: var(--text-secondary);
+    opacity: 0.6;
+    align-self: flex-end;
+}
+
 .logo-image {
     width: 70px;
     height: auto;

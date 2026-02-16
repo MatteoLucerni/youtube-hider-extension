@@ -58,6 +58,11 @@ document.addEventListener('DOMContentLoaded', () => {
   const viewsHideMaster = document.getElementById('views-hide-master');
   const floatingButtonToggle = document.getElementById('floating-button-enabled');
 
+  const footerVersion = document.getElementById('footer-version');
+  if (footerVersion) {
+    footerVersion.textContent = 'v' + chrome.runtime.getManifest().version;
+  }
+
   const cfg = {
     hide: {
       slider: document.getElementById('perc-hide'),
