@@ -1617,7 +1617,7 @@ function startSpotlightTour() {
     },
     {
       title: 'Quick Settings Panel',
-      desc: 'Here you can toggle Hide Watched Videos, Hide Shorts, and Minimum Views Filter. Changes are applied instantly!',
+      desc: 'Here you can toggle Hide Watched Videos, Hide Shorts, Minimum Views Filter, and Upload Date Filter. Drag any slider all the way left to turn it off. Changes are applied instantly!',
       getTarget: () => fabPanel,
       onEnter: () => {
         if (!miniPanelOpen) {
