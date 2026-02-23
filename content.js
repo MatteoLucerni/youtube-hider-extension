@@ -731,7 +731,7 @@ function checkMiniDateOverlap(shadow) {
   const isOverlap =
     newerIdx > 0 && olderIdx > 0 && newerThreshold >= olderThreshold;
 
-  if (warning) warning.style.display = isOverlap ? 'flex' : 'none';
+  if (warning) warning.style.visibility = isOverlap ? 'visible' : 'hidden';
 
   shadow.querySelectorAll('.yh-date-slider-row').forEach(row => {
     row.classList.toggle('yh-date-overlap', isOverlap);
@@ -1009,7 +1009,7 @@ function getMiniPanelHTML() {
             <span class="yh-panel-slider-val" id="yh-p-date-older-val">Off</span>
           </div>
         </div>
-        <div class="yh-date-overlap-warning" id="yh-p-date-overlap-warning" style="display: none;">
+        <div class="yh-date-overlap-warning" id="yh-p-date-overlap-warning" style="visibility: hidden;">
           <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" width="12" height="12">
             <path d="M10.29 3.86L1.82 18a2 2 0 0 0 1.71 3h16.94a2 2 0 0 0 1.71-3L13.71 3.86a2 2 0 0 0-3.42 0z"></path>
             <line x1="12" y1="9" x2="12" y2="13"></line>
@@ -1308,10 +1308,13 @@ function getFloatingButtonCSS() {
       transform: translateX(14px);
     }
 
-    .yh-date-slider-row.yh-date-overlap .yh-panel-slider-wrap {
-      border: 1px solid rgba(239, 68, 68, 0.5);
+    .yh-date-slider-row .yh-panel-slider-wrap {
+      border: 1px solid transparent;
       border-radius: 6px;
       padding: 4px 6px;
+    }
+    .yh-date-slider-row.yh-date-overlap .yh-panel-slider-wrap {
+      border-color: rgba(239, 68, 68, 0.5);
     }
     .yh-date-overlap-warning {
       display: flex;
