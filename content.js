@@ -1015,7 +1015,7 @@ function getMiniPanelHTML() {
             <line x1="12" y1="9" x2="12" y2="13"></line>
             <line x1="12" y1="17" x2="12.01" y2="17"></line>
           </svg>
-          <span>Ranges overlap — all videos hidden</span>
+          <span>Filter not active: ranges overlap</span>
         </div>
       </div>
     </div>

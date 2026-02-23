@@ -37,7 +37,7 @@ Hide videos below a certain view count. Choose from a range of thresholds (0 to 
 
 ### Upload Date Filter
 
-Hide videos by their upload date with two independent sub-filters: **Hide newer than** and **Hide older than**. Each has its own toggle and slider with logarithmic time steps (1 day to 10 years). Use both together to keep only videos in a specific age range — for example, hide recent AI-generated content and outdated videos at the same time. Supports 10+ YouTube interface languages.
+Hide videos by their upload date with two independent sub-filters: **Hide newer than** and **Hide older than**. Each has its own toggle and slider with logarithmic time steps (1 day to 10 years). Use both together to keep only videos in a specific age range - for example, hide recent AI-generated content and outdated videos at the same time. Supports 10+ YouTube interface languages.
 
 ### Hide Shorts
 
@@ -45,7 +45,7 @@ Completely remove YouTube Shorts from your feed, search results, navigation tabs
 
 ### Floating Quick-Settings Button
 
-A draggable floating button on YouTube pages gives you instant access to toggle settings without opening the extension popup. Drag it to any edge of the screen and it snaps to the nearest viewport border, remembering its position. Automatically hidden on video watch pages for a clean viewing experience. On first install, a guided spotlight tutorial walks you through the button and its features — you can restart it anytime from the popup.
+A draggable floating button on YouTube pages gives you instant access to toggle settings without opening the extension popup. Drag it to any edge of the screen and it snaps to the nearest viewport border, remembering its position. Automatically hidden on video watch pages for a clean viewing experience. On first install, a guided spotlight tutorial walks you through the button and its features - you can restart it anytime from the popup.
 
 ### Easy Mode & Advanced Mode
 

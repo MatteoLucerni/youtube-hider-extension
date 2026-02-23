@@ -132,7 +132,7 @@ function migrateSliderOff(s) {
   if (watchAllOff) {
     updates.hideThreshold = 0;
   } else if (s.hideThreshold === 0) {
-    // User had 0% threshold with feature on — move to 5 (closest active value)
+    // User had 0% threshold with feature on - move to 5 (closest active value)
     updates.hideThreshold = 5;
   }
 
