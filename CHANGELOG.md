@@ -1,5 +1,19 @@
 # Changelog
 
+### Version 2.7.0
+
+**Added**
+
+- Upload Date Filter: hide videos by their upload date with two independent sub-filters
+  - "Hide newer than" — hide videos uploaded more recently than a chosen threshold
+  - "Hide older than" — hide videos uploaded longer ago than a chosen threshold
+  - Both sub-filters can be used together to keep only a specific age range
+  - Logarithmic time steps: 1 day, 3 days, 1 week, 2 weeks, 1 month, 2 months, 3 months, 6 months, 1 year, 2 years, 5 years, 10 years
+  - Per-page toggles (Home, Channel, Subs, Search, Related) shared between both sub-filters
+  - Full mini-panel floating button support (master toggle + 2 sub-toggles + 2 sliders)
+  - Multi-language upload date parsing (EN, IT, FR, DE, ES, PT, RU, JA, KO, AR and more)
+  - Supports classic, new format (`yt-content-metadata-view-model`), and mobile YouTube layouts
+
 ### Version 2.6.0
 
 **Removed**

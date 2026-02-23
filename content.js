@@ -19,6 +19,15 @@ const prefs = {
   viewsHideCorrEnabled: true,
   hideShortsEnabled: true,
   hideShortsSearchEnabled: true,
+  dateFilterNewerEnabled: false,
+  dateFilterNewerThreshold: 30,
+  dateFilterOlderEnabled: false,
+  dateFilterOlderThreshold: 1825,
+  dateFilterHomeEnabled: false,
+  dateFilterChannelEnabled: false,
+  dateFilterSearchEnabled: false,
+  dateFilterSubsEnabled: false,
+  dateFilterCorrEnabled: false,
   floatingButtonEnabled: true,
   floatingButtonPosition: { edge: 'bottom', offset: 20 },
   tutorialCompleted: false,
@@ -276,16 +285,22 @@ function applyFabPosition(host, shadow, pos) {
 
   if (pos.edge === 'left') {
     host.style.left = MARGIN + 'px';
-    host.style.top = Math.max(MARGIN, Math.min(offset, vh - hostH - MARGIN)) + 'px';
+    host.style.top =
+      Math.max(MARGIN, Math.min(offset, vh - hostH - MARGIN)) + 'px';
   } else if (pos.edge === 'right') {
     host.style.right = rightMargin + 'px';
-    host.style.top = Math.max(MARGIN, Math.min(offset, vh - hostH - MARGIN)) + 'px';
+    host.style.top =
+      Math.max(MARGIN, Math.min(offset, vh - hostH - MARGIN)) + 'px';
   } else if (pos.edge === 'top') {
     host.style.top = MARGIN + 'px';
-    host.style.left = Math.max(MARGIN, Math.min(offset, vw - hostW - scrollbarW - MARGIN)) + 'px';
+    host.style.left =
+      Math.max(MARGIN, Math.min(offset, vw - hostW - scrollbarW - MARGIN)) +
+      'px';
   } else {
     host.style.bottom = MARGIN + 'px';
-    host.style.left = Math.max(MARGIN, Math.min(offset, vw - hostW - scrollbarW - MARGIN)) + 'px';
+    host.style.left =
+      Math.max(MARGIN, Math.min(offset, vw - hostW - scrollbarW - MARGIN)) +
+      'px';
   }
 
   let buttonTopPx;
@@ -297,9 +312,11 @@ function applyFabPosition(host, shadow, pos) {
     buttonTopPx = Math.min(offset, vh - hostH);
   }
 
-  const isLeftHalf = (pos.edge === 'left') ||
-    ((pos.edge === 'top' || pos.edge === 'bottom') && offset + hostW / 2 < vw / 2);
-  const isBottomHalf = (buttonTopPx + hostH / 2) > (vh / 2);
+  const isLeftHalf =
+    pos.edge === 'left' ||
+    ((pos.edge === 'top' || pos.edge === 'bottom') &&
+      offset + hostW / 2 < vw / 2);
+  const isBottomHalf = buttonTopPx + hostH / 2 > vh / 2;
 
   const wrapper = shadow.querySelector('.yh-fab-wrapper');
   const panel = shadow.querySelector('.yh-panel');
@@ -509,7 +526,10 @@ function createFloatingButton(forceForTutorial = false) {
     clearTimeout(fabResizeTimer);
     fabResizeTimer = setTimeout(() => {
       if (!floatingButtonHost) return;
-      const current = prefs.floatingButtonPosition || { edge: 'bottom', offset: 20 };
+      const current = prefs.floatingButtonPosition || {
+        edge: 'bottom',
+        offset: 20,
+      };
       const hostW = floatingButtonHost.offsetWidth || 40;
       const hostH = floatingButtonHost.offsetHeight || 40;
       const vw = window.innerWidth;
@@ -545,7 +565,11 @@ function createFloatingButton(forceForTutorial = false) {
 
   function onDocumentClick(e) {
     if (tutorialActive) return;
-    if (miniPanelOpen && floatingButtonHost && !floatingButtonHost.contains(e.target)) {
+    if (
+      miniPanelOpen &&
+      floatingButtonHost &&
+      !floatingButtonHost.contains(e.target)
+    ) {
       miniPanelOpen = false;
       panel.classList.remove('open');
       fab.classList.remove('active');
@@ -573,6 +597,35 @@ const miniViewsSteps = [
   0, 100, 500, 1000, 2500, 5000, 7500, 10000, 15000, 25000, 50000, 75000,
   100000, 150000, 250000, 500000, 1000000, 10000000,
 ];
+
+const miniDateSteps = [1, 3, 7, 14, 30, 60, 90, 180, 365, 730, 1825, 3650];
+const miniDateLabels = [
+  '1d',
+  '3d',
+  '1w',
+  '2w',
+  '1 mo',
+  '2 mo',
+  '3 mo',
+  '6 mo',
+  '1 yr',
+  '2 yr',
+  '5 yr',
+  '10 yr',
+];
+
+function findClosestMiniDateIndex(value) {
+  let closestIndex = 0;
+  let minDiff = Math.abs(miniDateSteps[0] - value);
+  for (let i = 1; i < miniDateSteps.length; i++) {
+    const diff = Math.abs(miniDateSteps[i] - value);
+    if (diff < minDiff) {
+      minDiff = diff;
+      closestIndex = i;
+    }
+  }
+  return closestIndex;
+}
 
 function formatMiniViews(views) {
   if (views >= 1000000) {
@@ -634,11 +687,56 @@ function syncPanelToPrefs(shadow) {
       viewsValue.textContent = formatMiniViews(miniViewsSteps[idx]);
     updateMiniSliderBg(viewsSlider);
   }
+
+  // Date filter
+  const dateFilterToggle = shadow.querySelector('#yh-p-date-filter');
+  const dateNewerToggle = shadow.querySelector('#yh-p-date-newer-toggle');
+  const dateOlderToggle = shadow.querySelector('#yh-p-date-older-toggle');
+  const dateNewerSlider = shadow.querySelector('#yh-p-date-newer');
+  const dateNewerVal = shadow.querySelector('#yh-p-date-newer-val');
+  const dateOlderSlider = shadow.querySelector('#yh-p-date-older');
+  const dateOlderVal = shadow.querySelector('#yh-p-date-older-val');
+
+  if (dateFilterToggle) {
+    dateFilterToggle.checked =
+      prefs.dateFilterHomeEnabled ||
+      prefs.dateFilterChannelEnabled ||
+      prefs.dateFilterSearchEnabled ||
+      prefs.dateFilterSubsEnabled ||
+      prefs.dateFilterCorrEnabled;
+  }
+  if (dateNewerToggle) dateNewerToggle.checked = prefs.dateFilterNewerEnabled;
+  if (dateOlderToggle) dateOlderToggle.checked = prefs.dateFilterOlderEnabled;
+  if (dateNewerSlider) {
+    const idx = findClosestMiniDateIndex(prefs.dateFilterNewerThreshold);
+    dateNewerSlider.value = idx;
+    if (dateNewerVal) dateNewerVal.textContent = miniDateLabels[idx];
+    updateMiniSliderBg(dateNewerSlider);
+    updateMiniDateSliderDisabled(dateNewerSlider, prefs.dateFilterNewerEnabled);
+  }
+  if (dateOlderSlider) {
+    const idx = findClosestMiniDateIndex(prefs.dateFilterOlderThreshold);
+    dateOlderSlider.value = idx;
+    if (dateOlderVal) dateOlderVal.textContent = miniDateLabels[idx];
+    updateMiniSliderBg(dateOlderSlider);
+    updateMiniDateSliderDisabled(dateOlderSlider, prefs.dateFilterOlderEnabled);
+  }
 }
 
 function updateMiniSliderBg(slider) {
   const pct = ((slider.value - slider.min) / (slider.max - slider.min)) * 100;
   slider.style.background = `linear-gradient(to right, #ebebeb ${pct}%, #4a4a4a ${pct}%)`;
+}
+
+function updateMiniDateSliderDisabled(slider, enabled) {
+  const row = slider.closest('.yh-panel-slider-row');
+  if (row) {
+    const wrap = row.querySelector('.yh-panel-slider-wrap');
+    if (wrap) {
+      wrap.style.opacity = enabled ? '1' : '0.35';
+      wrap.style.pointerEvents = enabled ? 'auto' : 'none';
+    }
+  }
 }
 
 function bindPanelEvents(shadow) {
@@ -714,6 +812,72 @@ function bindPanelEvents(shadow) {
     });
   }
 
+  // Date filter handlers
+  const dateFilterToggle = shadow.querySelector('#yh-p-date-filter');
+  const dateNewerToggle = shadow.querySelector('#yh-p-date-newer-toggle');
+  const dateOlderToggle = shadow.querySelector('#yh-p-date-older-toggle');
+  const dateNewerSlider = shadow.querySelector('#yh-p-date-newer');
+  const dateNewerVal = shadow.querySelector('#yh-p-date-newer-val');
+  const dateOlderSlider = shadow.querySelector('#yh-p-date-older');
+  const dateOlderVal = shadow.querySelector('#yh-p-date-older-val');
+
+  if (dateFilterToggle) {
+    dateFilterToggle.addEventListener('change', () => {
+      const val = dateFilterToggle.checked;
+      safeStorageSet('sync', {
+        dateFilterHomeEnabled: val,
+        dateFilterChannelEnabled: val,
+        dateFilterSearchEnabled: val,
+        dateFilterSubsEnabled: val,
+        dateFilterCorrEnabled: val,
+      });
+    });
+  }
+
+  if (dateNewerToggle) {
+    dateNewerToggle.addEventListener('change', () => {
+      safeStorageSet('sync', {
+        dateFilterNewerEnabled: dateNewerToggle.checked,
+      });
+      if (dateNewerSlider)
+        updateMiniDateSliderDisabled(dateNewerSlider, dateNewerToggle.checked);
+    });
+  }
+
+  if (dateOlderToggle) {
+    dateOlderToggle.addEventListener('change', () => {
+      safeStorageSet('sync', {
+        dateFilterOlderEnabled: dateOlderToggle.checked,
+      });
+      if (dateOlderSlider)
+        updateMiniDateSliderDisabled(dateOlderSlider, dateOlderToggle.checked);
+    });
+  }
+
+  if (dateNewerSlider) {
+    dateNewerSlider.addEventListener('input', () => {
+      const idx = parseInt(dateNewerSlider.value, 10);
+      if (dateNewerVal) dateNewerVal.textContent = miniDateLabels[idx];
+      updateMiniSliderBg(dateNewerSlider);
+    });
+    dateNewerSlider.addEventListener('change', () => {
+      const idx = parseInt(dateNewerSlider.value, 10);
+      safeStorageSet('sync', { dateFilterNewerThreshold: miniDateSteps[idx] });
+    });
+  }
+
+  if (dateOlderSlider) {
+    dateOlderSlider.addEventListener('input', () => {
+      const idx = parseInt(dateOlderSlider.value, 10);
+      if (dateOlderVal) dateOlderVal.textContent = miniDateLabels[idx];
+      updateMiniSliderBg(dateOlderSlider);
+    });
+    dateOlderSlider.addEventListener('change', () => {
+      const idx = parseInt(dateOlderSlider.value, 10);
+      safeStorageSet('sync', { dateFilterOlderThreshold: miniDateSteps[idx] });
+    });
+  }
+
   if (openFullBtn) {
     openFullBtn.addEventListener('click', e => {
       e.preventDefault();
@@ -742,13 +906,22 @@ function bindPanelEvents(shadow) {
 function removeFloatingButton() {
   if (floatingButtonHost) {
     if (floatingButtonHost._onViewportResize) {
-      window.removeEventListener('resize', floatingButtonHost._onViewportResize);
+      window.removeEventListener(
+        'resize',
+        floatingButtonHost._onViewportResize,
+      );
     }
     if (floatingButtonHost._onDocumentClick) {
-      document.removeEventListener('click', floatingButtonHost._onDocumentClick);
+      document.removeEventListener(
+        'click',
+        floatingButtonHost._onDocumentClick,
+      );
     }
     if (floatingButtonHost._onDocumentKeydown) {
-      document.removeEventListener('keydown', floatingButtonHost._onDocumentKeydown);
+      document.removeEventListener(
+        'keydown',
+        floatingButtonHost._onDocumentKeydown,
+      );
     }
     clearTimeout(fabResizeTimer);
     floatingButtonHost.remove();
@@ -809,6 +982,35 @@ function getMiniPanelHTML() {
           <div class="yh-panel-slider-wrap">
             <input type="range" id="yh-p-views" min="0" max="17" step="1" value="3" class="yh-panel-slider" />
             <span class="yh-panel-slider-val" id="yh-p-views-val">1K</span>
+          </div>
+        </div>
+      </div>
+      <div class="yh-panel-group">
+        <label class="yh-panel-row">
+          <div class="yh-panel-label-wrap">
+            <span class="yh-panel-label">Upload Date Filter</span>
+            <span class="yh-info-wrap">${infoSvg}<span class="yh-tooltip">Hides videos by their upload date</span></span>
+          </div>
+          <div class="yh-toggle"><input type="checkbox" id="yh-p-date-filter" /><span class="yh-toggle-slider"></span></div>
+        </label>
+        <div class="yh-panel-slider-row">
+          <div class="yh-panel-sub-toggle-row">
+            <span class="yh-panel-sublabel">Hide newer than</span>
+            <div class="yh-toggle yh-toggle-sm"><input type="checkbox" id="yh-p-date-newer-toggle" /><span class="yh-toggle-slider"></span></div>
+          </div>
+          <div class="yh-panel-slider-wrap">
+            <input type="range" id="yh-p-date-newer" min="0" max="11" step="1" value="4" class="yh-panel-slider" />
+            <span class="yh-panel-slider-val" id="yh-p-date-newer-val">1 mo</span>
+          </div>
+        </div>
+        <div class="yh-panel-slider-row">
+          <div class="yh-panel-sub-toggle-row">
+            <span class="yh-panel-sublabel">Hide older than</span>
+            <div class="yh-toggle yh-toggle-sm"><input type="checkbox" id="yh-p-date-older-toggle" /><span class="yh-toggle-slider"></span></div>
+          </div>
+          <div class="yh-panel-slider-wrap">
+            <input type="range" id="yh-p-date-older" min="0" max="11" step="1" value="10" class="yh-panel-slider" />
+            <span class="yh-panel-slider-val" id="yh-p-date-older-val">5 yr</span>
           </div>
         </div>
       </div>
@@ -1100,6 +1302,26 @@ function getFloatingButtonCSS() {
       transform: translateX(14px);
     }
 
+    /* Small toggle for sub-toggles */
+    .yh-toggle-sm {
+      width: 26px;
+      height: 14px;
+    }
+    .yh-toggle-sm .yh-toggle-slider::before {
+      height: 10px;
+      width: 10px;
+      left: 2px;
+      bottom: 2px;
+    }
+    .yh-toggle-sm input:checked + .yh-toggle-slider::before {
+      transform: translateX(12px);
+    }
+    .yh-panel-sub-toggle-row {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+    }
+
     .yh-panel-footer {
       padding: 6px 14px 14px;
       border-top: 1px solid #3a3a3a;
@@ -1272,7 +1494,8 @@ function showTutorialWelcomeCard() {
 
   const desc = document.createElement('div');
   desc.className = 'yh-welcome-desc';
-  desc.textContent = 'Take a quick tour to discover how to use the floating button, customize your settings, and get the most out of the extension.';
+  desc.textContent =
+    'Take a quick tour to discover how to use the floating button, customize your settings, and get the most out of the extension.';
 
   const actions = document.createElement('div');
   actions.className = 'yh-welcome-actions';
@@ -1397,7 +1620,7 @@ function startSpotlightTour() {
     },
     {
       title: 'Hide This Button',
-      desc: "If the floating button bothers you, click \"Hide this button\" at the bottom of the panel. Don't worry, the extension keeps working in the background and you can re-enable it from settings!",
+      desc: 'If the floating button bothers you, click "Hide this button" at the bottom of the panel. Don\'t worry, the extension keeps working in the background and you can re-enable it from settings!',
       getTarget: () => fabShadow.querySelector('#yh-p-hide-btn') || fabPanel,
       onEnter: () => {
         if (!miniPanelOpen) {
@@ -1446,7 +1669,10 @@ function startSpotlightTour() {
     tourBlocker = document.createElement('div');
     tourBlocker.id = 'yh-tour-blocker';
     Object.assign(tourBlocker.style, {
-      position: 'fixed', inset: '0', zIndex: '2147483645', pointerEvents: 'auto',
+      position: 'fixed',
+      inset: '0',
+      zIndex: '2147483645',
+      pointerEvents: 'auto',
       background: 'transparent',
     });
     document.body.appendChild(tourBlocker);
@@ -1459,7 +1685,10 @@ function startSpotlightTour() {
     tourHost = document.createElement('div');
     tourHost.id = 'yh-spotlight-host';
     Object.assign(tourHost.style, {
-      position: 'fixed', inset: '0', zIndex: '2147483647', pointerEvents: 'none',
+      position: 'fixed',
+      inset: '0',
+      zIndex: '2147483647',
+      pointerEvents: 'none',
     });
     tourShadow = tourHost.attachShadow({ mode: 'closed' });
 
@@ -1486,7 +1715,12 @@ function startSpotlightTour() {
     const hostRect = floatingButtonHost.getBoundingClientRect();
 
     if (el === fabElement) {
-      return { top: hostRect.top, left: hostRect.left, width: hostRect.width, height: hostRect.height };
+      return {
+        top: hostRect.top,
+        left: hostRect.left,
+        width: hostRect.width,
+        height: hostRect.height,
+      };
     }
 
     if (el === fabPanel) {
@@ -1502,7 +1736,11 @@ function startSpotlightTour() {
       } else {
         panelTop = hostRect.bottom + 12;
       }
-      if (el.style.right && el.style.right !== 'auto' && el.style.right !== '') {
+      if (
+        el.style.right &&
+        el.style.right !== 'auto' &&
+        el.style.right !== ''
+      ) {
         panelLeft = hostRect.right - panelW;
       } else {
         panelLeft = hostRect.left;
@@ -1565,7 +1803,7 @@ function startSpotlightTour() {
         fabPanel.removeEventListener('transitionend', onEnd);
         resolve();
       };
-      const onEnd = (e) => {
+      const onEnd = e => {
         if (e.target === fabPanel) done();
       };
       fabPanel.addEventListener('transitionend', onEnd);
@@ -1582,18 +1820,22 @@ function startSpotlightTour() {
     rect.top = Math.max(0, Math.min(rect.top, vh - rect.height));
     rect.left = Math.max(0, Math.min(rect.left, vw - rect.width));
 
-    hole.style.top = (rect.top - PAD) + 'px';
-    hole.style.left = (rect.left - PAD) + 'px';
-    hole.style.width = (rect.width + PAD * 2) + 'px';
-    hole.style.height = (rect.height + PAD * 2) + 'px';
+    hole.style.top = rect.top - PAD + 'px';
+    hole.style.left = rect.left - PAD + 'px';
+    hole.style.width = rect.width + PAD * 2 + 'px';
+    hole.style.height = rect.height + PAD * 2 + 'px';
 
-    const dotsHTML = steps.map((_, i) =>
-      `<div class="yh-spot-dot${i === currentStep ? ' active' : ''}"></div>`
-    ).join('');
+    const dotsHTML = steps
+      .map(
+        (_, i) =>
+          `<div class="yh-spot-dot${i === currentStep ? ' active' : ''}"></div>`,
+      )
+      .join('');
 
-    const backBtn = currentStep > 0
-      ? `<button class="yh-spot-btn yh-spot-btn-back" id="yh-tour-back">Back</button>`
-      : '';
+    const backBtn =
+      currentStep > 0
+        ? `<button class="yh-spot-btn yh-spot-btn-back" id="yh-tour-back">Back</button>`
+        : '';
     const nextLabel = currentStep === steps.length - 1 ? 'Done' : 'Next';
 
     tooltip.innerHTML = `
@@ -1771,12 +2013,12 @@ const SUFFIX_MULTIPLIERS = {
   mn: 1e6,
   b: 1e9,
   md: 1e9,
-  '万': 1e4,
-  '만': 1e4,
-  '억': 1e8,
-  'тыс': 1e3,
-  'млн': 1e6,
-  'млрд': 1e9,
+  万: 1e4,
+  만: 1e4,
+  억: 1e8,
+  тыс: 1e3,
+  млн: 1e6,
+  млрд: 1e9,
   mi: 1e3,
   mil: 1e3,
   rb: 1e3,
@@ -1790,12 +2032,14 @@ const SUFFIX_REGEX = new RegExp(
       .sort((a, b) => b.length - a.length)
       .map(s => s.replace(/[.*+?^${}()|[\]\\]/g, '\\$&'))
       .join('|') +
-  ')\\.?',
+    ')\\.?',
   'i',
 );
 
 function extractNumberAndSuffix(input) {
-  const s = String(input).trim().replace(/\s+(?=\d)/g, '');
+  const s = String(input)
+    .trim()
+    .replace(/\s+(?=\d)/g, '');
   const numMatch = s.match(/^([\d.,]+)/);
   if (!numMatch) return { numStr: '', suffix: '', remainder: s };
 
@@ -1842,7 +2086,7 @@ function parseToNumber(input) {
   const base = parseFloat(normalized);
   if (isNaN(base)) return NaN;
 
-  const multiplier = suffix ? (SUFFIX_MULTIPLIERS[suffix] || 1) : 1;
+  const multiplier = suffix ? SUFFIX_MULTIPLIERS[suffix] || 1 : 1;
   return base * multiplier;
 }
 
@@ -1916,6 +2160,342 @@ function resolveViewsFromSpans(spans) {
     return { views: lowCandidate, span: anchorSpan };
   }
   return null;
+}
+
+// ── Upload Date Filter: parsing engine ──
+
+const TIME_UNIT_DAYS = {};
+const TIME_UNIT_ENTRIES = [
+  [
+    1 / 86400,
+    [
+      'second',
+      'seconds',
+      'sec',
+      'secs',
+      'секунд',
+      'секунды',
+      'секунду',
+      '秒',
+      '초',
+      'ثاني',
+      'ثانية',
+      'ثوان',
+      'secondo',
+      'secondi',
+      'seconde',
+      'secondes',
+      'Sekunde',
+      'Sekunden',
+      'segundo',
+      'segundos',
+    ],
+  ],
+  [
+    1 / 1440,
+    [
+      'minute',
+      'minutes',
+      'min',
+      'mins',
+      'минут',
+      'минуты',
+      'минуту',
+      '分',
+      '분',
+      'دقيقة',
+      'دقائق',
+      'minuto',
+      'minuti',
+      'minuta',
+      'Minute',
+      'Minuten',
+    ],
+  ],
+  [
+    1 / 24,
+    [
+      'hour',
+      'hours',
+      'hr',
+      'hrs',
+      'час',
+      'часа',
+      'часов',
+      '時間',
+      '시간',
+      'ساعة',
+      'ساعات',
+      'ora',
+      'ore',
+      'heure',
+      'heures',
+      'Stunde',
+      'Stunden',
+      'hora',
+      'horas',
+    ],
+  ],
+  [
+    1,
+    [
+      'day',
+      'days',
+      'день',
+      'дня',
+      'дней',
+      '日',
+      '일',
+      'يوم',
+      'يومين',
+      'أيام',
+      'giorno',
+      'giorni',
+      'jour',
+      'jours',
+      'Tag',
+      'Tagen',
+      'Tage',
+      'día',
+      'días',
+      'dia',
+      'dias',
+    ],
+  ],
+  [
+    7,
+    [
+      'week',
+      'weeks',
+      'неделю',
+      'недели',
+      'недель',
+      '週間',
+      '주',
+      'أسبوع',
+      'أسبوعين',
+      'أسابيع',
+      'settimana',
+      'settimane',
+      'semaine',
+      'semaines',
+      'Woche',
+      'Wochen',
+      'semana',
+      'semanas',
+    ],
+  ],
+  [
+    30,
+    [
+      'month',
+      'months',
+      'месяц',
+      'месяца',
+      'месяцев',
+      'か月',
+      'ヶ月',
+      '개월',
+      'شهر',
+      'شهرين',
+      'أشهر',
+      'mese',
+      'mesi',
+      'mois',
+      'Monat',
+      'Monaten',
+      'Monate',
+      'mes',
+      'meses',
+      'mês',
+      'meses',
+    ],
+  ],
+  [
+    365,
+    [
+      'year',
+      'years',
+      'год',
+      'года',
+      'лет',
+      '年',
+      '년',
+      'سنة',
+      'سنتين',
+      'سنوات',
+      'anno',
+      'anni',
+      'an',
+      'ans',
+      'année',
+      'années',
+      'Jahr',
+      'Jahren',
+      'Jahre',
+      'año',
+      'años',
+      'ano',
+      'anos',
+    ],
+  ],
+];
+
+TIME_UNIT_ENTRIES.forEach(([multiplier, words]) => {
+  words.forEach(w => {
+    TIME_UNIT_DAYS[w.toLowerCase()] = multiplier;
+  });
+});
+
+const TIME_UNIT_REGEX = new RegExp(
+  '(' +
+    Object.keys(TIME_UNIT_DAYS)
+      .sort((a, b) => b.length - a.length)
+      .join('|') +
+    ')',
+  'i',
+);
+
+function extractUploadAgeDays(text) {
+  const s = String(text).trim();
+  if (!/\d/.test(s)) return NaN;
+
+  // Strip everything before the first digit
+  const stripped = s.replace(/^[^\d]+/, '');
+  if (!stripped) return NaN;
+
+  const numMatch = stripped.match(/^([\d.,]+)/);
+  if (!numMatch) return NaN;
+
+  const numStr = numMatch[1];
+  const normalized = normalizeNumStr(numStr);
+  const base = parseFloat(normalized);
+  if (isNaN(base) || base < 0) return NaN;
+
+  // Match the time unit in the remaining text (after number) or full text
+  const afterNum = stripped.slice(numMatch[0].length);
+  const unitMatch = afterNum.match(TIME_UNIT_REGEX) || s.match(TIME_UNIT_REGEX);
+  if (!unitMatch) return NaN;
+
+  const multiplier = TIME_UNIT_DAYS[unitMatch[1].toLowerCase()];
+  if (!multiplier) return NaN;
+
+  return base * multiplier;
+}
+
+function resolveUploadAgeFromSpans(spans) {
+  for (const span of spans) {
+    const text = (span.textContent || '').trim();
+    const ageDays = extractUploadAgeDays(text);
+    if (!isNaN(ageDays) && ageDays >= 0) {
+      return { ageDays, span };
+    }
+  }
+  return null;
+}
+
+// ── Upload Date Filter: hiding logic ──
+
+function shouldHideDateFilter(pathname) {
+  const {
+    dateFilterNewerEnabled,
+    dateFilterOlderEnabled,
+    dateFilterHomeEnabled,
+    dateFilterChannelEnabled,
+    dateFilterSearchEnabled,
+    dateFilterSubsEnabled,
+    dateFilterCorrEnabled,
+  } = prefs;
+
+  if (!dateFilterNewerEnabled && !dateFilterOlderEnabled) return false;
+
+  return (
+    (pathname === '/' && dateFilterHomeEnabled) ||
+    (pathname && pathname.startsWith('/@') && dateFilterChannelEnabled) ||
+    (pathname === '/results' && dateFilterSearchEnabled) ||
+    (pathname === '/watch' && dateFilterCorrEnabled) ||
+    (pathname === '/feed/subscriptions' && dateFilterSubsEnabled)
+  );
+}
+
+function shouldHideDateVideo(ageDays) {
+  const {
+    dateFilterNewerEnabled,
+    dateFilterNewerThreshold,
+    dateFilterOlderEnabled,
+    dateFilterOlderThreshold,
+  } = prefs;
+
+  if (dateFilterNewerEnabled && ageDays < dateFilterNewerThreshold) return true;
+  if (dateFilterOlderEnabled && ageDays > dateFilterOlderThreshold) return true;
+
+  return false;
+}
+
+function hideDateFilter() {
+  const selectors = getVideoContainerSelectors();
+
+  // Classic format: #metadata-line
+  document.querySelectorAll('#metadata-line').forEach(metaLine => {
+    let spans = metaLine.querySelectorAll('span.inline-metadata-item');
+    if (!spans.length) {
+      spans = metaLine.querySelectorAll('span');
+    }
+    if (!spans.length) return;
+
+    const result = resolveUploadAgeFromSpans(spans);
+    if (!result) return;
+    if (!shouldHideDateVideo(result.ageDays)) return;
+
+    findAndHideContainer(result.span, selectors);
+  });
+
+  // Mobile format
+  document
+    .querySelectorAll('.YtmBadgeAndBylineRendererItemByline')
+    .forEach(span => {
+      const text = (span.textContent || '').trim();
+      // Mobile format concatenates: "1.2M views · 2 days ago"
+      const parts = text.split(/[·•]/);
+      let ageDays = NaN;
+      for (const part of parts) {
+        ageDays = extractUploadAgeDays(part.trim());
+        if (!isNaN(ageDays)) break;
+      }
+      if (isNaN(ageDays)) return;
+      if (!shouldHideDateVideo(ageDays)) return;
+
+      const container = span.closest(
+        'ytm-video-with-context-renderer, ytm-rich-item-renderer, ytm-compact-video-renderer',
+      );
+      if (container) {
+        container.style.display = 'none';
+        const wrapper = container.closest('ytm-rich-item-renderer');
+        if (wrapper) wrapper.style.display = 'none';
+      }
+    });
+
+  // New format: yt-content-metadata-view-model
+  document
+    .querySelectorAll('yt-content-metadata-view-model, yt-lockup-view-model')
+    .forEach(metadataContainer => {
+      const metadataRows = metadataContainer.querySelectorAll(
+        '.yt-content-metadata-view-model-wiz__metadata-row, .yt-content-metadata-view-model__metadata-row',
+      );
+      if (!metadataRows.length) return;
+
+      const allSpans = [];
+      metadataRows.forEach(row => {
+        const span = row.querySelector('span.yt-core-attributed-string');
+        if (span) allSpans.push(span);
+      });
+
+      const result = resolveUploadAgeFromSpans(allSpans);
+      if (!result) return;
+      if (!shouldHideDateVideo(result.ageDays)) return;
+
+      findAndHideContainer(result.span, selectors);
+    });
 }
 
 function hideUnderVisuals() {
@@ -2244,16 +2824,20 @@ async function startHiding(pathname) {
   const canHideWatched = shouldHideWatched(pathname);
   const canHideViews = shouldHideViews(pathname);
   const canHideShortsFlag = shouldHideShorts(pathname);
+  const canHideDateFilter = shouldHideDateFilter(pathname);
 
   logger.log('Hide decision for', pathname, {
     hideWatched: canHideWatched,
     hideViews: canHideViews,
     hideShorts: canHideShortsFlag,
+    hideDateFilter: canHideDateFilter,
     relevantPrefs: {
       hideChannelEnabled: prefs.hideChannelEnabled,
       viewsHideChannelEnabled: prefs.viewsHideChannelEnabled,
       hideShortsEnabled: prefs.hideShortsEnabled,
       hideShortsSearchEnabled: prefs.hideShortsSearchEnabled,
+      dateFilterNewerEnabled: prefs.dateFilterNewerEnabled,
+      dateFilterOlderEnabled: prefs.dateFilterOlderEnabled,
     },
   });
 
@@ -2270,6 +2854,11 @@ async function startHiding(pathname) {
   if (canHideShortsFlag) {
     logger.log('Hiding shorts on', pathname);
     hideShorts();
+  }
+
+  if (canHideDateFilter) {
+    logger.log('Hiding videos by upload date on', pathname);
+    hideDateFilter();
   }
 }
 
@@ -2289,7 +2878,11 @@ function detectPageChange() {
 
     if (currentPath === '/watch') {
       removeFloatingButton();
-    } else if (prefs.floatingButtonEnabled && !floatingButtonHost && isYouTube()) {
+    } else if (
+      prefs.floatingButtonEnabled &&
+      !floatingButtonHost &&
+      isYouTube()
+    ) {
       createFloatingButton();
     }
 

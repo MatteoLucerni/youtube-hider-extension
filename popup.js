@@ -42,6 +42,41 @@ function findClosestViewsIndex(value) {
   return closestIndex;
 }
 
+const dateSteps = [1, 3, 7, 14, 30, 60, 90, 180, 365, 730, 1825, 3650];
+
+const dateStepLabels = [
+  '1 day',
+  '3 days',
+  '1 week',
+  '2 weeks',
+  '1 month',
+  '2 months',
+  '3 months',
+  '6 months',
+  '1 year',
+  '2 years',
+  '5 years',
+  '10 years',
+];
+
+function formatDateThreshold(days) {
+  const idx = findClosestDateIndex(days);
+  return dateStepLabels[idx];
+}
+
+function findClosestDateIndex(value) {
+  let closestIndex = 0;
+  let minDiff = Math.abs(dateSteps[0] - value);
+  for (let i = 1; i < dateSteps.length; i++) {
+    const diff = Math.abs(dateSteps[i] - value);
+    if (diff < minDiff) {
+      minDiff = diff;
+      closestIndex = i;
+    }
+  }
+  return closestIndex;
+}
+
 function setEasyModeClass(isEasy) {
   document.body.classList.toggle('easy-mode-on', isEasy);
   document.body.classList.toggle('easy-mode-off', !isEasy);
@@ -56,7 +91,16 @@ document.addEventListener('DOMContentLoaded', () => {
   const hideWatchedMaster = document.getElementById('hide-watched-master');
   const hideShortsMaster = document.getElementById('hide-shorts-master');
   const viewsHideMaster = document.getElementById('views-hide-master');
-  const floatingButtonToggle = document.getElementById('floating-button-enabled');
+  const dateFilterMaster = document.getElementById('date-filter-master');
+  const dateFilterNewerToggle = document.getElementById(
+    'date-filter-newer-toggle',
+  );
+  const dateFilterOlderToggle = document.getElementById(
+    'date-filter-older-toggle',
+  );
+  const floatingButtonToggle = document.getElementById(
+    'floating-button-enabled',
+  );
 
   const footerVersion = document.getElementById('footer-version');
   if (footerVersion) {
@@ -126,6 +170,41 @@ document.addEventListener('DOMContentLoaded', () => {
         corr: true,
       },
     },
+    date: {
+      newerSlider: document.getElementById('date-filter-newer'),
+      newerValue: document.getElementById('date-filter-newer-value'),
+      olderSlider: document.getElementById('date-filter-older'),
+      olderValue: document.getElementById('date-filter-older-value'),
+      boxes: {
+        home: document.getElementById('date-filter-home-enabled'),
+        channel: document.getElementById('date-filter-channel-enabled'),
+        search: document.getElementById('date-filter-search-enabled'),
+        subs: document.getElementById('date-filter-subs-enabled'),
+        corr: document.getElementById('date-filter-corr-enabled'),
+      },
+      keys: {
+        newerEnabled: 'dateFilterNewerEnabled',
+        newerThreshold: 'dateFilterNewerThreshold',
+        olderEnabled: 'dateFilterOlderEnabled',
+        olderThreshold: 'dateFilterOlderThreshold',
+        home: 'dateFilterHomeEnabled',
+        channel: 'dateFilterChannelEnabled',
+        search: 'dateFilterSearchEnabled',
+        subs: 'dateFilterSubsEnabled',
+        corr: 'dateFilterCorrEnabled',
+      },
+      defaults: {
+        newerEnabled: false,
+        newerThreshold: 30,
+        olderEnabled: false,
+        olderThreshold: 1825,
+        home: false,
+        channel: false,
+        search: false,
+        subs: false,
+        corr: false,
+      },
+    },
   };
 
   const storageKeys = [
@@ -134,6 +213,7 @@ document.addEventListener('DOMContentLoaded', () => {
     ...Object.values(cfg.hide.keys),
     ...Object.values(cfg.views.keys),
     ...Object.values(cfg.shorts.keys),
+    ...Object.values(cfg.date.keys),
   ];
 
   chrome.storage.sync.get(storageKeys, prefs => {
@@ -200,6 +280,46 @@ document.addEventListener('DOMContentLoaded', () => {
       corr: prefs.viewsHideCorrEnabled ?? cfg.views.defaults.corr,
     });
 
+    // Date filter load
+    dateFilterNewerToggle.checked =
+      prefs.dateFilterNewerEnabled ?? cfg.date.defaults.newerEnabled;
+    dateFilterOlderToggle.checked =
+      prefs.dateFilterOlderEnabled ?? cfg.date.defaults.olderEnabled;
+
+    const newerDays =
+      prefs.dateFilterNewerThreshold ?? cfg.date.defaults.newerThreshold;
+    const newerIdx = findClosestDateIndex(newerDays);
+    cfg.date.newerSlider.value = newerIdx;
+    cfg.date.newerValue.textContent = dateStepLabels[newerIdx];
+    updateSliderBackground(cfg.date.newerSlider);
+    updateDateSliderDisabled(
+      cfg.date.newerSlider,
+      dateFilterNewerToggle.checked,
+    );
+
+    const olderDays =
+      prefs.dateFilterOlderThreshold ?? cfg.date.defaults.olderThreshold;
+    const olderIdx = findClosestDateIndex(olderDays);
+    cfg.date.olderSlider.value = olderIdx;
+    cfg.date.olderValue.textContent = dateStepLabels[olderIdx];
+    updateSliderBackground(cfg.date.olderSlider);
+    updateDateSliderDisabled(
+      cfg.date.olderSlider,
+      dateFilterOlderToggle.checked,
+    );
+
+    Object.entries(cfg.date.boxes).forEach(([k, box]) => {
+      box.checked = prefs[cfg.date.keys[k]] ?? cfg.date.defaults[k];
+    });
+
+    dateFilterMaster.checked = isAnyTrue({
+      home: prefs.dateFilterHomeEnabled ?? cfg.date.defaults.home,
+      channel: prefs.dateFilterChannelEnabled ?? cfg.date.defaults.channel,
+      search: prefs.dateFilterSearchEnabled ?? cfg.date.defaults.search,
+      subs: prefs.dateFilterSubsEnabled ?? cfg.date.defaults.subs,
+      corr: prefs.dateFilterCorrEnabled ?? cfg.date.defaults.corr,
+    });
+
     if (isFirstInstall) {
       saveSettings();
     }
@@ -216,7 +336,7 @@ document.addEventListener('DOMContentLoaded', () => {
           k === 'threshold'
             ? parseInt(cfg.hide.slider.value, 10)
             : cfg.hide.boxes[k].checked,
-        ])
+        ]),
       ),
       ...Object.fromEntries(
         Object.entries(cfg.views.keys).map(([k, key]) => [
@@ -224,13 +344,25 @@ document.addEventListener('DOMContentLoaded', () => {
           k === 'threshold'
             ? viewsSteps[parseInt(cfg.views.slider.value, 10)]
             : cfg.views.boxes[k].checked,
-        ])
+        ]),
       ),
       ...Object.fromEntries(
         Object.entries(cfg.shorts.keys).map(([k, key]) => [
           key,
           cfg.shorts.boxes[k].checked,
-        ])
+        ]),
+      ),
+      dateFilterNewerEnabled: dateFilterNewerToggle.checked,
+      dateFilterNewerThreshold:
+        dateSteps[parseInt(cfg.date.newerSlider.value, 10)],
+      dateFilterOlderEnabled: dateFilterOlderToggle.checked,
+      dateFilterOlderThreshold:
+        dateSteps[parseInt(cfg.date.olderSlider.value, 10)],
+      ...Object.fromEntries(
+        Object.entries(cfg.date.boxes).map(([k, box]) => [
+          cfg.date.keys[k],
+          box.checked,
+        ]),
       ),
     };
 
@@ -240,19 +372,25 @@ document.addEventListener('DOMContentLoaded', () => {
           Object.entries(cfg.hide.boxes).map(([k]) => [
             k,
             settings[cfg.hide.keys[k]],
-          ])
+          ]),
         ),
         ...Object.fromEntries(
           Object.entries(cfg.views.boxes).map(([k]) => [
             k,
             settings[cfg.views.keys[k]],
-          ])
+          ]),
         ),
         ...Object.fromEntries(
           Object.entries(cfg.shorts.boxes).map(([k]) => [
             k,
             settings[cfg.shorts.keys[k]],
-          ])
+          ]),
+        ),
+        ...Object.fromEntries(
+          Object.entries(cfg.date.boxes).map(([k]) => [
+            k,
+            settings[cfg.date.keys[k]],
+          ]),
         ),
       });
       const text = getBadgeText(hideOn);
@@ -276,24 +414,33 @@ document.addEventListener('DOMContentLoaded', () => {
       Object.values(cfg.views.boxes).forEach(box => {
         box.checked = true;
       });
+      Object.values(cfg.date.boxes).forEach(box => {
+        box.checked = true;
+      });
       hideWatchedMaster.checked = true;
       hideShortsMaster.checked = true;
       viewsHideMaster.checked = true;
+      dateFilterMaster.checked = true;
     }
     saveSettings();
   });
 
   floatingButtonToggle.addEventListener('change', () => {
-    chrome.storage.sync.set({ floatingButtonEnabled: floatingButtonToggle.checked });
+    chrome.storage.sync.set({
+      floatingButtonEnabled: floatingButtonToggle.checked,
+    });
   });
 
   const restartTutorialBtn = document.getElementById('restart-tutorial');
-  const restartTutorialConfirm = document.getElementById('restart-tutorial-confirm');
+  const restartTutorialConfirm = document.getElementById(
+    'restart-tutorial-confirm',
+  );
   if (restartTutorialBtn) {
     restartTutorialBtn.addEventListener('click', () => {
       chrome.storage.sync.set({ tutorialCompleted: false });
       restartTutorialBtn.style.display = 'none';
-      if (restartTutorialConfirm) restartTutorialConfirm.style.display = 'inline-flex';
+      if (restartTutorialConfirm)
+        restartTutorialConfirm.style.display = 'inline-flex';
     });
   }
 
@@ -321,9 +468,50 @@ document.addEventListener('DOMContentLoaded', () => {
     saveSettings();
   });
 
-  [
-    [cfg.hide.slider, cfg.hide.value],
-  ].forEach(([slider, display]) => {
+  dateFilterMaster.addEventListener('change', () => {
+    const isEnabled = dateFilterMaster.checked;
+    Object.values(cfg.date.boxes).forEach(box => {
+      box.checked = isEnabled;
+    });
+    saveSettings();
+  });
+
+  function updateDateSliderDisabled(slider, enabled) {
+    const control = slider.closest('.slider-control');
+    if (control) control.classList.toggle('date-sub-disabled', !enabled);
+  }
+
+  dateFilterNewerToggle.addEventListener('change', () => {
+    updateDateSliderDisabled(
+      cfg.date.newerSlider,
+      dateFilterNewerToggle.checked,
+    );
+    saveSettings();
+  });
+
+  dateFilterOlderToggle.addEventListener('change', () => {
+    updateDateSliderDisabled(
+      cfg.date.olderSlider,
+      dateFilterOlderToggle.checked,
+    );
+    saveSettings();
+  });
+
+  cfg.date.newerSlider.addEventListener('input', () => {
+    const index = parseInt(cfg.date.newerSlider.value, 10);
+    cfg.date.newerValue.textContent = dateStepLabels[index];
+    updateSliderBackground(cfg.date.newerSlider);
+  });
+  cfg.date.newerSlider.addEventListener('change', saveSettings);
+
+  cfg.date.olderSlider.addEventListener('input', () => {
+    const index = parseInt(cfg.date.olderSlider.value, 10);
+    cfg.date.olderValue.textContent = dateStepLabels[index];
+    updateSliderBackground(cfg.date.olderSlider);
+  });
+  cfg.date.olderSlider.addEventListener('change', saveSettings);
+
+  [[cfg.hide.slider, cfg.hide.value]].forEach(([slider, display]) => {
     slider.addEventListener('input', () => {
       display.textContent = slider.value;
       updateSliderBackground(slider);
@@ -342,6 +530,7 @@ document.addEventListener('DOMContentLoaded', () => {
     ...Object.values(cfg.hide.boxes),
     ...Object.values(cfg.views.boxes),
     ...Object.values(cfg.shorts.boxes),
+    ...Object.values(cfg.date.boxes),
   ].forEach(box => box.addEventListener('change', saveSettings));
 
   document

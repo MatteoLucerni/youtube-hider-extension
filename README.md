@@ -35,6 +35,10 @@ Hide videos you've already watched from Home, Channel pages, Subscriptions, Sear
 
 Hide videos below a certain view count. Choose from a range of thresholds (0 to 10M views) to filter out low-engagement content. Per-page toggles give you full control.
 
+### Upload Date Filter
+
+Hide videos by their upload date with two independent sub-filters: **Hide newer than** and **Hide older than**. Each has its own toggle and slider with logarithmic time steps (1 day to 10 years). Use both together to keep only videos in a specific age range — for example, hide recent AI-generated content and outdated videos at the same time. Supports 10+ YouTube interface languages.
+
 ### Hide Shorts
 
 Completely remove YouTube Shorts from your feed, search results, navigation tabs and sidebar. Enjoy a Shorts-free YouTube experience.

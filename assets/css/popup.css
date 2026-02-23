@@ -814,3 +814,19 @@ body.easy-mode-on .setting-card-compact .setting-group-compact {
     right: 15px;
     margin-left: 0;
 }
+
+/* Date sub-toggle: inline toggle next to slider label */
+.date-sub-toggle {
+    display: inline-flex;
+    margin-left: 8px;
+    vertical-align: middle;
+    position: relative;
+    flex-shrink: 0;
+}
+
+/* Disabled state when sub-toggle is OFF */
+.date-sub-filter.date-sub-disabled .slider-wrapper,
+.date-sub-filter.date-sub-disabled .slider-control-right {
+    opacity: 0.35;
+    pointer-events: none;
+}
