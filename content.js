@@ -996,7 +996,7 @@ function getMiniPanelHTML() {
         <div class="yh-panel-slider-row">
           <div class="yh-panel-sub-toggle-row">
             <span class="yh-panel-sublabel">Hide newer than</span>
-            <div class="yh-toggle yh-toggle-sm"><input type="checkbox" id="yh-p-date-newer-toggle" /><span class="yh-toggle-slider"></span></div>
+            <label class="yh-toggle yh-toggle-sm"><input type="checkbox" id="yh-p-date-newer-toggle" /><span class="yh-toggle-slider"></span></label>
           </div>
           <div class="yh-panel-slider-wrap">
             <input type="range" id="yh-p-date-newer" min="0" max="11" step="1" value="4" class="yh-panel-slider" />
@@ -1006,7 +1006,7 @@ function getMiniPanelHTML() {
         <div class="yh-panel-slider-row">
           <div class="yh-panel-sub-toggle-row">
             <span class="yh-panel-sublabel">Hide older than</span>
-            <div class="yh-toggle yh-toggle-sm"><input type="checkbox" id="yh-p-date-older-toggle" /><span class="yh-toggle-slider"></span></div>
+            <label class="yh-toggle yh-toggle-sm"><input type="checkbox" id="yh-p-date-older-toggle" /><span class="yh-toggle-slider"></span></label>
           </div>
           <div class="yh-panel-slider-wrap">
             <input type="range" id="yh-p-date-older" min="0" max="11" step="1" value="10" class="yh-panel-slider" />
