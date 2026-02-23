@@ -44,12 +44,6 @@
                 Hide videos based on watch percentage threshold
               </p>
             </div>
-            <div class="card-compact-toggle easy-mode-simple">
-              <div class="toggle-switch-large">
-                <input type="checkbox" id="hide-watched-master" />
-                <span class="toggle-slider"></span>
-              </div>
-            </div>
           </div>
 
           <div class="setting-group">
@@ -262,12 +256,6 @@
                 Hide videos below a certain view count
               </p>
             </div>
-            <div class="card-compact-toggle easy-mode-simple">
-              <div class="toggle-switch-large">
-                <input type="checkbox" id="views-hide-master" />
-                <span class="toggle-slider"></span>
-              </div>
-            </div>
           </div>
 
           <div class="setting-group">
@@ -416,12 +404,6 @@
                 Hide videos by their upload date
               </p>
             </div>
-            <div class="card-compact-toggle easy-mode-simple">
-              <div class="toggle-switch-large">
-                <input type="checkbox" id="date-filter-master" />
-                <span class="toggle-slider"></span>
-              </div>
-            </div>
           </div>
 
           <div class="setting-group">
@@ -439,16 +421,12 @@
                     </svg>
                     <span class="tooltip-text">Hide videos uploaded more recently than this</span>
                   </div>
-                  <label class="toggle-switch date-sub-toggle">
-                    <input type="checkbox" id="date-filter-newer-toggle" />
-                    <span class="toggle-slider"></span>
-                  </label>
                 </div>
                 <div class="slider-display date-slider-display">
-                  <span class="slider-value" id="date-filter-newer-value">1 month</span>
+                  <span class="slider-value" id="date-filter-newer-value">Off</span>
                 </div>
                 <div class="slider-wrapper">
-                  <input type="range" class="slider" id="date-filter-newer" min="0" max="11" step="1" value="4" />
+                  <input type="range" class="slider" id="date-filter-newer" min="0" max="12" step="1" value="0" />
                 </div>
               </div>
             </div>
@@ -467,16 +445,12 @@
                     </svg>
                     <span class="tooltip-text">Hide videos uploaded longer ago than this</span>
                   </div>
-                  <label class="toggle-switch date-sub-toggle">
-                    <input type="checkbox" id="date-filter-older-toggle" />
-                    <span class="toggle-slider"></span>
-                  </label>
                 </div>
                 <div class="slider-display date-slider-display">
-                  <span class="slider-value" id="date-filter-older-value">5 years</span>
+                  <span class="slider-value" id="date-filter-older-value">Off</span>
                 </div>
                 <div class="slider-wrapper">
-                  <input type="range" class="slider" id="date-filter-older" min="0" max="11" step="1" value="10" />
+                  <input type="range" class="slider" id="date-filter-older" min="0" max="12" step="1" value="0" />
                 </div>
               </div>
             </div>

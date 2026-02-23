@@ -19,10 +19,8 @@ const prefs = {
   viewsHideCorrEnabled: true,
   hideShortsEnabled: true,
   hideShortsSearchEnabled: true,
-  dateFilterNewerEnabled: false,
-  dateFilterNewerThreshold: 30,
-  dateFilterOlderEnabled: false,
-  dateFilterOlderThreshold: 1825,
+  dateFilterNewerThreshold: 0,
+  dateFilterOlderThreshold: 0,
   dateFilterHomeEnabled: false,
   dateFilterChannelEnabled: false,
   dateFilterSearchEnabled: false,
@@ -598,8 +596,9 @@ const miniViewsSteps = [
   100000, 150000, 250000, 500000, 1000000, 10000000,
 ];
 
-const miniDateSteps = [1, 3, 7, 14, 30, 60, 90, 180, 365, 730, 1825, 3650];
+const miniDateSteps = [0, 1, 3, 7, 14, 30, 60, 90, 180, 365, 730, 1825, 3650];
 const miniDateLabels = [
+  'Off',
   '1d',
   '3d',
   '1w',
@@ -650,76 +649,52 @@ function findClosestMiniViewsIndex(value) {
 }
 
 function syncPanelToPrefs(shadow) {
-  const hideWatchedToggle = shadow.querySelector('#yh-p-hide-watched');
   const hideShortsToggle = shadow.querySelector('#yh-p-hide-shorts');
-  const viewsFilterToggle = shadow.querySelector('#yh-p-views-filter');
   const thresholdSlider = shadow.querySelector('#yh-p-threshold');
   const thresholdValue = shadow.querySelector('#yh-p-threshold-val');
   const viewsSlider = shadow.querySelector('#yh-p-views');
   const viewsValue = shadow.querySelector('#yh-p-views-val');
 
-  if (hideWatchedToggle) {
-    hideWatchedToggle.checked =
-      prefs.hideHomeEnabled ||
-      prefs.hideChannelEnabled ||
-      prefs.hideSearchEnabled ||
-      prefs.hideSubsEnabled ||
-      prefs.hideCorrEnabled;
-  }
   if (hideShortsToggle) hideShortsToggle.checked = prefs.hideShortsEnabled;
-  if (viewsFilterToggle) {
-    viewsFilterToggle.checked =
-      prefs.viewsHideHomeEnabled ||
-      prefs.viewsHideChannelEnabled ||
-      prefs.viewsHideSearchEnabled ||
-      prefs.viewsHideSubsEnabled ||
-      prefs.viewsHideCorrEnabled;
-  }
   if (thresholdSlider) {
     thresholdSlider.value = prefs.hideThreshold;
-    if (thresholdValue) thresholdValue.textContent = prefs.hideThreshold + '%';
+    if (thresholdValue) {
+      thresholdValue.textContent =
+        prefs.hideThreshold === 0 ? 'Off' : prefs.hideThreshold + '%';
+    }
     updateMiniSliderBg(thresholdSlider);
+    updateMiniSliderOffState(thresholdSlider, prefs.hideThreshold === 0);
   }
   if (viewsSlider) {
     const idx = findClosestMiniViewsIndex(prefs.viewsHideThreshold);
     viewsSlider.value = idx;
-    if (viewsValue)
-      viewsValue.textContent = formatMiniViews(miniViewsSteps[idx]);
+    if (viewsValue) {
+      viewsValue.textContent =
+        idx === 0 ? 'Off' : formatMiniViews(miniViewsSteps[idx]);
+    }
     updateMiniSliderBg(viewsSlider);
+    updateMiniSliderOffState(viewsSlider, idx === 0);
   }
 
   // Date filter
-  const dateFilterToggle = shadow.querySelector('#yh-p-date-filter');
-  const dateNewerToggle = shadow.querySelector('#yh-p-date-newer-toggle');
-  const dateOlderToggle = shadow.querySelector('#yh-p-date-older-toggle');
   const dateNewerSlider = shadow.querySelector('#yh-p-date-newer');
   const dateNewerVal = shadow.querySelector('#yh-p-date-newer-val');
   const dateOlderSlider = shadow.querySelector('#yh-p-date-older');
   const dateOlderVal = shadow.querySelector('#yh-p-date-older-val');
 
-  if (dateFilterToggle) {
-    dateFilterToggle.checked =
-      prefs.dateFilterHomeEnabled ||
-      prefs.dateFilterChannelEnabled ||
-      prefs.dateFilterSearchEnabled ||
-      prefs.dateFilterSubsEnabled ||
-      prefs.dateFilterCorrEnabled;
-  }
-  if (dateNewerToggle) dateNewerToggle.checked = prefs.dateFilterNewerEnabled;
-  if (dateOlderToggle) dateOlderToggle.checked = prefs.dateFilterOlderEnabled;
   if (dateNewerSlider) {
     const idx = findClosestMiniDateIndex(prefs.dateFilterNewerThreshold);
     dateNewerSlider.value = idx;
     if (dateNewerVal) dateNewerVal.textContent = miniDateLabels[idx];
     updateMiniSliderBg(dateNewerSlider);
-    updateMiniDateSliderDisabled(dateNewerSlider, prefs.dateFilterNewerEnabled);
+    updateMiniSliderOffState(dateNewerSlider, idx === 0);
   }
   if (dateOlderSlider) {
     const idx = findClosestMiniDateIndex(prefs.dateFilterOlderThreshold);
     dateOlderSlider.value = idx;
     if (dateOlderVal) dateOlderVal.textContent = miniDateLabels[idx];
     updateMiniSliderBg(dateOlderSlider);
-    updateMiniDateSliderDisabled(dateOlderSlider, prefs.dateFilterOlderEnabled);
+    updateMiniSliderOffState(dateOlderSlider, idx === 0);
   }
 
   checkMiniDateOverlap(shadow);
@@ -730,39 +705,31 @@ function updateMiniSliderBg(slider) {
   slider.style.background = `linear-gradient(to right, #ebebeb ${pct}%, #4a4a4a ${pct}%)`;
 }
 
-function updateMiniDateSliderDisabled(slider, enabled) {
+function updateMiniSliderOffState(slider, isOff) {
   const row = slider.closest('.yh-panel-slider-row');
   if (row) {
     const wrap = row.querySelector('.yh-panel-slider-wrap');
     if (wrap) {
-      wrap.style.opacity = enabled ? '1' : '0.35';
-      wrap.style.pointerEvents = enabled ? 'auto' : 'none';
+      wrap.style.opacity = isOff ? '0.35' : '1';
     }
   }
 }
 
 function checkMiniDateOverlap(shadow) {
-  const dateNewerToggle = shadow.querySelector('#yh-p-date-newer-toggle');
-  const dateOlderToggle = shadow.querySelector('#yh-p-date-older-toggle');
   const dateNewerSlider = shadow.querySelector('#yh-p-date-newer');
   const dateOlderSlider = shadow.querySelector('#yh-p-date-older');
   const warning = shadow.querySelector('#yh-p-date-overlap-warning');
 
-  if (
-    !dateNewerToggle ||
-    !dateOlderToggle ||
-    !dateNewerSlider ||
-    !dateOlderSlider
-  )
-    return;
+  if (!dateNewerSlider || !dateOlderSlider) return;
 
-  const newerEnabled = dateNewerToggle.checked;
-  const olderEnabled = dateOlderToggle.checked;
-  const newerThreshold = miniDateSteps[parseInt(dateNewerSlider.value, 10)];
-  const olderThreshold = miniDateSteps[parseInt(dateOlderSlider.value, 10)];
+  const newerIdx = parseInt(dateNewerSlider.value, 10);
+  const olderIdx = parseInt(dateOlderSlider.value, 10);
+  const newerThreshold = miniDateSteps[newerIdx];
+  const olderThreshold = miniDateSteps[olderIdx];
 
+  // Both must be active (not Off) and overlapping
   const isOverlap =
-    newerEnabled && olderEnabled && newerThreshold >= olderThreshold;
+    newerIdx > 0 && olderIdx > 0 && newerThreshold >= olderThreshold;
 
   if (warning) warning.style.display = isOverlap ? 'flex' : 'none';
 
@@ -772,9 +739,7 @@ function checkMiniDateOverlap(shadow) {
 }
 
 function bindPanelEvents(shadow) {
-  const hideWatchedToggle = shadow.querySelector('#yh-p-hide-watched');
   const hideShortsToggle = shadow.querySelector('#yh-p-hide-shorts');
-  const viewsFilterToggle = shadow.querySelector('#yh-p-views-filter');
   const thresholdSlider = shadow.querySelector('#yh-p-threshold');
   const thresholdValue = shadow.querySelector('#yh-p-threshold-val');
   const viewsSlider = shadow.querySelector('#yh-p-views');
@@ -783,17 +748,19 @@ function bindPanelEvents(shadow) {
   const hideButtonLink = shadow.querySelector('#yh-p-hide-btn');
   const closeBtn = shadow.querySelector('#yh-p-close');
 
-  if (hideWatchedToggle) {
-    hideWatchedToggle.addEventListener('change', () => {
-      const val = hideWatchedToggle.checked;
-      safeStorageSet('sync', {
-        hideHomeEnabled: val,
-        hideChannelEnabled: val,
-        hideSearchEnabled: val,
-        hideSubsEnabled: val,
-        hideCorrEnabled: val,
-      });
-    });
+  // Auto-enable per-page flags when slider leaves Off (floating menu = Easy Mode)
+  function autoEnablePerPageMini(flagKeys, val) {
+    if (val) {
+      // Check if all flags are currently false
+      const allOff = flagKeys.every(key => !prefs[key]);
+      if (allOff) {
+        const updates = {};
+        flagKeys.forEach(key => {
+          updates[key] = val;
+        });
+        safeStorageSet('sync', updates);
+      }
+    }
   }
 
   if (hideShortsToggle) {
@@ -805,29 +772,29 @@ function bindPanelEvents(shadow) {
     });
   }
 
-  if (viewsFilterToggle) {
-    viewsFilterToggle.addEventListener('change', () => {
-      const val = viewsFilterToggle.checked;
-      safeStorageSet('sync', {
-        viewsHideHomeEnabled: val,
-        viewsHideChannelEnabled: val,
-        viewsHideSearchEnabled: val,
-        viewsHideSubsEnabled: val,
-        viewsHideCorrEnabled: val,
-      });
-    });
-  }
-
   if (thresholdSlider) {
     thresholdSlider.addEventListener('input', () => {
+      const val = parseInt(thresholdSlider.value, 10);
       if (thresholdValue)
-        thresholdValue.textContent = thresholdSlider.value + '%';
+        thresholdValue.textContent = val === 0 ? 'Off' : val + '%';
       updateMiniSliderBg(thresholdSlider);
+      updateMiniSliderOffState(thresholdSlider, val === 0);
     });
     thresholdSlider.addEventListener('change', () => {
-      safeStorageSet('sync', {
-        hideThreshold: parseInt(thresholdSlider.value, 10),
-      });
+      const val = parseInt(thresholdSlider.value, 10);
+      safeStorageSet('sync', { hideThreshold: val });
+      if (val > 0) {
+        autoEnablePerPageMini(
+          [
+            'hideHomeEnabled',
+            'hideChannelEnabled',
+            'hideSearchEnabled',
+            'hideSubsEnabled',
+            'hideCorrEnabled',
+          ],
+          true,
+        );
+      }
     });
   }
 
@@ -835,69 +802,58 @@ function bindPanelEvents(shadow) {
     viewsSlider.addEventListener('input', () => {
       const idx = parseInt(viewsSlider.value, 10);
       if (viewsValue)
-        viewsValue.textContent = formatMiniViews(miniViewsSteps[idx]);
+        viewsValue.textContent =
+          idx === 0 ? 'Off' : formatMiniViews(miniViewsSteps[idx]);
       updateMiniSliderBg(viewsSlider);
+      updateMiniSliderOffState(viewsSlider, idx === 0);
     });
     viewsSlider.addEventListener('change', () => {
       const idx = parseInt(viewsSlider.value, 10);
       safeStorageSet('sync', { viewsHideThreshold: miniViewsSteps[idx] });
+      if (idx > 0) {
+        autoEnablePerPageMini(
+          [
+            'viewsHideHomeEnabled',
+            'viewsHideChannelEnabled',
+            'viewsHideSearchEnabled',
+            'viewsHideSubsEnabled',
+            'viewsHideCorrEnabled',
+          ],
+          true,
+        );
+      }
     });
   }
 
   // Date filter handlers
-  const dateFilterToggle = shadow.querySelector('#yh-p-date-filter');
-  const dateNewerToggle = shadow.querySelector('#yh-p-date-newer-toggle');
-  const dateOlderToggle = shadow.querySelector('#yh-p-date-older-toggle');
   const dateNewerSlider = shadow.querySelector('#yh-p-date-newer');
   const dateNewerVal = shadow.querySelector('#yh-p-date-newer-val');
   const dateOlderSlider = shadow.querySelector('#yh-p-date-older');
   const dateOlderVal = shadow.querySelector('#yh-p-date-older-val');
-
-  if (dateFilterToggle) {
-    dateFilterToggle.addEventListener('change', () => {
-      const val = dateFilterToggle.checked;
-      safeStorageSet('sync', {
-        dateFilterHomeEnabled: val,
-        dateFilterChannelEnabled: val,
-        dateFilterSearchEnabled: val,
-        dateFilterSubsEnabled: val,
-        dateFilterCorrEnabled: val,
-      });
-    });
-  }
-
-  if (dateNewerToggle) {
-    dateNewerToggle.addEventListener('change', () => {
-      safeStorageSet('sync', {
-        dateFilterNewerEnabled: dateNewerToggle.checked,
-      });
-      if (dateNewerSlider)
-        updateMiniDateSliderDisabled(dateNewerSlider, dateNewerToggle.checked);
-      checkMiniDateOverlap(shadow);
-    });
-  }
-
-  if (dateOlderToggle) {
-    dateOlderToggle.addEventListener('change', () => {
-      safeStorageSet('sync', {
-        dateFilterOlderEnabled: dateOlderToggle.checked,
-      });
-      if (dateOlderSlider)
-        updateMiniDateSliderDisabled(dateOlderSlider, dateOlderToggle.checked);
-      checkMiniDateOverlap(shadow);
-    });
-  }
 
   if (dateNewerSlider) {
     dateNewerSlider.addEventListener('input', () => {
       const idx = parseInt(dateNewerSlider.value, 10);
       if (dateNewerVal) dateNewerVal.textContent = miniDateLabels[idx];
       updateMiniSliderBg(dateNewerSlider);
+      updateMiniSliderOffState(dateNewerSlider, idx === 0);
       checkMiniDateOverlap(shadow);
     });
     dateNewerSlider.addEventListener('change', () => {
       const idx = parseInt(dateNewerSlider.value, 10);
       safeStorageSet('sync', { dateFilterNewerThreshold: miniDateSteps[idx] });
+      if (idx > 0) {
+        autoEnablePerPageMini(
+          [
+            'dateFilterHomeEnabled',
+            'dateFilterChannelEnabled',
+            'dateFilterSearchEnabled',
+            'dateFilterSubsEnabled',
+            'dateFilterCorrEnabled',
+          ],
+          true,
+        );
+      }
     });
   }
 
@@ -906,11 +862,24 @@ function bindPanelEvents(shadow) {
       const idx = parseInt(dateOlderSlider.value, 10);
       if (dateOlderVal) dateOlderVal.textContent = miniDateLabels[idx];
       updateMiniSliderBg(dateOlderSlider);
+      updateMiniSliderOffState(dateOlderSlider, idx === 0);
       checkMiniDateOverlap(shadow);
     });
     dateOlderSlider.addEventListener('change', () => {
       const idx = parseInt(dateOlderSlider.value, 10);
       safeStorageSet('sync', { dateFilterOlderThreshold: miniDateSteps[idx] });
+      if (idx > 0) {
+        autoEnablePerPageMini(
+          [
+            'dateFilterHomeEnabled',
+            'dateFilterChannelEnabled',
+            'dateFilterSearchEnabled',
+            'dateFilterSubsEnabled',
+            'dateFilterCorrEnabled',
+          ],
+          true,
+        );
+      }
     });
   }
 
@@ -981,13 +950,12 @@ function getMiniPanelHTML() {
     </div>
     <div class="yh-panel-body">
       <div class="yh-panel-group">
-        <label class="yh-panel-row">
+        <div class="yh-panel-row">
           <div class="yh-panel-label-wrap">
             <span class="yh-panel-label">Hide Watched Videos</span>
             <span class="yh-info-wrap">${infoSvg}<span class="yh-tooltip">Hides videos you've already watched beyond the set threshold</span></span>
           </div>
-          <div class="yh-toggle"><input type="checkbox" id="yh-p-hide-watched" /><span class="yh-toggle-slider"></span></div>
-        </label>
+        </div>
         <div class="yh-panel-slider-row">
           <span class="yh-panel-sublabel">Watch threshold</span>
           <div class="yh-panel-slider-wrap">
@@ -1006,13 +974,12 @@ function getMiniPanelHTML() {
         </label>
       </div>
       <div class="yh-panel-group">
-        <label class="yh-panel-row">
+        <div class="yh-panel-row">
           <div class="yh-panel-label-wrap">
             <span class="yh-panel-label">Minimum Views Filter</span>
             <span class="yh-info-wrap">${infoSvg}<span class="yh-tooltip">Hides videos with fewer views than the set minimum</span></span>
           </div>
-          <div class="yh-toggle"><input type="checkbox" id="yh-p-views-filter" /><span class="yh-toggle-slider"></span></div>
-        </label>
+        </div>
         <div class="yh-panel-slider-row">
           <span class="yh-panel-sublabel">Minimum views</span>
           <div class="yh-panel-slider-wrap">
@@ -1022,31 +989,24 @@ function getMiniPanelHTML() {
         </div>
       </div>
       <div class="yh-panel-group">
-        <label class="yh-panel-row">
+        <div class="yh-panel-row">
           <div class="yh-panel-label-wrap">
             <span class="yh-panel-label">Upload Date Filter</span>
             <span class="yh-info-wrap">${infoSvg}<span class="yh-tooltip">Hides videos by their upload date</span></span>
           </div>
-          <div class="yh-toggle"><input type="checkbox" id="yh-p-date-filter" /><span class="yh-toggle-slider"></span></div>
-        </label>
+        </div>
         <div class="yh-panel-slider-row yh-date-slider-row">
-          <div class="yh-panel-sub-toggle-row">
-            <span class="yh-panel-sublabel">Hide newer than</span>
-            <label class="yh-toggle yh-toggle-sm"><input type="checkbox" id="yh-p-date-newer-toggle" /><span class="yh-toggle-slider"></span></label>
-          </div>
+          <span class="yh-panel-sublabel">Hide newer than</span>
           <div class="yh-panel-slider-wrap">
-            <input type="range" id="yh-p-date-newer" min="0" max="11" step="1" value="4" class="yh-panel-slider" />
-            <span class="yh-panel-slider-val" id="yh-p-date-newer-val">1 mo</span>
+            <input type="range" id="yh-p-date-newer" min="0" max="12" step="1" value="0" class="yh-panel-slider" />
+            <span class="yh-panel-slider-val" id="yh-p-date-newer-val">Off</span>
           </div>
         </div>
         <div class="yh-panel-slider-row yh-date-slider-row">
-          <div class="yh-panel-sub-toggle-row">
-            <span class="yh-panel-sublabel">Hide older than</span>
-            <label class="yh-toggle yh-toggle-sm"><input type="checkbox" id="yh-p-date-older-toggle" /><span class="yh-toggle-slider"></span></label>
-          </div>
+          <span class="yh-panel-sublabel">Hide older than</span>
           <div class="yh-panel-slider-wrap">
-            <input type="range" id="yh-p-date-older" min="0" max="11" step="1" value="10" class="yh-panel-slider" />
-            <span class="yh-panel-slider-val" id="yh-p-date-older-val">5 yr</span>
+            <input type="range" id="yh-p-date-older" min="0" max="12" step="1" value="0" class="yh-panel-slider" />
+            <span class="yh-panel-slider-val" id="yh-p-date-older-val">Off</span>
           </div>
         </div>
         <div class="yh-date-overlap-warning" id="yh-p-date-overlap-warning" style="display: none;">
@@ -1344,26 +1304,6 @@ function getFloatingButtonCSS() {
     }
     .yh-toggle input:checked + .yh-toggle-slider::before {
       transform: translateX(14px);
-    }
-
-    /* Small toggle for sub-toggles */
-    .yh-toggle-sm {
-      width: 26px;
-      height: 14px;
-    }
-    .yh-toggle-sm .yh-toggle-slider::before {
-      height: 10px;
-      width: 10px;
-      left: 2px;
-      bottom: 2px;
-    }
-    .yh-toggle-sm input:checked + .yh-toggle-slider::before {
-      transform: translateX(12px);
-    }
-    .yh-panel-sub-toggle-row {
-      display: flex;
-      align-items: center;
-      justify-content: space-between;
     }
 
     .yh-date-slider-row.yh-date-overlap .yh-panel-slider-wrap {
@@ -2048,6 +1988,9 @@ function setupPrefsListener() {
 function hideWatched(pathname) {
   const { hideThreshold } = prefs;
 
+  // Slider at 0 = Off, don't hide anything
+  if (hideThreshold === 0) return;
+
   document
     .querySelectorAll(
       'ytd-thumbnail-overlay-resume-playback-renderer #progress, .ytThumbnailOverlayProgressBarHostWatchedProgressBarSegment, ytm-thumbnail-overlay-resume-playback-renderer .thumbnail-overlay-resume-playback-progress',
@@ -2469,8 +2412,8 @@ function resolveUploadAgeFromSpans(spans) {
 
 function shouldHideDateFilter(pathname) {
   const {
-    dateFilterNewerEnabled,
-    dateFilterOlderEnabled,
+    dateFilterNewerThreshold,
+    dateFilterOlderThreshold,
     dateFilterHomeEnabled,
     dateFilterChannelEnabled,
     dateFilterSearchEnabled,
@@ -2478,7 +2421,9 @@ function shouldHideDateFilter(pathname) {
     dateFilterCorrEnabled,
   } = prefs;
 
-  if (!dateFilterNewerEnabled && !dateFilterOlderEnabled) return false;
+  // Both sliders at Off (threshold 0) means feature is disabled
+  if (dateFilterNewerThreshold === 0 && dateFilterOlderThreshold === 0)
+    return false;
 
   return (
     (pathname === '/' && dateFilterHomeEnabled) ||
@@ -2490,15 +2435,12 @@ function shouldHideDateFilter(pathname) {
 }
 
 function shouldHideDateVideo(ageDays) {
-  const {
-    dateFilterNewerEnabled,
-    dateFilterNewerThreshold,
-    dateFilterOlderEnabled,
-    dateFilterOlderThreshold,
-  } = prefs;
+  const { dateFilterNewerThreshold, dateFilterOlderThreshold } = prefs;
 
-  if (dateFilterNewerEnabled && ageDays < dateFilterNewerThreshold) return true;
-  if (dateFilterOlderEnabled && ageDays > dateFilterOlderThreshold) return true;
+  if (dateFilterNewerThreshold > 0 && ageDays < dateFilterNewerThreshold)
+    return true;
+  if (dateFilterOlderThreshold > 0 && ageDays > dateFilterOlderThreshold)
+    return true;
 
   return false;
 }
@@ -2907,8 +2849,8 @@ async function startHiding(pathname) {
       viewsHideChannelEnabled: prefs.viewsHideChannelEnabled,
       hideShortsEnabled: prefs.hideShortsEnabled,
       hideShortsSearchEnabled: prefs.hideShortsSearchEnabled,
-      dateFilterNewerEnabled: prefs.dateFilterNewerEnabled,
-      dateFilterOlderEnabled: prefs.dateFilterOlderEnabled,
+      dateFilterNewerThreshold: prefs.dateFilterNewerThreshold,
+      dateFilterOlderThreshold: prefs.dateFilterOlderThreshold,
     },
   });
 

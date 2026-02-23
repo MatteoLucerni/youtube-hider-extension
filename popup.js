@@ -42,9 +42,10 @@ function findClosestViewsIndex(value) {
   return closestIndex;
 }
 
-const dateSteps = [1, 3, 7, 14, 30, 60, 90, 180, 365, 730, 1825, 3650];
+const dateSteps = [0, 1, 3, 7, 14, 30, 60, 90, 180, 365, 730, 1825, 3650];
 
 const dateStepLabels = [
+  'Off',
   '1 day',
   '3 days',
   '1 week',
@@ -88,16 +89,7 @@ function updateEasyModeUI(isEasyMode) {
 
 document.addEventListener('DOMContentLoaded', () => {
   const easyModeToggle = document.getElementById('easy-mode-enabled');
-  const hideWatchedMaster = document.getElementById('hide-watched-master');
   const hideShortsMaster = document.getElementById('hide-shorts-master');
-  const viewsHideMaster = document.getElementById('views-hide-master');
-  const dateFilterMaster = document.getElementById('date-filter-master');
-  const dateFilterNewerToggle = document.getElementById(
-    'date-filter-newer-toggle',
-  );
-  const dateFilterOlderToggle = document.getElementById(
-    'date-filter-older-toggle',
-  );
   const floatingButtonToggle = document.getElementById(
     'floating-button-enabled',
   );
@@ -183,9 +175,7 @@ document.addEventListener('DOMContentLoaded', () => {
         corr: document.getElementById('date-filter-corr-enabled'),
       },
       keys: {
-        newerEnabled: 'dateFilterNewerEnabled',
         newerThreshold: 'dateFilterNewerThreshold',
-        olderEnabled: 'dateFilterOlderEnabled',
         olderThreshold: 'dateFilterOlderThreshold',
         home: 'dateFilterHomeEnabled',
         channel: 'dateFilterChannelEnabled',
@@ -194,10 +184,8 @@ document.addEventListener('DOMContentLoaded', () => {
         corr: 'dateFilterCorrEnabled',
       },
       defaults: {
-        newerEnabled: false,
-        newerThreshold: 30,
-        olderEnabled: false,
-        olderThreshold: 1825,
+        newerThreshold: 0,
+        olderThreshold: 0,
         home: false,
         channel: false,
         search: false,
@@ -259,43 +247,18 @@ document.addEventListener('DOMContentLoaded', () => {
       });
     });
 
-    hideWatchedMaster.checked = isAnyTrue({
-      home: prefs.hideHomeEnabled ?? cfg.hide.defaults.home,
-      channel: prefs.hideChannelEnabled ?? cfg.hide.defaults.channel,
-      search: prefs.hideSearchEnabled ?? cfg.hide.defaults.search,
-      subs: prefs.hideSubsEnabled ?? cfg.hide.defaults.subs,
-      corr: prefs.hideCorrEnabled ?? cfg.hide.defaults.corr,
-    });
-
     hideShortsMaster.checked = isAnyTrue({
       enabled: prefs.hideShortsEnabled ?? cfg.shorts.defaults.enabled,
       search: prefs.hideShortsSearchEnabled ?? cfg.shorts.defaults.search,
     });
 
-    viewsHideMaster.checked = isAnyTrue({
-      home: prefs.viewsHideHomeEnabled ?? cfg.views.defaults.home,
-      channel: prefs.viewsHideChannelEnabled ?? cfg.views.defaults.channel,
-      search: prefs.viewsHideSearchEnabled ?? cfg.views.defaults.search,
-      subs: prefs.viewsHideSubsEnabled ?? cfg.views.defaults.subs,
-      corr: prefs.viewsHideCorrEnabled ?? cfg.views.defaults.corr,
-    });
-
     // Date filter load
-    dateFilterNewerToggle.checked =
-      prefs.dateFilterNewerEnabled ?? cfg.date.defaults.newerEnabled;
-    dateFilterOlderToggle.checked =
-      prefs.dateFilterOlderEnabled ?? cfg.date.defaults.olderEnabled;
-
     const newerDays =
       prefs.dateFilterNewerThreshold ?? cfg.date.defaults.newerThreshold;
     const newerIdx = findClosestDateIndex(newerDays);
     cfg.date.newerSlider.value = newerIdx;
     cfg.date.newerValue.textContent = dateStepLabels[newerIdx];
     updateSliderBackground(cfg.date.newerSlider);
-    updateDateSliderDisabled(
-      cfg.date.newerSlider,
-      dateFilterNewerToggle.checked,
-    );
 
     const olderDays =
       prefs.dateFilterOlderThreshold ?? cfg.date.defaults.olderThreshold;
@@ -303,10 +266,6 @@ document.addEventListener('DOMContentLoaded', () => {
     cfg.date.olderSlider.value = olderIdx;
     cfg.date.olderValue.textContent = dateStepLabels[olderIdx];
     updateSliderBackground(cfg.date.olderSlider);
-    updateDateSliderDisabled(
-      cfg.date.olderSlider,
-      dateFilterOlderToggle.checked,
-    );
 
     Object.entries(cfg.date.boxes).forEach(([k, box]) => {
       box.checked = prefs[cfg.date.keys[k]] ?? cfg.date.defaults[k];
@@ -314,13 +273,48 @@ document.addEventListener('DOMContentLoaded', () => {
 
     checkDateOverlap();
 
-    dateFilterMaster.checked = isAnyTrue({
-      home: prefs.dateFilterHomeEnabled ?? cfg.date.defaults.home,
-      channel: prefs.dateFilterChannelEnabled ?? cfg.date.defaults.channel,
-      search: prefs.dateFilterSearchEnabled ?? cfg.date.defaults.search,
-      subs: prefs.dateFilterSubsEnabled ?? cfg.date.defaults.subs,
-      corr: prefs.dateFilterCorrEnabled ?? cfg.date.defaults.corr,
-    });
+    // Apply slider-off visual state & display label for all slider sections
+    updateSliderOffState(
+      cfg.hide.slider,
+      parseInt(cfg.hide.slider.value, 10) === 0,
+    );
+    updateSliderOffState(
+      cfg.views.slider,
+      parseInt(cfg.views.slider.value, 10) === 0,
+    );
+    updateSliderOffState(
+      cfg.date.newerSlider,
+      parseInt(cfg.date.newerSlider.value, 10) === 0,
+    );
+    updateSliderOffState(
+      cfg.date.olderSlider,
+      parseInt(cfg.date.olderSlider.value, 10) === 0,
+    );
+
+    // Update display labels for Off state
+    if (parseInt(cfg.hide.slider.value, 10) === 0) {
+      cfg.hide.value.textContent = 'Off';
+      const unit = document.querySelector('.slider-unit');
+      if (unit) unit.style.display = 'none';
+    }
+    if (parseInt(cfg.views.slider.value, 10) === 0) {
+      cfg.views.value.textContent = 'Off';
+    }
+
+    // Apply per-page disabled state in Advanced Mode when slider is off
+    updatePerPageDisabledState(
+      'hide',
+      parseInt(cfg.hide.slider.value, 10) === 0,
+    );
+    updatePerPageDisabledState(
+      'views',
+      parseInt(cfg.views.slider.value, 10) === 0,
+    );
+    updatePerPageDisabledState(
+      'date',
+      parseInt(cfg.date.newerSlider.value, 10) === 0 &&
+        parseInt(cfg.date.olderSlider.value, 10) === 0,
+    );
 
     if (isFirstInstall) {
       saveSettings();
@@ -354,10 +348,8 @@ document.addEventListener('DOMContentLoaded', () => {
           cfg.shorts.boxes[k].checked,
         ]),
       ),
-      dateFilterNewerEnabled: dateFilterNewerToggle.checked,
       dateFilterNewerThreshold:
         dateSteps[parseInt(cfg.date.newerSlider.value, 10)],
-      dateFilterOlderEnabled: dateFilterOlderToggle.checked,
       dateFilterOlderThreshold:
         dateSteps[parseInt(cfg.date.olderSlider.value, 10)],
       ...Object.fromEntries(
@@ -419,10 +411,7 @@ document.addEventListener('DOMContentLoaded', () => {
       Object.values(cfg.date.boxes).forEach(box => {
         box.checked = true;
       });
-      hideWatchedMaster.checked = true;
       hideShortsMaster.checked = true;
-      viewsHideMaster.checked = true;
-      dateFilterMaster.checked = true;
     }
     saveSettings();
   });
@@ -446,14 +435,6 @@ document.addEventListener('DOMContentLoaded', () => {
     });
   }
 
-  hideWatchedMaster.addEventListener('change', () => {
-    const isEnabled = hideWatchedMaster.checked;
-    Object.values(cfg.hide.boxes).forEach(box => {
-      box.checked = isEnabled;
-    });
-    saveSettings();
-  });
-
   hideShortsMaster.addEventListener('change', () => {
     const isEnabled = hideShortsMaster.checked;
     Object.values(cfg.shorts.boxes).forEach(box => {
@@ -462,35 +443,54 @@ document.addEventListener('DOMContentLoaded', () => {
     saveSettings();
   });
 
-  viewsHideMaster.addEventListener('change', () => {
-    const isEnabled = viewsHideMaster.checked;
-    Object.values(cfg.views.boxes).forEach(box => {
-      box.checked = isEnabled;
-    });
-    saveSettings();
-  });
+  // ── Slider-off visual state helper ──
 
-  dateFilterMaster.addEventListener('change', () => {
-    const isEnabled = dateFilterMaster.checked;
-    Object.values(cfg.date.boxes).forEach(box => {
-      box.checked = isEnabled;
-    });
-    saveSettings();
-  });
-
-  function updateDateSliderDisabled(slider, enabled) {
+  function updateSliderOffState(slider, isOff) {
     const control = slider.closest('.slider-control');
-    if (control) control.classList.toggle('date-sub-disabled', !enabled);
+    if (control) control.classList.toggle('slider-off', isOff);
+  }
+
+  function updatePerPageDisabledState(section, isOff) {
+    let card;
+    if (section === 'hide') {
+      card = cfg.hide.slider.closest('.setting-card');
+    } else if (section === 'views') {
+      card = cfg.views.slider.closest('.setting-card');
+    } else if (section === 'date') {
+      card = cfg.date.newerSlider.closest('.setting-card');
+    }
+    if (card) {
+      const grid = card.querySelector('.toggle-grid.easy-mode-advanced');
+      if (grid) grid.classList.toggle('per-page-disabled', isOff);
+    }
+  }
+
+  // Auto-enable per-page flags when slider leaves Off (Easy Mode only)
+  function autoEnablePerPage(section) {
+    if (!easyModeToggle.checked) return;
+    const boxes =
+      section === 'date'
+        ? cfg.date.boxes
+        : section === 'views'
+          ? cfg.views.boxes
+          : cfg.hide.boxes;
+    const allOff = Object.values(boxes).every(box => !box.checked);
+    if (allOff) {
+      Object.values(boxes).forEach(box => {
+        box.checked = true;
+      });
+    }
   }
 
   function checkDateOverlap() {
-    const newerEnabled = dateFilterNewerToggle.checked;
-    const olderEnabled = dateFilterOlderToggle.checked;
-    const newerThreshold = dateSteps[parseInt(cfg.date.newerSlider.value, 10)];
-    const olderThreshold = dateSteps[parseInt(cfg.date.olderSlider.value, 10)];
+    const newerIdx = parseInt(cfg.date.newerSlider.value, 10);
+    const olderIdx = parseInt(cfg.date.olderSlider.value, 10);
+    const newerThreshold = dateSteps[newerIdx];
+    const olderThreshold = dateSteps[olderIdx];
 
+    // Both must be active (not Off) and overlapping
     const isOverlap =
-      newerEnabled && olderEnabled && newerThreshold >= olderThreshold;
+      newerIdx > 0 && olderIdx > 0 && newerThreshold >= olderThreshold;
 
     const warning = document.getElementById('date-overlap-warning');
     if (warning) warning.style.display = isOverlap ? 'flex' : 'none';
@@ -500,54 +500,79 @@ document.addEventListener('DOMContentLoaded', () => {
     });
   }
 
-  dateFilterNewerToggle.addEventListener('change', () => {
-    updateDateSliderDisabled(
-      cfg.date.newerSlider,
-      dateFilterNewerToggle.checked,
-    );
-    checkDateOverlap();
-    saveSettings();
-  });
-
-  dateFilterOlderToggle.addEventListener('change', () => {
-    updateDateSliderDisabled(
-      cfg.date.olderSlider,
-      dateFilterOlderToggle.checked,
-    );
-    checkDateOverlap();
-    saveSettings();
-  });
+  // ── Slider event handlers ──
 
   cfg.date.newerSlider.addEventListener('input', () => {
     const index = parseInt(cfg.date.newerSlider.value, 10);
     cfg.date.newerValue.textContent = dateStepLabels[index];
     updateSliderBackground(cfg.date.newerSlider);
+    updateSliderOffState(cfg.date.newerSlider, index === 0);
+    updatePerPageDisabledState(
+      'date',
+      index === 0 && parseInt(cfg.date.olderSlider.value, 10) === 0,
+    );
     checkDateOverlap();
   });
-  cfg.date.newerSlider.addEventListener('change', saveSettings);
+  cfg.date.newerSlider.addEventListener('change', () => {
+    const index = parseInt(cfg.date.newerSlider.value, 10);
+    if (index > 0) autoEnablePerPage('date');
+    saveSettings();
+  });
 
   cfg.date.olderSlider.addEventListener('input', () => {
     const index = parseInt(cfg.date.olderSlider.value, 10);
     cfg.date.olderValue.textContent = dateStepLabels[index];
     updateSliderBackground(cfg.date.olderSlider);
+    updateSliderOffState(cfg.date.olderSlider, index === 0);
+    updatePerPageDisabledState(
+      'date',
+      index === 0 && parseInt(cfg.date.newerSlider.value, 10) === 0,
+    );
     checkDateOverlap();
   });
-  cfg.date.olderSlider.addEventListener('change', saveSettings);
+  cfg.date.olderSlider.addEventListener('change', () => {
+    const index = parseInt(cfg.date.olderSlider.value, 10);
+    if (index > 0) autoEnablePerPage('date');
+    saveSettings();
+  });
 
   [[cfg.hide.slider, cfg.hide.value]].forEach(([slider, display]) => {
     slider.addEventListener('input', () => {
-      display.textContent = slider.value;
+      const val = parseInt(slider.value, 10);
+      if (val === 0) {
+        display.textContent = 'Off';
+        const unit = display.parentElement.querySelector('.slider-unit');
+        if (unit) unit.style.display = 'none';
+      } else {
+        display.textContent = val;
+        const unit = display.parentElement.querySelector('.slider-unit');
+        if (unit) unit.style.display = '';
+      }
       updateSliderBackground(slider);
+      updateSliderOffState(slider, val === 0);
+      updatePerPageDisabledState('hide', val === 0);
     });
-    slider.addEventListener('change', saveSettings);
+    slider.addEventListener('change', () => {
+      if (parseInt(slider.value, 10) > 0) autoEnablePerPage('hide');
+      saveSettings();
+    });
   });
 
   cfg.views.slider.addEventListener('input', () => {
     const index = parseInt(cfg.views.slider.value, 10);
-    cfg.views.value.textContent = formatViews(viewsSteps[index]);
+    if (index === 0) {
+      cfg.views.value.textContent = 'Off';
+    } else {
+      cfg.views.value.textContent = formatViews(viewsSteps[index]);
+    }
     updateSliderBackground(cfg.views.slider);
+    updateSliderOffState(cfg.views.slider, index === 0);
+    updatePerPageDisabledState('views', index === 0);
   });
-  cfg.views.slider.addEventListener('change', saveSettings);
+  cfg.views.slider.addEventListener('change', () => {
+    if (parseInt(cfg.views.slider.value, 10) > 0) autoEnablePerPage('views');
+    saveSettings();
+  });
 
   [
     ...Object.values(cfg.hide.boxes),

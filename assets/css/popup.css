@@ -815,15 +815,6 @@ body.easy-mode-on .setting-card-compact .setting-group-compact {
     margin-left: 0;
 }
 
-/* Date sub-toggle: inline toggle next to slider label */
-.date-sub-toggle {
-    display: inline-flex;
-    margin-left: 8px;
-    vertical-align: middle;
-    position: relative;
-    flex-shrink: 0;
-}
-
 /* Date sub-filter: column layout with fixed width */
 .date-sub-filter {
     flex-direction: column;
@@ -863,9 +854,15 @@ body.easy-mode-on .setting-card-compact .setting-group-compact {
     text-align: center;
 }
 
-/* Disabled state when sub-toggle is OFF */
-.date-sub-filter.date-sub-disabled .slider-wrapper,
-.date-sub-filter.date-sub-disabled .date-slider-display {
+/* Disabled state when slider is at Off position */
+.slider-control.slider-off .slider-wrapper,
+.slider-control.slider-off .date-slider-display,
+.slider-control.slider-off .slider-display {
+    opacity: 0.35;
+}
+
+/* Per-page toggles disabled when slider is Off (Advanced Mode) */
+.toggle-grid.per-page-disabled {
     opacity: 0.35;
     pointer-events: none;
 }
