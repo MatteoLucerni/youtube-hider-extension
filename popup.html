@@ -444,13 +444,11 @@
                     <span class="toggle-slider"></span>
                   </label>
                 </div>
+                <div class="slider-display date-slider-display">
+                  <span class="slider-value" id="date-filter-newer-value">1 month</span>
+                </div>
                 <div class="slider-wrapper">
                   <input type="range" class="slider" id="date-filter-newer" min="0" max="11" step="1" value="4" />
-                </div>
-              </div>
-              <div class="slider-control-right">
-                <div class="slider-display">
-                  <span class="slider-value" id="date-filter-newer-value">1 month</span>
                 </div>
               </div>
             </div>
@@ -474,15 +472,24 @@
                     <span class="toggle-slider"></span>
                   </label>
                 </div>
+                <div class="slider-display date-slider-display">
+                  <span class="slider-value" id="date-filter-older-value">5 years</span>
+                </div>
                 <div class="slider-wrapper">
                   <input type="range" class="slider" id="date-filter-older" min="0" max="11" step="1" value="10" />
                 </div>
               </div>
-              <div class="slider-control-right">
-                <div class="slider-display">
-                  <span class="slider-value" id="date-filter-older-value">5 years</span>
-                </div>
-              </div>
+            </div>
+
+            <div class="date-overlap-warning" id="date-overlap-warning" style="display: none;">
+              <svg xmlns="http://www.w3.org/2000/svg" width="12" height="12" viewBox="0 0 24 24" fill="none"
+                stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                <path d="M10.29 3.86L1.82 18a2 2 0 0 0 1.71 3h16.94a2 2 0 0 0 1.71-3L13.71 3.86a2 2 0 0 0-3.42 0z">
+                </path>
+                <line x1="12" y1="9" x2="12" y2="13"></line>
+                <line x1="12" y1="17" x2="12.01" y2="17"></line>
+              </svg>
+              <span>These ranges overlap — all videos will be hidden</span>
             </div>
 
             <div class="toggle-grid easy-mode-advanced">

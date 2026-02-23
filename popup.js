@@ -312,6 +312,8 @@ document.addEventListener('DOMContentLoaded', () => {
       box.checked = prefs[cfg.date.keys[k]] ?? cfg.date.defaults[k];
     });
 
+    checkDateOverlap();
+
     dateFilterMaster.checked = isAnyTrue({
       home: prefs.dateFilterHomeEnabled ?? cfg.date.defaults.home,
       channel: prefs.dateFilterChannelEnabled ?? cfg.date.defaults.channel,
@@ -481,11 +483,29 @@ document.addEventListener('DOMContentLoaded', () => {
     if (control) control.classList.toggle('date-sub-disabled', !enabled);
   }
 
+  function checkDateOverlap() {
+    const newerEnabled = dateFilterNewerToggle.checked;
+    const olderEnabled = dateFilterOlderToggle.checked;
+    const newerThreshold = dateSteps[parseInt(cfg.date.newerSlider.value, 10)];
+    const olderThreshold = dateSteps[parseInt(cfg.date.olderSlider.value, 10)];
+
+    const isOverlap =
+      newerEnabled && olderEnabled && newerThreshold >= olderThreshold;
+
+    const warning = document.getElementById('date-overlap-warning');
+    if (warning) warning.style.display = isOverlap ? 'flex' : 'none';
+
+    document.querySelectorAll('.date-sub-filter').forEach(el => {
+      el.classList.toggle('date-overlap', isOverlap);
+    });
+  }
+
   dateFilterNewerToggle.addEventListener('change', () => {
     updateDateSliderDisabled(
       cfg.date.newerSlider,
       dateFilterNewerToggle.checked,
     );
+    checkDateOverlap();
     saveSettings();
   });
 
@@ -494,6 +514,7 @@ document.addEventListener('DOMContentLoaded', () => {
       cfg.date.olderSlider,
       dateFilterOlderToggle.checked,
     );
+    checkDateOverlap();
     saveSettings();
   });
 
@@ -501,6 +522,7 @@ document.addEventListener('DOMContentLoaded', () => {
     const index = parseInt(cfg.date.newerSlider.value, 10);
     cfg.date.newerValue.textContent = dateStepLabels[index];
     updateSliderBackground(cfg.date.newerSlider);
+    checkDateOverlap();
   });
   cfg.date.newerSlider.addEventListener('change', saveSettings);
 
@@ -508,6 +530,7 @@ document.addEventListener('DOMContentLoaded', () => {
     const index = parseInt(cfg.date.olderSlider.value, 10);
     cfg.date.olderValue.textContent = dateStepLabels[index];
     updateSliderBackground(cfg.date.olderSlider);
+    checkDateOverlap();
   });
   cfg.date.olderSlider.addEventListener('change', saveSettings);
 

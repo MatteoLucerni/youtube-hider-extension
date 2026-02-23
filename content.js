@@ -721,6 +721,8 @@ function syncPanelToPrefs(shadow) {
     updateMiniSliderBg(dateOlderSlider);
     updateMiniDateSliderDisabled(dateOlderSlider, prefs.dateFilterOlderEnabled);
   }
+
+  checkMiniDateOverlap(shadow);
 }
 
 function updateMiniSliderBg(slider) {
@@ -737,6 +739,36 @@ function updateMiniDateSliderDisabled(slider, enabled) {
       wrap.style.pointerEvents = enabled ? 'auto' : 'none';
     }
   }
+}
+
+function checkMiniDateOverlap(shadow) {
+  const dateNewerToggle = shadow.querySelector('#yh-p-date-newer-toggle');
+  const dateOlderToggle = shadow.querySelector('#yh-p-date-older-toggle');
+  const dateNewerSlider = shadow.querySelector('#yh-p-date-newer');
+  const dateOlderSlider = shadow.querySelector('#yh-p-date-older');
+  const warning = shadow.querySelector('#yh-p-date-overlap-warning');
+
+  if (
+    !dateNewerToggle ||
+    !dateOlderToggle ||
+    !dateNewerSlider ||
+    !dateOlderSlider
+  )
+    return;
+
+  const newerEnabled = dateNewerToggle.checked;
+  const olderEnabled = dateOlderToggle.checked;
+  const newerThreshold = miniDateSteps[parseInt(dateNewerSlider.value, 10)];
+  const olderThreshold = miniDateSteps[parseInt(dateOlderSlider.value, 10)];
+
+  const isOverlap =
+    newerEnabled && olderEnabled && newerThreshold >= olderThreshold;
+
+  if (warning) warning.style.display = isOverlap ? 'flex' : 'none';
+
+  shadow.querySelectorAll('.yh-date-slider-row').forEach(row => {
+    row.classList.toggle('yh-date-overlap', isOverlap);
+  });
 }
 
 function bindPanelEvents(shadow) {
@@ -841,6 +873,7 @@ function bindPanelEvents(shadow) {
       });
       if (dateNewerSlider)
         updateMiniDateSliderDisabled(dateNewerSlider, dateNewerToggle.checked);
+      checkMiniDateOverlap(shadow);
     });
   }
 
@@ -851,6 +884,7 @@ function bindPanelEvents(shadow) {
       });
       if (dateOlderSlider)
         updateMiniDateSliderDisabled(dateOlderSlider, dateOlderToggle.checked);
+      checkMiniDateOverlap(shadow);
     });
   }
 
@@ -859,6 +893,7 @@ function bindPanelEvents(shadow) {
       const idx = parseInt(dateNewerSlider.value, 10);
       if (dateNewerVal) dateNewerVal.textContent = miniDateLabels[idx];
       updateMiniSliderBg(dateNewerSlider);
+      checkMiniDateOverlap(shadow);
     });
     dateNewerSlider.addEventListener('change', () => {
       const idx = parseInt(dateNewerSlider.value, 10);
@@ -871,6 +906,7 @@ function bindPanelEvents(shadow) {
       const idx = parseInt(dateOlderSlider.value, 10);
       if (dateOlderVal) dateOlderVal.textContent = miniDateLabels[idx];
       updateMiniSliderBg(dateOlderSlider);
+      checkMiniDateOverlap(shadow);
     });
     dateOlderSlider.addEventListener('change', () => {
       const idx = parseInt(dateOlderSlider.value, 10);
@@ -993,7 +1029,7 @@ function getMiniPanelHTML() {
           </div>
           <div class="yh-toggle"><input type="checkbox" id="yh-p-date-filter" /><span class="yh-toggle-slider"></span></div>
         </label>
-        <div class="yh-panel-slider-row">
+        <div class="yh-panel-slider-row yh-date-slider-row">
           <div class="yh-panel-sub-toggle-row">
             <span class="yh-panel-sublabel">Hide newer than</span>
             <label class="yh-toggle yh-toggle-sm"><input type="checkbox" id="yh-p-date-newer-toggle" /><span class="yh-toggle-slider"></span></label>
@@ -1003,7 +1039,7 @@ function getMiniPanelHTML() {
             <span class="yh-panel-slider-val" id="yh-p-date-newer-val">1 mo</span>
           </div>
         </div>
-        <div class="yh-panel-slider-row">
+        <div class="yh-panel-slider-row yh-date-slider-row">
           <div class="yh-panel-sub-toggle-row">
             <span class="yh-panel-sublabel">Hide older than</span>
             <label class="yh-toggle yh-toggle-sm"><input type="checkbox" id="yh-p-date-older-toggle" /><span class="yh-toggle-slider"></span></label>
@@ -1012,6 +1048,14 @@ function getMiniPanelHTML() {
             <input type="range" id="yh-p-date-older" min="0" max="11" step="1" value="10" class="yh-panel-slider" />
             <span class="yh-panel-slider-val" id="yh-p-date-older-val">5 yr</span>
           </div>
+        </div>
+        <div class="yh-date-overlap-warning" id="yh-p-date-overlap-warning" style="display: none;">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" width="12" height="12">
+            <path d="M10.29 3.86L1.82 18a2 2 0 0 0 1.71 3h16.94a2 2 0 0 0 1.71-3L13.71 3.86a2 2 0 0 0-3.42 0z"></path>
+            <line x1="12" y1="9" x2="12" y2="13"></line>
+            <line x1="12" y1="17" x2="12.01" y2="17"></line>
+          </svg>
+          <span>Ranges overlap — all videos hidden</span>
         </div>
       </div>
     </div>
@@ -1320,6 +1364,33 @@ function getFloatingButtonCSS() {
       display: flex;
       align-items: center;
       justify-content: space-between;
+    }
+
+    .yh-date-slider-row.yh-date-overlap .yh-panel-slider-wrap {
+      border: 1px solid rgba(239, 68, 68, 0.5);
+      border-radius: 6px;
+      padding: 4px 6px;
+    }
+    .yh-date-overlap-warning {
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      gap: 5px;
+      padding: 4px 10px;
+      margin: 0 10px 4px;
+      border-radius: 4px;
+      background-color: rgba(239, 68, 68, 0.12);
+      border: 1px solid rgba(239, 68, 68, 0.35);
+    }
+    .yh-date-overlap-warning svg {
+      color: #ef4444;
+      flex-shrink: 0;
+    }
+    .yh-date-overlap-warning span {
+      font-size: 10px;
+      font-weight: 500;
+      color: #ef4444;
+      line-height: 1.2;
     }
 
     .yh-panel-footer {
