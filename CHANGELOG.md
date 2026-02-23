@@ -10,9 +10,20 @@
   - Both sub-filters can be used together to keep only a specific age range
   - Logarithmic time steps: 1 day, 3 days, 1 week, 2 weeks, 1 month, 2 months, 3 months, 6 months, 1 year, 2 years, 5 years, 10 years
   - Per-page toggles (Home, Channel, Subs, Search, Related) shared between both sub-filters
-  - Full mini-panel floating button support (master toggle + 2 sub-toggles + 2 sliders)
+  - Full support in the floating mini-panel (master toggle + 2 sub-toggles + 2 sliders)
   - Multi-language upload date parsing (EN, IT, FR, DE, ES, PT, RU, JA, KO, AR and more)
-  - Supports classic, new format (`yt-content-metadata-view-model`), and mobile YouTube layouts
+  - Supports classic, new (`yt-content-metadata-view-model`), and mobile YouTube layouts
+
+**Improved**
+
+- Upload Date Filter layout and UX improved in both popup and mini-panel
+- All slider tooltips updated: now explain that dragging fully left disables the filter
+- Removed switches for all settings that have a slider: now you just drag the slider fully left to turn off the feature
+- Overlap error message is clearer and matches the width of the filter boxes
+- No more layout shift in the mini-panel when the overlap warning appears or disappears
+- Tutorial updated: now mentions the Upload Date Filter and how to disable filters
+- Mini-panel tooltips are always visible and never cut off or out of viewport
+- Removed all uses of the em dash (—) symbol in code and documentation
 
 ### Version 2.6.0
 
