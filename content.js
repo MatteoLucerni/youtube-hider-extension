@@ -613,6 +613,56 @@ const miniDateLabels = [
   '10 yr',
 ];
 
+const miniDateNewerSteps = [
+  0,
+  1 / 24,
+  0.25,
+  0.5,
+  1,
+  3,
+  7,
+  14,
+  30,
+  60,
+  90,
+  180,
+  365,
+  730,
+  1825,
+  3650,
+];
+const miniDateNewerLabels = [
+  'Off',
+  '1h',
+  '6h',
+  '12h',
+  '1d',
+  '3d',
+  '1w',
+  '2w',
+  '1 mo',
+  '2 mo',
+  '3 mo',
+  '6 mo',
+  '1 yr',
+  '2 yr',
+  '5 yr',
+  '10 yr',
+];
+
+function findClosestMiniDateNewerIndex(value) {
+  let closestIndex = 0;
+  let minDiff = Math.abs(miniDateNewerSteps[0] - value);
+  for (let i = 1; i < miniDateNewerSteps.length; i++) {
+    const diff = Math.abs(miniDateNewerSteps[i] - value);
+    if (diff < minDiff) {
+      minDiff = diff;
+      closestIndex = i;
+    }
+  }
+  return closestIndex;
+}
+
 function findClosestMiniDateIndex(value) {
   let closestIndex = 0;
   let minDiff = Math.abs(miniDateSteps[0] - value);
@@ -683,9 +733,9 @@ function syncPanelToPrefs(shadow) {
   const dateOlderVal = shadow.querySelector('#yh-p-date-older-val');
 
   if (dateNewerSlider) {
-    const idx = findClosestMiniDateIndex(prefs.dateFilterNewerThreshold);
+    const idx = findClosestMiniDateNewerIndex(prefs.dateFilterNewerThreshold);
     dateNewerSlider.value = idx;
-    if (dateNewerVal) dateNewerVal.textContent = miniDateLabels[idx];
+    if (dateNewerVal) dateNewerVal.textContent = miniDateNewerLabels[idx];
     updateMiniSliderBg(dateNewerSlider);
     updateMiniSliderOffState(dateNewerSlider, idx === 0);
   }
@@ -724,7 +774,7 @@ function checkMiniDateOverlap(shadow) {
 
   const newerIdx = parseInt(dateNewerSlider.value, 10);
   const olderIdx = parseInt(dateOlderSlider.value, 10);
-  const newerThreshold = miniDateSteps[newerIdx];
+  const newerThreshold = miniDateNewerSteps[newerIdx];
   const olderThreshold = miniDateSteps[olderIdx];
 
   // Both must be active (not Off) and overlapping
@@ -834,14 +884,16 @@ function bindPanelEvents(shadow) {
   if (dateNewerSlider) {
     dateNewerSlider.addEventListener('input', () => {
       const idx = parseInt(dateNewerSlider.value, 10);
-      if (dateNewerVal) dateNewerVal.textContent = miniDateLabels[idx];
+      if (dateNewerVal) dateNewerVal.textContent = miniDateNewerLabels[idx];
       updateMiniSliderBg(dateNewerSlider);
       updateMiniSliderOffState(dateNewerSlider, idx === 0);
       checkMiniDateOverlap(shadow);
     });
     dateNewerSlider.addEventListener('change', () => {
       const idx = parseInt(dateNewerSlider.value, 10);
-      safeStorageSet('sync', { dateFilterNewerThreshold: miniDateSteps[idx] });
+      safeStorageSet('sync', {
+        dateFilterNewerThreshold: miniDateNewerSteps[idx],
+      });
       if (idx > 0) {
         autoEnablePerPageMini(
           [
@@ -998,7 +1050,7 @@ function getMiniPanelHTML() {
         <div class="yh-panel-slider-row yh-date-slider-row">
           <span class="yh-panel-sublabel">Hide newer than</span>
           <div class="yh-panel-slider-wrap">
-            <input type="range" id="yh-p-date-newer" min="0" max="12" step="1" value="0" class="yh-panel-slider" />
+            <input type="range" id="yh-p-date-newer" min="0" max="15" step="1" value="0" class="yh-panel-slider" />
             <span class="yh-panel-slider-val" id="yh-p-date-newer-val">Off</span>
           </div>
         </div>

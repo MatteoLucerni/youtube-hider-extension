@@ -60,6 +60,57 @@ const dateStepLabels = [
   '10 years',
 ];
 
+const dateNewerSteps = [
+  0,
+  1 / 24,
+  0.25,
+  0.5,
+  1,
+  3,
+  7,
+  14,
+  30,
+  60,
+  90,
+  180,
+  365,
+  730,
+  1825,
+  3650,
+];
+
+const dateNewerStepLabels = [
+  'Off',
+  '1 hour',
+  '6 hours',
+  '12 hours',
+  '1 day',
+  '3 days',
+  '1 week',
+  '2 weeks',
+  '1 month',
+  '2 months',
+  '3 months',
+  '6 months',
+  '1 year',
+  '2 years',
+  '5 years',
+  '10 years',
+];
+
+function findClosestDateNewerIndex(value) {
+  let closestIndex = 0;
+  let minDiff = Math.abs(dateNewerSteps[0] - value);
+  for (let i = 1; i < dateNewerSteps.length; i++) {
+    const diff = Math.abs(dateNewerSteps[i] - value);
+    if (diff < minDiff) {
+      minDiff = diff;
+      closestIndex = i;
+    }
+  }
+  return closestIndex;
+}
+
 function formatDateThreshold(days) {
   const idx = findClosestDateIndex(days);
   return dateStepLabels[idx];
@@ -255,9 +306,9 @@ document.addEventListener('DOMContentLoaded', () => {
     // Date filter load
     const newerDays =
       prefs.dateFilterNewerThreshold ?? cfg.date.defaults.newerThreshold;
-    const newerIdx = findClosestDateIndex(newerDays);
+    const newerIdx = findClosestDateNewerIndex(newerDays);
     cfg.date.newerSlider.value = newerIdx;
-    cfg.date.newerValue.textContent = dateStepLabels[newerIdx];
+    cfg.date.newerValue.textContent = dateNewerStepLabels[newerIdx];
     updateSliderBackground(cfg.date.newerSlider);
 
     const olderDays =
@@ -349,7 +400,7 @@ document.addEventListener('DOMContentLoaded', () => {
         ]),
       ),
       dateFilterNewerThreshold:
-        dateSteps[parseInt(cfg.date.newerSlider.value, 10)],
+        dateNewerSteps[parseInt(cfg.date.newerSlider.value, 10)],
       dateFilterOlderThreshold:
         dateSteps[parseInt(cfg.date.olderSlider.value, 10)],
       ...Object.fromEntries(
@@ -485,7 +536,7 @@ document.addEventListener('DOMContentLoaded', () => {
   function checkDateOverlap() {
     const newerIdx = parseInt(cfg.date.newerSlider.value, 10);
     const olderIdx = parseInt(cfg.date.olderSlider.value, 10);
-    const newerThreshold = dateSteps[newerIdx];
+    const newerThreshold = dateNewerSteps[newerIdx];
     const olderThreshold = dateSteps[olderIdx];
 
     // Both must be active (not Off) and overlapping
@@ -504,7 +555,7 @@ document.addEventListener('DOMContentLoaded', () => {
 
   cfg.date.newerSlider.addEventListener('input', () => {
     const index = parseInt(cfg.date.newerSlider.value, 10);
-    cfg.date.newerValue.textContent = dateStepLabels[index];
+    cfg.date.newerValue.textContent = dateNewerStepLabels[index];
     updateSliderBackground(cfg.date.newerSlider);
     updateSliderOffState(cfg.date.newerSlider, index === 0);
     updatePerPageDisabledState(
