@@ -2504,8 +2504,9 @@ function hideDateFilter() {
 
       const allSpans = [];
       metadataRows.forEach(row => {
-        const span = row.querySelector('span.yt-core-attributed-string');
-        if (span) allSpans.push(span);
+        row.querySelectorAll('span.yt-core-attributed-string').forEach(span => {
+          allSpans.push(span);
+        });
       });
 
       const result = resolveUploadAgeFromSpans(allSpans);
@@ -2569,8 +2570,9 @@ function hideNewFormatVideos() {
 
       const allSpans = [];
       metadataRows.forEach(row => {
-        const span = row.querySelector('span.yt-core-attributed-string');
-        if (span) allSpans.push(span);
+        row.querySelectorAll('span.yt-core-attributed-string').forEach(span => {
+          allSpans.push(span);
+        });
       });
 
       const result = resolveViewsFromSpans(allSpans);
