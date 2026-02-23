@@ -1150,6 +1150,7 @@ function getFloatingButtonCSS() {
       padding: 8px 10px;
       cursor: pointer;
       transition: background 0.15s;
+      position: relative;
     }
     .yh-panel-row:hover {
       background: #313131;
@@ -1165,7 +1166,7 @@ function getFloatingButtonCSS() {
       color: #fff;
     }
     .yh-info-wrap {
-      position: relative;
+      position: static;
       display: inline-flex;
       align-items: center;
     }
@@ -1186,8 +1187,10 @@ function getFloatingButtonCSS() {
       visibility: hidden;
       opacity: 0;
       position: absolute;
-      bottom: calc(100% + 6px);
-      right: -8px;
+      bottom: calc(100% + 4px);
+      left: 10px;
+      right: 10px;
+      width: auto;
       background: #333;
       color: #ddd;
       font-size: 11px;
@@ -1196,7 +1199,6 @@ function getFloatingButtonCSS() {
       padding: 6px 10px;
       border-radius: 4px;
       white-space: normal;
-      width: 180px;
       box-shadow: 0 2px 8px rgba(0,0,0,0.4);
       pointer-events: none;
       transition: opacity 0.15s, visibility 0.15s;
@@ -1206,7 +1208,7 @@ function getFloatingButtonCSS() {
       content: '';
       position: absolute;
       top: 100%;
-      right: 12px;
+      right: 20px;
       border-width: 4px;
       border-style: solid;
       border-color: #333 transparent transparent transparent;
