@@ -42,6 +42,93 @@ function findClosestViewsIndex(value) {
   return closestIndex;
 }
 
+const dateSteps = [0, 1, 3, 7, 14, 30, 60, 90, 180, 365, 730, 1825, 3650];
+
+const dateStepLabels = [
+  'Off',
+  '1 day',
+  '3 days',
+  '1 week',
+  '2 weeks',
+  '1 month',
+  '2 months',
+  '3 months',
+  '6 months',
+  '1 year',
+  '2 years',
+  '5 years',
+  '10 years',
+];
+
+const dateNewerSteps = [
+  0,
+  1 / 24,
+  0.25,
+  0.5,
+  1,
+  3,
+  7,
+  14,
+  30,
+  60,
+  90,
+  180,
+  365,
+  730,
+  1825,
+  3650,
+];
+
+const dateNewerStepLabels = [
+  'Off',
+  '1 hour',
+  '6 hours',
+  '12 hours',
+  '1 day',
+  '3 days',
+  '1 week',
+  '2 weeks',
+  '1 month',
+  '2 months',
+  '3 months',
+  '6 months',
+  '1 year',
+  '2 years',
+  '5 years',
+  '10 years',
+];
+
+function findClosestDateNewerIndex(value) {
+  let closestIndex = 0;
+  let minDiff = Math.abs(dateNewerSteps[0] - value);
+  for (let i = 1; i < dateNewerSteps.length; i++) {
+    const diff = Math.abs(dateNewerSteps[i] - value);
+    if (diff < minDiff) {
+      minDiff = diff;
+      closestIndex = i;
+    }
+  }
+  return closestIndex;
+}
+
+function formatDateThreshold(days) {
+  const idx = findClosestDateIndex(days);
+  return dateStepLabels[idx];
+}
+
+function findClosestDateIndex(value) {
+  let closestIndex = 0;
+  let minDiff = Math.abs(dateSteps[0] - value);
+  for (let i = 1; i < dateSteps.length; i++) {
+    const diff = Math.abs(dateSteps[i] - value);
+    if (diff < minDiff) {
+      minDiff = diff;
+      closestIndex = i;
+    }
+  }
+  return closestIndex;
+}
+
 function setEasyModeClass(isEasy) {
   document.body.classList.toggle('easy-mode-on', isEasy);
   document.body.classList.toggle('easy-mode-off', !isEasy);
@@ -53,10 +140,10 @@ function updateEasyModeUI(isEasyMode) {
 
 document.addEventListener('DOMContentLoaded', () => {
   const easyModeToggle = document.getElementById('easy-mode-enabled');
-  const hideWatchedMaster = document.getElementById('hide-watched-master');
   const hideShortsMaster = document.getElementById('hide-shorts-master');
-  const viewsHideMaster = document.getElementById('views-hide-master');
-  const floatingButtonToggle = document.getElementById('floating-button-enabled');
+  const floatingButtonToggle = document.getElementById(
+    'floating-button-enabled',
+  );
 
   const footerVersion = document.getElementById('footer-version');
   if (footerVersion) {
@@ -126,6 +213,37 @@ document.addEventListener('DOMContentLoaded', () => {
         corr: true,
       },
     },
+    date: {
+      newerSlider: document.getElementById('date-filter-newer'),
+      newerValue: document.getElementById('date-filter-newer-value'),
+      olderSlider: document.getElementById('date-filter-older'),
+      olderValue: document.getElementById('date-filter-older-value'),
+      boxes: {
+        home: document.getElementById('date-filter-home-enabled'),
+        channel: document.getElementById('date-filter-channel-enabled'),
+        search: document.getElementById('date-filter-search-enabled'),
+        subs: document.getElementById('date-filter-subs-enabled'),
+        corr: document.getElementById('date-filter-corr-enabled'),
+      },
+      keys: {
+        newerThreshold: 'dateFilterNewerThreshold',
+        olderThreshold: 'dateFilterOlderThreshold',
+        home: 'dateFilterHomeEnabled',
+        channel: 'dateFilterChannelEnabled',
+        search: 'dateFilterSearchEnabled',
+        subs: 'dateFilterSubsEnabled',
+        corr: 'dateFilterCorrEnabled',
+      },
+      defaults: {
+        newerThreshold: 0,
+        olderThreshold: 0,
+        home: false,
+        channel: false,
+        search: false,
+        subs: false,
+        corr: false,
+      },
+    },
   };
 
   const storageKeys = [
@@ -134,6 +252,7 @@ document.addEventListener('DOMContentLoaded', () => {
     ...Object.values(cfg.hide.keys),
     ...Object.values(cfg.views.keys),
     ...Object.values(cfg.shorts.keys),
+    ...Object.values(cfg.date.keys),
   ];
 
   chrome.storage.sync.get(storageKeys, prefs => {
@@ -179,26 +298,74 @@ document.addEventListener('DOMContentLoaded', () => {
       });
     });
 
-    hideWatchedMaster.checked = isAnyTrue({
-      home: prefs.hideHomeEnabled ?? cfg.hide.defaults.home,
-      channel: prefs.hideChannelEnabled ?? cfg.hide.defaults.channel,
-      search: prefs.hideSearchEnabled ?? cfg.hide.defaults.search,
-      subs: prefs.hideSubsEnabled ?? cfg.hide.defaults.subs,
-      corr: prefs.hideCorrEnabled ?? cfg.hide.defaults.corr,
-    });
-
     hideShortsMaster.checked = isAnyTrue({
       enabled: prefs.hideShortsEnabled ?? cfg.shorts.defaults.enabled,
       search: prefs.hideShortsSearchEnabled ?? cfg.shorts.defaults.search,
     });
 
-    viewsHideMaster.checked = isAnyTrue({
-      home: prefs.viewsHideHomeEnabled ?? cfg.views.defaults.home,
-      channel: prefs.viewsHideChannelEnabled ?? cfg.views.defaults.channel,
-      search: prefs.viewsHideSearchEnabled ?? cfg.views.defaults.search,
-      subs: prefs.viewsHideSubsEnabled ?? cfg.views.defaults.subs,
-      corr: prefs.viewsHideCorrEnabled ?? cfg.views.defaults.corr,
+    // Date filter load
+    const newerDays =
+      prefs.dateFilterNewerThreshold ?? cfg.date.defaults.newerThreshold;
+    const newerIdx = findClosestDateNewerIndex(newerDays);
+    cfg.date.newerSlider.value = newerIdx;
+    cfg.date.newerValue.textContent = dateNewerStepLabels[newerIdx];
+    updateSliderBackground(cfg.date.newerSlider);
+
+    const olderDays =
+      prefs.dateFilterOlderThreshold ?? cfg.date.defaults.olderThreshold;
+    const olderIdx = findClosestDateIndex(olderDays);
+    cfg.date.olderSlider.value = olderIdx;
+    cfg.date.olderValue.textContent = dateStepLabels[olderIdx];
+    updateSliderBackground(cfg.date.olderSlider);
+
+    Object.entries(cfg.date.boxes).forEach(([k, box]) => {
+      box.checked = prefs[cfg.date.keys[k]] ?? cfg.date.defaults[k];
     });
+
+    checkDateOverlap();
+
+    // Apply slider-off visual state & display label for all slider sections
+    updateSliderOffState(
+      cfg.hide.slider,
+      parseInt(cfg.hide.slider.value, 10) === 0,
+    );
+    updateSliderOffState(
+      cfg.views.slider,
+      parseInt(cfg.views.slider.value, 10) === 0,
+    );
+    updateSliderOffState(
+      cfg.date.newerSlider,
+      parseInt(cfg.date.newerSlider.value, 10) === 0,
+    );
+    updateSliderOffState(
+      cfg.date.olderSlider,
+      parseInt(cfg.date.olderSlider.value, 10) === 0,
+    );
+
+    // Update display labels for Off state
+    if (parseInt(cfg.hide.slider.value, 10) === 0) {
+      cfg.hide.value.textContent = 'Off';
+      const unit = document.querySelector('.slider-unit');
+      if (unit) unit.style.display = 'none';
+    }
+    if (parseInt(cfg.views.slider.value, 10) === 0) {
+      cfg.views.value.textContent = 'Off';
+    }
+
+    // Apply per-page disabled state in Advanced Mode when slider is off
+    updatePerPageDisabledState(
+      'hide',
+      parseInt(cfg.hide.slider.value, 10) === 0,
+    );
+    updatePerPageDisabledState(
+      'views',
+      parseInt(cfg.views.slider.value, 10) === 0,
+    );
+    updatePerPageDisabledState(
+      'date',
+      parseInt(cfg.date.newerSlider.value, 10) === 0 &&
+        parseInt(cfg.date.olderSlider.value, 10) === 0,
+    );
 
     if (isFirstInstall) {
       saveSettings();
@@ -216,7 +383,7 @@ document.addEventListener('DOMContentLoaded', () => {
           k === 'threshold'
             ? parseInt(cfg.hide.slider.value, 10)
             : cfg.hide.boxes[k].checked,
-        ])
+        ]),
       ),
       ...Object.fromEntries(
         Object.entries(cfg.views.keys).map(([k, key]) => [
@@ -224,13 +391,23 @@ document.addEventListener('DOMContentLoaded', () => {
           k === 'threshold'
             ? viewsSteps[parseInt(cfg.views.slider.value, 10)]
             : cfg.views.boxes[k].checked,
-        ])
+        ]),
       ),
       ...Object.fromEntries(
         Object.entries(cfg.shorts.keys).map(([k, key]) => [
           key,
           cfg.shorts.boxes[k].checked,
-        ])
+        ]),
+      ),
+      dateFilterNewerThreshold:
+        dateNewerSteps[parseInt(cfg.date.newerSlider.value, 10)],
+      dateFilterOlderThreshold:
+        dateSteps[parseInt(cfg.date.olderSlider.value, 10)],
+      ...Object.fromEntries(
+        Object.entries(cfg.date.boxes).map(([k, box]) => [
+          cfg.date.keys[k],
+          box.checked,
+        ]),
       ),
     };
 
@@ -240,19 +417,25 @@ document.addEventListener('DOMContentLoaded', () => {
           Object.entries(cfg.hide.boxes).map(([k]) => [
             k,
             settings[cfg.hide.keys[k]],
-          ])
+          ]),
         ),
         ...Object.fromEntries(
           Object.entries(cfg.views.boxes).map(([k]) => [
             k,
             settings[cfg.views.keys[k]],
-          ])
+          ]),
         ),
         ...Object.fromEntries(
           Object.entries(cfg.shorts.boxes).map(([k]) => [
             k,
             settings[cfg.shorts.keys[k]],
-          ])
+          ]),
+        ),
+        ...Object.fromEntries(
+          Object.entries(cfg.date.boxes).map(([k]) => [
+            k,
+            settings[cfg.date.keys[k]],
+          ]),
         ),
       });
       const text = getBadgeText(hideOn);
@@ -276,34 +459,32 @@ document.addEventListener('DOMContentLoaded', () => {
       Object.values(cfg.views.boxes).forEach(box => {
         box.checked = true;
       });
-      hideWatchedMaster.checked = true;
+      Object.values(cfg.date.boxes).forEach(box => {
+        box.checked = true;
+      });
       hideShortsMaster.checked = true;
-      viewsHideMaster.checked = true;
     }
     saveSettings();
   });
 
   floatingButtonToggle.addEventListener('change', () => {
-    chrome.storage.sync.set({ floatingButtonEnabled: floatingButtonToggle.checked });
+    chrome.storage.sync.set({
+      floatingButtonEnabled: floatingButtonToggle.checked,
+    });
   });
 
   const restartTutorialBtn = document.getElementById('restart-tutorial');
-  const restartTutorialConfirm = document.getElementById('restart-tutorial-confirm');
+  const restartTutorialConfirm = document.getElementById(
+    'restart-tutorial-confirm',
+  );
   if (restartTutorialBtn) {
     restartTutorialBtn.addEventListener('click', () => {
       chrome.storage.sync.set({ tutorialCompleted: false });
       restartTutorialBtn.style.display = 'none';
-      if (restartTutorialConfirm) restartTutorialConfirm.style.display = 'inline-flex';
+      if (restartTutorialConfirm)
+        restartTutorialConfirm.style.display = 'inline-flex';
     });
   }
-
-  hideWatchedMaster.addEventListener('change', () => {
-    const isEnabled = hideWatchedMaster.checked;
-    Object.values(cfg.hide.boxes).forEach(box => {
-      box.checked = isEnabled;
-    });
-    saveSettings();
-  });
 
   hideShortsMaster.addEventListener('change', () => {
     const isEnabled = hideShortsMaster.checked;
@@ -313,35 +494,142 @@ document.addEventListener('DOMContentLoaded', () => {
     saveSettings();
   });
 
-  viewsHideMaster.addEventListener('change', () => {
-    const isEnabled = viewsHideMaster.checked;
-    Object.values(cfg.views.boxes).forEach(box => {
-      box.checked = isEnabled;
+  // ── Slider-off visual state helper ──
+
+  function updateSliderOffState(slider, isOff) {
+    const control = slider.closest('.slider-control');
+    if (control) control.classList.toggle('slider-off', isOff);
+  }
+
+  function updatePerPageDisabledState(section, isOff) {
+    let card;
+    if (section === 'hide') {
+      card = cfg.hide.slider.closest('.setting-card');
+    } else if (section === 'views') {
+      card = cfg.views.slider.closest('.setting-card');
+    } else if (section === 'date') {
+      card = cfg.date.newerSlider.closest('.setting-card');
+    }
+    if (card) {
+      const grid = card.querySelector('.toggle-grid.easy-mode-advanced');
+      if (grid) grid.classList.toggle('per-page-disabled', isOff);
+    }
+  }
+
+  // Auto-enable per-page flags when slider leaves Off (Easy Mode only)
+  function autoEnablePerPage(section) {
+    if (!easyModeToggle.checked) return;
+    const boxes =
+      section === 'date'
+        ? cfg.date.boxes
+        : section === 'views'
+          ? cfg.views.boxes
+          : cfg.hide.boxes;
+    const allOff = Object.values(boxes).every(box => !box.checked);
+    if (allOff) {
+      Object.values(boxes).forEach(box => {
+        box.checked = true;
+      });
+    }
+  }
+
+  function checkDateOverlap() {
+    const newerIdx = parseInt(cfg.date.newerSlider.value, 10);
+    const olderIdx = parseInt(cfg.date.olderSlider.value, 10);
+    const newerThreshold = dateNewerSteps[newerIdx];
+    const olderThreshold = dateSteps[olderIdx];
+
+    // Both must be active (not Off) and overlapping
+    const isOverlap =
+      newerIdx > 0 && olderIdx > 0 && newerThreshold >= olderThreshold;
+
+    const warning = document.getElementById('date-overlap-warning');
+    if (warning) warning.style.display = isOverlap ? 'flex' : 'none';
+
+    document.querySelectorAll('.date-sub-filter').forEach(el => {
+      el.classList.toggle('date-overlap', isOverlap);
     });
+  }
+
+  // ── Slider event handlers ──
+
+  cfg.date.newerSlider.addEventListener('input', () => {
+    const index = parseInt(cfg.date.newerSlider.value, 10);
+    cfg.date.newerValue.textContent = dateNewerStepLabels[index];
+    updateSliderBackground(cfg.date.newerSlider);
+    updateSliderOffState(cfg.date.newerSlider, index === 0);
+    updatePerPageDisabledState(
+      'date',
+      index === 0 && parseInt(cfg.date.olderSlider.value, 10) === 0,
+    );
+    checkDateOverlap();
+  });
+  cfg.date.newerSlider.addEventListener('change', () => {
+    const index = parseInt(cfg.date.newerSlider.value, 10);
+    if (index > 0) autoEnablePerPage('date');
     saveSettings();
   });
 
-  [
-    [cfg.hide.slider, cfg.hide.value],
-  ].forEach(([slider, display]) => {
+  cfg.date.olderSlider.addEventListener('input', () => {
+    const index = parseInt(cfg.date.olderSlider.value, 10);
+    cfg.date.olderValue.textContent = dateStepLabels[index];
+    updateSliderBackground(cfg.date.olderSlider);
+    updateSliderOffState(cfg.date.olderSlider, index === 0);
+    updatePerPageDisabledState(
+      'date',
+      index === 0 && parseInt(cfg.date.newerSlider.value, 10) === 0,
+    );
+    checkDateOverlap();
+  });
+  cfg.date.olderSlider.addEventListener('change', () => {
+    const index = parseInt(cfg.date.olderSlider.value, 10);
+    if (index > 0) autoEnablePerPage('date');
+    saveSettings();
+  });
+
+  [[cfg.hide.slider, cfg.hide.value]].forEach(([slider, display]) => {
     slider.addEventListener('input', () => {
-      display.textContent = slider.value;
+      const val = parseInt(slider.value, 10);
+      if (val === 0) {
+        display.textContent = 'Off';
+        const unit = display.parentElement.querySelector('.slider-unit');
+        if (unit) unit.style.display = 'none';
+      } else {
+        display.textContent = val;
+        const unit = display.parentElement.querySelector('.slider-unit');
+        if (unit) unit.style.display = '';
+      }
       updateSliderBackground(slider);
+      updateSliderOffState(slider, val === 0);
+      updatePerPageDisabledState('hide', val === 0);
     });
-    slider.addEventListener('change', saveSettings);
+    slider.addEventListener('change', () => {
+      if (parseInt(slider.value, 10) > 0) autoEnablePerPage('hide');
+      saveSettings();
+    });
   });
 
   cfg.views.slider.addEventListener('input', () => {
     const index = parseInt(cfg.views.slider.value, 10);
-    cfg.views.value.textContent = formatViews(viewsSteps[index]);
+    if (index === 0) {
+      cfg.views.value.textContent = 'Off';
+    } else {
+      cfg.views.value.textContent = formatViews(viewsSteps[index]);
+    }
     updateSliderBackground(cfg.views.slider);
+    updateSliderOffState(cfg.views.slider, index === 0);
+    updatePerPageDisabledState('views', index === 0);
   });
-  cfg.views.slider.addEventListener('change', saveSettings);
+  cfg.views.slider.addEventListener('change', () => {
+    if (parseInt(cfg.views.slider.value, 10) > 0) autoEnablePerPage('views');
+    saveSettings();
+  });
 
   [
     ...Object.values(cfg.hide.boxes),
     ...Object.values(cfg.views.boxes),
     ...Object.values(cfg.shorts.boxes),
+    ...Object.values(cfg.date.boxes),
   ].forEach(box => box.addEventListener('change', saveSettings));
 
   document
