@@ -19,6 +19,8 @@ const prefs = {
   viewsHideCorrEnabled: true,
   hideShortsEnabled: true,
   hideShortsSearchEnabled: true,
+  hideMixesEnabled: true,
+  hidePlaylistsEnabled: true,
   dateFilterNewerThreshold: 0,
   dateFilterOlderThreshold: 0,
   dateFilterHomeEnabled: false,

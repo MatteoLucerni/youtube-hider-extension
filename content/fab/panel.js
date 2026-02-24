@@ -112,7 +112,12 @@ function syncPanelToPrefs(shadow) {
   const viewsSlider = shadow.querySelector('#yh-p-views');
   const viewsValue = shadow.querySelector('#yh-p-views-val');
 
+  const hideMixesToggle = shadow.querySelector('#yh-p-hide-mixes');
+  const hidePlaylistsToggle = shadow.querySelector('#yh-p-hide-playlists');
+
   if (hideShortsToggle) hideShortsToggle.checked = prefs.hideShortsEnabled;
+  if (hideMixesToggle) hideMixesToggle.checked = prefs.hideMixesEnabled;
+  if (hidePlaylistsToggle) hidePlaylistsToggle.checked = prefs.hidePlaylistsEnabled;
   if (thresholdSlider) {
     thresholdSlider.value = prefs.hideThreshold;
     if (thresholdValue) {
@@ -220,11 +225,28 @@ function bindPanelEvents(shadow) {
     }
   }
 
+  const hideMixesToggle = shadow.querySelector('#yh-p-hide-mixes');
+  const hidePlaylistsToggle = shadow.querySelector('#yh-p-hide-playlists');
+
   if (hideShortsToggle) {
     hideShortsToggle.addEventListener('change', () => {
       safeStorageSet('sync', {
         hideShortsEnabled: hideShortsToggle.checked,
         hideShortsSearchEnabled: hideShortsToggle.checked,
+      });
+    });
+  }
+
+  if (hideMixesToggle) {
+    hideMixesToggle.addEventListener('change', () => {
+      safeStorageSet('sync', { hideMixesEnabled: hideMixesToggle.checked });
+    });
+  }
+
+  if (hidePlaylistsToggle) {
+    hidePlaylistsToggle.addEventListener('change', () => {
+      safeStorageSet('sync', {
+        hidePlaylistsEnabled: hidePlaylistsToggle.checked,
       });
     });
   }
@@ -400,6 +422,24 @@ function getMiniPanelHTML() {
             <span class="yh-info-wrap">${infoSvg}<span class="yh-tooltip">Removes Shorts from your YouTube feed and search results</span></span>
           </div>
           <div class="yh-toggle"><input type="checkbox" id="yh-p-hide-shorts" /><span class="yh-toggle-slider"></span></div>
+        </label>
+      </div>
+      <div class="yh-panel-group">
+        <label class="yh-panel-row">
+          <div class="yh-panel-label-wrap">
+            <span class="yh-panel-label">Hide Mixes</span>
+            <span class="yh-info-wrap">${infoSvg}<span class="yh-tooltip">Removes Mix playlists from your YouTube feed</span></span>
+          </div>
+          <div class="yh-toggle"><input type="checkbox" id="yh-p-hide-mixes" /><span class="yh-toggle-slider"></span></div>
+        </label>
+      </div>
+      <div class="yh-panel-group">
+        <label class="yh-panel-row">
+          <div class="yh-panel-label-wrap">
+            <span class="yh-panel-label">Hide Playlists</span>
+            <span class="yh-info-wrap">${infoSvg}<span class="yh-tooltip">Removes Playlists from your YouTube feed</span></span>
+          </div>
+          <div class="yh-toggle"><input type="checkbox" id="yh-p-hide-playlists" /><span class="yh-toggle-slider"></span></div>
         </label>
       </div>
       <div class="yh-panel-group">
