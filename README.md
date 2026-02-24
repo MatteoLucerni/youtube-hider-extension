@@ -99,34 +99,46 @@ This creates a zip file in `dist/` containing only the files needed by the exten
 ```
 youtube-hider-extension
 ├── assets/
-│   ├── css/
-│   │   └── popup.css
 │   └── icons/
 │       ├── youtube-hider-logo.png
-│       ├── YT Hider icon v6.png
-│       ├── YT Hider icon v6 padding.png
-│       └── YT Hider icon v6 padding 128 128.png
+│       └── YT Hider icon v6.png
+├── content/
+│   ├── env.js             DEV_MODE flag
+│   ├── utils.js           Shared utilities (debounce, logger, safe storage)
+│   ├── state.js           Preferences, timing constants, storage listener
+│   ├── warning.js         High-filtering warning and infinite-loop detection
+│   ├── fab/
+│   │   ├── styles.js      Floating button Shadow DOM CSS
+│   │   ├── panel.js       Mini-panel data, sync, events, HTML
+│   │   └── core.js        Floating button creation, positioning, drag
+│   ├── tutorial.js        Guided spotlight tutorial
+│   ├── parsers.js         View count and upload date parsers
+│   ├── filters.js         Video hiding and filtering logic
+│   └── init.js            Page detection, observers, bootstrap
+├── popup/
+│   ├── popup.html         Settings popup UI
+│   ├── data.js            Popup constants and utility functions
+│   ├── popup.js           Popup initialization and event handling
+│   ├── base.css           Variables, reset, header, layout, easy mode states
+│   ├── cards.css          Setting cards and slider controls
+│   ├── toggles.css        Toggle grid, switches, footer
+│   └── filters.css        Tooltips, date filter, overlap warning
 ├── background.js          Service worker (badge, lifecycle, messaging)
 ├── build.ps1              Build/packaging script
 ├── CHANGELOG.md           Version history
-├── content.js             Core content script (hiding, floating button, spotlight tutorial)
-├── env.js                 DEV_MODE flag
 ├── LICENSE                MIT License
 ├── manifest.json          Extension manifest (MV3)
-├── popup.html             Settings popup UI
-├── popup.js               Popup logic and storage sync
-├── README.md
-└── utils.js               Shared utilities (debounce, logger)
+└── README.md
 ```
 
 ---
 
 ## How It Works
 
-1. **Content scripts** (`env.js`, `utils.js`, `content.js`) load on YouTube pages.
+1. **Content scripts** (11 files in `content/`) load on YouTube pages in the order defined by `manifest.json`. They share a global scope via Chrome's isolated world.
 2. A **MutationObserver** watches for DOM changes and triggers hiding/filtering logic based on your preferences.
 3. Settings are stored in `chrome.storage.sync` (synced across devices). The floating button position is stored in `chrome.storage.local` (device-specific).
-4. The **floating button** uses a closed Shadow DOM to encapsulate its styles from the host page.
+4. The **floating button** (`content/fab/`) uses a closed Shadow DOM to encapsulate its styles from the host page.
 5. The **background service worker** manages badge updates, extension lifecycle events and messaging between popup/content scripts.
 
 ---

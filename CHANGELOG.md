@@ -14,6 +14,14 @@
   - Multi-language upload date parsing (EN, IT, FR, DE, ES, PT, RU, JA, KO, AR and more)
   - Supports classic, new (`yt-content-metadata-view-model`), and mobile YouTube layouts
 
+**Refactored**
+
+- Split monolithic content.js (3000+ lines) into 11 focused modules organized in content/ and content/fab/
+- Split popup.js (655 lines) into data.js (constants/utilities) and popup.js (initialization/events)
+- Split popup.css (935 lines) into 4 files: base.css, cards.css, toggles.css, filters.css
+- Organized project into content/, content/fab/, popup/ folder structure
+- Split content-fab.js (1200 lines) into fab/styles.js, fab/panel.js, fab/core.js
+
 **Improved**
 
 - Upload Date Filter layout and UX improved in both popup and mini-panel
