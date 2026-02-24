@@ -1,0 +1,7 @@
+{
+  "permissions": {
+    "allow": [
+      "Bash(wc -l \"d:/code/Youtube Hider Extension/chrome-auto-skip-intro/popup/\"*.js \"d:/code/Youtube Hider Extension/chrome-auto-skip-intro/popup/\"*.css \"d:/code/Youtube Hider Extension/chrome-auto-skip-intro/popup/\"*.html)"
+    ]
+  }
+}
