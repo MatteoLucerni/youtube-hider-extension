@@ -20,7 +20,7 @@
         {
             "resources": [
                 "assets/icons/youtube-hider-logo.png",
-                "popup.html"
+                "popup/popup.html"
             ],
             "matches": [
                 "https://www.youtube.com/*",
@@ -38,15 +38,23 @@
                 "https://m.youtube.com/*"
             ],
             "js": [
-                "env.js",
-                "utils.js",
-                "content.js"
+                "content/env.js",
+                "content/utils.js",
+                "content/state.js",
+                "content/warning.js",
+                "content/fab/styles.js",
+                "content/fab/panel.js",
+                "content/fab/core.js",
+                "content/tutorial.js",
+                "content/parsers.js",
+                "content/filters.js",
+                "content/init.js"
             ],
             "run_at": "document_idle"
         }
     ],
     "action": {
-        "default_popup": "popup.html",
+        "default_popup": "popup/popup.html",
         "default_icon": "assets/icons/YT Hider icon v6.png"
     }
 }
