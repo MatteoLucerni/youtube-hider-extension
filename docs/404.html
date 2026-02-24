@@ -1,0 +1,435 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>404 - Page Not Found | YouTube Hider</title>
+    <meta
+      name="description"
+      content="Oops! This page seems to be hidden better than your watched videos. Let's get you back on track."
+    />
+    <meta name="robots" content="noindex, follow" />
+
+    <link
+      href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;600;700&display=swap"
+      rel="stylesheet"
+    />
+    <link
+      rel="stylesheet"
+      href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap/5.3.7/css/bootstrap.min.css"
+      integrity="sha512-fw7f+TcMjTb7bpbLJZlP8g2Y4XcCyFZW8uy8HsRZsH/SwbMw0plKHFHr99DN3l04VsYNwvzicUX/6qurvIxbxw=="
+      crossorigin="anonymous"
+    />
+    <link
+      rel="stylesheet"
+      href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.7.2/css/all.min.css"
+      integrity="sha512-Evv84Mr4kqVGRNSgIGL/F/aIDqQb7xQ2vcrdIwxfjThSH8CSR7PBEakCr51Ck+w+/U6swU2Im1vVX0SVk9ABhg=="
+      crossorigin="anonymous"
+    />
+    <link
+      rel="shortcut icon"
+      href="/assets/images/youtube-hider-logo-128-128-filled-gray.png"
+      type="image/x-icon"
+    />
+    <link
+      rel="icon"
+      href="/assets/images/youtube-hider-logo-128-128-filled-gray.png"
+      type="image/png"
+    />
+
+    <style>
+      body {
+        margin: 0;
+        font-family: "Poppins", sans-serif;
+        overflow-x: hidden;
+        min-height: 100vh;
+        display: flex;
+        flex-direction: column;
+      }
+
+      .navbar {
+        position: fixed;
+        width: 100%;
+        display: flex;
+        justify-content: space-between;
+        padding: 20px;
+        background: rgba(0, 0, 0, 0.5);
+        z-index: 100;
+        backdrop-filter: blur(10px);
+      }
+
+      .navbar .cta {
+        background: #ff0000;
+        color: #fff;
+        padding: 10px 20px;
+        border: none;
+        border-radius: 4px;
+        text-decoration: none;
+        font-weight: 600;
+        animation: pulse 2s infinite;
+        transition: transform 0.3s ease;
+      }
+
+      .navbar .cta:hover {
+        transform: translateY(-2px);
+        box-shadow: 0 4px 12px rgba(255, 0, 0, 0.3);
+      }
+
+      @keyframes pulse {
+        0% {
+          transform: scale(1);
+        }
+
+        50% {
+          transform: scale(1.05);
+        }
+
+        100% {
+          transform: scale(1);
+        }
+      }
+
+      .error-section {
+        background: linear-gradient(135deg, #c3cfe2 0%, #f5f7fa 100%);
+        flex: 1;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        text-align: center;
+        padding: 120px 20px 80px;
+        min-height: 100vh;
+      }
+
+      .error-content {
+        max-width: 600px;
+      }
+
+      .error-404 {
+        font-size: 8rem;
+        font-weight: 700;
+        color: #ff0000;
+        margin: 0;
+        line-height: 1;
+        text-shadow: 3px 3px 0px rgba(0, 0, 0, 0.1);
+        opacity: 0;
+        animation:
+          glitchAnimation 2s forwards,
+          fadeInDown 1s forwards;
+      }
+
+      @keyframes glitchAnimation {
+        0%,
+        100% {
+          transform: translate(0);
+        }
+
+        20% {
+          transform: translate(-2px, 2px);
+        }
+
+        40% {
+          transform: translate(-2px, -2px);
+        }
+
+        60% {
+          transform: translate(2px, 2px);
+        }
+
+        80% {
+          transform: translate(2px, -2px);
+        }
+      }
+
+      .error-icon {
+        font-size: 5rem;
+        color: #ff0000;
+        margin-bottom: 20px;
+        opacity: 0;
+        animation: rotateIn 1s 0.3s forwards;
+      }
+
+      @keyframes rotateIn {
+        from {
+          opacity: 0;
+          transform: rotate(-180deg) scale(0.5);
+        }
+
+        to {
+          opacity: 1;
+          transform: rotate(0) scale(1);
+        }
+      }
+
+      .error-title {
+        font-size: 2rem;
+        font-weight: 600;
+        color: #333;
+        margin: 20px 0;
+        opacity: 0;
+        animation: fadeInUp 1s 0.5s forwards;
+      }
+
+      .error-message {
+        font-size: 1.1rem;
+        color: #666;
+        margin-bottom: 30px;
+        line-height: 1.6;
+        opacity: 0;
+        animation: fadeInUp 1s 0.7s forwards;
+      }
+
+      .error-submessage {
+        font-size: 0.95rem;
+        color: #999;
+        margin-bottom: 40px;
+        font-style: italic;
+        opacity: 0;
+        animation: fadeInUp 1s 0.9s forwards;
+      }
+
+      .error-buttons {
+        display: flex;
+        gap: 20px;
+        justify-content: center;
+        flex-wrap: wrap;
+        opacity: 0;
+        animation: fadeInUp 1s 1.1s forwards;
+      }
+
+      .btn-primary-404 {
+        background: #ff0000;
+        color: #fff;
+        padding: 12px 30px;
+        border: none;
+        border-radius: 4px;
+        font-size: 1rem;
+        font-weight: 600;
+        text-decoration: none;
+        display: inline-block;
+        transition: all 0.3s ease;
+      }
+
+      .btn-primary-404:hover {
+        background: #cc0000;
+        transform: translateY(-2px);
+        box-shadow: 0 6px 20px rgba(255, 0, 0, 0.3);
+        color: #fff;
+      }
+
+      .btn-secondary-404 {
+        background: transparent;
+        color: #333;
+        padding: 12px 30px;
+        border: 2px solid #333;
+        border-radius: 4px;
+        font-size: 1rem;
+        font-weight: 600;
+        text-decoration: none;
+        display: inline-block;
+        transition: all 0.3s ease;
+      }
+
+      .btn-secondary-404:hover {
+        background: #333;
+        color: #fff;
+        transform: translateY(-2px);
+        box-shadow: 0 6px 20px rgba(0, 0, 0, 0.2);
+      }
+
+      .footer {
+        padding: 40px 20px;
+        text-align: center;
+        background: #222;
+        color: #ccc;
+        margin-top: auto;
+      }
+
+      .yt-color {
+        color: #ff0000;
+      }
+
+      .video-progress-bar {
+        width: 200px;
+        height: 4px;
+        background: #ddd;
+        border-radius: 2px;
+        margin: 20px auto;
+        overflow: hidden;
+        opacity: 0;
+        animation: fadeInUp 1s 1s forwards;
+      }
+
+      .video-progress {
+        height: 100%;
+        background: #ff0000;
+        width: 404%;
+        border-radius: 2px;
+        animation: progressOverflow 3s infinite;
+      }
+
+      @keyframes progressOverflow {
+        0% {
+          transform: translateX(-100%);
+        }
+
+        100% {
+          transform: translateX(0);
+        }
+      }
+
+      @keyframes fadeInDown {
+        from {
+          opacity: 0;
+          transform: translateY(-50px);
+        }
+
+        to {
+          opacity: 1;
+          transform: translateY(0);
+        }
+      }
+
+      @keyframes fadeInUp {
+        from {
+          opacity: 0;
+          transform: translateY(50px);
+        }
+
+        to {
+          opacity: 1;
+          transform: translateY(0);
+        }
+      }
+
+      @media (max-width: 768px) {
+        .error-404 {
+          font-size: 5rem;
+        }
+
+        .error-icon {
+          font-size: 3rem;
+        }
+
+        .error-title {
+          font-size: 1.5rem;
+        }
+
+        .error-buttons {
+          flex-direction: column;
+          align-items: center;
+        }
+
+        .btn-primary-404,
+        .btn-secondary-404 {
+          width: 100%;
+          max-width: 250px;
+        }
+      }
+    </style>
+  </head>
+
+  <body>
+    <nav class="navbar navbar-expand-lg navbar-dark">
+      <div class="container-fluid">
+        <a
+          class="d-flex text-light flex-column justify-content-center align-items-center text-decoration-none"
+          href="/"
+          aria-label="YouTube Hider Home"
+        >
+          <div class="fs-4 fw-bold">
+            <span class="yt-color">YouTube</span> Hider
+          </div>
+          <div class="fs-6">MV3 Chrome Extension</div>
+        </a>
+        <button
+          class="navbar-toggler"
+          type="button"
+          data-bs-toggle="collapse"
+          data-bs-target="#navbarContent"
+        >
+          <span class="navbar-toggler-icon"></span>
+        </button>
+        <div
+          class="collapse navbar-collapse justify-content-end"
+          id="navbarContent"
+        >
+          <a
+            href="https://chromewebstore.google.com/detail/ebpikpmmnpjmlcpanakfcgchkdjaanmm"
+            target="_blank"
+            rel="noopener noreferrer"
+            class="cta"
+            >Install Now</a
+          >
+        </div>
+      </div>
+    </nav>
+
+    <section class="error-section">
+      <div class="error-content">
+        <div class="error-icon">
+          <i class="fas fa-eye-slash"></i>
+        </div>
+
+        <h1 class="error-404">404</h1>
+
+        <h2 class="error-title">This Page is Hidden Too Well</h2>
+
+        <p class="error-message">
+          Looks like we've hidden this page better than YouTube hides the "Don't
+          recommend channel" button.
+        </p>
+
+        <div class="video-progress-bar">
+          <div class="video-progress"></div>
+        </div>
+
+        <p class="error-submessage">
+          Error 404: Maximum laziness achieved - even our pages are taking a
+          break
+        </p>
+
+        <div class="error-buttons">
+          <a href="/" class="btn-primary-404">
+            <i class="fas fa-home me-2"></i>Back to Homepage
+          </a>
+          <a
+            href="https://chromewebstore.google.com/detail/ebpikpmmnpjmlcpanakfcgchkdjaanmm"
+            target="_blank"
+            rel="noopener noreferrer"
+            class="btn-secondary-404"
+          >
+            <i class="fas fa-download me-2"></i>Get the Extension
+          </a>
+        </div>
+      </div>
+    </section>
+
+    <footer class="footer">
+      <p>Built for the efficiently lazy – Matteo</p>
+      <div>
+        <a
+          href="https://www.linkedin.com/in/matteo-lucerni-0725a526b/"
+          target="_blank"
+          rel="noopener noreferrer"
+          class="text-white me-2"
+          >LinkedIn <i class="fa-brands fa-linkedin ms-1"></i
+        ></a>
+        |
+        <a
+          href="https://github.com/MatteoLucerni?tab=repositories"
+          target="_blank"
+          rel="noopener noreferrer"
+          class="text-white"
+          >GitHub <i class="fa-brands fa-github ms-1"></i
+        ></a>
+      </div>
+    </footer>
+
+    <script
+      src="https://cdnjs.cloudflare.com/ajax/libs/bootstrap/5.3.7/js/bootstrap.bundle.min.js"
+      integrity="sha512-ENjdO4Dr2bkBIFxQpeoE6A7MsXsP1UyJoMp4YLEuNSfAP+JcXn/tWtIaxVXM"
+      crossorigin="anonymous"
+    ></script>
+    <script src="assets/js/feedback-widget.js" defer></script>
+  </body>
+</html>
