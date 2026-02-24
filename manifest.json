@@ -40,7 +40,13 @@
             "js": [
                 "env.js",
                 "utils.js",
-                "content.js"
+                "content-state.js",
+                "content-warning.js",
+                "content-fab.js",
+                "content-tutorial.js",
+                "content-parsers.js",
+                "content-filters.js",
+                "content-init.js"
             ],
             "run_at": "document_idle"
         }
