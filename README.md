@@ -43,10 +43,10 @@ Hide videos by their upload date with two independent sub-filters: **Hide newer 
 
 Selectively remove content types from your YouTube feed with individual toggles:
 
-- **Shorts** — removes the Shorts shelf, navigation tab and Shorts from search results
-- **Mixes** — removes YouTube Mix playlists from feed, search results and related sidebar
-- **Playlists** — removes playlists from feed, search results and related sidebar
-- **Lives** — removes live streams from your feed and search results
+- **Shorts** - removes the Shorts shelf, navigation tab and Shorts from search results
+- **Mixes** - removes YouTube Mix playlists from feed, search results and related sidebar
+- **Playlists** - removes playlists from feed, search results and related sidebar
+- **Lives** - removes live streams from your feed and search results
 
 ### Floating Quick-Settings Button
 
