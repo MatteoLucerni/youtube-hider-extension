@@ -31,21 +31,23 @@ function showHighFilteringWarning() {
     bottom: '20px',
     right: '20px',
     backgroundColor: '#222222',
-    borderLeft: '4px solid #8ab4f8',
+    border: '1px solid #3a3a3a',
     color: '#ebebeb',
-    padding: '12px 16px 16px 16px',
-    borderRadius: '4px',
+    padding: '0',
+    borderRadius: '10px',
     zIndex: '2147483647',
-    boxShadow: '0 4px 12px rgba(0,0,0,0.4)',
+    boxShadow: '0 8px 32px rgba(0,0,0,0.5)',
     fontFamily:
       '-apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif',
     fontSize: '13px',
     maxWidth: '280px',
     display: 'flex',
     flexDirection: 'column',
-    gap: '6px',
     opacity: '0',
-    transition: 'opacity 0.3s ease',
+    transform: 'scale(0.92) translateY(8px)',
+    transformOrigin: 'bottom right',
+    transition:
+      'transform 0.2s cubic-bezier(0.4, 0, 0.2, 1), opacity 0.2s ease',
     overflow: 'hidden',
     pointerEvents: 'auto',
   });
@@ -56,7 +58,9 @@ function showHighFilteringWarning() {
     alignItems: 'center',
     justifyContent: 'space-between',
     width: '100%',
-    marginBottom: '2px',
+    padding: '12px 14px 10px',
+    borderBottom: '1px solid #3a3a3a',
+    boxSizing: 'border-box',
   });
 
   const branding = document.createElement('div');
@@ -69,8 +73,8 @@ function showHighFilteringWarning() {
   const icon = document.createElement('img');
   icon.src = chrome.runtime.getURL('assets/icons/youtube-hider-logo.png');
   Object.assign(icon.style, {
-    width: '16px',
-    height: '16px',
+    width: '18px',
+    height: '18px',
     display: 'block',
     objectFit: 'contain',
   });
@@ -78,9 +82,12 @@ function showHighFilteringWarning() {
   const title = document.createElement('span');
   title.textContent = 'Youtube Hider Extension';
   Object.assign(title.style, {
-    fontWeight: '600',
-    fontSize: '12px',
-    color: '#8ab4f8',
+    fontWeight: '700',
+    fontSize: '14px',
+    background: 'linear-gradient(135deg, #8ab4f8, #6ba3ff)',
+    WebkitBackgroundClip: 'text',
+    backgroundClip: 'text',
+    WebkitTextFillColor: 'transparent',
   });
 
   branding.appendChild(icon);
@@ -94,14 +101,18 @@ function showHighFilteringWarning() {
     fontSize: '14px',
     fontWeight: 'bold',
     lineHeight: '1',
-    padding: '2px',
+    padding: '2px 4px',
+    borderRadius: '4px',
+    transition: 'color 0.15s, background 0.15s',
   });
 
   closeBtn.onmouseenter = () => {
     closeBtn.style.color = '#fff';
+    closeBtn.style.background = '#3a3a3a';
   };
   closeBtn.onmouseleave = () => {
     closeBtn.style.color = '#aaa';
+    closeBtn.style.background = '';
   };
   closeBtn.onclick = e => {
     e.stopPropagation();
@@ -111,11 +122,21 @@ function showHighFilteringWarning() {
   headerRow.appendChild(branding);
   headerRow.appendChild(closeBtn);
 
+  const bodyDiv = document.createElement('div');
+  Object.assign(bodyDiv.style, {
+    display: 'flex',
+    flexDirection: 'column',
+    gap: '6px',
+    padding: '10px 14px 14px',
+  });
+
   const msg = document.createElement('span');
   msg.textContent =
     'High filtering detected. Try lowering filters if loading gets stuck.';
   msg.style.lineHeight = '1.4';
-  msg.style.color = '#e0e0e0';
+  msg.style.color = '#ebebeb';
+
+  bodyDiv.appendChild(msg);
 
   const progressBar = document.createElement('div');
   Object.assign(progressBar.style, {
@@ -129,12 +150,15 @@ function showHighFilteringWarning() {
   });
 
   warningElement.appendChild(headerRow);
-  warningElement.appendChild(msg);
+  warningElement.appendChild(bodyDiv);
   warningElement.appendChild(progressBar);
   document.body.appendChild(warningElement);
 
   requestAnimationFrame(() => {
-    if (warningElement) warningElement.style.opacity = '1';
+    if (warningElement) {
+      warningElement.style.opacity = '1';
+      warningElement.style.transform = 'scale(1) translateY(0)';
+    }
   });
 
   let timeLeft = 10000;
