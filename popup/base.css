@@ -195,6 +195,10 @@ body.easy-mode-on .card-compact-toggle.easy-mode-simple {
     display: flex !important;
 }
 
+body.easy-mode-on .toggle-grid.easy-mode-simple {
+    display: grid !important;
+}
+
 body.easy-mode-on .easy-mode-advanced {
     display: none !important;
 }

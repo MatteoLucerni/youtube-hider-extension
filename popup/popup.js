@@ -4,6 +4,10 @@ document.addEventListener('DOMContentLoaded', () => {
     'floating-button-enabled',
   );
 
+  const easyShortsToggle = document.getElementById('hide-shorts-easy');
+  const easyMixesToggle = document.getElementById('hide-mixes-easy');
+  const easyPlaylistsToggle = document.getElementById('hide-playlists-easy');
+
   const footerVersion = document.getElementById('footer-version');
   if (footerVersion) {
     footerVersion.textContent = 'v' + chrome.runtime.getManifest().version;
@@ -165,6 +169,15 @@ document.addEventListener('DOMContentLoaded', () => {
         }
       });
     });
+
+    easyShortsToggle.checked = isAnyTrue({
+      enabled: prefs.hideShortsEnabled ?? cfg.shorts.defaults.enabled,
+      search: prefs.hideShortsSearchEnabled ?? cfg.shorts.defaults.search,
+    });
+    easyMixesToggle.checked =
+      prefs.hideMixesEnabled ?? cfg.mixesPlaylists.defaults.mixes;
+    easyPlaylistsToggle.checked =
+      prefs.hidePlaylistsEnabled ?? cfg.mixesPlaylists.defaults.playlists;
 
     // Date filter load
     const newerDays =
@@ -349,7 +362,28 @@ document.addEventListener('DOMContentLoaded', () => {
       Object.values(cfg.date.boxes).forEach(box => {
         box.checked = true;
       });
+      easyShortsToggle.checked = true;
+      easyMixesToggle.checked = true;
+      easyPlaylistsToggle.checked = true;
     }
+    saveSettings();
+  });
+
+  easyShortsToggle.addEventListener('change', () => {
+    const val = easyShortsToggle.checked;
+    Object.values(cfg.shorts.boxes).forEach(box => {
+      box.checked = val;
+    });
+    saveSettings();
+  });
+
+  easyMixesToggle.addEventListener('change', () => {
+    cfg.mixesPlaylists.boxes.mixes.checked = easyMixesToggle.checked;
+    saveSettings();
+  });
+
+  easyPlaylistsToggle.addEventListener('change', () => {
+    cfg.mixesPlaylists.boxes.playlists.checked = easyPlaylistsToggle.checked;
     saveSettings();
   });
 
