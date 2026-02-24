@@ -75,12 +75,18 @@ async function startHiding(pathname) {
   const canHideViews = shouldHideViews(pathname);
   const canHideShortsFlag = shouldHideShorts(pathname);
   const canHideDateFilter = shouldHideDateFilter(pathname);
+  const canHideMixes = shouldHideMixes();
+  const canHidePlaylists = shouldHidePlaylists();
+  const canHideLives = shouldHideLives();
 
   logger.log('Hide decision for', pathname, {
     hideWatched: canHideWatched,
     hideViews: canHideViews,
     hideShorts: canHideShortsFlag,
     hideDateFilter: canHideDateFilter,
+    hideMixes: canHideMixes,
+    hidePlaylists: canHidePlaylists,
+    hideLives: canHideLives,
     relevantPrefs: {
       hideChannelEnabled: prefs.hideChannelEnabled,
       viewsHideChannelEnabled: prefs.viewsHideChannelEnabled,
@@ -88,6 +94,9 @@ async function startHiding(pathname) {
       hideShortsSearchEnabled: prefs.hideShortsSearchEnabled,
       dateFilterNewerThreshold: prefs.dateFilterNewerThreshold,
       dateFilterOlderThreshold: prefs.dateFilterOlderThreshold,
+      hideMixesEnabled: prefs.hideMixesEnabled,
+      hidePlaylistsEnabled: prefs.hidePlaylistsEnabled,
+      hideLivesEnabled: prefs.hideLivesEnabled,
     },
   });
 
@@ -109,6 +118,21 @@ async function startHiding(pathname) {
   if (canHideDateFilter) {
     logger.log('Hiding videos by upload date on', pathname);
     hideDateFilter();
+  }
+
+  if (canHideMixes) {
+    logger.log('Hiding mixes on', pathname);
+    hideMixes();
+  }
+
+  if (canHidePlaylists) {
+    logger.log('Hiding playlists on', pathname);
+    hidePlaylists();
+  }
+
+  if (canHideLives) {
+    logger.log('Hiding lives on', pathname);
+    hideLives();
   }
 }
 

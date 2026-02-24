@@ -141,6 +141,7 @@ function getFloatingButtonCSS() {
       position: static;
       display: inline-flex;
       align-items: center;
+      height: 13px;
     }
     .yh-info-icon {
       width: 13px;
@@ -149,8 +150,7 @@ function getFloatingButtonCSS() {
       cursor: help;
       transition: color 0.15s;
       flex-shrink: 0;
-      vertical-align: middle;
-      margin-top: -1px;
+      display: block;
     }
     .yh-info-wrap:hover .yh-info-icon {
       color: #aaa;

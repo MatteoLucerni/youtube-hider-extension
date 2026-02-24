@@ -1,9 +1,13 @@
 document.addEventListener('DOMContentLoaded', () => {
   const easyModeToggle = document.getElementById('easy-mode-enabled');
-  const hideShortsMaster = document.getElementById('hide-shorts-master');
   const floatingButtonToggle = document.getElementById(
     'floating-button-enabled',
   );
+
+  const easyShortsToggle = document.getElementById('hide-shorts-easy');
+  const easyMixesToggle = document.getElementById('hide-mixes-easy');
+  const easyPlaylistsToggle = document.getElementById('hide-playlists-easy');
+  const easyLivesToggle = document.getElementById('hide-lives-easy');
 
   const footerVersion = document.getElementById('footer-version');
   if (footerVersion) {
@@ -45,6 +49,15 @@ document.addEventListener('DOMContentLoaded', () => {
       },
       keys: { enabled: 'hideShortsEnabled', search: 'hideShortsSearchEnabled' },
       defaults: { enabled: true, search: false },
+    },
+    mixesPlaylists: {
+      boxes: {
+        mixes: document.getElementById('hide-mixes-enabled'),
+        playlists: document.getElementById('hide-playlists-enabled'),
+        lives: document.getElementById('hide-lives-enabled'),
+      },
+      keys: { mixes: 'hideMixesEnabled', playlists: 'hidePlaylistsEnabled', lives: 'hideLivesEnabled' },
+      defaults: { mixes: true, playlists: true, lives: true },
     },
     views: {
       slider: document.getElementById('views-hide'),
@@ -112,6 +125,7 @@ document.addEventListener('DOMContentLoaded', () => {
     ...Object.values(cfg.hide.keys),
     ...Object.values(cfg.views.keys),
     ...Object.values(cfg.shorts.keys),
+    ...Object.values(cfg.mixesPlaylists.keys),
     ...Object.values(cfg.date.keys),
   ];
 
@@ -124,7 +138,7 @@ document.addEventListener('DOMContentLoaded', () => {
 
     floatingButtonToggle.checked = prefs.floatingButtonEnabled ?? true;
 
-    ['hide', 'views', 'shorts'].forEach(sectionName => {
+    ['hide', 'views', 'shorts', 'mixesPlaylists'].forEach(sectionName => {
       const section = cfg[sectionName];
       Object.entries(section.keys).forEach(([keyName, storageKey]) => {
         const def = section.defaults[keyName];
@@ -158,10 +172,16 @@ document.addEventListener('DOMContentLoaded', () => {
       });
     });
 
-    hideShortsMaster.checked = isAnyTrue({
+    easyShortsToggle.checked = isAnyTrue({
       enabled: prefs.hideShortsEnabled ?? cfg.shorts.defaults.enabled,
       search: prefs.hideShortsSearchEnabled ?? cfg.shorts.defaults.search,
     });
+    easyMixesToggle.checked =
+      prefs.hideMixesEnabled ?? cfg.mixesPlaylists.defaults.mixes;
+    easyPlaylistsToggle.checked =
+      prefs.hidePlaylistsEnabled ?? cfg.mixesPlaylists.defaults.playlists;
+    easyLivesToggle.checked =
+      prefs.hideLivesEnabled ?? cfg.mixesPlaylists.defaults.lives;
 
     // Date filter load
     const newerDays =
@@ -259,6 +279,12 @@ document.addEventListener('DOMContentLoaded', () => {
           cfg.shorts.boxes[k].checked,
         ]),
       ),
+      ...Object.fromEntries(
+        Object.entries(cfg.mixesPlaylists.keys).map(([k, key]) => [
+          key,
+          cfg.mixesPlaylists.boxes[k].checked,
+        ]),
+      ),
       dateFilterNewerThreshold:
         dateNewerSteps[parseInt(cfg.date.newerSlider.value, 10)],
       dateFilterOlderThreshold:
@@ -298,6 +324,12 @@ document.addEventListener('DOMContentLoaded', () => {
             settings[cfg.shorts.keys[k]],
           ]),
         ),
+        ...Object.fromEntries(
+          Object.entries(cfg.mixesPlaylists.boxes).map(([k]) => [
+            k,
+            settings[cfg.mixesPlaylists.keys[k]],
+          ]),
+        ),
         ...(dateThresholdActive
           ? Object.fromEntries(
               Object.entries(cfg.date.boxes).map(([k]) => [
@@ -325,14 +357,43 @@ document.addEventListener('DOMContentLoaded', () => {
       Object.values(cfg.shorts.boxes).forEach(box => {
         box.checked = true;
       });
+      Object.values(cfg.mixesPlaylists.boxes).forEach(box => {
+        box.checked = true;
+      });
       Object.values(cfg.views.boxes).forEach(box => {
         box.checked = true;
       });
       Object.values(cfg.date.boxes).forEach(box => {
         box.checked = true;
       });
-      hideShortsMaster.checked = true;
+      easyShortsToggle.checked = true;
+      easyMixesToggle.checked = true;
+      easyPlaylistsToggle.checked = true;
+      easyLivesToggle.checked = true;
     }
+    saveSettings();
+  });
+
+  easyShortsToggle.addEventListener('change', () => {
+    const val = easyShortsToggle.checked;
+    Object.values(cfg.shorts.boxes).forEach(box => {
+      box.checked = val;
+    });
+    saveSettings();
+  });
+
+  easyMixesToggle.addEventListener('change', () => {
+    cfg.mixesPlaylists.boxes.mixes.checked = easyMixesToggle.checked;
+    saveSettings();
+  });
+
+  easyPlaylistsToggle.addEventListener('change', () => {
+    cfg.mixesPlaylists.boxes.playlists.checked = easyPlaylistsToggle.checked;
+    saveSettings();
+  });
+
+  easyLivesToggle.addEventListener('change', () => {
+    cfg.mixesPlaylists.boxes.lives.checked = easyLivesToggle.checked;
     saveSettings();
   });
 
@@ -354,14 +415,6 @@ document.addEventListener('DOMContentLoaded', () => {
         restartTutorialConfirm.style.display = 'inline-flex';
     });
   }
-
-  hideShortsMaster.addEventListener('change', () => {
-    const isEnabled = hideShortsMaster.checked;
-    Object.values(cfg.shorts.boxes).forEach(box => {
-      box.checked = isEnabled;
-    });
-    saveSettings();
-  });
 
   // ── Slider-off visual state helper ──
 
@@ -498,6 +551,7 @@ document.addEventListener('DOMContentLoaded', () => {
     ...Object.values(cfg.hide.boxes),
     ...Object.values(cfg.views.boxes),
     ...Object.values(cfg.shorts.boxes),
+    ...Object.values(cfg.mixesPlaylists.boxes),
     ...Object.values(cfg.date.boxes),
   ].forEach(box => box.addEventListener('change', saveSettings));
 

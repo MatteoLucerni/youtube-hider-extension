@@ -4,6 +4,12 @@
 
 **Added**
 
+- Hide Mixes: removes YouTube Mix playlists from feed, search results and related sidebar
+- Hide Playlists: removes YouTube playlists from feed, search results and related sidebar
+- Hide Lives: removes live streams from feed and search results
+- Combined Hide Shorts, Hide Mixes, Hide Playlists and Hide Lives into a single unified card
+- Easy Mode now shows 4 quick toggles (Shorts, Mixes, Playlists, Lives) in a 2x2 grid
+- Floating mini-panel updated with Hide Mixes, Hide Playlists and Hide Lives toggles
 - Upload Date Filter: hide videos by their upload date with two independent sub-filters
   - "Hide newer than" - hide videos uploaded more recently than a chosen threshold
   - "Hide older than" - hide videos uploaded longer ago than a chosen threshold

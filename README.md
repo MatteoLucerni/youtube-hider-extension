@@ -5,7 +5,7 @@
 <h1 align="center">Youtube Hider</h1>
 
 <p align="center">
-  <strong>Hide watched videos, Shorts and low-view videos from YouTube.</strong>
+  <strong>Hide watched videos, Shorts, Mixes, Playlists, Lives and low-view videos from YouTube.</strong>
 </p>
 
 <p align="center">
@@ -39,9 +39,14 @@ Hide videos below a certain view count. Choose from a range of thresholds (0 to 
 
 Hide videos by their upload date with two independent sub-filters: **Hide newer than** and **Hide older than**. Each has its own toggle and slider with logarithmic time steps (1 day to 10 years). Use both together to keep only videos in a specific age range - for example, hide recent AI-generated content and outdated videos at the same time. Supports 10+ YouTube interface languages.
 
-### Hide Shorts
+### Hide Shorts, Mixes, Playlists & Lives
 
-Completely remove YouTube Shorts from your feed, search results, navigation tabs and sidebar. Enjoy a Shorts-free YouTube experience.
+Selectively remove content types from your YouTube feed with individual toggles:
+
+- **Shorts** — removes the Shorts shelf, navigation tab and Shorts from search results
+- **Mixes** — removes YouTube Mix playlists from feed, search results and related sidebar
+- **Playlists** — removes playlists from feed, search results and related sidebar
+- **Lives** — removes live streams from your feed and search results
 
 ### Floating Quick-Settings Button
 

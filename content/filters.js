@@ -386,3 +386,62 @@ function shouldHideShorts(pathname) {
     (hideShortsSearchEnabled || pathname !== '/results')
   );
 }
+
+function hideMixes() {
+  document.querySelectorAll('[class*="content-id-RD"]').forEach(el => {
+    const item =
+      el.closest('ytd-rich-item-renderer, ytm-rich-item-renderer') ||
+      el.closest('yt-lockup-view-model');
+    if (item) item.style.display = 'none';
+  });
+
+  document.querySelectorAll('a[href*="start_radio=1"]').forEach(link => {
+    const item =
+      link.closest(
+        'ytd-rich-item-renderer, ytd-compact-radio-renderer, ytd-radio-renderer, ytm-rich-item-renderer, ytm-video-with-context-renderer',
+      ) || link.closest('yt-lockup-view-model');
+    if (item) item.style.display = 'none';
+  });
+
+  document
+    .querySelectorAll('ytd-radio-renderer, ytd-compact-radio-renderer')
+    .forEach(node => {
+      node.style.display = 'none';
+    });
+}
+
+function shouldHideMixes() {
+  return prefs.hideMixesEnabled;
+}
+
+function hidePlaylists() {
+  document.querySelectorAll('[class*="content-id-PL"]').forEach(el => {
+    const item =
+      el.closest('ytd-rich-item-renderer, ytm-rich-item-renderer') ||
+      el.closest('yt-lockup-view-model');
+    if (item) item.style.display = 'none';
+  });
+
+  document
+    .querySelectorAll('ytd-playlist-renderer, ytd-compact-playlist-renderer')
+    .forEach(node => {
+      node.style.display = 'none';
+    });
+}
+
+function shouldHidePlaylists() {
+  return prefs.hidePlaylistsEnabled;
+}
+
+function hideLives() {
+  document.querySelectorAll('badge-shape.yt-badge-shape--thumbnail-live').forEach(el => {
+    const item =
+      el.closest('ytd-rich-item-renderer, ytm-rich-item-renderer, ytd-video-renderer, ytd-compact-video-renderer') ||
+      el.closest('yt-lockup-view-model');
+    if (item) item.style.display = 'none';
+  });
+}
+
+function shouldHideLives() {
+  return prefs.hideLivesEnabled;
+}
