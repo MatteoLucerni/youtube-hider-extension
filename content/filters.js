@@ -440,6 +440,16 @@ function hideLives() {
       el.closest('yt-lockup-view-model');
     if (item) item.style.display = 'none';
   });
+
+  document.querySelectorAll('yt-lockup-view-model').forEach(el => {
+    if (
+      el.querySelector('.yt-spec-avatar-shape--live-ring') ||
+      el.querySelector('.yt-spec-avatar-shape__live-badge')
+    ) {
+      const item = el.closest('ytd-rich-item-renderer, ytm-rich-item-renderer') || el;
+      item.style.display = 'none';
+    }
+  });
 }
 
 function shouldHideLives() {
