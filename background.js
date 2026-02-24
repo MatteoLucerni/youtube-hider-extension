@@ -259,7 +259,7 @@ chrome.runtime.onInstalled.addListener(details => {
 chrome.runtime.onMessage.addListener((message, sender, sendResponse) => {
   if (message.action === 'openSettings') {
     chrome.tabs.create({
-      url: chrome.runtime.getURL('popup.html?standalone=true'),
+      url: chrome.runtime.getURL('popup/popup.html?standalone=true'),
       active: true,
     });
     sendResponse({ success: true });
