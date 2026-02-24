@@ -432,3 +432,16 @@ function hidePlaylists() {
 function shouldHidePlaylists() {
   return prefs.hidePlaylistsEnabled;
 }
+
+function hideLives() {
+  document.querySelectorAll('badge-shape.yt-badge-shape--thumbnail-live').forEach(el => {
+    const item =
+      el.closest('ytd-rich-item-renderer, ytm-rich-item-renderer, ytd-video-renderer, ytd-compact-video-renderer') ||
+      el.closest('yt-lockup-view-model');
+    if (item) item.style.display = 'none';
+  });
+}
+
+function shouldHideLives() {
+  return prefs.hideLivesEnabled;
+}

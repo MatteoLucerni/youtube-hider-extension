@@ -21,6 +21,7 @@ const prefs = {
   hideShortsSearchEnabled: true,
   hideMixesEnabled: true,
   hidePlaylistsEnabled: true,
+  hideLivesEnabled: true,
   dateFilterNewerThreshold: 0,
   dateFilterOlderThreshold: 0,
   dateFilterHomeEnabled: false,

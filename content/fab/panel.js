@@ -114,10 +114,12 @@ function syncPanelToPrefs(shadow) {
 
   const hideMixesToggle = shadow.querySelector('#yh-p-hide-mixes');
   const hidePlaylistsToggle = shadow.querySelector('#yh-p-hide-playlists');
+  const hideLivesToggle = shadow.querySelector('#yh-p-hide-lives');
 
   if (hideShortsToggle) hideShortsToggle.checked = prefs.hideShortsEnabled;
   if (hideMixesToggle) hideMixesToggle.checked = prefs.hideMixesEnabled;
   if (hidePlaylistsToggle) hidePlaylistsToggle.checked = prefs.hidePlaylistsEnabled;
+  if (hideLivesToggle) hideLivesToggle.checked = prefs.hideLivesEnabled;
   if (thresholdSlider) {
     thresholdSlider.value = prefs.hideThreshold;
     if (thresholdValue) {
@@ -227,6 +229,7 @@ function bindPanelEvents(shadow) {
 
   const hideMixesToggle = shadow.querySelector('#yh-p-hide-mixes');
   const hidePlaylistsToggle = shadow.querySelector('#yh-p-hide-playlists');
+  const hideLivesToggle = shadow.querySelector('#yh-p-hide-lives');
 
   if (hideShortsToggle) {
     hideShortsToggle.addEventListener('change', () => {
@@ -248,6 +251,12 @@ function bindPanelEvents(shadow) {
       safeStorageSet('sync', {
         hidePlaylistsEnabled: hidePlaylistsToggle.checked,
       });
+    });
+  }
+
+  if (hideLivesToggle) {
+    hideLivesToggle.addEventListener('change', () => {
+      safeStorageSet('sync', { hideLivesEnabled: hideLivesToggle.checked });
     });
   }
 
@@ -440,6 +449,15 @@ function getMiniPanelHTML() {
             <span class="yh-info-wrap">${infoSvg}<span class="yh-tooltip">Removes Playlists from your YouTube feed</span></span>
           </div>
           <div class="yh-toggle"><input type="checkbox" id="yh-p-hide-playlists" /><span class="yh-toggle-slider"></span></div>
+        </label>
+      </div>
+      <div class="yh-panel-group">
+        <label class="yh-panel-row">
+          <div class="yh-panel-label-wrap">
+            <span class="yh-panel-label">Hide Lives</span>
+            <span class="yh-info-wrap">${infoSvg}<span class="yh-tooltip">Removes live streams from your YouTube feed</span></span>
+          </div>
+          <div class="yh-toggle"><input type="checkbox" id="yh-p-hide-lives" /><span class="yh-toggle-slider"></span></div>
         </label>
       </div>
       <div class="yh-panel-group">

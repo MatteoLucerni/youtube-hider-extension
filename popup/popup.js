@@ -7,6 +7,7 @@ document.addEventListener('DOMContentLoaded', () => {
   const easyShortsToggle = document.getElementById('hide-shorts-easy');
   const easyMixesToggle = document.getElementById('hide-mixes-easy');
   const easyPlaylistsToggle = document.getElementById('hide-playlists-easy');
+  const easyLivesToggle = document.getElementById('hide-lives-easy');
 
   const footerVersion = document.getElementById('footer-version');
   if (footerVersion) {
@@ -53,9 +54,10 @@ document.addEventListener('DOMContentLoaded', () => {
       boxes: {
         mixes: document.getElementById('hide-mixes-enabled'),
         playlists: document.getElementById('hide-playlists-enabled'),
+        lives: document.getElementById('hide-lives-enabled'),
       },
-      keys: { mixes: 'hideMixesEnabled', playlists: 'hidePlaylistsEnabled' },
-      defaults: { mixes: true, playlists: true },
+      keys: { mixes: 'hideMixesEnabled', playlists: 'hidePlaylistsEnabled', lives: 'hideLivesEnabled' },
+      defaults: { mixes: true, playlists: true, lives: true },
     },
     views: {
       slider: document.getElementById('views-hide'),
@@ -178,6 +180,8 @@ document.addEventListener('DOMContentLoaded', () => {
       prefs.hideMixesEnabled ?? cfg.mixesPlaylists.defaults.mixes;
     easyPlaylistsToggle.checked =
       prefs.hidePlaylistsEnabled ?? cfg.mixesPlaylists.defaults.playlists;
+    easyLivesToggle.checked =
+      prefs.hideLivesEnabled ?? cfg.mixesPlaylists.defaults.lives;
 
     // Date filter load
     const newerDays =
@@ -365,6 +369,7 @@ document.addEventListener('DOMContentLoaded', () => {
       easyShortsToggle.checked = true;
       easyMixesToggle.checked = true;
       easyPlaylistsToggle.checked = true;
+      easyLivesToggle.checked = true;
     }
     saveSettings();
   });
@@ -384,6 +389,11 @@ document.addEventListener('DOMContentLoaded', () => {
 
   easyPlaylistsToggle.addEventListener('change', () => {
     cfg.mixesPlaylists.boxes.playlists.checked = easyPlaylistsToggle.checked;
+    saveSettings();
+  });
+
+  easyLivesToggle.addEventListener('change', () => {
+    cfg.mixesPlaylists.boxes.lives.checked = easyLivesToggle.checked;
     saveSettings();
   });
 

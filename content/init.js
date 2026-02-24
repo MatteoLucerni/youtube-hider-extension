@@ -77,6 +77,7 @@ async function startHiding(pathname) {
   const canHideDateFilter = shouldHideDateFilter(pathname);
   const canHideMixes = shouldHideMixes();
   const canHidePlaylists = shouldHidePlaylists();
+  const canHideLives = shouldHideLives();
 
   logger.log('Hide decision for', pathname, {
     hideWatched: canHideWatched,
@@ -85,6 +86,7 @@ async function startHiding(pathname) {
     hideDateFilter: canHideDateFilter,
     hideMixes: canHideMixes,
     hidePlaylists: canHidePlaylists,
+    hideLives: canHideLives,
     relevantPrefs: {
       hideChannelEnabled: prefs.hideChannelEnabled,
       viewsHideChannelEnabled: prefs.viewsHideChannelEnabled,
@@ -94,6 +96,7 @@ async function startHiding(pathname) {
       dateFilterOlderThreshold: prefs.dateFilterOlderThreshold,
       hideMixesEnabled: prefs.hideMixesEnabled,
       hidePlaylistsEnabled: prefs.hidePlaylistsEnabled,
+      hideLivesEnabled: prefs.hideLivesEnabled,
     },
   });
 
@@ -125,6 +128,11 @@ async function startHiding(pathname) {
   if (canHidePlaylists) {
     logger.log('Hiding playlists on', pathname);
     hidePlaylists();
+  }
+
+  if (canHideLives) {
+    logger.log('Hiding lives on', pathname);
+    hideLives();
   }
 }
 
