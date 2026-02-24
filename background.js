@@ -177,30 +177,39 @@ function refreshBadge() {
   const thresholdDefaults = Object.fromEntries(
     thresholdFlagKeys.map(key => [key, 0]),
   );
-  chrome.storage.sync.get({ ...defaults, ...thresholdDefaults }, prefs => {
-    if (chrome.runtime.lastError) {
-      logger.log('Storage error:', chrome.runtime.lastError.message);
-      return;
-    }
-    if (prefs) {
-      updateBadge(prefs);
-    }
-  });
+  chrome.storage.sync.get(
+    { ...defaults, ...thresholdDefaults, hideThreshold: 20, viewsHideThreshold: 1000 },
+    prefs => {
+      if (chrome.runtime.lastError) {
+        logger.log('Storage error:', chrome.runtime.lastError.message);
+        return;
+      }
+      if (prefs) {
+        updateBadge(prefs);
+      }
+    },
+  );
 }
 function getBadgeText(flags = {}) {
-  // Check boolean flags
-  const booleanActive = flagKeys.some(key => flags[key]);
-  // Check threshold flags (> 0 means active)
-  const thresholdActive = thresholdFlagKeys.some(key => (flags[key] || 0) > 0);
-  if (booleanActive || thresholdActive) return '';
+  const hideWatchedActive =
+    (flags.hideThreshold || 0) > 0 &&
+    ['hideHomeEnabled', 'hideSearchEnabled', 'hideSubsEnabled', 'hideChannelEnabled', 'hideCorrEnabled'].some(k => flags[k]);
+  const viewsActive =
+    (flags.viewsHideThreshold || 0) > 0 &&
+    ['viewsHideHomeEnabled', 'viewsHideSearchEnabled', 'viewsHideSubsEnabled', 'viewsHideChannelEnabled', 'viewsHideCorrEnabled'].some(k => flags[k]);
+  const shortsActive = flags.hideShortsEnabled || flags.hideShortsSearchEnabled;
+  const dateOn =
+    (flags.dateFilterNewerThreshold || 0) > 0 ||
+    (flags.dateFilterOlderThreshold || 0) > 0;
+  const dateActive =
+    dateOn &&
+    ['dateFilterHomeEnabled', 'dateFilterChannelEnabled', 'dateFilterSearchEnabled', 'dateFilterSubsEnabled', 'dateFilterCorrEnabled'].some(k => flags[k]);
+  if (hideWatchedActive || viewsActive || shortsActive || dateActive) return '';
   return 'OFF';
 }
 function updateBadge(flags = {}) {
   const text = getBadgeText(flags);
-  const booleanActive = flagKeys.some(key => flags[key]);
-  const thresholdActive = thresholdFlagKeys.some(key => (flags[key] || 0) > 0);
-  const anyEnabled = booleanActive || thresholdActive;
-  const color = anyEnabled ? '#008000' : '#808080';
+  const color = text === '' ? '#008000' : '#808080';
   chrome.action.setBadgeText({ text }, () => {
     if (chrome.runtime.lastError) {
       logger.log('Badge text error:', chrome.runtime.lastError.message);
@@ -214,7 +223,12 @@ function updateBadge(flags = {}) {
 }
 chrome.storage.onChanged.addListener((changes, area) => {
   if (area !== 'sync') return;
-  const allBadgeKeys = [...flagKeys, ...thresholdFlagKeys];
+  const allBadgeKeys = [
+    ...flagKeys,
+    ...thresholdFlagKeys,
+    'hideThreshold',
+    'viewsHideThreshold',
+  ];
   if (Object.keys(changes).some(key => allBadgeKeys.includes(key))) {
     refreshBadge();
   }

@@ -412,31 +412,40 @@ document.addEventListener('DOMContentLoaded', () => {
     };
 
     chrome.storage.sync.set(settings, () => {
+      const dateThresholdActive =
+        (settings.dateFilterNewerThreshold || 0) > 0 ||
+        (settings.dateFilterOlderThreshold || 0) > 0;
       const hideOn = isAnyTrue({
-        ...Object.fromEntries(
-          Object.entries(cfg.hide.boxes).map(([k]) => [
-            k,
-            settings[cfg.hide.keys[k]],
-          ]),
-        ),
-        ...Object.fromEntries(
-          Object.entries(cfg.views.boxes).map(([k]) => [
-            k,
-            settings[cfg.views.keys[k]],
-          ]),
-        ),
+        ...(settings.hideThreshold > 0
+          ? Object.fromEntries(
+              Object.entries(cfg.hide.boxes).map(([k]) => [
+                k,
+                settings[cfg.hide.keys[k]],
+              ]),
+            )
+          : {}),
+        ...(settings.viewsHideThreshold > 0
+          ? Object.fromEntries(
+              Object.entries(cfg.views.boxes).map(([k]) => [
+                k,
+                settings[cfg.views.keys[k]],
+              ]),
+            )
+          : {}),
         ...Object.fromEntries(
           Object.entries(cfg.shorts.boxes).map(([k]) => [
             k,
             settings[cfg.shorts.keys[k]],
           ]),
         ),
-        ...Object.fromEntries(
-          Object.entries(cfg.date.boxes).map(([k]) => [
-            k,
-            settings[cfg.date.keys[k]],
-          ]),
-        ),
+        ...(dateThresholdActive
+          ? Object.fromEntries(
+              Object.entries(cfg.date.boxes).map(([k]) => [
+                k,
+                settings[cfg.date.keys[k]],
+              ]),
+            )
+          : {}),
       });
       const text = getBadgeText(hideOn);
       chrome.action.setBadgeText({ text });
