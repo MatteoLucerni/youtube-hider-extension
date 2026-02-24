@@ -1,9 +1,5 @@
 document.addEventListener('DOMContentLoaded', () => {
   const easyModeToggle = document.getElementById('easy-mode-enabled');
-  const hideShortsMaster = document.getElementById('hide-shorts-master');
-  const hideMixesPlaylistsMaster = document.getElementById(
-    'hide-mixes-playlists-master',
-  );
   const floatingButtonToggle = document.getElementById(
     'floating-button-enabled',
   );
@@ -168,17 +164,6 @@ document.addEventListener('DOMContentLoaded', () => {
           section.box.checked = val;
         }
       });
-    });
-
-    hideShortsMaster.checked = isAnyTrue({
-      enabled: prefs.hideShortsEnabled ?? cfg.shorts.defaults.enabled,
-      search: prefs.hideShortsSearchEnabled ?? cfg.shorts.defaults.search,
-    });
-
-    hideMixesPlaylistsMaster.checked = isAnyTrue({
-      mixes: prefs.hideMixesEnabled ?? cfg.mixesPlaylists.defaults.mixes,
-      playlists:
-        prefs.hidePlaylistsEnabled ?? cfg.mixesPlaylists.defaults.playlists,
     });
 
     // Date filter load
@@ -364,8 +349,6 @@ document.addEventListener('DOMContentLoaded', () => {
       Object.values(cfg.date.boxes).forEach(box => {
         box.checked = true;
       });
-      hideShortsMaster.checked = true;
-      hideMixesPlaylistsMaster.checked = true;
     }
     saveSettings();
   });
@@ -388,22 +371,6 @@ document.addEventListener('DOMContentLoaded', () => {
         restartTutorialConfirm.style.display = 'inline-flex';
     });
   }
-
-  hideShortsMaster.addEventListener('change', () => {
-    const isEnabled = hideShortsMaster.checked;
-    Object.values(cfg.shorts.boxes).forEach(box => {
-      box.checked = isEnabled;
-    });
-    saveSettings();
-  });
-
-  hideMixesPlaylistsMaster.addEventListener('change', () => {
-    const isEnabled = hideMixesPlaylistsMaster.checked;
-    Object.values(cfg.mixesPlaylists.boxes).forEach(box => {
-      box.checked = isEnabled;
-    });
-    saveSettings();
-  });
 
   // ── Slider-off visual state helper ──
 
