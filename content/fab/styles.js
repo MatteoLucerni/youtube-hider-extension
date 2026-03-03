@@ -365,5 +365,17 @@ function getFloatingButtonCSS() {
       height: 14px;
       flex-shrink: 0;
     }
+
+    .yh-mode-switch {
+      display: flex;
+      align-items: center;
+      gap: 6px;
+      flex-shrink: 0;
+    }
+    .yh-mode-label {
+      font-size: 11px;
+      color: #9aa0a6;
+      flex-shrink: 0;
+    }
   `;
 }
