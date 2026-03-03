@@ -77,6 +77,7 @@ if ($manifest.PSObject.Properties['action'] -and $manifest.action.PSObject.Prope
     [void]$files.Add($popupFile)
 
     $popupPath = Join-Path $projectRoot $popupFile
+    $popupDir = [System.IO.Path]::GetDirectoryName($popupFile) -replace '\\', '/'
     if (Test-Path $popupPath) {
         $popupContent = Get-Content $popupPath -Raw
 
@@ -85,6 +86,9 @@ if ($manifest.PSObject.Properties['action'] -and $manifest.action.PSObject.Prope
             $src = $m.Groups[1].Value
             if ($src -notmatch '^https?://') {
                 $normalized = $src -replace '^\.\/', ''
+                if ($popupDir -and ($normalized -notmatch '^/')) {
+                    $normalized = "$popupDir/$normalized"
+                }
                 [void]$files.Add($normalized)
             }
         }
@@ -94,6 +98,9 @@ if ($manifest.PSObject.Properties['action'] -and $manifest.action.PSObject.Prope
             $href = $m.Groups[1].Value
             if ($href -notmatch '^https?://') {
                 $normalized = $href -replace '^\.\/', ''
+                if ($popupDir -and ($normalized -notmatch '^/')) {
+                    $normalized = "$popupDir/$normalized"
+                }
                 [void]$files.Add($normalized)
             }
         }
@@ -145,8 +152,9 @@ try {
         Copy-Item -Path $src -Destination $dst
     }
 
-    $envFile = Join-Path $tempDir 'env.js'
-    if (Test-Path $envFile) {
+    $envRelPath = $files | Where-Object { $_ -like '*env.js' } | Select-Object -First 1
+    if ($envRelPath) {
+        $envFile = Join-Path $tempDir $envRelPath
         Set-Content -Path $envFile -Value 'window.DEV_MODE = false;' -Encoding UTF8
         Write-Host '  DEV_MODE forced to false in env.js' -ForegroundColor DarkYellow
     }
