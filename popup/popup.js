@@ -563,7 +563,7 @@ document.addEventListener('DOMContentLoaded', () => {
   ].forEach(box => box.addEventListener('change', saveSettings));
 
   document
-    .querySelectorAll('.card-compact-toggle .toggle-switch-large')
+    .querySelectorAll('.card-compact-toggle .toggle-switch-large, .mode-switch .toggle-switch-large')
     .forEach(el => {
       el.addEventListener('click', e => {
         if (e.target.tagName.toLowerCase() === 'input') return;
