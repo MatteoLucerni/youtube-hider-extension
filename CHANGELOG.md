@@ -39,6 +39,10 @@
 - Mini-panel tooltips are always visible and never cut off or out of viewport
 - Removed all uses of the em dash (—) symbol in code and documentation
 
+**Fixed**
+
+- Minimum Views Filter incorrectly parsed upload time strings (e.g. "44 minuti fa", "2 minutes ago") as view counts: the suffix "mi" (x1000) matched the start of "minute/minuto/minuti" in all Latin-based languages, producing a spurious high-confidence reading of 44,000 views that prevented low-view videos from being hidden until a much higher threshold was set
+
 ### Version 2.6.0
 
 **Removed**

@@ -41,6 +41,11 @@ function extractNumberAndSuffix(input) {
 
   const suffixMatch = afterNum.match(SUFFIX_REGEX);
   if (suffixMatch && afterNum.indexOf(suffixMatch[0]) === 0) {
+    const charAfterMatch = afterNum[suffixMatch[0].length];
+    const lastSuffixChar = suffixMatch[1][suffixMatch[1].length - 1];
+    if (charAfterMatch && /[a-z]/i.test(lastSuffixChar) && /[a-z]/i.test(charAfterMatch)) {
+      return { numStr, suffix: '', remainder: afterNum.trim() };
+    }
     const suffix = suffixMatch[1].toLowerCase();
     const remainder = afterNum.slice(suffixMatch[0].length).trim();
     return { numStr, suffix, remainder };
