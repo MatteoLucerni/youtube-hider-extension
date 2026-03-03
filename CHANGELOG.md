@@ -4,6 +4,9 @@
 
 **Added**
 
+- Filter Mode: choose between Hide and Dim for all active filters - Dim mode overlays a dark semi-transparent layer over filtered elements instead of removing them, keeping them visible but visually de-emphasized and still clickable
+- Filter Mode toggle is accessible from both the popup (Extra Settings card) and the floating mini-panel
+- Extra Settings card in the popup now groups Floating Button, Filter Mode and Restart Tutorial into a single section
 - Hide Mixes: removes YouTube Mix playlists from feed, search results and related sidebar
 - Hide Playlists: removes YouTube playlists from feed, search results and related sidebar
 - Hide Lives: removes live streams from feed and search results
