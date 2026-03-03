@@ -8,29 +8,19 @@ function injectDimStyles() {
     }
     .yt-hider-badge {
       position: absolute;
-      top: 50%;
-      left: 50%;
-      transform: translate(-50%, -50%);
+      inset: 0;
       display: flex;
       align-items: center;
-      gap: 6px;
-      padding: 7px 12px;
+      justify-content: center;
       background: rgba(0, 0, 0, 0.72);
-      border-radius: 20px;
+      border-radius: inherit;
       pointer-events: none;
       z-index: 2147483639;
     }
     .yt-hider-badge-logo {
-      width: 22px;
-      height: 22px;
+      width: 44px;
+      height: 44px;
       object-fit: contain;
-      display: block;
-    }
-    .yt-hider-badge-icon {
-      width: 18px;
-      height: 18px;
-      color: #ffffff;
-      flex-shrink: 0;
       display: block;
     }
   `;
@@ -40,13 +30,7 @@ function injectDimStyles() {
 function createDimBadge() {
   const badge = document.createElement('div');
   badge.className = 'yt-hider-badge';
-  badge.innerHTML = `
-    <img class="yt-hider-badge-logo" src="${chrome.runtime.getURL('assets/icons/youtube-hider-logo.png')}" />
-    <svg class="yt-hider-badge-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
-      <circle cx="12" cy="12" r="10"></circle>
-      <line x1="4.93" y1="4.93" x2="19.07" y2="19.07"></line>
-    </svg>
-  `;
+  badge.innerHTML = `<img class="yt-hider-badge-logo" src="${chrome.runtime.getURL('assets/icons/youtube-hider-logo.png')}" />`;
   return badge;
 }
 
