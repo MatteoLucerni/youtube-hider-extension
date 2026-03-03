@@ -4,6 +4,12 @@
 
 **Added**
 
+- Hide Mixes: removes YouTube Mix playlists from feed, search results and related sidebar
+- Hide Playlists: removes YouTube playlists from feed, search results and related sidebar
+- Hide Lives: removes live streams from feed and search results
+- Combined Hide Shorts, Hide Mixes, Hide Playlists and Hide Lives into a single unified card
+- Easy Mode now shows 4 quick toggles (Shorts, Mixes, Playlists, Lives) in a 2x2 grid
+- Floating mini-panel updated with Hide Mixes, Hide Playlists and Hide Lives toggles
 - Upload Date Filter: hide videos by their upload date with two independent sub-filters
   - "Hide newer than" - hide videos uploaded more recently than a chosen threshold
   - "Hide older than" - hide videos uploaded longer ago than a chosen threshold
@@ -13,6 +19,14 @@
   - Full support in the floating mini-panel (master toggle + 2 sub-toggles + 2 sliders)
   - Multi-language upload date parsing (EN, IT, FR, DE, ES, PT, RU, JA, KO, AR and more)
   - Supports classic, new (`yt-content-metadata-view-model`), and mobile YouTube layouts
+
+**Refactored**
+
+- Split monolithic content.js (3000+ lines) into 11 focused modules organized in content/ and content/fab/
+- Split popup.js (655 lines) into data.js (constants/utilities) and popup.js (initialization/events)
+- Split popup.css (935 lines) into 4 files: base.css, cards.css, toggles.css, filters.css
+- Organized project into content/, content/fab/, popup/ folder structure
+- Split content-fab.js (1200 lines) into fab/styles.js, fab/panel.js, fab/core.js
 
 **Improved**
 
@@ -24,6 +38,10 @@
 - Tutorial updated: now mentions the Upload Date Filter and how to disable filters
 - Mini-panel tooltips are always visible and never cut off or out of viewport
 - Removed all uses of the em dash (—) symbol in code and documentation
+
+**Fixed**
+
+- Minimum Views Filter incorrectly parsed upload time strings (e.g. "44 minuti fa", "2 minutes ago") as view counts: the suffix "mi" (x1000) matched the start of "minute/minuto/minuti" in all Latin-based languages, producing a spurious high-confidence reading of 44,000 views that prevented low-view videos from being hidden until a much higher threshold was set
 
 ### Version 2.6.0
 

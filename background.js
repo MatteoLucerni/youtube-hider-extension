@@ -29,6 +29,9 @@ const flagKeys = [
   'viewsHideCorrEnabled',
   'hideShortsEnabled',
   'hideShortsSearchEnabled',
+  'hideMixesEnabled',
+  'hidePlaylistsEnabled',
+  'hideLivesEnabled',
   'dateFilterHomeEnabled',
   'dateFilterChannelEnabled',
   'dateFilterSearchEnabled',
@@ -57,6 +60,9 @@ const defaultSettings = {
   viewsHideCorrEnabled: true,
   hideShortsEnabled: true,
   hideShortsSearchEnabled: true,
+  hideMixesEnabled: true,
+  hidePlaylistsEnabled: true,
+  hideLivesEnabled: true,
   dateFilterNewerThreshold: 0,
   dateFilterOlderThreshold: 0,
   dateFilterHomeEnabled: false,
@@ -198,13 +204,14 @@ function getBadgeText(flags = {}) {
     (flags.viewsHideThreshold || 0) > 0 &&
     ['viewsHideHomeEnabled', 'viewsHideSearchEnabled', 'viewsHideSubsEnabled', 'viewsHideChannelEnabled', 'viewsHideCorrEnabled'].some(k => flags[k]);
   const shortsActive = flags.hideShortsEnabled || flags.hideShortsSearchEnabled;
+  const mixesPlaylistsActive = flags.hideMixesEnabled || flags.hidePlaylistsEnabled || flags.hideLivesEnabled;
   const dateOn =
     (flags.dateFilterNewerThreshold || 0) > 0 ||
     (flags.dateFilterOlderThreshold || 0) > 0;
   const dateActive =
     dateOn &&
     ['dateFilterHomeEnabled', 'dateFilterChannelEnabled', 'dateFilterSearchEnabled', 'dateFilterSubsEnabled', 'dateFilterCorrEnabled'].some(k => flags[k]);
-  if (hideWatchedActive || viewsActive || shortsActive || dateActive) return '';
+  if (hideWatchedActive || viewsActive || shortsActive || mixesPlaylistsActive || dateActive) return '';
   return 'OFF';
 }
 function updateBadge(flags = {}) {
@@ -259,7 +266,7 @@ chrome.runtime.onInstalled.addListener(details => {
 chrome.runtime.onMessage.addListener((message, sender, sendResponse) => {
   if (message.action === 'openSettings') {
     chrome.tabs.create({
-      url: chrome.runtime.getURL('popup.html?standalone=true'),
+      url: chrome.runtime.getURL('popup/popup.html?standalone=true'),
       active: true,
     });
     sendResponse({ success: true });
