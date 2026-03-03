@@ -1,3 +1,13 @@
+const WHATS_NEW = {
+  '2.7': {
+    title: "What's New in v2.7",
+    features: [
+      { heading: 'Filter Mode', body: 'Videos can now be dimmed instead of hidden. Toggle it in Extra Settings.' },
+      { heading: 'Upload Date Filter', body: 'Hide videos newer or older than a configurable date threshold.' },
+    ],
+  },
+};
+
 document.addEventListener('DOMContentLoaded', () => {
   const easyModeToggle = document.getElementById('easy-mode-enabled');
   const floatingButtonToggle = document.getElementById(
@@ -13,6 +23,60 @@ document.addEventListener('DOMContentLoaded', () => {
   const footerVersion = document.getElementById('footer-version');
   if (footerVersion) {
     footerVersion.textContent = 'v' + chrome.runtime.getManifest().version;
+  }
+
+  chrome.storage.local.get('whatsNewVersion', local => {
+    const version = local.whatsNewVersion;
+    if (version && WHATS_NEW[version]) {
+      showWhatsNew(WHATS_NEW[version]);
+    }
+  });
+
+  function showWhatsNew(data) {
+    const overlay = document.createElement('div');
+    overlay.id = 'wn-overlay';
+
+    const modal = document.createElement('div');
+    modal.id = 'wn-modal';
+
+    const header = document.createElement('div');
+    header.id = 'wn-header';
+    const titleEl = document.createElement('span');
+    titleEl.id = 'wn-title';
+    titleEl.textContent = data.title;
+    header.appendChild(titleEl);
+
+    const list = document.createElement('ul');
+    list.id = 'wn-list';
+    data.features.forEach(f => {
+      const item = document.createElement('li');
+      const h = document.createElement('span');
+      h.className = 'wn-feature-heading';
+      h.textContent = f.heading;
+      const b = document.createElement('span');
+      b.className = 'wn-feature-body';
+      b.textContent = f.body;
+      item.appendChild(h);
+      item.appendChild(b);
+      list.appendChild(item);
+    });
+
+    const footer = document.createElement('div');
+    footer.id = 'wn-footer';
+    const btn = document.createElement('button');
+    btn.id = 'wn-dismiss-btn';
+    btn.textContent = 'Got it';
+    btn.addEventListener('click', () => {
+      overlay.remove();
+      chrome.storage.local.remove('whatsNewVersion');
+    });
+    footer.appendChild(btn);
+
+    modal.appendChild(header);
+    modal.appendChild(list);
+    modal.appendChild(footer);
+    overlay.appendChild(modal);
+    document.body.appendChild(overlay);
   }
 
   const cfg = {
