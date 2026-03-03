@@ -10,31 +10,43 @@ function injectDimStyles() {
       position: absolute;
       inset: 0;
       display: flex;
+      flex-direction: column;
       align-items: center;
       justify-content: center;
+      gap: 5px;
       background: rgba(0, 0, 0, 0.72);
       border-radius: inherit;
       pointer-events: none;
       z-index: 10;
     }
     .yt-hider-badge-logo {
-      width: 44px;
-      height: 44px;
+      width: 36px;
+      height: 36px;
       object-fit: contain;
       display: block;
+    }
+    .yt-hider-badge-reason {
+      font-size: 11px;
+      font-weight: 500;
+      color: rgba(255, 255, 255, 0.85);
+      font-family: 'Roboto', Arial, sans-serif;
+      letter-spacing: 0.2px;
+      text-align: center;
+      padding: 0 6px;
+      line-height: 1.2;
     }
   `;
   document.head.appendChild(style);
 }
 
-function createDimBadge() {
+function createDimBadge(reason) {
   const badge = document.createElement('div');
   badge.className = 'yt-hider-badge';
-  badge.innerHTML = `<img class="yt-hider-badge-logo" src="${chrome.runtime.getURL('assets/icons/youtube-hider-logo.png')}" />`;
+  badge.innerHTML = `<img class="yt-hider-badge-logo" src="${chrome.runtime.getURL('assets/icons/youtube-hider-logo.png')}" />${reason ? `<span class="yt-hider-badge-reason">${reason}</span>` : ''}`;
   return badge;
 }
 
-function applyFilter(element) {
+function applyFilter(element, reason) {
   if (!element) return;
   if (prefs.dimMode) {
     if (element.dataset.ytHiderDimmed) return;
@@ -45,7 +57,7 @@ function applyFilter(element) {
       element.querySelector('ytm-thumbnail-cover-view-model') ||
       element;
     target.dataset.ytHiderBadgeTarget = '1';
-    target.appendChild(createDimBadge());
+    target.appendChild(createDimBadge(reason));
   } else {
     if (element.dataset.ytHiderHidden) return;
     element.dataset.ytHiderHidden = '1';
@@ -104,7 +116,7 @@ function hideWatched(pathname) {
       }
       if (!item) return;
 
-      applyFilter(item);
+      applyFilter(item, 'Already watched');
     });
 }
 
@@ -134,15 +146,15 @@ function shouldHideDateFilter(pathname) {
   );
 }
 
-function shouldHideDateVideo(ageDays) {
+function getDateFilterReason(ageDays) {
   const { dateFilterNewerThreshold, dateFilterOlderThreshold } = prefs;
 
   if (dateFilterNewerThreshold > 0 && ageDays < dateFilterNewerThreshold)
-    return true;
+    return 'Video too new';
   if (dateFilterOlderThreshold > 0 && ageDays > dateFilterOlderThreshold)
-    return true;
+    return 'Video too old';
 
-  return false;
+  return null;
 }
 
 function hideDateFilter() {
@@ -158,9 +170,10 @@ function hideDateFilter() {
 
     const result = resolveUploadAgeFromSpans(spans);
     if (!result) return;
-    if (!shouldHideDateVideo(result.ageDays)) return;
+    const dateReason = getDateFilterReason(result.ageDays);
+    if (!dateReason) return;
 
-    findAndHideContainer(result.span, selectors);
+    findAndHideContainer(result.span, selectors, dateReason);
   });
 
   // Mobile format
@@ -176,15 +189,16 @@ function hideDateFilter() {
         if (!isNaN(ageDays)) break;
       }
       if (isNaN(ageDays)) return;
-      if (!shouldHideDateVideo(ageDays)) return;
+      const dateReason = getDateFilterReason(ageDays);
+      if (!dateReason) return;
 
       const container = span.closest(
         'ytm-video-with-context-renderer, ytm-rich-item-renderer, ytm-compact-video-renderer',
       );
       if (container) {
-        applyFilter(container);
+        applyFilter(container, dateReason);
         const wrapper = container.closest('ytm-rich-item-renderer');
-        if (wrapper) applyFilter(wrapper);
+        if (wrapper) applyFilter(wrapper, dateReason);
       }
     });
 
@@ -206,9 +220,10 @@ function hideDateFilter() {
 
       const result = resolveUploadAgeFromSpans(allSpans);
       if (!result) return;
-      if (!shouldHideDateVideo(result.ageDays)) return;
+      const dateReason = getDateFilterReason(result.ageDays);
+      if (!dateReason) return;
 
-      findAndHideContainer(result.span, selectors);
+      findAndHideContainer(result.span, selectors, dateReason);
     });
 }
 
@@ -226,7 +241,7 @@ function hideUnderVisuals() {
     const result = resolveViewsFromSpans(spans);
     if (!result || result.views >= viewsHideThreshold) return;
 
-    findAndHideContainer(result.span, selectors);
+    findAndHideContainer(result.span, selectors, 'Views too low');
   });
 
   document
@@ -242,9 +257,9 @@ function hideUnderVisuals() {
       );
 
       if (container) {
-        applyFilter(container);
+        applyFilter(container, 'Views too low');
         const wrapper = container.closest('ytm-rich-item-renderer');
-        if (wrapper) applyFilter(wrapper);
+        if (wrapper) applyFilter(wrapper, 'Views too low');
       }
     });
 
@@ -282,7 +297,7 @@ function hideNewFormatVideos() {
 
       if (!result || result.views >= viewsHideThreshold) return;
 
-      findAndHideContainer(result.span, selectors);
+      findAndHideContainer(result.span, selectors, 'Views too low');
     });
 }
 
@@ -468,7 +483,7 @@ function hideMixes() {
     const item =
       el.closest('ytd-rich-item-renderer, ytm-rich-item-renderer') ||
       el.closest('yt-lockup-view-model');
-    if (item) applyFilter(item);
+    if (item) applyFilter(item, 'Mix playlist');
   });
 
   document.querySelectorAll('a[href*="start_radio=1"]').forEach(link => {
@@ -476,13 +491,13 @@ function hideMixes() {
       link.closest(
         'ytd-rich-item-renderer, ytd-compact-radio-renderer, ytd-radio-renderer, ytm-rich-item-renderer, ytm-video-with-context-renderer',
       ) || link.closest('yt-lockup-view-model');
-    if (item) applyFilter(item);
+    if (item) applyFilter(item, 'Mix playlist');
   });
 
   document
     .querySelectorAll('ytd-radio-renderer, ytd-compact-radio-renderer')
     .forEach(node => {
-      applyFilter(node);
+      applyFilter(node, 'Mix playlist');
     });
 }
 
@@ -495,13 +510,13 @@ function hidePlaylists() {
     const item =
       el.closest('ytd-rich-item-renderer, ytm-rich-item-renderer') ||
       el.closest('yt-lockup-view-model');
-    if (item) applyFilter(item);
+    if (item) applyFilter(item, 'Playlist');
   });
 
   document
     .querySelectorAll('ytd-playlist-renderer, ytd-compact-playlist-renderer')
     .forEach(node => {
-      applyFilter(node);
+      applyFilter(node, 'Playlist');
     });
 }
 
@@ -514,7 +529,7 @@ function hideLives() {
     const item =
       el.closest('ytd-rich-item-renderer, ytm-rich-item-renderer, ytd-video-renderer, ytd-compact-video-renderer') ||
       el.closest('yt-lockup-view-model');
-    if (item) applyFilter(item);
+    if (item) applyFilter(item, 'Live stream');
   });
 
   document.querySelectorAll('yt-lockup-view-model').forEach(el => {
@@ -523,7 +538,7 @@ function hideLives() {
       el.querySelector('.yt-spec-avatar-shape__live-badge')
     ) {
       const item = el.closest('ytd-rich-item-renderer, ytm-rich-item-renderer') || el;
-      applyFilter(item);
+      applyFilter(item, 'Live stream');
     }
   });
 }
