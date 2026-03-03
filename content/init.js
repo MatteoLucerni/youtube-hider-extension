@@ -190,6 +190,7 @@ function onMutations(mutations) {
 async function init() {
   await initPrefs();
   setupPrefsListener();
+  injectDimStyles();
 
   logger.log('Extension initialized on', currentPath);
   await startHiding(currentPath);

@@ -133,7 +133,7 @@ function findAndHideContainer(element, selectors) {
   while (item && !item.matches(selectors)) {
     item = item.parentElement;
   }
-  if (item) item.style.display = 'none';
+  if (item) applyFilter(item);
 }
 
 function resolveViewsFromSpans(spans) {

@@ -1,3 +1,46 @@
+function injectDimStyles() {
+  if (document.getElementById('yt-hider-dim-styles')) return;
+  const style = document.createElement('style');
+  style.id = 'yt-hider-dim-styles';
+  style.textContent = `
+    [data-yt-hider-dimmed] {
+      position: relative !important;
+    }
+    [data-yt-hider-dimmed]::after {
+      content: '';
+      position: absolute;
+      inset: 0;
+      background: rgba(0, 0, 0, 0.82);
+      pointer-events: none;
+      z-index: 2147483639;
+      border-radius: inherit;
+    }
+  `;
+  document.head.appendChild(style);
+}
+
+function applyFilter(element) {
+  if (!element) return;
+  if (prefs.dimMode) {
+    if (element.dataset.ytHiderDimmed) return;
+    element.dataset.ytHiderDimmed = '1';
+  } else {
+    if (element.dataset.ytHiderHidden) return;
+    element.dataset.ytHiderHidden = '1';
+    element.style.display = 'none';
+  }
+}
+
+function resetAppliedFilters() {
+  document.querySelectorAll('[data-yt-hider-hidden]').forEach(el => {
+    el.style.display = '';
+    delete el.dataset.ytHiderHidden;
+  });
+  document.querySelectorAll('[data-yt-hider-dimmed]').forEach(el => {
+    delete el.dataset.ytHiderDimmed;
+  });
+}
+
 function hideWatched(pathname) {
   const { hideThreshold } = prefs;
 
@@ -28,7 +71,7 @@ function hideWatched(pathname) {
       }
       if (!item) return;
 
-      item.style.display = 'none';
+      applyFilter(item);
     });
 }
 
@@ -106,9 +149,9 @@ function hideDateFilter() {
         'ytm-video-with-context-renderer, ytm-rich-item-renderer, ytm-compact-video-renderer',
       );
       if (container) {
-        container.style.display = 'none';
+        applyFilter(container);
         const wrapper = container.closest('ytm-rich-item-renderer');
-        if (wrapper) wrapper.style.display = 'none';
+        if (wrapper) applyFilter(wrapper);
       }
     });
 
@@ -166,9 +209,9 @@ function hideUnderVisuals() {
       );
 
       if (container) {
-        container.style.display = 'none';
+        applyFilter(container);
         const wrapper = container.closest('ytm-rich-item-renderer');
-        if (wrapper) wrapper.style.display = 'none';
+        if (wrapper) applyFilter(wrapper);
       }
     });
 
@@ -213,13 +256,13 @@ function hideNewFormatVideos() {
 function hideShorts() {
   document.querySelectorAll('ytm-rich-section-renderer').forEach(section => {
     if (section.querySelector('ytm-shorts-lockup-view-model')) {
-      section.style.display = 'none';
+      applyFilter(section);
     }
   });
 
   document.querySelectorAll('ytm-pivot-bar-item-renderer').forEach(item => {
     if (item.querySelector('.pivot-shorts')) {
-      item.style.display = 'none';
+      applyFilter(item);
     }
   });
 
@@ -229,7 +272,7 @@ function hideShorts() {
     )
     .forEach(node => {
       if (node.querySelector('ytm-shorts-lockup-view-model')) {
-        node.style.display = 'none';
+        applyFilter(node);
       }
       if (
         node.querySelector('badge-shape[aria-label="Shorts"]') ||
@@ -237,7 +280,7 @@ function hideShorts() {
           'ytd-thumbnail-overlay-time-status-renderer[overlay-style="SHORTS"]',
         )
       ) {
-        node.style.display = 'none';
+        applyFilter(node);
       }
     });
 
@@ -246,13 +289,13 @@ function hideShorts() {
       'ytd-rich-shelf-renderer, ytm-reel-shelf-renderer',
     );
     if (shelf) {
-      shelf.style.display = 'none';
+      applyFilter(shelf);
       return;
     }
     const item = link.closest(
       'ytd-rich-item-renderer, ytm-video-with-context-renderer',
     );
-    if (item) item.style.display = 'none';
+    if (item) applyFilter(item);
   });
 
   document.querySelectorAll('a[title="Shorts"]').forEach(link => {
@@ -260,31 +303,31 @@ function hideShorts() {
       link.closest('ytd-guide-entry-renderer') ||
       link.closest('ytd-mini-guide-entry-renderer') ||
       link.closest('ytm-pivot-bar-item-renderer');
-    if (entry) entry.style.display = 'none';
+    if (entry) applyFilter(entry);
   });
 
   document.querySelectorAll('a[title="Shorts"]').forEach(link => {
     const entry = link.closest('ytd-guide-entry-renderer');
-    if (entry) entry.style.display = 'none';
+    if (entry) applyFilter(entry);
   });
 
   document
     .querySelectorAll('yt-formatted-string[title="Shorts"]')
     .forEach(link => {
       const entry = link.closest('yt-chip-cloud-chip-renderer');
-      if (entry) entry.style.display = 'none';
+      if (entry) applyFilter(entry);
     });
 
   document.querySelectorAll('ytm-chip-cloud-chip-renderer').forEach(chip => {
     if (chip.textContent.trim() === 'Shorts') {
-      chip.style.display = 'none';
+      applyFilter(chip);
     }
   });
 
   document
     .querySelectorAll('yt-tab-shape[tab-title="Shorts"]')
     .forEach(link => {
-      link.style.display = 'none';
+      applyFilter(link);
     });
 
   document.querySelectorAll('grid-shelf-view-model').forEach(node => {
@@ -293,7 +336,7 @@ function hideShorts() {
         'ytm-shorts-lockup-view-model-v2, ytm-shorts-lockup-view-model',
       )
     ) {
-      node.style.display = 'none';
+      applyFilter(node);
     }
   });
 
@@ -302,21 +345,21 @@ function hideShorts() {
       'grid-shelf-view-model:has(ytm-shorts-lockup-view-model-v2), grid-shelf-view-model:has(ytm-shorts-lockup-view-model)',
     )
     .forEach(node => {
-      node.style.display = 'none';
+      applyFilter(node);
     });
 
   document.querySelectorAll('yt-chip-cloud-chip-renderer').forEach(node => {
     const label = node.querySelector('.ytChipShapeChip');
     if (label && label.textContent.trim() === 'Shorts') {
-      node.style.display = 'none';
+      applyFilter(node);
     }
   });
 
   document.querySelectorAll('ytd-rich-section-renderer').forEach(section => {
     const allChildren = section.querySelectorAll('*');
     for (const child of allChildren) {
-      if (child.style.display === 'none') {
-        section.style.display = 'none';
+      if (child.style.display === 'none' || child.dataset.ytHiderDimmed) {
+        applyFilter(section);
         break;
       }
     }
@@ -326,7 +369,7 @@ function hideShorts() {
     .querySelectorAll('ytd-mini-guide-entry-renderer a[href^="/shorts"]')
     .forEach(link => {
       const entry = link.closest('ytd-mini-guide-entry-renderer');
-      if (entry) entry.style.display = 'none';
+      if (entry) applyFilter(entry);
     });
 
   document
@@ -335,9 +378,9 @@ function hideShorts() {
       const mini = link.closest('ytd-mini-guide-entry-renderer');
       const guide = link.closest('ytd-guide-entry-renderer');
       const pivot = link.closest('ytm-pivot-bar-item-renderer');
-      if (mini) mini.style.display = 'none';
-      if (guide) guide.style.display = 'none';
-      if (pivot) pivot.style.display = 'none';
+      if (mini) applyFilter(mini);
+      if (guide) applyFilter(guide);
+      if (pivot) applyFilter(pivot);
     });
 }
 
@@ -392,7 +435,7 @@ function hideMixes() {
     const item =
       el.closest('ytd-rich-item-renderer, ytm-rich-item-renderer') ||
       el.closest('yt-lockup-view-model');
-    if (item) item.style.display = 'none';
+    if (item) applyFilter(item);
   });
 
   document.querySelectorAll('a[href*="start_radio=1"]').forEach(link => {
@@ -400,13 +443,13 @@ function hideMixes() {
       link.closest(
         'ytd-rich-item-renderer, ytd-compact-radio-renderer, ytd-radio-renderer, ytm-rich-item-renderer, ytm-video-with-context-renderer',
       ) || link.closest('yt-lockup-view-model');
-    if (item) item.style.display = 'none';
+    if (item) applyFilter(item);
   });
 
   document
     .querySelectorAll('ytd-radio-renderer, ytd-compact-radio-renderer')
     .forEach(node => {
-      node.style.display = 'none';
+      applyFilter(node);
     });
 }
 
@@ -419,13 +462,13 @@ function hidePlaylists() {
     const item =
       el.closest('ytd-rich-item-renderer, ytm-rich-item-renderer') ||
       el.closest('yt-lockup-view-model');
-    if (item) item.style.display = 'none';
+    if (item) applyFilter(item);
   });
 
   document
     .querySelectorAll('ytd-playlist-renderer, ytd-compact-playlist-renderer')
     .forEach(node => {
-      node.style.display = 'none';
+      applyFilter(node);
     });
 }
 
@@ -438,7 +481,7 @@ function hideLives() {
     const item =
       el.closest('ytd-rich-item-renderer, ytm-rich-item-renderer, ytd-video-renderer, ytd-compact-video-renderer') ||
       el.closest('yt-lockup-view-model');
-    if (item) item.style.display = 'none';
+    if (item) applyFilter(item);
   });
 
   document.querySelectorAll('yt-lockup-view-model').forEach(el => {
@@ -447,7 +490,7 @@ function hideLives() {
       el.querySelector('.yt-spec-avatar-shape__live-badge')
     ) {
       const item = el.closest('ytd-rich-item-renderer, ytm-rich-item-renderer') || el;
-      item.style.display = 'none';
+      applyFilter(item);
     }
   });
 }

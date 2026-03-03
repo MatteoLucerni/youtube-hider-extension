@@ -98,6 +98,28 @@
     margin-bottom: 0;
 }
 
+.extra-setting-row {
+    display: flex;
+    align-items: center;
+    gap: var(--spacing-lg);
+    width: 100%;
+    padding-top: var(--spacing-sm);
+    margin-top: var(--spacing-sm);
+    border-top: 1px solid var(--border-color);
+}
+
+.mode-switch {
+    display: flex;
+    align-items: center;
+    gap: var(--spacing-sm);
+    flex-shrink: 0;
+}
+
+.mode-label {
+    font-size: 12px;
+    color: var(--text-secondary);
+}
+
 .card-title {
     font-size: 14px;
     font-weight: 600;

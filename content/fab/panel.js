@@ -162,6 +162,9 @@ function syncPanelToPrefs(shadow) {
   }
 
   checkMiniDateOverlap(shadow);
+
+  const dimModeToggle = shadow.querySelector('#yh-p-dim-mode');
+  if (dimModeToggle) dimModeToggle.checked = prefs.dimMode;
 }
 
 function updateMiniSliderBg(slider) {
@@ -396,6 +399,13 @@ function bindPanelEvents(shadow) {
       shadow.querySelector('.yh-fab').classList.remove('active');
     });
   }
+
+  const dimModeToggle = shadow.querySelector('#yh-p-dim-mode');
+  if (dimModeToggle) {
+    dimModeToggle.addEventListener('change', () => {
+      safeStorageSet('sync', { dimMode: dimModeToggle.checked });
+    });
+  }
 }
 
 function getMiniPanelHTML() {
@@ -504,6 +514,19 @@ function getMiniPanelHTML() {
           </svg>
           <span>Filter not active: ranges overlap</span>
         </div>
+      </div>
+      <div class="yh-panel-group">
+        <label class="yh-panel-row">
+          <div class="yh-panel-label-wrap">
+            <span class="yh-panel-label">Filter Mode</span>
+            <span class="yh-info-wrap">${infoSvg}<span class="yh-tooltip">Dim filtered elements with a dark overlay instead of hiding them</span></span>
+          </div>
+          <div class="yh-mode-switch">
+            <span class="yh-mode-label">Hide</span>
+            <div class="yh-toggle"><input type="checkbox" id="yh-p-dim-mode" /><span class="yh-toggle-slider"></span></div>
+            <span class="yh-mode-label">Dim</span>
+          </div>
+        </label>
       </div>
     </div>
     <div class="yh-panel-footer">

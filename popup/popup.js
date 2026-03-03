@@ -3,6 +3,7 @@ document.addEventListener('DOMContentLoaded', () => {
   const floatingButtonToggle = document.getElementById(
     'floating-button-enabled',
   );
+  const dimModeToggle = document.getElementById('dim-mode-enabled');
 
   const easyShortsToggle = document.getElementById('hide-shorts-easy');
   const easyMixesToggle = document.getElementById('hide-mixes-easy');
@@ -122,6 +123,7 @@ document.addEventListener('DOMContentLoaded', () => {
   const storageKeys = [
     'easyModeEnabled',
     'floatingButtonEnabled',
+    'dimMode',
     ...Object.values(cfg.hide.keys),
     ...Object.values(cfg.views.keys),
     ...Object.values(cfg.shorts.keys),
@@ -137,6 +139,7 @@ document.addEventListener('DOMContentLoaded', () => {
     updateEasyModeUI(easyMode);
 
     floatingButtonToggle.checked = prefs.floatingButtonEnabled ?? true;
+    dimModeToggle.checked = prefs.dimMode ?? false;
 
     ['hide', 'views', 'shorts', 'mixesPlaylists'].forEach(sectionName => {
       const section = cfg[sectionName];
@@ -401,6 +404,10 @@ document.addEventListener('DOMContentLoaded', () => {
     chrome.storage.sync.set({
       floatingButtonEnabled: floatingButtonToggle.checked,
     });
+  });
+
+  dimModeToggle.addEventListener('change', () => {
+    chrome.storage.sync.set({ dimMode: dimModeToggle.checked });
   });
 
   const restartTutorialBtn = document.getElementById('restart-tutorial');
