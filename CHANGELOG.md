@@ -4,7 +4,7 @@
 
 **Added**
 
-- Filter Mode: choose between Hide and Dim for all active filters - Dim mode overlays a dark semi-transparent layer over filtered elements instead of removing them, keeping them visible but visually de-emphasized and still clickable
+- Filter Mode: choose between Hide and Dim for all active filters. Dim mode overlays a dark semi-transparent layer with the Youtube Hider logo and a compact reason label ("Already watched", "Views too low", "Video too new", "Video too old", "Mix playlist", "Playlist", "Live stream") over filtered elements instead of removing them, keeping them visible but visually de-emphasized and still clickable. Shorts are always force-hidden regardless of this setting.
 - Filter Mode toggle is accessible from both the popup (Extra Settings card) and the floating mini-panel
 - Extra Settings card in the popup now groups Floating Button, Filter Mode and Restart Tutorial into a single section
 - Hide Mixes: removes YouTube Mix playlists from feed, search results and related sidebar

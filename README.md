@@ -53,7 +53,7 @@ Selectively remove content types from your YouTube feed with individual toggles:
 Choose how filtered content is treated across all active filters:
 
 - **Hide** (default) - filtered elements are removed from view entirely
-- **Dim** - filtered elements remain visible but are covered by a dark semi-transparent overlay, keeping them accessible while visually de-emphasizing them
+- **Dim** - filtered elements stay visible under a dark semi-transparent overlay. The overlay displays the Youtube Hider logo and a compact label indicating why the element was filtered ("Already watched", "Views too low", "Video too new", "Video too old", "Mix playlist", "Playlist", "Live stream"). Filtered elements remain fully clickable. Shorts are always hidden regardless of this setting.
 
 The Filter Mode toggle is available in both the popup (Extra Settings card) and the floating mini-panel.
 
