@@ -15,11 +15,6 @@
     position: relative;
 }
 
-.restart-tutorial-footer {
-    padding: 4px 0 0;
-    text-align: left;
-}
-
 .restart-tutorial-btn {
     display: inline-flex;
     align-items: center;
@@ -103,9 +98,23 @@
     align-items: center;
     gap: var(--spacing-lg);
     width: 100%;
-    padding-top: var(--spacing-sm);
-    margin-top: var(--spacing-sm);
+    padding-top: var(--spacing-lg);
+    margin-top: var(--spacing-lg);
     border-top: 1px solid var(--border-color);
+}
+
+.setting-card-compact > .extra-setting-row:first-child {
+    border-top: none;
+    padding-top: 0;
+    margin-top: 0;
+}
+
+.restart-tutorial-control {
+    display: flex;
+    flex-direction: column;
+    align-items: flex-end;
+    gap: 4px;
+    flex-shrink: 0;
 }
 
 .mode-switch {
