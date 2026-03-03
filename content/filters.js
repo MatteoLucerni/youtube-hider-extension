@@ -3,20 +3,51 @@ function injectDimStyles() {
   const style = document.createElement('style');
   style.id = 'yt-hider-dim-styles';
   style.textContent = `
-    [data-yt-hider-dimmed] {
+    [data-yt-hider-badge-target] {
       position: relative !important;
     }
-    [data-yt-hider-dimmed]::after {
-      content: '';
+    .yt-hider-badge {
       position: absolute;
-      inset: 0;
-      background: rgba(0, 0, 0, 0.82);
+      top: 50%;
+      left: 50%;
+      transform: translate(-50%, -50%);
+      display: flex;
+      align-items: center;
+      gap: 6px;
+      padding: 7px 12px;
+      background: rgba(0, 0, 0, 0.72);
+      border-radius: 20px;
       pointer-events: none;
       z-index: 2147483639;
-      border-radius: inherit;
+    }
+    .yt-hider-badge-logo {
+      width: 22px;
+      height: 22px;
+      object-fit: contain;
+      display: block;
+    }
+    .yt-hider-badge-icon {
+      width: 18px;
+      height: 18px;
+      color: #ffffff;
+      flex-shrink: 0;
+      display: block;
     }
   `;
   document.head.appendChild(style);
+}
+
+function createDimBadge() {
+  const badge = document.createElement('div');
+  badge.className = 'yt-hider-badge';
+  badge.innerHTML = `
+    <img class="yt-hider-badge-logo" src="${chrome.runtime.getURL('assets/icons/youtube-hider-logo.png')}" />
+    <svg class="yt-hider-badge-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+      <circle cx="12" cy="12" r="10"></circle>
+      <line x1="4.93" y1="4.93" x2="19.07" y2="19.07"></line>
+    </svg>
+  `;
+  return badge;
 }
 
 function applyFilter(element) {
@@ -24,6 +55,13 @@ function applyFilter(element) {
   if (prefs.dimMode) {
     if (element.dataset.ytHiderDimmed) return;
     element.dataset.ytHiderDimmed = '1';
+    const target =
+      element.querySelector('a#thumbnail') ||
+      element.querySelector('yt-thumbnail-view-model') ||
+      element.querySelector('ytm-thumbnail-cover-view-model') ||
+      element;
+    target.dataset.ytHiderBadgeTarget = '1';
+    target.appendChild(createDimBadge());
   } else {
     if (element.dataset.ytHiderHidden) return;
     element.dataset.ytHiderHidden = '1';
@@ -39,6 +77,17 @@ function resetAppliedFilters() {
   document.querySelectorAll('[data-yt-hider-dimmed]').forEach(el => {
     delete el.dataset.ytHiderDimmed;
   });
+  document.querySelectorAll('.yt-hider-badge').forEach(el => el.remove());
+  document.querySelectorAll('[data-yt-hider-badge-target]').forEach(el => {
+    delete el.dataset.ytHiderBadgeTarget;
+  });
+}
+
+function forceHide(element) {
+  if (!element) return;
+  if (element.dataset.ytHiderHidden) return;
+  element.dataset.ytHiderHidden = '1';
+  element.style.display = 'none';
 }
 
 function hideWatched(pathname) {
@@ -256,13 +305,13 @@ function hideNewFormatVideos() {
 function hideShorts() {
   document.querySelectorAll('ytm-rich-section-renderer').forEach(section => {
     if (section.querySelector('ytm-shorts-lockup-view-model')) {
-      applyFilter(section);
+      forceHide(section);
     }
   });
 
   document.querySelectorAll('ytm-pivot-bar-item-renderer').forEach(item => {
     if (item.querySelector('.pivot-shorts')) {
-      applyFilter(item);
+      forceHide(item);
     }
   });
 
@@ -272,7 +321,7 @@ function hideShorts() {
     )
     .forEach(node => {
       if (node.querySelector('ytm-shorts-lockup-view-model')) {
-        applyFilter(node);
+        forceHide(node);
       }
       if (
         node.querySelector('badge-shape[aria-label="Shorts"]') ||
@@ -280,7 +329,7 @@ function hideShorts() {
           'ytd-thumbnail-overlay-time-status-renderer[overlay-style="SHORTS"]',
         )
       ) {
-        applyFilter(node);
+        forceHide(node);
       }
     });
 
@@ -289,13 +338,13 @@ function hideShorts() {
       'ytd-rich-shelf-renderer, ytm-reel-shelf-renderer',
     );
     if (shelf) {
-      applyFilter(shelf);
+      forceHide(shelf);
       return;
     }
     const item = link.closest(
       'ytd-rich-item-renderer, ytm-video-with-context-renderer',
     );
-    if (item) applyFilter(item);
+    if (item) forceHide(item);
   });
 
   document.querySelectorAll('a[title="Shorts"]').forEach(link => {
@@ -303,31 +352,31 @@ function hideShorts() {
       link.closest('ytd-guide-entry-renderer') ||
       link.closest('ytd-mini-guide-entry-renderer') ||
       link.closest('ytm-pivot-bar-item-renderer');
-    if (entry) applyFilter(entry);
+    if (entry) forceHide(entry);
   });
 
   document.querySelectorAll('a[title="Shorts"]').forEach(link => {
     const entry = link.closest('ytd-guide-entry-renderer');
-    if (entry) applyFilter(entry);
+    if (entry) forceHide(entry);
   });
 
   document
     .querySelectorAll('yt-formatted-string[title="Shorts"]')
     .forEach(link => {
       const entry = link.closest('yt-chip-cloud-chip-renderer');
-      if (entry) applyFilter(entry);
+      if (entry) forceHide(entry);
     });
 
   document.querySelectorAll('ytm-chip-cloud-chip-renderer').forEach(chip => {
     if (chip.textContent.trim() === 'Shorts') {
-      applyFilter(chip);
+      forceHide(chip);
     }
   });
 
   document
     .querySelectorAll('yt-tab-shape[tab-title="Shorts"]')
     .forEach(link => {
-      applyFilter(link);
+      forceHide(link);
     });
 
   document.querySelectorAll('grid-shelf-view-model').forEach(node => {
@@ -336,7 +385,7 @@ function hideShorts() {
         'ytm-shorts-lockup-view-model-v2, ytm-shorts-lockup-view-model',
       )
     ) {
-      applyFilter(node);
+      forceHide(node);
     }
   });
 
@@ -345,13 +394,13 @@ function hideShorts() {
       'grid-shelf-view-model:has(ytm-shorts-lockup-view-model-v2), grid-shelf-view-model:has(ytm-shorts-lockup-view-model)',
     )
     .forEach(node => {
-      applyFilter(node);
+      forceHide(node);
     });
 
   document.querySelectorAll('yt-chip-cloud-chip-renderer').forEach(node => {
     const label = node.querySelector('.ytChipShapeChip');
     if (label && label.textContent.trim() === 'Shorts') {
-      applyFilter(node);
+      forceHide(node);
     }
   });
 
@@ -359,7 +408,7 @@ function hideShorts() {
     const allChildren = section.querySelectorAll('*');
     for (const child of allChildren) {
       if (child.style.display === 'none' || child.dataset.ytHiderDimmed) {
-        applyFilter(section);
+        forceHide(section);
         break;
       }
     }
@@ -369,7 +418,7 @@ function hideShorts() {
     .querySelectorAll('ytd-mini-guide-entry-renderer a[href^="/shorts"]')
     .forEach(link => {
       const entry = link.closest('ytd-mini-guide-entry-renderer');
-      if (entry) applyFilter(entry);
+      if (entry) forceHide(entry);
     });
 
   document
@@ -378,9 +427,9 @@ function hideShorts() {
       const mini = link.closest('ytd-mini-guide-entry-renderer');
       const guide = link.closest('ytd-guide-entry-renderer');
       const pivot = link.closest('ytm-pivot-bar-item-renderer');
-      if (mini) applyFilter(mini);
-      if (guide) applyFilter(guide);
-      if (pivot) applyFilter(pivot);
+      if (mini) forceHide(mini);
+      if (guide) forceHide(guide);
+      if (pivot) forceHide(pivot);
     });
 }
 
