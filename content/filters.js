@@ -56,7 +56,7 @@ function applyFilter(element) {
     if (element.dataset.ytHiderDimmed) return;
     element.dataset.ytHiderDimmed = '1';
     const target =
-      element.querySelector('a#thumbnail') ||
+      element.querySelector('ytd-thumbnail') ||
       element.querySelector('yt-thumbnail-view-model') ||
       element.querySelector('ytm-thumbnail-cover-view-model') ||
       element;
