@@ -128,12 +128,12 @@ function getVideoContainerSelectors() {
   return 'ytd-compact-video-renderer, ytd-rich-item-renderer, ytd-video-renderer, ytm-video-with-context-renderer, ytm-compact-video-renderer, ytm-rich-item-renderer';
 }
 
-function findAndHideContainer(element, selectors) {
+function findAndHideContainer(element, selectors, reason) {
   let item = element;
   while (item && !item.matches(selectors)) {
     item = item.parentElement;
   }
-  if (item) item.style.display = 'none';
+  if (item) applyFilter(item, reason);
 }
 
 function resolveViewsFromSpans(spans) {

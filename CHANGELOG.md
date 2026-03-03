@@ -4,6 +4,10 @@
 
 **Added**
 
+- Version update toast: on the first YouTube visit after a minor version update, a toast notification appears in the bottom-right corner inviting users to check what's new. Clicking "See what's new" opens the full settings page. The toast is dismissed manually and never shown again for the same version. Only triggers on minor version bumps (e.g. 2.6 to 2.7), not on patch updates.
+- Filter Mode: choose between Hide and Dim for all active filters. Dim mode overlays a dark semi-transparent layer with the Youtube Hider logo and a compact reason label ("Already watched", "Views too low", "Video too new", "Video too old", "Mix playlist", "Playlist", "Live stream") over filtered elements instead of removing them, keeping them visible but visually de-emphasized and still clickable. Shorts are always force-hidden regardless of this setting.
+- Filter Mode toggle is accessible from both the popup (Extra Settings card) and the floating mini-panel
+- Extra Settings card in the popup now groups Floating Button, Filter Mode and Restart Tutorial into a single section
 - Hide Mixes: removes YouTube Mix playlists from feed, search results and related sidebar
 - Hide Playlists: removes YouTube playlists from feed, search results and related sidebar
 - Hide Lives: removes live streams from feed and search results

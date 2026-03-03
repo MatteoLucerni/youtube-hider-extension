@@ -5,7 +5,7 @@
 <h1 align="center">Youtube Hider</h1>
 
 <p align="center">
-  <strong>Hide watched videos, Shorts, Mixes, Playlists, Lives and low-view videos from YouTube.</strong>
+  <strong>Hide or dim watched videos, Shorts, Mixes, Playlists, Lives and low-view videos from YouTube.</strong>
 </p>
 
 <p align="center">
@@ -47,6 +47,15 @@ Selectively remove content types from your YouTube feed with individual toggles:
 - **Mixes** - removes YouTube Mix playlists from feed, search results and related sidebar
 - **Playlists** - removes playlists from feed, search results and related sidebar
 - **Lives** - removes live streams from your feed and search results
+
+### Filter Mode
+
+Choose how filtered content is treated across all active filters:
+
+- **Hide** (default) - filtered elements are removed from view entirely
+- **Dim** - filtered elements stay visible under a dark semi-transparent overlay. The overlay displays the Youtube Hider logo and a compact label indicating why the element was filtered ("Already watched", "Views too low", "Video too new", "Video too old", "Mix playlist", "Playlist", "Live stream"). Filtered elements remain fully clickable. Shorts are always hidden regardless of this setting.
+
+The Filter Mode toggle is available in both the popup (Extra Settings card) and the floating mini-panel.
 
 ### Floating Quick-Settings Button
 

@@ -190,6 +190,7 @@ function onMutations(mutations) {
 async function init() {
   await initPrefs();
   setupPrefsListener();
+  injectDimStyles();
 
   logger.log('Extension initialized on', currentPath);
   await startHiding(currentPath);
@@ -206,6 +207,12 @@ async function init() {
     }
     if (tutorialPending && floatingButtonHost) {
       setTimeout(() => showTutorialWelcomeCard(), 1500);
+    } else if (!isWatchPage()) {
+      chrome.storage.local.get('whatsNewVersion', local => {
+        if (local.whatsNewVersion) {
+          setTimeout(() => showWhatsNewToast(local.whatsNewVersion), 1500);
+        }
+      });
     }
   }
 }

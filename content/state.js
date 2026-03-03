@@ -29,6 +29,7 @@ const prefs = {
   dateFilterSearchEnabled: false,
   dateFilterSubsEnabled: false,
   dateFilterCorrEnabled: false,
+  dimMode: false,
   floatingButtonEnabled: true,
   floatingButtonPosition: { edge: 'bottom', offset: 20 },
   tutorialCompleted: false,
@@ -72,6 +73,10 @@ function setupPrefsListener() {
             removeTutorialOverlay();
             removeFloatingButton();
           }
+        }
+        if ('dimMode' in changes) {
+          resetAppliedFilters();
+          startHiding(currentPath);
         }
       }
       if (area === 'local' && changes.floatingButtonPosition) {
