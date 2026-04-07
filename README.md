@@ -57,13 +57,17 @@ Choose how filtered content is treated across all active filters:
 
 The Filter Mode toggle is available in both the popup (Extra Settings card) and the floating mini-panel.
 
+### Master Extension Switch
+
+Use the **Extension** switch in the popup header to instantly enable or disable the entire extension. When disabled, filtering is paused globally and the badge shows **OFF**.
+
 ### Floating Quick-Settings Button
 
 A draggable floating button on YouTube pages gives you instant access to toggle settings without opening the extension popup. Drag it to any edge of the screen and it snaps to the nearest viewport border, remembering its position. Automatically hidden on video watch pages for a clean viewing experience. On first install, a guided spotlight tutorial walks you through the button and its features - you can restart it anytime from the popup.
 
-### Easy Mode & Advanced Mode
+### Simple Mode & Advanced Mode
 
-**Easy Mode** provides simple master toggles for each feature. Switch to **Advanced Mode** for per-page granular control over every setting.
+The popup starts in **Simple Mode** for quick everyday use. When you need page-level control, open **Extra Settings** and use the **Interface Mode** row to switch to **Advanced Mode**, where per-page toggles are available for each filter.
 
 ### Badge Indicator
 
@@ -133,7 +137,7 @@ youtube-hider-extension
 │   ├── popup.html         Settings popup UI
 │   ├── data.js            Popup constants and utility functions
 │   ├── popup.js           Popup initialization and event handling
-│   ├── base.css           Variables, reset, header, layout, easy mode states
+│   ├── base.css           Variables, reset, header, layout, simple/advanced states
 │   ├── cards.css          Setting cards and slider controls
 │   ├── toggles.css        Toggle grid, switches, footer
 │   └── filters.css        Tooltips, date filter, overlap warning
