@@ -57,6 +57,8 @@ Choose how filtered content is treated across all active filters:
 
 In Hide mode, lockup-based cards are removed at the correct wrapper level to avoid empty placeholders in Home and Subscriptions grids.
 
+Filter updates are live in both directions: increasing thresholds hides more content, and lowering thresholds restores matching content immediately without refreshing the page.
+
 The Filter Mode toggle is available in both the popup (Extra Settings card) and the floating mini-panel.
 
 ### Master Extension Switch

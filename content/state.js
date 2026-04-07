@@ -36,6 +36,33 @@ const prefs = {
   tutorialCompleted: false,
 };
 
+const FILTER_REAPPLY_KEYS = new Set([
+  'hideThreshold',
+  'hideHomeEnabled',
+  'hideChannelEnabled',
+  'hideSearchEnabled',
+  'hideSubsEnabled',
+  'hideCorrEnabled',
+  'viewsHideThreshold',
+  'viewsHideHomeEnabled',
+  'viewsHideChannelEnabled',
+  'viewsHideSearchEnabled',
+  'viewsHideSubsEnabled',
+  'viewsHideCorrEnabled',
+  'hideShortsEnabled',
+  'hideShortsSearchEnabled',
+  'hideMixesEnabled',
+  'hidePlaylistsEnabled',
+  'hideLivesEnabled',
+  'dateFilterNewerThreshold',
+  'dateFilterOlderThreshold',
+  'dateFilterHomeEnabled',
+  'dateFilterChannelEnabled',
+  'dateFilterSearchEnabled',
+  'dateFilterSubsEnabled',
+  'dateFilterCorrEnabled',
+]);
+
 function initPrefs() {
   return new Promise(resolve => {
     try {
@@ -60,6 +87,7 @@ function setupPrefsListener() {
   try {
     chrome.storage.onChanged.addListener((changes, area) => {
       if (area === 'sync') {
+        const changedKeys = Object.keys(changes);
         for (let key in changes) {
           if (prefs.hasOwnProperty(key)) {
             prefs[key] = changes[key].newValue;
@@ -97,6 +125,17 @@ function setupPrefsListener() {
           startHiding(currentPath);
         }
         if ('dimMode' in changes) {
+          resetAppliedFilters();
+          startHiding(currentPath);
+        }
+
+        const shouldReapplyFilters =
+          prefs.extensionEnabled &&
+          !('extensionEnabled' in changes) &&
+          !('dimMode' in changes) &&
+          changedKeys.some(key => FILTER_REAPPLY_KEYS.has(key));
+
+        if (shouldReapplyFilters) {
           resetAppliedFilters();
           startHiding(currentPath);
         }
