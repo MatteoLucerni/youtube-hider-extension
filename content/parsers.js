@@ -130,10 +130,14 @@ function getVideoContainerSelectors() {
 
 function findAndHideContainer(element, selectors, reason) {
   let item = element;
-  while (item && !item.matches(selectors)) {
+  let match = null;
+  while (item) {
+    if (item.matches(selectors)) {
+      match = item;
+    }
     item = item.parentElement;
   }
-  if (item) applyFilter(item, reason);
+  if (match) applyFilter(match, reason);
 }
 
 function resolveViewsFromSpans(spans) {
