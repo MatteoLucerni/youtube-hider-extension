@@ -9,6 +9,7 @@ const WHATS_NEW = {
 };
 
 document.addEventListener('DOMContentLoaded', () => {
+  const extensionToggle = document.getElementById('extension-enabled');
   const easyModeToggle = document.getElementById('easy-mode-enabled');
   const floatingButtonToggle = document.getElementById(
     'floating-button-enabled',
@@ -185,6 +186,7 @@ document.addEventListener('DOMContentLoaded', () => {
   };
 
   const storageKeys = [
+    'extensionEnabled',
     'easyModeEnabled',
     'floatingButtonEnabled',
     'dimMode',
@@ -197,6 +199,8 @@ document.addEventListener('DOMContentLoaded', () => {
 
   chrome.storage.sync.get(storageKeys, prefs => {
     const isFirstInstall = Object.keys(prefs).length === 0;
+
+    extensionToggle.checked = prefs.extensionEnabled ?? true;
 
     const easyMode = prefs.easyModeEnabled ?? true;
     easyModeToggle.checked = easyMode;
@@ -323,6 +327,7 @@ document.addEventListener('DOMContentLoaded', () => {
     const easyMode = easyModeToggle.checked;
 
     const settings = {
+      extensionEnabled: extensionToggle.checked,
       easyModeEnabled: easyMode,
       ...Object.fromEntries(
         Object.entries(cfg.hide.keys).map(([k, key]) => [
@@ -368,7 +373,9 @@ document.addEventListener('DOMContentLoaded', () => {
       const dateThresholdActive =
         (settings.dateFilterNewerThreshold || 0) > 0 ||
         (settings.dateFilterOlderThreshold || 0) > 0;
-      const hideOn = isAnyTrue({
+      const hideOn =
+        settings.extensionEnabled &&
+        isAnyTrue({
         ...(settings.hideThreshold > 0
           ? Object.fromEntries(
               Object.entries(cfg.hide.boxes).map(([k]) => [
@@ -405,7 +412,7 @@ document.addEventListener('DOMContentLoaded', () => {
               ]),
             )
           : {}),
-      });
+        });
       const text = getBadgeText(hideOn);
       chrome.action.setBadgeText({ text });
       chrome.action.setBadgeBackgroundColor({
@@ -440,6 +447,8 @@ document.addEventListener('DOMContentLoaded', () => {
     }
     saveSettings();
   });
+
+  extensionToggle.addEventListener('change', saveSettings);
 
   easyShortsToggle.addEventListener('change', () => {
     const val = easyShortsToggle.checked;
