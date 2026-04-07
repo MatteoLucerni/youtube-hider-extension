@@ -117,6 +117,16 @@ hr {
     align-items: center;
 }
 
+.header-toggles {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+}
+
+.extension-toggle-text {
+    color: #8fe3ac;
+}
+
 .easy-mode-label {
     display: flex;
     flex-direction: column;

@@ -9,11 +9,13 @@ const WHATS_NEW = {
 };
 
 document.addEventListener('DOMContentLoaded', () => {
-  const easyModeToggle = document.getElementById('easy-mode-enabled');
+  const extensionToggle = document.getElementById('extension-enabled');
+  const advancedModeToggle = document.getElementById('advanced-mode-enabled');
   const floatingButtonToggle = document.getElementById(
     'floating-button-enabled',
   );
   const dimModeToggle = document.getElementById('dim-mode-enabled');
+  let isEasyMode = true;
 
   const easyShortsToggle = document.getElementById('hide-shorts-easy');
   const easyMixesToggle = document.getElementById('hide-mixes-easy');
@@ -185,6 +187,7 @@ document.addEventListener('DOMContentLoaded', () => {
   };
 
   const storageKeys = [
+    'extensionEnabled',
     'easyModeEnabled',
     'floatingButtonEnabled',
     'dimMode',
@@ -198,9 +201,14 @@ document.addEventListener('DOMContentLoaded', () => {
   chrome.storage.sync.get(storageKeys, prefs => {
     const isFirstInstall = Object.keys(prefs).length === 0;
 
+    extensionToggle.checked = prefs.extensionEnabled ?? true;
+
     const easyMode = prefs.easyModeEnabled ?? true;
-    easyModeToggle.checked = easyMode;
+    isEasyMode = easyMode;
     updateEasyModeUI(easyMode);
+    if (advancedModeToggle) {
+      advancedModeToggle.checked = !easyMode;
+    }
 
     floatingButtonToggle.checked = prefs.floatingButtonEnabled ?? true;
     dimModeToggle.checked = prefs.dimMode ?? false;
@@ -320,9 +328,10 @@ document.addEventListener('DOMContentLoaded', () => {
   });
 
   function saveSettings() {
-    const easyMode = easyModeToggle.checked;
+    const easyMode = isEasyMode;
 
     const settings = {
+      extensionEnabled: extensionToggle.checked,
       easyModeEnabled: easyMode,
       ...Object.fromEntries(
         Object.entries(cfg.hide.keys).map(([k, key]) => [
@@ -368,7 +377,9 @@ document.addEventListener('DOMContentLoaded', () => {
       const dateThresholdActive =
         (settings.dateFilterNewerThreshold || 0) > 0 ||
         (settings.dateFilterOlderThreshold || 0) > 0;
-      const hideOn = isAnyTrue({
+      const hideOn =
+        settings.extensionEnabled &&
+        isAnyTrue({
         ...(settings.hideThreshold > 0
           ? Object.fromEntries(
               Object.entries(cfg.hide.boxes).map(([k]) => [
@@ -405,7 +416,7 @@ document.addEventListener('DOMContentLoaded', () => {
               ]),
             )
           : {}),
-      });
+        });
       const text = getBadgeText(hideOn);
       chrome.action.setBadgeText({ text });
       chrome.action.setBadgeBackgroundColor({
@@ -414,32 +425,15 @@ document.addEventListener('DOMContentLoaded', () => {
     });
   }
 
-  easyModeToggle.addEventListener('change', () => {
-    const isEasyMode = easyModeToggle.checked;
-    updateEasyModeUI(isEasyMode);
-    if (isEasyMode) {
-      Object.values(cfg.hide.boxes).forEach(box => {
-        box.checked = true;
-      });
-      Object.values(cfg.shorts.boxes).forEach(box => {
-        box.checked = true;
-      });
-      Object.values(cfg.mixesPlaylists.boxes).forEach(box => {
-        box.checked = true;
-      });
-      Object.values(cfg.views.boxes).forEach(box => {
-        box.checked = true;
-      });
-      Object.values(cfg.date.boxes).forEach(box => {
-        box.checked = true;
-      });
-      easyShortsToggle.checked = true;
-      easyMixesToggle.checked = true;
-      easyPlaylistsToggle.checked = true;
-      easyLivesToggle.checked = true;
-    }
-    saveSettings();
-  });
+  if (advancedModeToggle) {
+    advancedModeToggle.addEventListener('change', () => {
+      isEasyMode = !advancedModeToggle.checked;
+      updateEasyModeUI(isEasyMode);
+      saveSettings();
+    });
+  }
+
+  extensionToggle.addEventListener('change', saveSettings);
 
   easyShortsToggle.addEventListener('change', () => {
     const val = easyShortsToggle.checked;
@@ -511,7 +505,7 @@ document.addEventListener('DOMContentLoaded', () => {
 
   // Auto-enable per-page flags when slider leaves Off (Easy Mode only)
   function autoEnablePerPage(section) {
-    if (!easyModeToggle.checked) return;
+    if (!isEasyMode) return;
     const boxes =
       section === 'date'
         ? cfg.date.boxes
@@ -636,4 +630,5 @@ document.addEventListener('DOMContentLoaded', () => {
         input.dispatchEvent(new Event('change', { bubbles: true }));
       });
     });
+
 });

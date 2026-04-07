@@ -45,6 +45,7 @@ const thresholdFlagKeys = [
   'dateFilterOlderThreshold',
 ];
 const defaultSettings = {
+  extensionEnabled: true,
   easyModeEnabled: true,
   hideThreshold: 20,
   hideHomeEnabled: true,
@@ -184,7 +185,13 @@ function refreshBadge() {
     thresholdFlagKeys.map(key => [key, 0]),
   );
   chrome.storage.sync.get(
-    { ...defaults, ...thresholdDefaults, hideThreshold: 20, viewsHideThreshold: 1000 },
+    {
+      ...defaults,
+      ...thresholdDefaults,
+      extensionEnabled: true,
+      hideThreshold: 20,
+      viewsHideThreshold: 1000,
+    },
     prefs => {
       if (chrome.runtime.lastError) {
         logger.log('Storage error:', chrome.runtime.lastError.message);
@@ -197,6 +204,8 @@ function refreshBadge() {
   );
 }
 function getBadgeText(flags = {}) {
+  if (flags.extensionEnabled === false) return 'OFF';
+
   const hideWatchedActive =
     (flags.hideThreshold || 0) > 0 &&
     ['hideHomeEnabled', 'hideSearchEnabled', 'hideSubsEnabled', 'hideChannelEnabled', 'hideCorrEnabled'].some(k => flags[k]);
@@ -233,6 +242,7 @@ chrome.storage.onChanged.addListener((changes, area) => {
   const allBadgeKeys = [
     ...flagKeys,
     ...thresholdFlagKeys,
+    'extensionEnabled',
     'hideThreshold',
     'viewsHideThreshold',
   ];

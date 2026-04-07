@@ -252,7 +252,7 @@ function startSpotlightTour() {
     },
     {
       title: 'Advanced Settings',
-      desc: 'Click "Open full settings" to access per-page controls, Easy Mode, streaming skip settings, and more. All the customization you need in one place!',
+      desc: 'Click "Open full settings" to access the full popup. In Extra Settings you can switch Interface Mode between Simple and Advanced, then fine-tune per-page controls for each filter.',
       getTarget: () => fabShadow.querySelector('#yh-p-open-full') || fabPanel,
       onEnter: () => {
         if (!miniPanelOpen) {

@@ -69,15 +69,21 @@ function waitForPageElements(pathname, timeout = 3000) {
 async function startHiding(pathname) {
   logger.log('Starting hide operations for:', pathname);
 
+  if (!prefs.extensionEnabled) {
+    resetAppliedFilters();
+    removeWarning();
+    return;
+  }
+
   await waitForPageElements(pathname);
 
   const canHideWatched = shouldHideWatched(pathname);
   const canHideViews = shouldHideViews(pathname);
   const canHideShortsFlag = shouldHideShorts(pathname);
   const canHideDateFilter = shouldHideDateFilter(pathname);
-  const canHideMixes = shouldHideMixes();
-  const canHidePlaylists = shouldHidePlaylists();
-  const canHideLives = shouldHideLives();
+  const canHideMixes = shouldHideMixes(pathname);
+  const canHidePlaylists = shouldHidePlaylists(pathname);
+  const canHideLives = shouldHideLives(pathname);
 
   logger.log('Hide decision for', pathname, {
     hideWatched: canHideWatched,
@@ -153,6 +159,7 @@ function detectPageChange() {
     if (currentPath === '/watch') {
       removeFloatingButton();
     } else if (
+      prefs.extensionEnabled &&
       prefs.floatingButtonEnabled &&
       !floatingButtonHost &&
       isYouTube()
@@ -200,7 +207,7 @@ async function init() {
 
   logger.log('MutationObserver started');
 
-  if (isYouTube()) {
+  if (isYouTube() && prefs.extensionEnabled) {
     const tutorialPending = !prefs.tutorialCompleted && !isWatchPage();
     if (!isWatchPage()) {
       createFloatingButton(tutorialPending);

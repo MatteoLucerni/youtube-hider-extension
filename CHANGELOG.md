@@ -1,12 +1,27 @@
 # Changelog
 
-### Version 2.7.1
+### Version 2.8.0
+
+**Added**
+
+- Global Extension switch in the popup header to instantly enable or disable all filtering behavior
+
+**Changed**
+
+- Simplified popup header by removing the old Easy Mode switch from the top area
+- Moved mode switching into Extra Settings as a dedicated "Interface Mode" row with a Simple/Advanced toggle
+- Updated tutorial copy to point users to Interface Mode in Extra Settings for per-page controls
+- Updated welcome page copy to match the new Interface Mode location
 
 **Fixed**
 
+- Reduced false positives on YouTube collection pages by restricting Mixes, Playlists, and Lives filters to core feed contexts
+- Excluded sensitive pages such as /feed/playlists, /playlist, /feed/library, and /feed/history from those global content-type filters
 - Minimum Views Filter restored on Home, Related and Subscriptions after recent YouTube DOM changes
 - Updated selectors to support `yt-lockup-view-model` containers in affected pages
 - Updated metadata parsing to support newer `ytContentMetadataViewModelMetadataRow` layout classes used by current YouTube structures
+- Fixed empty placeholders in Home and Subscriptions when Hide mode is active by hiding the outer video card wrapper for lockup-based items
+- Added automatic filter re-apply on preference changes, so lowering thresholds/toggles restores matching content immediately without reloading the page
 
 ### Version 2.7.0
 

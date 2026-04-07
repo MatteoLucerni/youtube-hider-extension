@@ -5,6 +5,7 @@ const TIMING = {
 };
 
 const prefs = {
+  extensionEnabled: true,
   hideThreshold: 20,
   hideHomeEnabled: true,
   hideChannelEnabled: true,
@@ -35,6 +36,33 @@ const prefs = {
   tutorialCompleted: false,
 };
 
+const FILTER_REAPPLY_KEYS = new Set([
+  'hideThreshold',
+  'hideHomeEnabled',
+  'hideChannelEnabled',
+  'hideSearchEnabled',
+  'hideSubsEnabled',
+  'hideCorrEnabled',
+  'viewsHideThreshold',
+  'viewsHideHomeEnabled',
+  'viewsHideChannelEnabled',
+  'viewsHideSearchEnabled',
+  'viewsHideSubsEnabled',
+  'viewsHideCorrEnabled',
+  'hideShortsEnabled',
+  'hideShortsSearchEnabled',
+  'hideMixesEnabled',
+  'hidePlaylistsEnabled',
+  'hideLivesEnabled',
+  'dateFilterNewerThreshold',
+  'dateFilterOlderThreshold',
+  'dateFilterHomeEnabled',
+  'dateFilterChannelEnabled',
+  'dateFilterSearchEnabled',
+  'dateFilterSubsEnabled',
+  'dateFilterCorrEnabled',
+]);
+
 function initPrefs() {
   return new Promise(resolve => {
     try {
@@ -59,6 +87,7 @@ function setupPrefsListener() {
   try {
     chrome.storage.onChanged.addListener((changes, area) => {
       if (area === 'sync') {
+        const changedKeys = Object.keys(changes);
         for (let key in changes) {
           if (prefs.hasOwnProperty(key)) {
             prefs[key] = changes[key].newValue;
@@ -66,7 +95,11 @@ function setupPrefsListener() {
           }
         }
         if (changes.floatingButtonEnabled) {
-          if (changes.floatingButtonEnabled.newValue && !isWatchPage()) {
+          if (
+            changes.floatingButtonEnabled.newValue &&
+            prefs.extensionEnabled &&
+            !isWatchPage()
+          ) {
             createFloatingButton();
           } else {
             cleanupTour();
@@ -74,7 +107,35 @@ function setupPrefsListener() {
             removeFloatingButton();
           }
         }
+        if ('extensionEnabled' in changes) {
+          if (!prefs.extensionEnabled) {
+            resetAppliedFilters();
+            removeWarning();
+            cleanupTour();
+            removeTutorialOverlay();
+            removeFloatingButton();
+          } else if (
+            prefs.floatingButtonEnabled &&
+            !isWatchPage() &&
+            !floatingButtonHost &&
+            isYouTube()
+          ) {
+            createFloatingButton();
+          }
+          startHiding(currentPath);
+        }
         if ('dimMode' in changes) {
+          resetAppliedFilters();
+          startHiding(currentPath);
+        }
+
+        const shouldReapplyFilters =
+          prefs.extensionEnabled &&
+          !('extensionEnabled' in changes) &&
+          !('dimMode' in changes) &&
+          changedKeys.some(key => FILTER_REAPPLY_KEYS.has(key));
+
+        if (shouldReapplyFilters) {
           resetAppliedFilters();
           startHiding(currentPath);
         }
