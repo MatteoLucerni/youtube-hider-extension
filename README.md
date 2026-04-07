@@ -55,6 +55,8 @@ Choose how filtered content is treated across all active filters:
 - **Hide** (default) - filtered elements are removed from view entirely
 - **Dim** - filtered elements stay visible under a dark semi-transparent overlay. The overlay displays the Youtube Hider logo and a compact label indicating why the element was filtered ("Already watched", "Views too low", "Video too new", "Video too old", "Mix playlist", "Playlist", "Live stream"). Filtered elements remain fully clickable. Shorts are always hidden regardless of this setting.
 
+In Hide mode, lockup-based cards are removed at the correct wrapper level to avoid empty placeholders in Home and Subscriptions grids.
+
 The Filter Mode toggle is available in both the popup (Extra Settings card) and the floating mini-panel.
 
 ### Master Extension Switch

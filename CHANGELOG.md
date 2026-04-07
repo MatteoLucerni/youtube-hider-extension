@@ -1,6 +1,6 @@
 # Changelog
 
-### ### Version 2.8.0
+### Version 2.8.0
 
 **Added**
 
@@ -20,6 +20,7 @@
 - Minimum Views Filter restored on Home, Related and Subscriptions after recent YouTube DOM changes
 - Updated selectors to support `yt-lockup-view-model` containers in affected pages
 - Updated metadata parsing to support newer `ytContentMetadataViewModelMetadataRow` layout classes used by current YouTube structures
+- Fixed empty placeholders in Home and Subscriptions when Hide mode is active by hiding the outer video card wrapper for lockup-based items
 
 ### Version 2.7.0
 
