@@ -157,6 +157,28 @@ function getDateFilterReason(ageDays) {
   return null;
 }
 
+function getMetadataSpansFromContainer(metadataContainer) {
+  const rowSelectors =
+    '.yt-content-metadata-view-model-wiz__metadata-row, .yt-content-metadata-view-model__metadata-row, .ytContentMetadataViewModelMetadataRow';
+  const textSelectors =
+    'span.yt-core-attributed-string, span.ytContentMetadataViewModelMetadataText';
+
+  const metadataRows = metadataContainer.querySelectorAll(rowSelectors);
+  if (metadataRows.length) {
+    const spans = [];
+    metadataRows.forEach(row => {
+      row.querySelectorAll(textSelectors).forEach(span => {
+        spans.push(span);
+      });
+    });
+    return spans;
+  }
+
+  return Array.from(
+    metadataContainer.querySelectorAll('span.ytContentMetadataViewModelMetadataText'),
+  );
+}
+
 function hideDateFilter() {
   const selectors = getVideoContainerSelectors();
 
@@ -206,17 +228,8 @@ function hideDateFilter() {
   document
     .querySelectorAll('yt-content-metadata-view-model, yt-lockup-view-model')
     .forEach(metadataContainer => {
-      const metadataRows = metadataContainer.querySelectorAll(
-        '.yt-content-metadata-view-model-wiz__metadata-row, .yt-content-metadata-view-model__metadata-row',
-      );
-      if (!metadataRows.length) return;
-
-      const allSpans = [];
-      metadataRows.forEach(row => {
-        row.querySelectorAll('span.yt-core-attributed-string').forEach(span => {
-          allSpans.push(span);
-        });
-      });
+      const allSpans = getMetadataSpansFromContainer(metadataContainer);
+      if (!allSpans.length) return;
 
       const result = resolveUploadAgeFromSpans(allSpans);
       if (!result) return;
@@ -273,17 +286,8 @@ function hideNewFormatVideos() {
   document
     .querySelectorAll('yt-content-metadata-view-model, yt-lockup-view-model')
     .forEach(metadataContainer => {
-      const metadataRows = metadataContainer.querySelectorAll(
-        '.yt-content-metadata-view-model-wiz__metadata-row, .yt-content-metadata-view-model__metadata-row',
-      );
-      if (!metadataRows.length) return;
-
-      const allSpans = [];
-      metadataRows.forEach(row => {
-        row.querySelectorAll('span.yt-core-attributed-string').forEach(span => {
-          allSpans.push(span);
-        });
-      });
+      const allSpans = getMetadataSpansFromContainer(metadataContainer);
+      if (!allSpans.length) return;
 
       const result = resolveViewsFromSpans(allSpans);
 
