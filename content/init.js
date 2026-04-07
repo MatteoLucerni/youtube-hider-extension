@@ -75,9 +75,9 @@ async function startHiding(pathname) {
   const canHideViews = shouldHideViews(pathname);
   const canHideShortsFlag = shouldHideShorts(pathname);
   const canHideDateFilter = shouldHideDateFilter(pathname);
-  const canHideMixes = shouldHideMixes();
-  const canHidePlaylists = shouldHidePlaylists();
-  const canHideLives = shouldHideLives();
+  const canHideMixes = shouldHideMixes(pathname);
+  const canHidePlaylists = shouldHidePlaylists(pathname);
+  const canHideLives = shouldHideLives(pathname);
 
   logger.log('Hide decision for', pathname, {
     hideWatched: canHideWatched,
