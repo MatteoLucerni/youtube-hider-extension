@@ -5,6 +5,7 @@ const TIMING = {
 };
 
 const prefs = {
+  extensionEnabled: true,
   hideThreshold: 20,
   hideHomeEnabled: true,
   hideChannelEnabled: true,
@@ -66,13 +67,34 @@ function setupPrefsListener() {
           }
         }
         if (changes.floatingButtonEnabled) {
-          if (changes.floatingButtonEnabled.newValue && !isWatchPage()) {
+          if (
+            changes.floatingButtonEnabled.newValue &&
+            prefs.extensionEnabled &&
+            !isWatchPage()
+          ) {
             createFloatingButton();
           } else {
             cleanupTour();
             removeTutorialOverlay();
             removeFloatingButton();
           }
+        }
+        if ('extensionEnabled' in changes) {
+          if (!prefs.extensionEnabled) {
+            resetAppliedFilters();
+            removeWarning();
+            cleanupTour();
+            removeTutorialOverlay();
+            removeFloatingButton();
+          } else if (
+            prefs.floatingButtonEnabled &&
+            !isWatchPage() &&
+            !floatingButtonHost &&
+            isYouTube()
+          ) {
+            createFloatingButton();
+          }
+          startHiding(currentPath);
         }
         if ('dimMode' in changes) {
           resetAppliedFilters();
