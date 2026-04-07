@@ -1,5 +1,13 @@
 # Changelog
 
+### Version 2.7.1
+
+**Fixed**
+
+- Minimum Views Filter restored on Home, Related and Subscriptions after recent YouTube DOM changes
+- Updated selectors to support `yt-lockup-view-model` containers in affected pages
+- Updated metadata parsing to support newer `ytContentMetadataViewModelMetadataRow` layout classes used by current YouTube structures
+
 ### Version 2.7.0
 
 **Added**
