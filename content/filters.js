@@ -482,6 +482,27 @@ function shouldHideShorts(pathname) {
   );
 }
 
+function isCoreFilterPath(pathname) {
+  if (!pathname) return false;
+
+  if (
+    pathname === '/feed/playlists' ||
+    pathname === '/playlist' ||
+    pathname === '/feed/library' ||
+    pathname === '/feed/history'
+  ) {
+    return false;
+  }
+
+  return (
+    pathname === '/' ||
+    pathname === '/results' ||
+    pathname === '/watch' ||
+    pathname === '/feed/subscriptions' ||
+    pathname.startsWith('/@')
+  );
+}
+
 function hideMixes() {
   document.querySelectorAll('[class*="content-id-RD"]').forEach(el => {
     const item =
@@ -505,8 +526,8 @@ function hideMixes() {
     });
 }
 
-function shouldHideMixes() {
-  return prefs.hideMixesEnabled;
+function shouldHideMixes(pathname) {
+  return prefs.hideMixesEnabled && isCoreFilterPath(pathname);
 }
 
 function hidePlaylists() {
@@ -524,8 +545,8 @@ function hidePlaylists() {
     });
 }
 
-function shouldHidePlaylists() {
-  return prefs.hidePlaylistsEnabled;
+function shouldHidePlaylists(pathname) {
+  return prefs.hidePlaylistsEnabled && isCoreFilterPath(pathname);
 }
 
 function hideLives() {
@@ -547,6 +568,6 @@ function hideLives() {
   });
 }
 
-function shouldHideLives() {
-  return prefs.hideLivesEnabled;
+function shouldHideLives(pathname) {
+  return prefs.hideLivesEnabled && isCoreFilterPath(pathname);
 }
