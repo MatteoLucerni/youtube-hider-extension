@@ -97,6 +97,9 @@ function hideWatched(pathname) {
       'ytd-thumbnail-overlay-resume-playback-renderer #progress, .ytThumbnailOverlayProgressBarHostWatchedProgressBarSegment, ytm-thumbnail-overlay-resume-playback-renderer .thumbnail-overlay-resume-playback-progress',
     )
     .forEach(bar => {
+      const thumbnail = bar.closest('ytd-thumbnail');
+      if (thumbnail && thumbnail.querySelector('ytd-thumbnail-overlay-now-playing-renderer[now-playing-badge]')) return;
+
       const pct = parseFloat(bar.style.width) || 0;
       if (pct <= hideThreshold) return;
 
