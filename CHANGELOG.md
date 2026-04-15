@@ -1,5 +1,11 @@
 # Changelog
 
+### Version 2.8.2
+
+**Fixed**
+
+- Already Watched filter produced false positives on videos in "now playing" state: while a video is actively playing, YouTube injects a live playback progress bar (`.ytThumbnailOverlayProgressBarHostWatchedProgressBarSegment`) into the thumbnail, which the extension was incorrectly interpreting as watch history. Fixed by skipping progress bars inside thumbnails that have an active `ytd-thumbnail-overlay-now-playing-renderer[now-playing-badge]` indicator
+
 ### Version 2.8.1
 
 **Added**
