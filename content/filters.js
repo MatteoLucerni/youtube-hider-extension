@@ -550,7 +550,7 @@ function shouldHidePlaylists(pathname) {
 }
 
 function hideLives() {
-  document.querySelectorAll('badge-shape.yt-badge-shape--thumbnail-live, badge-shape.yt-badge-shape--live').forEach(el => {
+  document.querySelectorAll('badge-shape.yt-badge-shape--thumbnail-live, badge-shape.yt-badge-shape--live, badge-shape.ytBadgeShapeThumbnailLive, badge-shape.ytBadgeShapeLive').forEach(el => {
     const item =
       el.closest('ytd-rich-item-renderer, ytm-rich-item-renderer, ytd-video-renderer, ytd-compact-video-renderer') ||
       el.closest('yt-lockup-view-model');

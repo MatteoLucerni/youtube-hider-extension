@@ -350,11 +350,11 @@ TIME_UNIT_ENTRIES.forEach(([multiplier, words]) => {
 });
 
 const TIME_UNIT_REGEX = new RegExp(
-  '(' +
+  '(?<![a-zA-Z])(' +
     Object.keys(TIME_UNIT_DAYS)
       .sort((a, b) => b.length - a.length)
       .join('|') +
-    ')',
+    ')(?![a-zA-Z])',
   'i',
 );
 
@@ -374,9 +374,8 @@ function extractUploadAgeDays(text) {
   const base = parseFloat(normalized);
   if (isNaN(base) || base < 0) return NaN;
 
-  // Match the time unit in the remaining text (after number) or full text
   const afterNum = stripped.slice(numMatch[0].length);
-  const unitMatch = afterNum.match(TIME_UNIT_REGEX) || s.match(TIME_UNIT_REGEX);
+  const unitMatch = afterNum.match(TIME_UNIT_REGEX);
   if (!unitMatch) return NaN;
 
   const multiplier = TIME_UNIT_DAYS[unitMatch[1].toLowerCase()];

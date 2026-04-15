@@ -106,6 +106,9 @@ function findClosestMiniViewsIndex(value) {
 }
 
 function syncPanelToPrefs(shadow) {
+  const extensionEnabledToggle = shadow.querySelector('#yh-p-extension-enabled');
+  if (extensionEnabledToggle) extensionEnabledToggle.checked = prefs.extensionEnabled;
+
   const hideShortsToggle = shadow.querySelector('#yh-p-hide-shorts');
   const thresholdSlider = shadow.querySelector('#yh-p-threshold');
   const thresholdValue = shadow.querySelector('#yh-p-threshold-val');
@@ -230,9 +233,17 @@ function bindPanelEvents(shadow) {
     }
   }
 
+  const extensionEnabledToggle = shadow.querySelector('#yh-p-extension-enabled');
   const hideMixesToggle = shadow.querySelector('#yh-p-hide-mixes');
   const hidePlaylistsToggle = shadow.querySelector('#yh-p-hide-playlists');
   const hideLivesToggle = shadow.querySelector('#yh-p-hide-lives');
+
+  if (extensionEnabledToggle) {
+    extensionEnabledToggle.addEventListener('change', () => {
+      safeStorageSet('sync', { extensionEnabled: false });
+      removeFloatingButton();
+    });
+  }
 
   if (hideShortsToggle) {
     hideShortsToggle.addEventListener('change', () => {
@@ -419,6 +430,15 @@ function getMiniPanelHTML() {
       <div class="yh-panel-close" id="yh-p-close">✕</div>
     </div>
     <div class="yh-panel-body">
+      <div class="yh-panel-group">
+        <label class="yh-panel-row">
+          <div class="yh-panel-label-wrap">
+            <span class="yh-panel-label">Extension</span>
+            <span class="yh-info-wrap">${infoSvg}<span class="yh-tooltip">Enable or disable all filtering. To re-enable, use the main popup</span></span>
+          </div>
+          <div class="yh-toggle"><input type="checkbox" id="yh-p-extension-enabled" /><span class="yh-toggle-slider"></span></div>
+        </label>
+      </div>
       <div class="yh-panel-group">
         <div class="yh-panel-row">
           <div class="yh-panel-label-wrap">
