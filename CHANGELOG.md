@@ -2,6 +2,10 @@
 
 ### Version 2.8.1
 
+**Added**
+
+- Extension toggle in the floating mini-panel: allows disabling all filtering directly from the panel without opening the main popup. Turning it off removes the floating button immediately; re-enabling requires the main popup
+
 **Fixed**
 
 - Upload Date Filter produced false positives on channel name spans: words such as "ascensore" or collaborative labels like "Around Dread and 4 more" caused `ore` (Italian for "hours") to be matched as a time unit, returning a fake age value and preventing the actual date span from being evaluated. Fixed by adding word-boundary lookarounds to `TIME_UNIT_REGEX` and removing the fallback that searched the full original string when no unit was found after the number
