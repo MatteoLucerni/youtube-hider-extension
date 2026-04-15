@@ -4,7 +4,8 @@
 
 **Fixed**
 
-- Already Watched filter produced false positives on videos in "now playing" state: while a video is actively playing, YouTube injects a live playback progress bar (`.ytThumbnailOverlayProgressBarHostWatchedProgressBarSegment`) into the thumbnail, which the extension was incorrectly interpreting as watch history. Fixed by skipping progress bars inside thumbnails that have an active `ytd-thumbnail-overlay-now-playing-renderer[now-playing-badge]` indicator
+- Already Watched filter produced false positives on videos in "now playing" state: while a video is actively playing, YouTube injects a live playback progress bar (`.ytThumbnailOverlayProgressBarHostWatchedProgressBarSegment`) into the thumbnail, which the extension was incorrectly interpreting as watch history. Fixed by scoping the "now playing" guard exclusively to that element, leaving the real resume-playback bar (`ytd-thumbnail-overlay-resume-playback-renderer #progress`) always evaluated so genuinely watched videos are still hidden
+- Fixed an "Extension context invalidated" crash in Dim mode when the extension is reloaded while the page is still open: `chrome.runtime.getURL` now runs inside a try-catch and falls back to omitting the logo image rather than throwing
 
 ### Version 2.8.1
 

@@ -42,7 +42,11 @@ function injectDimStyles() {
 function createDimBadge(reason) {
   const badge = document.createElement('div');
   badge.className = 'yt-hider-badge';
-  badge.innerHTML = `<img class="yt-hider-badge-logo" src="${chrome.runtime.getURL('assets/icons/youtube-hider-logo.png')}" />${reason ? `<span class="yt-hider-badge-reason">${reason}</span>` : ''}`;
+  let logoUrl = '';
+  try {
+    logoUrl = chrome.runtime.getURL('assets/icons/youtube-hider-logo.png');
+  } catch (_) {}
+  badge.innerHTML = `${logoUrl ? `<img class="yt-hider-badge-logo" src="${logoUrl}" />` : ''}${reason ? `<span class="yt-hider-badge-reason">${reason}</span>` : ''}`;
   return badge;
 }
 
@@ -97,8 +101,10 @@ function hideWatched(pathname) {
       'ytd-thumbnail-overlay-resume-playback-renderer #progress, .ytThumbnailOverlayProgressBarHostWatchedProgressBarSegment, ytm-thumbnail-overlay-resume-playback-renderer .thumbnail-overlay-resume-playback-progress',
     )
     .forEach(bar => {
-      const thumbnail = bar.closest('ytd-thumbnail');
-      if (thumbnail && thumbnail.querySelector('ytd-thumbnail-overlay-now-playing-renderer[now-playing-badge]')) return;
+      if (bar.classList.contains('ytThumbnailOverlayProgressBarHostWatchedProgressBarSegment')) {
+        const thumbnail = bar.closest('ytd-thumbnail');
+        if (thumbnail && thumbnail.querySelector('ytd-thumbnail-overlay-now-playing-renderer[now-playing-badge]')) return;
+      }
 
       const pct = parseFloat(bar.style.width) || 0;
       if (pct <= hideThreshold) return;
