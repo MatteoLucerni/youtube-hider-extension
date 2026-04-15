@@ -203,7 +203,7 @@ async function init() {
   await startHiding(currentPath);
 
   const observer = new MutationObserver(onMutations);
-  observer.observe(document.body, { childList: true, subtree: true });
+  observer.observe(document.body, { childList: true, subtree: true, characterData: true });
 
   logger.log('MutationObserver started');
 
