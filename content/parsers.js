@@ -394,3 +394,16 @@ function resolveUploadAgeFromSpans(spans) {
   }
   return null;
 }
+
+function extractChannelFromContainer(container) {
+  if (!container) return null;
+  const link =
+    container.querySelector('a[href^="/@"]') ||
+    container.querySelector('a[href^="/channel/"]');
+  if (!link) return null;
+  try {
+    return new URL(link.href).pathname.toLowerCase();
+  } catch (_) {
+    return null;
+  }
+}

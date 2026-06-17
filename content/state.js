@@ -34,6 +34,7 @@ const prefs = {
   floatingButtonEnabled: true,
   floatingButtonPosition: { edge: 'bottom', offset: 20 },
   tutorialCompleted: false,
+  channelWhitelist: [],
 };
 
 const FILTER_REAPPLY_KEYS = new Set([
@@ -61,6 +62,7 @@ const FILTER_REAPPLY_KEYS = new Set([
   'dateFilterSearchEnabled',
   'dateFilterSubsEnabled',
   'dateFilterCorrEnabled',
+  'channelWhitelist',
 ]);
 
 function initPrefs() {

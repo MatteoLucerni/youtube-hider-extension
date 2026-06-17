@@ -168,6 +168,8 @@ function syncPanelToPrefs(shadow) {
 
   const dimModeToggle = shadow.querySelector('#yh-p-dim-mode');
   if (dimModeToggle) dimModeToggle.checked = prefs.dimMode;
+
+  syncPanelWhitelistRow(shadow);
 }
 
 function updateMiniSliderBg(slider) {
@@ -417,6 +419,61 @@ function bindPanelEvents(shadow) {
       safeStorageSet('sync', { dimMode: dimModeToggle.checked });
     });
   }
+
+  const whitelistToggle = shadow.querySelector('#yh-p-whitelist');
+  if (whitelistToggle) {
+    whitelistToggle.addEventListener('change', () => {
+      const channel = getCurrentPageChannel();
+      if (!channel) return;
+      const list = Array.isArray(prefs.channelWhitelist)
+        ? [...prefs.channelWhitelist]
+        : [];
+      if (whitelistToggle.checked) {
+        if (!list.includes(channel)) list.push(channel);
+      } else {
+        const idx = list.indexOf(channel);
+        if (idx !== -1) list.splice(idx, 1);
+      }
+      safeStorageSet('sync', { channelWhitelist: list });
+    });
+  }
+}
+
+function getCurrentPageChannel() {
+  const pathname = window.location.pathname;
+  if (pathname.startsWith('/@')) {
+    return ('/' + pathname.split('/')[1]).toLowerCase();
+  }
+  if (pathname === '/watch') {
+    const ownerLink = document.querySelector(
+      'ytd-video-owner-renderer a[href^="/@"], ytm-video-owner-renderer a[href^="/@"]',
+    );
+    if (ownerLink) {
+      try {
+        return new URL(ownerLink.href).pathname.toLowerCase();
+      } catch (_) {}
+    }
+  }
+  return null;
+}
+
+function syncPanelWhitelistRow(shadow) {
+  const group = shadow.querySelector('#yh-p-whitelist-group');
+  const handle = shadow.querySelector('#yh-p-whitelist-handle');
+  const toggle = shadow.querySelector('#yh-p-whitelist');
+  if (!group || !handle || !toggle) return;
+
+  const channel = getCurrentPageChannel();
+  if (!channel) {
+    group.style.display = 'none';
+    return;
+  }
+
+  group.style.display = '';
+  handle.textContent = channel;
+  toggle.checked =
+    Array.isArray(prefs.channelWhitelist) &&
+    prefs.channelWhitelist.includes(channel);
 }
 
 function getMiniPanelHTML() {
@@ -546,6 +603,15 @@ function getMiniPanelHTML() {
             <div class="yh-toggle"><input type="checkbox" id="yh-p-dim-mode" /><span class="yh-toggle-slider"></span></div>
             <span class="yh-mode-label">Dim</span>
           </div>
+        </label>
+      </div>
+      <div class="yh-panel-group yh-whitelist-group" id="yh-p-whitelist-group" style="display:none">
+        <label class="yh-panel-row">
+          <div class="yh-panel-label-wrap">
+            <span class="yh-panel-label">Whitelist</span>
+            <span class="yh-whitelist-handle" id="yh-p-whitelist-handle"></span>
+          </div>
+          <div class="yh-toggle"><input type="checkbox" id="yh-p-whitelist" /><span class="yh-toggle-slider"></span></div>
         </label>
       </div>
     </div>

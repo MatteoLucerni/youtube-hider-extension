@@ -1011,6 +1011,28 @@
             </div>
           </div>
 
+          <div class="setting-card">
+            <div class="card-compact-header">
+              <div class="card-compact-info">
+                <h3 class="card-title">Channel Whitelist</h3>
+                <p class="card-description">
+                  Channels listed here will not be filtered. Shorts are always filtered regardless.
+                </p>
+              </div>
+            </div>
+            <div class="setting-group">
+              <div id="channel-whitelist-chips" class="whitelist-chips-container">
+                <span class="whitelist-empty-hint" id="channel-whitelist-empty">No channels whitelisted yet</span>
+              </div>
+              <div class="whitelist-add-row">
+                <button type="button" id="add-current-channel-btn" class="add-channel-btn" disabled>
+                  + Add current channel
+                </button>
+                <span class="whitelist-btn-hint" id="channel-whitelist-hint"></span>
+              </div>
+            </div>
+          </div>
+
           <div class="setting-card setting-card-compact">
             <div class="extra-setting-row">
               <div class="card-compact-info">
@@ -1099,6 +1121,7 @@
               </div>
             </div>
           </div>
+
         </section>
 
         <div class="footer-container">

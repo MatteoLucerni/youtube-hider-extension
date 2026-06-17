@@ -377,5 +377,14 @@ function getFloatingButtonCSS() {
       color: #9aa0a6;
       flex-shrink: 0;
     }
+
+    .yh-whitelist-handle {
+      font-size: 11px;
+      color: #9aa0a6;
+      overflow: hidden;
+      text-overflow: ellipsis;
+      white-space: nowrap;
+      max-width: 120px;
+    }
   `;
 }

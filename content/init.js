@@ -176,6 +176,10 @@ function detectPageChange() {
       pageLoadTimeout = null;
     }, TIMING.PAGE_CHANGE_DELAY);
 
+    if (fabShadow && miniPanelOpen) {
+      syncPanelWhitelistRow(fabShadow);
+    }
+
     return true;
   }
 

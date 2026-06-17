@@ -52,6 +52,10 @@ function createDimBadge(reason) {
 
 function applyFilter(element, reason) {
   if (!element) return;
+  if (prefs.channelWhitelist && prefs.channelWhitelist.length > 0) {
+    const ch = extractChannelFromContainer(element);
+    if (ch && prefs.channelWhitelist.includes(ch)) return;
+  }
   if (prefs.dimMode) {
     if (element.dataset.ytHiderDimmed) return;
     element.dataset.ytHiderDimmed = '1';
