@@ -245,6 +245,12 @@ body.easy-mode-off .date-filter-group .date-overlap-warning {
 }
 
 /* Channel Whitelist */
+.whitelist-group {
+    flex-direction: column;
+    align-items: stretch;
+    width: 100%;
+}
+
 .whitelist-chips-container {
     display: flex;
     flex-wrap: wrap;
@@ -259,7 +265,7 @@ body.easy-mode-off .date-filter-group .date-overlap-warning {
     font-size: 12px;
     color: var(--text-tertiary);
     font-style: italic;
-    align-self: center;
+    margin: auto;
 }
 
 .whitelist-chip {
@@ -302,7 +308,7 @@ body.easy-mode-off .date-filter-group .date-overlap-warning {
     margin-top: 10px;
     display: flex;
     flex-direction: column;
-    align-items: stretch;
+    align-items: center;
     gap: 5px;
 }
 

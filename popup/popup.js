@@ -652,12 +652,12 @@ document.addEventListener('DOMContentLoaded', () => {
     if (!addCurrentBtn) return;
     if (!currentTabChannel) {
       addCurrentBtn.disabled = true;
-      if (whitelistHint) whitelistHint.textContent = 'Open a YouTube channel page to enable';
+      if (whitelistHint) whitelistHint.textContent = 'Navigate to a channel page to add it';
       return;
     }
     if (Array.isArray(whitelistData) && whitelistData.includes(currentTabChannel)) {
       addCurrentBtn.disabled = true;
-      if (whitelistHint) whitelistHint.textContent = 'This channel is already whitelisted';
+      if (whitelistHint) whitelistHint.textContent = currentTabChannel + ' is already whitelisted';
       return;
     }
     addCurrentBtn.disabled = false;
@@ -696,17 +696,16 @@ document.addEventListener('DOMContentLoaded', () => {
 
   chrome.tabs.query({ active: true, currentWindow: true }, tabs => {
     const tab = tabs && tabs[0];
-    if (tab && tab.url) {
-      try {
-        const raw = new URL(tab.url).pathname.toLowerCase();
-        if (raw.startsWith('/@')) {
-          currentTabChannel = '/' + raw.split('/')[1];
-        } else if (raw.startsWith('/channel/')) {
-          currentTabChannel = '/channel/' + raw.split('/')[2];
-        }
-      } catch (_) {}
+    if (!tab || !tab.id) {
+      refreshAddButtonState();
+      return;
     }
-    refreshAddButtonState();
+    chrome.tabs.sendMessage(tab.id, { type: 'GET_CURRENT_CHANNEL' }, response => {
+      if (!chrome.runtime.lastError && response && response.channel) {
+        currentTabChannel = response.channel;
+      }
+      refreshAddButtonState();
+    });
   });
 
   if (addCurrentBtn) {

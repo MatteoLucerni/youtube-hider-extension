@@ -233,3 +233,10 @@ if (document.readyState === 'loading') {
 } else {
   init();
 }
+
+chrome.runtime.onMessage.addListener((msg, _sender, sendResponse) => {
+  if (msg.type === 'GET_CURRENT_CHANNEL') {
+    sendResponse({ channel: getCurrentPageChannel() });
+    return true;
+  }
+});
