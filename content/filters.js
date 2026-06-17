@@ -35,11 +35,40 @@ function injectDimStyles() {
       padding: 0 6px;
       line-height: 1.2;
     }
+    .yt-hider-whitelist-btn {
+      display: inline-flex;
+      align-items: center;
+      gap: 5px;
+      margin-top: 8px;
+      padding: 5px 11px;
+      font-size: 10px;
+      font-weight: 600;
+      font-family: 'Roboto', Arial, sans-serif;
+      color: rgba(255, 255, 255, 0.9);
+      background: rgba(255, 255, 255, 0.1);
+      border: 1px solid rgba(255, 255, 255, 0.35);
+      border-radius: 6px;
+      cursor: pointer;
+      pointer-events: auto;
+      transition: background 0.15s ease, border-color 0.15s ease;
+      line-height: 1;
+      white-space: nowrap;
+      max-width: calc(100% - 12px);
+      overflow: hidden;
+      text-overflow: ellipsis;
+    }
+    .yt-hider-whitelist-btn svg {
+      flex-shrink: 0;
+    }
+    .yt-hider-whitelist-btn:hover {
+      background: rgba(255, 255, 255, 0.2);
+      border-color: rgba(255, 255, 255, 0.55);
+    }
   `;
   document.head.appendChild(style);
 }
 
-function createDimBadge(reason) {
+function createDimBadge(reason, channel) {
   const badge = document.createElement('div');
   badge.className = 'yt-hider-badge';
   let logoUrl = '';
@@ -47,15 +76,31 @@ function createDimBadge(reason) {
     logoUrl = chrome.runtime.getURL('assets/icons/youtube-hider-logo.png');
   } catch (_) {}
   badge.innerHTML = `${logoUrl ? `<img class="yt-hider-badge-logo" src="${logoUrl}" />` : ''}${reason ? `<span class="yt-hider-badge-reason">${reason}</span>` : ''}`;
+  if (channel) {
+    const btn = document.createElement('button');
+    btn.className = 'yt-hider-whitelist-btn';
+    btn.innerHTML = '<svg width="11" height="11" viewBox="0 0 10 10" fill="none" aria-hidden="true"><path d="M5 1.5v7M1.5 5h7" stroke="currentColor" stroke-width="1.7" stroke-linecap="round"/></svg>Whitelist channel';
+    btn.title = channel;
+    btn.addEventListener('click', (e) => {
+      e.preventDefault();
+      e.stopPropagation();
+      const current = Array.isArray(prefs.channelWhitelist) ? prefs.channelWhitelist : [];
+      if (current.includes(channel)) return;
+      btn.innerHTML = '<svg width="12" height="10" viewBox="0 0 12 10" fill="none" aria-hidden="true"><path d="M1 5l3.5 3.5L11 1" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round"/></svg>Channel whitelisted';
+      btn.style.pointerEvents = 'none';
+      try {
+        chrome.storage.sync.set({ channelWhitelist: [...current, channel] });
+      } catch (_) {}
+    });
+    badge.appendChild(btn);
+  }
   return badge;
 }
 
 function applyFilter(element, reason) {
   if (!element) return;
-  if (prefs.channelWhitelist && prefs.channelWhitelist.length > 0) {
-    const ch = extractChannelFromContainer(element);
-    if (ch && prefs.channelWhitelist.includes(ch)) return;
-  }
+  const ch = extractChannelFromContainer(element);
+  if (ch && prefs.channelWhitelist && prefs.channelWhitelist.includes(ch)) return;
   if (prefs.dimMode) {
     if (element.dataset.ytHiderDimmed) return;
     element.dataset.ytHiderDimmed = '1';
@@ -65,7 +110,7 @@ function applyFilter(element, reason) {
       element.querySelector('ytm-thumbnail-cover-view-model') ||
       element;
     target.dataset.ytHiderBadgeTarget = '1';
-    target.appendChild(createDimBadge(reason));
+    target.appendChild(createDimBadge(reason, ch));
   } else {
     if (element.dataset.ytHiderHidden) return;
     element.dataset.ytHiderHidden = '1';
