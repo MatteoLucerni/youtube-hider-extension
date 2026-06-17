@@ -68,6 +68,25 @@ function injectDimStyles() {
   document.head.appendChild(style);
 }
 
+function createWhitelistButton(channel) {
+  const btn = document.createElement('button');
+  btn.className = 'yt-hider-whitelist-btn';
+  btn.innerHTML = '<svg width="11" height="11" viewBox="0 0 10 10" fill="none" aria-hidden="true"><path d="M5 1.5v7M1.5 5h7" stroke="currentColor" stroke-width="1.7" stroke-linecap="round"/></svg>Whitelist channel';
+  btn.title = channel;
+  btn.addEventListener('click', (e) => {
+    e.preventDefault();
+    e.stopPropagation();
+    const current = Array.isArray(prefs.channelWhitelist) ? prefs.channelWhitelist : [];
+    if (current.includes(channel)) return;
+    btn.innerHTML = '<svg width="12" height="10" viewBox="0 0 12 10" fill="none" aria-hidden="true"><path d="M1 5l3.5 3.5L11 1" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round"/></svg>Channel whitelisted';
+    btn.style.pointerEvents = 'none';
+    try {
+      chrome.storage.sync.set({ channelWhitelist: [...current, channel] });
+    } catch (_) {}
+  });
+  return btn;
+}
+
 function createDimBadge(reason, channel) {
   const badge = document.createElement('div');
   badge.className = 'yt-hider-badge';
@@ -77,32 +96,44 @@ function createDimBadge(reason, channel) {
   } catch (_) {}
   badge.innerHTML = `${logoUrl ? `<img class="yt-hider-badge-logo" src="${logoUrl}" />` : ''}${reason ? `<span class="yt-hider-badge-reason">${reason}</span>` : ''}`;
   if (channel) {
-    const btn = document.createElement('button');
-    btn.className = 'yt-hider-whitelist-btn';
-    btn.innerHTML = '<svg width="11" height="11" viewBox="0 0 10 10" fill="none" aria-hidden="true"><path d="M5 1.5v7M1.5 5h7" stroke="currentColor" stroke-width="1.7" stroke-linecap="round"/></svg>Whitelist channel';
-    btn.title = channel;
-    btn.addEventListener('click', (e) => {
-      e.preventDefault();
-      e.stopPropagation();
-      const current = Array.isArray(prefs.channelWhitelist) ? prefs.channelWhitelist : [];
-      if (current.includes(channel)) return;
-      btn.innerHTML = '<svg width="12" height="10" viewBox="0 0 12 10" fill="none" aria-hidden="true"><path d="M1 5l3.5 3.5L11 1" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round"/></svg>Channel whitelisted';
-      btn.style.pointerEvents = 'none';
-      try {
-        chrome.storage.sync.set({ channelWhitelist: [...current, channel] });
-      } catch (_) {}
-    });
-    badge.appendChild(btn);
+    badge.appendChild(createWhitelistButton(channel));
   }
   return badge;
 }
 
+function resolveChannelForElement(element) {
+  let ch = extractChannelFromContainer(element);
+  if (!ch && window.location.pathname.startsWith('/@')) {
+    ch = ('/' + window.location.pathname.split('/')[1]).toLowerCase();
+  }
+  return ch;
+}
+
 function applyFilter(element, reason) {
   if (!element) return;
-  const ch = extractChannelFromContainer(element);
-  if (ch && prefs.channelWhitelist && prefs.channelWhitelist.includes(ch)) return;
+  const ch = resolveChannelForElement(element);
+  if (ch && prefs.channelWhitelist && prefs.channelWhitelist.includes(ch)) {
+    if (element.dataset.ytHiderDimmed) {
+      delete element.dataset.ytHiderDimmed;
+      element.querySelectorAll('.yt-hider-badge').forEach(b => b.remove());
+      element.querySelectorAll('[data-yt-hider-badge-target]').forEach(t => delete t.dataset.ytHiderBadgeTarget);
+    }
+    if (element.dataset.ytHiderHidden) {
+      element.style.display = '';
+      delete element.dataset.ytHiderHidden;
+    }
+    return;
+  }
   if (prefs.dimMode) {
-    if (element.dataset.ytHiderDimmed) return;
+    if (element.dataset.ytHiderDimmed) {
+      if (ch) {
+        const badge = element.querySelector('.yt-hider-badge');
+        if (badge && !badge.querySelector('.yt-hider-whitelist-btn')) {
+          badge.appendChild(createWhitelistButton(ch));
+        }
+      }
+      return;
+    }
     element.dataset.ytHiderDimmed = '1';
     const target =
       element.querySelector('ytd-thumbnail') ||

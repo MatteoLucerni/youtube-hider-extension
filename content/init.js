@@ -204,7 +204,18 @@ async function init() {
   injectDimStyles();
 
   logger.log('Extension initialized on', currentPath);
+  readChannelCacheFromDOM();
   await startHiding(currentPath);
+
+  const channelCacheObserver = new MutationObserver(() => {
+    if (readChannelCacheFromDOM() && prefs.extensionEnabled) {
+      startHiding(window.location.pathname);
+    }
+  });
+  channelCacheObserver.observe(document.documentElement, {
+    attributes: true,
+    attributeFilter: [YT_HIDER_CACHE_ATTR],
+  });
 
   const observer = new MutationObserver(onMutations);
   observer.observe(document.body, { childList: true, subtree: true, characterData: true });
