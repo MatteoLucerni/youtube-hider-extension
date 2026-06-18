@@ -61,6 +61,15 @@ Filter updates are live in both directions: increasing thresholds hides more con
 
 The Filter Mode toggle is available in both the popup (Extra Settings card) and the floating mini-panel.
 
+### Channel Whitelist
+
+Exempt specific channels from every active filter - their videos are never hidden or dimmed (Shorts are always filtered regardless of whitelist status). A channel can be whitelisted from four places:
+
+- The **"Whitelist channel" button** on a filtered/dimmed overlay - shows a 3-second undo countdown before the channel is actually exempted, so accidental clicks can be reverted
+- The **inline "Whitelist" button** next to the Subscribe button on video and channel pages
+- The **toggle** in the floating mini-panel, available while on a channel or video page
+- The **Channel Whitelist card** in the popup, which lists every whitelisted channel as a removable chip and lets you add the current tab's channel directly
+
 ### Master Extension Switch
 
 Use the **Extension** switch in the popup header to instantly enable or disable the entire extension. When disabled, filtering is paused globally and the badge shows **OFF**.
@@ -125,6 +134,7 @@ youtube-hider-extension
 │       ├── youtube-hider-logo.png
 │       └── YT Hider icon v6.png
 ├── content/
+│   ├── page-bridge.js     MAIN-world script: caches video-id-to-channel mappings from YouTube's internal data
 │   ├── env.js             DEV_MODE flag
 │   ├── utils.js           Shared utilities (debounce, logger, safe storage)
 │   ├── state.js           Preferences, timing constants, storage listener
@@ -134,8 +144,9 @@ youtube-hider-extension
 │   │   ├── panel.js       Mini-panel data, sync, events, HTML
 │   │   └── core.js        Floating button creation, positioning, drag
 │   ├── tutorial.js        Guided spotlight tutorial
-│   ├── parsers.js         View count and upload date parsers
-│   ├── filters.js         Video hiding and filtering logic
+│   ├── parsers.js         View count, upload date and channel parsers
+│   ├── filters.js         Video hiding/filtering logic, Channel Whitelist overlay button
+│   ├── channel-whitelist-button.js  Inline Whitelist button next to Subscribe
 │   └── init.js            Page detection, observers, bootstrap
 ├── popup/
 │   ├── popup.html         Settings popup UI
@@ -157,7 +168,7 @@ youtube-hider-extension
 
 ## How It Works
 
-1. **Content scripts** (11 files in `content/`) load on YouTube pages in the order defined by `manifest.json`. They share a global scope via Chrome's isolated world.
+1. **Content scripts** (12 files in `content/`) load on YouTube pages in the order defined by `manifest.json`. They share a global scope via Chrome's isolated world. `page-bridge.js` is the exception: it runs in the page's `MAIN` world at `document_start` to read YouTube's own internal data and expose a video-id-to-channel cache via a DOM attribute, since the isolated world can read the DOM but not the page's JavaScript globals.
 2. A **MutationObserver** watches for DOM changes and triggers hiding/filtering logic based on your preferences.
 3. Settings are stored in `chrome.storage.sync` (synced across devices). The floating button position is stored in `chrome.storage.local` (device-specific).
 4. The **floating button** (`content/fab/`) uses a closed Shadow DOM to encapsulate its styles from the host page.

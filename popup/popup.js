@@ -6,6 +6,12 @@ const WHATS_NEW = {
       { heading: 'Upload Date Filter', body: 'Hide videos newer or older than a configurable date threshold.' },
     ],
   },
+  '2.9': {
+    title: "What's New in v2.9",
+    features: [
+      { heading: 'Channel Whitelist', body: 'Exempt a channel from every filter. Add it from the filtered overlay, the Subscribe button, the floating panel, or this popup.' },
+    ],
+  },
 };
 
 document.addEventListener('DOMContentLoaded', () => {
