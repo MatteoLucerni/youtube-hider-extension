@@ -5,6 +5,7 @@ function preventHoverPreviewOnDimmedItems() {
   hoverPreviewBlockerAttached = true;
 
   const blockHoverPreview = e => {
+    if (!prefs.dimMode) return;
     if (e.target && e.target.closest && e.target.closest('[data-yt-hider-dimmed]')) {
       e.stopPropagation();
     }

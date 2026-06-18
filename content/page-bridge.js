@@ -1,6 +1,7 @@
 (function () {
   const ATTR = 'data-yt-hider-channel-cache';
   const cache = {};
+  let cacheDirty = false;
 
   function browseToHandle(browse) {
     if (!browse) return null;
@@ -85,27 +86,31 @@
     if (!node || depth > 14 || typeof node !== 'object') return;
 
     try {
-      if (node.lockupViewModel && node.lockupViewModel.contentId) {
+      const id = node.lockupViewModel && node.lockupViewModel.contentId;
+      if (id && !cache[id]) {
         const handle = handleFromLockup(node.lockupViewModel);
-        if (handle) cache[node.lockupViewModel.contentId] = handle;
+        if (handle) { cache[id] = handle; cacheDirty = true; }
       }
     } catch (_) {}
     try {
-      if (node.compactVideoRenderer && node.compactVideoRenderer.videoId) {
+      const id = node.compactVideoRenderer && node.compactVideoRenderer.videoId;
+      if (id && !cache[id]) {
         const handle = handleFromByline(node.compactVideoRenderer);
-        if (handle) cache[node.compactVideoRenderer.videoId] = handle;
+        if (handle) { cache[id] = handle; cacheDirty = true; }
       }
     } catch (_) {}
     try {
-      if (node.videoRenderer && node.videoRenderer.videoId) {
+      const id = node.videoRenderer && node.videoRenderer.videoId;
+      if (id && !cache[id]) {
         const handle = handleFromByline(node.videoRenderer);
-        if (handle) cache[node.videoRenderer.videoId] = handle;
+        if (handle) { cache[id] = handle; cacheDirty = true; }
       }
     } catch (_) {}
     try {
-      if (node.gridVideoRenderer && node.gridVideoRenderer.videoId) {
+      const id = node.gridVideoRenderer && node.gridVideoRenderer.videoId;
+      if (id && !cache[id]) {
         const handle = handleFromByline(node.gridVideoRenderer);
-        if (handle) cache[node.gridVideoRenderer.videoId] = handle;
+        if (handle) { cache[id] = handle; cacheDirty = true; }
       }
     } catch (_) {}
 
@@ -137,10 +142,12 @@
 
   let flushScheduled = false;
   function flush() {
-    if (flushScheduled) return;
+    if (flushScheduled || !cacheDirty) return;
     flushScheduled = true;
     Promise.resolve().then(() => {
       flushScheduled = false;
+      if (!cacheDirty) return;
+      cacheDirty = false;
       try {
         const root = document.documentElement;
         if (!root) return;
