@@ -65,6 +65,17 @@ const FILTER_REAPPLY_KEYS = new Set([
   'channelWhitelist',
 ]);
 
+function setChannelWhitelisted(channel, shouldWhitelist) {
+  if (!channel) return;
+  const current = Array.isArray(prefs.channelWhitelist) ? prefs.channelWhitelist : [];
+  const has = current.includes(channel);
+  if (shouldWhitelist === has) return;
+  const next = shouldWhitelist
+    ? [...current, channel]
+    : current.filter(c => c !== channel);
+  safeStorageSet('sync', { channelWhitelist: next });
+}
+
 function initPrefs() {
   return new Promise(resolve => {
     try {
@@ -116,6 +127,7 @@ function setupPrefsListener() {
             cleanupTour();
             removeTutorialOverlay();
             removeFloatingButton();
+            removeInlineWhitelistButton();
           } else if (
             prefs.floatingButtonEnabled &&
             !isWatchPage() &&

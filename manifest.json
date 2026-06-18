@@ -20,6 +20,7 @@
         {
             "resources": [
                 "assets/icons/youtube-hider-logo.png",
+                "assets/icons/youtube-hider-logo-light.png",
                 "popup/popup.html"
             ],
             "matches": [
@@ -59,6 +60,7 @@
                 "content/tutorial.js",
                 "content/parsers.js",
                 "content/filters.js",
+                "content/channel-whitelist-button.js",
                 "content/init.js"
             ],
             "run_at": "document_idle"

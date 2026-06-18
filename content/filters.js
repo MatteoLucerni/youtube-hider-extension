@@ -71,7 +71,7 @@ function injectDimStyles() {
 function createWhitelistButton(channel) {
   const btn = document.createElement('button');
   btn.className = 'yt-hider-whitelist-btn';
-  btn.innerHTML = '<svg width="11" height="11" viewBox="0 0 10 10" fill="none" aria-hidden="true"><path d="M5 1.5v7M1.5 5h7" stroke="currentColor" stroke-width="1.7" stroke-linecap="round"/></svg>Whitelist channel';
+  btn.innerHTML = 'Whitelist channel';
   btn.title = channel;
   btn.addEventListener('click', (e) => {
     e.preventDefault();
@@ -80,9 +80,7 @@ function createWhitelistButton(channel) {
     if (current.includes(channel)) return;
     btn.innerHTML = '<svg width="12" height="10" viewBox="0 0 12 10" fill="none" aria-hidden="true"><path d="M1 5l3.5 3.5L11 1" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round"/></svg>Channel whitelisted';
     btn.style.pointerEvents = 'none';
-    try {
-      chrome.storage.sync.set({ channelWhitelist: [...current, channel] });
-    } catch (_) {}
+    setChannelWhitelisted(channel, true);
   });
   return btn;
 }

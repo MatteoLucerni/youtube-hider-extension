@@ -425,16 +425,7 @@ function bindPanelEvents(shadow) {
     whitelistToggle.addEventListener('change', () => {
       const channel = getCurrentPageChannel();
       if (!channel) return;
-      const list = Array.isArray(prefs.channelWhitelist)
-        ? [...prefs.channelWhitelist]
-        : [];
-      if (whitelistToggle.checked) {
-        if (!list.includes(channel)) list.push(channel);
-      } else {
-        const idx = list.indexOf(channel);
-        if (idx !== -1) list.splice(idx, 1);
-      }
-      safeStorageSet('sync', { channelWhitelist: list });
+      setChannelWhitelisted(channel, whitelistToggle.checked);
     });
   }
 }

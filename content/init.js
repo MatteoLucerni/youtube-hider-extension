@@ -140,6 +140,10 @@ async function startHiding(pathname) {
     logger.log('Hiding lives on', pathname);
     hideLives();
   }
+
+  if (isInlineWhitelistPath(pathname)) {
+    syncInlineWhitelistButton(pathname);
+  }
 }
 
 function detectPageChange() {
@@ -165,6 +169,10 @@ function detectPageChange() {
       isYouTube()
     ) {
       createFloatingButton();
+    }
+
+    if (!isInlineWhitelistPath(currentPath)) {
+      removeInlineWhitelistButton();
     }
 
     if (pageLoadTimeout) {
@@ -202,6 +210,8 @@ async function init() {
   await initPrefs();
   setupPrefsListener();
   injectDimStyles();
+  injectInlineWhitelistStyles();
+  watchYouTubeTheme();
 
   logger.log('Extension initialized on', currentPath);
   readChannelCacheFromDOM();
