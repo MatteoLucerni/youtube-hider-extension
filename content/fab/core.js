@@ -68,21 +68,19 @@ function applyFabPosition(host, shadow, pos) {
 
   const wrapper = shadow.querySelector('.yh-fab-wrapper');
   const panel = shadow.querySelector('.yh-panel');
-  const panelHeader = shadow.querySelector('.yh-panel-header');
-  const panelBody = shadow.querySelector('.yh-panel-body');
-  const panelFooter = shadow.querySelector('.yh-panel-footer');
 
   const GAP = 12;
   const EDGE_PAD = 8;
-  const MIN_PANEL_HEIGHT = 180;
   // panelBody has overflow-y:auto, so its scrollHeight always reflects the
   // true unclamped content height, regardless of any max-height previously
   // applied to the panel itself (which has overflow:visible and would
   // otherwise report its currently clamped height instead of the real one).
+  // header/body/footer are always present together in the panel's static
+  // template (getMiniPanelHTML), so they share panel's null check.
   const panelNaturalH = panel
-    ? (panelHeader ? panelHeader.offsetHeight : 0) +
-      (panelBody ? panelBody.scrollHeight : 0) +
-      (panelFooter ? panelFooter.offsetHeight : 0)
+    ? shadow.querySelector('.yh-panel-header').offsetHeight +
+      shadow.querySelector('.yh-panel-body').scrollHeight +
+      shadow.querySelector('.yh-panel-footer').offsetHeight
     : 0;
   const spaceAbove = buttonTopPx - GAP - EDGE_PAD;
   const spaceBelow = vh - (buttonTopPx + hostH) - GAP - EDGE_PAD;
@@ -92,19 +90,14 @@ function applyFabPosition(host, shadow, pos) {
     openAbove = true;
   } else if (spaceBelow >= panelNaturalH && spaceAbove < panelNaturalH) {
     openAbove = false;
-  } else {
-    openAbove = spaceAbove > spaceBelow;
   }
 
-  let available = openAbove ? spaceAbove : spaceBelow;
-  const fullSpace = Math.max(0, vh - 2 * EDGE_PAD);
-  if (available < MIN_PANEL_HEIGHT && fullSpace > available) {
-    available = fullSpace;
-  }
-  const panelMaxH = Math.max(
-    1,
-    Math.min(panelNaturalH || fullSpace, available),
-  );
+  // Clamp to the space actually reachable from the panel's anchor point
+  // (52px from the FAB) to the opposite viewport edge — never to "the rest
+  // of the viewport", which ignores that anchor and can push the panel
+  // off-screen on very short viewports.
+  const available = Math.max(0, openAbove ? spaceAbove : spaceBelow);
+  const panelMaxH = Math.max(1, Math.min(panelNaturalH, available));
   if (panel) {
     panel.style.setProperty('--yh-panel-max-height', panelMaxH + 'px');
   }
@@ -303,7 +296,7 @@ function createFloatingButton(forceForTutorial = false) {
   fab.addEventListener('touchstart', onPointerDown, { passive: true });
 
   function onViewportResize() {
-    if (miniPanelOpen) {
+    if (!tutorialActive && miniPanelOpen) {
       miniPanelOpen = false;
       panel.classList.remove('open');
       fab.classList.remove('active');
