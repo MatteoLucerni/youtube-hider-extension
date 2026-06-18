@@ -68,11 +68,22 @@ function applyFabPosition(host, shadow, pos) {
 
   const wrapper = shadow.querySelector('.yh-fab-wrapper');
   const panel = shadow.querySelector('.yh-panel');
+  const panelHeader = shadow.querySelector('.yh-panel-header');
+  const panelBody = shadow.querySelector('.yh-panel-body');
+  const panelFooter = shadow.querySelector('.yh-panel-footer');
 
   const GAP = 12;
   const EDGE_PAD = 8;
   const MIN_PANEL_HEIGHT = 180;
-  const panelNaturalH = panel ? panel.scrollHeight : 0;
+  // panelBody has overflow-y:auto, so its scrollHeight always reflects the
+  // true unclamped content height, regardless of any max-height previously
+  // applied to the panel itself (which has overflow:visible and would
+  // otherwise report its currently clamped height instead of the real one).
+  const panelNaturalH = panel
+    ? (panelHeader ? panelHeader.offsetHeight : 0) +
+      (panelBody ? panelBody.scrollHeight : 0) +
+      (panelFooter ? panelFooter.offsetHeight : 0)
+    : 0;
   const spaceAbove = buttonTopPx - GAP - EDGE_PAD;
   const spaceBelow = vh - (buttonTopPx + hostH) - GAP - EDGE_PAD;
 
@@ -292,6 +303,11 @@ function createFloatingButton(forceForTutorial = false) {
   fab.addEventListener('touchstart', onPointerDown, { passive: true });
 
   function onViewportResize() {
+    if (miniPanelOpen) {
+      miniPanelOpen = false;
+      panel.classList.remove('open');
+      fab.classList.remove('active');
+    }
     clearTimeout(fabResizeTimer);
     fabResizeTimer = setTimeout(() => {
       if (!floatingButtonHost) return;
