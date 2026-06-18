@@ -46,6 +46,9 @@ function getFloatingButtonCSS() {
       bottom: 52px;
       right: 0;
       width: 280px;
+      max-height: var(--yh-panel-max-height, calc(100vh - 40px));
+      display: flex;
+      flex-direction: column;
       background: #222222;
       border: 1px solid #3a3a3a;
       border-radius: 10px;
@@ -71,6 +74,7 @@ function getFloatingButtonCSS() {
       justify-content: space-between;
       padding: 12px 14px 10px;
       border-bottom: 1px solid #3a3a3a;
+      flex-shrink: 0;
     }
     .yh-panel-branding {
       display: flex;
@@ -110,6 +114,25 @@ function getFloatingButtonCSS() {
       display: flex;
       flex-direction: column;
       gap: 6px;
+      flex: 1 1 auto;
+      min-height: 0;
+      overflow-y: auto;
+      overscroll-behavior: contain;
+      scrollbar-width: thin;
+      scrollbar-color: #4a4a4a #2a2a2a;
+    }
+    .yh-panel-body::-webkit-scrollbar {
+      width: 6px;
+    }
+    .yh-panel-body::-webkit-scrollbar-track {
+      background: transparent;
+    }
+    .yh-panel-body::-webkit-scrollbar-thumb {
+      background: #4a4a4a;
+      border-radius: 3px;
+    }
+    .yh-panel-body::-webkit-scrollbar-thumb:hover {
+      background: #5a5a5a;
     }
     .yh-panel-group {
       background: #2a2a2a;
@@ -316,6 +339,7 @@ function getFloatingButtonCSS() {
       display: flex;
       flex-direction: column;
       gap: 2px;
+      flex-shrink: 0;
     }
     .yh-panel-link {
       font-size: 12px;

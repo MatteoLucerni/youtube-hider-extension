@@ -69,12 +69,33 @@ function applyFabPosition(host, shadow, pos) {
   const wrapper = shadow.querySelector('.yh-fab-wrapper');
   const panel = shadow.querySelector('.yh-panel');
 
-  const panelH = 350;
+  const GAP = 12;
+  const EDGE_PAD = 8;
+  const MIN_PANEL_HEIGHT = 180;
+  const panelNaturalH = panel ? panel.scrollHeight : 0;
+  const spaceAbove = buttonTopPx - GAP - EDGE_PAD;
+  const spaceBelow = vh - (buttonTopPx + hostH) - GAP - EDGE_PAD;
+
   let openAbove = isBottomHalf;
-  if (openAbove && buttonTopPx - panelH - 12 < 0) {
-    openAbove = false;
-  } else if (!openAbove && buttonTopPx + hostH + panelH + 12 > vh) {
+  if (spaceAbove >= panelNaturalH && spaceBelow < panelNaturalH) {
     openAbove = true;
+  } else if (spaceBelow >= panelNaturalH && spaceAbove < panelNaturalH) {
+    openAbove = false;
+  } else {
+    openAbove = spaceAbove > spaceBelow;
+  }
+
+  let available = openAbove ? spaceAbove : spaceBelow;
+  const fullSpace = Math.max(0, vh - 2 * EDGE_PAD);
+  if (available < MIN_PANEL_HEIGHT && fullSpace > available) {
+    available = fullSpace;
+  }
+  const panelMaxH = Math.max(
+    1,
+    Math.min(panelNaturalH || fullSpace, available),
+  );
+  if (panel) {
+    panel.style.setProperty('--yh-panel-max-height', panelMaxH + 'px');
   }
 
   const originV = openAbove ? 'bottom' : 'top';
@@ -304,6 +325,9 @@ function createFloatingButton(forceForTutorial = false) {
     e.stopPropagation();
     if (wasDragged) return;
     miniPanelOpen = !miniPanelOpen;
+    if (miniPanelOpen) {
+      applyFabPosition(floatingButtonHost, shadow, prefs.floatingButtonPosition);
+    }
     panel.classList.toggle('open', miniPanelOpen);
     fab.classList.toggle('active', miniPanelOpen);
     if (miniPanelOpen) {
