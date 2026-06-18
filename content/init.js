@@ -212,6 +212,7 @@ async function init() {
   injectDimStyles();
   injectInlineWhitelistStyles();
   watchYouTubeTheme();
+  preventHoverPreviewOnDimmedItems();
 
   logger.log('Extension initialized on', currentPath);
   readChannelCacheFromDOM();

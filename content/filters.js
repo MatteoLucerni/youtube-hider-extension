@@ -1,3 +1,19 @@
+let hoverPreviewBlockerAttached = false;
+
+function preventHoverPreviewOnDimmedItems() {
+  if (hoverPreviewBlockerAttached) return;
+  hoverPreviewBlockerAttached = true;
+
+  const blockHoverPreview = e => {
+    if (e.target && e.target.closest && e.target.closest('[data-yt-hider-dimmed]')) {
+      e.stopPropagation();
+    }
+  };
+
+  document.addEventListener('mouseover', blockHoverPreview, true);
+  document.addEventListener('mouseenter', blockHoverPreview, true);
+}
+
 function injectDimStyles() {
   if (document.getElementById('yt-hider-dim-styles')) return;
   const style = document.createElement('style');
@@ -7,9 +23,9 @@ function injectDimStyles() {
       position: relative !important;
     }
     .yt-hider-badge {
-      position: absolute;
+      position: absolute !important;
       inset: 0;
-      display: flex;
+      display: flex !important;
       flex-direction: column;
       align-items: center;
       justify-content: center;
@@ -17,7 +33,7 @@ function injectDimStyles() {
       background: rgba(0, 0, 0, 0.72);
       border-radius: inherit;
       pointer-events: none;
-      z-index: 10;
+      z-index: 2147483647 !important;
     }
     .yt-hider-badge-logo {
       width: 36px;
@@ -240,21 +256,27 @@ function applyFilter(element, reason) {
     return;
   }
   if (prefs.dimMode) {
-    if (element.dataset.ytHiderDimmed) {
-      if (ch) {
-        const badge = element.querySelector('.yt-hider-badge');
-        if (badge && !badge.querySelector('.yt-hider-whitelist-btn')) {
-          badge.appendChild(createWhitelistButton(ch));
-        }
-      }
-      return;
-    }
-    element.dataset.ytHiderDimmed = '1';
-    const target =
+    const badgeTarget = () =>
       element.querySelector('ytd-thumbnail') ||
       element.querySelector('yt-thumbnail-view-model') ||
       element.querySelector('ytm-thumbnail-cover-view-model') ||
       element;
+
+    if (element.dataset.ytHiderDimmed) {
+      const existingBadge = element.querySelector('.yt-hider-badge');
+      if (!existingBadge) {
+        const target = badgeTarget();
+        target.dataset.ytHiderBadgeTarget = '1';
+        target.appendChild(createDimBadge(reason, ch));
+        return;
+      }
+      if (ch && !existingBadge.querySelector('.yt-hider-whitelist-btn')) {
+        existingBadge.appendChild(createWhitelistButton(ch));
+      }
+      return;
+    }
+    element.dataset.ytHiderDimmed = '1';
+    const target = badgeTarget();
     target.dataset.ytHiderBadgeTarget = '1';
     target.appendChild(createDimBadge(reason, ch));
   } else {
