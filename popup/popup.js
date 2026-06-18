@@ -191,6 +191,7 @@ document.addEventListener('DOMContentLoaded', () => {
     'easyModeEnabled',
     'floatingButtonEnabled',
     'dimMode',
+    'channelWhitelist',
     ...Object.values(cfg.hide.keys),
     ...Object.values(cfg.views.keys),
     ...Object.values(cfg.shorts.keys),
@@ -325,6 +326,10 @@ document.addEventListener('DOMContentLoaded', () => {
     if (isFirstInstall) {
       saveSettings();
     }
+
+    whitelistData = Array.isArray(prefs.channelWhitelist) ? prefs.channelWhitelist : [];
+    renderWhitelistChips(whitelistData);
+    refreshAddButtonState();
   });
 
   function saveSettings() {
@@ -630,5 +635,100 @@ document.addEventListener('DOMContentLoaded', () => {
         input.dispatchEvent(new Event('change', { bubbles: true }));
       });
     });
+
+  const chipsContainer = document.getElementById('channel-whitelist-chips');
+  const emptyHint = document.getElementById('channel-whitelist-empty');
+  const addCurrentBtn = document.getElementById('add-current-channel-btn');
+  const whitelistHint = document.getElementById('channel-whitelist-hint');
+
+  let whitelistData = [];
+  let currentTabChannel = null;
+
+  function saveWhitelist(list) {
+    chrome.storage.sync.set({ channelWhitelist: list });
+  }
+
+  function refreshAddButtonState() {
+    if (!addCurrentBtn) return;
+    if (!currentTabChannel) {
+      addCurrentBtn.disabled = true;
+      if (whitelistHint) whitelistHint.textContent = 'Navigate to a channel page to add it';
+      return;
+    }
+    if (Array.isArray(whitelistData) && whitelistData.includes(currentTabChannel)) {
+      addCurrentBtn.disabled = true;
+      if (whitelistHint) whitelistHint.textContent = currentTabChannel + ' is already whitelisted';
+      return;
+    }
+    addCurrentBtn.disabled = false;
+    if (whitelistHint) whitelistHint.textContent = '';
+  }
+
+  function renderWhitelistChips(list) {
+    if (!chipsContainer) return;
+    chipsContainer.querySelectorAll('.whitelist-chip').forEach(c => c.remove());
+    if (emptyHint) emptyHint.style.display = list.length === 0 ? '' : 'none';
+    list.forEach(channel => {
+      const chip = document.createElement('span');
+      chip.className = 'whitelist-chip';
+      const label = document.createElement('span');
+      label.className = 'whitelist-chip-label';
+      label.textContent = channel;
+      const remove = document.createElement('button');
+      remove.className = 'whitelist-chip-remove';
+      remove.type = 'button';
+      remove.textContent = '×';
+      remove.setAttribute('aria-label', 'Remove ' + channel);
+      remove.addEventListener('click', () => {
+        const current = Array.isArray(whitelistData) ? [...whitelistData] : [];
+        const idx = current.indexOf(channel);
+        if (idx !== -1) current.splice(idx, 1);
+        whitelistData = current;
+        renderWhitelistChips(current);
+        saveWhitelist(current);
+        refreshAddButtonState();
+      });
+      chip.appendChild(label);
+      chip.appendChild(remove);
+      chipsContainer.appendChild(chip);
+    });
+  }
+
+  chrome.tabs.query({ active: true, currentWindow: true }, tabs => {
+    const tab = tabs && tabs[0];
+    if (!tab || !tab.id) {
+      refreshAddButtonState();
+      return;
+    }
+    chrome.tabs.sendMessage(tab.id, { type: 'GET_CURRENT_CHANNEL' }, response => {
+      if (!chrome.runtime.lastError && response && response.channel) {
+        currentTabChannel = response.channel;
+      }
+      refreshAddButtonState();
+    });
+  });
+
+  if (addCurrentBtn) {
+    addCurrentBtn.addEventListener('click', () => {
+      if (!currentTabChannel) return;
+      const current = Array.isArray(whitelistData) ? [...whitelistData] : [];
+      if (current.includes(currentTabChannel)) return;
+      current.push(currentTabChannel);
+      whitelistData = current;
+      renderWhitelistChips(current);
+      saveWhitelist(current);
+      refreshAddButtonState();
+    });
+  }
+
+  chrome.storage.onChanged.addListener((changes, area) => {
+    if (area === 'sync' && changes.channelWhitelist) {
+      whitelistData = Array.isArray(changes.channelWhitelist.newValue)
+        ? changes.channelWhitelist.newValue
+        : [];
+      renderWhitelistChips(whitelistData);
+      refreshAddButtonState();
+    }
+  });
 
 });

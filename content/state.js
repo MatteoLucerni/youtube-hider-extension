@@ -34,6 +34,7 @@ const prefs = {
   floatingButtonEnabled: true,
   floatingButtonPosition: { edge: 'bottom', offset: 20 },
   tutorialCompleted: false,
+  channelWhitelist: [],
 };
 
 const FILTER_REAPPLY_KEYS = new Set([
@@ -61,7 +62,20 @@ const FILTER_REAPPLY_KEYS = new Set([
   'dateFilterSearchEnabled',
   'dateFilterSubsEnabled',
   'dateFilterCorrEnabled',
+  'channelWhitelist',
 ]);
+
+function setChannelWhitelisted(channel, shouldWhitelist) {
+  if (!channel) return;
+  const current = Array.isArray(prefs.channelWhitelist) ? prefs.channelWhitelist : [];
+  const has = current.includes(channel);
+  if (shouldWhitelist === has) return;
+  const next = shouldWhitelist
+    ? [...current, channel]
+    : current.filter(c => c !== channel);
+  prefs.channelWhitelist = next;
+  safeStorageSet('sync', { channelWhitelist: next });
+}
 
 function initPrefs() {
   return new Promise(resolve => {
@@ -109,11 +123,12 @@ function setupPrefsListener() {
         }
         if ('extensionEnabled' in changes) {
           if (!prefs.extensionEnabled) {
-            resetAppliedFilters();
+            resetAppliedFilters(true);
             removeWarning();
             cleanupTour();
             removeTutorialOverlay();
             removeFloatingButton();
+            removeInlineWhitelistButton();
           } else if (
             prefs.floatingButtonEnabled &&
             !isWatchPage() &&

@@ -70,7 +70,7 @@ async function startHiding(pathname) {
   logger.log('Starting hide operations for:', pathname);
 
   if (!prefs.extensionEnabled) {
-    resetAppliedFilters();
+    resetAppliedFilters(true);
     removeWarning();
     return;
   }
@@ -140,6 +140,10 @@ async function startHiding(pathname) {
     logger.log('Hiding lives on', pathname);
     hideLives();
   }
+
+  if (isInlineWhitelistPath(pathname)) {
+    syncInlineWhitelistButton(pathname);
+  }
 }
 
 function detectPageChange() {
@@ -167,6 +171,10 @@ function detectPageChange() {
       createFloatingButton();
     }
 
+    if (!isInlineWhitelistPath(currentPath)) {
+      removeInlineWhitelistButton();
+    }
+
     if (pageLoadTimeout) {
       clearTimeout(pageLoadTimeout);
     }
@@ -175,6 +183,10 @@ function detectPageChange() {
       startHiding(currentPath);
       pageLoadTimeout = null;
     }, TIMING.PAGE_CHANGE_DELAY);
+
+    if (fabShadow && miniPanelOpen) {
+      syncPanelWhitelistRow(fabShadow);
+    }
 
     return true;
   }
@@ -198,9 +210,23 @@ async function init() {
   await initPrefs();
   setupPrefsListener();
   injectDimStyles();
+  injectInlineWhitelistStyles();
+  watchYouTubeTheme();
+  preventHoverPreviewOnDimmedItems();
 
   logger.log('Extension initialized on', currentPath);
+  readChannelCacheFromDOM();
   await startHiding(currentPath);
+
+  const channelCacheObserver = new MutationObserver(() => {
+    if (readChannelCacheFromDOM() && prefs.extensionEnabled) {
+      startHiding(window.location.pathname);
+    }
+  });
+  channelCacheObserver.observe(document.documentElement, {
+    attributes: true,
+    attributeFilter: [YT_HIDER_CACHE_ATTR],
+  });
 
   const observer = new MutationObserver(onMutations);
   observer.observe(document.body, { childList: true, subtree: true, characterData: true });
@@ -229,3 +255,10 @@ if (document.readyState === 'loading') {
 } else {
   init();
 }
+
+chrome.runtime.onMessage.addListener((msg, _sender, sendResponse) => {
+  if (msg.type === 'GET_CURRENT_CHANNEL') {
+    sendResponse({ channel: getCurrentPageChannel() });
+    return true;
+  }
+});
