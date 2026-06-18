@@ -73,6 +73,7 @@ function setChannelWhitelisted(channel, shouldWhitelist) {
   const next = shouldWhitelist
     ? [...current, channel]
     : current.filter(c => c !== channel);
+  prefs.channelWhitelist = next;
   safeStorageSet('sync', { channelWhitelist: next });
 }
 
@@ -122,7 +123,7 @@ function setupPrefsListener() {
         }
         if ('extensionEnabled' in changes) {
           if (!prefs.extensionEnabled) {
-            resetAppliedFilters();
+            resetAppliedFilters(true);
             removeWarning();
             cleanupTour();
             removeTutorialOverlay();

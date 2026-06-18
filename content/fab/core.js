@@ -71,12 +71,6 @@ function applyFabPosition(host, shadow, pos) {
 
   const GAP = 12;
   const EDGE_PAD = 8;
-  // panelBody has overflow-y:auto, so its scrollHeight always reflects the
-  // true unclamped content height, regardless of any max-height previously
-  // applied to the panel itself (which has overflow:visible and would
-  // otherwise report its currently clamped height instead of the real one).
-  // header/body/footer are always present together in the panel's static
-  // template (getMiniPanelHTML), so they share panel's null check.
   const panelNaturalH = panel
     ? shadow.querySelector('.yh-panel-header').offsetHeight +
       shadow.querySelector('.yh-panel-body').scrollHeight +
@@ -92,10 +86,6 @@ function applyFabPosition(host, shadow, pos) {
     openAbove = false;
   }
 
-  // Clamp to the space actually reachable from the panel's anchor point
-  // (52px from the FAB) to the opposite viewport edge — never to "the rest
-  // of the viewport", which ignores that anchor and can push the panel
-  // off-screen on very short viewports.
   const available = Math.max(0, openAbove ? spaceAbove : spaceBelow);
   const panelMaxH = Math.max(1, Math.min(panelNaturalH, available));
   if (panel) {

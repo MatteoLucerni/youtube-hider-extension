@@ -432,18 +432,12 @@ function bindPanelEvents(shadow) {
 
 function getCurrentPageChannel() {
   const pathname = window.location.pathname;
-  if (pathname.startsWith('/@')) {
-    return ('/' + pathname.split('/')[1]).toLowerCase();
-  }
+  const handle = channelHandleFromPathname(pathname);
+  if (handle) return handle;
   if (pathname === '/watch') {
-    const ownerLink = document.querySelector(
-      'ytd-video-owner-renderer a[href^="/@"], ytm-video-owner-renderer a[href^="/@"]',
-    );
-    if (ownerLink) {
-      try {
-        return new URL(ownerLink.href).pathname.toLowerCase();
-      } catch (_) {}
-    }
+    const owner = document.querySelector('ytd-video-owner-renderer, ytm-video-owner-renderer');
+    const ch = owner && extractChannelFromContainer(owner);
+    if (ch) return ch;
   }
   return null;
 }

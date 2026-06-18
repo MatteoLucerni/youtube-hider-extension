@@ -422,6 +422,11 @@ function readChannelCacheFromDOM() {
   }
 }
 
+function channelHandleFromPathname(pathname) {
+  if (!pathname || !pathname.startsWith('/@')) return null;
+  return ('/' + pathname.split('/')[1]).toLowerCase();
+}
+
 function extractChannelFromContainer(container) {
   if (!container) return null;
   const el =

@@ -70,7 +70,7 @@ async function startHiding(pathname) {
   logger.log('Starting hide operations for:', pathname);
 
   if (!prefs.extensionEnabled) {
-    resetAppliedFilters();
+    resetAppliedFilters(true);
     removeWarning();
     return;
   }
