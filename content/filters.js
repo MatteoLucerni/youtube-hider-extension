@@ -40,17 +40,18 @@ function injectDimStyles() {
       align-items: center;
       gap: 5px;
       margin-top: 8px;
-      padding: 5px 11px;
-      font-size: 10px;
-      font-weight: 600;
+      height: 26px;
+      padding: 0 12px;
+      font-size: 12px;
+      font-weight: 500;
       font-family: 'Roboto', Arial, sans-serif;
-      color: rgba(255, 255, 255, 0.9);
-      background: rgba(255, 255, 255, 0.1);
+      color: #fff;
+      background: #3f3f3f;
       border: 1px solid rgba(255, 255, 255, 0.35);
-      border-radius: 6px;
+      border-radius: 13px;
       cursor: pointer;
       pointer-events: auto;
-      transition: background 0.15s ease, border-color 0.15s ease;
+      transition: background 0.15s ease, color 0.15s ease, border-color 0.15s ease;
       line-height: 1;
       white-space: nowrap;
       max-width: calc(100% - 12px);
@@ -61,8 +62,18 @@ function injectDimStyles() {
       flex-shrink: 0;
     }
     .yt-hider-whitelist-btn:hover {
-      background: rgba(255, 255, 255, 0.2);
-      border-color: rgba(255, 255, 255, 0.55);
+      background: #505050;
+      border-color: rgba(255, 255, 255, 0.5);
+    }
+    .yt-hider-whitelist-btn:focus-visible {
+      outline: 2px solid #8ab4f8;
+      outline-offset: 2px;
+    }
+    .yt-hider-whitelist-btn.yt-hider-whitelist-btn-done {
+      background: #1b3a63;
+      border-color: rgba(138, 180, 248, 0.5);
+      color: #bcd6ff;
+      pointer-events: none;
     }
   `;
   document.head.appendChild(style);
@@ -71,7 +82,7 @@ function injectDimStyles() {
 function createWhitelistButton(channel) {
   const btn = document.createElement('button');
   btn.className = 'yt-hider-whitelist-btn';
-  btn.innerHTML = 'Whitelist channel';
+  btn.textContent = 'Whitelist channel';
   btn.title = channel;
   btn.addEventListener('click', (e) => {
     e.preventDefault();
@@ -79,7 +90,7 @@ function createWhitelistButton(channel) {
     const current = Array.isArray(prefs.channelWhitelist) ? prefs.channelWhitelist : [];
     if (current.includes(channel)) return;
     btn.innerHTML = '<svg width="12" height="10" viewBox="0 0 12 10" fill="none" aria-hidden="true"><path d="M1 5l3.5 3.5L11 1" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round"/></svg>Channel whitelisted';
-    btn.style.pointerEvents = 'none';
+    btn.classList.add('yt-hider-whitelist-btn-done');
     setChannelWhitelisted(channel, true);
   });
   return btn;
