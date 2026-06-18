@@ -255,10 +255,29 @@ body.easy-mode-off .date-filter-group .date-overlap-warning {
     display: flex;
     flex-wrap: wrap;
     gap: 6px;
-    max-height: 96px;
+    max-height: 192px;
     overflow-y: auto;
     align-items: flex-start;
     padding: 4px 0;
+    scrollbar-width: thin;
+    scrollbar-color: var(--toggle-inactive) var(--bg-tertiary);
+}
+
+.whitelist-chips-container::-webkit-scrollbar {
+    width: 6px;
+}
+
+.whitelist-chips-container::-webkit-scrollbar-track {
+    background: transparent;
+}
+
+.whitelist-chips-container::-webkit-scrollbar-thumb {
+    background: var(--toggle-inactive);
+    border-radius: 3px;
+}
+
+.whitelist-chips-container::-webkit-scrollbar-thumb:hover {
+    background: #5a5a5a;
 }
 
 .whitelist-empty-hint {
