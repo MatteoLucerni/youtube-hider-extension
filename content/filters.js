@@ -69,14 +69,53 @@ function injectDimStyles() {
       outline: 2px solid #8ab4f8;
       outline-offset: 2px;
     }
-    .yt-hider-whitelist-btn.yt-hider-whitelist-btn-done {
+    .yt-hider-whitelist-btn.yt-hider-whitelist-btn-pending {
       background: #1b3a63;
       border-color: rgba(138, 180, 248, 0.5);
       color: #bcd6ff;
-      pointer-events: none;
+    }
+    .yt-hider-whitelist-btn.yt-hider-whitelist-btn-pending:hover {
+      background: #234a7d;
+    }
+    .yt-hider-whitelist-countdown {
+      flex-shrink: 0;
+    }
+    .yt-hider-whitelist-countdown-ring {
+      stroke-linecap: round;
+      transform-origin: center;
+    }
+    .yt-hider-whitelist-countdown-number {
+      fill: currentColor;
+      font-size: 9px;
+      font-weight: 600;
+      font-family: 'Roboto', Arial, sans-serif;
+    }
+    @keyframes yt-hider-whitelist-countdown {
+      from { stroke-dashoffset: 0; }
+      to { stroke-dashoffset: var(--yt-hider-countdown-circumference); }
     }
   `;
   document.head.appendChild(style);
+}
+
+const WHITELIST_UNDO_WINDOW_MS = 3000;
+const WHITELIST_UNDO_WINDOW_SECONDS = Math.round(WHITELIST_UNDO_WINDOW_MS / 1000);
+const WHITELIST_COUNTDOWN_RADIUS = 8;
+const WHITELIST_COUNTDOWN_CIRCUMFERENCE = 2 * Math.PI * WHITELIST_COUNTDOWN_RADIUS;
+
+function buildWhitelistCountdownMarkup(seconds) {
+  return `<svg class="yt-hider-whitelist-countdown" width="20" height="20" viewBox="0 0 20 20" aria-hidden="true">
+    <circle cx="10" cy="10" r="${WHITELIST_COUNTDOWN_RADIUS}" fill="none" stroke="currentColor" stroke-opacity="0.3" stroke-width="2"></circle>
+    <circle class="yt-hider-whitelist-countdown-ring" cx="10" cy="10" r="${WHITELIST_COUNTDOWN_RADIUS}" fill="none" stroke="currentColor" stroke-width="2" stroke-dasharray="${WHITELIST_COUNTDOWN_CIRCUMFERENCE}" transform="rotate(-90 10 10)"></circle>
+    <text class="yt-hider-whitelist-countdown-number" x="10" y="10" text-anchor="middle" dominant-baseline="central">${seconds}</text>
+  </svg>`;
+}
+
+function clearDimmedElement(element) {
+  if (!element || !element.dataset.ytHiderDimmed) return;
+  delete element.dataset.ytHiderDimmed;
+  element.querySelectorAll('.yt-hider-badge').forEach(b => b.remove());
+  element.querySelectorAll('[data-yt-hider-badge-target]').forEach(t => delete t.dataset.ytHiderBadgeTarget);
 }
 
 function createWhitelistButton(channel) {
@@ -84,15 +123,84 @@ function createWhitelistButton(channel) {
   btn.className = 'yt-hider-whitelist-btn';
   btn.textContent = 'Whitelist channel';
   btn.title = channel;
-  btn.addEventListener('click', (e) => {
+
+  let undoTimer = null;
+  let tickInterval = null;
+  let pendingContainer = null;
+
+  const setIdleState = () => {
+    btn.classList.remove('yt-hider-whitelist-btn-pending');
+    btn.textContent = 'Whitelist channel';
+  };
+
+  const cancelPending = () => {
+    if (undoTimer) {
+      clearTimeout(undoTimer);
+      undoTimer = null;
+    }
+    if (tickInterval) {
+      clearInterval(tickInterval);
+      tickInterval = null;
+    }
+    if (pendingContainer) {
+      delete pendingContainer.dataset.ytHiderWhitelistPending;
+      pendingContainer = null;
+    }
+  };
+
+  btn.addEventListener('click', e => {
     e.preventDefault();
     e.stopPropagation();
+
+    if (btn.classList.contains('yt-hider-whitelist-btn-pending')) {
+      setChannelWhitelisted(channel, false);
+      cancelPending();
+      setIdleState();
+      return;
+    }
+
     const current = Array.isArray(prefs.channelWhitelist) ? prefs.channelWhitelist : [];
     if (current.includes(channel)) return;
-    btn.innerHTML = '<svg width="12" height="10" viewBox="0 0 12 10" fill="none" aria-hidden="true"><path d="M1 5l3.5 3.5L11 1" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round"/></svg>Channel whitelisted';
-    btn.classList.add('yt-hider-whitelist-btn-done');
+
     setChannelWhitelisted(channel, true);
+
+    pendingContainer = btn.closest('[data-yt-hider-dimmed]');
+    if (pendingContainer) pendingContainer.dataset.ytHiderWhitelistPending = '1';
+
+    let secondsLeft = WHITELIST_UNDO_WINDOW_SECONDS;
+    btn.innerHTML = `<span class="yt-hider-whitelist-label">Remove from Whitelist</span>${buildWhitelistCountdownMarkup(secondsLeft)}`;
+    btn.classList.add('yt-hider-whitelist-btn-pending');
+
+    const ring = btn.querySelector('.yt-hider-whitelist-countdown-ring');
+    if (ring) {
+      ring.style.setProperty('--yt-hider-countdown-circumference', WHITELIST_COUNTDOWN_CIRCUMFERENCE);
+      ring.style.animation = `yt-hider-whitelist-countdown ${WHITELIST_UNDO_WINDOW_MS}ms linear forwards`;
+    }
+
+    tickInterval = setInterval(() => {
+      secondsLeft -= 1;
+      const numberEl = btn.querySelector('.yt-hider-whitelist-countdown-number');
+      if (numberEl) numberEl.textContent = Math.max(secondsLeft, 0);
+      if (secondsLeft <= 0) {
+        clearInterval(tickInterval);
+        tickInterval = null;
+      }
+    }, 1000);
+
+    undoTimer = setTimeout(() => {
+      undoTimer = null;
+      if (tickInterval) {
+        clearInterval(tickInterval);
+        tickInterval = null;
+      }
+      if (pendingContainer) {
+        delete pendingContainer.dataset.ytHiderWhitelistPending;
+        clearDimmedElement(pendingContainer);
+        pendingContainer = null;
+      }
+    }, WHITELIST_UNDO_WINDOW_MS);
   });
+
   return btn;
 }
 
@@ -122,10 +230,8 @@ function applyFilter(element, reason) {
   if (!element) return;
   const ch = resolveChannelForElement(element);
   if (ch && prefs.channelWhitelist && prefs.channelWhitelist.includes(ch)) {
-    if (element.dataset.ytHiderDimmed) {
-      delete element.dataset.ytHiderDimmed;
-      element.querySelectorAll('.yt-hider-badge').forEach(b => b.remove());
-      element.querySelectorAll('[data-yt-hider-badge-target]').forEach(t => delete t.dataset.ytHiderBadgeTarget);
+    if (!element.dataset.ytHiderWhitelistPending) {
+      clearDimmedElement(element);
     }
     if (element.dataset.ytHiderHidden) {
       element.style.display = '';
@@ -160,14 +266,20 @@ function applyFilter(element, reason) {
 
 function resetAppliedFilters() {
   document.querySelectorAll('[data-yt-hider-hidden]').forEach(el => {
+    if (el.dataset.ytHiderWhitelistPending) return;
     el.style.display = '';
     delete el.dataset.ytHiderHidden;
   });
   document.querySelectorAll('[data-yt-hider-dimmed]').forEach(el => {
+    if (el.dataset.ytHiderWhitelistPending) return;
     delete el.dataset.ytHiderDimmed;
   });
-  document.querySelectorAll('.yt-hider-badge').forEach(el => el.remove());
+  document.querySelectorAll('.yt-hider-badge').forEach(el => {
+    if (el.closest('[data-yt-hider-whitelist-pending]')) return;
+    el.remove();
+  });
   document.querySelectorAll('[data-yt-hider-badge-target]').forEach(el => {
+    if (el.closest('[data-yt-hider-whitelist-pending]')) return;
     delete el.dataset.ytHiderBadgeTarget;
   });
 }
