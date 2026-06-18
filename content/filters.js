@@ -24,9 +24,9 @@ function injectDimStyles() {
       position: relative !important;
     }
     .yt-hider-badge {
-      position: absolute !important;
+      position: absolute;
       inset: 0;
-      display: flex !important;
+      display: flex;
       flex-direction: column;
       align-items: center;
       justify-content: center;
@@ -34,7 +34,7 @@ function injectDimStyles() {
       background: rgba(0, 0, 0, 0.72);
       border-radius: inherit;
       pointer-events: none;
-      z-index: 2147483647 !important;
+      z-index: 10;
     }
     .yt-hider-badge-logo {
       width: 36px;
