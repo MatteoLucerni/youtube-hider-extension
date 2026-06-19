@@ -1,5 +1,11 @@
 # Changelog
 
+### Version 2.9.0
+
+**Added**
+
+- Channel Whitelist: exempt specific channels from all active filters, so their videos are never hidden or dimmed (Shorts are always filtered regardless). Add a channel from three places - the "Whitelist channel" button on a filtered/dimmed overlay (with a 3-second undo window before it takes effect), the inline "Whitelist" button next to Subscribe on video and channel pages, or the toggle in the floating mini-panel. Manage the full list anytime from the popup's new Channel Whitelist card
+
 ### Version 2.8.2
 
 **Fixed**

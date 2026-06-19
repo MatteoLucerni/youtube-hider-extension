@@ -375,7 +375,7 @@ function extractUploadAgeDays(text) {
   if (isNaN(base) || base < 0) return NaN;
 
   const afterNum = stripped.slice(numMatch[0].length);
-  const unitMatch = afterNum.match(TIME_UNIT_REGEX);
+  const unitMatch = afterNum.match(TIME_UNIT_REGEX) || s.match(TIME_UNIT_REGEX);
   if (!unitMatch) return NaN;
 
   const multiplier = TIME_UNIT_DAYS[unitMatch[1].toLowerCase()];
@@ -392,5 +392,62 @@ function resolveUploadAgeFromSpans(spans) {
       return { ageDays, span };
     }
   }
+  return null;
+}
+
+const ytVideoChannelCache = {};
+const YT_HIDER_CACHE_ATTR = 'data-yt-hider-channel-cache';
+
+function readChannelCacheFromDOM() {
+  try {
+    const root = document.documentElement;
+    if (!root) return false;
+    const raw = root.getAttribute(YT_HIDER_CACHE_ATTR);
+    if (!raw) return false;
+    const data = JSON.parse(raw);
+    if (!data || typeof data !== 'object') return false;
+    let added = false;
+    for (const key in data) {
+      if (!Object.prototype.hasOwnProperty.call(data, key)) continue;
+      const value = data[key];
+      if (typeof value !== 'string') continue;
+      if (ytVideoChannelCache[key] !== value) {
+        ytVideoChannelCache[key] = value;
+        added = true;
+      }
+    }
+    return added;
+  } catch (_) {
+    return false;
+  }
+}
+
+function channelHandleFromPathname(pathname) {
+  if (!pathname || !pathname.startsWith('/@')) return null;
+  return ('/' + pathname.split('/')[1]).toLowerCase();
+}
+
+function extractChannelFromContainer(container) {
+  if (!container) return null;
+  const el =
+    container.querySelector('a[href^="/@"]') ||
+    container.querySelector('a[href^="/channel/"]') ||
+    container.querySelector('a[href^="/user/"]') ||
+    container.querySelector('ytd-channel-name a[href], #channel-name a[href]');
+  if (el) {
+    const href = el.href || el.getAttribute('href');
+    if (href) {
+      try {
+        return new URL(href, window.location.origin).pathname.toLowerCase();
+      } catch (_) {}
+    }
+  }
+  try {
+    const contentEl = container.querySelector('[class*="content-id-"]');
+    const match = contentEl?.className?.match(/content-id-([A-Za-z0-9_-]+)/);
+    if (match?.[1] && ytVideoChannelCache[match[1]]) {
+      return ytVideoChannelCache[match[1]];
+    }
+  } catch (_) {}
   return null;
 }

@@ -28,41 +28,29 @@ const PAGE_SELECTORS = {
 };
 
 function waitForPageElements(pathname, timeout = 3000) {
-  return new Promise(resolve => {
-    let selectors = PAGE_SELECTORS[pathname];
+  let selectors = PAGE_SELECTORS[pathname];
 
-    if (!selectors && pathname && pathname.startsWith('/@')) {
-      selectors = PAGE_SELECTORS['/'];
-    }
+  if (!selectors && pathname && pathname.startsWith('/@')) {
+    selectors = PAGE_SELECTORS['/'];
+  }
 
-    if (!selectors) {
-      resolve(true);
-      return;
-    }
+  if (!selectors) {
+    return Promise.resolve(true);
+  }
 
-    const checkElements = () => {
-      for (const selector of selectors) {
-        if (document.querySelector(selector)) {
-          logger.log(`Page ready: found ${selector} for ${pathname}`);
-          resolve(true);
-          return true;
-        }
+  const checkElements = () => {
+    for (const selector of selectors) {
+      if (document.querySelector(selector)) {
+        logger.log(`Page ready: found ${selector} for ${pathname}`);
+        return true;
       }
-      return false;
-    };
+    }
+    return false;
+  };
 
-    if (checkElements()) return;
-
-    const startTime = Date.now();
-    const interval = setInterval(() => {
-      if (checkElements()) {
-        clearInterval(interval);
-      } else if (Date.now() - startTime > timeout) {
-        logger.warn(`Timeout waiting for page elements on ${pathname}`);
-        clearInterval(interval);
-        resolve(false);
-      }
-    }, TIMING.ELEMENT_POLL_INTERVAL);
+  return pollUntil(checkElements, { timeout }).promise.then(found => {
+    if (!found) logger.warn(`Timeout waiting for page elements on ${pathname}`);
+    return found;
   });
 }
 
@@ -70,7 +58,7 @@ async function startHiding(pathname) {
   logger.log('Starting hide operations for:', pathname);
 
   if (!prefs.extensionEnabled) {
-    resetAppliedFilters();
+    resetAppliedFilters(true);
     removeWarning();
     return;
   }
@@ -140,6 +128,10 @@ async function startHiding(pathname) {
     logger.log('Hiding lives on', pathname);
     hideLives();
   }
+
+  if (isInlineWhitelistPath(pathname)) {
+    syncInlineWhitelistButton(pathname);
+  }
 }
 
 function detectPageChange() {
@@ -167,6 +159,8 @@ function detectPageChange() {
       createFloatingButton();
     }
 
+    removeInlineWhitelistButton();
+
     if (pageLoadTimeout) {
       clearTimeout(pageLoadTimeout);
     }
@@ -175,6 +169,10 @@ function detectPageChange() {
       startHiding(currentPath);
       pageLoadTimeout = null;
     }, TIMING.PAGE_CHANGE_DELAY);
+
+    if (fabShadow && miniPanelOpen) {
+      syncPanelWhitelistRow(fabShadow);
+    }
 
     return true;
   }
@@ -189,6 +187,13 @@ const debouncedHiding = debounce(() => {
 }, TIMING.DEBOUNCE_MUTATIONS);
 
 function onMutations(mutations) {
+  const cacheChanged = mutations.some(
+    m => m.type === 'attributes' && m.attributeName === YT_HIDER_CACHE_ATTR,
+  );
+  if (cacheChanged && readChannelCacheFromDOM() && prefs.extensionEnabled) {
+    startHiding(window.location.pathname);
+  }
+
   detectInfiniteLoaderLoop(mutations);
 
   debouncedHiding();
@@ -198,11 +203,19 @@ async function init() {
   await initPrefs();
   setupPrefsListener();
   injectDimStyles();
+  injectInlineWhitelistStyles();
+  watchYouTubeTheme();
+  preventHoverPreviewOnDimmedItems();
 
   logger.log('Extension initialized on', currentPath);
+  readChannelCacheFromDOM();
   await startHiding(currentPath);
 
   const observer = new MutationObserver(onMutations);
+  observer.observe(document.documentElement, {
+    attributes: true,
+    attributeFilter: [YT_HIDER_CACHE_ATTR],
+  });
   observer.observe(document.body, { childList: true, subtree: true, characterData: true });
 
   logger.log('MutationObserver started');
@@ -229,3 +242,10 @@ if (document.readyState === 'loading') {
 } else {
   init();
 }
+
+chrome.runtime.onMessage.addListener((msg, _sender, sendResponse) => {
+  if (msg.type === 'GET_CURRENT_CHANNEL') {
+    sendResponse({ channel: getCurrentPageChannel() });
+    return true;
+  }
+});

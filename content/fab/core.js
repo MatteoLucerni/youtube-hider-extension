@@ -69,12 +69,27 @@ function applyFabPosition(host, shadow, pos) {
   const wrapper = shadow.querySelector('.yh-fab-wrapper');
   const panel = shadow.querySelector('.yh-panel');
 
-  const panelH = 350;
+  const GAP = 12;
+  const EDGE_PAD = 8;
+  const panelNaturalH = panel
+    ? shadow.querySelector('.yh-panel-header').offsetHeight +
+      shadow.querySelector('.yh-panel-body').scrollHeight +
+      shadow.querySelector('.yh-panel-footer').offsetHeight
+    : 0;
+  const spaceAbove = buttonTopPx - GAP - EDGE_PAD;
+  const spaceBelow = vh - (buttonTopPx + hostH) - GAP - EDGE_PAD;
+
   let openAbove = isBottomHalf;
-  if (openAbove && buttonTopPx - panelH - 12 < 0) {
-    openAbove = false;
-  } else if (!openAbove && buttonTopPx + hostH + panelH + 12 > vh) {
+  if (spaceAbove >= panelNaturalH && spaceBelow < panelNaturalH) {
     openAbove = true;
+  } else if (spaceBelow >= panelNaturalH && spaceAbove < panelNaturalH) {
+    openAbove = false;
+  }
+
+  const available = Math.max(0, openAbove ? spaceAbove : spaceBelow);
+  const panelMaxH = Math.max(1, Math.min(panelNaturalH, available));
+  if (panel) {
+    panel.style.setProperty('--yh-panel-max-height', panelMaxH + 'px');
   }
 
   const originV = openAbove ? 'bottom' : 'top';
@@ -271,6 +286,11 @@ function createFloatingButton(forceForTutorial = false) {
   fab.addEventListener('touchstart', onPointerDown, { passive: true });
 
   function onViewportResize() {
+    if (!tutorialActive && miniPanelOpen) {
+      miniPanelOpen = false;
+      panel.classList.remove('open');
+      fab.classList.remove('active');
+    }
     clearTimeout(fabResizeTimer);
     fabResizeTimer = setTimeout(() => {
       if (!floatingButtonHost) return;
@@ -304,6 +324,9 @@ function createFloatingButton(forceForTutorial = false) {
     e.stopPropagation();
     if (wasDragged) return;
     miniPanelOpen = !miniPanelOpen;
+    if (miniPanelOpen) {
+      applyFabPosition(floatingButtonHost, shadow, prefs.floatingButtonPosition);
+    }
     panel.classList.toggle('open', miniPanelOpen);
     fab.classList.toggle('active', miniPanelOpen);
     if (miniPanelOpen) {

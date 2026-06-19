@@ -1011,6 +1011,55 @@
             </div>
           </div>
 
+          <div class="setting-card">
+            <div class="card-compact-header">
+              <div class="card-compact-info">
+                <h3 class="card-title" style="display: flex; align-items: center; gap: 6px;">
+                  Channel Whitelist
+                  <div class="tooltip-container">
+                    <svg
+                      xmlns="http://www.w3.org/2000/svg"
+                      width="12"
+                      height="12"
+                      viewBox="0 0 24 24"
+                      fill="none"
+                      stroke="currentColor"
+                      stroke-width="2"
+                      stroke-linecap="round"
+                      stroke-linejoin="round"
+                      class="info-icon"
+                    >
+                      <circle cx="12" cy="12" r="10"></circle>
+                      <path d="M9.09 9a3 3 0 0 1 5.83 1c0 2-3 3-3 3"></path>
+                      <line x1="12" y1="17" x2="12.01" y2="17"></line>
+                    </svg>
+                    <span class="tooltip-text">Whitelisted channels bypass all active filters. Add a channel from the button below or from the floating button while on a channel page or video. Removing a chip immediately re-applies all filters to that channel. Shorts are always filtered regardless.</span>
+                  </div>
+                </h3>
+                <p class="card-description">
+                  Channels listed here will not be filtered. Shorts are always filtered regardless.
+                </p>
+              </div>
+              <div class="card-compact-toggle">
+                <div class="toggle-switch-large">
+                  <input type="checkbox" id="channel-whitelist-enabled" />
+                  <span class="toggle-slider"></span>
+                </div>
+              </div>
+            </div>
+            <div class="setting-group whitelist-group">
+              <div id="channel-whitelist-chips" class="whitelist-chips-container">
+                <span class="whitelist-empty-hint" id="channel-whitelist-empty">No channels whitelisted yet</span>
+              </div>
+              <div class="whitelist-add-row">
+                <button type="button" id="add-current-channel-btn" class="add-channel-btn" disabled>
+                  + Add current channel
+                </button>
+                <span class="whitelist-btn-hint" id="channel-whitelist-hint"></span>
+              </div>
+            </div>
+          </div>
+
           <div class="setting-card setting-card-compact">
             <div class="extra-setting-row">
               <div class="card-compact-info">
@@ -1099,6 +1148,7 @@
               </div>
             </div>
           </div>
+
         </section>
 
         <div class="footer-container">
@@ -1183,6 +1233,7 @@
     </div>
 
     <script src="data.js"></script>
+    <script src="../content/whitelist-utils.js"></script>
     <script src="popup.js"></script>
   </body>
 </html>

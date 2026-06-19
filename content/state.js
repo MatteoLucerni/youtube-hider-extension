@@ -34,6 +34,8 @@ const prefs = {
   floatingButtonEnabled: true,
   floatingButtonPosition: { edge: 'bottom', offset: 20 },
   tutorialCompleted: false,
+  channelWhitelist: [],
+  channelWhitelistEnabled: true,
 };
 
 const FILTER_REAPPLY_KEYS = new Set([
@@ -61,7 +63,37 @@ const FILTER_REAPPLY_KEYS = new Set([
   'dateFilterSearchEnabled',
   'dateFilterSubsEnabled',
   'dateFilterCorrEnabled',
+  'channelWhitelist',
+  'channelWhitelistEnabled',
 ]);
+
+const WHITELIST_REAPPLY_KEYS = new Set(['channelWhitelist', 'channelWhitelistEnabled']);
+
+function isChannelListed(channel) {
+  return channelListIncludes(channel, prefs.channelWhitelist);
+}
+
+function isChannelExempt(channel) {
+  return isChannelListed(channel) && !!prefs.channelWhitelistEnabled;
+}
+
+function isChannelPaused(channel) {
+  return isChannelListed(channel) && !prefs.channelWhitelistEnabled;
+}
+
+function setChannelWhitelisted(channel, shouldWhitelist) {
+  const result = computeWhitelistUpdate(
+    channel,
+    shouldWhitelist,
+    prefs.channelWhitelist,
+    prefs.channelWhitelistEnabled,
+  );
+  if (!result) return;
+
+  if (result.updates.channelWhitelist) prefs.channelWhitelist = result.list;
+  if (result.updates.channelWhitelistEnabled) prefs.channelWhitelistEnabled = true;
+  safeStorageSet('sync', result.updates);
+}
 
 function initPrefs() {
   return new Promise(resolve => {
@@ -109,11 +141,12 @@ function setupPrefsListener() {
         }
         if ('extensionEnabled' in changes) {
           if (!prefs.extensionEnabled) {
-            resetAppliedFilters();
+            resetAppliedFilters(true);
             removeWarning();
             cleanupTour();
             removeTutorialOverlay();
             removeFloatingButton();
+            removeInlineWhitelistButton();
           } else if (
             prefs.floatingButtonEnabled &&
             !isWatchPage() &&
@@ -129,14 +162,21 @@ function setupPrefsListener() {
           startHiding(currentPath);
         }
 
+        const reapplyKeysChanged = changedKeys.filter(key => FILTER_REAPPLY_KEYS.has(key));
+        const onlyWhitelistKeysChanged =
+          reapplyKeysChanged.length > 0 &&
+          reapplyKeysChanged.every(key => WHITELIST_REAPPLY_KEYS.has(key));
+
         const shouldReapplyFilters =
           prefs.extensionEnabled &&
           !('extensionEnabled' in changes) &&
           !('dimMode' in changes) &&
-          changedKeys.some(key => FILTER_REAPPLY_KEYS.has(key));
+          reapplyKeysChanged.length > 0;
 
         if (shouldReapplyFilters) {
-          resetAppliedFilters();
+          if (!onlyWhitelistKeysChanged) {
+            resetAppliedFilters();
+          }
           startHiding(currentPath);
         }
       }

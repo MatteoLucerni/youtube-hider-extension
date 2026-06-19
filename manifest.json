@@ -2,7 +2,7 @@
     "manifest_version": 3,
     "name": "Youtube Hider: hide watched videos, Shorts and low views",
     "short_name": "YouTube Hider",
-    "version": "2.8.2",
+    "version": "2.9.0",
     "description": "Hides already watched videos from YouTube, as well as low views videos and remove Shorts.",
     "icons": {
         "16": "assets/icons/YT Hider icon v6.png",
@@ -20,6 +20,7 @@
         {
             "resources": [
                 "assets/icons/youtube-hider-logo.png",
+                "assets/icons/youtube-hider-logo-light.png",
                 "popup/popup.html"
             ],
             "matches": [
@@ -38,8 +39,20 @@
                 "https://m.youtube.com/*"
             ],
             "js": [
+                "content/page-bridge.js"
+            ],
+            "run_at": "document_start",
+            "world": "MAIN"
+        },
+        {
+            "matches": [
+                "https://www.youtube.com/*",
+                "https://m.youtube.com/*"
+            ],
+            "js": [
                 "content/env.js",
                 "content/utils.js",
+                "content/whitelist-utils.js",
                 "content/state.js",
                 "content/warning.js",
                 "content/fab/styles.js",
@@ -48,6 +61,7 @@
                 "content/tutorial.js",
                 "content/parsers.js",
                 "content/filters.js",
+                "content/channel-whitelist-button.js",
                 "content/init.js"
             ],
             "run_at": "document_idle"
