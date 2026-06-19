@@ -70,11 +70,7 @@ const FILTER_REAPPLY_KEYS = new Set([
 const WHITELIST_REAPPLY_KEYS = new Set(['channelWhitelist', 'channelWhitelistEnabled']);
 
 function isChannelListed(channel) {
-  return (
-    !!channel &&
-    Array.isArray(prefs.channelWhitelist) &&
-    prefs.channelWhitelist.includes(channel)
-  );
+  return channelListIncludes(channel, prefs.channelWhitelist);
 }
 
 function isChannelExempt(channel) {
@@ -86,25 +82,17 @@ function isChannelPaused(channel) {
 }
 
 function setChannelWhitelisted(channel, shouldWhitelist) {
-  if (!channel) return;
-  const current = Array.isArray(prefs.channelWhitelist) ? prefs.channelWhitelist : [];
-  const has = current.includes(channel);
-  const needsReEnable = shouldWhitelist && !prefs.channelWhitelistEnabled;
-  if (shouldWhitelist === has && !needsReEnable) return;
+  const result = computeWhitelistUpdate(
+    channel,
+    shouldWhitelist,
+    prefs.channelWhitelist,
+    prefs.channelWhitelistEnabled,
+  );
+  if (!result) return;
 
-  const updates = {};
-  if (shouldWhitelist !== has) {
-    const next = shouldWhitelist
-      ? [...current, channel]
-      : current.filter(c => c !== channel);
-    prefs.channelWhitelist = next;
-    updates.channelWhitelist = next;
-  }
-  if (needsReEnable) {
-    prefs.channelWhitelistEnabled = true;
-    updates.channelWhitelistEnabled = true;
-  }
-  safeStorageSet('sync', updates);
+  if (result.updates.channelWhitelist) prefs.channelWhitelist = result.list;
+  if (result.updates.channelWhitelistEnabled) prefs.channelWhitelistEnabled = true;
+  safeStorageSet('sync', result.updates);
 }
 
 function initPrefs() {

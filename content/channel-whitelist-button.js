@@ -198,12 +198,12 @@ function updateInlineWhitelistButtonState(btn, channel) {
   if (label) label.textContent = isWhitelisted ? 'Whitelisted' : isPaused ? 'Resume Whitelist' : 'Whitelist';
 }
 
-let inlineWhitelistRetryTimer = null;
+let cancelInlineWhitelistPoll = null;
 
 function cancelInlineWhitelistRetry() {
-  if (inlineWhitelistRetryTimer) {
-    clearInterval(inlineWhitelistRetryTimer);
-    inlineWhitelistRetryTimer = null;
+  if (cancelInlineWhitelistPoll) {
+    cancelInlineWhitelistPoll();
+    cancelInlineWhitelistPoll = null;
   }
 }
 
@@ -230,17 +230,12 @@ function syncInlineWhitelistButton(pathname, timeout = 3000) {
     return true;
   };
 
-  if (tryRender()) return;
-
-  const startTime = Date.now();
-  inlineWhitelistRetryTimer = setInterval(() => {
-    if (tryRender()) {
-      cancelInlineWhitelistRetry();
-    } else if (Date.now() - startTime > timeout) {
-      logger.warn('Inline whitelist button: no anchor found for', pathname);
-      cancelInlineWhitelistRetry();
-    }
-  }, TIMING.ELEMENT_POLL_INTERVAL);
+  const { promise, cancel } = pollUntil(tryRender, { timeout });
+  cancelInlineWhitelistPoll = cancel;
+  promise.then(found => {
+    cancelInlineWhitelistPoll = null;
+    if (!found) logger.warn('Inline whitelist button: no anchor found for', pathname);
+  });
 }
 
 function removeInlineWhitelistButton() {

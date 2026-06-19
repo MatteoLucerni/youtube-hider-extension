@@ -302,7 +302,7 @@ function applyFilter(element, reason) {
     target.dataset.ytHiderBadgeTarget = '1';
     target.appendChild(createDimBadge(reason, ch));
   } else {
-    if (element.dataset.ytHiderHidden) return;
+    if (element.dataset.ytHiderHidden || element.dataset.ytHiderDimmed) return;
     element.dataset.ytHiderHidden = '1';
     element.style.display = 'none';
   }
