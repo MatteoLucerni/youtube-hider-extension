@@ -375,7 +375,7 @@ function extractUploadAgeDays(text) {
   if (isNaN(base) || base < 0) return NaN;
 
   const afterNum = stripped.slice(numMatch[0].length);
-  const unitMatch = afterNum.match(TIME_UNIT_REGEX) || s.match(TIME_UNIT_REGEX);
+  const unitMatch = afterNum.match(TIME_UNIT_REGEX);
   if (!unitMatch) return NaN;
 
   const multiplier = TIME_UNIT_DAYS[unitMatch[1].toLowerCase()];
