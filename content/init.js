@@ -28,41 +28,29 @@ const PAGE_SELECTORS = {
 };
 
 function waitForPageElements(pathname, timeout = 3000) {
-  return new Promise(resolve => {
-    let selectors = PAGE_SELECTORS[pathname];
+  let selectors = PAGE_SELECTORS[pathname];
 
-    if (!selectors && pathname && pathname.startsWith('/@')) {
-      selectors = PAGE_SELECTORS['/'];
-    }
+  if (!selectors && pathname && pathname.startsWith('/@')) {
+    selectors = PAGE_SELECTORS['/'];
+  }
 
-    if (!selectors) {
-      resolve(true);
-      return;
-    }
+  if (!selectors) {
+    return Promise.resolve(true);
+  }
 
-    const checkElements = () => {
-      for (const selector of selectors) {
-        if (document.querySelector(selector)) {
-          logger.log(`Page ready: found ${selector} for ${pathname}`);
-          resolve(true);
-          return true;
-        }
+  const checkElements = () => {
+    for (const selector of selectors) {
+      if (document.querySelector(selector)) {
+        logger.log(`Page ready: found ${selector} for ${pathname}`);
+        return true;
       }
-      return false;
-    };
+    }
+    return false;
+  };
 
-    if (checkElements()) return;
-
-    const startTime = Date.now();
-    const interval = setInterval(() => {
-      if (checkElements()) {
-        clearInterval(interval);
-      } else if (Date.now() - startTime > timeout) {
-        logger.warn(`Timeout waiting for page elements on ${pathname}`);
-        clearInterval(interval);
-        resolve(false);
-      }
-    }, TIMING.ELEMENT_POLL_INTERVAL);
+  return pollUntil(checkElements, { timeout }).promise.then(found => {
+    if (!found) logger.warn(`Timeout waiting for page elements on ${pathname}`);
+    return found;
   });
 }
 
@@ -171,9 +159,7 @@ function detectPageChange() {
       createFloatingButton();
     }
 
-    if (!isInlineWhitelistPath(currentPath)) {
-      removeInlineWhitelistButton();
-    }
+    removeInlineWhitelistButton();
 
     if (pageLoadTimeout) {
       clearTimeout(pageLoadTimeout);
@@ -201,6 +187,13 @@ const debouncedHiding = debounce(() => {
 }, TIMING.DEBOUNCE_MUTATIONS);
 
 function onMutations(mutations) {
+  const cacheChanged = mutations.some(
+    m => m.type === 'attributes' && m.attributeName === YT_HIDER_CACHE_ATTR,
+  );
+  if (cacheChanged && readChannelCacheFromDOM() && prefs.extensionEnabled) {
+    startHiding(window.location.pathname);
+  }
+
   detectInfiniteLoaderLoop(mutations);
 
   debouncedHiding();
@@ -218,17 +211,11 @@ async function init() {
   readChannelCacheFromDOM();
   await startHiding(currentPath);
 
-  const channelCacheObserver = new MutationObserver(() => {
-    if (readChannelCacheFromDOM() && prefs.extensionEnabled) {
-      startHiding(window.location.pathname);
-    }
-  });
-  channelCacheObserver.observe(document.documentElement, {
+  const observer = new MutationObserver(onMutations);
+  observer.observe(document.documentElement, {
     attributes: true,
     attributeFilter: [YT_HIDER_CACHE_ATTR],
   });
-
-  const observer = new MutationObserver(onMutations);
   observer.observe(document.body, { childList: true, subtree: true, characterData: true });
 
   logger.log('MutationObserver started');

@@ -44,3 +44,34 @@ function safeSendMessage(msg) {
     logger.warn('sendMessage unavailable:', e);
   }
 }
+
+function pollUntil(predicate, { timeout = 3000, interval = TIMING.ELEMENT_POLL_INTERVAL } = {}) {
+  let timer = null;
+
+  const cancel = () => {
+    if (timer) {
+      clearInterval(timer);
+      timer = null;
+    }
+  };
+
+  const promise = new Promise(resolve => {
+    if (predicate()) {
+      resolve(true);
+      return;
+    }
+
+    const startTime = Date.now();
+    timer = setInterval(() => {
+      if (predicate()) {
+        cancel();
+        resolve(true);
+      } else if (Date.now() - startTime > timeout) {
+        cancel();
+        resolve(false);
+      }
+    }, interval);
+  });
+
+  return { promise, cancel };
+}

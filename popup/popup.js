@@ -666,12 +666,7 @@ document.addEventListener('DOMContentLoaded', () => {
   }
 
   function isChannelProtected(channel) {
-    return (
-      !!channel &&
-      !!channelWhitelistToggle.checked &&
-      Array.isArray(whitelistData) &&
-      whitelistData.includes(channel)
-    );
+    return !!channelWhitelistToggle.checked && channelListIncludes(channel, whitelistData);
   }
 
   function refreshAddButtonState() {
@@ -737,22 +732,23 @@ document.addEventListener('DOMContentLoaded', () => {
   if (addCurrentBtn) {
     addCurrentBtn.addEventListener('click', () => {
       if (!currentTabChannel) return;
-      if (isChannelProtected(currentTabChannel)) return;
 
-      const current = Array.isArray(whitelistData) ? [...whitelistData] : [];
-      if (!current.includes(currentTabChannel)) {
-        current.push(currentTabChannel);
-        whitelistData = current;
-        renderWhitelistChips(current);
-      }
+      const result = computeWhitelistUpdate(
+        currentTabChannel,
+        true,
+        whitelistData,
+        channelWhitelistToggle.checked,
+      );
+      if (!result) return;
 
-      const extraUpdates = {};
-      if (!channelWhitelistToggle.checked) {
-        channelWhitelistToggle.checked = true;
-        extraUpdates.channelWhitelistEnabled = true;
-      }
+      whitelistData = result.list;
+      renderWhitelistChips(whitelistData);
+      if (result.updates.channelWhitelistEnabled) channelWhitelistToggle.checked = true;
       refreshAddButtonState();
-      saveWhitelist(current, extraUpdates);
+      saveWhitelist(
+        whitelistData,
+        result.updates.channelWhitelistEnabled ? { channelWhitelistEnabled: true } : {},
+      );
     });
   }
 

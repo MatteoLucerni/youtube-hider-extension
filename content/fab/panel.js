@@ -242,8 +242,9 @@ function bindPanelEvents(shadow) {
 
   if (extensionEnabledToggle) {
     extensionEnabledToggle.addEventListener('change', () => {
-      safeStorageSet('sync', { extensionEnabled: false });
-      removeFloatingButton();
+      const enabled = extensionEnabledToggle.checked;
+      safeStorageSet('sync', { extensionEnabled: enabled });
+      if (!enabled) removeFloatingButton();
     });
   }
 

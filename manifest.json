@@ -52,6 +52,7 @@
             "js": [
                 "content/env.js",
                 "content/utils.js",
+                "content/whitelist-utils.js",
                 "content/state.js",
                 "content/warning.js",
                 "content/fab/styles.js",
