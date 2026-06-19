@@ -67,6 +67,8 @@ const FILTER_REAPPLY_KEYS = new Set([
   'channelWhitelistEnabled',
 ]);
 
+const WHITELIST_REAPPLY_KEYS = new Set(['channelWhitelist', 'channelWhitelistEnabled']);
+
 function isChannelListed(channel) {
   return (
     !!channel &&
@@ -172,14 +174,21 @@ function setupPrefsListener() {
           startHiding(currentPath);
         }
 
+        const reapplyKeysChanged = changedKeys.filter(key => FILTER_REAPPLY_KEYS.has(key));
+        const onlyWhitelistKeysChanged =
+          reapplyKeysChanged.length > 0 &&
+          reapplyKeysChanged.every(key => WHITELIST_REAPPLY_KEYS.has(key));
+
         const shouldReapplyFilters =
           prefs.extensionEnabled &&
           !('extensionEnabled' in changes) &&
           !('dimMode' in changes) &&
-          changedKeys.some(key => FILTER_REAPPLY_KEYS.has(key));
+          reapplyKeysChanged.length > 0;
 
         if (shouldReapplyFilters) {
-          resetAppliedFilters();
+          if (!onlyWhitelistKeysChanged) {
+            resetAppliedFilters();
+          }
           startHiding(currentPath);
         }
       }

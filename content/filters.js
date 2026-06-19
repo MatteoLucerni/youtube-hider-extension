@@ -35,6 +35,23 @@ function injectDimStyles() {
       border-radius: inherit;
       pointer-events: none;
       z-index: 10;
+      animation: yt-hider-badge-in 140ms ease-out;
+    }
+    .yt-hider-badge.yt-hider-badge-leaving {
+      animation: yt-hider-badge-out 120ms ease-in forwards;
+    }
+    @keyframes yt-hider-badge-in {
+      from { opacity: 0; transform: scale(0.96); }
+      to { opacity: 1; transform: scale(1); }
+    }
+    @keyframes yt-hider-badge-out {
+      from { opacity: 1; transform: scale(1); }
+      to { opacity: 0; transform: scale(0.96); }
+    }
+    @media (prefers-reduced-motion: reduce) {
+      .yt-hider-badge, .yt-hider-badge.yt-hider-badge-leaving {
+        animation: none;
+      }
     }
     .yt-hider-badge-logo {
       width: 36px;
@@ -128,10 +145,22 @@ function buildWhitelistCountdownMarkup(seconds) {
   </svg>`;
 }
 
+function removeBadgeAnimated(badge) {
+  if (!badge || !badge.isConnected) return;
+  badge.classList.add('yt-hider-badge-leaving');
+  const onAnimationEnd = e => {
+    if (e.target !== badge) return;
+    badge.removeEventListener('animationend', onAnimationEnd);
+    badge.remove();
+  };
+  badge.addEventListener('animationend', onAnimationEnd);
+  setTimeout(() => badge.remove(), 200);
+}
+
 function clearDimmedElement(element) {
   if (!element || !element.dataset.ytHiderDimmed) return;
   delete element.dataset.ytHiderDimmed;
-  element.querySelectorAll('.yt-hider-badge').forEach(b => b.remove());
+  element.querySelectorAll('.yt-hider-badge').forEach(removeBadgeAnimated);
   element.querySelectorAll('[data-yt-hider-badge-target]').forEach(t => delete t.dataset.ytHiderBadgeTarget);
 }
 
