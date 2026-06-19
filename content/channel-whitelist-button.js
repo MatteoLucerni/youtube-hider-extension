@@ -198,27 +198,53 @@ function updateInlineWhitelistButtonState(btn, channel) {
   if (label) label.textContent = isWhitelisted ? 'Whitelisted' : isPaused ? 'Resume Whitelist' : 'Whitelist';
 }
 
-function syncInlineWhitelistButton(pathname) {
-  const channel = getCurrentPageChannel();
-  if (!channel) return;
+let inlineWhitelistRetryTimer = null;
 
-  let btn = document.getElementById(INLINE_WHITELIST_BTN_ID);
-  if (btn && !btn.isConnected) btn = null;
-
-  if (!btn) {
-    const container = findInlineWhitelistAnchor(pathname);
-    if (!container) {
-      logger.warn('Inline whitelist button: no anchor found for', pathname);
-      return;
-    }
-    btn = createInlineWhitelistButton(channel);
-    container.appendChild(btn);
+function cancelInlineWhitelistRetry() {
+  if (inlineWhitelistRetryTimer) {
+    clearInterval(inlineWhitelistRetryTimer);
+    inlineWhitelistRetryTimer = null;
   }
+}
 
-  updateInlineWhitelistButtonState(btn, channel);
+function syncInlineWhitelistButton(pathname, timeout = 3000) {
+  cancelInlineWhitelistRetry();
+
+  const tryRender = () => {
+    if (window.location.pathname !== pathname) return true;
+
+    const channel = getCurrentPageChannel();
+    if (!channel) return false;
+
+    let btn = document.getElementById(INLINE_WHITELIST_BTN_ID);
+    if (btn && !btn.isConnected) btn = null;
+
+    if (!btn) {
+      const container = findInlineWhitelistAnchor(pathname);
+      if (!container) return false;
+      btn = createInlineWhitelistButton(channel);
+      container.appendChild(btn);
+    }
+
+    updateInlineWhitelistButtonState(btn, channel);
+    return true;
+  };
+
+  if (tryRender()) return;
+
+  const startTime = Date.now();
+  inlineWhitelistRetryTimer = setInterval(() => {
+    if (tryRender()) {
+      cancelInlineWhitelistRetry();
+    } else if (Date.now() - startTime > timeout) {
+      logger.warn('Inline whitelist button: no anchor found for', pathname);
+      cancelInlineWhitelistRetry();
+    }
+  }, TIMING.ELEMENT_POLL_INTERVAL);
 }
 
 function removeInlineWhitelistButton() {
+  cancelInlineWhitelistRetry();
   const btn = document.getElementById(INLINE_WHITELIST_BTN_ID);
   if (btn) btn.remove();
 }
