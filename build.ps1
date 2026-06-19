@@ -81,15 +81,19 @@ if ($manifest.PSObject.Properties['action'] -and $manifest.action.PSObject.Prope
     if (Test-Path $popupPath) {
         $popupContent = Get-Content $popupPath -Raw
 
+        function Resolve-AssetPath($relPath, $baseDir, $root) {
+            $combined = if ($baseDir) { Join-Path $baseDir $relPath } else { $relPath }
+            $fullPath = [System.IO.Path]::GetFullPath((Join-Path $root $combined))
+            $rootFull = [System.IO.Path]::GetFullPath($root)
+            $rel = $fullPath.Substring($rootFull.Length).TrimStart('\', '/')
+            return ($rel -replace '\\', '/')
+        }
+
         $scriptMatches = [regex]::Matches($popupContent, '<script\s+[^>]*src=["\u0027]([^"\u0027]+)["\u0027]')
         foreach ($m in $scriptMatches) {
             $src = $m.Groups[1].Value
             if ($src -notmatch '^https?://') {
-                $normalized = $src -replace '^\.\/', ''
-                if ($popupDir -and ($normalized -notmatch '^/')) {
-                    $normalized = "$popupDir/$normalized"
-                }
-                [void]$files.Add($normalized)
+                [void]$files.Add((Resolve-AssetPath $src $popupDir $projectRoot))
             }
         }
 
@@ -97,11 +101,7 @@ if ($manifest.PSObject.Properties['action'] -and $manifest.action.PSObject.Prope
         foreach ($m in $linkMatches) {
             $href = $m.Groups[1].Value
             if ($href -notmatch '^https?://') {
-                $normalized = $href -replace '^\.\/', ''
-                if ($popupDir -and ($normalized -notmatch '^/')) {
-                    $normalized = "$popupDir/$normalized"
-                }
-                [void]$files.Add($normalized)
+                [void]$files.Add((Resolve-AssetPath $href $popupDir $projectRoot))
             }
         }
     }
