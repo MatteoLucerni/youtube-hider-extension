@@ -35,6 +35,7 @@ const prefs = {
   floatingButtonPosition: { edge: 'bottom', offset: 20 },
   tutorialCompleted: false,
   channelWhitelist: [],
+  channelWhitelistEnabled: true,
 };
 
 const FILTER_REAPPLY_KEYS = new Set([
@@ -63,18 +64,45 @@ const FILTER_REAPPLY_KEYS = new Set([
   'dateFilterSubsEnabled',
   'dateFilterCorrEnabled',
   'channelWhitelist',
+  'channelWhitelistEnabled',
 ]);
+
+function isChannelListed(channel) {
+  return (
+    !!channel &&
+    Array.isArray(prefs.channelWhitelist) &&
+    prefs.channelWhitelist.includes(channel)
+  );
+}
+
+function isChannelExempt(channel) {
+  return isChannelListed(channel) && !!prefs.channelWhitelistEnabled;
+}
+
+function isChannelPaused(channel) {
+  return isChannelListed(channel) && !prefs.channelWhitelistEnabled;
+}
 
 function setChannelWhitelisted(channel, shouldWhitelist) {
   if (!channel) return;
   const current = Array.isArray(prefs.channelWhitelist) ? prefs.channelWhitelist : [];
   const has = current.includes(channel);
-  if (shouldWhitelist === has) return;
-  const next = shouldWhitelist
-    ? [...current, channel]
-    : current.filter(c => c !== channel);
-  prefs.channelWhitelist = next;
-  safeStorageSet('sync', { channelWhitelist: next });
+  const needsReEnable = shouldWhitelist && !prefs.channelWhitelistEnabled;
+  if (shouldWhitelist === has && !needsReEnable) return;
+
+  const updates = {};
+  if (shouldWhitelist !== has) {
+    const next = shouldWhitelist
+      ? [...current, channel]
+      : current.filter(c => c !== channel);
+    prefs.channelWhitelist = next;
+    updates.channelWhitelist = next;
+  }
+  if (needsReEnable) {
+    prefs.channelWhitelistEnabled = true;
+    updates.channelWhitelistEnabled = true;
+  }
+  safeStorageSet('sync', updates);
 }
 
 function initPrefs() {

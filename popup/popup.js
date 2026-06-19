@@ -21,6 +21,9 @@ document.addEventListener('DOMContentLoaded', () => {
     'floating-button-enabled',
   );
   const dimModeToggle = document.getElementById('dim-mode-enabled');
+  const channelWhitelistToggle = document.getElementById(
+    'channel-whitelist-enabled',
+  );
   let isEasyMode = true;
 
   const easyShortsToggle = document.getElementById('hide-shorts-easy');
@@ -198,6 +201,7 @@ document.addEventListener('DOMContentLoaded', () => {
     'floatingButtonEnabled',
     'dimMode',
     'channelWhitelist',
+    'channelWhitelistEnabled',
     ...Object.values(cfg.hide.keys),
     ...Object.values(cfg.views.keys),
     ...Object.values(cfg.shorts.keys),
@@ -219,6 +223,7 @@ document.addEventListener('DOMContentLoaded', () => {
 
     floatingButtonToggle.checked = prefs.floatingButtonEnabled ?? true;
     dimModeToggle.checked = prefs.dimMode ?? false;
+    channelWhitelistToggle.checked = prefs.channelWhitelistEnabled ?? true;
 
     ['hide', 'views', 'shorts', 'mixesPlaylists'].forEach(sectionName => {
       const section = cfg[sectionName];
@@ -479,6 +484,12 @@ document.addEventListener('DOMContentLoaded', () => {
     chrome.storage.sync.set({ dimMode: dimModeToggle.checked });
   });
 
+  channelWhitelistToggle.addEventListener('change', () => {
+    chrome.storage.sync.set({
+      channelWhitelistEnabled: channelWhitelistToggle.checked,
+    });
+  });
+
   const restartTutorialBtn = document.getElementById('restart-tutorial');
   const restartTutorialConfirm = document.getElementById(
     'restart-tutorial-confirm',
@@ -650,8 +661,17 @@ document.addEventListener('DOMContentLoaded', () => {
   let whitelistData = [];
   let currentTabChannel = null;
 
-  function saveWhitelist(list) {
-    chrome.storage.sync.set({ channelWhitelist: list });
+  function saveWhitelist(list, extraUpdates) {
+    chrome.storage.sync.set(Object.assign({ channelWhitelist: list }, extraUpdates));
+  }
+
+  function isChannelProtected(channel) {
+    return (
+      !!channel &&
+      !!channelWhitelistToggle.checked &&
+      Array.isArray(whitelistData) &&
+      whitelistData.includes(channel)
+    );
   }
 
   function refreshAddButtonState() {
@@ -661,7 +681,7 @@ document.addEventListener('DOMContentLoaded', () => {
       if (whitelistHint) whitelistHint.textContent = 'Navigate to a channel page to add it';
       return;
     }
-    if (Array.isArray(whitelistData) && whitelistData.includes(currentTabChannel)) {
+    if (isChannelProtected(currentTabChannel)) {
       addCurrentBtn.disabled = true;
       if (whitelistHint) whitelistHint.textContent = currentTabChannel + ' is already whitelisted';
       return;
@@ -717,22 +737,37 @@ document.addEventListener('DOMContentLoaded', () => {
   if (addCurrentBtn) {
     addCurrentBtn.addEventListener('click', () => {
       if (!currentTabChannel) return;
+      if (isChannelProtected(currentTabChannel)) return;
+
       const current = Array.isArray(whitelistData) ? [...whitelistData] : [];
-      if (current.includes(currentTabChannel)) return;
-      current.push(currentTabChannel);
-      whitelistData = current;
-      renderWhitelistChips(current);
-      saveWhitelist(current);
+      if (!current.includes(currentTabChannel)) {
+        current.push(currentTabChannel);
+        whitelistData = current;
+        renderWhitelistChips(current);
+      }
+
+      const extraUpdates = {};
+      if (!channelWhitelistToggle.checked) {
+        channelWhitelistToggle.checked = true;
+        extraUpdates.channelWhitelistEnabled = true;
+      }
       refreshAddButtonState();
+      saveWhitelist(current, extraUpdates);
     });
   }
 
   chrome.storage.onChanged.addListener((changes, area) => {
-    if (area === 'sync' && changes.channelWhitelist) {
+    if (area !== 'sync') return;
+    if (changes.channelWhitelist) {
       whitelistData = Array.isArray(changes.channelWhitelist.newValue)
         ? changes.channelWhitelist.newValue
         : [];
       renderWhitelistChips(whitelistData);
+    }
+    if (changes.channelWhitelistEnabled) {
+      channelWhitelistToggle.checked = changes.channelWhitelistEnabled.newValue ?? true;
+    }
+    if (changes.channelWhitelist || changes.channelWhitelistEnabled) {
       refreshAddButtonState();
     }
   });

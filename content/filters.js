@@ -138,16 +138,18 @@ function clearDimmedElement(element) {
 function createWhitelistButton(channel) {
   const btn = document.createElement('button');
   btn.className = 'yt-hider-whitelist-btn';
-  btn.textContent = 'Whitelist channel';
   btn.title = channel;
 
   let countdownTimer = null;
   let pendingContainer = null;
+  let pendingWasPaused = false;
 
-  const setIdleState = () => {
+  const renderIdle = () => {
+    const paused = isChannelPaused(channel);
     btn.classList.remove('yt-hider-whitelist-btn-pending');
-    btn.textContent = 'Whitelist channel';
+    btn.textContent = paused ? 'Resume Whitelist' : 'Whitelist channel';
   };
+  renderIdle();
 
   const cancelPending = () => {
     if (countdownTimer) {
@@ -165,21 +167,27 @@ function createWhitelistButton(channel) {
     e.stopPropagation();
 
     if (btn.classList.contains('yt-hider-whitelist-btn-pending')) {
-      setChannelWhitelisted(channel, false);
+      if (pendingWasPaused) {
+        prefs.channelWhitelistEnabled = false;
+        safeStorageSet('sync', { channelWhitelistEnabled: false });
+      } else {
+        setChannelWhitelisted(channel, false);
+      }
       cancelPending();
-      setIdleState();
+      renderIdle();
       return;
     }
 
-    const current = Array.isArray(prefs.channelWhitelist) ? prefs.channelWhitelist : [];
-    if (current.includes(channel)) return;
+    if (isChannelExempt(channel)) return;
 
+    pendingWasPaused = isChannelPaused(channel);
     setChannelWhitelisted(channel, true);
 
     pendingContainer = btn.closest('[data-yt-hider-dimmed]');
     if (pendingContainer) pendingContainer.dataset.ytHiderWhitelistPending = '1';
 
-    btn.innerHTML = `<span class="yt-hider-whitelist-label">Remove from Whitelist</span>${buildWhitelistCountdownMarkup(WHITELIST_UNDO_WINDOW_SECONDS)}`;
+    const pendingLabel = pendingWasPaused ? 'Disable Whitelist' : 'Remove from Whitelist';
+    btn.innerHTML = `<span class="yt-hider-whitelist-label">${pendingLabel}</span>${buildWhitelistCountdownMarkup(WHITELIST_UNDO_WINDOW_SECONDS)}`;
     btn.classList.add('yt-hider-whitelist-btn-pending');
 
     const ring = btn.querySelector('.yt-hider-whitelist-countdown-ring');
@@ -230,7 +238,7 @@ function resolveChannelForElement(element) {
 function applyFilter(element, reason) {
   if (!element) return;
   const ch = resolveChannelForElement(element);
-  if (ch && prefs.channelWhitelist && prefs.channelWhitelist.includes(ch)) {
+  if (isChannelExempt(ch)) {
     if (!element.dataset.ytHiderWhitelistPending) {
       clearDimmedElement(element);
     }

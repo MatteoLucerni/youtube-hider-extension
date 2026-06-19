@@ -163,9 +163,7 @@ function createInlineWhitelistButton(channel) {
     e.stopPropagation();
     const ch = btn.dataset.ytHiderChannel;
     if (!ch) return;
-    const isWhitelisted =
-      Array.isArray(prefs.channelWhitelist) && prefs.channelWhitelist.includes(ch);
-    setChannelWhitelisted(ch, !isWhitelisted);
+    setChannelWhitelisted(ch, !isChannelExempt(ch));
     updateInlineWhitelistButtonState(btn, ch);
   });
 
@@ -174,8 +172,8 @@ function createInlineWhitelistButton(channel) {
 
 function updateInlineWhitelistButtonState(btn, channel) {
   btn.dataset.ytHiderChannel = channel;
-  const isWhitelisted =
-    Array.isArray(prefs.channelWhitelist) && prefs.channelWhitelist.includes(channel);
+  const isWhitelisted = isChannelExempt(channel);
+  const isPaused = isChannelPaused(channel);
   const isDark = isYouTubeDarkTheme();
 
   btn.classList.toggle('is-whitelisted', isWhitelisted);
@@ -183,7 +181,9 @@ function updateInlineWhitelistButtonState(btn, channel) {
   btn.setAttribute('aria-pressed', isWhitelisted ? 'true' : 'false');
   btn.title = isWhitelisted
     ? 'Remove this channel from your YouTube Hider whitelist'
-    : 'Add this channel to your YouTube Hider whitelist: its videos won\'t be filtered (Shorts are always filtered)';
+    : isPaused
+      ? 'This channel is on your whitelist, but Channel Whitelist is currently turned off. Click to turn it back on.'
+      : 'Add this channel to your YouTube Hider whitelist: its videos won\'t be filtered (Shorts are always filtered)';
 
   const logo = btn.querySelector('img');
   if (logo) logo.src = getInlineWhitelistLogoUrl(isDark);
@@ -195,7 +195,7 @@ function updateInlineWhitelistButtonState(btn, channel) {
   }
 
   const label = btn.querySelector('.yt-hider-inline-whitelist-label');
-  if (label) label.textContent = isWhitelisted ? 'Whitelisted' : 'Whitelist';
+  if (label) label.textContent = isWhitelisted ? 'Whitelisted' : isPaused ? 'Resume Whitelist' : 'Whitelist';
 }
 
 function syncInlineWhitelistButton(pathname) {

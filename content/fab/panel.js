@@ -444,9 +444,10 @@ function getCurrentPageChannel() {
 
 function syncPanelWhitelistRow(shadow) {
   const group = shadow.querySelector('#yh-p-whitelist-group');
+  const label = shadow.querySelector('#yh-p-whitelist-label');
   const handle = shadow.querySelector('#yh-p-whitelist-handle');
   const toggle = shadow.querySelector('#yh-p-whitelist');
-  if (!group || !handle || !toggle) return;
+  if (!group || !label || !handle || !toggle) return;
 
   const channel = getCurrentPageChannel();
   if (!channel) {
@@ -456,9 +457,8 @@ function syncPanelWhitelistRow(shadow) {
 
   group.style.display = '';
   handle.textContent = channel;
-  toggle.checked =
-    Array.isArray(prefs.channelWhitelist) &&
-    prefs.channelWhitelist.includes(channel);
+  label.textContent = isChannelPaused(channel) ? 'Resume Whitelist' : 'Whitelist';
+  toggle.checked = isChannelExempt(channel);
 }
 
 function getMiniPanelHTML() {
@@ -593,7 +593,7 @@ function getMiniPanelHTML() {
       <div class="yh-panel-group yh-whitelist-group" id="yh-p-whitelist-group" style="display:none">
         <label class="yh-panel-row">
           <div class="yh-panel-label-wrap">
-            <span class="yh-panel-label">Whitelist</span>
+            <span class="yh-panel-label" id="yh-p-whitelist-label">Whitelist</span>
             <span class="yh-whitelist-handle" id="yh-p-whitelist-handle"></span>
           </div>
           <div class="yh-toggle"><input type="checkbox" id="yh-p-whitelist" /><span class="yh-toggle-slider"></span></div>
