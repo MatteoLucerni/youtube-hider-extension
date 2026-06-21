@@ -78,6 +78,10 @@ Use the **Extension** switch in the popup header to instantly enable or disable 
 
 A draggable floating button on YouTube pages gives you instant access to toggle settings without opening the extension popup. Drag it to any edge of the screen and it snaps to the nearest viewport border, remembering its position. Automatically hidden on video watch pages for a clean viewing experience. On first install, a guided spotlight tutorial walks you through the button and its features - you can restart it anytime from the popup.
 
+### Hide On-Page Controls
+
+For a more discreet setup, enable **Hide on-page controls** in **Extra Settings** to remove all of the extension's on-screen elements from YouTube - the floating button, the inline and overlay "Whitelist" buttons, and the YouTube Hider logo on dimmed videos. Filtering keeps working in the background. While this option is on, the Floating Button toggle is greyed out, with a tooltip explaining how to re-enable it.
+
 ### Simple Mode & Advanced Mode
 
 The popup starts in **Simple Mode** for quick everyday use. When you need page-level control, open **Extra Settings** and use the **Interface Mode** row to switch to **Advanced Mode**, where per-page toggles are available for each filter.
