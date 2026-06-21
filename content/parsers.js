@@ -212,6 +212,7 @@ const TIME_UNIT_ENTRIES = [
       'دقيقة',
       'دقائق',
       'minuto',
+      'minutos',
       'minuti',
       'minuta',
       'Minute',

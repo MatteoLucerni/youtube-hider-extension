@@ -164,6 +164,8 @@ function setupPrefsListener() {
         }
         if ('hideInterfaceElements' in changes) {
           if (prefs.hideInterfaceElements) {
+            cleanupTour();
+            removeTutorialOverlay();
             removeFloatingButton();
             removeInlineWhitelistButton();
           } else if (

@@ -68,6 +68,9 @@ test('upload-age: valid relative dates across languages (must not regress)', () 
   assert.equal(extractUploadAgeDays('2 дня назад'), 2);
   assert.equal(extractUploadAgeDays('2 dias atrás'), 2);
   assert.equal(extractUploadAgeDays('Streamed 2 days ago'), 2);
+  // Spanish/Portuguese plural "minutos" must be recognized like English plural.
+  assert.equal(extractUploadAgeDays('hace 5 minutos'), extractUploadAgeDays('5 minutes ago'));
+  assert.equal(extractUploadAgeDays('há 5 minutos'), extractUploadAgeDays('5 minutes ago'));
 });
 
 test('upload-age: non-date text is not read as an age (the contamination bug)', () => {
