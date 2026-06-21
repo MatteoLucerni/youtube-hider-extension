@@ -24,6 +24,23 @@ document.addEventListener('DOMContentLoaded', () => {
   const channelWhitelistToggle = document.getElementById(
     'channel-whitelist-enabled',
   );
+  const hideOnPageControlsToggle = document.getElementById(
+    'hide-on-page-controls',
+  );
+  // The floating button is one of the on-page controls, so its toggle is
+  // disabled (greyed) while "Hide on-page controls" is on. A hover tooltip on
+  // the greyed toggle (shown via the `.is-locked` class) explains how to unlock
+  // it.
+  const floatingButtonToggleWrap = floatingButtonToggle.closest(
+    '.card-compact-toggle',
+  );
+  const syncFloatingButtonToggleDisabled = () => {
+    const locked = hideOnPageControlsToggle.checked;
+    floatingButtonToggle.disabled = locked;
+    if (floatingButtonToggleWrap) {
+      floatingButtonToggleWrap.classList.toggle('is-locked', locked);
+    }
+  };
   let isEasyMode = true;
 
   const easyShortsToggle = document.getElementById('hide-shorts-easy');
@@ -202,6 +219,7 @@ document.addEventListener('DOMContentLoaded', () => {
     'dimMode',
     'channelWhitelist',
     'channelWhitelistEnabled',
+    'hideInterfaceElements',
     ...Object.values(cfg.hide.keys),
     ...Object.values(cfg.views.keys),
     ...Object.values(cfg.shorts.keys),
@@ -224,6 +242,8 @@ document.addEventListener('DOMContentLoaded', () => {
     floatingButtonToggle.checked = prefs.floatingButtonEnabled ?? true;
     dimModeToggle.checked = prefs.dimMode ?? false;
     channelWhitelistToggle.checked = prefs.channelWhitelistEnabled ?? true;
+    hideOnPageControlsToggle.checked = prefs.hideInterfaceElements ?? false;
+    syncFloatingButtonToggleDisabled();
 
     ['hide', 'views', 'shorts', 'mixesPlaylists'].forEach(sectionName => {
       const section = cfg[sectionName];
@@ -484,6 +504,13 @@ document.addEventListener('DOMContentLoaded', () => {
     chrome.storage.sync.set({ dimMode: dimModeToggle.checked });
   });
 
+  hideOnPageControlsToggle.addEventListener('change', () => {
+    chrome.storage.sync.set({
+      hideInterfaceElements: hideOnPageControlsToggle.checked,
+    });
+    syncFloatingButtonToggleDisabled();
+  });
+
   channelWhitelistToggle.addEventListener('change', () => {
     chrome.storage.sync.set({
       channelWhitelistEnabled: channelWhitelistToggle.checked,
@@ -648,6 +675,7 @@ document.addEventListener('DOMContentLoaded', () => {
       el.addEventListener('click', e => {
         if (e.target.tagName.toLowerCase() === 'input') return;
         const input = el.querySelector('input');
+        if (input.disabled) return;
         input.checked = !input.checked;
         input.dispatchEvent(new Event('change', { bubbles: true }));
       });
@@ -762,6 +790,10 @@ document.addEventListener('DOMContentLoaded', () => {
     }
     if (changes.channelWhitelistEnabled) {
       channelWhitelistToggle.checked = changes.channelWhitelistEnabled.newValue ?? true;
+    }
+    if (changes.hideInterfaceElements) {
+      hideOnPageControlsToggle.checked = changes.hideInterfaceElements.newValue ?? false;
+      syncFloatingButtonToggleDisabled();
     }
     if (changes.channelWhitelist || changes.channelWhitelistEnabled) {
       refreshAddButtonState();

@@ -72,6 +72,7 @@ const defaultSettings = {
   dateFilterSubsEnabled: false,
   dateFilterCorrEnabled: false,
   floatingButtonEnabled: true,
+  hideInterfaceElements: false,
   tutorialCompleted: false,
 };
 function initializeSettings() {

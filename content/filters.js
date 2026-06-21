@@ -249,12 +249,15 @@ function createWhitelistButton(channel) {
 function createDimBadge(reason, channel) {
   const badge = document.createElement('div');
   badge.className = 'yt-hider-badge';
+  const showUi = !prefs.hideInterfaceElements;
   let logoUrl = '';
-  try {
-    logoUrl = chrome.runtime.getURL('assets/icons/youtube-hider-logo.png');
-  } catch (_) {}
+  if (showUi) {
+    try {
+      logoUrl = chrome.runtime.getURL('assets/icons/youtube-hider-logo.png');
+    } catch (_) {}
+  }
   badge.innerHTML = `${logoUrl ? `<img class="yt-hider-badge-logo" src="${logoUrl}" />` : ''}${reason ? `<span class="yt-hider-badge-reason">${reason}</span>` : ''}`;
-  if (channel) {
+  if (channel && showUi) {
     badge.appendChild(createWhitelistButton(channel));
   }
   return badge;
@@ -292,7 +295,11 @@ function applyFilter(element, reason) {
         target.appendChild(createDimBadge(reason, ch));
         return;
       }
-      if (ch && !existingBadge.querySelector('.yt-hider-whitelist-btn')) {
+      if (
+        ch &&
+        !prefs.hideInterfaceElements &&
+        !existingBadge.querySelector('.yt-hider-whitelist-btn')
+      ) {
         existingBadge.appendChild(createWhitelistButton(ch));
       }
       return;
