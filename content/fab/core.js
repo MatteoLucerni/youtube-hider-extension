@@ -128,6 +128,7 @@ function applyFabPosition(host, shadow, pos) {
 
 function createFloatingButton(forceForTutorial = false) {
   if (!isYouTube()) return;
+  if (prefs.hideInterfaceElements) return;
   if (floatingButtonHost) return;
   if (!forceForTutorial && !prefs.floatingButtonEnabled) return;
   if (isWatchPage()) return;

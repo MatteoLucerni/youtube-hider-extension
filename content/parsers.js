@@ -54,7 +54,7 @@ function extractNumberAndSuffix(input) {
   return { numStr, suffix: '', remainder: afterNum.trim() };
 }
 
-function normalizeNumStr(numStr) {
+function normalizeNumStr(numStr, hasSuffix = false) {
   const dots = (numStr.match(/\./g) || []).length;
   const commas = (numStr.match(/,/g) || []).length;
 
@@ -71,6 +71,10 @@ function normalizeNumStr(numStr) {
   if (dots > 1) return numStr.replace(/\./g, '');
   if (commas > 1) return numStr.replace(/,/g, '');
 
+  // Single separator. Without a suffix the count is an integer, so the
+  // separator is a thousands grouping (e.g. "98.756"/"98,756" → 98756).
+  // With a suffix it is a decimal point (e.g. "1,2 Mn" → 1.2).
+  if (!hasSuffix) return numStr.replace(/[.,]/g, '');
   if (commas === 1) return numStr.replace(',', '.');
 
   return numStr;
@@ -80,7 +84,7 @@ function parseToNumber(input) {
   const { numStr, suffix } = extractNumberAndSuffix(input);
   if (!numStr) return NaN;
 
-  const normalized = normalizeNumStr(numStr);
+  const normalized = normalizeNumStr(numStr, Boolean(suffix));
   const base = parseFloat(normalized);
   if (isNaN(base)) return NaN;
 
@@ -95,7 +99,7 @@ function extractViewCount(text) {
   const { numStr, suffix, remainder } = extractNumberAndSuffix(s);
   if (!numStr) return NaN;
 
-  const normalized = normalizeNumStr(numStr);
+  const normalized = normalizeNumStr(numStr, Boolean(suffix));
   const base = parseFloat(normalized);
   if (isNaN(base)) return NaN;
 
@@ -208,6 +212,7 @@ const TIME_UNIT_ENTRIES = [
       'دقيقة',
       'دقائق',
       'minuto',
+      'minutos',
       'minuti',
       'minuta',
       'Minute',
@@ -349,14 +354,21 @@ TIME_UNIT_ENTRIES.forEach(([multiplier, words]) => {
   });
 });
 
-const TIME_UNIT_REGEX = new RegExp(
-  '(?<![a-zA-Z])(' +
+// The time unit must sit immediately after the number (only spaces allowed
+// between them), so non-date text like "5-Minute Crafts" is not read as an age.
+const TIME_UNIT_ANCHORED = new RegExp(
+  '^\\s*(' +
     Object.keys(TIME_UNIT_DAYS)
       .sort((a, b) => b.length - a.length)
       .join('|') +
     ')(?![a-zA-Z])',
   'i',
 );
+
+// Words that may legitimately trail a relative date ("2 days ago", "2 giorni fa",
+// "2 日前"). Languages with a leading marker (de "vor", fr "il y a", es "hace",
+// ar "منذ") strip it before the first digit, so their tail comes out empty.
+const RELATIVE_SUFFIX = new Set(['ago', 'fa', 'atrás', 'atras', 'назад', '前', '전']);
 
 function extractUploadAgeDays(text) {
   const s = String(text).trim();
@@ -375,24 +387,38 @@ function extractUploadAgeDays(text) {
   if (isNaN(base) || base < 0) return NaN;
 
   const afterNum = stripped.slice(numMatch[0].length);
-  const unitMatch = afterNum.match(TIME_UNIT_REGEX);
+  const unitMatch = afterNum.match(TIME_UNIT_ANCHORED);
   if (!unitMatch) return NaN;
 
   const multiplier = TIME_UNIT_DAYS[unitMatch[1].toLowerCase()];
   if (!multiplier) return NaN;
 
+  // After the unit, allow only end-of-string or a known relative marker.
+  // This rejects channel/title text such as "5 Minute Crafts KIDS".
+  const tail = afterNum.slice(unitMatch[0].length).trim();
+  if (tail) {
+    const firstToken = tail.split(/\s+/)[0].replace(/[.,!?;:]+$/, '').toLowerCase();
+    if (!RELATIVE_SUFFIX.has(firstToken)) return NaN;
+  }
+
   return base * multiplier;
 }
 
 function resolveUploadAgeFromSpans(spans) {
+  let last = null;
   for (const span of spans) {
     const text = (span.textContent || '').trim();
-    const ageDays = extractUploadAgeDays(text);
-    if (!isNaN(ageDays) && ageDays >= 0) {
-      return { ageDays, span };
+    // Evaluate each metadata part separately ("Channel • views • date") and keep
+    // the LAST valid age, since the date is conventionally the final item. This
+    // prevents earlier text (e.g. a "60 Minutes" channel) from winning.
+    for (const part of text.split(/[·•]/)) {
+      const ageDays = extractUploadAgeDays(part.trim());
+      if (!isNaN(ageDays) && ageDays >= 0) {
+        last = { ageDays, span };
+      }
     }
   }
-  return null;
+  return last;
 }
 
 const ytVideoChannelCache = {};
@@ -450,4 +476,17 @@ function extractChannelFromContainer(container) {
     }
   } catch (_) {}
   return null;
+}
+
+// Exposed for unit tests (Node). In a content script `module` is undefined,
+// so this guard is a no-op in the browser.
+if (typeof module !== 'undefined' && module.exports) {
+  module.exports = {
+    extractViewCount,
+    normalizeNumStr,
+    parseToNumber,
+    extractNumberAndSuffix,
+    extractUploadAgeDays,
+    resolveUploadAgeFromSpans,
+  };
 }

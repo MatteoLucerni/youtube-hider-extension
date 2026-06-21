@@ -210,6 +210,11 @@ function cancelInlineWhitelistRetry() {
 function syncInlineWhitelistButton(pathname, timeout = 3000) {
   cancelInlineWhitelistRetry();
 
+  if (prefs.hideInterfaceElements) {
+    removeInlineWhitelistButton();
+    return;
+  }
+
   const tryRender = () => {
     if (window.location.pathname !== pathname) return true;
 
