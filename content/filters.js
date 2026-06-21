@@ -497,6 +497,26 @@ function hideDateFilter() {
     });
 }
 
+// Live streams show concurrent-viewer text ("5 spettatori", "5 watching") that
+// must not be treated as a view count. Detect the live badge / avatar live ring
+// on the surrounding container so the views filter can skip live videos.
+const LIVE_INDICATOR_SELECTORS =
+  'badge-shape.yt-badge-shape--thumbnail-live, badge-shape.yt-badge-shape--live, ' +
+  'badge-shape.ytBadgeShapeThumbnailLive, badge-shape.ytBadgeShapeLive, ' +
+  '.yt-spec-avatar-shape--live-ring, .yt-spec-avatar-shape__live-badge, ' +
+  '.ytSpecAvatarShapeLiveRing, .ytSpecAvatarShapeLiveBadge, ' +
+  'ytd-thumbnail-overlay-time-status-renderer[overlay-style="LIVE"], ' +
+  '.badge-style-type-live-now';
+
+function isLiveVideo(element) {
+  if (!element) return false;
+  const container =
+    element.closest(
+      'yt-lockup-view-model, ytd-rich-item-renderer, ytd-video-renderer, ytd-compact-video-renderer, ytd-grid-video-renderer, ytm-rich-item-renderer, ytm-video-with-context-renderer, ytm-compact-video-renderer',
+    ) || element;
+  return !!container.querySelector(LIVE_INDICATOR_SELECTORS);
+}
+
 function hideUnderVisuals() {
   const { viewsHideThreshold } = prefs;
   const selectors = getVideoContainerSelectors();
@@ -510,6 +530,7 @@ function hideUnderVisuals() {
 
     const result = resolveViewsFromSpans(spans);
     if (!result || result.views >= viewsHideThreshold) return;
+    if (isLiveVideo(result.span)) return;
 
     findAndHideContainer(result.span, selectors, 'Views too low');
   });
@@ -521,6 +542,7 @@ function hideUnderVisuals() {
       const result = extractViewCount(text);
       if (!result || typeof result !== 'object') return;
       if (result.views >= viewsHideThreshold) return;
+      if (isLiveVideo(span)) return;
 
       const container = span.closest(
         'ytm-video-with-context-renderer, ytm-rich-item-renderer, ytm-compact-video-renderer',
@@ -557,6 +579,7 @@ function hideNewFormatVideos() {
       } catch (e) {}
 
       if (!result || result.views >= viewsHideThreshold) return;
+      if (isLiveVideo(result.span)) return;
 
       findAndHideContainer(result.span, selectors, 'Views too low');
     });
