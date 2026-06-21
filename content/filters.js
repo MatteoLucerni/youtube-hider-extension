@@ -458,12 +458,14 @@ function hideDateFilter() {
     .querySelectorAll('.YtmBadgeAndBylineRendererItemByline')
     .forEach(span => {
       const text = (span.textContent || '').trim();
-      // Mobile format concatenates: "1.2M views · 2 days ago"
+      // Mobile format concatenates: "Channel · 1.2M views · 2 days ago".
+      // Keep the LAST valid part: the date is the final item, so an earlier
+      // channel name (e.g. "5-Minute Crafts") can't be mistaken for the age.
       const parts = text.split(/[·•]/);
       let ageDays = NaN;
       for (const part of parts) {
-        ageDays = extractUploadAgeDays(part.trim());
-        if (!isNaN(ageDays)) break;
+        const v = extractUploadAgeDays(part.trim());
+        if (!isNaN(v)) ageDays = v;
       }
       if (isNaN(ageDays)) return;
       const dateReason = getDateFilterReason(ageDays);

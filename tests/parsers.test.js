@@ -6,7 +6,11 @@ const assert = require('node:assert/strict');
 const {
   extractViewCount,
   extractUploadAgeDays,
+  resolveUploadAgeFromSpans,
 } = require('../content/parsers.js');
+
+// resolveUploadAgeFromSpans reads span.textContent, so plain objects suffice.
+const spans = (...texts) => texts.map(textContent => ({ textContent }));
 
 // Helper: extractViewCount returns { views, confidence } on success, or NaN.
 function views(text) {
@@ -52,7 +56,45 @@ test('small numbers and edge cases', () => {
   assert.ok(Number.isNaN(views('no digits here')));
 });
 
-test('upload-age parsing is unaffected by the fix', () => {
+test('upload-age: valid relative dates across languages (must not regress)', () => {
   assert.equal(extractUploadAgeDays('2 days ago'), 2);
   assert.equal(extractUploadAgeDays('3 weeks ago'), 21);
+  assert.equal(extractUploadAgeDays('vor 2 Tagen'), 2);
+  assert.equal(extractUploadAgeDays('il y a 3 jours'), 3);
+  assert.equal(extractUploadAgeDays('hace 5 días'), 5);
+  assert.equal(extractUploadAgeDays('2 giorni fa'), 2);
+  assert.equal(extractUploadAgeDays('2일 전'), 2);
+  assert.equal(extractUploadAgeDays('2 日前'), 2);
+  assert.equal(extractUploadAgeDays('2 дня назад'), 2);
+  assert.equal(extractUploadAgeDays('2 dias atrás'), 2);
+  assert.equal(extractUploadAgeDays('Streamed 2 days ago'), 2);
+});
+
+test('upload-age: non-date text is not read as an age (the contamination bug)', () => {
+  // Channel/title names with <number><unit> patterns.
+  assert.ok(Number.isNaN(extractUploadAgeDays('5-Minute Crafts')));
+  assert.ok(Number.isNaN(extractUploadAgeDays('7-Second Riddles')));
+  assert.ok(Number.isNaN(extractUploadAgeDays('5 Minute Crafts KIDS')));
+  // View counts must not be read as dates either.
+  assert.ok(Number.isNaN(extractUploadAgeDays('1.2M views')));
+  assert.ok(Number.isNaN(extractUploadAgeDays('8,3K visualizzazioni')));
+  assert.ok(Number.isNaN(extractUploadAgeDays('98,756 views')));
+});
+
+test('upload-age: resolving spans prefers the real date (last valid)', () => {
+  // Channel name first, real date last → date wins.
+  assert.equal(
+    resolveUploadAgeFromSpans(spans('5-Minute Crafts', '1.2M views', '2 years ago')).ageDays,
+    730,
+  );
+  // "60 Minutes" parses as an age on its own, but the later date overrides it.
+  assert.equal(
+    resolveUploadAgeFromSpans(spans('60 Minutes', '1M views', '3 days ago')).ageDays,
+    3,
+  );
+  // Single concatenated span: split on separators pairs the right number+unit.
+  assert.equal(
+    resolveUploadAgeFromSpans(spans('Canale • 1.2M views • 2 years ago')).ageDays,
+    730,
+  );
 });
