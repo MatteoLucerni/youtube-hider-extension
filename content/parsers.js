@@ -54,7 +54,7 @@ function extractNumberAndSuffix(input) {
   return { numStr, suffix: '', remainder: afterNum.trim() };
 }
 
-function normalizeNumStr(numStr) {
+function normalizeNumStr(numStr, hasSuffix = false) {
   const dots = (numStr.match(/\./g) || []).length;
   const commas = (numStr.match(/,/g) || []).length;
 
@@ -71,6 +71,10 @@ function normalizeNumStr(numStr) {
   if (dots > 1) return numStr.replace(/\./g, '');
   if (commas > 1) return numStr.replace(/,/g, '');
 
+  // Single separator. Without a suffix the count is an integer, so the
+  // separator is a thousands grouping (e.g. "98.756"/"98,756" → 98756).
+  // With a suffix it is a decimal point (e.g. "1,2 Mn" → 1.2).
+  if (!hasSuffix) return numStr.replace(/[.,]/g, '');
   if (commas === 1) return numStr.replace(',', '.');
 
   return numStr;
@@ -80,7 +84,7 @@ function parseToNumber(input) {
   const { numStr, suffix } = extractNumberAndSuffix(input);
   if (!numStr) return NaN;
 
-  const normalized = normalizeNumStr(numStr);
+  const normalized = normalizeNumStr(numStr, Boolean(suffix));
   const base = parseFloat(normalized);
   if (isNaN(base)) return NaN;
 
@@ -95,7 +99,7 @@ function extractViewCount(text) {
   const { numStr, suffix, remainder } = extractNumberAndSuffix(s);
   if (!numStr) return NaN;
 
-  const normalized = normalizeNumStr(numStr);
+  const normalized = normalizeNumStr(numStr, Boolean(suffix));
   const base = parseFloat(normalized);
   if (isNaN(base)) return NaN;
 
@@ -450,4 +454,16 @@ function extractChannelFromContainer(container) {
     }
   } catch (_) {}
   return null;
+}
+
+// Exposed for unit tests (Node). In a content script `module` is undefined,
+// so this guard is a no-op in the browser.
+if (typeof module !== 'undefined' && module.exports) {
+  module.exports = {
+    extractViewCount,
+    normalizeNumStr,
+    parseToNumber,
+    extractNumberAndSuffix,
+    extractUploadAgeDays,
+  };
 }
