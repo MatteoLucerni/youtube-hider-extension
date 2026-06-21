@@ -1,5 +1,24 @@
 # Changelog
 
+### Version 2.9.1
+
+**Added**
+
+- Hide on-page controls: a new option in Extra Settings that hides all of the extension's on-screen elements on YouTube - the floating button, the inline and overlay "Whitelist" buttons, and the YouTube Hider logo on dimmed videos - for a cleaner, more discreet look. Filtering keeps working in the background. While the option is on, the Floating Button toggle is greyed out, with a hover tooltip explaining how to re-enable it
+
+**Fixed**
+
+- Minimum Views Filter hid videos with high view counts in locales that show the full number: a count written with a single thousands separator (e.g. "98.756" or "98,756") was parsed as a decimal (~98) and wrongly hidden even with the threshold set to 100. View counts without a magnitude suffix are now treated as integers, so all separators are read as thousands groupings
+- Minimum Views Filter treated live streams as regular videos: a live stream's concurrent-viewer count (e.g. "5 spettatori" / "5 watching") was read as a view count and the stream was hidden when below the threshold. Live videos are now detected by their live badge and skipped by the views filter on Home, Search and the watch-page sidebar
+- Upload Date Filter misread non-date text as a video's age: channel names that contain a number followed by a time word (e.g. "5-Minute Crafts", "7-Second Riddles") were parsed as an upload age and hid unrelated videos. The parser now requires the time unit to immediately follow the number, rejects trailing non-date text, and reads the date from the last metadata item so a channel name can no longer win
+- Upload Date Filter now recognizes the Spanish/Portuguese plural "minutos"
+- Removed an orphaned tutorial overlay that could remain on screen when enabling "Hide on-page controls" while the guided tour was active
+
+**Changed**
+
+- Slightly reduced the YouTube Hider logo size on dimmed video overlays
+- Removed trailing periods from popup descriptions and tooltips for consistent text styling
+
 ### Version 2.9.0
 
 **Added**

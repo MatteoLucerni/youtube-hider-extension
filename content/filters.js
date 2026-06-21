@@ -54,8 +54,8 @@ function injectDimStyles() {
       }
     }
     .yt-hider-badge-logo {
-      width: 36px;
-      height: 36px;
+      width: 30px;
+      height: 30px;
       object-fit: contain;
       display: block;
     }
@@ -249,12 +249,15 @@ function createWhitelistButton(channel) {
 function createDimBadge(reason, channel) {
   const badge = document.createElement('div');
   badge.className = 'yt-hider-badge';
+  const showUi = !prefs.hideInterfaceElements;
   let logoUrl = '';
-  try {
-    logoUrl = chrome.runtime.getURL('assets/icons/youtube-hider-logo.png');
-  } catch (_) {}
+  if (showUi) {
+    try {
+      logoUrl = chrome.runtime.getURL('assets/icons/youtube-hider-logo.png');
+    } catch (_) {}
+  }
   badge.innerHTML = `${logoUrl ? `<img class="yt-hider-badge-logo" src="${logoUrl}" />` : ''}${reason ? `<span class="yt-hider-badge-reason">${reason}</span>` : ''}`;
-  if (channel) {
+  if (channel && showUi) {
     badge.appendChild(createWhitelistButton(channel));
   }
   return badge;
@@ -292,7 +295,11 @@ function applyFilter(element, reason) {
         target.appendChild(createDimBadge(reason, ch));
         return;
       }
-      if (ch && !existingBadge.querySelector('.yt-hider-whitelist-btn')) {
+      if (
+        ch &&
+        !prefs.hideInterfaceElements &&
+        !existingBadge.querySelector('.yt-hider-whitelist-btn')
+      ) {
         existingBadge.appendChild(createWhitelistButton(ch));
       }
       return;
@@ -458,12 +465,14 @@ function hideDateFilter() {
     .querySelectorAll('.YtmBadgeAndBylineRendererItemByline')
     .forEach(span => {
       const text = (span.textContent || '').trim();
-      // Mobile format concatenates: "1.2M views · 2 days ago"
+      // Mobile format concatenates: "Channel · 1.2M views · 2 days ago".
+      // Keep the LAST valid part: the date is the final item, so an earlier
+      // channel name (e.g. "5-Minute Crafts") can't be mistaken for the age.
       const parts = text.split(/[·•]/);
       let ageDays = NaN;
       for (const part of parts) {
-        ageDays = extractUploadAgeDays(part.trim());
-        if (!isNaN(ageDays)) break;
+        const v = extractUploadAgeDays(part.trim());
+        if (!isNaN(v)) ageDays = v;
       }
       if (isNaN(ageDays)) return;
       const dateReason = getDateFilterReason(ageDays);
@@ -495,6 +504,26 @@ function hideDateFilter() {
     });
 }
 
+// Live streams show concurrent-viewer text ("5 spettatori", "5 watching") that
+// must not be treated as a view count. Detect the live badge / avatar live ring
+// on the surrounding container so the views filter can skip live videos.
+const LIVE_INDICATOR_SELECTORS =
+  'badge-shape.yt-badge-shape--thumbnail-live, badge-shape.yt-badge-shape--live, ' +
+  'badge-shape.ytBadgeShapeThumbnailLive, badge-shape.ytBadgeShapeLive, ' +
+  '.yt-spec-avatar-shape--live-ring, .yt-spec-avatar-shape__live-badge, ' +
+  '.ytSpecAvatarShapeLiveRing, .ytSpecAvatarShapeLiveBadge, ' +
+  'ytd-thumbnail-overlay-time-status-renderer[overlay-style="LIVE"], ' +
+  '.badge-style-type-live-now';
+
+function isLiveVideo(element) {
+  if (!element) return false;
+  const container =
+    element.closest(
+      'yt-lockup-view-model, ytd-rich-item-renderer, ytd-video-renderer, ytd-compact-video-renderer, ytd-grid-video-renderer, ytm-rich-item-renderer, ytm-video-with-context-renderer, ytm-compact-video-renderer',
+    ) || element;
+  return !!container.querySelector(LIVE_INDICATOR_SELECTORS);
+}
+
 function hideUnderVisuals() {
   const { viewsHideThreshold } = prefs;
   const selectors = getVideoContainerSelectors();
@@ -508,6 +537,7 @@ function hideUnderVisuals() {
 
     const result = resolveViewsFromSpans(spans);
     if (!result || result.views >= viewsHideThreshold) return;
+    if (isLiveVideo(result.span)) return;
 
     findAndHideContainer(result.span, selectors, 'Views too low');
   });
@@ -519,6 +549,7 @@ function hideUnderVisuals() {
       const result = extractViewCount(text);
       if (!result || typeof result !== 'object') return;
       if (result.views >= viewsHideThreshold) return;
+      if (isLiveVideo(span)) return;
 
       const container = span.closest(
         'ytm-video-with-context-renderer, ytm-rich-item-renderer, ytm-compact-video-renderer',
@@ -555,6 +586,7 @@ function hideNewFormatVideos() {
       } catch (e) {}
 
       if (!result || result.views >= viewsHideThreshold) return;
+      if (isLiveVideo(result.span)) return;
 
       findAndHideContainer(result.span, selectors, 'Views too low');
     });

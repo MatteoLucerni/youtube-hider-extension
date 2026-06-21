@@ -36,6 +36,7 @@ const prefs = {
   tutorialCompleted: false,
   channelWhitelist: [],
   channelWhitelistEnabled: true,
+  hideInterfaceElements: false,
 };
 
 const FILTER_REAPPLY_KEYS = new Set([
@@ -158,6 +159,24 @@ function setupPrefsListener() {
           startHiding(currentPath);
         }
         if ('dimMode' in changes) {
+          resetAppliedFilters();
+          startHiding(currentPath);
+        }
+        if ('hideInterfaceElements' in changes) {
+          if (prefs.hideInterfaceElements) {
+            cleanupTour();
+            removeTutorialOverlay();
+            removeFloatingButton();
+            removeInlineWhitelistButton();
+          } else if (
+            prefs.extensionEnabled &&
+            prefs.floatingButtonEnabled &&
+            !isWatchPage() &&
+            !floatingButtonHost &&
+            isYouTube()
+          ) {
+            createFloatingButton();
+          }
           resetAppliedFilters();
           startHiding(currentPath);
         }
