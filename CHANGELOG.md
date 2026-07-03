@@ -1,5 +1,14 @@
 # Changelog
 
+### Version 2.9.2
+
+**Changed**
+
+- Merged the popup footer's separate "Request a Feature" and "Report a Bug" links into a single "Feature or Bug feedback" link, since both pointed to the same form
+- Added a "Website" link to the popup footer, pointing to the official YouTube Hider website
+- Reordered popup footer links to Feature Request and Feedback, Changelog, Website
+- Darkened the background and sharpened the border of the feedback cards in the website's "How can we help?" widget so they read as distinct boxes in their default (non-hover) state
+
 ### Version 2.9.1
 
 **Added**

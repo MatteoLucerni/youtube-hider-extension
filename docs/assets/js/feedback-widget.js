@@ -27,11 +27,11 @@
 
     .fb-widget-card {
       display: flex; align-items: center; gap: 14px; padding: 14px 16px;
-      border: 1px solid #eee; border-radius: 10px; text-decoration: none;
-      color: inherit; transition: border-color .2s, box-shadow .2s; margin-bottom: 10px;
+      background: #f4f4f5; border: 1px solid #d8d8db; border-radius: 10px; text-decoration: none;
+      color: inherit; transition: border-color .2s, background .2s, box-shadow .2s; margin-bottom: 10px;
     }
     .fb-widget-card:last-child { margin-bottom: 0; }
-    .fb-widget-card:hover { border-color: #ccc; box-shadow: 0 2px 8px rgba(0,0,0,.06); }
+    .fb-widget-card:hover { background: #ececee; border-color: #b8b8bd; box-shadow: 0 2px 8px rgba(0,0,0,.08); }
 
     .fb-widget-icon {
       width: 42px; height: 42px; min-width: 42px; border-radius: 10px;
