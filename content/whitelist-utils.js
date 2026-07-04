@@ -1,5 +1,7 @@
 function channelListIncludes(channel, list) {
-  return !!channel && Array.isArray(list) && list.includes(channel);
+  if (!channel || !Array.isArray(list)) return false;
+  if (Array.isArray(channel)) return channel.some(c => list.includes(c));
+  return list.includes(channel);
 }
 
 function computeWhitelistUpdate(channel, shouldWhitelist, list, enabled) {

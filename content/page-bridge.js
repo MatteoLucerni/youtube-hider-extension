@@ -41,6 +41,41 @@
         if (handle) return handle;
       }
 
+      const avatarStack = mvm.image && mvm.image.avatarStackViewModel;
+      if (avatarStack) {
+        const listItems =
+          avatarStack.rendererContext &&
+          avatarStack.rendererContext.commandContext &&
+          avatarStack.rendererContext.commandContext.onTap &&
+          avatarStack.rendererContext.commandContext.onTap.innertubeCommand &&
+          avatarStack.rendererContext.commandContext.onTap.innertubeCommand.showDialogCommand &&
+          avatarStack.rendererContext.commandContext.onTap.innertubeCommand.showDialogCommand.panelLoadingStrategy &&
+          avatarStack.rendererContext.commandContext.onTap.innertubeCommand.showDialogCommand.panelLoadingStrategy.inlineContent &&
+          avatarStack.rendererContext.commandContext.onTap.innertubeCommand.showDialogCommand.panelLoadingStrategy.inlineContent.dialogViewModel &&
+          avatarStack.rendererContext.commandContext.onTap.innertubeCommand.showDialogCommand.panelLoadingStrategy.inlineContent.dialogViewModel.customContent &&
+          avatarStack.rendererContext.commandContext.onTap.innertubeCommand.showDialogCommand.panelLoadingStrategy.inlineContent.dialogViewModel.customContent.listViewModel &&
+          avatarStack.rendererContext.commandContext.onTap.innertubeCommand.showDialogCommand.panelLoadingStrategy.inlineContent.dialogViewModel.customContent.listViewModel.listItems;
+
+        if (Array.isArray(listItems)) {
+          const handles = [];
+          for (const item of listItems) {
+            const liv = item && item.listItemViewModel;
+            if (!liv) continue;
+            const subtitleText = liv.subtitle && liv.subtitle.content;
+            const subtitleMatch = typeof subtitleText === 'string' && subtitleText.match(/@([A-Za-z0-9._-]+)/);
+            const browse =
+              liv.rendererContext &&
+              liv.rendererContext.commandContext &&
+              liv.rendererContext.commandContext.onTap &&
+              liv.rendererContext.commandContext.onTap.innertubeCommand &&
+              liv.rendererContext.commandContext.onTap.innertubeCommand.browseEndpoint;
+            const handle = subtitleMatch ? ('/@' + subtitleMatch[1].toLowerCase()) : browseToHandle(browse);
+            if (handle && !handles.includes(handle)) handles.push(handle);
+          }
+          if (handles.length) return handles;
+        }
+      }
+
       const rows =
         mvm.metadata &&
         mvm.metadata.contentMetadataViewModel &&

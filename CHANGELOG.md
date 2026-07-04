@@ -1,5 +1,11 @@
 # Changelog
 
+### Version 2.9.4
+
+**Fixed**
+
+- Channel Whitelist did not exempt collaboration videos (multiple channels credited on the same upload, shown with a stacked-avatar icon instead of a single channel avatar): none of their channels were ever recorded in the internal channel cache, so the whitelist had no way to know one of them was exempt and kept filtering the video. The cache now reads all collaborating channels for these videos, and the video is exempted if any one of them is whitelisted
+
 ### Version 2.9.3
 
 **Fixed**
@@ -17,6 +23,7 @@
 
 ### Version 2.9.1
 
+`
 **Added**
 
 - Hide on-page controls: a new option in Extra Settings that hides all of the extension's on-screen elements on YouTube - the floating button, the inline and overlay "Whitelist" buttons, and the YouTube Hider logo on dimmed videos - for a cleaner, more discreet look. Filtering keeps working in the background. While the option is on, the Floating Button toggle is greyed out, with a hover tooltip explaining how to re-enable it

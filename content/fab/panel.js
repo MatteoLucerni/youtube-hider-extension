@@ -437,7 +437,8 @@ function getCurrentPageChannel() {
   if (pathname === '/watch') {
     const owner = document.querySelector('ytd-video-owner-renderer, ytm-video-owner-renderer');
     const ch = owner && extractChannelFromContainer(owner);
-    if (ch) return ch;
+    const primaryCh = Array.isArray(ch) ? ch[0] : ch;
+    if (primaryCh) return primaryCh;
   }
   return null;
 }

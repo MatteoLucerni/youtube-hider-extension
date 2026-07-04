@@ -270,6 +270,7 @@ function resolveChannelForElement(element) {
 function applyFilter(element, reason) {
   if (!element) return;
   const ch = resolveChannelForElement(element);
+  const primaryCh = Array.isArray(ch) ? ch[0] : ch;
   if (isChannelExempt(ch)) {
     if (!element.dataset.ytHiderWhitelistPending) {
       clearDimmedElement(element);
@@ -292,22 +293,22 @@ function applyFilter(element, reason) {
       if (!existingBadge) {
         const target = badgeTarget();
         target.dataset.ytHiderBadgeTarget = '1';
-        target.appendChild(createDimBadge(reason, ch));
+        target.appendChild(createDimBadge(reason, primaryCh));
         return;
       }
       if (
-        ch &&
+        primaryCh &&
         !prefs.hideInterfaceElements &&
         !existingBadge.querySelector('.yt-hider-whitelist-btn')
       ) {
-        existingBadge.appendChild(createWhitelistButton(ch));
+        existingBadge.appendChild(createWhitelistButton(primaryCh));
       }
       return;
     }
     element.dataset.ytHiderDimmed = '1';
     const target = badgeTarget();
     target.dataset.ytHiderBadgeTarget = '1';
-    target.appendChild(createDimBadge(reason, ch));
+    target.appendChild(createDimBadge(reason, primaryCh));
   } else {
     if (element.dataset.ytHiderHidden || element.dataset.ytHiderDimmed) return;
     element.dataset.ytHiderHidden = '1';

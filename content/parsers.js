@@ -436,6 +436,14 @@ function resolveUploadAgeFromSpans(spans) {
 const ytVideoChannelCache = {};
 const YT_HIDER_CACHE_ATTR = 'data-yt-hider-channel-cache';
 
+function channelCacheValuesEqual(a, b) {
+  if (Array.isArray(a) || Array.isArray(b)) {
+    if (!Array.isArray(a) || !Array.isArray(b) || a.length !== b.length) return false;
+    return a.every((v, i) => v === b[i]);
+  }
+  return a === b;
+}
+
 function readChannelCacheFromDOM() {
   try {
     const root = document.documentElement;
@@ -448,8 +456,9 @@ function readChannelCacheFromDOM() {
     for (const key in data) {
       if (!Object.prototype.hasOwnProperty.call(data, key)) continue;
       const value = data[key];
-      if (typeof value !== 'string') continue;
-      if (ytVideoChannelCache[key] !== value) {
+      const isValid = typeof value === 'string' || (Array.isArray(value) && value.every(v => typeof v === 'string'));
+      if (!isValid) continue;
+      if (!channelCacheValuesEqual(ytVideoChannelCache[key], value)) {
         ytVideoChannelCache[key] = value;
         added = true;
       }
