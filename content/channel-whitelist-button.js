@@ -3,18 +3,6 @@ const INLINE_WHITELIST_BTN_ID = 'yt-hider-inline-whitelist-btn';
 const INLINE_WHITELIST_CHECK_ICON =
   '<svg width="12" height="10" viewBox="0 0 12 10" fill="none" aria-hidden="true"><path d="M1 5l3.5 3.5L11 1" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round"/></svg>';
 
-function getInlineWhitelistLogoUrl(isDark) {
-  try {
-    return chrome.runtime.getURL(
-      isDark
-        ? 'assets/icons/youtube-hider-logo.png'
-        : 'assets/icons/youtube-hider-logo-light.png',
-    );
-  } catch (_) {
-    return '';
-  }
-}
-
 function isInlineWhitelistPath(pathname) {
   return pathname === '/watch' || isChannelPagePath(pathname);
 }
@@ -71,13 +59,6 @@ function injectInlineWhitelistStyles() {
     .yt-hider-inline-whitelist-btn:focus-visible {
       outline: 2px solid #065fd4;
       outline-offset: 2px;
-    }
-    .yt-hider-inline-whitelist-btn img {
-      width: 18px;
-      height: 18px;
-      border-radius: 50%;
-      display: block;
-      flex-shrink: 0;
     }
     .yt-hider-inline-whitelist-btn .yt-hider-inline-whitelist-icon {
       display: inline-flex;
@@ -164,7 +145,7 @@ function createInlineWhitelistButton(channel, isFlexibleActionsRow) {
   btn.ytHiderChannelValue = channel;
 
   btn.innerHTML =
-    '<img alt="" /><span class="yt-hider-inline-whitelist-label"></span><span class="yt-hider-inline-whitelist-icon"></span>';
+    '<span class="yt-hider-inline-whitelist-label"></span><span class="yt-hider-inline-whitelist-icon"></span>';
 
   btn.addEventListener('click', e => {
     e.preventDefault();
@@ -193,9 +174,6 @@ function updateInlineWhitelistButtonState(btn, channel) {
     : isPaused
       ? (isMulti ? 'These channels are on your whitelist, but Channel Whitelist is currently turned off. Click to turn it back on.' : 'This channel is on your whitelist, but Channel Whitelist is currently turned off. Click to turn it back on.')
       : (isMulti ? 'Add these channels to your YouTube Hider whitelist: its videos won\'t be filtered (Shorts are always filtered)' : 'Add this channel to your YouTube Hider whitelist: its videos won\'t be filtered (Shorts are always filtered)');
-
-  const logo = btn.querySelector('img');
-  if (logo) logo.src = getInlineWhitelistLogoUrl(isDark);
 
   const icon = btn.querySelector('.yt-hider-inline-whitelist-icon');
   if (icon) {
