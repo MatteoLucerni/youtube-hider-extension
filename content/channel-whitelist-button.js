@@ -42,12 +42,15 @@ function injectInlineWhitelistStyles() {
     .yt-hider-inline-whitelist-btn {
       display: inline-flex;
       align-items: center;
+      justify-content: center;
       gap: 6px;
-      height: 36px;
+      flex: 1;
+      flex-basis: 0.000000001px;
+      height: 40px;
+      line-height: 40px;
       padding: 0 16px;
-      margin-left: 8px;
       border: none;
-      border-radius: 18px;
+      border-radius: 20px;
       font-size: 14px;
       font-weight: 500;
       font-family: 'Roboto', Arial, sans-serif;
@@ -229,7 +232,14 @@ function syncInlineWhitelistButton(pathname, timeout = 3000) {
       const container = findInlineWhitelistAnchor(pathname);
       if (!container) return false;
       btn = createInlineWhitelistButton(channel);
-      container.appendChild(btn);
+      if (container.tagName && container.tagName.toLowerCase() === 'yt-flexible-actions-view-model') {
+        const wrapper = document.createElement('div');
+        wrapper.className = 'ytFlexibleActionsViewModelAction';
+        wrapper.appendChild(btn);
+        container.appendChild(wrapper);
+      } else {
+        container.appendChild(btn);
+      }
     }
 
     updateInlineWhitelistButtonState(btn, channel);
@@ -247,5 +257,11 @@ function syncInlineWhitelistButton(pathname, timeout = 3000) {
 function removeInlineWhitelistButton() {
   cancelInlineWhitelistRetry();
   const btn = document.getElementById(INLINE_WHITELIST_BTN_ID);
-  if (btn) btn.remove();
+  if (!btn) return;
+  const wrapper = btn.parentElement;
+  if (wrapper && wrapper.classList.contains('ytFlexibleActionsViewModelAction')) {
+    wrapper.remove();
+  } else {
+    btn.remove();
+  }
 }
