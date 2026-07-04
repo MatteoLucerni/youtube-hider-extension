@@ -108,5 +108,7 @@ Whenever a change affects the content-script load order, the settings (`prefs`/`
 
 - This `CLAUDE.md` (especially **File layout**, **Content scripts**, and **Settings**).
 - `README.md` (its **Features**, **Settings**, and **Project Structure** sections).
+- `docs/` (the marketing site for youtubehider.com): `index.html` for feature descriptions and screenshots, `welcome.html` for the first-install page `background.js` opens on install. Check whether copy, screenshots, or feature claims there are now stale.
+- `content/tutorial.js` (the first-run welcome card + spotlight tour over the floating button and mini-panel): if the change adds, removes, renames, or repositions something the tour points at or describes, update the relevant step.
 
-Treat stale documentation as a bug. Do not leave structural or behavioral changes undocumented.
+Treat stale documentation as a bug. Do not leave structural or behavioral changes undocumented. This rule covers docs specifically; also check the **Testing rule** (does `tests/parsers.test.js` need a new case, or is manual browser verification required) and the **Versioning rule** (version bump + CHANGELOG entry) for every change, since those are the other two recurring checks a change needs before it's done.
