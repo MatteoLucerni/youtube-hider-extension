@@ -41,7 +41,7 @@ function waitForPageElements(pathname, timeout = 3000) {
   const checkElements = () => {
     for (const selector of selectors) {
       if (document.querySelector(selector)) {
-        logger.log(`Page ready: found ${selector} for ${pathname}`);
+        // logger.log(`Page ready: found ${selector} for ${pathname}`);
         return true;
       }
     }
@@ -95,37 +95,37 @@ async function startHiding(pathname) {
   // });
 
   if (canHideWatched) {
-    logger.log('Hiding watched videos on', pathname);
+    // logger.log('Hiding watched videos on', pathname);
     hideWatched(pathname);
   }
 
   if (canHideViews) {
-    logger.log('Hiding low view count videos on', pathname);
+    // logger.log('Hiding low view count videos on', pathname);
     hideUnderVisuals();
   }
 
   if (canHideShortsFlag) {
-    logger.log('Hiding shorts on', pathname);
+    // logger.log('Hiding shorts on', pathname);
     hideShorts();
   }
 
   if (canHideDateFilter) {
-    logger.log('Hiding videos by upload date on', pathname);
+    // logger.log('Hiding videos by upload date on', pathname);
     hideDateFilter();
   }
 
   if (canHideMixes) {
-    logger.log('Hiding mixes on', pathname);
+    // logger.log('Hiding mixes on', pathname);
     hideMixes();
   }
 
   if (canHidePlaylists) {
-    logger.log('Hiding playlists on', pathname);
+    // logger.log('Hiding playlists on', pathname);
     hidePlaylists();
   }
 
   if (canHideLives) {
-    logger.log('Hiding lives on', pathname);
+    // logger.log('Hiding lives on', pathname);
     hideLives();
   }
 
