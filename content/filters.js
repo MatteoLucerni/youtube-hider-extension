@@ -372,7 +372,7 @@ function hideWatched(pathname) {
 
       let item = bar;
 
-      const isChannelPage = pathname && pathname.startsWith('/@');
+      const isChannelPage = isChannelPagePath(pathname);
 
       const selectors =
         pathname === '/watch'
@@ -409,7 +409,7 @@ function shouldHideDateFilter(pathname) {
 
   return (
     (pathname === '/' && dateFilterHomeEnabled) ||
-    (pathname && pathname.startsWith('/@') && dateFilterChannelEnabled) ||
+    (isChannelPagePath(pathname) && dateFilterChannelEnabled) ||
     (pathname === '/results' && dateFilterSearchEnabled) ||
     (pathname === '/watch' && dateFilterCorrEnabled) ||
     (pathname === '/feed/subscriptions' && dateFilterSubsEnabled)
@@ -742,7 +742,7 @@ function shouldHideWatched(pathname) {
 
   return (
     (pathname === '/' && hideHomeEnabled) ||
-    (pathname && pathname.startsWith('/@') && hideChannelEnabled) ||
+    (isChannelPagePath(pathname) && hideChannelEnabled) ||
     (pathname === '/results' && hideSearchEnabled) ||
     (pathname === '/watch' && hideCorrEnabled) ||
     (pathname === '/feed/subscriptions' && hideSubsEnabled)
@@ -760,7 +760,7 @@ function shouldHideViews(pathname) {
 
   return (
     (pathname === '/' && viewsHideHomeEnabled) ||
-    (pathname && pathname.startsWith('/@') && viewsHideChannelEnabled) ||
+    (isChannelPagePath(pathname) && viewsHideChannelEnabled) ||
     (pathname === '/results' && viewsHideSearchEnabled) ||
     (pathname === '/watch' && viewsHideCorrEnabled) ||
     (pathname === '/feed/subscriptions' && viewsHideSubsEnabled)
@@ -794,7 +794,7 @@ function isCoreFilterPath(pathname) {
     pathname === '/results' ||
     pathname === '/watch' ||
     pathname === '/feed/subscriptions' ||
-    pathname.startsWith('/@')
+    isChannelPagePath(pathname)
   );
 }
 

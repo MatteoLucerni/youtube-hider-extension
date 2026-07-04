@@ -121,7 +121,7 @@ function extractViewCount(text) {
 
 function getVideoContainerSelectors() {
   const pathname = window.location.pathname;
-  const isChannelPage = pathname && pathname.startsWith('/@');
+  const isChannelPage = isChannelPagePath(pathname);
 
   if (pathname === '/watch') {
     return 'ytd-compact-video-renderer, ytd-rich-item-renderer, ytd-video-renderer, yt-lockup-view-model, ytm-video-with-context-renderer, ytm-compact-video-renderer';
@@ -508,6 +508,10 @@ function channelHandleFromPathname(pathname) {
   const channelIdMatch = pathname.match(/^\/channel\/([^/]+)/);
   if (channelIdMatch) return resolveChannelIdentity(('/channel/' + channelIdMatch[1]).toLowerCase());
   return null;
+}
+
+function isChannelPagePath(pathname) {
+  return !!pathname && (pathname.startsWith('/@') || pathname.startsWith('/channel/'));
 }
 
 function extractChannelFromContainer(container) {

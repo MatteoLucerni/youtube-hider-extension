@@ -16,7 +16,7 @@ function getInlineWhitelistLogoUrl(isDark) {
 }
 
 function isInlineWhitelistPath(pathname) {
-  return pathname === '/watch' || (pathname && (pathname.startsWith('/@') || pathname.startsWith('/channel/')));
+  return pathname === '/watch' || isChannelPagePath(pathname);
 }
 
 function isYouTubeDarkTheme() {
@@ -124,7 +124,7 @@ function findInlineWhitelistAnchor(pathname) {
     return null;
   }
 
-  if (pathname && (pathname.startsWith('/@') || pathname.startsWith('/channel/'))) {
+  if (isChannelPagePath(pathname)) {
     const actionsRow = document.querySelector(
       '#page-header yt-flexible-actions-view-model',
     );

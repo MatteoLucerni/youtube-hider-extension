@@ -30,7 +30,7 @@ const PAGE_SELECTORS = {
 function waitForPageElements(pathname, timeout = 3000) {
   let selectors = PAGE_SELECTORS[pathname];
 
-  if (!selectors && pathname && pathname.startsWith('/@')) {
+  if (!selectors && isChannelPagePath(pathname)) {
     selectors = PAGE_SELECTORS['/'];
   }
 
