@@ -167,11 +167,11 @@ function clearDimmedElement(element) {
 function createWhitelistButton(channel) {
   const btn = document.createElement('button');
   btn.className = 'yt-hider-whitelist-btn';
-  btn.title = channel;
+  btn.title = Array.isArray(channel) ? channel.join(', ') : channel;
 
   let countdownTimer = null;
   let pendingContainer = null;
-  let pendingWasPaused = false;
+  let pendingResult = null;
 
   const renderIdle = () => {
     const paused = isChannelPaused(channel);
@@ -196,12 +196,16 @@ function createWhitelistButton(channel) {
     e.stopPropagation();
 
     if (btn.classList.contains('yt-hider-whitelist-btn-pending')) {
-      if (pendingWasPaused) {
-        prefs.channelWhitelistEnabled = false;
-        safeStorageSet('sync', { channelWhitelistEnabled: false });
-      } else {
-        setChannelWhitelisted(channel, false);
+      if (pendingResult) {
+        if (pendingResult.enabledChanged) {
+          prefs.channelWhitelistEnabled = false;
+          safeStorageSet('sync', { channelWhitelistEnabled: false });
+        }
+        if (pendingResult.changedChannels.length) {
+          setChannelWhitelisted(pendingResult.changedChannels, false);
+        }
       }
+      pendingResult = null;
       cancelPending();
       renderIdle();
       return;
@@ -209,13 +213,13 @@ function createWhitelistButton(channel) {
 
     if (isChannelExempt(channel)) return;
 
-    pendingWasPaused = isChannelPaused(channel);
-    setChannelWhitelisted(channel, true);
+    pendingResult = setChannelWhitelisted(channel, true);
+    if (!pendingResult) return;
 
     pendingContainer = btn.closest('[data-yt-hider-dimmed]');
     if (pendingContainer) pendingContainer.dataset.ytHiderWhitelistPending = '1';
 
-    const pendingLabel = pendingWasPaused ? 'Disable Whitelist' : 'Remove from Whitelist';
+    const pendingLabel = pendingResult.changedChannels.length ? 'Remove from Whitelist' : 'Disable Whitelist';
     btn.innerHTML = `<span class="yt-hider-whitelist-label">${pendingLabel}</span>${buildWhitelistCountdownMarkup(WHITELIST_UNDO_WINDOW_SECONDS)}`;
     btn.classList.add('yt-hider-whitelist-btn-pending');
 
@@ -257,7 +261,7 @@ function createDimBadge(reason, channel) {
     } catch (_) {}
   }
   badge.innerHTML = `${logoUrl ? `<img class="yt-hider-badge-logo" src="${logoUrl}" />` : ''}${reason ? `<span class="yt-hider-badge-reason">${reason}</span>` : ''}`;
-  if (channel && showUi) {
+  if (channelIsPresent(channel) && showUi) {
     badge.appendChild(createWhitelistButton(channel));
   }
   return badge;
@@ -267,10 +271,13 @@ function resolveChannelForElement(element) {
   return extractChannelFromContainer(element) || channelHandleFromPathname(window.location.pathname);
 }
 
+function channelIsPresent(ch) {
+  return Array.isArray(ch) ? ch.length > 0 : !!ch;
+}
+
 function applyFilter(element, reason) {
   if (!element) return;
   const ch = resolveChannelForElement(element);
-  const primaryCh = Array.isArray(ch) ? ch[0] : ch;
   if (isChannelExempt(ch)) {
     if (!element.dataset.ytHiderWhitelistPending) {
       clearDimmedElement(element);
@@ -293,22 +300,22 @@ function applyFilter(element, reason) {
       if (!existingBadge) {
         const target = badgeTarget();
         target.dataset.ytHiderBadgeTarget = '1';
-        target.appendChild(createDimBadge(reason, primaryCh));
+        target.appendChild(createDimBadge(reason, ch));
         return;
       }
       if (
-        primaryCh &&
+        channelIsPresent(ch) &&
         !prefs.hideInterfaceElements &&
         !existingBadge.querySelector('.yt-hider-whitelist-btn')
       ) {
-        existingBadge.appendChild(createWhitelistButton(primaryCh));
+        existingBadge.appendChild(createWhitelistButton(ch));
       }
       return;
     }
     element.dataset.ytHiderDimmed = '1';
     const target = badgeTarget();
     target.dataset.ytHiderBadgeTarget = '1';
-    target.appendChild(createDimBadge(reason, primaryCh));
+    target.appendChild(createDimBadge(reason, ch));
   } else {
     if (element.dataset.ytHiderHidden || element.dataset.ytHiderDimmed) return;
     element.dataset.ytHiderHidden = '1';
