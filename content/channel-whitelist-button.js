@@ -44,8 +44,6 @@ function injectInlineWhitelistStyles() {
       align-items: center;
       justify-content: center;
       gap: 6px;
-      flex: 1;
-      flex-basis: 0.000000001px;
       height: 40px;
       line-height: 40px;
       padding: 0 16px;
@@ -59,6 +57,13 @@ function injectInlineWhitelistStyles() {
       background: #f1f1f1;
       color: #0f0f0f;
       transition: background 0.15s ease, color 0.15s ease;
+    }
+    .yt-hider-inline-whitelist-btn--channel {
+      flex: 1;
+      flex-basis: 0.000000001px;
+    }
+    .yt-hider-inline-whitelist-btn--watch {
+      margin-left: 8px;
     }
     .yt-hider-inline-whitelist-btn:hover {
       background: #e5e5e5;
@@ -152,10 +157,10 @@ function findInlineWhitelistAnchor(pathname) {
   return null;
 }
 
-function createInlineWhitelistButton(channel) {
+function createInlineWhitelistButton(channel, isFlexibleActionsRow) {
   const btn = document.createElement('button');
   btn.id = INLINE_WHITELIST_BTN_ID;
-  btn.className = 'yt-hider-inline-whitelist-btn';
+  btn.className = 'yt-hider-inline-whitelist-btn ' + (isFlexibleActionsRow ? 'yt-hider-inline-whitelist-btn--channel' : 'yt-hider-inline-whitelist-btn--watch');
   btn.ytHiderChannelValue = channel;
 
   btn.innerHTML =
@@ -231,8 +236,9 @@ function syncInlineWhitelistButton(pathname, timeout = 3000) {
     if (!btn) {
       const container = findInlineWhitelistAnchor(pathname);
       if (!container) return false;
-      btn = createInlineWhitelistButton(channel);
-      if (container.tagName && container.tagName.toLowerCase() === 'yt-flexible-actions-view-model') {
+      const isFlexibleActionsRow = container.tagName && container.tagName.toLowerCase() === 'yt-flexible-actions-view-model';
+      btn = createInlineWhitelistButton(channel, isFlexibleActionsRow);
+      if (isFlexibleActionsRow) {
         const wrapper = document.createElement('div');
         wrapper.className = 'ytFlexibleActionsViewModelAction';
         wrapper.appendChild(btn);
