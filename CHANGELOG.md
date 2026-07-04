@@ -1,5 +1,11 @@
 # Changelog
 
+### Version 2.9.3
+
+**Fixed**
+
+- Upload Date Filter did not hide videos whose age was rendered in YouTube's newer abbreviated format (e.g. "7y ago", "3mo ago" instead of "7 years ago", "3 months ago"), so old videos kept showing up even with "Hide older than" set. The parser now recognizes short unit abbreviations (h, d, wk/w, mo, yr/y) alongside the full words. Thanks to [@maciej-p-pawlowski](https://github.com/maciej-p-pawlowski) for reporting the bug and contributing the fix
+
 ### Version 2.9.2
 
 **Changed**
