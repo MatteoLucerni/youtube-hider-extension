@@ -68,6 +68,7 @@ function injectDimStyles() {
       line-height: 1.2;
     }
     .yt-hider-whitelist-btn {
+      position: relative;
       display: inline-flex;
       align-items: center;
       gap: 5px;
@@ -87,8 +88,12 @@ function injectDimStyles() {
       line-height: 1;
       white-space: nowrap;
       max-width: calc(100% - 12px);
+    }
+    .yt-hider-whitelist-label {
       overflow: hidden;
       text-overflow: ellipsis;
+      white-space: nowrap;
+      min-width: 0;
     }
     .yt-hider-whitelist-btn svg {
       flex-shrink: 0;
@@ -107,6 +112,33 @@ function injectDimStyles() {
     }
     .yt-hider-whitelist-btn.yt-hider-whitelist-btn-pending:hover {
       background: #234a7d;
+    }
+    .yt-hider-whitelist-tooltip {
+      visibility: hidden;
+      opacity: 0;
+      position: absolute;
+      bottom: 125%;
+      left: 50%;
+      transform: translateX(-50%);
+      width: 200px;
+      background: #222222;
+      color: #ebebeb;
+      border: 1px solid #3a3a3a;
+      border-radius: 6px;
+      padding: 8px;
+      font-size: 11px;
+      font-weight: 400;
+      line-height: 1.4;
+      text-align: center;
+      white-space: normal;
+      box-shadow: 0 4px 12px rgba(0, 0, 0, 0.3);
+      transition: opacity 0.15s ease;
+      pointer-events: none;
+      z-index: 20;
+    }
+    .yt-hider-whitelist-btn:hover .yt-hider-whitelist-tooltip {
+      visibility: visible;
+      opacity: 1;
     }
     .yt-hider-whitelist-countdown {
       flex-shrink: 0;
@@ -145,6 +177,20 @@ function buildWhitelistCountdownMarkup(seconds) {
   </svg>`;
 }
 
+const WHITELIST_SETTINGS_TIP =
+  'Hide this button via "Hide on-page controls" in the extension settings.';
+
+function buildWhitelistTooltipMarkup(channel) {
+  const isMulti = Array.isArray(channel) && channel.length > 1;
+  const paused = isChannelPaused(channel);
+  const channelWord = isMulti ? 'these channels' : 'this channel';
+  const possessive = isMulti ? 'their' : 'its';
+  const text = paused
+    ? `This whitelist entry exists, but Channel Whitelist is currently turned off. Click to re-enable it. ${WHITELIST_SETTINGS_TIP}`
+    : `Adds ${channelWord} to your YouTube Hider whitelist: ${possessive} videos won't be filtered (Shorts are always filtered). ${WHITELIST_SETTINGS_TIP}`;
+  return `<span class="yt-hider-whitelist-tooltip">${text}</span>`;
+}
+
 function removeBadgeAnimated(badge) {
   if (!badge || !badge.isConnected) return;
   badge.classList.add('yt-hider-badge-leaving');
@@ -169,7 +215,6 @@ function clearDimmedElement(element) {
 function createWhitelistButton(channel) {
   const btn = document.createElement('button');
   btn.className = 'yt-hider-whitelist-btn';
-  btn.title = Array.isArray(channel) ? channel.join(', ') : channel;
 
   let countdownTimer = null;
   let pendingContainer = null;
@@ -178,7 +223,8 @@ function createWhitelistButton(channel) {
   const renderIdle = () => {
     const paused = isChannelPaused(channel);
     btn.classList.remove('yt-hider-whitelist-btn-pending');
-    btn.textContent = paused ? 'Resume Whitelist' : 'Whitelist';
+    const label = paused ? 'Resume Whitelist' : 'Whitelist';
+    btn.innerHTML = `<span class="yt-hider-whitelist-label">${label}</span>${buildWhitelistTooltipMarkup(channel)}`;
   };
   renderIdle();
 

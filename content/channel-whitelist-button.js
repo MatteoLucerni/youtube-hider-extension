@@ -28,6 +28,7 @@ function injectInlineWhitelistStyles() {
   style.id = 'yt-hider-inline-whitelist-styles';
   style.textContent = `
     .yt-hider-inline-whitelist-btn {
+      position: relative;
       display: inline-flex;
       align-items: center;
       justify-content: center;
@@ -85,6 +86,33 @@ function injectInlineWhitelistStyles() {
     }
     .yt-hider-inline-whitelist-btn.yt-hider-dark.is-whitelisted:hover {
       background: #234a7d;
+    }
+    .yt-hider-inline-whitelist-tooltip {
+      visibility: hidden;
+      opacity: 0;
+      position: absolute;
+      bottom: 125%;
+      left: 50%;
+      transform: translateX(-50%);
+      width: 200px;
+      background: #222222;
+      color: #ebebeb;
+      border: 1px solid #3a3a3a;
+      border-radius: 6px;
+      padding: 8px;
+      font-size: 11px;
+      font-weight: 400;
+      line-height: 1.4;
+      text-align: center;
+      white-space: normal;
+      box-shadow: 0 4px 12px rgba(0, 0, 0, 0.3);
+      transition: opacity 0.15s ease;
+      pointer-events: none;
+      z-index: 20;
+    }
+    .yt-hider-inline-whitelist-btn:hover .yt-hider-inline-whitelist-tooltip {
+      visibility: visible;
+      opacity: 1;
     }
   `;
   document.head.appendChild(style);
@@ -145,7 +173,7 @@ function createInlineWhitelistButton(channel, isFlexibleActionsRow) {
   btn.ytHiderChannelValue = channel;
 
   btn.innerHTML =
-    '<span class="yt-hider-inline-whitelist-label"></span><span class="yt-hider-inline-whitelist-icon"></span>';
+    '<span class="yt-hider-inline-whitelist-label"></span><span class="yt-hider-inline-whitelist-icon"></span><span class="yt-hider-inline-whitelist-tooltip"></span>';
 
   btn.addEventListener('click', e => {
     e.preventDefault();
@@ -169,11 +197,17 @@ function updateInlineWhitelistButtonState(btn, channel) {
   btn.classList.toggle('is-whitelisted', isWhitelisted);
   btn.classList.toggle('yt-hider-dark', isDark);
   btn.setAttribute('aria-pressed', isWhitelisted ? 'true' : 'false');
-  btn.title = isWhitelisted
-    ? (isMulti ? 'Remove these channels from your YouTube Hider whitelist' : 'Remove this channel from your YouTube Hider whitelist')
-    : isPaused
-      ? (isMulti ? 'These channels are on your whitelist, but Channel Whitelist is currently turned off. Click to turn it back on.' : 'This channel is on your whitelist, but Channel Whitelist is currently turned off. Click to turn it back on.')
-      : (isMulti ? 'Add these channels to your YouTube Hider whitelist: its videos won\'t be filtered (Shorts are always filtered)' : 'Add this channel to your YouTube Hider whitelist: its videos won\'t be filtered (Shorts are always filtered)');
+
+  const tooltip = btn.querySelector('.yt-hider-inline-whitelist-tooltip');
+  if (tooltip) {
+    const channelWord = isMulti ? 'these channels' : 'this channel';
+    const possessive = isMulti ? 'their' : 'its';
+    tooltip.textContent = isWhitelisted
+      ? `Removes ${channelWord} from your YouTube Hider whitelist. ${WHITELIST_SETTINGS_TIP}`
+      : isPaused
+        ? `This whitelist entry exists, but Channel Whitelist is currently turned off. Click to re-enable it. ${WHITELIST_SETTINGS_TIP}`
+        : `Adds ${channelWord} to your YouTube Hider whitelist: ${possessive} videos won't be filtered (Shorts are always filtered). ${WHITELIST_SETTINGS_TIP}`;
+  }
 
   const icon = btn.querySelector('.yt-hider-inline-whitelist-icon');
   if (icon) {

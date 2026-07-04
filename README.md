@@ -63,7 +63,7 @@ The Filter Mode toggle is available in both the popup (Extra Settings card) and 
 
 ### Channel Whitelist
 
-Exempt specific channels from every active filter - their videos are never hidden or dimmed (Shorts are always filtered regardless of whitelist status). A channel can be whitelisted from four places:
+Exempt specific channels from every active filter - their videos are never hidden or dimmed (Shorts are always filtered regardless of whitelist status). A channel can be whitelisted from four places, and hovering the overlay or inline button shows a tooltip explaining what it does:
 
 - The **"Whitelist" button** on a filtered/dimmed overlay - shows a 3-second undo countdown before the channel is actually exempted, so accidental clicks can be reverted
 - The **inline "Whitelist" button** next to the Subscribe button on video and channel pages
