@@ -226,6 +226,7 @@ const TIME_UNIT_ENTRIES = [
       'hours',
       'hr',
       'hrs',
+      'h',
       'час',
       'часа',
       'часов',
@@ -248,6 +249,7 @@ const TIME_UNIT_ENTRIES = [
     [
       'day',
       'days',
+      'd',
       'день',
       'дня',
       'дней',
@@ -274,6 +276,9 @@ const TIME_UNIT_ENTRIES = [
     [
       'week',
       'weeks',
+      'wk',
+      'wks',
+      'w',
       'неделю',
       'недели',
       'недель',
@@ -297,6 +302,10 @@ const TIME_UNIT_ENTRIES = [
     [
       'month',
       'months',
+      'mo',
+      'mos',
+      'mth',
+      'mths',
       'месяц',
       'месяца',
       'месяцев',
@@ -323,6 +332,9 @@ const TIME_UNIT_ENTRIES = [
     [
       'year',
       'years',
+      'yr',
+      'yrs',
+      'y',
       'год',
       'года',
       'лет',

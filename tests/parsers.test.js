@@ -84,6 +84,27 @@ test('upload-age: non-date text is not read as an age (the contamination bug)', 
   assert.ok(Number.isNaN(extractUploadAgeDays('98,756 views')));
 });
 
+test('upload-age: abbreviated units used in the new YouTube UI (regression for #50)', () => {
+  // Single-letter and short abbreviations that YouTube now uses on desktop/mobile.
+  assert.equal(extractUploadAgeDays('7y ago'), 365 * 7);
+  assert.equal(extractUploadAgeDays('11y ago'), 365 * 11);
+  assert.equal(extractUploadAgeDays('1y ago'), 365);
+  assert.equal(extractUploadAgeDays('6yr ago'), 365 * 6);
+  assert.equal(extractUploadAgeDays('3yrs ago'), 365 * 3);
+  assert.equal(extractUploadAgeDays('3mo ago'), 90);
+  assert.equal(extractUploadAgeDays('4mos ago'), 120);
+  assert.equal(extractUploadAgeDays('2wk ago'), 14);
+  assert.equal(extractUploadAgeDays('3w ago'), 21);
+  assert.equal(extractUploadAgeDays('5d ago'), 5);
+  assert.equal(extractUploadAgeDays('12hr ago'), 0.5);
+  assert.equal(extractUploadAgeDays('2h ago'), 2 / 24);
+
+  // Channel names that use the same short letters must NOT be parsed as ages,
+  // because a real date span ends with "ago" (or an equivalent marker).
+  assert.ok(Number.isNaN(extractUploadAgeDays('3d Printing Tips')));
+  assert.ok(Number.isNaN(extractUploadAgeDays('3y Fest')));
+});
+
 test('upload-age: resolving spans prefers the real date (last valid)', () => {
   // Channel name first, real date last → date wins.
   assert.equal(
