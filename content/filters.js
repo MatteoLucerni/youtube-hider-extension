@@ -6,7 +6,11 @@ function preventHoverPreviewOnDimmedItems() {
 
   const blockHoverPreview = e => {
     if (!prefs.dimMode) return;
-    if (e.target && e.target.closest && e.target.closest('[data-yt-hider-dimmed]')) {
+    if (
+      e.target &&
+      e.target.closest &&
+      e.target.closest('[data-yt-hider-dimmed]')
+    ) {
       e.stopPropagation();
     }
   };
@@ -133,9 +137,12 @@ function injectDimStyles() {
 }
 
 const WHITELIST_UNDO_WINDOW_MS = 3000;
-const WHITELIST_UNDO_WINDOW_SECONDS = Math.round(WHITELIST_UNDO_WINDOW_MS / 1000);
+const WHITELIST_UNDO_WINDOW_SECONDS = Math.round(
+  WHITELIST_UNDO_WINDOW_MS / 1000,
+);
 const WHITELIST_COUNTDOWN_RADIUS = 8;
-const WHITELIST_COUNTDOWN_CIRCUMFERENCE = 2 * Math.PI * WHITELIST_COUNTDOWN_RADIUS;
+const WHITELIST_COUNTDOWN_CIRCUMFERENCE =
+  2 * Math.PI * WHITELIST_COUNTDOWN_RADIUS;
 
 function buildWhitelistCountdownMarkup(seconds) {
   return `<svg class="yt-hider-whitelist-countdown" width="20" height="20" viewBox="0 0 20 20" aria-hidden="true">
@@ -161,17 +168,19 @@ function clearDimmedElement(element) {
   if (!element || !element.dataset.ytHiderDimmed) return;
   delete element.dataset.ytHiderDimmed;
   element.querySelectorAll('.yt-hider-badge').forEach(removeBadgeAnimated);
-  element.querySelectorAll('[data-yt-hider-badge-target]').forEach(t => delete t.dataset.ytHiderBadgeTarget);
+  element
+    .querySelectorAll('[data-yt-hider-badge-target]')
+    .forEach(t => delete t.dataset.ytHiderBadgeTarget);
 }
 
 function createWhitelistButton(channel) {
   const btn = document.createElement('button');
   btn.className = 'yt-hider-whitelist-btn';
-  btn.title = channel;
+  btn.title = Array.isArray(channel) ? channel.join(', ') : channel;
 
   let countdownTimer = null;
   let pendingContainer = null;
-  let pendingWasPaused = false;
+  let pendingResult = null;
 
   const renderIdle = () => {
     const paused = isChannelPaused(channel);
@@ -196,12 +205,16 @@ function createWhitelistButton(channel) {
     e.stopPropagation();
 
     if (btn.classList.contains('yt-hider-whitelist-btn-pending')) {
-      if (pendingWasPaused) {
-        prefs.channelWhitelistEnabled = false;
-        safeStorageSet('sync', { channelWhitelistEnabled: false });
-      } else {
-        setChannelWhitelisted(channel, false);
+      if (pendingResult) {
+        if (pendingResult.enabledChanged) {
+          prefs.channelWhitelistEnabled = false;
+          safeStorageSet('sync', { channelWhitelistEnabled: false });
+        }
+        if (pendingResult.changedChannels.length) {
+          setChannelWhitelisted(pendingResult.changedChannels, false);
+        }
       }
+      pendingResult = null;
       cancelPending();
       renderIdle();
       return;
@@ -209,27 +222,36 @@ function createWhitelistButton(channel) {
 
     if (isChannelExempt(channel)) return;
 
-    pendingWasPaused = isChannelPaused(channel);
-    setChannelWhitelisted(channel, true);
+    pendingResult = setChannelWhitelisted(channel, true);
+    if (!pendingResult) return;
 
     pendingContainer = btn.closest('[data-yt-hider-dimmed]');
-    if (pendingContainer) pendingContainer.dataset.ytHiderWhitelistPending = '1';
+    if (pendingContainer)
+      pendingContainer.dataset.ytHiderWhitelistPending = '1';
 
-    const pendingLabel = pendingWasPaused ? 'Disable Whitelist' : 'Remove from Whitelist';
+    const pendingLabel = pendingResult.changedChannels.length
+      ? 'Remove from Whitelist'
+      : 'Disable Whitelist';
     btn.innerHTML = `<span class="yt-hider-whitelist-label">${pendingLabel}</span>${buildWhitelistCountdownMarkup(WHITELIST_UNDO_WINDOW_SECONDS)}`;
     btn.classList.add('yt-hider-whitelist-btn-pending');
 
     const ring = btn.querySelector('.yt-hider-whitelist-countdown-ring');
     if (ring) {
-      ring.style.setProperty('--yt-hider-countdown-circumference', WHITELIST_COUNTDOWN_CIRCUMFERENCE);
+      ring.style.setProperty(
+        '--yt-hider-countdown-circumference',
+        WHITELIST_COUNTDOWN_CIRCUMFERENCE,
+      );
       ring.style.animation = `yt-hider-whitelist-countdown ${WHITELIST_UNDO_WINDOW_MS}ms linear forwards`;
     }
 
     const deadline = Date.now() + WHITELIST_UNDO_WINDOW_MS;
     countdownTimer = setInterval(() => {
       const remainingMs = deadline - Date.now();
-      const numberEl = btn.querySelector('.yt-hider-whitelist-countdown-number');
-      if (numberEl) numberEl.textContent = Math.max(0, Math.ceil(remainingMs / 1000));
+      const numberEl = btn.querySelector(
+        '.yt-hider-whitelist-countdown-number',
+      );
+      if (numberEl)
+        numberEl.textContent = Math.max(0, Math.ceil(remainingMs / 1000));
 
       if (remainingMs <= 0) {
         clearInterval(countdownTimer);
@@ -257,14 +279,21 @@ function createDimBadge(reason, channel) {
     } catch (_) {}
   }
   badge.innerHTML = `${logoUrl ? `<img class="yt-hider-badge-logo" src="${logoUrl}" />` : ''}${reason ? `<span class="yt-hider-badge-reason">${reason}</span>` : ''}`;
-  if (channel && showUi) {
+  if (channelIsPresent(channel) && showUi) {
     badge.appendChild(createWhitelistButton(channel));
   }
   return badge;
 }
 
 function resolveChannelForElement(element) {
-  return extractChannelFromContainer(element) || channelHandleFromPathname(window.location.pathname);
+  return (
+    extractChannelFromContainer(element) ||
+    channelHandleFromPathname(window.location.pathname)
+  );
+}
+
+function channelIsPresent(ch) {
+  return Array.isArray(ch) ? ch.length > 0 : !!ch;
 }
 
 function applyFilter(element, reason) {
@@ -296,7 +325,7 @@ function applyFilter(element, reason) {
         return;
       }
       if (
-        ch &&
+        channelIsPresent(ch) &&
         !prefs.hideInterfaceElements &&
         !existingBadge.querySelector('.yt-hider-whitelist-btn')
       ) {
@@ -354,9 +383,19 @@ function hideWatched(pathname) {
       'ytd-thumbnail-overlay-resume-playback-renderer #progress, .ytThumbnailOverlayProgressBarHostWatchedProgressBarSegment, ytm-thumbnail-overlay-resume-playback-renderer .thumbnail-overlay-resume-playback-progress',
     )
     .forEach(bar => {
-      if (bar.classList.contains('ytThumbnailOverlayProgressBarHostWatchedProgressBarSegment')) {
+      if (
+        bar.classList.contains(
+          'ytThumbnailOverlayProgressBarHostWatchedProgressBarSegment',
+        )
+      ) {
         const thumbnail = bar.closest('ytd-thumbnail');
-        if (thumbnail && thumbnail.querySelector('ytd-thumbnail-overlay-now-playing-renderer[now-playing-badge]')) return;
+        if (
+          thumbnail &&
+          thumbnail.querySelector(
+            'ytd-thumbnail-overlay-now-playing-renderer[now-playing-badge]',
+          )
+        )
+          return;
       }
 
       const pct = parseFloat(bar.style.width) || 0;
@@ -364,7 +403,7 @@ function hideWatched(pathname) {
 
       let item = bar;
 
-      const isChannelPage = pathname && pathname.startsWith('/@');
+      const isChannelPage = isChannelPagePath(pathname);
 
       const selectors =
         pathname === '/watch'
@@ -401,7 +440,7 @@ function shouldHideDateFilter(pathname) {
 
   return (
     (pathname === '/' && dateFilterHomeEnabled) ||
-    (pathname && pathname.startsWith('/@') && dateFilterChannelEnabled) ||
+    (isChannelPagePath(pathname) && dateFilterChannelEnabled) ||
     (pathname === '/results' && dateFilterSearchEnabled) ||
     (pathname === '/watch' && dateFilterCorrEnabled) ||
     (pathname === '/feed/subscriptions' && dateFilterSubsEnabled)
@@ -437,7 +476,9 @@ function getMetadataSpansFromContainer(metadataContainer) {
   }
 
   return Array.from(
-    metadataContainer.querySelectorAll('span.ytContentMetadataViewModelMetadataText'),
+    metadataContainer.querySelectorAll(
+      'span.ytContentMetadataViewModelMetadataText',
+    ),
   );
 }
 
@@ -578,11 +619,11 @@ function hideNewFormatVideos() {
       const result = resolveViewsFromSpans(allSpans);
 
       try {
-        logger.log('views-check', {
-          views: result ? result.views : NaN,
-          threshold: viewsHideThreshold,
-          pathname: window.location.pathname,
-        });
+        // logger.log('views-check', {
+        //   views: result ? result.views : NaN,
+        //   threshold: viewsHideThreshold,
+        //   pathname: window.location.pathname,
+        // });
       } catch (e) {}
 
       if (!result || result.views >= viewsHideThreshold) return;
@@ -734,7 +775,7 @@ function shouldHideWatched(pathname) {
 
   return (
     (pathname === '/' && hideHomeEnabled) ||
-    (pathname && pathname.startsWith('/@') && hideChannelEnabled) ||
+    (isChannelPagePath(pathname) && hideChannelEnabled) ||
     (pathname === '/results' && hideSearchEnabled) ||
     (pathname === '/watch' && hideCorrEnabled) ||
     (pathname === '/feed/subscriptions' && hideSubsEnabled)
@@ -752,7 +793,7 @@ function shouldHideViews(pathname) {
 
   return (
     (pathname === '/' && viewsHideHomeEnabled) ||
-    (pathname && pathname.startsWith('/@') && viewsHideChannelEnabled) ||
+    (isChannelPagePath(pathname) && viewsHideChannelEnabled) ||
     (pathname === '/results' && viewsHideSearchEnabled) ||
     (pathname === '/watch' && viewsHideCorrEnabled) ||
     (pathname === '/feed/subscriptions' && viewsHideSubsEnabled)
@@ -786,7 +827,7 @@ function isCoreFilterPath(pathname) {
     pathname === '/results' ||
     pathname === '/watch' ||
     pathname === '/feed/subscriptions' ||
-    pathname.startsWith('/@')
+    isChannelPagePath(pathname)
   );
 }
 
@@ -837,19 +878,25 @@ function shouldHidePlaylists(pathname) {
 }
 
 function hideLives() {
-  document.querySelectorAll('badge-shape.yt-badge-shape--thumbnail-live, badge-shape.yt-badge-shape--live, badge-shape.ytBadgeShapeThumbnailLive, badge-shape.ytBadgeShapeLive').forEach(el => {
-    const item =
-      el.closest('ytd-rich-item-renderer, ytm-rich-item-renderer, ytd-video-renderer, ytd-compact-video-renderer') ||
-      el.closest('yt-lockup-view-model');
-    if (item) applyFilter(item, 'Live stream');
-  });
+  document
+    .querySelectorAll(
+      'badge-shape.yt-badge-shape--thumbnail-live, badge-shape.yt-badge-shape--live, badge-shape.ytBadgeShapeThumbnailLive, badge-shape.ytBadgeShapeLive',
+    )
+    .forEach(el => {
+      const item =
+        el.closest(
+          'ytd-rich-item-renderer, ytm-rich-item-renderer, ytd-video-renderer, ytd-compact-video-renderer',
+        ) || el.closest('yt-lockup-view-model');
+      if (item) applyFilter(item, 'Live stream');
+    });
 
   document.querySelectorAll('yt-lockup-view-model').forEach(el => {
     if (
       el.querySelector('.yt-spec-avatar-shape--live-ring') ||
       el.querySelector('.yt-spec-avatar-shape__live-badge')
     ) {
-      const item = el.closest('ytd-rich-item-renderer, ytm-rich-item-renderer') || el;
+      const item =
+        el.closest('ytd-rich-item-renderer, ytm-rich-item-renderer') || el;
       applyFilter(item, 'Live stream');
     }
   });

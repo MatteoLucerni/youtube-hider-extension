@@ -121,7 +121,7 @@ function extractViewCount(text) {
 
 function getVideoContainerSelectors() {
   const pathname = window.location.pathname;
-  const isChannelPage = pathname && pathname.startsWith('/@');
+  const isChannelPage = isChannelPagePath(pathname);
 
   if (pathname === '/watch') {
     return 'ytd-compact-video-renderer, ytd-rich-item-renderer, ytd-video-renderer, yt-lockup-view-model, ytm-video-with-context-renderer, ytm-compact-video-renderer';
@@ -436,6 +436,14 @@ function resolveUploadAgeFromSpans(spans) {
 const ytVideoChannelCache = {};
 const YT_HIDER_CACHE_ATTR = 'data-yt-hider-channel-cache';
 
+function channelCacheValuesEqual(a, b) {
+  if (Array.isArray(a) || Array.isArray(b)) {
+    if (!Array.isArray(a) || !Array.isArray(b) || a.length !== b.length) return false;
+    return a.every((v, i) => v === b[i]);
+  }
+  return a === b;
+}
+
 function readChannelCacheFromDOM() {
   try {
     const root = document.documentElement;
@@ -448,8 +456,9 @@ function readChannelCacheFromDOM() {
     for (const key in data) {
       if (!Object.prototype.hasOwnProperty.call(data, key)) continue;
       const value = data[key];
-      if (typeof value !== 'string') continue;
-      if (ytVideoChannelCache[key] !== value) {
+      const isValid = typeof value === 'string' || (Array.isArray(value) && value.every(v => typeof v === 'string'));
+      if (!isValid) continue;
+      if (!channelCacheValuesEqual(ytVideoChannelCache[key], value)) {
         ytVideoChannelCache[key] = value;
         added = true;
       }
@@ -460,9 +469,49 @@ function readChannelCacheFromDOM() {
   }
 }
 
+const ytChannelIdentityCache = {};
+const YT_HIDER_CHANNELID_CACHE_ATTR = 'data-yt-hider-channelid-cache';
+
+function readChannelIdentityCacheFromDOM() {
+  try {
+    const root = document.documentElement;
+    if (!root) return false;
+    const raw = root.getAttribute(YT_HIDER_CHANNELID_CACHE_ATTR);
+    if (!raw) return false;
+    const data = JSON.parse(raw);
+    if (!data || typeof data !== 'object') return false;
+    let added = false;
+    for (const key in data) {
+      if (!Object.prototype.hasOwnProperty.call(data, key)) continue;
+      const value = data[key];
+      if (typeof value !== 'string') continue;
+      if (ytChannelIdentityCache[key] !== value) {
+        ytChannelIdentityCache[key] = value;
+        added = true;
+      }
+    }
+    return added;
+  } catch (_) {
+    return false;
+  }
+}
+
+function resolveChannelIdentity(channel) {
+  if (!channel) return channel;
+  if (Array.isArray(channel)) return channel.map(c => ytChannelIdentityCache[c] || c);
+  return ytChannelIdentityCache[channel] || channel;
+}
+
 function channelHandleFromPathname(pathname) {
-  if (!pathname || !pathname.startsWith('/@')) return null;
-  return ('/' + pathname.split('/')[1]).toLowerCase();
+  if (!pathname) return null;
+  if (pathname.startsWith('/@')) return ('/' + pathname.split('/')[1]).toLowerCase();
+  const channelIdMatch = pathname.match(/^\/channel\/([^/]+)/);
+  if (channelIdMatch) return resolveChannelIdentity(('/channel/' + channelIdMatch[1]).toLowerCase());
+  return null;
+}
+
+function isChannelPagePath(pathname) {
+  return !!pathname && (pathname.startsWith('/@') || pathname.startsWith('/channel/'));
 }
 
 function extractChannelFromContainer(container) {
@@ -476,7 +525,7 @@ function extractChannelFromContainer(container) {
     const href = el.href || el.getAttribute('href');
     if (href) {
       try {
-        return new URL(href, window.location.origin).pathname.toLowerCase();
+        return resolveChannelIdentity(new URL(href, window.location.origin).pathname.toLowerCase());
       } catch (_) {}
     }
   }
@@ -484,7 +533,7 @@ function extractChannelFromContainer(container) {
     const contentEl = container.querySelector('[class*="content-id-"]');
     const match = contentEl?.className?.match(/content-id-([A-Za-z0-9_-]+)/);
     if (match?.[1] && ytVideoChannelCache[match[1]]) {
-      return ytVideoChannelCache[match[1]];
+      return resolveChannelIdentity(ytVideoChannelCache[match[1]]);
     }
   } catch (_) {}
   return null;

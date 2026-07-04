@@ -693,8 +693,8 @@ document.addEventListener('DOMContentLoaded', () => {
     chrome.storage.sync.set(Object.assign({ channelWhitelist: list }, extraUpdates));
   }
 
-  function isChannelProtected(channel) {
-    return !!channelWhitelistToggle.checked && channelListIncludes(channel, whitelistData);
+  function channelDisplayName(channel) {
+    return Array.isArray(channel) ? channel.join(', ') : channel;
   }
 
   function refreshAddButtonState() {
@@ -704,9 +704,10 @@ document.addEventListener('DOMContentLoaded', () => {
       if (whitelistHint) whitelistHint.textContent = 'Navigate to a channel page to add it';
       return;
     }
-    if (isChannelProtected(currentTabChannel)) {
+    const pending = computeWhitelistUpdate(currentTabChannel, true, whitelistData, channelWhitelistToggle.checked);
+    if (!pending) {
       addCurrentBtn.disabled = true;
-      if (whitelistHint) whitelistHint.textContent = currentTabChannel + ' is already whitelisted';
+      if (whitelistHint) whitelistHint.textContent = channelDisplayName(currentTabChannel) + ' is already whitelisted';
       return;
     }
     addCurrentBtn.disabled = false;

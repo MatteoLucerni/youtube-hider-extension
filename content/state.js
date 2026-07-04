@@ -89,11 +89,12 @@ function setChannelWhitelisted(channel, shouldWhitelist) {
     prefs.channelWhitelist,
     prefs.channelWhitelistEnabled,
   );
-  if (!result) return;
+  if (!result) return null;
 
   if (result.updates.channelWhitelist) prefs.channelWhitelist = result.list;
   if (result.updates.channelWhitelistEnabled) prefs.channelWhitelistEnabled = true;
   safeStorageSet('sync', result.updates);
+  return result;
 }
 
 function initPrefs() {

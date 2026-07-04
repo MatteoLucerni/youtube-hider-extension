@@ -1,5 +1,14 @@
 # Changelog
 
+### Version 2.9.4
+
+**Fixed**
+
+- Channel Whitelist did not exempt collaboration videos (multiple channels credited on the same upload, shown with a stacked-avatar icon instead of a single channel avatar): none of their channels were ever recorded in the internal channel cache, so the whitelist had no way to know one of them was exempt and kept filtering the video. The cache now reads all collaborating channels for these videos, and the video is exempted if any one of them is whitelisted. The "Whitelist channel" button on these videos now whitelists every collaborating channel at once (with the same undo window as before)
+- The inline "Whitelist" button next to Subscribe never appeared on the watch page for a collaboration video: the currently-played video's owner info uses yet another layout for crediting multiple channels, one that doesn't carry a browsable link either, and whose collaborator list lives in a different part of the page data than the one already handled for collaboration videos in feeds. That collaborator list is now read as well, keyed to the currently-played video, and the button whitelists all of them at once, same as the overlay button
+- The inline "Whitelist" button on a channel page's new header layout was smaller and misaligned compared to the Subscribe/Join/Community buttons next to it, since it was appended as a bare button instead of wrapped in the same action container YouTube uses for its own buttons in that row. It's now wrapped the same way, matching their size and spacing. On the watch page, where the button sits as a plain sibling next to Subscribe instead (a different layout), it now gets matching spacing for that context instead of reusing the channel page's
+- A channel was treated as two different channels depending on which URL was used to reach it: the handle form (`/@name`) and the internal id form (`/channel/UC...`) were compared as plain strings with no link between them, so whitelisting one didn't exempt the other, and per-page filter toggles for the Channel surface (Hide Watched, Minimum Views, Upload Date) silently did nothing on a `/channel/UC...` URL since they only recognized `/@name`. Both forms are now resolved to the same identity using the id-to-handle mapping YouTube's own page data already provides, and every per-surface Channel check now recognizes both URL forms
+
 ### Version 2.9.3
 
 **Fixed**
@@ -17,6 +26,7 @@
 
 ### Version 2.9.1
 
+`
 **Added**
 
 - Hide on-page controls: a new option in Extra Settings that hides all of the extension's on-screen elements on YouTube - the floating button, the inline and overlay "Whitelist" buttons, and the YouTube Hider logo on dimmed videos - for a cleaner, more discreet look. Filtering keeps working in the background. While the option is on, the Floating Button toggle is greyed out, with a hover tooltip explaining how to re-enable it

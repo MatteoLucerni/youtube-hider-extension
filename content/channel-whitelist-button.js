@@ -16,7 +16,7 @@ function getInlineWhitelistLogoUrl(isDark) {
 }
 
 function isInlineWhitelistPath(pathname) {
-  return pathname === '/watch' || (pathname && pathname.startsWith('/@'));
+  return pathname === '/watch' || isChannelPagePath(pathname);
 }
 
 function isYouTubeDarkTheme() {
@@ -26,7 +26,7 @@ function isYouTubeDarkTheme() {
 function watchYouTubeTheme() {
   const observer = new MutationObserver(() => {
     const btn = document.getElementById(INLINE_WHITELIST_BTN_ID);
-    if (btn) updateInlineWhitelistButtonState(btn, btn.dataset.ytHiderChannel);
+    if (btn) updateInlineWhitelistButtonState(btn, btn.ytHiderChannelValue);
   });
   observer.observe(document.documentElement, {
     attributes: true,
@@ -42,12 +42,13 @@ function injectInlineWhitelistStyles() {
     .yt-hider-inline-whitelist-btn {
       display: inline-flex;
       align-items: center;
+      justify-content: center;
       gap: 6px;
-      height: 36px;
+      height: 40px;
+      line-height: 40px;
       padding: 0 16px;
-      margin-left: 8px;
       border: none;
-      border-radius: 18px;
+      border-radius: 20px;
       font-size: 14px;
       font-weight: 500;
       font-family: 'Roboto', Arial, sans-serif;
@@ -56,6 +57,13 @@ function injectInlineWhitelistStyles() {
       background: #f1f1f1;
       color: #0f0f0f;
       transition: background 0.15s ease, color 0.15s ease;
+    }
+    .yt-hider-inline-whitelist-btn--channel {
+      flex: 1;
+      flex-basis: 0.000000001px;
+    }
+    .yt-hider-inline-whitelist-btn--watch {
+      margin-left: 8px;
     }
     .yt-hider-inline-whitelist-btn:hover {
       background: #e5e5e5;
@@ -124,7 +132,7 @@ function findInlineWhitelistAnchor(pathname) {
     return null;
   }
 
-  if (pathname && pathname.startsWith('/@')) {
+  if (isChannelPagePath(pathname)) {
     const actionsRow = document.querySelector(
       '#page-header yt-flexible-actions-view-model',
     );
@@ -149,11 +157,11 @@ function findInlineWhitelistAnchor(pathname) {
   return null;
 }
 
-function createInlineWhitelistButton(channel) {
+function createInlineWhitelistButton(channel, isFlexibleActionsRow) {
   const btn = document.createElement('button');
   btn.id = INLINE_WHITELIST_BTN_ID;
-  btn.className = 'yt-hider-inline-whitelist-btn';
-  btn.dataset.ytHiderChannel = channel;
+  btn.className = 'yt-hider-inline-whitelist-btn ' + (isFlexibleActionsRow ? 'yt-hider-inline-whitelist-btn--channel' : 'yt-hider-inline-whitelist-btn--watch');
+  btn.ytHiderChannelValue = channel;
 
   btn.innerHTML =
     '<img alt="" /><span class="yt-hider-inline-whitelist-label"></span><span class="yt-hider-inline-whitelist-icon"></span>';
@@ -161,7 +169,7 @@ function createInlineWhitelistButton(channel) {
   btn.addEventListener('click', e => {
     e.preventDefault();
     e.stopPropagation();
-    const ch = btn.dataset.ytHiderChannel;
+    const ch = btn.ytHiderChannelValue;
     if (!ch) return;
     setChannelWhitelisted(ch, !isChannelExempt(ch));
     updateInlineWhitelistButtonState(btn, ch);
@@ -171,19 +179,20 @@ function createInlineWhitelistButton(channel) {
 }
 
 function updateInlineWhitelistButtonState(btn, channel) {
-  btn.dataset.ytHiderChannel = channel;
+  btn.ytHiderChannelValue = channel;
   const isWhitelisted = isChannelExempt(channel);
   const isPaused = isChannelPaused(channel);
   const isDark = isYouTubeDarkTheme();
+  const isMulti = Array.isArray(channel) && channel.length > 1;
 
   btn.classList.toggle('is-whitelisted', isWhitelisted);
   btn.classList.toggle('yt-hider-dark', isDark);
   btn.setAttribute('aria-pressed', isWhitelisted ? 'true' : 'false');
   btn.title = isWhitelisted
-    ? 'Remove this channel from your YouTube Hider whitelist'
+    ? (isMulti ? 'Remove these channels from your YouTube Hider whitelist' : 'Remove this channel from your YouTube Hider whitelist')
     : isPaused
-      ? 'This channel is on your whitelist, but Channel Whitelist is currently turned off. Click to turn it back on.'
-      : 'Add this channel to your YouTube Hider whitelist: its videos won\'t be filtered (Shorts are always filtered)';
+      ? (isMulti ? 'These channels are on your whitelist, but Channel Whitelist is currently turned off. Click to turn it back on.' : 'This channel is on your whitelist, but Channel Whitelist is currently turned off. Click to turn it back on.')
+      : (isMulti ? 'Add these channels to your YouTube Hider whitelist: its videos won\'t be filtered (Shorts are always filtered)' : 'Add this channel to your YouTube Hider whitelist: its videos won\'t be filtered (Shorts are always filtered)');
 
   const logo = btn.querySelector('img');
   if (logo) logo.src = getInlineWhitelistLogoUrl(isDark);
@@ -227,8 +236,16 @@ function syncInlineWhitelistButton(pathname, timeout = 3000) {
     if (!btn) {
       const container = findInlineWhitelistAnchor(pathname);
       if (!container) return false;
-      btn = createInlineWhitelistButton(channel);
-      container.appendChild(btn);
+      const isFlexibleActionsRow = container.tagName && container.tagName.toLowerCase() === 'yt-flexible-actions-view-model';
+      btn = createInlineWhitelistButton(channel, isFlexibleActionsRow);
+      if (isFlexibleActionsRow) {
+        const wrapper = document.createElement('div');
+        wrapper.className = 'ytFlexibleActionsViewModelAction';
+        wrapper.appendChild(btn);
+        container.appendChild(wrapper);
+      } else {
+        container.appendChild(btn);
+      }
     }
 
     updateInlineWhitelistButtonState(btn, channel);
@@ -246,5 +263,11 @@ function syncInlineWhitelistButton(pathname, timeout = 3000) {
 function removeInlineWhitelistButton() {
   cancelInlineWhitelistRetry();
   const btn = document.getElementById(INLINE_WHITELIST_BTN_ID);
-  if (btn) btn.remove();
+  if (!btn) return;
+  const wrapper = btn.parentElement;
+  if (wrapper && wrapper.classList.contains('ytFlexibleActionsViewModelAction')) {
+    wrapper.remove();
+  } else {
+    btn.remove();
+  }
 }
