@@ -30,6 +30,42 @@
     return null;
   }
 
+  function browseEndpointFromListItem(liv) {
+    return (
+      (liv.rendererContext &&
+        liv.rendererContext.commandContext &&
+        liv.rendererContext.commandContext.onTap &&
+        liv.rendererContext.commandContext.onTap.innertubeCommand &&
+        liv.rendererContext.commandContext.onTap.innertubeCommand.browseEndpoint) ||
+      (liv.leadingAccessory &&
+        liv.leadingAccessory.avatarViewModel &&
+        liv.leadingAccessory.avatarViewModel.endpoint &&
+        liv.leadingAccessory.avatarViewModel.endpoint.innertubeCommand &&
+        liv.leadingAccessory.avatarViewModel.endpoint.innertubeCommand.browseEndpoint) ||
+      (liv.title &&
+        Array.isArray(liv.title.commandRuns) &&
+        liv.title.commandRuns[0] &&
+        liv.title.commandRuns[0].onTap &&
+        liv.title.commandRuns[0].onTap.innertubeCommand &&
+        liv.title.commandRuns[0].onTap.innertubeCommand.browseEndpoint) ||
+      null
+    );
+  }
+
+  function handlesFromCollaboratorListItems(listItems) {
+    if (!Array.isArray(listItems)) return [];
+    const handles = [];
+    for (const item of listItems) {
+      const liv = item && item.listItemViewModel;
+      if (!liv) continue;
+      const subtitleText = liv.subtitle && liv.subtitle.content;
+      const subtitleMatch = typeof subtitleText === 'string' && subtitleText.match(/@([A-Za-z0-9._-]+)/);
+      const handle = subtitleMatch ? ('/@' + subtitleMatch[1].toLowerCase()) : browseToHandle(browseEndpointFromListItem(liv));
+      if (handle && !handles.includes(handle)) handles.push(handle);
+    }
+    return handles;
+  }
+
   function handleFromLockup(lockup) {
     try {
       const mvm = lockup && lockup.metadata && lockup.metadata.lockupMetadataViewModel;
@@ -76,24 +112,8 @@
           avatarStack.rendererContext.commandContext.onTap.innertubeCommand.showDialogCommand.panelLoadingStrategy.inlineContent.dialogViewModel.customContent.listViewModel &&
           avatarStack.rendererContext.commandContext.onTap.innertubeCommand.showDialogCommand.panelLoadingStrategy.inlineContent.dialogViewModel.customContent.listViewModel.listItems;
 
-        if (Array.isArray(listItems)) {
-          const handles = [];
-          for (const item of listItems) {
-            const liv = item && item.listItemViewModel;
-            if (!liv) continue;
-            const subtitleText = liv.subtitle && liv.subtitle.content;
-            const subtitleMatch = typeof subtitleText === 'string' && subtitleText.match(/@([A-Za-z0-9._-]+)/);
-            const browse =
-              liv.rendererContext &&
-              liv.rendererContext.commandContext &&
-              liv.rendererContext.commandContext.onTap &&
-              liv.rendererContext.commandContext.onTap.innertubeCommand &&
-              liv.rendererContext.commandContext.onTap.innertubeCommand.browseEndpoint;
-            const handle = subtitleMatch ? ('/@' + subtitleMatch[1].toLowerCase()) : browseToHandle(browse);
-            if (handle && !handles.includes(handle)) handles.push(handle);
-          }
-          if (handles.length) return handles;
-        }
+        const handles = handlesFromCollaboratorListItems(listItems);
+        if (handles.length) return handles;
       }
 
       const rows =
@@ -137,6 +157,24 @@
     return null;
   }
 
+  function handlesFromVideoOwnerRenderer(videoOwnerRenderer) {
+    try {
+      const listItems =
+        videoOwnerRenderer.navigationEndpoint &&
+        videoOwnerRenderer.navigationEndpoint.showDialogCommand &&
+        videoOwnerRenderer.navigationEndpoint.showDialogCommand.panelLoadingStrategy &&
+        videoOwnerRenderer.navigationEndpoint.showDialogCommand.panelLoadingStrategy.inlineContent &&
+        videoOwnerRenderer.navigationEndpoint.showDialogCommand.panelLoadingStrategy.inlineContent.dialogViewModel &&
+        videoOwnerRenderer.navigationEndpoint.showDialogCommand.panelLoadingStrategy.inlineContent.dialogViewModel.customContent &&
+        videoOwnerRenderer.navigationEndpoint.showDialogCommand.panelLoadingStrategy.inlineContent.dialogViewModel.customContent.listViewModel &&
+        videoOwnerRenderer.navigationEndpoint.showDialogCommand.panelLoadingStrategy.inlineContent.dialogViewModel.customContent.listViewModel.listItems;
+
+      return handlesFromCollaboratorListItems(listItems);
+    } catch (_) {
+      return [];
+    }
+  }
+
   function walk(node, depth) {
     if (!node || depth > 14 || typeof node !== 'object') return;
 
@@ -151,6 +189,15 @@
       if (id && !cache[id]) {
         const handle = handleFromLockup(node.lockupViewModel);
         if (handle) { cache[id] = handle; cacheDirty = true; }
+      }
+    } catch (_) {}
+    try {
+      if (node.videoOwnerRenderer) {
+        const id = new URLSearchParams(window.location.search).get('v');
+        if (id && !cache[id]) {
+          const handles = handlesFromVideoOwnerRenderer(node.videoOwnerRenderer);
+          if (handles.length) { cache[id] = handles; cacheDirty = true; }
+        }
       }
     } catch (_) {}
     try {
