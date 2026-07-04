@@ -1,11 +1,31 @@
 (function () {
   const ATTR = 'data-yt-hider-channel-cache';
+  const CHANNEL_ID_ATTR = 'data-yt-hider-channelid-cache';
   const cache = {};
+  const channelIdCache = {};
   let cacheDirty = false;
+  let channelIdCacheDirty = false;
+
+  function extractHandleFromUrlish(value) {
+    if (!value) return null;
+    const match = String(value).match(/(\/@[^/?#]+)/);
+    return match ? match[1].toLowerCase() : null;
+  }
+
+  function rememberChannelIdentity(id, handle) {
+    if (!id || !handle) return;
+    const key = ('/channel/' + id).toLowerCase();
+    if (channelIdCache[key] !== handle) {
+      channelIdCache[key] = handle;
+      channelIdCacheDirty = true;
+    }
+  }
 
   function browseToHandle(browse) {
     if (!browse) return null;
-    if (browse.canonicalBaseUrl) return String(browse.canonicalBaseUrl).toLowerCase();
+    const handle = browse.canonicalBaseUrl ? String(browse.canonicalBaseUrl).toLowerCase() : null;
+    if (handle && browse.browseId) rememberChannelIdentity(browse.browseId, handle);
+    if (handle) return handle;
     if (browse.browseId) return ('/channel/' + browse.browseId).toLowerCase();
     return null;
   }
@@ -121,6 +141,12 @@
     if (!node || depth > 14 || typeof node !== 'object') return;
 
     try {
+      if (node.externalId && (node.vanityChannelUrl || node.canonicalBaseUrl)) {
+        const handle = extractHandleFromUrlish(node.vanityChannelUrl) || extractHandleFromUrlish(node.canonicalBaseUrl);
+        rememberChannelIdentity(node.externalId, handle);
+      }
+    } catch (_) {}
+    try {
       const id = node.lockupViewModel && node.lockupViewModel.contentId;
       if (id && !cache[id]) {
         const handle = handleFromLockup(node.lockupViewModel);
@@ -177,16 +203,22 @@
 
   let flushScheduled = false;
   function flush() {
-    if (flushScheduled || !cacheDirty) return;
+    if (flushScheduled || (!cacheDirty && !channelIdCacheDirty)) return;
     flushScheduled = true;
     Promise.resolve().then(() => {
       flushScheduled = false;
-      if (!cacheDirty) return;
-      cacheDirty = false;
+      if (!cacheDirty && !channelIdCacheDirty) return;
       try {
         const root = document.documentElement;
         if (!root) return;
-        root.setAttribute(ATTR, JSON.stringify(cache));
+        if (cacheDirty) {
+          cacheDirty = false;
+          root.setAttribute(ATTR, JSON.stringify(cache));
+        }
+        if (channelIdCacheDirty) {
+          channelIdCacheDirty = false;
+          root.setAttribute(CHANNEL_ID_ATTR, JSON.stringify(channelIdCache));
+        }
       } catch (_) {}
     });
   }

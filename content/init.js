@@ -55,7 +55,7 @@ function waitForPageElements(pathname, timeout = 3000) {
 }
 
 async function startHiding(pathname) {
-  logger.log('Starting hide operations for:', pathname);
+  // logger.log('Starting hide operations for:', pathname);
 
   if (!prefs.extensionEnabled) {
     resetAppliedFilters(true);
@@ -73,26 +73,26 @@ async function startHiding(pathname) {
   const canHidePlaylists = shouldHidePlaylists(pathname);
   const canHideLives = shouldHideLives(pathname);
 
-  logger.log('Hide decision for', pathname, {
-    hideWatched: canHideWatched,
-    hideViews: canHideViews,
-    hideShorts: canHideShortsFlag,
-    hideDateFilter: canHideDateFilter,
-    hideMixes: canHideMixes,
-    hidePlaylists: canHidePlaylists,
-    hideLives: canHideLives,
-    relevantPrefs: {
-      hideChannelEnabled: prefs.hideChannelEnabled,
-      viewsHideChannelEnabled: prefs.viewsHideChannelEnabled,
-      hideShortsEnabled: prefs.hideShortsEnabled,
-      hideShortsSearchEnabled: prefs.hideShortsSearchEnabled,
-      dateFilterNewerThreshold: prefs.dateFilterNewerThreshold,
-      dateFilterOlderThreshold: prefs.dateFilterOlderThreshold,
-      hideMixesEnabled: prefs.hideMixesEnabled,
-      hidePlaylistsEnabled: prefs.hidePlaylistsEnabled,
-      hideLivesEnabled: prefs.hideLivesEnabled,
-    },
-  });
+  // logger.log('Hide decision for', pathname, {
+  //   hideWatched: canHideWatched,
+  //   hideViews: canHideViews,
+  //   hideShorts: canHideShortsFlag,
+  //   hideDateFilter: canHideDateFilter,
+  //   hideMixes: canHideMixes,
+  //   hidePlaylists: canHidePlaylists,
+  //   hideLives: canHideLives,
+  //   relevantPrefs: {
+  //     hideChannelEnabled: prefs.hideChannelEnabled,
+  //     viewsHideChannelEnabled: prefs.viewsHideChannelEnabled,
+  //     hideShortsEnabled: prefs.hideShortsEnabled,
+  //     hideShortsSearchEnabled: prefs.hideShortsSearchEnabled,
+  //     dateFilterNewerThreshold: prefs.dateFilterNewerThreshold,
+  //     dateFilterOlderThreshold: prefs.dateFilterOlderThreshold,
+  //     hideMixesEnabled: prefs.hideMixesEnabled,
+  //     hidePlaylistsEnabled: prefs.hidePlaylistsEnabled,
+  //     hideLivesEnabled: prefs.hideLivesEnabled,
+  //   },
+  // });
 
   if (canHideWatched) {
     logger.log('Hiding watched videos on', pathname);
@@ -190,7 +190,15 @@ function onMutations(mutations) {
   const cacheChanged = mutations.some(
     m => m.type === 'attributes' && m.attributeName === YT_HIDER_CACHE_ATTR,
   );
-  if (cacheChanged && readChannelCacheFromDOM() && prefs.extensionEnabled) {
+  const channelIdCacheChanged = mutations.some(
+    m =>
+      m.type === 'attributes' &&
+      m.attributeName === YT_HIDER_CHANNELID_CACHE_ATTR,
+  );
+  const videoCacheUpdated = cacheChanged && readChannelCacheFromDOM();
+  const channelIdCacheUpdated =
+    channelIdCacheChanged && readChannelIdentityCacheFromDOM();
+  if ((videoCacheUpdated || channelIdCacheUpdated) && prefs.extensionEnabled) {
     startHiding(window.location.pathname);
   }
 
@@ -209,14 +217,19 @@ async function init() {
 
   logger.log('Extension initialized on', currentPath);
   readChannelCacheFromDOM();
+  readChannelIdentityCacheFromDOM();
   await startHiding(currentPath);
 
   const observer = new MutationObserver(onMutations);
   observer.observe(document.documentElement, {
     attributes: true,
-    attributeFilter: [YT_HIDER_CACHE_ATTR],
+    attributeFilter: [YT_HIDER_CACHE_ATTR, YT_HIDER_CHANNELID_CACHE_ATTR],
   });
-  observer.observe(document.body, { childList: true, subtree: true, characterData: true });
+  observer.observe(document.body, {
+    childList: true,
+    subtree: true,
+    characterData: true,
+  });
 
   logger.log('MutationObserver started');
 

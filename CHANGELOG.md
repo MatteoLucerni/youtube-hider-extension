@@ -5,6 +5,7 @@
 **Fixed**
 
 - Channel Whitelist did not exempt collaboration videos (multiple channels credited on the same upload, shown with a stacked-avatar icon instead of a single channel avatar): none of their channels were ever recorded in the internal channel cache, so the whitelist had no way to know one of them was exempt and kept filtering the video. The cache now reads all collaborating channels for these videos, and the video is exempted if any one of them is whitelisted. The "Whitelist channel" button on these videos now whitelists every collaborating channel at once (with the same undo window as before)
+- The inline "Whitelist" button next to Subscribe never appeared on the watch page for a collaboration video, since it also reads the channel from the same single-avatar link that collaboration videos don't have. It now falls back to the video's cached collaborating channels and whitelists all of them at once, same as the overlay button
 
 ### Version 2.9.3
 
