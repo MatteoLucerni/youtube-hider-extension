@@ -68,7 +68,6 @@ function injectDimStyles() {
       line-height: 1.2;
     }
     .yt-hider-whitelist-btn {
-      position: relative;
       display: inline-flex;
       align-items: center;
       gap: 5px;
@@ -117,10 +116,10 @@ function injectDimStyles() {
       visibility: hidden;
       opacity: 0;
       position: absolute;
-      bottom: 125%;
+      top: 6px;
       left: 50%;
       transform: translateX(-50%);
-      width: 200px;
+      max-width: calc(100% - 12px);
       background: #222222;
       color: #ebebeb;
       border: 1px solid #3a3a3a;
@@ -178,15 +177,17 @@ function buildWhitelistCountdownMarkup(seconds) {
 }
 
 const WHITELIST_SETTINGS_TIP =
-  'Hide this button via "Hide on-page controls" in the extension settings.';
+  'You can hide this button from the extension settings, under "Hide on-page controls".';
 
 function buildWhitelistTooltipMarkup(channel) {
+  if (window.location.pathname === '/watch') return '';
+
   const isMulti = Array.isArray(channel) && channel.length > 1;
   const paused = isChannelPaused(channel);
   const channelWord = isMulti ? 'these channels' : 'this channel';
   const possessive = isMulti ? 'their' : 'its';
   const text = paused
-    ? `This whitelist entry exists, but Channel Whitelist is currently turned off. Click to re-enable it. ${WHITELIST_SETTINGS_TIP}`
+    ? `This whitelist entry exists, but Channel Whitelist is currently turned off. Click to turn it back on. ${WHITELIST_SETTINGS_TIP}`
     : `Adds ${channelWord} to your YouTube Hider whitelist: ${possessive} videos won't be filtered (Shorts are always filtered). ${WHITELIST_SETTINGS_TIP}`;
   return `<span class="yt-hider-whitelist-tooltip">${text}</span>`;
 }

@@ -6,7 +6,7 @@
 
 - Cleaner Dim mode overlay: removed the YouTube Hider logo from the dimmed-video overlay and from the inline "Whitelist" button next to Subscribe, so filtered videos and profile actions read as plain YouTube UI instead of branded extension chrome. The floating quick-settings button keeps the logo, since that's the extension's own dedicated entry point
 - Renamed the overlay's "Whitelist channel" button to "Whitelist" and restyled it as a subtler, translucent pill closer to YouTube's own ghost-button look, instead of a solid gray filled button
-- Hovering the overlay or inline "Whitelist" button now shows a tooltip explaining what it does and pointing to "Hide on-page controls" for anyone who'd rather not see these buttons at all, since removing the logo made the buttons less obviously tied to the extension
+- Hovering the overlay or inline "Whitelist" button now shows a tooltip explaining what it does and pointing to "Hide on-page controls" for anyone who'd rather not see these buttons at all, since removing the logo made the buttons less obviously tied to the extension. The overlay tooltip does not show up on the watch page, since the related videos there use a thumbnail too small to fit it without cutting it off
 
 ### Version 2.9.4
 

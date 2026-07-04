@@ -205,7 +205,7 @@ function updateInlineWhitelistButtonState(btn, channel) {
     tooltip.textContent = isWhitelisted
       ? `Removes ${channelWord} from your YouTube Hider whitelist. ${WHITELIST_SETTINGS_TIP}`
       : isPaused
-        ? `This whitelist entry exists, but Channel Whitelist is currently turned off. Click to re-enable it. ${WHITELIST_SETTINGS_TIP}`
+        ? `This whitelist entry exists, but Channel Whitelist is currently turned off. Click to turn it back on. ${WHITELIST_SETTINGS_TIP}`
         : `Adds ${channelWord} to your YouTube Hider whitelist: ${possessive} videos won't be filtered (Shorts are always filtered). ${WHITELIST_SETTINGS_TIP}`;
   }
 
