@@ -2,6 +2,12 @@
 
 ### Version 3.0.0
 
+**Fixed**
+
+- The "what's new" toast never appeared on a major version update: the check only compared the minor version segment, so going from 2.9.x to 3.0.0 (minor segment reset to 0) was read as no update at all
+- The first-run onboarding tour could be silently skipped on a fresh install if YouTube's header hadn't finished rendering yet when the extension initialized, since the tour was gated on the header button already existing at that exact moment with no retry
+- Un-whitelisting a collaboration video (multiple channels credited on the same upload) did nothing if only some of its channels were already on the whitelist, since the check required every one of them to be listed before allowing a removal
+
 **Removed**
 
 - The floating quick-settings button and its draggable mini-panel, including the ability to drag it to a screen edge and its own hand-maintained subset of settings

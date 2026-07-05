@@ -10,14 +10,16 @@ function computeWhitelistUpdate(channel, shouldWhitelist, list, enabled) {
   if (!channels.length) return null;
 
   const current = Array.isArray(list) ? list : [];
-  const has = channels.every(c => current.includes(c));
+  const allPresent = channels.every(c => current.includes(c));
+  const anyPresent = channels.some(c => current.includes(c));
+  const needsListChange = shouldWhitelist ? !allPresent : anyPresent;
   const needsReEnable = shouldWhitelist && !enabled;
-  if (shouldWhitelist === has && !needsReEnable) return null;
+  if (!needsListChange && !needsReEnable) return null;
 
   const updates = {};
   let nextList = current;
   let changedChannels = [];
-  if (shouldWhitelist !== has) {
+  if (needsListChange) {
     changedChannels = shouldWhitelist
       ? channels.filter(c => !current.includes(c))
       : channels.filter(c => current.includes(c));

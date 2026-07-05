@@ -193,7 +193,6 @@ function updateInlineWhitelistButtonState(btn, channel) {
   const isWhitelisted = isChannelExempt(channel);
   const isPaused = isChannelPaused(channel);
   const isDark = isYouTubeDarkTheme();
-  const isMulti = Array.isArray(channel) && channel.length > 1;
 
   btn.classList.toggle('is-whitelisted', isWhitelisted);
   btn.classList.toggle('yt-hider-dark', isDark);
@@ -201,13 +200,7 @@ function updateInlineWhitelistButtonState(btn, channel) {
 
   const tooltip = btn.querySelector('.yt-hider-inline-whitelist-tooltip');
   if (tooltip) {
-    const channelWord = isMulti ? 'these channels' : 'this channel';
-    const possessive = isMulti ? 'their' : 'its';
-    tooltip.textContent = isWhitelisted
-      ? `Removes ${channelWord} from your YouTube Hider whitelist. ${WHITELIST_SETTINGS_TIP}`
-      : isPaused
-        ? `This whitelist entry exists, but Channel Whitelist is currently turned off. Click to turn it back on. ${WHITELIST_SETTINGS_TIP}`
-        : `Adds ${channelWord} to your YouTube Hider whitelist: ${possessive} videos won't be filtered (Shorts are always filtered). ${WHITELIST_SETTINGS_TIP}`;
+    tooltip.textContent = buildWhitelistTooltipText(channel, { isWhitelisted });
   }
 
   const icon = btn.querySelector('.yt-hider-inline-whitelist-icon');

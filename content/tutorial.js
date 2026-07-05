@@ -352,9 +352,6 @@ function startSpotlightTour() {
       left = rect.left + rect.width + PADDING;
       top = centeredTop();
     } else {
-      // Nothing fits cleanly (very small viewport): use whichever side has
-      // the most room, so the tooltip never overlaps the highlighted target
-      // even if it ends up tight against a viewport edge.
       const spaces = { below: spaceBelow, above: spaceAbove, left: spaceLeft, right: spaceRight };
       const best = Object.keys(spaces).reduce((a, b) => (spaces[b] > spaces[a] ? b : a));
 

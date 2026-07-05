@@ -41,7 +41,6 @@ function waitForPageElements(pathname, timeout = 3000) {
   const checkElements = () => {
     for (const selector of selectors) {
       if (document.querySelector(selector)) {
-        // logger.log(`Page ready: found ${selector} for ${pathname}`);
         return true;
       }
     }
@@ -55,8 +54,6 @@ function waitForPageElements(pathname, timeout = 3000) {
 }
 
 async function startHiding(pathname) {
-  // logger.log('Starting hide operations for:', pathname);
-
   if (!prefs.extensionEnabled) {
     resetAppliedFilters(true);
     removeWarning();
@@ -73,59 +70,31 @@ async function startHiding(pathname) {
   const canHidePlaylists = shouldHidePlaylists(pathname);
   const canHideLives = shouldHideLives(pathname);
 
-  // logger.log('Hide decision for', pathname, {
-  //   hideWatched: canHideWatched,
-  //   hideViews: canHideViews,
-  //   hideShorts: canHideShortsFlag,
-  //   hideDateFilter: canHideDateFilter,
-  //   hideMixes: canHideMixes,
-  //   hidePlaylists: canHidePlaylists,
-  //   hideLives: canHideLives,
-  //   relevantPrefs: {
-  //     hideChannelEnabled: prefs.hideChannelEnabled,
-  //     viewsHideChannelEnabled: prefs.viewsHideChannelEnabled,
-  //     hideShortsEnabled: prefs.hideShortsEnabled,
-  //     hideShortsSearchEnabled: prefs.hideShortsSearchEnabled,
-  //     dateFilterNewerThreshold: prefs.dateFilterNewerThreshold,
-  //     dateFilterOlderThreshold: prefs.dateFilterOlderThreshold,
-  //     hideMixesEnabled: prefs.hideMixesEnabled,
-  //     hidePlaylistsEnabled: prefs.hidePlaylistsEnabled,
-  //     hideLivesEnabled: prefs.hideLivesEnabled,
-  //   },
-  // });
-
   if (canHideWatched) {
-    // logger.log('Hiding watched videos on', pathname);
     hideWatched(pathname);
   }
 
   if (canHideViews) {
-    // logger.log('Hiding low view count videos on', pathname);
     hideUnderVisuals();
   }
 
   if (canHideShortsFlag) {
-    // logger.log('Hiding shorts on', pathname);
     hideShorts();
   }
 
   if (canHideDateFilter) {
-    // logger.log('Hiding videos by upload date on', pathname);
     hideDateFilter();
   }
 
   if (canHideMixes) {
-    // logger.log('Hiding mixes on', pathname);
     hideMixes();
   }
 
   if (canHidePlaylists) {
-    // logger.log('Hiding playlists on', pathname);
     hidePlaylists();
   }
 
   if (canHideLives) {
-    // logger.log('Hiding lives on', pathname);
     hideLives();
   }
 
@@ -148,13 +117,7 @@ function detectPageChange() {
     cleanupTour();
     removeTutorialOverlay();
 
-    if (
-      prefs.extensionEnabled &&
-      isYouTube() &&
-      (!headerButtonHost || !headerButtonHost.isConnected)
-    ) {
-      createHeaderButton();
-    }
+    ensureHeaderButton();
 
     removeInlineWhitelistButton();
 
@@ -199,13 +162,7 @@ function onMutations(mutations) {
     startHiding(window.location.pathname);
   }
 
-  if (
-    prefs.extensionEnabled &&
-    isYouTube() &&
-    (!headerButtonHost || !headerButtonHost.isConnected)
-  ) {
-    createHeaderButton();
-  }
+  ensureHeaderButton();
 
   detectInfiniteLoaderLoop(mutations);
 
@@ -241,6 +198,9 @@ async function init() {
   if (isYouTube() && prefs.extensionEnabled) {
     const tutorialPending = !prefs.tutorialCompleted;
     createHeaderButton();
+    if (!headerButtonHost) {
+      await pollUntil(() => !!headerButtonHost, { timeout: 5000 }).promise;
+    }
     if (tutorialPending && headerButtonHost) {
       setTimeout(() => showTutorialWelcomeCard(), 1500);
     } else {

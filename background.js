@@ -124,9 +124,6 @@ function migrateSettings(currentSettings) {
     migrateSliderOff(currentSettings);
   }
 
-  // Header button migration: the FAB is replaced by a header button whose
-  // visibility is governed solely by hideInterfaceElements, so drop the FAB's
-  // now-unused settings
   if (!currentSettings.headerButtonMigrationDone) {
     migrateHeaderButtonCleanup();
   }
@@ -296,7 +293,11 @@ chrome.runtime.onInstalled.addListener(details => {
     const manifest = chrome.runtime.getManifest();
     const prev = (details.previousVersion || '').split('.');
     const curr = manifest.version.split('.');
-    if (parseInt(curr[1] || '0', 10) > parseInt(prev[1] || '0', 10)) {
+    const prevMajor = parseInt(prev[0] || '0', 10);
+    const prevMinor = parseInt(prev[1] || '0', 10);
+    const currMajor = parseInt(curr[0] || '0', 10);
+    const currMinor = parseInt(curr[1] || '0', 10);
+    if (currMajor > prevMajor || (currMajor === prevMajor && currMinor > prevMinor)) {
       chrome.storage.local.set({ whatsNewVersion: curr[0] + '.' + curr[1] });
     }
   }

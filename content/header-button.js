@@ -118,6 +118,11 @@ function createHeaderButton() {
   applyHeaderButtonTheme();
 }
 
+function ensureHeaderButton() {
+  if (!prefs.extensionEnabled || !isYouTube()) return;
+  createHeaderButton();
+}
+
 function removeHeaderButton() {
   closeHeaderDropdown();
   if (headerButtonHost) {

@@ -179,17 +179,23 @@ function buildWhitelistCountdownMarkup(seconds) {
 const WHITELIST_SETTINGS_TIP =
   'You can hide this button from the extension settings, under "Hide on-page controls".';
 
-function buildWhitelistTooltipMarkup(channel) {
-  if (window.location.pathname === '/watch') return '';
-
+function buildWhitelistTooltipText(channel, { isWhitelisted = false } = {}) {
   const isMulti = Array.isArray(channel) && channel.length > 1;
-  const paused = isChannelPaused(channel);
   const channelWord = isMulti ? 'these channels' : 'this channel';
   const possessive = isMulti ? 'their' : 'its';
-  const text = paused
-    ? `This whitelist entry exists, but Channel Whitelist is currently turned off. Click to turn it back on. ${WHITELIST_SETTINGS_TIP}`
-    : `Adds ${channelWord} to your YouTube Hider whitelist: ${possessive} videos won't be filtered (Shorts are always filtered). ${WHITELIST_SETTINGS_TIP}`;
-  return `<span class="yt-hider-whitelist-tooltip">${text}</span>`;
+
+  if (isWhitelisted) {
+    return `Removes ${channelWord} from your YouTube Hider whitelist. ${WHITELIST_SETTINGS_TIP}`;
+  }
+  if (isChannelPaused(channel)) {
+    return `This whitelist entry exists, but Channel Whitelist is currently turned off. Click to turn it back on. ${WHITELIST_SETTINGS_TIP}`;
+  }
+  return `Adds ${channelWord} to your YouTube Hider whitelist: ${possessive} videos won't be filtered (Shorts are always filtered). ${WHITELIST_SETTINGS_TIP}`;
+}
+
+function buildWhitelistTooltipMarkup(channel) {
+  if (window.location.pathname === '/watch') return '';
+  return `<span class="yt-hider-whitelist-tooltip">${buildWhitelistTooltipText(channel)}</span>`;
 }
 
 function removeBadgeAnimated(badge) {

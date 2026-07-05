@@ -129,8 +129,8 @@ function setupPrefsListener() {
             removeTutorialOverlay();
             removeHeaderButton();
             removeInlineWhitelistButton();
-          } else if (!headerButtonHost && isYouTube()) {
-            createHeaderButton();
+          } else {
+            ensureHeaderButton();
           }
           startHiding(currentPath);
         }
@@ -144,12 +144,8 @@ function setupPrefsListener() {
             removeTutorialOverlay();
             removeHeaderButton();
             removeInlineWhitelistButton();
-          } else if (
-            prefs.extensionEnabled &&
-            !headerButtonHost &&
-            isYouTube()
-          ) {
-            createHeaderButton();
+          } else {
+            ensureHeaderButton();
           }
           resetAppliedFilters();
           startHiding(currentPath);
