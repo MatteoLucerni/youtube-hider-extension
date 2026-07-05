@@ -5,6 +5,10 @@
   "private": true,
   "type": "commonjs",
   "scripts": {
-    "test": "node --test"
+    "test": "node --test",
+    "screenshots": "node tools/generate-popup-screenshots.js"
+  },
+  "devDependencies": {
+    "playwright-core": "^1.48.0"
   }
 }
