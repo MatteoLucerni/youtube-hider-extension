@@ -1,5 +1,23 @@
 # Changelog
 
+### Version 3.1.3
+
+**Fixed**
+
+- The dim-mode overlay's "Remove from Blacklist" button could show an ellipsis and cut off its own label on narrower thumbnails, because the row wrapping the Whitelist/Blacklist buttons sized itself to its own content instead of to the actual available width, capping every button's text to a few dozen pixels regardless of the thumbnail's real size. The row now sizes to the full available width, and the button label was also shortened to "Unblacklist" so it stays comfortably clear of the edge on every thumbnail size, including the narrowest ones
+
+### Version 3.1.2
+
+**Removed**
+
+- The in-popup "What's New" modal that listed feature descriptions per version. It required hand-writing and maintaining a features list on every update, which was routinely skipped in practice. The post-update toast still appears and still links to settings; it just no longer opens a modal describing specific new features
+
+### Version 3.1.1
+
+**Fixed**
+
+- The "See what's new" button on the post-update toast always opened the settings as a standalone tab, even when the header settings button was enabled and visible. It now opens the in-page header dropdown instead whenever on-page controls are on, and only falls back to the standalone tab when "Hide on-page controls" is enabled (no header button to open)
+
 ### Version 3.1.0
 
 **Added**

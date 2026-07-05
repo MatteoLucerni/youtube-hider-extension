@@ -74,7 +74,9 @@ function injectDimStyles() {
       justify-content: center;
       gap: 6px;
       margin-top: 8px;
-      max-width: 100%;
+      width: 100%;
+      box-sizing: border-box;
+      padding: 0 6px;
     }
     .yt-hider-whitelist-btn,
     .yt-hider-blacklist-btn {
@@ -95,7 +97,7 @@ function injectDimStyles() {
       transition: background 0.15s ease, color 0.15s ease;
       line-height: 1;
       white-space: nowrap;
-      max-width: calc(100% - 12px);
+      max-width: 100%;
     }
     .yt-hider-whitelist-label {
       overflow: hidden;
@@ -427,7 +429,7 @@ function createBlacklistButton(channel, onCommit) {
 function createUnblacklistButton(channel) {
   const btn = document.createElement('button');
   btn.className = 'yt-hider-blacklist-btn';
-  btn.innerHTML = `<span class="yt-hider-whitelist-label">Remove from Blacklist</span>${buildBlacklistTooltipMarkup(channel, { isBlacklisted: true })}`;
+  btn.innerHTML = `<span class="yt-hider-whitelist-label">Unblacklist</span>${buildBlacklistTooltipMarkup(channel, { isBlacklisted: true })}`;
 
   btn.addEventListener('click', e => {
     e.preventDefault();
