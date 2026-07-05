@@ -148,15 +148,12 @@ function detectPageChange() {
     cleanupTour();
     removeTutorialOverlay();
 
-    if (currentPath === '/watch') {
-      removeFloatingButton();
-    } else if (
+    if (
       prefs.extensionEnabled &&
-      prefs.floatingButtonEnabled &&
-      !floatingButtonHost &&
-      isYouTube()
+      isYouTube() &&
+      (!headerButtonHost || !headerButtonHost.isConnected)
     ) {
-      createFloatingButton();
+      createHeaderButton();
     }
 
     removeInlineWhitelistButton();
@@ -170,8 +167,8 @@ function detectPageChange() {
       pageLoadTimeout = null;
     }, TIMING.PAGE_CHANGE_DELAY);
 
-    if (fabShadow && miniPanelOpen) {
-      syncPanelWhitelistRow(fabShadow);
+    if (headerDropdownOpen) {
+      closeHeaderDropdown();
     }
 
     return true;
@@ -200,6 +197,14 @@ function onMutations(mutations) {
     channelIdCacheChanged && readChannelIdentityCacheFromDOM();
   if ((videoCacheUpdated || channelIdCacheUpdated) && prefs.extensionEnabled) {
     startHiding(window.location.pathname);
+  }
+
+  if (
+    prefs.extensionEnabled &&
+    isYouTube() &&
+    (!headerButtonHost || !headerButtonHost.isConnected)
+  ) {
+    createHeaderButton();
   }
 
   detectInfiniteLoaderLoop(mutations);
@@ -234,13 +239,11 @@ async function init() {
   logger.log('MutationObserver started');
 
   if (isYouTube() && prefs.extensionEnabled) {
-    const tutorialPending = !prefs.tutorialCompleted && !isWatchPage();
-    if (!isWatchPage()) {
-      createFloatingButton(tutorialPending);
-    }
-    if (tutorialPending && floatingButtonHost) {
+    const tutorialPending = !prefs.tutorialCompleted;
+    createHeaderButton();
+    if (tutorialPending && headerButtonHost) {
       setTimeout(() => showTutorialWelcomeCard(), 1500);
-    } else if (!isWatchPage()) {
+    } else {
       chrome.storage.local.get('whatsNewVersion', local => {
         if (local.whatsNewVersion) {
           setTimeout(() => showWhatsNewToast(local.whatsNewVersion), 1500);

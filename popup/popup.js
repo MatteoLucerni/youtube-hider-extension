@@ -17,30 +17,20 @@ const WHATS_NEW = {
 document.addEventListener('DOMContentLoaded', () => {
   const extensionToggle = document.getElementById('extension-enabled');
   const advancedModeToggle = document.getElementById('advanced-mode-enabled');
-  const floatingButtonToggle = document.getElementById(
-    'floating-button-enabled',
-  );
-  const dimModeToggle = document.getElementById('dim-mode-enabled');
+  const filterModeHideBtn = document.getElementById('filter-mode-hide');
+  const filterModeDimBtn = document.getElementById('filter-mode-dim');
+  const setFilterModeUI = isDim => {
+    filterModeHideBtn.classList.toggle('active', !isDim);
+    filterModeHideBtn.setAttribute('aria-pressed', String(!isDim));
+    filterModeDimBtn.classList.toggle('active', isDim);
+    filterModeDimBtn.setAttribute('aria-pressed', String(isDim));
+  };
   const channelWhitelistToggle = document.getElementById(
     'channel-whitelist-enabled',
   );
   const hideOnPageControlsToggle = document.getElementById(
     'hide-on-page-controls',
   );
-  // The floating button is one of the on-page controls, so its toggle is
-  // disabled (greyed) while "Hide on-page controls" is on. A hover tooltip on
-  // the greyed toggle (shown via the `.is-locked` class) explains how to unlock
-  // it.
-  const floatingButtonToggleWrap = floatingButtonToggle.closest(
-    '.card-compact-toggle',
-  );
-  const syncFloatingButtonToggleDisabled = () => {
-    const locked = hideOnPageControlsToggle.checked;
-    floatingButtonToggle.disabled = locked;
-    if (floatingButtonToggleWrap) {
-      floatingButtonToggleWrap.classList.toggle('is-locked', locked);
-    }
-  };
   let isEasyMode = true;
 
   const easyShortsToggle = document.getElementById('hide-shorts-easy');
@@ -215,7 +205,6 @@ document.addEventListener('DOMContentLoaded', () => {
   const storageKeys = [
     'extensionEnabled',
     'easyModeEnabled',
-    'floatingButtonEnabled',
     'dimMode',
     'channelWhitelist',
     'channelWhitelistEnabled',
@@ -239,11 +228,9 @@ document.addEventListener('DOMContentLoaded', () => {
       advancedModeToggle.checked = !easyMode;
     }
 
-    floatingButtonToggle.checked = prefs.floatingButtonEnabled ?? true;
-    dimModeToggle.checked = prefs.dimMode ?? false;
+    setFilterModeUI(prefs.dimMode ?? false);
     channelWhitelistToggle.checked = prefs.channelWhitelistEnabled ?? true;
     hideOnPageControlsToggle.checked = prefs.hideInterfaceElements ?? false;
-    syncFloatingButtonToggleDisabled();
 
     ['hide', 'views', 'shorts', 'mixesPlaylists'].forEach(sectionName => {
       const section = cfg[sectionName];
@@ -494,21 +481,18 @@ document.addEventListener('DOMContentLoaded', () => {
     saveSettings();
   });
 
-  floatingButtonToggle.addEventListener('change', () => {
-    chrome.storage.sync.set({
-      floatingButtonEnabled: floatingButtonToggle.checked,
-    });
-  });
+  const setDimMode = isDim => {
+    setFilterModeUI(isDim);
+    chrome.storage.sync.set({ dimMode: isDim });
+  };
 
-  dimModeToggle.addEventListener('change', () => {
-    chrome.storage.sync.set({ dimMode: dimModeToggle.checked });
-  });
+  filterModeHideBtn.addEventListener('click', () => setDimMode(false));
+  filterModeDimBtn.addEventListener('click', () => setDimMode(true));
 
   hideOnPageControlsToggle.addEventListener('change', () => {
     chrome.storage.sync.set({
       hideInterfaceElements: hideOnPageControlsToggle.checked,
     });
-    syncFloatingButtonToggleDisabled();
   });
 
   channelWhitelistToggle.addEventListener('change', () => {
@@ -794,10 +778,42 @@ document.addEventListener('DOMContentLoaded', () => {
     }
     if (changes.hideInterfaceElements) {
       hideOnPageControlsToggle.checked = changes.hideInterfaceElements.newValue ?? false;
-      syncFloatingButtonToggleDisabled();
     }
     if (changes.channelWhitelist || changes.channelWhitelistEnabled) {
       refreshAddButtonState();
+    }
+  });
+
+  const headerEl = document.querySelector('header');
+  if (headerEl) {
+    document.documentElement.style.setProperty(
+      '--yh-header-offset',
+      headerEl.offsetHeight + 'px',
+    );
+  }
+
+  const clearTourHighlight = () => {
+    document.querySelectorAll('.yh-tour-highlight').forEach(el => {
+      el.classList.remove('yh-tour-highlight');
+    });
+  };
+
+  window.addEventListener('message', event => {
+    if (event.origin !== 'https://www.youtube.com') return;
+    const data = event.data;
+    if (!data || typeof data !== 'object') return;
+
+    if (data.type === 'YH_TOUR_HIGHLIGHT') {
+      clearTourHighlight();
+      const target = document.querySelector(
+        `[data-tour-section="${data.section}"]`,
+      );
+      if (target) {
+        target.classList.add('yh-tour-highlight');
+        target.scrollIntoView({ behavior: 'smooth', block: 'start' });
+      }
+    } else if (data.type === 'YH_TOUR_CLEAR') {
+      clearTourHighlight();
     }
   });
 

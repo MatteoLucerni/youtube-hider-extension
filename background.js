@@ -71,7 +71,6 @@ const defaultSettings = {
   dateFilterSearchEnabled: false,
   dateFilterSubsEnabled: false,
   dateFilterCorrEnabled: false,
-  floatingButtonEnabled: true,
   hideInterfaceElements: false,
   tutorialCompleted: false,
 };
@@ -123,6 +122,13 @@ function migrateSettings(currentSettings) {
   // Slider-off migration: remove toggle switches, use slider position for on/off
   if (!currentSettings.sliderOffMigrationDone) {
     migrateSliderOff(currentSettings);
+  }
+
+  // Header button migration: the FAB is replaced by a header button whose
+  // visibility is governed solely by hideInterfaceElements, so drop the FAB's
+  // now-unused settings
+  if (!currentSettings.headerButtonMigrationDone) {
+    migrateHeaderButtonCleanup();
   }
 }
 
@@ -179,6 +185,23 @@ function migrateSliderOff(s) {
       }
     });
   }
+}
+function migrateHeaderButtonCleanup() {
+  chrome.storage.sync.set({ headerButtonMigrationDone: true }, () => {
+    if (!chrome.runtime.lastError) {
+      logger.log('Header button migration done');
+    }
+  });
+  chrome.storage.sync.remove('floatingButtonEnabled', () => {
+    if (!chrome.runtime.lastError) {
+      logger.log('Removed deprecated key: floatingButtonEnabled');
+    }
+  });
+  chrome.storage.local.remove('floatingButtonPosition', () => {
+    if (!chrome.runtime.lastError) {
+      logger.log('Removed deprecated local key: floatingButtonPosition');
+    }
+  });
 }
 function refreshBadge() {
   const defaults = Object.fromEntries(flagKeys.map(key => [key, true]));

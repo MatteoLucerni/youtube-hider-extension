@@ -31,8 +31,6 @@ const prefs = {
   dateFilterSubsEnabled: false,
   dateFilterCorrEnabled: false,
   dimMode: false,
-  floatingButtonEnabled: true,
-  floatingButtonPosition: { edge: 'bottom', offset: 20 },
   tutorialCompleted: false,
   channelWhitelist: [],
   channelWhitelistEnabled: true,
@@ -102,13 +100,8 @@ function initPrefs() {
     try {
       chrome.storage.sync.get(Object.keys(prefs), result => {
         Object.assign(prefs, result);
-        chrome.storage.local.get('floatingButtonPosition', localResult => {
-          if (localResult.floatingButtonPosition) {
-            prefs.floatingButtonPosition = localResult.floatingButtonPosition;
-          }
-          logger.log('Prefs loaded', prefs);
-          resolve();
-        });
+        logger.log('Prefs loaded', prefs);
+        resolve();
       });
     } catch (e) {
       logger.warn('Could not load prefs (context invalidated?)', e);
@@ -128,34 +121,16 @@ function setupPrefsListener() {
             logger.log(`Pref ${key} changed to`, changes[key].newValue);
           }
         }
-        if (changes.floatingButtonEnabled) {
-          if (
-            changes.floatingButtonEnabled.newValue &&
-            prefs.extensionEnabled &&
-            !isWatchPage()
-          ) {
-            createFloatingButton();
-          } else {
-            cleanupTour();
-            removeTutorialOverlay();
-            removeFloatingButton();
-          }
-        }
         if ('extensionEnabled' in changes) {
           if (!prefs.extensionEnabled) {
             resetAppliedFilters(true);
             removeWarning();
             cleanupTour();
             removeTutorialOverlay();
-            removeFloatingButton();
+            removeHeaderButton();
             removeInlineWhitelistButton();
-          } else if (
-            prefs.floatingButtonEnabled &&
-            !isWatchPage() &&
-            !floatingButtonHost &&
-            isYouTube()
-          ) {
-            createFloatingButton();
+          } else if (!headerButtonHost && isYouTube()) {
+            createHeaderButton();
           }
           startHiding(currentPath);
         }
@@ -167,16 +142,14 @@ function setupPrefsListener() {
           if (prefs.hideInterfaceElements) {
             cleanupTour();
             removeTutorialOverlay();
-            removeFloatingButton();
+            removeHeaderButton();
             removeInlineWhitelistButton();
           } else if (
             prefs.extensionEnabled &&
-            prefs.floatingButtonEnabled &&
-            !isWatchPage() &&
-            !floatingButtonHost &&
+            !headerButtonHost &&
             isYouTube()
           ) {
-            createFloatingButton();
+            createHeaderButton();
           }
           resetAppliedFilters();
           startHiding(currentPath);
@@ -199,9 +172,6 @@ function setupPrefsListener() {
           }
           startHiding(currentPath);
         }
-      }
-      if (area === 'local' && changes.floatingButtonPosition) {
-        prefs.floatingButtonPosition = changes.floatingButtonPosition.newValue;
       }
     });
   } catch (e) {

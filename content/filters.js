@@ -57,12 +57,6 @@ function injectDimStyles() {
         animation: none;
       }
     }
-    .yt-hider-badge-logo {
-      width: 30px;
-      height: 30px;
-      object-fit: contain;
-      display: block;
-    }
     .yt-hider-badge-reason {
       font-size: 11px;
       font-weight: 500;
@@ -78,30 +72,34 @@ function injectDimStyles() {
       align-items: center;
       gap: 5px;
       margin-top: 8px;
-      height: 26px;
-      padding: 0 12px;
-      font-size: 12px;
+      height: 24px;
+      padding: 0 10px;
+      font-size: 11px;
       font-weight: 500;
       font-family: 'Roboto', Arial, sans-serif;
-      color: #fff;
-      background: #3f3f3f;
-      border: 1px solid rgba(255, 255, 255, 0.35);
-      border-radius: 13px;
+      color: rgba(255, 255, 255, 0.75);
+      background: rgba(255, 255, 255, 0.1);
+      border: none;
+      border-radius: 12px;
       cursor: pointer;
       pointer-events: auto;
-      transition: background 0.15s ease, color 0.15s ease, border-color 0.15s ease;
+      transition: background 0.15s ease, color 0.15s ease;
       line-height: 1;
       white-space: nowrap;
       max-width: calc(100% - 12px);
+    }
+    .yt-hider-whitelist-label {
       overflow: hidden;
       text-overflow: ellipsis;
+      white-space: nowrap;
+      min-width: 0;
     }
     .yt-hider-whitelist-btn svg {
       flex-shrink: 0;
     }
     .yt-hider-whitelist-btn:hover {
-      background: #505050;
-      border-color: rgba(255, 255, 255, 0.5);
+      background: rgba(255, 255, 255, 0.2);
+      color: rgba(255, 255, 255, 0.95);
     }
     .yt-hider-whitelist-btn:focus-visible {
       outline: 2px solid #8ab4f8;
@@ -109,11 +107,37 @@ function injectDimStyles() {
     }
     .yt-hider-whitelist-btn.yt-hider-whitelist-btn-pending {
       background: #1b3a63;
-      border-color: rgba(138, 180, 248, 0.5);
       color: #bcd6ff;
     }
     .yt-hider-whitelist-btn.yt-hider-whitelist-btn-pending:hover {
       background: #234a7d;
+    }
+    .yt-hider-whitelist-tooltip {
+      visibility: hidden;
+      opacity: 0;
+      position: absolute;
+      top: 6px;
+      left: 50%;
+      transform: translateX(-50%);
+      max-width: calc(100% - 12px);
+      background: #222222;
+      color: #ebebeb;
+      border: 1px solid #3a3a3a;
+      border-radius: 6px;
+      padding: 8px;
+      font-size: 11px;
+      font-weight: 400;
+      line-height: 1.4;
+      text-align: center;
+      white-space: normal;
+      box-shadow: 0 4px 12px rgba(0, 0, 0, 0.3);
+      transition: opacity 0.15s ease;
+      pointer-events: none;
+      z-index: 20;
+    }
+    .yt-hider-whitelist-btn:hover .yt-hider-whitelist-tooltip {
+      visibility: visible;
+      opacity: 1;
     }
     .yt-hider-whitelist-countdown {
       flex-shrink: 0;
@@ -152,6 +176,22 @@ function buildWhitelistCountdownMarkup(seconds) {
   </svg>`;
 }
 
+const WHITELIST_SETTINGS_TIP =
+  'You can hide this button from the extension settings, under "Hide on-page controls".';
+
+function buildWhitelistTooltipMarkup(channel) {
+  if (window.location.pathname === '/watch') return '';
+
+  const isMulti = Array.isArray(channel) && channel.length > 1;
+  const paused = isChannelPaused(channel);
+  const channelWord = isMulti ? 'these channels' : 'this channel';
+  const possessive = isMulti ? 'their' : 'its';
+  const text = paused
+    ? `This whitelist entry exists, but Channel Whitelist is currently turned off. Click to turn it back on. ${WHITELIST_SETTINGS_TIP}`
+    : `Adds ${channelWord} to your YouTube Hider whitelist: ${possessive} videos won't be filtered (Shorts are always filtered). ${WHITELIST_SETTINGS_TIP}`;
+  return `<span class="yt-hider-whitelist-tooltip">${text}</span>`;
+}
+
 function removeBadgeAnimated(badge) {
   if (!badge || !badge.isConnected) return;
   badge.classList.add('yt-hider-badge-leaving');
@@ -176,7 +216,6 @@ function clearDimmedElement(element) {
 function createWhitelistButton(channel) {
   const btn = document.createElement('button');
   btn.className = 'yt-hider-whitelist-btn';
-  btn.title = Array.isArray(channel) ? channel.join(', ') : channel;
 
   let countdownTimer = null;
   let pendingContainer = null;
@@ -185,7 +224,8 @@ function createWhitelistButton(channel) {
   const renderIdle = () => {
     const paused = isChannelPaused(channel);
     btn.classList.remove('yt-hider-whitelist-btn-pending');
-    btn.textContent = paused ? 'Resume Whitelist' : 'Whitelist channel';
+    const label = paused ? 'Resume Whitelist' : 'Whitelist';
+    btn.innerHTML = `<span class="yt-hider-whitelist-label">${label}</span>${buildWhitelistTooltipMarkup(channel)}`;
   };
   renderIdle();
 
@@ -271,15 +311,8 @@ function createWhitelistButton(channel) {
 function createDimBadge(reason, channel) {
   const badge = document.createElement('div');
   badge.className = 'yt-hider-badge';
-  const showUi = !prefs.hideInterfaceElements;
-  let logoUrl = '';
-  if (showUi) {
-    try {
-      logoUrl = chrome.runtime.getURL('assets/icons/youtube-hider-logo.png');
-    } catch (_) {}
-  }
-  badge.innerHTML = `${logoUrl ? `<img class="yt-hider-badge-logo" src="${logoUrl}" />` : ''}${reason ? `<span class="yt-hider-badge-reason">${reason}</span>` : ''}`;
-  if (channelIsPresent(channel) && showUi) {
+  badge.innerHTML = reason ? `<span class="yt-hider-badge-reason">${reason}</span>` : '';
+  if (channelIsPresent(channel) && !prefs.hideInterfaceElements) {
     badge.appendChild(createWhitelistButton(channel));
   }
   return badge;
@@ -290,6 +323,21 @@ function resolveChannelForElement(element) {
     extractChannelFromContainer(element) ||
     channelHandleFromPathname(window.location.pathname)
   );
+}
+
+function getCurrentPageChannel() {
+  const pathname = window.location.pathname;
+  const handle = channelHandleFromPathname(pathname);
+  if (handle) return handle;
+  if (pathname === '/watch') {
+    const owner = document.querySelector('ytd-video-owner-renderer, ytm-video-owner-renderer');
+    const ch = owner && extractChannelFromContainer(owner);
+    if (ch) return ch;
+    const videoId = new URLSearchParams(window.location.search).get('v');
+    const cached = videoId && ytVideoChannelCache[videoId];
+    if (cached) return resolveChannelIdentity(cached);
+  }
+  return null;
 }
 
 function channelIsPresent(ch) {

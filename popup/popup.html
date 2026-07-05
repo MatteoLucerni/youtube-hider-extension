@@ -41,11 +41,107 @@
 
       <div class="content-wrapper">
         <section class="setting-section">
+          <div class="setting-card filter-mode-card" data-tour-section="filter-mode">
+            <div class="card-compact-header">
+              <div class="card-compact-info">
+                <h3 class="card-title filter-mode-title">
+                  Filter Mode
+                  <div class="tooltip-container filter-mode-tooltip">
+                    <svg
+                      xmlns="http://www.w3.org/2000/svg"
+                      width="12"
+                      height="12"
+                      viewBox="0 0 24 24"
+                      fill="none"
+                      stroke="currentColor"
+                      stroke-width="2"
+                      stroke-linecap="round"
+                      stroke-linejoin="round"
+                      class="info-icon"
+                    >
+                      <circle cx="12" cy="12" r="10"></circle>
+                      <path d="M9.09 9a3 3 0 0 1 5.83 1c0 2-3 3-3 3"></path>
+                      <line x1="12" y1="17" x2="12.01" y2="17"></line>
+                    </svg>
+                    <span class="tooltip-text"
+                      >Hide removes filtered videos completely. Dim keeps them
+                      visible under a dark overlay with a label explaining
+                      why, and they stay clickable. Shorts are always hidden
+                      regardless of this setting</span
+                    >
+                  </div>
+                </h3>
+                <p class="card-description">
+                  Choose how filtered videos are treated. Shorts are always
+                  hidden regardless
+                </p>
+              </div>
+            </div>
+            <div class="filter-mode-options" role="radiogroup" aria-label="Filter Mode">
+              <button
+                type="button"
+                class="filter-mode-option"
+                id="filter-mode-hide"
+                aria-pressed="true"
+              >
+                <svg
+                  width="16"
+                  height="16"
+                  viewBox="0 0 24 24"
+                  fill="none"
+                  stroke="currentColor"
+                  stroke-width="2"
+                  stroke-linecap="round"
+                  stroke-linejoin="round"
+                >
+                  <path
+                    d="M17.94 17.94A10.07 10.07 0 0 1 12 20c-7 0-11-8-11-8a18.45 18.45 0 0 1 5.06-5.94"
+                  ></path>
+                  <path
+                    d="M9.9 4.24A9.12 9.12 0 0 1 12 4c7 0 11 8 11 8a18.5 18.5 0 0 1-2.16 3.19"
+                  ></path>
+                  <line x1="1" y1="1" x2="23" y2="23"></line>
+                </svg>
+                <span class="filter-mode-option-label">Hide</span>
+              </button>
+              <button
+                type="button"
+                class="filter-mode-option"
+                id="filter-mode-dim"
+                aria-pressed="false"
+              >
+                <svg
+                  width="16"
+                  height="16"
+                  viewBox="0 0 24 24"
+                  fill="none"
+                  stroke="currentColor"
+                  stroke-width="2"
+                  stroke-linecap="round"
+                  stroke-linejoin="round"
+                >
+                  <circle cx="12" cy="12" r="10"></circle>
+                  <path
+                    d="M12 2a10 10 0 0 1 0 20"
+                    fill="currentColor"
+                    stroke="none"
+                  ></path>
+                </svg>
+                <span class="filter-mode-option-label">Dim</span>
+              </button>
+            </div>
+          </div>
+        </section>
+
+        <section class="setting-section">
           <div class="section-header">
             <h2 class="section-title">YouTube Videos</h2>
           </div>
 
-          <div class="setting-card setting-card-easy-mode">
+          <div
+            class="setting-card setting-card-easy-mode"
+            data-tour-section="hide-watched"
+          >
             <div class="card-compact-header">
               <div class="card-compact-info">
                 <h3 class="card-title">Hide Watched Videos</h3>
@@ -270,7 +366,10 @@
             </div>
           </div>
 
-          <div class="setting-card setting-card-compact setting-card-easy-mode">
+          <div
+            class="setting-card setting-card-compact setting-card-easy-mode"
+            data-tour-section="shorts-mixes-playlists-lives"
+          >
             <div
               class="card-compact-header"
               style="margin-bottom: var(--spacing-md)"
@@ -498,7 +597,10 @@
             </div>
           </div>
 
-          <div class="setting-card setting-card-easy-mode">
+          <div
+            class="setting-card setting-card-easy-mode"
+            data-tour-section="min-views"
+          >
             <div class="card-compact-header">
               <div class="card-compact-info">
                 <h3 class="card-title">Minimum Views Filter</h3>
@@ -720,7 +822,10 @@
             </div>
           </div>
 
-          <div class="setting-card setting-card-easy-mode">
+          <div
+            class="setting-card setting-card-easy-mode"
+            data-tour-section="upload-date"
+          >
             <div class="card-compact-header">
               <div class="card-compact-info">
                 <h3 class="card-title">Upload Date Filter</h3>
@@ -1011,7 +1116,7 @@
             </div>
           </div>
 
-          <div class="setting-card">
+          <div class="setting-card" data-tour-section="whitelist">
             <div class="card-compact-header">
               <div class="card-compact-info">
                 <h3
@@ -1038,7 +1143,7 @@
                     </svg>
                     <span class="tooltip-text"
                       >Whitelisted channels bypass all active filters. Add a
-                      channel from the button below or from the floating button
+                      channel from the button below or from the header button
                       while on a channel page or video. Removing a chip
                       immediately re-applies all filters to that channel. Shorts
                       are always filtered regardless</span
@@ -1083,43 +1188,10 @@
             </div>
           </div>
 
-          <div class="setting-card setting-card-compact">
-            <div class="extra-setting-row">
-              <div class="card-compact-info">
-                <span class="toggle-text">Floating Button</span>
-                <p class="card-description">
-                  Show a floating settings button on YouTube pages
-                </p>
-              </div>
-              <div class="card-compact-toggle has-lock-tooltip">
-                <div class="toggle-switch-large">
-                  <input type="checkbox" id="floating-button-enabled" />
-                  <span class="toggle-slider"></span>
-                </div>
-                <span class="lock-tooltip" role="tooltip">
-                  Turn off "Hide on-page controls" to use the floating button
-                </span>
-              </div>
-            </div>
-
-            <div class="extra-setting-row">
-              <div class="card-compact-info">
-                <span class="toggle-text">Filter Mode</span>
-                <p class="card-description">
-                  Dim filtered elements instead of hiding them. Shorts are
-                  always hidden
-                </p>
-              </div>
-              <div class="mode-switch">
-                <span class="mode-label">Hide</span>
-                <div class="toggle-switch-large">
-                  <input type="checkbox" id="dim-mode-enabled" />
-                  <span class="toggle-slider"></span>
-                </div>
-                <span class="mode-label">Dim</span>
-              </div>
-            </div>
-
+          <div
+            class="setting-card setting-card-compact"
+            data-tour-section="extra-settings"
+          >
             <div class="extra-setting-row">
               <div class="card-compact-info">
                 <span class="toggle-text">Interface Mode</span>
@@ -1157,7 +1229,7 @@
               <div class="card-compact-info">
                 <span class="toggle-text">Tutorial</span>
                 <p class="card-description">
-                  Restart the guided walkthrough of the floating button
+                  Restart the guided walkthrough of the header button
                 </p>
               </div>
               <div class="restart-tutorial-control">

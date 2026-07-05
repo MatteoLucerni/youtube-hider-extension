@@ -1,5 +1,31 @@
 # Changelog
 
+### Version 3.0.0
+
+**Removed**
+
+- The floating quick-settings button and its draggable mini-panel, including the ability to drag it to a screen edge and its own hand-maintained subset of settings
+- The dedicated "Floating Button" on/off setting. The header settings button's visibility is now governed solely by "Hide on-page controls", with no separate toggle
+
+**Added**
+
+- A header settings button, built into YouTube's own header on desktop next to the Create button, always available including on the Watch page. Clicking it opens a dropdown with your complete settings, the exact same UI as the popup, instead of a smaller hand-maintained subset
+
+**Changed**
+
+- Mobile web (m.youtube.com) no longer has any on-page quick-access element, since the new header button is desktop only. The toolbar popup remains fully available there
+- The onboarding tutorial now walks through the header button and every settings section inside its dropdown, scrolling to and highlighting each one in turn, instead of the old five-step tour over the floating button and mini-panel
+- The header button no longer has a position to remember, since it lives in YouTube's own header layout instead of floating over the page
+- Filter Mode moved out of Extra Settings into its own dedicated card at the top of the popup, with a two-option Hide/Dim picker instead of a toggle switch, reflecting how central it is to every other filter
+
+### Version 2.10.0
+
+**Changed**
+
+- Cleaner Dim mode overlay: removed the YouTube Hider logo from the dimmed-video overlay and from the inline "Whitelist" button next to Subscribe, so filtered videos and profile actions read as plain YouTube UI instead of branded extension chrome. The floating quick-settings button keeps the logo, since that's the extension's own dedicated entry point
+- Renamed the overlay's "Whitelist channel" button to "Whitelist" and restyled it as a subtler, translucent pill closer to YouTube's own ghost-button look, instead of a solid gray filled button
+- Hovering the overlay or inline "Whitelist" button now shows a tooltip explaining what it does and pointing to "Hide on-page controls" for anyone who'd rather not see these buttons at all, since removing the logo made the buttons less obviously tied to the extension. The overlay tooltip does not show up on the watch page, since the related videos there use a thumbnail too small to fit it without cutting it off
+
 ### Version 2.9.4
 
 **Fixed**

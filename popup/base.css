@@ -26,6 +26,28 @@
     box-sizing: border-box;
 }
 
+html {
+    scrollbar-width: thin;
+    scrollbar-color: var(--toggle-inactive) var(--bg-tertiary);
+}
+
+::-webkit-scrollbar {
+    width: 6px;
+}
+
+::-webkit-scrollbar-track {
+    background: var(--bg-tertiary);
+}
+
+::-webkit-scrollbar-thumb {
+    background: var(--toggle-inactive);
+    border-radius: 3px;
+}
+
+::-webkit-scrollbar-thumb:hover {
+    background: #5a5a5a;
+}
+
 body {
     margin: 0;
     padding: 0;
@@ -36,6 +58,7 @@ body {
     line-height: 1.5;
     width: 400px;
     min-height: 400px;
+    overflow-x: hidden;
 }
 
 label {

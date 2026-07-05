@@ -53,34 +53,33 @@ Selectively remove content types from your YouTube feed with individual toggles:
 Choose how filtered content is treated across all active filters:
 
 - **Hide** (default) - filtered elements are removed from view entirely
-- **Dim** - filtered elements stay visible under a dark semi-transparent overlay. The overlay displays the Youtube Hider logo and a compact label indicating why the element was filtered ("Already watched", "Views too low", "Video too new", "Video too old", "Mix playlist", "Playlist", "Live stream"). Filtered elements remain fully clickable. Shorts are always hidden regardless of this setting.
+- **Dim** - filtered elements stay visible under a dark semi-transparent overlay. The overlay displays a compact label indicating why the element was filtered ("Already watched", "Views too low", "Video too new", "Video too old", "Mix playlist", "Playlist", "Live stream"). Filtered elements remain fully clickable. Shorts are always hidden regardless of this setting.
 
 In Hide mode, lockup-based cards are removed at the correct wrapper level to avoid empty placeholders in Home and Subscriptions grids.
 
 Filter updates are live in both directions: increasing thresholds hides more content, and lowering thresholds restores matching content immediately without refreshing the page.
 
-The Filter Mode toggle is available in both the popup (Extra Settings card) and the floating mini-panel.
+Filter Mode has its own dedicated card at the top of the popup, since it affects every other filter below it. It's available in both the popup and the header settings dropdown, since the dropdown embeds the full popup.
 
 ### Channel Whitelist
 
-Exempt specific channels from every active filter - their videos are never hidden or dimmed (Shorts are always filtered regardless of whitelist status). A channel can be whitelisted from four places:
+Exempt specific channels from every active filter - their videos are never hidden or dimmed (Shorts are always filtered regardless of whitelist status). A channel can be whitelisted from three places, and hovering the overlay or inline button shows a tooltip explaining what it does:
 
-- The **"Whitelist channel" button** on a filtered/dimmed overlay - shows a 3-second undo countdown before the channel is actually exempted, so accidental clicks can be reverted
+- The **"Whitelist" button** on a filtered/dimmed overlay - shows a 3-second undo countdown before the channel is actually exempted, so accidental clicks can be reverted
 - The **inline "Whitelist" button** next to the Subscribe button on video and channel pages
-- The **toggle** in the floating mini-panel, available while on a channel or video page
 - The **Channel Whitelist card** in the popup, which lists every whitelisted channel as a removable chip and lets you add the current tab's channel directly
 
 ### Master Extension Switch
 
 Use the **Extension** switch in the popup header to instantly enable or disable the entire extension. When disabled, filtering is paused globally and the badge shows **OFF**.
 
-### Floating Quick-Settings Button
+### Header Settings Button
 
-A draggable floating button on YouTube pages gives you instant access to toggle settings without opening the extension popup. Drag it to any edge of the screen and it snaps to the nearest viewport border, remembering its position. Automatically hidden on video watch pages for a clean viewing experience. On first install, a guided spotlight tutorial walks you through the button and its features - you can restart it anytime from the popup.
+A small icon-only button lives right in YouTube's own header (desktop only), next to the Create button, giving you instant access to your full settings without opening the extension popup separately. Clicking it opens a dropdown with the exact same settings UI as the popup. It appears on every page, including Watch, since it lives in page chrome rather than floating over the video. On first install, a guided spotlight tutorial walks you through the button and its dropdown - you can restart it anytime from the popup.
 
 ### Hide On-Page Controls
 
-For a more discreet setup, enable **Hide on-page controls** in **Extra Settings** to remove all of the extension's on-screen elements from YouTube - the floating button, the inline and overlay "Whitelist" buttons, and the YouTube Hider logo on dimmed videos. Filtering keeps working in the background. While this option is on, the Floating Button toggle is greyed out, with a tooltip explaining how to re-enable it.
+For a more discreet setup, enable **Hide on-page controls** in **Extra Settings** to remove all of the extension's on-screen elements from YouTube - the header settings button and the inline and overlay "Whitelist" buttons. Filtering keeps working in the background. This is the only way to hide the header button; there is no separate toggle for it.
 
 ### Simple Mode & Advanced Mode
 
@@ -143,10 +142,7 @@ youtube-hider-extension
 │   ├── utils.js           Shared utilities (debounce, logger, safe storage)
 │   ├── state.js           Preferences, timing constants, storage listener
 │   ├── warning.js         High-filtering warning and infinite-loop detection
-│   ├── fab/
-│   │   ├── styles.js      Floating button Shadow DOM CSS
-│   │   ├── panel.js       Mini-panel data, sync, events, HTML
-│   │   └── core.js        Floating button creation, positioning, drag
+│   ├── header-button.js  Header settings button and its iframe-embedded settings dropdown
 │   ├── tutorial.js        Guided spotlight tutorial
 │   ├── parsers.js         View count, upload date and channel parsers
 │   ├── filters.js         Video hiding/filtering logic, Channel Whitelist overlay button
@@ -174,8 +170,8 @@ youtube-hider-extension
 
 1. **Content scripts** (12 files in `content/`) load on YouTube pages in the order defined by `manifest.json`. They share a global scope via Chrome's isolated world. `page-bridge.js` is the exception: it runs in the page's `MAIN` world at `document_start` to read YouTube's own internal data and expose a video-id-to-channel cache via a DOM attribute, since the isolated world can read the DOM but not the page's JavaScript globals.
 2. A **MutationObserver** watches for DOM changes and triggers hiding/filtering logic based on your preferences.
-3. Settings are stored in `chrome.storage.sync` (synced across devices). The floating button position is stored in `chrome.storage.local` (device-specific).
-4. The **floating button** (`content/fab/`) uses a closed Shadow DOM to encapsulate its styles from the host page.
+3. Settings are stored in `chrome.storage.sync` (synced across devices), except for the "what's new" flag which is device-specific `chrome.storage.local` state.
+4. The **header button** (`content/header-button.js`) uses a closed Shadow DOM to encapsulate its styles from the host page. Its settings dropdown embeds `popup/popup.html` in an `<iframe>`, created fresh on every open, so the dropdown is always the same, unmodified popup UI.
 5. The **background service worker** manages badge updates, extension lifecycle events and messaging between popup/content scripts.
 
 ---
