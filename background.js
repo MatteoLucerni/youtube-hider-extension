@@ -71,7 +71,7 @@ const defaultSettings = {
   dateFilterSearchEnabled: false,
   dateFilterSubsEnabled: false,
   dateFilterCorrEnabled: false,
-  floatingButtonEnabled: true,
+  hideInterfaceElements: false,
   tutorialCompleted: false,
 };
 function initializeSettings() {
@@ -122,6 +122,10 @@ function migrateSettings(currentSettings) {
   // Slider-off migration: remove toggle switches, use slider position for on/off
   if (!currentSettings.sliderOffMigrationDone) {
     migrateSliderOff(currentSettings);
+  }
+
+  if (!currentSettings.headerButtonMigrationDone) {
+    migrateHeaderButtonCleanup();
   }
 }
 
@@ -179,6 +183,23 @@ function migrateSliderOff(s) {
     });
   }
 }
+function migrateHeaderButtonCleanup() {
+  chrome.storage.sync.set({ headerButtonMigrationDone: true }, () => {
+    if (!chrome.runtime.lastError) {
+      logger.log('Header button migration done');
+    }
+  });
+  chrome.storage.sync.remove('floatingButtonEnabled', () => {
+    if (!chrome.runtime.lastError) {
+      logger.log('Removed deprecated key: floatingButtonEnabled');
+    }
+  });
+  chrome.storage.local.remove('floatingButtonPosition', () => {
+    if (!chrome.runtime.lastError) {
+      logger.log('Removed deprecated local key: floatingButtonPosition');
+    }
+  });
+}
 function refreshBadge() {
   const defaults = Object.fromEntries(flagKeys.map(key => [key, true]));
   const thresholdDefaults = Object.fromEntries(
@@ -191,6 +212,8 @@ function refreshBadge() {
       extensionEnabled: true,
       hideThreshold: 20,
       viewsHideThreshold: 1000,
+      channelBlacklist: [],
+      channelBlacklistEnabled: true,
     },
     prefs => {
       if (chrome.runtime.lastError) {
@@ -220,7 +243,9 @@ function getBadgeText(flags = {}) {
   const dateActive =
     dateOn &&
     ['dateFilterHomeEnabled', 'dateFilterChannelEnabled', 'dateFilterSearchEnabled', 'dateFilterSubsEnabled', 'dateFilterCorrEnabled'].some(k => flags[k]);
-  if (hideWatchedActive || viewsActive || shortsActive || mixesPlaylistsActive || dateActive) return '';
+  const blacklistActive =
+    !!flags.channelBlacklistEnabled && Array.isArray(flags.channelBlacklist) && flags.channelBlacklist.length > 0;
+  if (hideWatchedActive || viewsActive || shortsActive || mixesPlaylistsActive || dateActive || blacklistActive) return '';
   return 'OFF';
 }
 function updateBadge(flags = {}) {
@@ -245,6 +270,8 @@ chrome.storage.onChanged.addListener((changes, area) => {
     'extensionEnabled',
     'hideThreshold',
     'viewsHideThreshold',
+    'channelBlacklist',
+    'channelBlacklistEnabled',
   ];
   if (Object.keys(changes).some(key => allBadgeKeys.includes(key))) {
     refreshBadge();
@@ -272,7 +299,11 @@ chrome.runtime.onInstalled.addListener(details => {
     const manifest = chrome.runtime.getManifest();
     const prev = (details.previousVersion || '').split('.');
     const curr = manifest.version.split('.');
-    if (parseInt(curr[1] || '0', 10) > parseInt(prev[1] || '0', 10)) {
+    const prevMajor = parseInt(prev[0] || '0', 10);
+    const prevMinor = parseInt(prev[1] || '0', 10);
+    const currMajor = parseInt(curr[0] || '0', 10);
+    const currMinor = parseInt(curr[1] || '0', 10);
+    if (currMajor > prevMajor || (currMajor === prevMajor && currMinor > prevMinor)) {
       chrome.storage.local.set({ whatsNewVersion: curr[0] + '.' + curr[1] });
     }
   }

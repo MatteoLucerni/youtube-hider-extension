@@ -326,7 +326,11 @@ function showWhatsNewToast(version) {
   ctaBtn.onclick = e => {
     e.stopPropagation();
     dismissWhatsNewToast(toast);
-    chrome.runtime.sendMessage({ action: 'openSettings' });
+    if (!prefs.hideInterfaceElements && headerButtonElement) {
+      openHeaderDropdown();
+    } else {
+      chrome.runtime.sendMessage({ action: 'openSettings' });
+    }
   };
 
   bodyDiv.appendChild(msg);

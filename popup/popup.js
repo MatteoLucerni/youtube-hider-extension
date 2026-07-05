@@ -1,20 +1,23 @@
-const WHATS_NEW = {
-  '2.7': {
-    title: "What's New in v2.7",
-    features: [
-      { heading: 'Filter Mode', body: 'Videos can now be dimmed instead of hidden. Toggle it in Extra Settings.' },
-      { heading: 'Upload Date Filter', body: 'Hide videos newer or older than a configurable date threshold.' },
-    ],
-  },
-};
-
 document.addEventListener('DOMContentLoaded', () => {
   const extensionToggle = document.getElementById('extension-enabled');
   const advancedModeToggle = document.getElementById('advanced-mode-enabled');
-  const floatingButtonToggle = document.getElementById(
-    'floating-button-enabled',
+  const filterModeHideBtn = document.getElementById('filter-mode-hide');
+  const filterModeDimBtn = document.getElementById('filter-mode-dim');
+  const setFilterModeUI = isDim => {
+    filterModeHideBtn.classList.toggle('active', !isDim);
+    filterModeHideBtn.setAttribute('aria-pressed', String(!isDim));
+    filterModeDimBtn.classList.toggle('active', isDim);
+    filterModeDimBtn.setAttribute('aria-pressed', String(isDim));
+  };
+  const channelWhitelistToggle = document.getElementById(
+    'channel-whitelist-enabled',
   );
-  const dimModeToggle = document.getElementById('dim-mode-enabled');
+  const channelBlacklistToggle = document.getElementById(
+    'channel-blacklist-enabled',
+  );
+  const hideOnPageControlsToggle = document.getElementById(
+    'hide-on-page-controls',
+  );
   let isEasyMode = true;
 
   const easyShortsToggle = document.getElementById('hide-shorts-easy');
@@ -25,60 +28,6 @@ document.addEventListener('DOMContentLoaded', () => {
   const footerVersion = document.getElementById('footer-version');
   if (footerVersion) {
     footerVersion.textContent = 'v' + chrome.runtime.getManifest().version;
-  }
-
-  chrome.storage.local.get('whatsNewVersion', local => {
-    const version = local.whatsNewVersion;
-    if (version && WHATS_NEW[version]) {
-      showWhatsNew(WHATS_NEW[version]);
-    }
-  });
-
-  function showWhatsNew(data) {
-    const overlay = document.createElement('div');
-    overlay.id = 'wn-overlay';
-
-    const modal = document.createElement('div');
-    modal.id = 'wn-modal';
-
-    const header = document.createElement('div');
-    header.id = 'wn-header';
-    const titleEl = document.createElement('span');
-    titleEl.id = 'wn-title';
-    titleEl.textContent = data.title;
-    header.appendChild(titleEl);
-
-    const list = document.createElement('ul');
-    list.id = 'wn-list';
-    data.features.forEach(f => {
-      const item = document.createElement('li');
-      const h = document.createElement('span');
-      h.className = 'wn-feature-heading';
-      h.textContent = f.heading;
-      const b = document.createElement('span');
-      b.className = 'wn-feature-body';
-      b.textContent = f.body;
-      item.appendChild(h);
-      item.appendChild(b);
-      list.appendChild(item);
-    });
-
-    const footer = document.createElement('div');
-    footer.id = 'wn-footer';
-    const btn = document.createElement('button');
-    btn.id = 'wn-dismiss-btn';
-    btn.textContent = 'Got it';
-    btn.addEventListener('click', () => {
-      overlay.remove();
-      chrome.storage.local.remove('whatsNewVersion');
-    });
-    footer.appendChild(btn);
-
-    modal.appendChild(header);
-    modal.appendChild(list);
-    modal.appendChild(footer);
-    overlay.appendChild(modal);
-    document.body.appendChild(overlay);
   }
 
   const cfg = {
@@ -189,8 +138,12 @@ document.addEventListener('DOMContentLoaded', () => {
   const storageKeys = [
     'extensionEnabled',
     'easyModeEnabled',
-    'floatingButtonEnabled',
     'dimMode',
+    'channelWhitelist',
+    'channelWhitelistEnabled',
+    'channelBlacklist',
+    'channelBlacklistEnabled',
+    'hideInterfaceElements',
     ...Object.values(cfg.hide.keys),
     ...Object.values(cfg.views.keys),
     ...Object.values(cfg.shorts.keys),
@@ -210,8 +163,10 @@ document.addEventListener('DOMContentLoaded', () => {
       advancedModeToggle.checked = !easyMode;
     }
 
-    floatingButtonToggle.checked = prefs.floatingButtonEnabled ?? true;
-    dimModeToggle.checked = prefs.dimMode ?? false;
+    setFilterModeUI(prefs.dimMode ?? false);
+    channelWhitelistToggle.checked = prefs.channelWhitelistEnabled ?? true;
+    channelBlacklistToggle.checked = prefs.channelBlacklistEnabled ?? true;
+    hideOnPageControlsToggle.checked = prefs.hideInterfaceElements ?? false;
 
     ['hide', 'views', 'shorts', 'mixesPlaylists'].forEach(sectionName => {
       const section = cfg[sectionName];
@@ -325,6 +280,14 @@ document.addEventListener('DOMContentLoaded', () => {
     if (isFirstInstall) {
       saveSettings();
     }
+
+    whitelistData = Array.isArray(prefs.channelWhitelist) ? prefs.channelWhitelist : [];
+    renderWhitelistChips(whitelistData);
+    refreshAddButtonState();
+
+    blacklistData = Array.isArray(prefs.channelBlacklist) ? prefs.channelBlacklist : [];
+    renderBlacklistChips(blacklistData);
+    refreshAddBlacklistButtonState();
   });
 
   function saveSettings() {
@@ -458,14 +421,30 @@ document.addEventListener('DOMContentLoaded', () => {
     saveSettings();
   });
 
-  floatingButtonToggle.addEventListener('change', () => {
+  const setDimMode = isDim => {
+    setFilterModeUI(isDim);
+    chrome.storage.sync.set({ dimMode: isDim });
+  };
+
+  filterModeHideBtn.addEventListener('click', () => setDimMode(false));
+  filterModeDimBtn.addEventListener('click', () => setDimMode(true));
+
+  hideOnPageControlsToggle.addEventListener('change', () => {
     chrome.storage.sync.set({
-      floatingButtonEnabled: floatingButtonToggle.checked,
+      hideInterfaceElements: hideOnPageControlsToggle.checked,
     });
   });
 
-  dimModeToggle.addEventListener('change', () => {
-    chrome.storage.sync.set({ dimMode: dimModeToggle.checked });
+  channelWhitelistToggle.addEventListener('change', () => {
+    chrome.storage.sync.set({
+      channelWhitelistEnabled: channelWhitelistToggle.checked,
+    });
+  });
+
+  channelBlacklistToggle.addEventListener('change', () => {
+    chrome.storage.sync.set({
+      channelBlacklistEnabled: channelBlacklistToggle.checked,
+    });
   });
 
   const restartTutorialBtn = document.getElementById('restart-tutorial');
@@ -626,9 +605,291 @@ document.addEventListener('DOMContentLoaded', () => {
       el.addEventListener('click', e => {
         if (e.target.tagName.toLowerCase() === 'input') return;
         const input = el.querySelector('input');
+        if (input.disabled) return;
         input.checked = !input.checked;
         input.dispatchEvent(new Event('change', { bubbles: true }));
       });
     });
+
+  const chipsContainer = document.getElementById('channel-whitelist-chips');
+  const emptyHint = document.getElementById('channel-whitelist-empty');
+  const addCurrentBtn = document.getElementById('add-current-channel-btn');
+  const whitelistHint = document.getElementById('channel-whitelist-hint');
+
+  let whitelistData = [];
+  let currentTabChannel = null;
+
+  function saveWhitelist(list, extraUpdates) {
+    chrome.storage.sync.set(Object.assign({ channelWhitelist: list }, extraUpdates));
+  }
+
+  function channelDisplayName(channel) {
+    return Array.isArray(channel) ? channel.join(', ') : channel;
+  }
+
+  function refreshAddButtonState() {
+    if (!addCurrentBtn) return;
+    if (!currentTabChannel) {
+      addCurrentBtn.disabled = true;
+      if (whitelistHint) whitelistHint.textContent = 'Navigate to a channel page to add it';
+      return;
+    }
+    const pending = computeWhitelistUpdate(currentTabChannel, true, whitelistData, channelWhitelistToggle.checked);
+    if (!pending) {
+      addCurrentBtn.disabled = true;
+      if (whitelistHint) whitelistHint.textContent = channelDisplayName(currentTabChannel) + ' is already whitelisted';
+      return;
+    }
+    addCurrentBtn.disabled = false;
+    if (whitelistHint) whitelistHint.textContent = '';
+  }
+
+  function renderWhitelistChips(list) {
+    if (!chipsContainer) return;
+    chipsContainer.querySelectorAll('.whitelist-chip').forEach(c => c.remove());
+    if (emptyHint) emptyHint.style.display = list.length === 0 ? '' : 'none';
+    list.forEach(channel => {
+      const chip = document.createElement('span');
+      chip.className = 'whitelist-chip';
+      const label = document.createElement('span');
+      label.className = 'whitelist-chip-label';
+      label.textContent = channel;
+      const remove = document.createElement('button');
+      remove.className = 'whitelist-chip-remove';
+      remove.type = 'button';
+      remove.textContent = '×';
+      remove.setAttribute('aria-label', 'Remove ' + channel);
+      remove.addEventListener('click', () => {
+        const current = Array.isArray(whitelistData) ? [...whitelistData] : [];
+        const idx = current.indexOf(channel);
+        if (idx !== -1) current.splice(idx, 1);
+        whitelistData = current;
+        renderWhitelistChips(current);
+        saveWhitelist(current);
+        refreshAddButtonState();
+      });
+      chip.appendChild(label);
+      chip.appendChild(remove);
+      chipsContainer.appendChild(chip);
+    });
+  }
+
+  chrome.tabs.query({ active: true, currentWindow: true }, tabs => {
+    const tab = tabs && tabs[0];
+    if (!tab || !tab.id) {
+      refreshAddButtonState();
+      return;
+    }
+    chrome.tabs.sendMessage(tab.id, { type: 'GET_CURRENT_CHANNEL' }, response => {
+      if (!chrome.runtime.lastError && response && response.channel) {
+        currentTabChannel = response.channel;
+      }
+      refreshAddButtonState();
+    });
+  });
+
+  const BLACKLIST_KEYS = { listKey: 'channelBlacklist', enabledKey: 'channelBlacklistEnabled' };
+
+  const blacklistChipsContainer = document.getElementById('channel-blacklist-chips');
+  const blacklistEmptyHint = document.getElementById('channel-blacklist-empty');
+  const addCurrentBlacklistBtn = document.getElementById('add-current-channel-blacklist-btn');
+  const blacklistHint = document.getElementById('channel-blacklist-hint');
+
+  let blacklistData = [];
+
+  function saveBlacklist(list, extraUpdates) {
+    chrome.storage.sync.set(Object.assign({ channelBlacklist: list }, extraUpdates));
+  }
+
+  function refreshAddBlacklistButtonState() {
+    if (!addCurrentBlacklistBtn) return;
+    if (!currentTabChannel) {
+      addCurrentBlacklistBtn.disabled = true;
+      if (blacklistHint) blacklistHint.textContent = 'Navigate to a channel page to add it';
+      return;
+    }
+    const pending = computeWhitelistUpdate(currentTabChannel, true, blacklistData, channelBlacklistToggle.checked, BLACKLIST_KEYS);
+    if (!pending) {
+      addCurrentBlacklistBtn.disabled = true;
+      if (blacklistHint) blacklistHint.textContent = channelDisplayName(currentTabChannel) + ' is already blacklisted';
+      return;
+    }
+    addCurrentBlacklistBtn.disabled = false;
+    if (blacklistHint) blacklistHint.textContent = '';
+  }
+
+  function renderBlacklistChips(list) {
+    if (!blacklistChipsContainer) return;
+    blacklistChipsContainer.querySelectorAll('.whitelist-chip').forEach(c => c.remove());
+    if (blacklistEmptyHint) blacklistEmptyHint.style.display = list.length === 0 ? '' : 'none';
+    list.forEach(channel => {
+      const chip = document.createElement('span');
+      chip.className = 'whitelist-chip blacklist-chip';
+      const label = document.createElement('span');
+      label.className = 'whitelist-chip-label';
+      label.textContent = channel;
+      const remove = document.createElement('button');
+      remove.className = 'whitelist-chip-remove';
+      remove.type = 'button';
+      remove.textContent = '×';
+      remove.setAttribute('aria-label', 'Remove ' + channel);
+      remove.addEventListener('click', () => {
+        const current = Array.isArray(blacklistData) ? [...blacklistData] : [];
+        const idx = current.indexOf(channel);
+        if (idx !== -1) current.splice(idx, 1);
+        blacklistData = current;
+        renderBlacklistChips(current);
+        saveBlacklist(current);
+        refreshAddBlacklistButtonState();
+      });
+      chip.appendChild(label);
+      chip.appendChild(remove);
+      blacklistChipsContainer.appendChild(chip);
+    });
+  }
+
+  if (addCurrentBtn) {
+    addCurrentBtn.addEventListener('click', () => {
+      if (!currentTabChannel) return;
+
+      const result = computeWhitelistUpdate(
+        currentTabChannel,
+        true,
+        whitelistData,
+        channelWhitelistToggle.checked,
+      );
+      if (!result) return;
+
+      whitelistData = result.list;
+      renderWhitelistChips(whitelistData);
+      if (result.updates.channelWhitelistEnabled) channelWhitelistToggle.checked = true;
+      refreshAddButtonState();
+
+      const updates = Object.assign(
+        { channelWhitelist: whitelistData },
+        result.updates.channelWhitelistEnabled ? { channelWhitelistEnabled: true } : {},
+      );
+
+      const unblacklist = computeWhitelistUpdate(
+        result.changedChannels,
+        false,
+        blacklistData,
+        channelBlacklistToggle.checked,
+        BLACKLIST_KEYS,
+      );
+      if (unblacklist && unblacklist.updates.channelBlacklist) {
+        blacklistData = unblacklist.list;
+        renderBlacklistChips(blacklistData);
+        refreshAddBlacklistButtonState();
+        updates.channelBlacklist = blacklistData;
+      }
+
+      chrome.storage.sync.set(updates);
+    });
+  }
+
+  if (addCurrentBlacklistBtn) {
+    addCurrentBlacklistBtn.addEventListener('click', () => {
+      if (!currentTabChannel) return;
+
+      const result = computeWhitelistUpdate(
+        currentTabChannel,
+        true,
+        blacklistData,
+        channelBlacklistToggle.checked,
+        BLACKLIST_KEYS,
+      );
+      if (!result) return;
+
+      blacklistData = result.list;
+      renderBlacklistChips(blacklistData);
+      if (result.updates.channelBlacklistEnabled) channelBlacklistToggle.checked = true;
+      refreshAddBlacklistButtonState();
+
+      const updates = Object.assign(
+        { channelBlacklist: blacklistData },
+        result.updates.channelBlacklistEnabled ? { channelBlacklistEnabled: true } : {},
+      );
+
+      const unwhitelist = computeWhitelistUpdate(
+        result.changedChannels,
+        false,
+        whitelistData,
+        channelWhitelistToggle.checked,
+      );
+      if (unwhitelist && unwhitelist.updates.channelWhitelist) {
+        whitelistData = unwhitelist.list;
+        renderWhitelistChips(whitelistData);
+        refreshAddButtonState();
+        updates.channelWhitelist = whitelistData;
+      }
+
+      chrome.storage.sync.set(updates);
+    });
+  }
+
+  chrome.storage.onChanged.addListener((changes, area) => {
+    if (area !== 'sync') return;
+    if (changes.channelWhitelist) {
+      whitelistData = Array.isArray(changes.channelWhitelist.newValue)
+        ? changes.channelWhitelist.newValue
+        : [];
+      renderWhitelistChips(whitelistData);
+    }
+    if (changes.channelWhitelistEnabled) {
+      channelWhitelistToggle.checked = changes.channelWhitelistEnabled.newValue ?? true;
+    }
+    if (changes.channelBlacklist) {
+      blacklistData = Array.isArray(changes.channelBlacklist.newValue)
+        ? changes.channelBlacklist.newValue
+        : [];
+      renderBlacklistChips(blacklistData);
+    }
+    if (changes.channelBlacklistEnabled) {
+      channelBlacklistToggle.checked = changes.channelBlacklistEnabled.newValue ?? true;
+    }
+    if (changes.hideInterfaceElements) {
+      hideOnPageControlsToggle.checked = changes.hideInterfaceElements.newValue ?? false;
+    }
+    if (changes.channelWhitelist || changes.channelWhitelistEnabled) {
+      refreshAddButtonState();
+    }
+    if (changes.channelBlacklist || changes.channelBlacklistEnabled) {
+      refreshAddBlacklistButtonState();
+    }
+  });
+
+  const headerEl = document.querySelector('header');
+  if (headerEl) {
+    document.documentElement.style.setProperty(
+      '--yh-header-offset',
+      headerEl.offsetHeight + 'px',
+    );
+  }
+
+  const clearTourHighlight = () => {
+    document.querySelectorAll('.yh-tour-highlight').forEach(el => {
+      el.classList.remove('yh-tour-highlight');
+    });
+  };
+
+  window.addEventListener('message', event => {
+    if (event.origin !== 'https://www.youtube.com') return;
+    const data = event.data;
+    if (!data || typeof data !== 'object') return;
+
+    if (data.type === 'YH_TOUR_HIGHLIGHT') {
+      clearTourHighlight();
+      const target = document.querySelector(
+        `[data-tour-section="${data.section}"]`,
+      );
+      if (target) {
+        target.classList.add('yh-tour-highlight');
+        target.scrollIntoView({ behavior: 'smooth', block: 'start' });
+      }
+    } else if (data.type === 'YH_TOUR_CLEAR') {
+      clearTourHighlight();
+    }
+  });
 
 });

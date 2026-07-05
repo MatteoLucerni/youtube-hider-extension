@@ -113,7 +113,7 @@ function showTutorialWelcomeCard() {
   const desc = document.createElement('div');
   desc.className = 'yh-welcome-desc';
   desc.textContent =
-    'Take a quick tour to discover how to use the floating button, customize your settings, and get the most out of the extension.';
+    "Take a quick tour to discover the Youtube Hider button built into YouTube's own header, your settings, and how to get the most out of the extension.";
 
   const actions = document.createElement('div');
   actions.className = 'yh-welcome-actions';
@@ -170,14 +170,11 @@ function showTutorialWelcomeCard() {
 function cleanupTour() {
   if (tutorialActive) {
     tutorialActive = false;
-    miniPanelOpen = false;
-
-    if (floatingButtonHost) {
-      floatingButtonHost.style.zIndex = '2147483640';
-      floatingButtonHost.style.pointerEvents = 'auto';
+    setHeaderButtonInteractive(true);
+    if (headerDropdownOpen) {
+      setHeaderDropdownInteractive(true);
+      closeHeaderDropdown();
     }
-    if (fabPanel) fabPanel.style.pointerEvents = '';
-    if (fabElement) fabElement.style.pointerEvents = '';
   }
   if (tourHost) {
     tourHost.remove();
@@ -201,7 +198,7 @@ function removeTutorialOverlay() {
 }
 
 function startSpotlightTour() {
-  if (!floatingButtonHost || !fabElement) {
+  if (!headerButtonHost || !headerButtonElement) {
     prefs.tutorialCompleted = true;
     safeStorageSet('sync', { tutorialCompleted: true });
     return;
@@ -211,70 +208,62 @@ function startSpotlightTour() {
 
   const steps = [
     {
-      title: 'Your Quick Settings Button',
-      desc: 'This is the Youtube Hider floating button. Click it anytime to access quick settings without leaving YouTube.',
-      getTarget: () => fabElement,
-      onEnter: () => {
-        if (miniPanelOpen) {
-          miniPanelOpen = false;
-          fabPanel.classList.remove('open');
-          fabElement.classList.remove('active');
-        }
-      },
+      title: 'Your Settings Button',
+      desc: "This is the Youtube Hider button, built right into YouTube's own header. It appears on every page, including Watch, and opens instantly.",
+      getTarget: () => headerButtonElement,
     },
     {
-      title: 'Quick Settings Panel',
-      desc: 'Here you can toggle Hide Watched Videos, Hide Shorts, Minimum Views Filter, and Upload Date Filter. Drag any slider all the way left to turn it off. Changes are applied instantly!',
-      getTarget: () => fabPanel,
-      onEnter: () => {
-        if (!miniPanelOpen) {
-          miniPanelOpen = true;
-          fabPanel.classList.add('open');
-          void fabPanel.offsetHeight;
-          fabElement.classList.add('active');
-          syncPanelToPrefs(fabShadow);
-        }
-      },
+      title: 'Your Full Settings, Right Here',
+      desc: "Clicking it opens your complete Youtube Hider settings, all in one place. Let's walk through what you'll find inside.",
+      getRect: () => getHeaderDropdownRect(),
     },
     {
-      title: 'Hide This Button',
-      desc: 'If the floating button bothers you, click "Hide this button" at the bottom of the panel. Don\'t worry, the extension keeps working in the background and you can re-enable it from settings!',
-      getTarget: () => fabShadow.querySelector('#yh-p-hide-btn') || fabPanel,
-      onEnter: () => {
-        if (!miniPanelOpen) {
-          miniPanelOpen = true;
-          fabPanel.classList.add('open');
-          void fabPanel.offsetHeight;
-          fabElement.classList.add('active');
-          syncPanelToPrefs(fabShadow);
-        }
-      },
+      title: 'Filter Mode',
+      desc: 'Choose how filtered videos are treated: Hide removes them from view entirely, Dim fades them under a dark overlay you can still click through. This applies to every filter below.',
+      getRect: () => getHeaderDropdownRect(),
+      section: 'filter-mode',
     },
     {
-      title: 'Advanced Settings',
-      desc: 'Click "Open full settings" to access the full popup. In Extra Settings you can switch Interface Mode between Simple and Advanced, then fine-tune per-page controls for each filter.',
-      getTarget: () => fabShadow.querySelector('#yh-p-open-full') || fabPanel,
-      onEnter: () => {
-        if (!miniPanelOpen) {
-          miniPanelOpen = true;
-          fabPanel.classList.add('open');
-          void fabPanel.offsetHeight;
-          fabElement.classList.add('active');
-          syncPanelToPrefs(fabShadow);
-        }
-      },
+      title: 'Hide Watched Videos',
+      desc: "Hide videos based on how much of them you've already watched. Drag the slider all the way left to turn it off, and use the per-page toggles in Advanced mode for finer control.",
+      getRect: () => getHeaderDropdownRect(),
+      section: 'hide-watched',
     },
     {
-      title: 'Drag It Anywhere!',
-      desc: 'The floating button is fully draggable. Click and drag it to snap it to any edge of the screen. Place it wherever suits you best.',
-      getTarget: () => fabElement,
-      onEnter: () => {
-        if (miniPanelOpen) {
-          miniPanelOpen = false;
-          fabPanel.classList.remove('open');
-          fabElement.classList.remove('active');
-        }
-      },
+      title: 'Shorts, Mixes, Playlists & Lives',
+      desc: 'Independently remove Shorts, Mix playlists, regular Playlists, and Live streams from your feed and search results.',
+      getRect: () => getHeaderDropdownRect(),
+      section: 'shorts-mixes-playlists-lives',
+    },
+    {
+      title: 'Minimum Views Filter',
+      desc: 'Hide videos below a certain view count, from 0 up to 10 million views.',
+      getRect: () => getHeaderDropdownRect(),
+      section: 'min-views',
+    },
+    {
+      title: 'Upload Date Filter',
+      desc: 'Hide videos newer or older than a configurable threshold. Use both together to keep only videos from a specific time window.',
+      getRect: () => getHeaderDropdownRect(),
+      section: 'upload-date',
+    },
+    {
+      title: 'Channel Whitelist',
+      desc: 'Exempt your favorite channels from every filter. Add the current channel with one click, or remove a chip to re-apply filters immediately.',
+      getRect: () => getHeaderDropdownRect(),
+      section: 'whitelist',
+    },
+    {
+      title: 'Channel Blacklist',
+      desc: 'The opposite of Whitelist: always hide a channel everywhere, including Shorts, Mixes, Playlists and Lives. Add the current channel with one click, or remove a chip to show it again immediately.',
+      getRect: () => getHeaderDropdownRect(),
+      section: 'blacklist',
+    },
+    {
+      title: 'Extra Settings',
+      desc: 'Switch between Simple and Advanced interface, and turn on "Hide on-page controls" anytime to remove this button (and the inline Whitelist and Blacklist buttons) while filtering keeps working in the background.',
+      getRect: () => getHeaderDropdownRect(),
+      section: 'extra-settings',
     },
   ];
 
@@ -295,10 +284,7 @@ function startSpotlightTour() {
     });
     document.body.appendChild(tourBlocker);
 
-    floatingButtonHost.style.zIndex = '2147483646';
-    floatingButtonHost.style.pointerEvents = 'none';
-    fabPanel.style.pointerEvents = 'none';
-    fabElement.style.pointerEvents = 'none';
+    setHeaderButtonInteractive(false);
 
     tourHost = document.createElement('div');
     tourHost.id = 'yh-spotlight-host';
@@ -327,59 +313,13 @@ function startSpotlightTour() {
   }
 
   function computeTargetRect(step) {
-    const el = step.getTarget();
+    if (step.getRect) {
+      const r = step.getRect();
+      if (r) return { top: r.top, left: r.left, width: r.width, height: r.height };
+      return { top: 100, left: 100, width: 40, height: 40 };
+    }
+    const el = step.getTarget ? step.getTarget() : null;
     if (!el) return { top: 100, left: 100, width: 40, height: 40 };
-
-    const hostRect = floatingButtonHost.getBoundingClientRect();
-
-    if (el === fabElement) {
-      return {
-        top: hostRect.top,
-        left: hostRect.left,
-        width: hostRect.width,
-        height: hostRect.height,
-      };
-    }
-
-    if (el === fabPanel) {
-      const r = el.getBoundingClientRect();
-      if (r.width > 0 && r.height > 0) {
-        return { top: r.top, left: r.left, width: r.width, height: r.height };
-      }
-      const panelW = el.offsetWidth || 260;
-      const panelH = el.offsetHeight || 320;
-      let panelTop, panelLeft;
-      if (el.style.bottom && el.style.bottom !== 'auto') {
-        panelTop = hostRect.top - panelH - 12;
-      } else {
-        panelTop = hostRect.bottom + 12;
-      }
-      if (
-        el.style.right &&
-        el.style.right !== 'auto' &&
-        el.style.right !== ''
-      ) {
-        panelLeft = hostRect.right - panelW;
-      } else {
-        panelLeft = hostRect.left;
-      }
-      return { top: panelTop, left: panelLeft, width: panelW, height: panelH };
-    }
-
-    if (el.getRootNode() !== document) {
-      const r = el.getBoundingClientRect();
-      if (r.width > 0 && r.height > 0) {
-        return { top: r.top, left: r.left, width: r.width, height: r.height };
-      }
-      const panelRect = computeTargetRect({ getTarget: () => fabPanel });
-      return {
-        top: panelRect.top,
-        left: panelRect.left,
-        width: panelRect.width,
-        height: panelRect.height,
-      };
-    }
-
     const r = el.getBoundingClientRect();
     return { top: r.top, left: r.left, width: r.width, height: r.height };
   }
@@ -391,42 +331,54 @@ function startSpotlightTour() {
     const vw = window.innerWidth;
     const vh = window.innerHeight;
 
+    const spaceBelow = vh - (rect.top + rect.height);
+    const spaceAbove = rect.top;
+    const spaceLeft = rect.left;
+    const spaceRight = vw - (rect.left + rect.width);
+
+    const clampTop = value =>
+      Math.max(PADDING, Math.min(vh - tooltipH - PADDING, value));
+    const clampLeft = value =>
+      Math.max(PADDING, Math.min(vw - tooltipW - PADDING, value));
+    const centeredLeft = () => clampLeft(rect.left + rect.width / 2 - tooltipW / 2);
+    const centeredTop = () => clampTop(rect.top + rect.height / 2 - tooltipH / 2);
+
     let top, left;
-    const spaceBelow = vh - (rect.top + rect.height + PADDING);
-    const spaceAbove = rect.top - PADDING;
 
-    if (spaceBelow >= tooltipH + PADDING) {
+    if (spaceBelow >= tooltipH + PADDING * 2) {
       top = rect.top + rect.height + PADDING;
-    } else if (spaceAbove >= tooltipH + PADDING) {
+      left = centeredLeft();
+    } else if (spaceAbove >= tooltipH + PADDING * 2) {
       top = rect.top - tooltipH - PADDING;
+      left = centeredLeft();
+    } else if (spaceLeft >= tooltipW + PADDING * 2) {
+      left = rect.left - tooltipW - PADDING;
+      top = centeredTop();
+    } else if (spaceRight >= tooltipW + PADDING * 2) {
+      left = rect.left + rect.width + PADDING;
+      top = centeredTop();
     } else {
-      top = Math.max(PADDING, Math.min(vh - tooltipH - PADDING, rect.top));
-    }
+      const spaces = { below: spaceBelow, above: spaceAbove, left: spaceLeft, right: spaceRight };
+      const best = Object.keys(spaces).reduce((a, b) => (spaces[b] > spaces[a] ? b : a));
 
-    const centerX = rect.left + rect.width / 2;
-    left = centerX - tooltipW / 2;
-    left = Math.max(PADDING, Math.min(vw - tooltipW - PADDING, left));
+      if (best === 'below') {
+        top = rect.top + rect.height + PADDING;
+        left = centeredLeft();
+      } else if (best === 'above') {
+        top = Math.max(PADDING, rect.top - tooltipH - PADDING);
+        left = centeredLeft();
+      } else if (best === 'left') {
+        left = Math.max(PADDING, rect.left - tooltipW - PADDING);
+        top = centeredTop();
+      } else {
+        left = rect.left + rect.width + PADDING;
+        top = centeredTop();
+      }
+    }
 
     tooltip.style.top = top + 'px';
     tooltip.style.left = left + 'px';
     tooltip.style.width = tooltipW + 'px';
-  }
-
-  function waitForPanelTransition() {
-    return new Promise(resolve => {
-      let resolved = false;
-      const done = () => {
-        if (resolved) return;
-        resolved = true;
-        fabPanel.removeEventListener('transitionend', onEnd);
-        resolve();
-      };
-      const onEnd = e => {
-        if (e.target === fabPanel) done();
-      };
-      fabPanel.addEventListener('transitionend', onEnd);
-      setTimeout(done, 300);
-    });
   }
 
   function measureAndPosition(step) {
@@ -493,15 +445,32 @@ function startSpotlightTour() {
     }
   }
 
+  function ensureDropdownStateForStep(step) {
+    if (step.getRect) {
+      if (!headerDropdownOpen) openHeaderDropdown();
+      setHeaderDropdownInteractive(false);
+    } else if (headerDropdownOpen) {
+      closeHeaderDropdown();
+    }
+  }
+
   async function renderStep() {
     const step = steps[currentStep];
-    const wasPanelOpen = miniPanelOpen;
-    step.onEnter();
-    const isPanelOpen = miniPanelOpen;
-    const panelTransitioned = wasPanelOpen !== isPanelOpen;
+    const wasDropdownOpen = headerDropdownOpen;
+    ensureDropdownStateForStep(step);
+    const justOpened = !wasDropdownOpen && headerDropdownOpen;
 
-    if (panelTransitioned) {
-      await waitForPanelTransition();
+    if (justOpened) {
+      await waitForHeaderDropdownReady();
+    }
+
+    if (step.section) {
+      sendMessageToHeaderDropdown({
+        type: 'YH_TOUR_HIGHLIGHT',
+        section: step.section,
+      });
+    } else if (headerDropdownOpen) {
+      sendMessageToHeaderDropdown({ type: 'YH_TOUR_CLEAR' });
     }
 
     requestAnimationFrame(() => {
@@ -516,18 +485,11 @@ function startSpotlightTour() {
     prefs.tutorialCompleted = true;
     safeStorageSet('sync', { tutorialCompleted: true });
 
-    if (miniPanelOpen && fabPanel && fabElement) {
-      miniPanelOpen = false;
-      fabPanel.classList.remove('open');
-      fabElement.classList.remove('active');
+    setHeaderButtonInteractive(true);
+    if (headerDropdownOpen) {
+      setHeaderDropdownInteractive(true);
+      closeHeaderDropdown();
     }
-
-    if (floatingButtonHost) {
-      floatingButtonHost.style.zIndex = '2147483640';
-      floatingButtonHost.style.pointerEvents = 'auto';
-    }
-    if (fabPanel) fabPanel.style.pointerEvents = '';
-    if (fabElement) fabElement.style.pointerEvents = '';
 
     if (tourHost) {
       tourHost.remove();

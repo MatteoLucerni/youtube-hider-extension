@@ -585,11 +585,11 @@
         <h2 class="section-title">Trusted by Chrome users</h2>
         <div class="badge-container">
           <div class="stat-item">
-            <span class="stat-number">1000+</span>
+            <span class="stat-number" id="stat-users">1000+</span>
             <div class="stat-label">Active Users</div>
           </div>
           <div class="stat-item">
-            <span class="stat-number">4.5★</span>
+            <span class="stat-number" id="stat-rating">4.5★</span>
             <div class="stat-label">Rating</div>
           </div>
           <div class="stat-item">
@@ -681,11 +681,12 @@
                   <div class="feature-icon">
                     <i class="fas fa-sliders"></i>
                   </div>
-                  <h3>Floating Quick Settings</h3>
+                  <h3>Header Settings Button</h3>
                   <p>
-                    A draggable button on YouTube gives you instant access to
-                    toggle settings without opening the popup. Changes apply
-                    live, including restoring content when you lower filters.
+                    A button built right into YouTube's own header (desktop)
+                    gives you instant access to your full settings, on every
+                    page. Changes apply live, including restoring content when
+                    you lower filters.
                   </p>
                 </div>
               </div>
@@ -712,6 +713,47 @@
                     Choose whether filtered videos disappear completely or stay
                     visible with a dark overlay showing why they were filtered.
                     Dim mode keeps elements clickable.
+                  </p>
+                </div>
+              </div>
+              <div class="col-12 col-md-6 col-lg-6">
+                <div class="feature h-100">
+                  <div class="feature-icon">
+                    <i class="fas fa-user-shield"></i>
+                  </div>
+                  <h3>Channel Whitelist</h3>
+                  <p>
+                    Exempt your favorite channels from every filter. Add them
+                    straight from the filtered overlay, the Subscribe button,
+                    or the popup, with an undo window so a stray click never
+                    sticks.
+                  </p>
+                </div>
+              </div>
+              <div class="col-12 col-md-6 col-lg-6">
+                <div class="feature h-100">
+                  <div class="feature-icon">
+                    <i class="fas fa-ban"></i>
+                  </div>
+                  <h3>Channel Blacklist</h3>
+                  <p>
+                    The opposite of Channel Whitelist: always hide a channel's
+                    videos everywhere, including Shorts, Mixes, Playlists and
+                    Lives. Add it from the Subscribe button, a hover button on
+                    any video card, filtered or not, or the popup, with the
+                    same undo window as Whitelist.
+                  </p>
+                </div>
+              </div>
+              <div class="col-12 col-md-6 col-lg-6">
+                <div class="feature h-100">
+                  <div class="feature-icon">
+                    <i class="fas fa-power-off"></i>
+                  </div>
+                  <h3>Master Extension Switch</h3>
+                  <p>
+                    Instantly pause every filter with one switch in the popup
+                    header, without losing any of your settings.
                   </p>
                 </div>
               </div>
@@ -777,5 +819,6 @@
       crossorigin="anonymous"
     ></script>
     <script src="assets/js/feedback-widget.js" defer></script>
+    <script src="assets/js/stats.js" defer></script>
   </body>
 </html>

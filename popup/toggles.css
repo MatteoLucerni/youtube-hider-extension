@@ -143,6 +143,12 @@
     box-shadow: 0 0 0 2px var(--bg-primary), 0 0 0 4px var(--accent-green);
 }
 
+.toggle-switch input:disabled+.toggle-slider,
+.toggle-switch-large input:disabled+.toggle-slider {
+    opacity: 0.4;
+    cursor: not-allowed;
+}
+
 .footer-container {
     display: flex;
     flex-direction: row;

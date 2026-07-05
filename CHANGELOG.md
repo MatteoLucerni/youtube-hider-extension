@@ -1,5 +1,131 @@
 # Changelog
 
+### Version 3.1.5
+
+**Fixed**
+
+- The hover "Blacklist" pill left behind a forced `position: relative` on the thumbnail it last appeared over, since the marker attribute driving that style was never cleared when the pill was dismissed
+- The hover "Blacklist" pill could get stuck showing on the wrong card, or fail to disappear at all, when the pointer left a card in a way YouTube's own hover-preview reported ambiguously. A periodic check now confirms the pointer's actual position while the pill is visible, instead of relying solely on the single browser event that can be misreported
+- If a video card was removed from the page (YouTube re-rendering the feed) while its "Blacklist" pill was mid-countdown, the pill could block every other card's pill from appearing for up to 3 seconds. It now recovers as soon as the pointer moves to a different card
+
+**Changed**
+
+- Consolidated the duplicated inline Whitelist/Blacklist button styling, rendering and lifecycle code, and the undo-countdown timer shared by both, into common helpers. No behavior change; this only reduces the surface area for the two lists' buttons to drift out of sync with each other
+
+### Version 3.1.4
+
+**Changed**
+
+- The dim-mode overlay for a video filtered by something other than the blacklist (views too low, already watched, etc.) no longer bakes in its own "Blacklist" button next to "Whitelist". Adding the channel to the blacklist from a video card is now done the same way everywhere, filtered or not: hover the card and use the "Blacklist" pill that appears at the top, whether or not the card already has a dimmed overlay
+- The hover "Blacklist" pill now uses a solid near-black background with white text when shown over a plain, undimmed thumbnail, since the previous translucent style was unreadable with no dark backdrop behind it. Over an already-dimmed card it keeps the previous translucent style, which reads fine there since the badge's own dark overlay is already behind it
+- The Whitelist button's pending state used to read "Remove from Whitelist" or "Disable Whitelist" during its 3-second undo countdown. It now says "Cancel", matching the Blacklist button's pending label, for a consistent feel across both
+
+### Version 3.1.3
+
+**Fixed**
+
+- The dim-mode overlay's "Remove from Blacklist" button could show an ellipsis and cut off its own label on narrower thumbnails, because the row wrapping the Whitelist/Blacklist buttons sized itself to its own content instead of to the actual available width, capping every button's text to a few dozen pixels regardless of the thumbnail's real size. The row now sizes to the full available width, and the button label was also shortened to "Unblacklist" so it stays comfortably clear of the edge on every thumbnail size, including the narrowest ones
+
+### Version 3.1.2
+
+**Removed**
+
+- The in-popup "What's New" modal that listed feature descriptions per version. It required hand-writing and maintaining a features list on every update, which was routinely skipped in practice. The post-update toast still appears and still links to settings; it just no longer opens a modal describing specific new features
+
+### Version 3.1.1
+
+**Fixed**
+
+- The "See what's new" button on the post-update toast always opened the settings as a standalone tab, even when the header settings button was enabled and visible. It now opens the in-page header dropdown instead whenever on-page controls are on, and only falls back to the standalone tab when "Hide on-page controls" is enabled (no header button to open)
+
+### Version 3.1.0
+
+**Added**
+
+- Channel Blacklist: the opposite of Channel Whitelist. A blacklisted channel's videos are always hidden, everywhere, including Shorts, Mixes, Playlists and Lives, regardless of any other filter's own on/off state. A channel can be blacklisted from the header dropdown or popup's new Channel Blacklist card, the inline "Blacklist" button next to Subscribe and the inline "Whitelist" button on watch and channel pages, the video overlay's "Blacklist" button next to "Whitelist", or a new "Blacklist" pill that appears when hovering any unfiltered video card. Adding a channel gives a 3 second window to undo before it takes effect, the same pattern as Channel Whitelist, but the channel is only written to the blacklist once the countdown finishes, so the video does not disappear mid-countdown. A channel can never be on both lists at once: adding it to one removes it from the other. Turning the whole feature off removes every on-page Blacklist button, same as "Hide on-page controls" already does for Whitelist buttons
+
+### Version 3.0.0
+
+**Fixed**
+
+- The "what's new" toast never appeared on a major version update: the check only compared the minor version segment, so going from 2.9.x to 3.0.0 (minor segment reset to 0) was read as no update at all
+- The first-run onboarding tour could be silently skipped on a fresh install if YouTube's header hadn't finished rendering yet when the extension initialized, since the tour was gated on the header button already existing at that exact moment with no retry
+- Un-whitelisting a collaboration video (multiple channels credited on the same upload) did nothing if only some of its channels were already on the whitelist, since the check required every one of them to be listed before allowing a removal
+
+**Removed**
+
+- The floating quick-settings button and its draggable mini-panel, including the ability to drag it to a screen edge and its own hand-maintained subset of settings
+- The dedicated "Floating Button" on/off setting. The header settings button's visibility is now governed solely by "Hide on-page controls", with no separate toggle
+
+**Added**
+
+- A header settings button, built into YouTube's own header on desktop next to the Create button, always available including on the Watch page. Clicking it opens a dropdown with your complete settings, the exact same UI as the popup, instead of a smaller hand-maintained subset
+
+**Changed**
+
+- Mobile web (m.youtube.com) no longer has any on-page quick-access element, since the new header button is desktop only. The toolbar popup remains fully available there
+- The onboarding tutorial now walks through the header button and every settings section inside its dropdown, scrolling to and highlighting each one in turn, instead of the old five-step tour over the floating button and mini-panel
+- The header button no longer has a position to remember, since it lives in YouTube's own header layout instead of floating over the page
+- Filter Mode moved out of Extra Settings into its own dedicated card at the top of the popup, with a two-option Hide/Dim picker instead of a toggle switch, reflecting how central it is to every other filter
+
+### Version 2.10.0
+
+**Changed**
+
+- Cleaner Dim mode overlay: removed the YouTube Hider logo from the dimmed-video overlay and from the inline "Whitelist" button next to Subscribe, so filtered videos and profile actions read as plain YouTube UI instead of branded extension chrome. The floating quick-settings button keeps the logo, since that's the extension's own dedicated entry point
+- Renamed the overlay's "Whitelist channel" button to "Whitelist" and restyled it as a subtler, translucent pill closer to YouTube's own ghost-button look, instead of a solid gray filled button
+- Hovering the overlay or inline "Whitelist" button now shows a tooltip explaining what it does and pointing to "Hide on-page controls" for anyone who'd rather not see these buttons at all, since removing the logo made the buttons less obviously tied to the extension. The overlay tooltip does not show up on the watch page, since the related videos there use a thumbnail too small to fit it without cutting it off
+
+### Version 2.9.4
+
+**Fixed**
+
+- Channel Whitelist did not exempt collaboration videos (multiple channels credited on the same upload, shown with a stacked-avatar icon instead of a single channel avatar): none of their channels were ever recorded in the internal channel cache, so the whitelist had no way to know one of them was exempt and kept filtering the video. The cache now reads all collaborating channels for these videos, and the video is exempted if any one of them is whitelisted. The "Whitelist channel" button on these videos now whitelists every collaborating channel at once (with the same undo window as before)
+- The inline "Whitelist" button next to Subscribe never appeared on the watch page for a collaboration video: the currently-played video's owner info uses yet another layout for crediting multiple channels, one that doesn't carry a browsable link either, and whose collaborator list lives in a different part of the page data than the one already handled for collaboration videos in feeds. That collaborator list is now read as well, keyed to the currently-played video, and the button whitelists all of them at once, same as the overlay button
+- The inline "Whitelist" button on a channel page's new header layout was smaller and misaligned compared to the Subscribe/Join/Community buttons next to it, since it was appended as a bare button instead of wrapped in the same action container YouTube uses for its own buttons in that row. It's now wrapped the same way, matching their size and spacing. On the watch page, where the button sits as a plain sibling next to Subscribe instead (a different layout), it now gets matching spacing for that context instead of reusing the channel page's
+- A channel was treated as two different channels depending on which URL was used to reach it: the handle form (`/@name`) and the internal id form (`/channel/UC...`) were compared as plain strings with no link between them, so whitelisting one didn't exempt the other, and per-page filter toggles for the Channel surface (Hide Watched, Minimum Views, Upload Date) silently did nothing on a `/channel/UC...` URL since they only recognized `/@name`. Both forms are now resolved to the same identity using the id-to-handle mapping YouTube's own page data already provides, and every per-surface Channel check now recognizes both URL forms
+
+### Version 2.9.3
+
+**Fixed**
+
+- Upload Date Filter did not hide videos whose age was rendered in YouTube's newer abbreviated format (e.g. "7y ago", "3mo ago" instead of "7 years ago", "3 months ago"), so old videos kept showing up even with "Hide older than" set. The parser now recognizes short unit abbreviations (h, d, wk/w, mo, yr/y) alongside the full words. Thanks to [@maciej-p-pawlowski](https://github.com/maciej-p-pawlowski) for reporting the bug and contributing the fix
+
+### Version 2.9.2
+
+**Changed**
+
+- Merged the popup footer's separate "Request a Feature" and "Report a Bug" links into a single "Feature or Bug feedback" link, since both pointed to the same form
+- Added a "Website" link to the popup footer, pointing to the official YouTube Hider website
+- Reordered popup footer links to Feature Request and Feedback, Changelog, Website
+- Darkened the background and sharpened the border of the feedback cards in the website's "How can we help?" widget so they read as distinct boxes in their default (non-hover) state
+
+### Version 2.9.1
+
+`
+**Added**
+
+- Hide on-page controls: a new option in Extra Settings that hides all of the extension's on-screen elements on YouTube - the floating button, the inline and overlay "Whitelist" buttons, and the YouTube Hider logo on dimmed videos - for a cleaner, more discreet look. Filtering keeps working in the background. While the option is on, the Floating Button toggle is greyed out, with a hover tooltip explaining how to re-enable it
+
+**Fixed**
+
+- Minimum Views Filter hid videos with high view counts in locales that show the full number: a count written with a single thousands separator (e.g. "98.756" or "98,756") was parsed as a decimal (~98) and wrongly hidden even with the threshold set to 100. View counts without a magnitude suffix are now treated as integers, so all separators are read as thousands groupings
+- Minimum Views Filter treated live streams as regular videos: a live stream's concurrent-viewer count (e.g. "5 spettatori" / "5 watching") was read as a view count and the stream was hidden when below the threshold. Live videos are now detected by their live badge and skipped by the views filter on Home, Search and the watch-page sidebar
+- Upload Date Filter misread non-date text as a video's age: channel names that contain a number followed by a time word (e.g. "5-Minute Crafts", "7-Second Riddles") were parsed as an upload age and hid unrelated videos. The parser now requires the time unit to immediately follow the number, rejects trailing non-date text, and reads the date from the last metadata item so a channel name can no longer win
+- Upload Date Filter now recognizes the Spanish/Portuguese plural "minutos"
+- Removed an orphaned tutorial overlay that could remain on screen when enabling "Hide on-page controls" while the guided tour was active
+
+**Changed**
+
+- Slightly reduced the YouTube Hider logo size on dimmed video overlays
+- Removed trailing periods from popup descriptions and tooltips for consistent text styling
+
+### Version 2.9.0
+
+**Added**
+
+- Channel Whitelist: exempt specific channels from all active filters, so their videos are never hidden or dimmed (Shorts are always filtered regardless). Add a channel from three places - the "Whitelist channel" button on a filtered/dimmed overlay (with a 3-second undo window before it takes effect), the inline "Whitelist" button next to Subscribe on video and channel pages, or the toggle in the floating mini-panel. Manage the full list anytime from the popup's new Channel Whitelist card
+
 ### Version 2.8.2
 
 **Fixed**

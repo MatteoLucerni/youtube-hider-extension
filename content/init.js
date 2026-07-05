@@ -28,55 +28,41 @@ const PAGE_SELECTORS = {
 };
 
 function waitForPageElements(pathname, timeout = 3000) {
-  return new Promise(resolve => {
-    let selectors = PAGE_SELECTORS[pathname];
+  let selectors = PAGE_SELECTORS[pathname];
 
-    if (!selectors && pathname && pathname.startsWith('/@')) {
-      selectors = PAGE_SELECTORS['/'];
-    }
+  if (!selectors && isChannelPagePath(pathname)) {
+    selectors = PAGE_SELECTORS['/'];
+  }
 
-    if (!selectors) {
-      resolve(true);
-      return;
-    }
+  if (!selectors) {
+    return Promise.resolve(true);
+  }
 
-    const checkElements = () => {
-      for (const selector of selectors) {
-        if (document.querySelector(selector)) {
-          logger.log(`Page ready: found ${selector} for ${pathname}`);
-          resolve(true);
-          return true;
-        }
+  const checkElements = () => {
+    for (const selector of selectors) {
+      if (document.querySelector(selector)) {
+        return true;
       }
-      return false;
-    };
+    }
+    return false;
+  };
 
-    if (checkElements()) return;
-
-    const startTime = Date.now();
-    const interval = setInterval(() => {
-      if (checkElements()) {
-        clearInterval(interval);
-      } else if (Date.now() - startTime > timeout) {
-        logger.warn(`Timeout waiting for page elements on ${pathname}`);
-        clearInterval(interval);
-        resolve(false);
-      }
-    }, TIMING.ELEMENT_POLL_INTERVAL);
+  return pollUntil(checkElements, { timeout }).promise.then(found => {
+    if (!found) logger.warn(`Timeout waiting for page elements on ${pathname}`);
+    return found;
   });
 }
 
 async function startHiding(pathname) {
-  logger.log('Starting hide operations for:', pathname);
-
   if (!prefs.extensionEnabled) {
-    resetAppliedFilters();
+    resetAppliedFilters(true);
     removeWarning();
     return;
   }
 
   await waitForPageElements(pathname);
 
+  const canHideBlacklisted = shouldHideBlacklisted(pathname);
   const canHideWatched = shouldHideWatched(pathname);
   const canHideViews = shouldHideViews(pathname);
   const canHideShortsFlag = shouldHideShorts(pathname);
@@ -85,60 +71,41 @@ async function startHiding(pathname) {
   const canHidePlaylists = shouldHidePlaylists(pathname);
   const canHideLives = shouldHideLives(pathname);
 
-  logger.log('Hide decision for', pathname, {
-    hideWatched: canHideWatched,
-    hideViews: canHideViews,
-    hideShorts: canHideShortsFlag,
-    hideDateFilter: canHideDateFilter,
-    hideMixes: canHideMixes,
-    hidePlaylists: canHidePlaylists,
-    hideLives: canHideLives,
-    relevantPrefs: {
-      hideChannelEnabled: prefs.hideChannelEnabled,
-      viewsHideChannelEnabled: prefs.viewsHideChannelEnabled,
-      hideShortsEnabled: prefs.hideShortsEnabled,
-      hideShortsSearchEnabled: prefs.hideShortsSearchEnabled,
-      dateFilterNewerThreshold: prefs.dateFilterNewerThreshold,
-      dateFilterOlderThreshold: prefs.dateFilterOlderThreshold,
-      hideMixesEnabled: prefs.hideMixesEnabled,
-      hidePlaylistsEnabled: prefs.hidePlaylistsEnabled,
-      hideLivesEnabled: prefs.hideLivesEnabled,
-    },
-  });
+  if (canHideBlacklisted) {
+    hideBlacklisted();
+  }
 
   if (canHideWatched) {
-    logger.log('Hiding watched videos on', pathname);
     hideWatched(pathname);
   }
 
   if (canHideViews) {
-    logger.log('Hiding low view count videos on', pathname);
     hideUnderVisuals();
   }
 
   if (canHideShortsFlag) {
-    logger.log('Hiding shorts on', pathname);
     hideShorts();
   }
 
   if (canHideDateFilter) {
-    logger.log('Hiding videos by upload date on', pathname);
     hideDateFilter();
   }
 
   if (canHideMixes) {
-    logger.log('Hiding mixes on', pathname);
     hideMixes();
   }
 
   if (canHidePlaylists) {
-    logger.log('Hiding playlists on', pathname);
     hidePlaylists();
   }
 
   if (canHideLives) {
-    logger.log('Hiding lives on', pathname);
     hideLives();
+  }
+
+  if (isInlineWhitelistPath(pathname)) {
+    syncInlineWhitelistButton(pathname);
+    syncInlineBlacklistButton(pathname);
   }
 }
 
@@ -156,16 +123,11 @@ function detectPageChange() {
     cleanupTour();
     removeTutorialOverlay();
 
-    if (currentPath === '/watch') {
-      removeFloatingButton();
-    } else if (
-      prefs.extensionEnabled &&
-      prefs.floatingButtonEnabled &&
-      !floatingButtonHost &&
-      isYouTube()
-    ) {
-      createFloatingButton();
-    }
+    ensureHeaderButton();
+
+    removeInlineWhitelistButton();
+    removeInlineBlacklistButton();
+    removeBlacklistHoverButton();
 
     if (pageLoadTimeout) {
       clearTimeout(pageLoadTimeout);
@@ -175,6 +137,10 @@ function detectPageChange() {
       startHiding(currentPath);
       pageLoadTimeout = null;
     }, TIMING.PAGE_CHANGE_DELAY);
+
+    if (headerDropdownOpen) {
+      closeHeaderDropdown();
+    }
 
     return true;
   }
@@ -189,6 +155,23 @@ const debouncedHiding = debounce(() => {
 }, TIMING.DEBOUNCE_MUTATIONS);
 
 function onMutations(mutations) {
+  const cacheChanged = mutations.some(
+    m => m.type === 'attributes' && m.attributeName === YT_HIDER_CACHE_ATTR,
+  );
+  const channelIdCacheChanged = mutations.some(
+    m =>
+      m.type === 'attributes' &&
+      m.attributeName === YT_HIDER_CHANNELID_CACHE_ATTR,
+  );
+  const videoCacheUpdated = cacheChanged && readChannelCacheFromDOM();
+  const channelIdCacheUpdated =
+    channelIdCacheChanged && readChannelIdentityCacheFromDOM();
+  if ((videoCacheUpdated || channelIdCacheUpdated) && prefs.extensionEnabled) {
+    startHiding(window.location.pathname);
+  }
+
+  ensureHeaderButton();
+
   detectInfiniteLoaderLoop(mutations);
 
   debouncedHiding();
@@ -198,23 +181,39 @@ async function init() {
   await initPrefs();
   setupPrefsListener();
   injectDimStyles();
+  injectInlineWhitelistStyles();
+  injectInlineBlacklistStyles();
+  watchYouTubeTheme();
+  preventHoverPreviewOnDimmedItems();
+  attachBlacklistHoverListener();
 
   logger.log('Extension initialized on', currentPath);
+  readChannelCacheFromDOM();
+  readChannelIdentityCacheFromDOM();
   await startHiding(currentPath);
 
   const observer = new MutationObserver(onMutations);
-  observer.observe(document.body, { childList: true, subtree: true, characterData: true });
+  observer.observe(document.documentElement, {
+    attributes: true,
+    attributeFilter: [YT_HIDER_CACHE_ATTR, YT_HIDER_CHANNELID_CACHE_ATTR],
+  });
+  observer.observe(document.body, {
+    childList: true,
+    subtree: true,
+    characterData: true,
+  });
 
   logger.log('MutationObserver started');
 
   if (isYouTube() && prefs.extensionEnabled) {
-    const tutorialPending = !prefs.tutorialCompleted && !isWatchPage();
-    if (!isWatchPage()) {
-      createFloatingButton(tutorialPending);
+    const tutorialPending = !prefs.tutorialCompleted;
+    createHeaderButton();
+    if (!headerButtonHost) {
+      await pollUntil(() => !!headerButtonHost, { timeout: 5000 }).promise;
     }
-    if (tutorialPending && floatingButtonHost) {
+    if (tutorialPending && headerButtonHost) {
       setTimeout(() => showTutorialWelcomeCard(), 1500);
-    } else if (!isWatchPage()) {
+    } else {
       chrome.storage.local.get('whatsNewVersion', local => {
         if (local.whatsNewVersion) {
           setTimeout(() => showWhatsNewToast(local.whatsNewVersion), 1500);
@@ -229,3 +228,10 @@ if (document.readyState === 'loading') {
 } else {
   init();
 }
+
+chrome.runtime.onMessage.addListener((msg, _sender, sendResponse) => {
+  if (msg.type === 'GET_CURRENT_CHANNEL') {
+    sendResponse({ channel: getCurrentPageChannel() });
+    return true;
+  }
+});

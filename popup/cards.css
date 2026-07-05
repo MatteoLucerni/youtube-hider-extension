@@ -4,6 +4,7 @@
     border-radius: var(--radius-lg);
     padding: var(--spacing-lg);
     margin-bottom: var(--spacing-lg);
+    scroll-margin-top: calc(var(--yh-header-offset, 70px) + 12px);
 }
 
 .setting-card-easy-mode {
@@ -13,6 +14,78 @@
 .setting-card-compact {
     display: block;
     position: relative;
+}
+
+.setting-card.yh-tour-highlight {
+    border-color: var(--accent-blue);
+    box-shadow: 0 0 0 3px rgba(138, 180, 248, 0.35);
+    transition: border-color 0.2s ease, box-shadow 0.2s ease;
+    animation: yh-tour-highlight-in 300ms ease-out;
+}
+
+@keyframes yh-tour-highlight-in {
+    from {
+        box-shadow: 0 0 0 3px rgba(138, 180, 248, 0.35), 0 0 0 10px rgba(138, 180, 248, 0.25);
+    }
+    to {
+        box-shadow: 0 0 0 3px rgba(138, 180, 248, 0.35);
+    }
+}
+
+@media (prefers-reduced-motion: reduce) {
+    .setting-card.yh-tour-highlight {
+        animation: none;
+    }
+}
+
+.filter-mode-card {
+    display: flex;
+    flex-direction: column;
+    gap: var(--spacing-md);
+}
+
+.filter-mode-title {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: var(--spacing-md);
+}
+
+.filter-mode-options {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: var(--spacing-md);
+}
+
+.filter-mode-option {
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    justify-content: center;
+    gap: 8px;
+    padding: var(--spacing-sm) var(--spacing-md);
+    background: var(--bg-tertiary);
+    border: 2px solid transparent;
+    border-radius: var(--radius-md);
+    color: var(--text-secondary);
+    cursor: pointer;
+    font-family: inherit;
+    transition: border-color 0.2s ease, background 0.2s ease, color 0.2s ease;
+}
+
+.filter-mode-option:hover {
+    background: var(--bg-quaternary);
+}
+
+.filter-mode-option-label {
+    font-size: 13px;
+    font-weight: 700;
+    color: var(--text-primary);
+}
+
+.filter-mode-option.active {
+    border-color: var(--accent-green);
+    background: rgba(16, 185, 129, 0.14);
 }
 
 .restart-tutorial-btn {
