@@ -71,7 +71,6 @@ const defaultSettings = {
   dateFilterSearchEnabled: false,
   dateFilterSubsEnabled: false,
   dateFilterCorrEnabled: false,
-  headerButtonEnabled: true,
   hideInterfaceElements: false,
   tutorialCompleted: false,
 };
@@ -107,11 +106,6 @@ function migrateSettings(currentSettings) {
     if (!(key in currentSettings)) {
       if (key === 'tutorialCompleted') {
         newKeys[key] = true;
-      } else if (key === 'headerButtonEnabled') {
-        newKeys[key] =
-          'floatingButtonEnabled' in currentSettings
-            ? currentSettings.floatingButtonEnabled
-            : true;
       } else {
         newKeys[key] = value;
       }
@@ -130,8 +124,9 @@ function migrateSettings(currentSettings) {
     migrateSliderOff(currentSettings);
   }
 
-  // Header button migration: the FAB is replaced by a header button, drop its
-  // now-unused settings once headerButtonEnabled has been derived above
+  // Header button migration: the FAB is replaced by a header button whose
+  // visibility is governed solely by hideInterfaceElements, so drop the FAB's
+  // now-unused settings
   if (!currentSettings.headerButtonMigrationDone) {
     migrateHeaderButtonCleanup();
   }

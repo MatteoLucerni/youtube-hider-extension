@@ -5,6 +5,7 @@
 **Removed**
 
 - The floating quick-settings button and its draggable mini-panel, including the ability to drag it to a screen edge and its own hand-maintained subset of settings
+- The dedicated "Floating Button" on/off setting. The header settings button's visibility is now governed solely by "Hide on-page controls", with no separate toggle
 
 **Added**
 
@@ -14,7 +15,7 @@
 
 - Mobile web (m.youtube.com) no longer has any on-page quick-access element, since the new header button is desktop only. The toolbar popup remains fully available there
 - The onboarding tutorial now walks through the header button and every settings section inside its dropdown, scrolling to and highlighting each one in turn, instead of the old five-step tour over the floating button and mini-panel
-- The "Floating Button" setting is renamed to "Header Button" and no longer has a position to remember, since the button lives in YouTube's own header layout instead of floating over the page
+- The header button no longer has a position to remember, since it lives in YouTube's own header layout instead of floating over the page
 
 ### Version 2.10.0
 

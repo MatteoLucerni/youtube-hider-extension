@@ -79,7 +79,7 @@ A small icon-only button lives right in YouTube's own header (desktop only), nex
 
 ### Hide On-Page Controls
 
-For a more discreet setup, enable **Hide on-page controls** in **Extra Settings** to remove all of the extension's on-screen elements from YouTube - the header settings button and the inline and overlay "Whitelist" buttons. Filtering keeps working in the background. While this option is on, the Header Button toggle is greyed out, with a tooltip explaining how to re-enable it.
+For a more discreet setup, enable **Hide on-page controls** in **Extra Settings** to remove all of the extension's on-screen elements from YouTube - the header settings button and the inline and overlay "Whitelist" buttons. Filtering keeps working in the background. This is the only way to hide the header button; there is no separate toggle for it.
 
 ### Simple Mode & Advanced Mode
 

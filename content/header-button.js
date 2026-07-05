@@ -77,11 +77,10 @@ function applyHeaderButtonTheme() {
   }
 }
 
-function createHeaderButton(forceForTutorial = false) {
+function createHeaderButton() {
   if (window.location.hostname !== 'www.youtube.com') return;
   if (prefs.hideInterfaceElements) return;
   if (headerButtonHost && headerButtonHost.isConnected) return;
-  if (!forceForTutorial && !prefs.headerButtonEnabled) return;
 
   const anchor = document.querySelector('ytd-masthead #end #buttons');
   if (!anchor) return;

@@ -150,7 +150,6 @@ function detectPageChange() {
 
     if (
       prefs.extensionEnabled &&
-      prefs.headerButtonEnabled &&
       isYouTube() &&
       (!headerButtonHost || !headerButtonHost.isConnected)
     ) {
@@ -202,7 +201,6 @@ function onMutations(mutations) {
 
   if (
     prefs.extensionEnabled &&
-    prefs.headerButtonEnabled &&
     isYouTube() &&
     (!headerButtonHost || !headerButtonHost.isConnected)
   ) {
@@ -242,7 +240,7 @@ async function init() {
 
   if (isYouTube() && prefs.extensionEnabled) {
     const tutorialPending = !prefs.tutorialCompleted;
-    createHeaderButton(tutorialPending);
+    createHeaderButton();
     if (tutorialPending && headerButtonHost) {
       setTimeout(() => showTutorialWelcomeCard(), 1500);
     } else {

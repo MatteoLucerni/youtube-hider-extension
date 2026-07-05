@@ -31,7 +31,6 @@ const prefs = {
   dateFilterSubsEnabled: false,
   dateFilterCorrEnabled: false,
   dimMode: false,
-  headerButtonEnabled: true,
   tutorialCompleted: false,
   channelWhitelist: [],
   channelWhitelistEnabled: true,
@@ -122,15 +121,6 @@ function setupPrefsListener() {
             logger.log(`Pref ${key} changed to`, changes[key].newValue);
           }
         }
-        if (changes.headerButtonEnabled) {
-          if (changes.headerButtonEnabled.newValue && prefs.extensionEnabled) {
-            createHeaderButton();
-          } else {
-            cleanupTour();
-            removeTutorialOverlay();
-            removeHeaderButton();
-          }
-        }
         if ('extensionEnabled' in changes) {
           if (!prefs.extensionEnabled) {
             resetAppliedFilters(true);
@@ -139,11 +129,7 @@ function setupPrefsListener() {
             removeTutorialOverlay();
             removeHeaderButton();
             removeInlineWhitelistButton();
-          } else if (
-            prefs.headerButtonEnabled &&
-            !headerButtonHost &&
-            isYouTube()
-          ) {
+          } else if (!headerButtonHost && isYouTube()) {
             createHeaderButton();
           }
           startHiding(currentPath);
@@ -160,7 +146,6 @@ function setupPrefsListener() {
             removeInlineWhitelistButton();
           } else if (
             prefs.extensionEnabled &&
-            prefs.headerButtonEnabled &&
             !headerButtonHost &&
             isYouTube()
           ) {
