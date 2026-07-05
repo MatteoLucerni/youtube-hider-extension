@@ -53,7 +53,7 @@ Selectively remove content types from your YouTube feed with individual toggles:
 Choose how filtered content is treated across all active filters:
 
 - **Hide** (default) - filtered elements are removed from view entirely
-- **Dim** - filtered elements stay visible under a dark semi-transparent overlay. The overlay displays a compact label indicating why the element was filtered ("Already watched", "Views too low", "Video too new", "Video too old", "Mix playlist", "Playlist", "Live stream"). Filtered elements remain fully clickable. Shorts are always hidden regardless of this setting.
+- **Dim** - filtered elements stay visible under a dark semi-transparent overlay. The overlay displays a compact label indicating why the element was filtered ("Already watched", "Views too low", "Video too new", "Video too old", "Mix playlist", "Playlist", "Live stream", "Blacklisted channel"). Filtered elements remain fully clickable. Shorts are always hidden regardless of this setting.
 
 In Hide mode, lockup-based cards are removed at the correct wrapper level to avoid empty placeholders in Home and Subscriptions grids.
 
@@ -69,6 +69,17 @@ Exempt specific channels from every active filter - their videos are never hidde
 - The **inline "Whitelist" button** next to the Subscribe button on video and channel pages
 - The **Channel Whitelist card** in the popup, which lists every whitelisted channel as a removable chip and lets you add the current tab's channel directly
 
+### Channel Blacklist
+
+The opposite of Channel Whitelist: a blacklisted channel's videos are always hidden, everywhere, including Shorts, Mixes, Playlists and Lives, regardless of any other filter's own on/off state. A channel can never be on both lists at once, adding it to one removes it from the other. A channel can be blacklisted from four places:
+
+- The **"Blacklist" button** on a filtered/dimmed overlay, next to "Whitelist" - shows the same 3-second undo countdown as Whitelist, but the channel is only written to the blacklist once the countdown finishes, so nothing disappears mid-countdown
+- The **inline "Blacklist" button** next to the inline "Whitelist" button on video and channel pages
+- A **hover "Blacklist" pill** that appears over any unfiltered video card's thumbnail on mouseover, with the same 3-second undo countdown
+- The **Channel Blacklist card** in the popup, which lists every blacklisted channel as a removable chip and lets you add the current tab's channel directly
+
+Turning the whole Channel Blacklist toggle off removes every on-page Blacklist button; the list itself is kept and resumes filtering once the toggle is turned back on.
+
 ### Master Extension Switch
 
 Use the **Extension** switch in the popup header to instantly enable or disable the entire extension. When disabled, filtering is paused globally and the badge shows **OFF**.
@@ -79,7 +90,7 @@ A small icon-only button lives right in YouTube's own header (desktop only), nex
 
 ### Hide On-Page Controls
 
-For a more discreet setup, enable **Hide on-page controls** in **Extra Settings** to remove all of the extension's on-screen elements from YouTube - the header settings button and the inline and overlay "Whitelist" buttons. Filtering keeps working in the background. This is the only way to hide the header button; there is no separate toggle for it.
+For a more discreet setup, enable **Hide on-page controls** in **Extra Settings** to remove all of the extension's on-screen elements from YouTube - the header settings button and the inline, overlay and hover "Whitelist" and "Blacklist" buttons. Filtering keeps working in the background. This is the only way to hide the header button; there is no separate toggle for it.
 
 ### Simple Mode & Advanced Mode
 
@@ -140,13 +151,15 @@ youtube-hider-extension
 │   ├── page-bridge.js     MAIN-world script: caches video-id-to-channel mappings from YouTube's internal data
 │   ├── env.js             DEV_MODE flag
 │   ├── utils.js           Shared utilities (debounce, logger, safe storage)
+│   ├── whitelist-utils.js Pure list helpers shared by Channel Whitelist and Channel Blacklist
 │   ├── state.js           Preferences, timing constants, storage listener
 │   ├── warning.js         High-filtering warning and infinite-loop detection
 │   ├── header-button.js  Header settings button and its iframe-embedded settings dropdown
 │   ├── tutorial.js        Guided spotlight tutorial
 │   ├── parsers.js         View count, upload date and channel parsers
-│   ├── filters.js         Video hiding/filtering logic, Channel Whitelist overlay button
+│   ├── filters.js         Video hiding/filtering logic, Channel Whitelist and Channel Blacklist overlay buttons
 │   ├── channel-whitelist-button.js  Inline Whitelist button next to Subscribe
+│   ├── channel-blacklist-button.js  Inline Blacklist button and the hover Blacklist pill on video cards
 │   └── init.js            Page detection, observers, bootstrap
 ├── popup/
 │   ├── popup.html         Settings popup UI
@@ -168,7 +181,7 @@ youtube-hider-extension
 
 ## How It Works
 
-1. **Content scripts** (12 files in `content/`) load on YouTube pages in the order defined by `manifest.json`. They share a global scope via Chrome's isolated world. `page-bridge.js` is the exception: it runs in the page's `MAIN` world at `document_start` to read YouTube's own internal data and expose a video-id-to-channel cache via a DOM attribute, since the isolated world can read the DOM but not the page's JavaScript globals.
+1. **Content scripts** (13 files in `content/`) load on YouTube pages in the order defined by `manifest.json`. They share a global scope via Chrome's isolated world. `page-bridge.js` is the exception: it runs in the page's `MAIN` world at `document_start` to read YouTube's own internal data and expose a video-id-to-channel cache via a DOM attribute, since the isolated world can read the DOM but not the page's JavaScript globals.
 2. A **MutationObserver** watches for DOM changes and triggers hiding/filtering logic based on your preferences.
 3. Settings are stored in `chrome.storage.sync` (synced across devices), except for the "what's new" flag which is device-specific `chrome.storage.local` state.
 4. The **header button** (`content/header-button.js`) uses a closed Shadow DOM to encapsulate its styles from the host page. Its settings dropdown embeds `popup/popup.html` in an `<iframe>`, created fresh on every open, so the dropdown is always the same, unmodified popup UI.

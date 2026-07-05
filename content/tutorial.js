@@ -254,8 +254,14 @@ function startSpotlightTour() {
       section: 'whitelist',
     },
     {
+      title: 'Channel Blacklist',
+      desc: 'The opposite of Whitelist: always hide a channel everywhere, including Shorts, Mixes, Playlists and Lives. Add the current channel with one click, or remove a chip to show it again immediately.',
+      getRect: () => getHeaderDropdownRect(),
+      section: 'blacklist',
+    },
+    {
       title: 'Extra Settings',
-      desc: 'Switch between Simple and Advanced interface, and turn on "Hide on-page controls" anytime to remove this button (and the inline Whitelist buttons) while filtering keeps working in the background.',
+      desc: 'Switch between Simple and Advanced interface, and turn on "Hide on-page controls" anytime to remove this button (and the inline Whitelist and Blacklist buttons) while filtering keeps working in the background.',
       getRect: () => getHeaderDropdownRect(),
       section: 'extra-settings',
     },

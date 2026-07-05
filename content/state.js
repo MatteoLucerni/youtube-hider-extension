@@ -34,6 +34,8 @@ const prefs = {
   tutorialCompleted: false,
   channelWhitelist: [],
   channelWhitelistEnabled: true,
+  channelBlacklist: [],
+  channelBlacklistEnabled: true,
   hideInterfaceElements: false,
 };
 
@@ -64,6 +66,8 @@ const FILTER_REAPPLY_KEYS = new Set([
   'dateFilterCorrEnabled',
   'channelWhitelist',
   'channelWhitelistEnabled',
+  'channelBlacklist',
+  'channelBlacklistEnabled',
 ]);
 
 const WHITELIST_REAPPLY_KEYS = new Set(['channelWhitelist', 'channelWhitelistEnabled']);
@@ -80,6 +84,17 @@ function isChannelPaused(channel) {
   return isChannelListed(channel) && !prefs.channelWhitelistEnabled;
 }
 
+function isChannelOnBlacklist(channel) {
+  return channelListIncludes(channel, prefs.channelBlacklist);
+}
+
+function isChannelBlacklisted(channel) {
+  return isChannelOnBlacklist(channel) && !!prefs.channelBlacklistEnabled;
+}
+
+const CHANNEL_BLACKLIST_KEYS = { listKey: 'channelBlacklist', enabledKey: 'channelBlacklistEnabled' };
+const CHANNEL_WHITELIST_KEYS = { listKey: 'channelWhitelist', enabledKey: 'channelWhitelistEnabled' };
+
 function setChannelWhitelisted(channel, shouldWhitelist) {
   const result = computeWhitelistUpdate(
     channel,
@@ -91,6 +106,51 @@ function setChannelWhitelisted(channel, shouldWhitelist) {
 
   if (result.updates.channelWhitelist) prefs.channelWhitelist = result.list;
   if (result.updates.channelWhitelistEnabled) prefs.channelWhitelistEnabled = true;
+
+  if (shouldWhitelist && result.changedChannels.length) {
+    const unblacklist = computeWhitelistUpdate(
+      result.changedChannels,
+      false,
+      prefs.channelBlacklist,
+      prefs.channelBlacklistEnabled,
+      CHANNEL_BLACKLIST_KEYS,
+    );
+    if (unblacklist && unblacklist.updates.channelBlacklist) {
+      prefs.channelBlacklist = unblacklist.list;
+      result.updates.channelBlacklist = unblacklist.list;
+    }
+  }
+
+  safeStorageSet('sync', result.updates);
+  return result;
+}
+
+function setChannelBlacklisted(channel, shouldBlacklist) {
+  const result = computeWhitelistUpdate(
+    channel,
+    shouldBlacklist,
+    prefs.channelBlacklist,
+    prefs.channelBlacklistEnabled,
+    CHANNEL_BLACKLIST_KEYS,
+  );
+  if (!result) return null;
+
+  if (result.updates.channelBlacklist) prefs.channelBlacklist = result.list;
+  if (result.updates.channelBlacklistEnabled) prefs.channelBlacklistEnabled = true;
+
+  if (shouldBlacklist && result.changedChannels.length) {
+    const unwhitelist = computeWhitelistUpdate(
+      result.changedChannels,
+      false,
+      prefs.channelWhitelist,
+      prefs.channelWhitelistEnabled,
+    );
+    if (unwhitelist && unwhitelist.updates.channelWhitelist) {
+      prefs.channelWhitelist = unwhitelist.list;
+      result.updates.channelWhitelist = unwhitelist.list;
+    }
+  }
+
   safeStorageSet('sync', result.updates);
   return result;
 }
@@ -129,6 +189,8 @@ function setupPrefsListener() {
             removeTutorialOverlay();
             removeHeaderButton();
             removeInlineWhitelistButton();
+            removeInlineBlacklistButton();
+            removeBlacklistHoverButton();
           } else {
             ensureHeaderButton();
           }
@@ -144,6 +206,8 @@ function setupPrefsListener() {
             removeTutorialOverlay();
             removeHeaderButton();
             removeInlineWhitelistButton();
+            removeInlineBlacklistButton();
+            removeBlacklistHoverButton();
           } else {
             ensureHeaderButton();
           }

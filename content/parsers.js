@@ -132,7 +132,7 @@ function getVideoContainerSelectors() {
   return 'ytd-compact-video-renderer, ytd-rich-item-renderer, ytd-video-renderer, yt-lockup-view-model, ytm-video-with-context-renderer, ytm-compact-video-renderer, ytm-rich-item-renderer';
 }
 
-function findAndHideContainer(element, selectors, reason) {
+function findOutermostMatch(element, selectors) {
   let item = element;
   let match = null;
   while (item) {
@@ -141,6 +141,11 @@ function findAndHideContainer(element, selectors, reason) {
     }
     item = item.parentElement;
   }
+  return match;
+}
+
+function findAndHideContainer(element, selectors, reason) {
+  const match = findOutermostMatch(element, selectors);
   if (match) applyFilter(match, reason);
 }
 

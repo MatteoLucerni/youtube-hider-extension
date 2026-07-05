@@ -316,6 +316,11 @@ body.easy-mode-off .date-filter-group .date-overlap-warning {
     max-width: 220px;
 }
 
+.blacklist-chip {
+    background: rgba(197, 34, 31, 0.08);
+    border-color: rgba(197, 34, 31, 0.35);
+}
+
 .whitelist-chip-label {
     font-size: 12px;
     color: var(--text-primary);
@@ -367,6 +372,10 @@ body.easy-mode-off .date-filter-group .date-overlap-warning {
     background: var(--bg-quaternary);
     color: var(--text-primary);
     border-color: var(--accent-blue);
+}
+
+.blacklist-add-btn:not(:disabled):hover {
+    border-color: #c5221f;
 }
 
 .add-channel-btn:disabled {

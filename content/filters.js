@@ -67,11 +67,20 @@ function injectDimStyles() {
       padding: 0 6px;
       line-height: 1.2;
     }
-    .yt-hider-whitelist-btn {
+    .yt-hider-badge-buttons {
+      display: flex;
+      align-items: center;
+      flex-wrap: wrap;
+      justify-content: center;
+      gap: 6px;
+      margin-top: 8px;
+      max-width: 100%;
+    }
+    .yt-hider-whitelist-btn,
+    .yt-hider-blacklist-btn {
       display: inline-flex;
       align-items: center;
       gap: 5px;
-      margin-top: 8px;
       height: 24px;
       padding: 0 10px;
       font-size: 11px;
@@ -94,14 +103,17 @@ function injectDimStyles() {
       white-space: nowrap;
       min-width: 0;
     }
-    .yt-hider-whitelist-btn svg {
+    .yt-hider-whitelist-btn svg,
+    .yt-hider-blacklist-btn svg {
       flex-shrink: 0;
     }
-    .yt-hider-whitelist-btn:hover {
+    .yt-hider-whitelist-btn:hover,
+    .yt-hider-blacklist-btn:hover {
       background: rgba(255, 255, 255, 0.2);
       color: rgba(255, 255, 255, 0.95);
     }
-    .yt-hider-whitelist-btn:focus-visible {
+    .yt-hider-whitelist-btn:focus-visible,
+    .yt-hider-blacklist-btn:focus-visible {
       outline: 2px solid #8ab4f8;
       outline-offset: 2px;
     }
@@ -112,7 +124,15 @@ function injectDimStyles() {
     .yt-hider-whitelist-btn.yt-hider-whitelist-btn-pending:hover {
       background: #234a7d;
     }
-    .yt-hider-whitelist-tooltip {
+    .yt-hider-blacklist-btn.yt-hider-blacklist-btn-pending {
+      background: #5c1a1a;
+      color: #f6aea9;
+    }
+    .yt-hider-blacklist-btn.yt-hider-blacklist-btn-pending:hover {
+      background: #732121;
+    }
+    .yt-hider-whitelist-tooltip,
+    .yt-hider-blacklist-tooltip {
       visibility: hidden;
       opacity: 0;
       position: absolute;
@@ -135,24 +155,25 @@ function injectDimStyles() {
       pointer-events: none;
       z-index: 20;
     }
-    .yt-hider-whitelist-btn:hover .yt-hider-whitelist-tooltip {
+    .yt-hider-whitelist-btn:hover .yt-hider-whitelist-tooltip,
+    .yt-hider-blacklist-btn:hover .yt-hider-blacklist-tooltip {
       visibility: visible;
       opacity: 1;
     }
-    .yt-hider-whitelist-countdown {
+    .yt-hider-undo-countdown {
       flex-shrink: 0;
     }
-    .yt-hider-whitelist-countdown-ring {
+    .yt-hider-undo-countdown-ring {
       stroke-linecap: round;
       transform-origin: center;
     }
-    .yt-hider-whitelist-countdown-number {
+    .yt-hider-undo-countdown-number {
       fill: currentColor;
       font-size: 9px;
       font-weight: 600;
       font-family: 'Roboto', Arial, sans-serif;
     }
-    @keyframes yt-hider-whitelist-countdown {
+    @keyframes yt-hider-undo-countdown {
       from { stroke-dashoffset: 0; }
       to { stroke-dashoffset: var(--yt-hider-countdown-circumference); }
     }
@@ -160,24 +181,23 @@ function injectDimStyles() {
   document.head.appendChild(style);
 }
 
-const WHITELIST_UNDO_WINDOW_MS = 3000;
-const WHITELIST_UNDO_WINDOW_SECONDS = Math.round(
-  WHITELIST_UNDO_WINDOW_MS / 1000,
-);
-const WHITELIST_COUNTDOWN_RADIUS = 8;
-const WHITELIST_COUNTDOWN_CIRCUMFERENCE =
-  2 * Math.PI * WHITELIST_COUNTDOWN_RADIUS;
+const UNDO_WINDOW_MS = 3000;
+const UNDO_WINDOW_SECONDS = Math.round(UNDO_WINDOW_MS / 1000);
+const UNDO_COUNTDOWN_RADIUS = 8;
+const UNDO_COUNTDOWN_CIRCUMFERENCE = 2 * Math.PI * UNDO_COUNTDOWN_RADIUS;
 
-function buildWhitelistCountdownMarkup(seconds) {
-  return `<svg class="yt-hider-whitelist-countdown" width="20" height="20" viewBox="0 0 20 20" aria-hidden="true">
-    <circle cx="10" cy="10" r="${WHITELIST_COUNTDOWN_RADIUS}" fill="none" stroke="currentColor" stroke-opacity="0.3" stroke-width="2"></circle>
-    <circle class="yt-hider-whitelist-countdown-ring" cx="10" cy="10" r="${WHITELIST_COUNTDOWN_RADIUS}" fill="none" stroke="currentColor" stroke-width="2" stroke-dasharray="${WHITELIST_COUNTDOWN_CIRCUMFERENCE}" transform="rotate(-90 10 10)"></circle>
-    <text class="yt-hider-whitelist-countdown-number" x="10" y="10" text-anchor="middle" dominant-baseline="central">${seconds}</text>
+function buildUndoCountdownMarkup(seconds) {
+  return `<svg class="yt-hider-undo-countdown" width="20" height="20" viewBox="0 0 20 20" aria-hidden="true">
+    <circle cx="10" cy="10" r="${UNDO_COUNTDOWN_RADIUS}" fill="none" stroke="currentColor" stroke-opacity="0.3" stroke-width="2"></circle>
+    <circle class="yt-hider-undo-countdown-ring" cx="10" cy="10" r="${UNDO_COUNTDOWN_RADIUS}" fill="none" stroke="currentColor" stroke-width="2" stroke-dasharray="${UNDO_COUNTDOWN_CIRCUMFERENCE}" transform="rotate(-90 10 10)"></circle>
+    <text class="yt-hider-undo-countdown-number" x="10" y="10" text-anchor="middle" dominant-baseline="central">${seconds}</text>
   </svg>`;
 }
 
-const WHITELIST_SETTINGS_TIP =
+const ON_PAGE_CONTROLS_TIP =
   'You can hide this button from the extension settings, under "Hide on-page controls".';
+
+const BLACKLIST_REASON = 'Blacklisted channel';
 
 function buildWhitelistTooltipText(channel, { isWhitelisted = false } = {}) {
   const isMulti = Array.isArray(channel) && channel.length > 1;
@@ -185,17 +205,33 @@ function buildWhitelistTooltipText(channel, { isWhitelisted = false } = {}) {
   const possessive = isMulti ? 'their' : 'its';
 
   if (isWhitelisted) {
-    return `Removes ${channelWord} from your YouTube Hider whitelist. ${WHITELIST_SETTINGS_TIP}`;
+    return `Removes ${channelWord} from your YouTube Hider whitelist. ${ON_PAGE_CONTROLS_TIP}`;
   }
   if (isChannelPaused(channel)) {
-    return `This whitelist entry exists, but Channel Whitelist is currently turned off. Click to turn it back on. ${WHITELIST_SETTINGS_TIP}`;
+    return `This whitelist entry exists, but Channel Whitelist is currently turned off. Click to turn it back on. ${ON_PAGE_CONTROLS_TIP}`;
   }
-  return `Adds ${channelWord} to your YouTube Hider whitelist: ${possessive} videos won't be filtered (Shorts are always filtered). ${WHITELIST_SETTINGS_TIP}`;
+  return `Adds ${channelWord} to your YouTube Hider whitelist: ${possessive} videos won't be filtered (Shorts are always filtered). ${ON_PAGE_CONTROLS_TIP}`;
 }
 
 function buildWhitelistTooltipMarkup(channel) {
   if (window.location.pathname === '/watch') return '';
   return `<span class="yt-hider-whitelist-tooltip">${buildWhitelistTooltipText(channel)}</span>`;
+}
+
+function buildBlacklistTooltipText(channel, { isBlacklisted = false } = {}) {
+  const isMulti = Array.isArray(channel) && channel.length > 1;
+  const channelWord = isMulti ? 'these channels' : 'this channel';
+  const possessive = isMulti ? 'their' : 'its';
+
+  if (isBlacklisted) {
+    return `Removes ${channelWord} from your YouTube Hider blacklist. ${ON_PAGE_CONTROLS_TIP}`;
+  }
+  return `Adds ${channelWord} to your YouTube Hider blacklist: ${possessive} videos will always be hidden (Shorts are always filtered). ${ON_PAGE_CONTROLS_TIP}`;
+}
+
+function buildBlacklistTooltipMarkup(channel, opts) {
+  if (window.location.pathname === '/watch') return '';
+  return `<span class="yt-hider-blacklist-tooltip">${buildBlacklistTooltipText(channel, opts)}</span>`;
 }
 
 function removeBadgeAnimated(badge) {
@@ -241,7 +277,7 @@ function createWhitelistButton(channel) {
       countdownTimer = null;
     }
     if (pendingContainer) {
-      delete pendingContainer.dataset.ytHiderWhitelistPending;
+      delete pendingContainer.dataset.ytHiderPendingAction;
       pendingContainer = null;
     }
   };
@@ -273,28 +309,28 @@ function createWhitelistButton(channel) {
 
     pendingContainer = btn.closest('[data-yt-hider-dimmed]');
     if (pendingContainer)
-      pendingContainer.dataset.ytHiderWhitelistPending = '1';
+      pendingContainer.dataset.ytHiderPendingAction = '1';
 
     const pendingLabel = pendingResult.changedChannels.length
       ? 'Remove from Whitelist'
       : 'Disable Whitelist';
-    btn.innerHTML = `<span class="yt-hider-whitelist-label">${pendingLabel}</span>${buildWhitelistCountdownMarkup(WHITELIST_UNDO_WINDOW_SECONDS)}`;
+    btn.innerHTML = `<span class="yt-hider-whitelist-label">${pendingLabel}</span>${buildUndoCountdownMarkup(UNDO_WINDOW_SECONDS)}`;
     btn.classList.add('yt-hider-whitelist-btn-pending');
 
-    const ring = btn.querySelector('.yt-hider-whitelist-countdown-ring');
+    const ring = btn.querySelector('.yt-hider-undo-countdown-ring');
     if (ring) {
       ring.style.setProperty(
         '--yt-hider-countdown-circumference',
-        WHITELIST_COUNTDOWN_CIRCUMFERENCE,
+        UNDO_COUNTDOWN_CIRCUMFERENCE,
       );
-      ring.style.animation = `yt-hider-whitelist-countdown ${WHITELIST_UNDO_WINDOW_MS}ms linear forwards`;
+      ring.style.animation = `yt-hider-undo-countdown ${UNDO_WINDOW_MS}ms linear forwards`;
     }
 
-    const deadline = Date.now() + WHITELIST_UNDO_WINDOW_MS;
+    const deadline = Date.now() + UNDO_WINDOW_MS;
     countdownTimer = setInterval(() => {
       const remainingMs = deadline - Date.now();
       const numberEl = btn.querySelector(
-        '.yt-hider-whitelist-countdown-number',
+        '.yt-hider-undo-countdown-number',
       );
       if (numberEl)
         numberEl.textContent = Math.max(0, Math.ceil(remainingMs / 1000));
@@ -303,7 +339,7 @@ function createWhitelistButton(channel) {
         clearInterval(countdownTimer);
         countdownTimer = null;
         if (pendingContainer) {
-          delete pendingContainer.dataset.ytHiderWhitelistPending;
+          delete pendingContainer.dataset.ytHiderPendingAction;
           clearDimmedElement(pendingContainer);
           pendingContainer = null;
         }
@@ -314,12 +350,123 @@ function createWhitelistButton(channel) {
   return btn;
 }
 
+function createBlacklistButton(channel, onCommit) {
+  const btn = document.createElement('button');
+  btn.className = 'yt-hider-blacklist-btn';
+
+  let countdownTimer = null;
+  let pendingContainer = null;
+
+  const renderIdle = () => {
+    btn.classList.remove('yt-hider-blacklist-btn-pending');
+    btn.innerHTML = `<span class="yt-hider-whitelist-label">Blacklist</span>${buildBlacklistTooltipMarkup(channel)}`;
+  };
+  renderIdle();
+
+  const cancelPending = () => {
+    if (countdownTimer) {
+      clearInterval(countdownTimer);
+      countdownTimer = null;
+    }
+    if (pendingContainer) {
+      delete pendingContainer.dataset.ytHiderPendingAction;
+      pendingContainer = null;
+    }
+  };
+
+  btn.addEventListener('click', e => {
+    e.preventDefault();
+    e.stopPropagation();
+
+    if (btn.classList.contains('yt-hider-blacklist-btn-pending')) {
+      cancelPending();
+      renderIdle();
+      return;
+    }
+
+    if (isChannelBlacklisted(channel)) return;
+
+    pendingContainer = btn.closest('[data-yt-hider-dimmed]');
+    if (pendingContainer) pendingContainer.dataset.ytHiderPendingAction = '1';
+
+    btn.innerHTML = `<span class="yt-hider-whitelist-label">Cancel</span>${buildUndoCountdownMarkup(UNDO_WINDOW_SECONDS)}`;
+    btn.classList.add('yt-hider-blacklist-btn-pending');
+
+    const ring = btn.querySelector('.yt-hider-undo-countdown-ring');
+    if (ring) {
+      ring.style.setProperty(
+        '--yt-hider-countdown-circumference',
+        UNDO_COUNTDOWN_CIRCUMFERENCE,
+      );
+      ring.style.animation = `yt-hider-undo-countdown ${UNDO_WINDOW_MS}ms linear forwards`;
+    }
+
+    const deadline = Date.now() + UNDO_WINDOW_MS;
+    countdownTimer = setInterval(() => {
+      const remainingMs = deadline - Date.now();
+      const numberEl = btn.querySelector(
+        '.yt-hider-undo-countdown-number',
+      );
+      if (numberEl)
+        numberEl.textContent = Math.max(0, Math.ceil(remainingMs / 1000));
+
+      if (remainingMs <= 0) {
+        clearInterval(countdownTimer);
+        countdownTimer = null;
+        if (pendingContainer) delete pendingContainer.dataset.ytHiderPendingAction;
+        pendingContainer = null;
+        setChannelBlacklisted(channel, true);
+        if (onCommit) onCommit();
+      }
+    }, 250);
+  });
+
+  return btn;
+}
+
+function createUnblacklistButton(channel) {
+  const btn = document.createElement('button');
+  btn.className = 'yt-hider-blacklist-btn';
+  btn.innerHTML = `<span class="yt-hider-whitelist-label">Remove from Blacklist</span>${buildBlacklistTooltipMarkup(channel, { isBlacklisted: true })}`;
+
+  btn.addEventListener('click', e => {
+    e.preventDefault();
+    e.stopPropagation();
+    setChannelBlacklisted(channel, false);
+  });
+
+  return btn;
+}
+
+function getOrCreateBadgeButtonRow(badge) {
+  let row = badge.querySelector('.yt-hider-badge-buttons');
+  if (!row) {
+    row = document.createElement('div');
+    row.className = 'yt-hider-badge-buttons';
+    badge.appendChild(row);
+  }
+  return row;
+}
+
 function createDimBadge(reason, channel) {
   const badge = document.createElement('div');
   badge.className = 'yt-hider-badge';
   badge.innerHTML = reason ? `<span class="yt-hider-badge-reason">${reason}</span>` : '';
+
+  if (reason === BLACKLIST_REASON) {
+    badge.dataset.ytHiderBadgeKind = 'blacklist';
+    if (!prefs.hideInterfaceElements) {
+      getOrCreateBadgeButtonRow(badge).appendChild(createUnblacklistButton(channel));
+    }
+    return badge;
+  }
+
   if (channelIsPresent(channel) && !prefs.hideInterfaceElements) {
-    badge.appendChild(createWhitelistButton(channel));
+    const row = getOrCreateBadgeButtonRow(badge);
+    row.appendChild(createWhitelistButton(channel));
+    if (prefs.channelBlacklistEnabled) {
+      row.appendChild(createBlacklistButton(channel));
+    }
   }
   return badge;
 }
@@ -354,7 +501,7 @@ function applyFilter(element, reason) {
   if (!element) return;
   const ch = resolveChannelForElement(element);
   if (isChannelExempt(ch)) {
-    if (!element.dataset.ytHiderWhitelistPending) {
+    if (!element.dataset.ytHiderPendingAction) {
       clearDimmedElement(element);
     }
     if (element.dataset.ytHiderHidden) {
@@ -378,12 +525,18 @@ function applyFilter(element, reason) {
         target.appendChild(createDimBadge(reason, ch));
         return;
       }
-      if (
-        channelIsPresent(ch) &&
-        !prefs.hideInterfaceElements &&
-        !existingBadge.querySelector('.yt-hider-whitelist-btn')
-      ) {
-        existingBadge.appendChild(createWhitelistButton(ch));
+      if (existingBadge.dataset.ytHiderBadgeKind === 'blacklist') return;
+      if (channelIsPresent(ch) && !prefs.hideInterfaceElements) {
+        const row = getOrCreateBadgeButtonRow(existingBadge);
+        if (!row.querySelector('.yt-hider-whitelist-btn')) {
+          row.appendChild(createWhitelistButton(ch));
+        }
+        if (
+          prefs.channelBlacklistEnabled &&
+          !row.querySelector('.yt-hider-blacklist-btn')
+        ) {
+          row.appendChild(createBlacklistButton(ch));
+        }
       }
       return;
     }
@@ -400,21 +553,21 @@ function applyFilter(element, reason) {
 
 function resetAppliedFilters(force) {
   document.querySelectorAll('[data-yt-hider-hidden]').forEach(el => {
-    if (!force && el.dataset.ytHiderWhitelistPending) return;
+    if (!force && el.dataset.ytHiderPendingAction) return;
     el.style.display = '';
     delete el.dataset.ytHiderHidden;
   });
   document.querySelectorAll('[data-yt-hider-dimmed]').forEach(el => {
-    if (!force && el.dataset.ytHiderWhitelistPending) return;
+    if (!force && el.dataset.ytHiderPendingAction) return;
     delete el.dataset.ytHiderDimmed;
-    delete el.dataset.ytHiderWhitelistPending;
+    delete el.dataset.ytHiderPendingAction;
   });
   document.querySelectorAll('.yt-hider-badge').forEach(el => {
-    if (!force && el.closest('[data-yt-hider-whitelist-pending]')) return;
+    if (!force && el.closest('[data-yt-hider-pending-action]')) return;
     el.remove();
   });
   document.querySelectorAll('[data-yt-hider-badge-target]').forEach(el => {
-    if (!force && el.closest('[data-yt-hider-whitelist-pending]')) return;
+    if (!force && el.closest('[data-yt-hider-pending-action]')) return;
     delete el.dataset.ytHiderBadgeTarget;
   });
 }
@@ -958,4 +1111,58 @@ function hideLives() {
 
 function shouldHideLives(pathname) {
   return prefs.hideLivesEnabled && isCoreFilterPath(pathname);
+}
+
+// Extra standalone container shapes that getVideoContainerSelectors doesn't
+// already cover, needed so a blacklisted channel's Mixes/Playlists are hidden
+// even when the Mixes/Playlists filters themselves are turned off.
+const BLACKLIST_EXTRA_SELECTORS =
+  'ytd-playlist-renderer, ytd-compact-playlist-renderer, ytd-radio-renderer, ytd-compact-radio-renderer';
+
+function shouldHideBlacklisted(pathname) {
+  return (
+    prefs.channelBlacklistEnabled &&
+    Array.isArray(prefs.channelBlacklist) &&
+    prefs.channelBlacklist.length > 0 &&
+    isCoreFilterPath(pathname)
+  );
+}
+
+function hideBlacklistedVideos() {
+  const selectors = getVideoContainerSelectors() + ', ' + BLACKLIST_EXTRA_SELECTORS;
+  const seen = new Set();
+
+  document.querySelectorAll(selectors).forEach(node => {
+    const container = findOutermostMatch(node, selectors);
+    if (!container || seen.has(container)) return;
+    seen.add(container);
+
+    const ch = resolveChannelForElement(container);
+    if (isChannelBlacklisted(ch)) {
+      applyFilter(container, BLACKLIST_REASON);
+    }
+  });
+}
+
+// Shorts always hard-hide (never dimmed), matching hideShorts()'s own
+// convention. A shorts shelf can mix several channels, so only the
+// individual shorts item is force-hidden, not the whole shelf.
+function hideBlacklistedShorts() {
+  document
+    .querySelectorAll('ytm-shorts-lockup-view-model, a[href^="/shorts/"]')
+    .forEach(node => {
+      const container =
+        node.closest('ytm-shorts-lockup-view-model') ||
+        node.closest('ytd-rich-item-renderer, ytm-video-with-context-renderer') ||
+        node;
+      const ch = resolveChannelForElement(container);
+      if (isChannelBlacklisted(ch)) {
+        forceHide(container);
+      }
+    });
+}
+
+function hideBlacklisted() {
+  hideBlacklistedVideos();
+  hideBlacklistedShorts();
 }

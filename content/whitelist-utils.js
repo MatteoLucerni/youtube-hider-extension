@@ -4,7 +4,13 @@ function channelListIncludes(channel, list) {
   return list.includes(channel);
 }
 
-function computeWhitelistUpdate(channel, shouldWhitelist, list, enabled) {
+function computeWhitelistUpdate(
+  channel,
+  shouldWhitelist,
+  list,
+  enabled,
+  keys = { listKey: 'channelWhitelist', enabledKey: 'channelWhitelistEnabled' },
+) {
   if (!channel) return null;
   const channels = Array.isArray(channel) ? channel : [channel];
   if (!channels.length) return null;
@@ -26,10 +32,10 @@ function computeWhitelistUpdate(channel, shouldWhitelist, list, enabled) {
     nextList = shouldWhitelist
       ? [...current, ...changedChannels]
       : current.filter(c => !channels.includes(c));
-    updates.channelWhitelist = nextList;
+    updates[keys.listKey] = nextList;
   }
   if (needsReEnable) {
-    updates.channelWhitelistEnabled = true;
+    updates[keys.enabledKey] = true;
   }
 
   return { list: nextList, updates, changedChannels, enabledChanged: !!needsReEnable };

@@ -12,6 +12,12 @@ const WHATS_NEW = {
       { heading: 'Channel Whitelist', body: 'Exempt a channel from every filter. Add it from the filtered overlay, the Subscribe button, the floating panel, or this popup' },
     ],
   },
+  '3.1': {
+    title: "What's New in v3.1",
+    features: [
+      { heading: 'Channel Blacklist', body: 'Always hide a channel, everywhere. Add it from the Subscribe button, the video overlay, a hover button on any video card, or this popup' },
+    ],
+  },
 };
 
 document.addEventListener('DOMContentLoaded', () => {
@@ -27,6 +33,9 @@ document.addEventListener('DOMContentLoaded', () => {
   };
   const channelWhitelistToggle = document.getElementById(
     'channel-whitelist-enabled',
+  );
+  const channelBlacklistToggle = document.getElementById(
+    'channel-blacklist-enabled',
   );
   const hideOnPageControlsToggle = document.getElementById(
     'hide-on-page-controls',
@@ -208,6 +217,8 @@ document.addEventListener('DOMContentLoaded', () => {
     'dimMode',
     'channelWhitelist',
     'channelWhitelistEnabled',
+    'channelBlacklist',
+    'channelBlacklistEnabled',
     'hideInterfaceElements',
     ...Object.values(cfg.hide.keys),
     ...Object.values(cfg.views.keys),
@@ -230,6 +241,7 @@ document.addEventListener('DOMContentLoaded', () => {
 
     setFilterModeUI(prefs.dimMode ?? false);
     channelWhitelistToggle.checked = prefs.channelWhitelistEnabled ?? true;
+    channelBlacklistToggle.checked = prefs.channelBlacklistEnabled ?? true;
     hideOnPageControlsToggle.checked = prefs.hideInterfaceElements ?? false;
 
     ['hide', 'views', 'shorts', 'mixesPlaylists'].forEach(sectionName => {
@@ -348,6 +360,10 @@ document.addEventListener('DOMContentLoaded', () => {
     whitelistData = Array.isArray(prefs.channelWhitelist) ? prefs.channelWhitelist : [];
     renderWhitelistChips(whitelistData);
     refreshAddButtonState();
+
+    blacklistData = Array.isArray(prefs.channelBlacklist) ? prefs.channelBlacklist : [];
+    renderBlacklistChips(blacklistData);
+    refreshAddBlacklistButtonState();
   });
 
   function saveSettings() {
@@ -498,6 +514,12 @@ document.addEventListener('DOMContentLoaded', () => {
   channelWhitelistToggle.addEventListener('change', () => {
     chrome.storage.sync.set({
       channelWhitelistEnabled: channelWhitelistToggle.checked,
+    });
+  });
+
+  channelBlacklistToggle.addEventListener('change', () => {
+    chrome.storage.sync.set({
+      channelBlacklistEnabled: channelBlacklistToggle.checked,
     });
   });
 
@@ -742,6 +764,66 @@ document.addEventListener('DOMContentLoaded', () => {
     });
   });
 
+  const BLACKLIST_KEYS = { listKey: 'channelBlacklist', enabledKey: 'channelBlacklistEnabled' };
+
+  const blacklistChipsContainer = document.getElementById('channel-blacklist-chips');
+  const blacklistEmptyHint = document.getElementById('channel-blacklist-empty');
+  const addCurrentBlacklistBtn = document.getElementById('add-current-channel-blacklist-btn');
+  const blacklistHint = document.getElementById('channel-blacklist-hint');
+
+  let blacklistData = [];
+
+  function saveBlacklist(list, extraUpdates) {
+    chrome.storage.sync.set(Object.assign({ channelBlacklist: list }, extraUpdates));
+  }
+
+  function refreshAddBlacklistButtonState() {
+    if (!addCurrentBlacklistBtn) return;
+    if (!currentTabChannel) {
+      addCurrentBlacklistBtn.disabled = true;
+      if (blacklistHint) blacklistHint.textContent = 'Navigate to a channel page to add it';
+      return;
+    }
+    const pending = computeWhitelistUpdate(currentTabChannel, true, blacklistData, channelBlacklistToggle.checked, BLACKLIST_KEYS);
+    if (!pending) {
+      addCurrentBlacklistBtn.disabled = true;
+      if (blacklistHint) blacklistHint.textContent = channelDisplayName(currentTabChannel) + ' is already blacklisted';
+      return;
+    }
+    addCurrentBlacklistBtn.disabled = false;
+    if (blacklistHint) blacklistHint.textContent = '';
+  }
+
+  function renderBlacklistChips(list) {
+    if (!blacklistChipsContainer) return;
+    blacklistChipsContainer.querySelectorAll('.whitelist-chip').forEach(c => c.remove());
+    if (blacklistEmptyHint) blacklistEmptyHint.style.display = list.length === 0 ? '' : 'none';
+    list.forEach(channel => {
+      const chip = document.createElement('span');
+      chip.className = 'whitelist-chip blacklist-chip';
+      const label = document.createElement('span');
+      label.className = 'whitelist-chip-label';
+      label.textContent = channel;
+      const remove = document.createElement('button');
+      remove.className = 'whitelist-chip-remove';
+      remove.type = 'button';
+      remove.textContent = '×';
+      remove.setAttribute('aria-label', 'Remove ' + channel);
+      remove.addEventListener('click', () => {
+        const current = Array.isArray(blacklistData) ? [...blacklistData] : [];
+        const idx = current.indexOf(channel);
+        if (idx !== -1) current.splice(idx, 1);
+        blacklistData = current;
+        renderBlacklistChips(current);
+        saveBlacklist(current);
+        refreshAddBlacklistButtonState();
+      });
+      chip.appendChild(label);
+      chip.appendChild(remove);
+      blacklistChipsContainer.appendChild(chip);
+    });
+  }
+
   if (addCurrentBtn) {
     addCurrentBtn.addEventListener('click', () => {
       if (!currentTabChannel) return;
@@ -758,10 +840,67 @@ document.addEventListener('DOMContentLoaded', () => {
       renderWhitelistChips(whitelistData);
       if (result.updates.channelWhitelistEnabled) channelWhitelistToggle.checked = true;
       refreshAddButtonState();
-      saveWhitelist(
-        whitelistData,
+
+      const updates = Object.assign(
+        { channelWhitelist: whitelistData },
         result.updates.channelWhitelistEnabled ? { channelWhitelistEnabled: true } : {},
       );
+
+      const unblacklist = computeWhitelistUpdate(
+        result.changedChannels,
+        false,
+        blacklistData,
+        channelBlacklistToggle.checked,
+        BLACKLIST_KEYS,
+      );
+      if (unblacklist && unblacklist.updates.channelBlacklist) {
+        blacklistData = unblacklist.list;
+        renderBlacklistChips(blacklistData);
+        refreshAddBlacklistButtonState();
+        updates.channelBlacklist = blacklistData;
+      }
+
+      chrome.storage.sync.set(updates);
+    });
+  }
+
+  if (addCurrentBlacklistBtn) {
+    addCurrentBlacklistBtn.addEventListener('click', () => {
+      if (!currentTabChannel) return;
+
+      const result = computeWhitelistUpdate(
+        currentTabChannel,
+        true,
+        blacklistData,
+        channelBlacklistToggle.checked,
+        BLACKLIST_KEYS,
+      );
+      if (!result) return;
+
+      blacklistData = result.list;
+      renderBlacklistChips(blacklistData);
+      if (result.updates.channelBlacklistEnabled) channelBlacklistToggle.checked = true;
+      refreshAddBlacklistButtonState();
+
+      const updates = Object.assign(
+        { channelBlacklist: blacklistData },
+        result.updates.channelBlacklistEnabled ? { channelBlacklistEnabled: true } : {},
+      );
+
+      const unwhitelist = computeWhitelistUpdate(
+        result.changedChannels,
+        false,
+        whitelistData,
+        channelWhitelistToggle.checked,
+      );
+      if (unwhitelist && unwhitelist.updates.channelWhitelist) {
+        whitelistData = unwhitelist.list;
+        renderWhitelistChips(whitelistData);
+        refreshAddButtonState();
+        updates.channelWhitelist = whitelistData;
+      }
+
+      chrome.storage.sync.set(updates);
     });
   }
 
@@ -776,11 +915,23 @@ document.addEventListener('DOMContentLoaded', () => {
     if (changes.channelWhitelistEnabled) {
       channelWhitelistToggle.checked = changes.channelWhitelistEnabled.newValue ?? true;
     }
+    if (changes.channelBlacklist) {
+      blacklistData = Array.isArray(changes.channelBlacklist.newValue)
+        ? changes.channelBlacklist.newValue
+        : [];
+      renderBlacklistChips(blacklistData);
+    }
+    if (changes.channelBlacklistEnabled) {
+      channelBlacklistToggle.checked = changes.channelBlacklistEnabled.newValue ?? true;
+    }
     if (changes.hideInterfaceElements) {
       hideOnPageControlsToggle.checked = changes.hideInterfaceElements.newValue ?? false;
     }
     if (changes.channelWhitelist || changes.channelWhitelistEnabled) {
       refreshAddButtonState();
+    }
+    if (changes.channelBlacklist || changes.channelBlacklistEnabled) {
+      refreshAddBlacklistButtonState();
     }
   });
 

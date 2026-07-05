@@ -1,5 +1,11 @@
 # Changelog
 
+### Version 3.1.0
+
+**Added**
+
+- Channel Blacklist: the opposite of Channel Whitelist. A blacklisted channel's videos are always hidden, everywhere, including Shorts, Mixes, Playlists and Lives, regardless of any other filter's own on/off state. A channel can be blacklisted from the header dropdown or popup's new Channel Blacklist card, the inline "Blacklist" button next to Subscribe and the inline "Whitelist" button on watch and channel pages, the video overlay's "Blacklist" button next to "Whitelist", or a new "Blacklist" pill that appears when hovering any unfiltered video card. Adding a channel gives a 3 second window to undo before it takes effect, the same pattern as Channel Whitelist, but the channel is only written to the blacklist once the countdown finishes, so the video does not disappear mid-countdown. A channel can never be on both lists at once: adding it to one removes it from the other. Turning the whole feature off removes every on-page Blacklist button, same as "Hide on-page controls" already does for Whitelist buttons
+
 ### Version 3.0.0
 
 **Fixed**

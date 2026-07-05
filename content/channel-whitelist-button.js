@@ -15,6 +15,8 @@ function watchYouTubeTheme() {
   const observer = new MutationObserver(() => {
     const btn = document.getElementById(INLINE_WHITELIST_BTN_ID);
     if (btn) updateInlineWhitelistButtonState(btn, btn.ytHiderChannelValue);
+    const blacklistBtn = document.getElementById(INLINE_BLACKLIST_BTN_ID);
+    if (blacklistBtn) updateInlineBlacklistButtonState(blacklistBtn, blacklistBtn.ytHiderChannelValue);
     applyHeaderButtonTheme();
   });
   observer.observe(document.documentElement, {
@@ -119,7 +121,7 @@ function injectInlineWhitelistStyles() {
   document.head.appendChild(style);
 }
 
-function findInlineWhitelistAnchor(pathname) {
+function findInlineChannelActionAnchor(pathname) {
   if (pathname === '/watch') {
     const sub =
       document.querySelector('#owner #subscribe-button') ||
@@ -240,7 +242,7 @@ function syncInlineWhitelistButton(pathname, timeout = 3000) {
     if (btn && !btn.isConnected) btn = null;
 
     if (!btn) {
-      const container = findInlineWhitelistAnchor(pathname);
+      const container = findInlineChannelActionAnchor(pathname);
       if (!container) return false;
       const isFlexibleActionsRow = container.tagName && container.tagName.toLowerCase() === 'yt-flexible-actions-view-model';
       btn = createInlineWhitelistButton(channel, isFlexibleActionsRow);

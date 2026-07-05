@@ -1188,6 +1188,78 @@
             </div>
           </div>
 
+          <div class="setting-card" data-tour-section="blacklist">
+            <div class="card-compact-header">
+              <div class="card-compact-info">
+                <h3
+                  class="card-title"
+                  style="display: flex; align-items: center; gap: 6px"
+                >
+                  Channel Blacklist
+                  <div class="tooltip-container">
+                    <svg
+                      xmlns="http://www.w3.org/2000/svg"
+                      width="12"
+                      height="12"
+                      viewBox="0 0 24 24"
+                      fill="none"
+                      stroke="currentColor"
+                      stroke-width="2"
+                      stroke-linecap="round"
+                      stroke-linejoin="round"
+                      class="info-icon"
+                    >
+                      <circle cx="12" cy="12" r="10"></circle>
+                      <path d="M9.09 9a3 3 0 0 1 5.83 1c0 2-3 3-3 3"></path>
+                      <line x1="12" y1="17" x2="12.01" y2="17"></line>
+                    </svg>
+                    <span class="tooltip-text"
+                      >Blacklisted channels are always hidden, regardless of
+                      any other filter. Add a channel from the button below or
+                      from the header button while on a channel page or video.
+                      Removing a chip immediately shows that channel's videos
+                      again. Shorts are always filtered regardless</span
+                    >
+                  </div>
+                </h3>
+                <p class="card-description">
+                  Channels listed here are always hidden, everywhere. Shorts
+                  are always filtered regardless
+                </p>
+              </div>
+              <div class="card-compact-toggle">
+                <div class="toggle-switch-large">
+                  <input type="checkbox" id="channel-blacklist-enabled" />
+                  <span class="toggle-slider"></span>
+                </div>
+              </div>
+            </div>
+            <div class="setting-group whitelist-group">
+              <div
+                id="channel-blacklist-chips"
+                class="whitelist-chips-container"
+              >
+                <span class="whitelist-empty-hint" id="channel-blacklist-empty"
+                  >No channels blacklisted yet</span
+                >
+              </div>
+              <div class="whitelist-add-row">
+                <button
+                  type="button"
+                  id="add-current-channel-blacklist-btn"
+                  class="add-channel-btn blacklist-add-btn"
+                  disabled
+                >
+                  + Add current channel
+                </button>
+                <span
+                  class="whitelist-btn-hint"
+                  id="channel-blacklist-hint"
+                ></span>
+              </div>
+            </div>
+          </div>
+
           <div
             class="setting-card setting-card-compact"
             data-tour-section="extra-settings"

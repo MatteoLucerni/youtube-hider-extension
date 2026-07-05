@@ -62,6 +62,7 @@ async function startHiding(pathname) {
 
   await waitForPageElements(pathname);
 
+  const canHideBlacklisted = shouldHideBlacklisted(pathname);
   const canHideWatched = shouldHideWatched(pathname);
   const canHideViews = shouldHideViews(pathname);
   const canHideShortsFlag = shouldHideShorts(pathname);
@@ -69,6 +70,10 @@ async function startHiding(pathname) {
   const canHideMixes = shouldHideMixes(pathname);
   const canHidePlaylists = shouldHidePlaylists(pathname);
   const canHideLives = shouldHideLives(pathname);
+
+  if (canHideBlacklisted) {
+    hideBlacklisted();
+  }
 
   if (canHideWatched) {
     hideWatched(pathname);
@@ -100,6 +105,7 @@ async function startHiding(pathname) {
 
   if (isInlineWhitelistPath(pathname)) {
     syncInlineWhitelistButton(pathname);
+    syncInlineBlacklistButton(pathname);
   }
 }
 
@@ -120,6 +126,8 @@ function detectPageChange() {
     ensureHeaderButton();
 
     removeInlineWhitelistButton();
+    removeInlineBlacklistButton();
+    removeBlacklistHoverButton();
 
     if (pageLoadTimeout) {
       clearTimeout(pageLoadTimeout);
@@ -174,8 +182,10 @@ async function init() {
   setupPrefsListener();
   injectDimStyles();
   injectInlineWhitelistStyles();
+  injectInlineBlacklistStyles();
   watchYouTubeTheme();
   preventHoverPreviewOnDimmedItems();
+  attachBlacklistHoverListener();
 
   logger.log('Extension initialized on', currentPath);
   readChannelCacheFromDOM();
