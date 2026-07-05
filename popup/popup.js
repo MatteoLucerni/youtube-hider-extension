@@ -801,6 +801,14 @@ document.addEventListener('DOMContentLoaded', () => {
     }
   });
 
+  const headerEl = document.querySelector('header');
+  if (headerEl) {
+    document.documentElement.style.setProperty(
+      '--yh-header-offset',
+      headerEl.offsetHeight + 'px',
+    );
+  }
+
   const clearTourHighlight = () => {
     document.querySelectorAll('.yh-tour-highlight').forEach(el => {
       el.classList.remove('yh-tour-highlight');

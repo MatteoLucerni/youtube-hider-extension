@@ -4,6 +4,7 @@
     border-radius: var(--radius-lg);
     padding: var(--spacing-lg);
     margin-bottom: var(--spacing-lg);
+    scroll-margin-top: calc(var(--yh-header-offset, 70px) + 12px);
 }
 
 .setting-card-easy-mode {
@@ -19,6 +20,22 @@
     border-color: var(--accent-blue);
     box-shadow: 0 0 0 3px rgba(138, 180, 248, 0.35);
     transition: border-color 0.2s ease, box-shadow 0.2s ease;
+    animation: yh-tour-highlight-in 300ms ease-out;
+}
+
+@keyframes yh-tour-highlight-in {
+    from {
+        box-shadow: 0 0 0 3px rgba(138, 180, 248, 0.35), 0 0 0 10px rgba(138, 180, 248, 0.25);
+    }
+    to {
+        box-shadow: 0 0 0 3px rgba(138, 180, 248, 0.35);
+    }
+}
+
+@media (prefers-reduced-motion: reduce) {
+    .setting-card.yh-tour-highlight {
+        animation: none;
+    }
 }
 
 .restart-tutorial-btn {
