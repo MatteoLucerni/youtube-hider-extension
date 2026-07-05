@@ -1,5 +1,13 @@
 # Changelog
 
+### Version 3.1.4
+
+**Changed**
+
+- The dim-mode overlay for a video filtered by something other than the blacklist (views too low, already watched, etc.) no longer bakes in its own "Blacklist" button next to "Whitelist". Adding the channel to the blacklist from a video card is now done the same way everywhere, filtered or not: hover the card and use the "Blacklist" pill that appears at the top, whether or not the card already has a dimmed overlay
+- The hover "Blacklist" pill now uses a solid near-black background with white text when shown over a plain, undimmed thumbnail, since the previous translucent style was unreadable with no dark backdrop behind it. Over an already-dimmed card it keeps the previous translucent style, which reads fine there since the badge's own dark overlay is already behind it
+- The Whitelist button's pending state used to read "Remove from Whitelist" or "Disable Whitelist" during its 3-second undo countdown. It now says "Cancel", matching the Blacklist button's pending label, for a consistent feel across both
+
 ### Version 3.1.3
 
 **Fixed**

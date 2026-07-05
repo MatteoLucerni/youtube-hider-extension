@@ -71,12 +71,13 @@ Exempt specific channels from every active filter - their videos are never hidde
 
 ### Channel Blacklist
 
-The opposite of Channel Whitelist: a blacklisted channel's videos are always hidden, everywhere, including Shorts, Mixes, Playlists and Lives, regardless of any other filter's own on/off state. A channel can never be on both lists at once, adding it to one removes it from the other. A channel can be blacklisted from four places:
+The opposite of Channel Whitelist: a blacklisted channel's videos are always hidden, everywhere, including Shorts, Mixes, Playlists and Lives, regardless of any other filter's own on/off state. A channel can never be on both lists at once, adding it to one removes it from the other. A channel can be blacklisted from three places:
 
-- The **"Blacklist" button** on a filtered/dimmed overlay, next to "Whitelist" - shows the same 3-second undo countdown as Whitelist, but the channel is only written to the blacklist once the countdown finishes, so nothing disappears mid-countdown
 - The **inline "Blacklist" button** next to the inline "Whitelist" button on video and channel pages
-- A **hover "Blacklist" pill** that appears over any unfiltered video card's thumbnail on mouseover, with the same 3-second undo countdown
+- A **hover "Blacklist" pill** that appears at the top of any video card's thumbnail on mouseover, filtered or not, with a 3-second undo countdown before the channel is actually written to the blacklist, so nothing disappears mid-countdown. Over a plain thumbnail the pill uses a solid dark style for readability; over an already-filtered/dimmed card it blends into the overlay instead
 - The **Channel Blacklist card** in the popup, which lists every blacklisted channel as a removable chip and lets you add the current tab's channel directly
+
+A filtered/dimmed overlay never carries its own "Blacklist" button, only "Whitelist" (or, for an already-blacklisted channel, "Unblacklist"); use the hover pill for adding a channel from any card, filtered or not.
 
 Turning the whole Channel Blacklist toggle off removes every on-page Blacklist button; the list itself is kept and resumes filtering once the toggle is turned back on.
 
@@ -90,7 +91,7 @@ A small icon-only button lives right in YouTube's own header (desktop only), nex
 
 ### Hide On-Page Controls
 
-For a more discreet setup, enable **Hide on-page controls** in **Extra Settings** to remove all of the extension's on-screen elements from YouTube - the header settings button and the inline, overlay and hover "Whitelist" and "Blacklist" buttons. Filtering keeps working in the background. This is the only way to hide the header button; there is no separate toggle for it.
+For a more discreet setup, enable **Hide on-page controls** in **Extra Settings** to remove all of the extension's on-screen elements from YouTube - the header settings button, the inline "Whitelist"/"Blacklist" buttons, the overlay's "Whitelist"/"Unblacklist" button, and the hover "Blacklist" pill. Filtering keeps working in the background. This is the only way to hide the header button; there is no separate toggle for it.
 
 ### Simple Mode & Advanced Mode
 
@@ -157,7 +158,7 @@ youtube-hider-extension
 │   ├── header-button.js  Header settings button and its iframe-embedded settings dropdown
 │   ├── tutorial.js        Guided spotlight tutorial
 │   ├── parsers.js         View count, upload date and channel parsers
-│   ├── filters.js         Video hiding/filtering logic, Channel Whitelist and Channel Blacklist overlay buttons
+│   ├── filters.js         Video hiding/filtering logic, Channel Whitelist and Unblacklist overlay buttons
 │   ├── channel-whitelist-button.js  Inline Whitelist button next to Subscribe
 │   ├── channel-blacklist-button.js  Inline Blacklist button and the hover Blacklist pill on video cards
 │   └── init.js            Page detection, observers, bootstrap

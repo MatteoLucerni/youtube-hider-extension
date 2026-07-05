@@ -119,6 +119,13 @@ function injectDimStyles() {
       outline: 2px solid #8ab4f8;
       outline-offset: 2px;
     }
+    .yt-hider-blacklist-btn.yt-hider-blacklist-btn--solid {
+      background: rgba(0, 0, 0, 0.8);
+      color: #fff;
+    }
+    .yt-hider-blacklist-btn.yt-hider-blacklist-btn--solid:hover {
+      background: rgba(0, 0, 0, 0.92);
+    }
     .yt-hider-whitelist-btn.yt-hider-whitelist-btn-pending {
       background: #1b3a63;
       color: #bcd6ff;
@@ -313,10 +320,7 @@ function createWhitelistButton(channel) {
     if (pendingContainer)
       pendingContainer.dataset.ytHiderPendingAction = '1';
 
-    const pendingLabel = pendingResult.changedChannels.length
-      ? 'Remove from Whitelist'
-      : 'Disable Whitelist';
-    btn.innerHTML = `<span class="yt-hider-whitelist-label">${pendingLabel}</span>${buildUndoCountdownMarkup(UNDO_WINDOW_SECONDS)}`;
+    btn.innerHTML = `<span class="yt-hider-whitelist-label">Cancel</span>${buildUndoCountdownMarkup(UNDO_WINDOW_SECONDS)}`;
     btn.classList.add('yt-hider-whitelist-btn-pending');
 
     const ring = btn.querySelector('.yt-hider-undo-countdown-ring');
@@ -464,11 +468,7 @@ function createDimBadge(reason, channel) {
   }
 
   if (channelIsPresent(channel) && !prefs.hideInterfaceElements) {
-    const row = getOrCreateBadgeButtonRow(badge);
-    row.appendChild(createWhitelistButton(channel));
-    if (prefs.channelBlacklistEnabled) {
-      row.appendChild(createBlacklistButton(channel));
-    }
+    getOrCreateBadgeButtonRow(badge).appendChild(createWhitelistButton(channel));
   }
   return badge;
 }
@@ -528,17 +528,12 @@ function applyFilter(element, reason) {
         return;
       }
       if (existingBadge.dataset.ytHiderBadgeKind === 'blacklist') return;
-      if (channelIsPresent(ch) && !prefs.hideInterfaceElements) {
-        const row = getOrCreateBadgeButtonRow(existingBadge);
-        if (!row.querySelector('.yt-hider-whitelist-btn')) {
-          row.appendChild(createWhitelistButton(ch));
-        }
-        if (
-          prefs.channelBlacklistEnabled &&
-          !row.querySelector('.yt-hider-blacklist-btn')
-        ) {
-          row.appendChild(createBlacklistButton(ch));
-        }
+      if (
+        channelIsPresent(ch) &&
+        !prefs.hideInterfaceElements &&
+        !existingBadge.querySelector('.yt-hider-whitelist-btn')
+      ) {
+        getOrCreateBadgeButtonRow(existingBadge).appendChild(createWhitelistButton(ch));
       }
       return;
     }

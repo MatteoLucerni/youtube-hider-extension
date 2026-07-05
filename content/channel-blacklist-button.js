@@ -233,7 +233,7 @@ function removeInlineBlacklistButton() {
   }
 }
 
-// ── Hover blacklist pill on unfiltered video cards ──
+// ── Hover blacklist pill on video cards, filtered or not ──
 
 let hoverPillEl = null;
 let hoverPillContainer = null;
@@ -287,6 +287,9 @@ function showBlacklistHoverButton(container, channel) {
     hoverPillPending = false;
     clearBlacklistHoverButton();
   });
+  if (!isContainerAlreadyFiltered(container)) {
+    btn.classList.add('yt-hider-blacklist-btn--solid');
+  }
   btn.addEventListener('click', () => {
     hoverPillPending = btn.classList.contains('yt-hider-blacklist-btn-pending');
   });
@@ -304,7 +307,7 @@ function handleBlacklistHoverOver(e) {
   if (!e.target || !e.target.closest) return;
 
   const container = findOutermostMatch(e.target, getVideoContainerSelectors());
-  if (!container || isContainerAlreadyFiltered(container)) return;
+  if (!container) return;
 
   const ch = resolveChannelForElement(container);
   if (!channelIsPresent(ch) || isChannelBlacklisted(ch)) return;
