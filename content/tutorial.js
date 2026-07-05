@@ -325,21 +325,53 @@ function startSpotlightTour() {
     const vw = window.innerWidth;
     const vh = window.innerHeight;
 
+    const spaceBelow = vh - (rect.top + rect.height);
+    const spaceAbove = rect.top;
+    const spaceLeft = rect.left;
+    const spaceRight = vw - (rect.left + rect.width);
+
+    const clampTop = value =>
+      Math.max(PADDING, Math.min(vh - tooltipH - PADDING, value));
+    const clampLeft = value =>
+      Math.max(PADDING, Math.min(vw - tooltipW - PADDING, value));
+    const centeredLeft = () => clampLeft(rect.left + rect.width / 2 - tooltipW / 2);
+    const centeredTop = () => clampTop(rect.top + rect.height / 2 - tooltipH / 2);
+
     let top, left;
-    const spaceBelow = vh - (rect.top + rect.height + PADDING);
-    const spaceAbove = rect.top - PADDING;
 
-    if (spaceBelow >= tooltipH + PADDING) {
+    if (spaceBelow >= tooltipH + PADDING * 2) {
       top = rect.top + rect.height + PADDING;
-    } else if (spaceAbove >= tooltipH + PADDING) {
+      left = centeredLeft();
+    } else if (spaceAbove >= tooltipH + PADDING * 2) {
       top = rect.top - tooltipH - PADDING;
+      left = centeredLeft();
+    } else if (spaceLeft >= tooltipW + PADDING * 2) {
+      left = rect.left - tooltipW - PADDING;
+      top = centeredTop();
+    } else if (spaceRight >= tooltipW + PADDING * 2) {
+      left = rect.left + rect.width + PADDING;
+      top = centeredTop();
     } else {
-      top = Math.max(PADDING, Math.min(vh - tooltipH - PADDING, rect.top));
-    }
+      // Nothing fits cleanly (very small viewport): use whichever side has
+      // the most room, so the tooltip never overlaps the highlighted target
+      // even if it ends up tight against a viewport edge.
+      const spaces = { below: spaceBelow, above: spaceAbove, left: spaceLeft, right: spaceRight };
+      const best = Object.keys(spaces).reduce((a, b) => (spaces[b] > spaces[a] ? b : a));
 
-    const centerX = rect.left + rect.width / 2;
-    left = centerX - tooltipW / 2;
-    left = Math.max(PADDING, Math.min(vw - tooltipW - PADDING, left));
+      if (best === 'below') {
+        top = rect.top + rect.height + PADDING;
+        left = centeredLeft();
+      } else if (best === 'above') {
+        top = Math.max(PADDING, rect.top - tooltipH - PADDING);
+        left = centeredLeft();
+      } else if (best === 'left') {
+        left = Math.max(PADDING, rect.left - tooltipW - PADDING);
+        top = centeredTop();
+      } else {
+        left = rect.left + rect.width + PADDING;
+        top = centeredTop();
+      }
+    }
 
     tooltip.style.top = top + 'px';
     tooltip.style.left = left + 'px';
