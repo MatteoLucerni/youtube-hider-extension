@@ -97,16 +97,34 @@ function injectInlineBlacklistStyles() {
     }
     .yt-hider-blacklist-hover-wrapper {
       position: absolute;
-      top: 6px;
+      top: 14px;
       left: 50%;
       transform: translateX(-50%);
-      z-index: 15;
+      z-index: 30;
       pointer-events: none;
       width: max-content;
       max-width: calc(100% - 12px);
+      animation: yt-hider-blacklist-pill-in 180ms ease-out;
     }
     .yt-hider-blacklist-hover-wrapper .yt-hider-blacklist-btn {
       max-width: 100%;
+    }
+    .yt-hider-blacklist-hover-wrapper.yt-hider-blacklist-pill-leaving {
+      animation: yt-hider-blacklist-pill-out 150ms ease-in forwards;
+    }
+    @keyframes yt-hider-blacklist-pill-in {
+      from { opacity: 0; transform: translateX(-50%) translateY(-10px); }
+      to { opacity: 1; transform: translateX(-50%) translateY(0); }
+    }
+    @keyframes yt-hider-blacklist-pill-out {
+      from { opacity: 1; transform: translateX(-50%) translateY(0); }
+      to { opacity: 0; transform: translateX(-50%) translateY(-10px); }
+    }
+    @media (prefers-reduced-motion: reduce) {
+      .yt-hider-blacklist-hover-wrapper,
+      .yt-hider-blacklist-hover-wrapper.yt-hider-blacklist-pill-leaving {
+        animation: none;
+      }
     }
   `;
   document.head.appendChild(style);
@@ -260,8 +278,20 @@ function getHoverThumbnailAnchor(container) {
   );
 }
 
+function removeHoverPillAnimated(wrapper) {
+  if (!wrapper || !wrapper.isConnected) return;
+  wrapper.classList.add('yt-hider-blacklist-pill-leaving');
+  const onAnimationEnd = e => {
+    if (e.target !== wrapper) return;
+    wrapper.removeEventListener('animationend', onAnimationEnd);
+    wrapper.remove();
+  };
+  wrapper.addEventListener('animationend', onAnimationEnd);
+  setTimeout(() => wrapper.remove(), 200);
+}
+
 function clearBlacklistHoverButton() {
-  if (hoverPillEl && hoverPillEl.parentElement) hoverPillEl.remove();
+  removeHoverPillAnimated(hoverPillEl);
   hoverPillEl = null;
   hoverPillContainer = null;
 }
@@ -322,6 +352,22 @@ function handleBlacklistHoverOut(e) {
 
   const related = e.relatedTarget;
   if (related && hoverPillContainer.contains(related)) return;
+
+  // YouTube's own hover-preview player can render outside hoverPillContainer's
+  // DOM subtree (e.g. as a portaled overlay) while still visually sitting on
+  // top of the same thumbnail, so relatedTarget containment alone reports a
+  // false "pointer left" as soon as the preview takes over. Fall back to the
+  // pointer's actual coordinates against the container's own box before
+  // deciding it really left.
+  const rect = hoverPillContainer.getBoundingClientRect();
+  if (
+    e.clientX >= rect.left &&
+    e.clientX <= rect.right &&
+    e.clientY >= rect.top &&
+    e.clientY <= rect.bottom
+  ) {
+    return;
+  }
 
   clearBlacklistHoverButton();
 }

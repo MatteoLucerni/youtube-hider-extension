@@ -140,35 +140,6 @@ function injectDimStyles() {
     .yt-hider-blacklist-btn.yt-hider-blacklist-btn-pending:hover {
       background: #732121;
     }
-    .yt-hider-whitelist-tooltip,
-    .yt-hider-blacklist-tooltip {
-      visibility: hidden;
-      opacity: 0;
-      position: absolute;
-      top: 6px;
-      left: 50%;
-      transform: translateX(-50%);
-      max-width: calc(100% - 12px);
-      background: #222222;
-      color: #ebebeb;
-      border: 1px solid #3a3a3a;
-      border-radius: 6px;
-      padding: 8px;
-      font-size: 11px;
-      font-weight: 400;
-      line-height: 1.4;
-      text-align: center;
-      white-space: normal;
-      box-shadow: 0 4px 12px rgba(0, 0, 0, 0.3);
-      transition: opacity 0.15s ease;
-      pointer-events: none;
-      z-index: 20;
-    }
-    .yt-hider-whitelist-btn:hover .yt-hider-whitelist-tooltip,
-    .yt-hider-blacklist-btn:hover .yt-hider-blacklist-tooltip {
-      visibility: visible;
-      opacity: 1;
-    }
     .yt-hider-undo-countdown {
       flex-shrink: 0;
     }
@@ -222,27 +193,6 @@ function buildWhitelistTooltipText(channel, { isWhitelisted = false } = {}) {
   return `Adds ${channelWord} to your YouTube Hider whitelist: ${possessive} videos won't be filtered (Shorts are always filtered). ${ON_PAGE_CONTROLS_TIP}`;
 }
 
-function buildWhitelistTooltipMarkup(channel) {
-  if (window.location.pathname === '/watch') return '';
-  return `<span class="yt-hider-whitelist-tooltip">${buildWhitelistTooltipText(channel)}</span>`;
-}
-
-function buildBlacklistTooltipText(channel, { isBlacklisted = false } = {}) {
-  const isMulti = Array.isArray(channel) && channel.length > 1;
-  const channelWord = isMulti ? 'these channels' : 'this channel';
-  const possessive = isMulti ? 'their' : 'its';
-
-  if (isBlacklisted) {
-    return `Removes ${channelWord} from your YouTube Hider blacklist. ${ON_PAGE_CONTROLS_TIP}`;
-  }
-  return `Adds ${channelWord} to your YouTube Hider blacklist: ${possessive} videos will always be hidden (Shorts are always filtered). ${ON_PAGE_CONTROLS_TIP}`;
-}
-
-function buildBlacklistTooltipMarkup(channel, opts) {
-  if (window.location.pathname === '/watch') return '';
-  return `<span class="yt-hider-blacklist-tooltip">${buildBlacklistTooltipText(channel, opts)}</span>`;
-}
-
 function removeBadgeAnimated(badge) {
   if (!badge || !badge.isConnected) return;
   badge.classList.add('yt-hider-badge-leaving');
@@ -276,7 +226,7 @@ function createWhitelistButton(channel) {
     const paused = isChannelPaused(channel);
     btn.classList.remove('yt-hider-whitelist-btn-pending');
     const label = paused ? 'Resume Whitelist' : 'Whitelist';
-    btn.innerHTML = `<span class="yt-hider-whitelist-label">${label}</span>${buildWhitelistTooltipMarkup(channel)}`;
+    btn.innerHTML = `<span class="yt-hider-whitelist-label">${label}</span>`;
   };
   renderIdle();
 
@@ -365,7 +315,7 @@ function createBlacklistButton(channel, onCommit) {
 
   const renderIdle = () => {
     btn.classList.remove('yt-hider-blacklist-btn-pending');
-    btn.innerHTML = `<span class="yt-hider-whitelist-label">Blacklist</span>${buildBlacklistTooltipMarkup(channel)}`;
+    btn.innerHTML = `<span class="yt-hider-whitelist-label">Blacklist</span>`;
   };
   renderIdle();
 
@@ -433,7 +383,7 @@ function createBlacklistButton(channel, onCommit) {
 function createUnblacklistButton(channel) {
   const btn = document.createElement('button');
   btn.className = 'yt-hider-blacklist-btn';
-  btn.innerHTML = `<span class="yt-hider-whitelist-label">Unblacklist</span>${buildBlacklistTooltipMarkup(channel, { isBlacklisted: true })}`;
+  btn.innerHTML = `<span class="yt-hider-whitelist-label">Unblacklist</span>`;
 
   btn.addEventListener('click', e => {
     e.preventDefault();
