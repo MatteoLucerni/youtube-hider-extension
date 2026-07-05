@@ -113,7 +113,7 @@ function showTutorialWelcomeCard() {
   const desc = document.createElement('div');
   desc.className = 'yh-welcome-desc';
   desc.textContent =
-    'Take a quick tour to discover how to use the floating button, customize your settings, and get the most out of the extension.';
+    "Take a quick tour to discover the Youtube Hider button built into YouTube's own header, your settings, and how to get the most out of the extension.";
 
   const actions = document.createElement('div');
   actions.className = 'yh-welcome-actions';
@@ -170,14 +170,11 @@ function showTutorialWelcomeCard() {
 function cleanupTour() {
   if (tutorialActive) {
     tutorialActive = false;
-    miniPanelOpen = false;
-
-    if (floatingButtonHost) {
-      floatingButtonHost.style.zIndex = '2147483640';
-      floatingButtonHost.style.pointerEvents = 'auto';
+    setHeaderButtonInteractive(true);
+    if (headerDropdownOpen) {
+      setHeaderDropdownInteractive(true);
+      closeHeaderDropdown();
     }
-    if (fabPanel) fabPanel.style.pointerEvents = '';
-    if (fabElement) fabElement.style.pointerEvents = '';
   }
   if (tourHost) {
     tourHost.remove();
@@ -201,7 +198,7 @@ function removeTutorialOverlay() {
 }
 
 function startSpotlightTour() {
-  if (!floatingButtonHost || !fabElement) {
+  if (!headerButtonHost || !headerButtonElement) {
     prefs.tutorialCompleted = true;
     safeStorageSet('sync', { tutorialCompleted: true });
     return;
@@ -211,69 +208,29 @@ function startSpotlightTour() {
 
   const steps = [
     {
-      title: 'Your Quick Settings Button',
-      desc: 'This is the Youtube Hider floating button. Click it anytime to access quick settings without leaving YouTube.',
-      getTarget: () => fabElement,
+      title: 'Your Settings Button',
+      desc: "This is the Youtube Hider button, built right into YouTube's own header. It appears on every page, including Watch, and opens instantly.",
+      getTarget: () => headerButtonElement,
       onEnter: () => {
-        if (miniPanelOpen) {
-          miniPanelOpen = false;
-          fabPanel.classList.remove('open');
-          fabElement.classList.remove('active');
-        }
+        if (headerDropdownOpen) closeHeaderDropdown();
       },
     },
     {
-      title: 'Quick Settings Panel',
-      desc: 'Here you can toggle Hide Watched Videos, Hide Shorts, Minimum Views Filter, and Upload Date Filter. Drag any slider all the way left to turn it off. Changes are applied instantly!',
-      getTarget: () => fabPanel,
+      title: 'Your Full Settings, Right Here',
+      desc: 'Clicking it opens your complete Youtube Hider settings: Hide Watched Videos, Shorts, Mixes, Playlists and Lives, Minimum Views, Upload Date Filter, Filter Mode, Channel Whitelist, and the Simple/Advanced interface mode, all in one place.',
+      getRect: () => getHeaderDropdownRect(),
       onEnter: () => {
-        if (!miniPanelOpen) {
-          miniPanelOpen = true;
-          fabPanel.classList.add('open');
-          void fabPanel.offsetHeight;
-          fabElement.classList.add('active');
-          syncPanelToPrefs(fabShadow);
-        }
+        if (!headerDropdownOpen) openHeaderDropdown();
+        setHeaderDropdownInteractive(false);
       },
     },
     {
-      title: 'Hide This Button',
-      desc: 'If the floating button bothers you, click "Hide this button" at the bottom of the panel. Don\'t worry, the extension keeps working in the background and you can re-enable it from settings!',
-      getTarget: () => fabShadow.querySelector('#yh-p-hide-btn') || fabPanel,
+      title: 'Tidy It Away Anytime',
+      desc: '"Hide on-page controls" removes this button (and the inline whitelist buttons on video pages) if you\'d rather not see them. Its own dedicated toggle, right next to it, lets you hide just the button while keeping everything else visible.',
+      getRect: () => getHeaderDropdownRect(),
       onEnter: () => {
-        if (!miniPanelOpen) {
-          miniPanelOpen = true;
-          fabPanel.classList.add('open');
-          void fabPanel.offsetHeight;
-          fabElement.classList.add('active');
-          syncPanelToPrefs(fabShadow);
-        }
-      },
-    },
-    {
-      title: 'Advanced Settings',
-      desc: 'Click "Open full settings" to access the full popup. In Extra Settings you can switch Interface Mode between Simple and Advanced, then fine-tune per-page controls for each filter.',
-      getTarget: () => fabShadow.querySelector('#yh-p-open-full') || fabPanel,
-      onEnter: () => {
-        if (!miniPanelOpen) {
-          miniPanelOpen = true;
-          fabPanel.classList.add('open');
-          void fabPanel.offsetHeight;
-          fabElement.classList.add('active');
-          syncPanelToPrefs(fabShadow);
-        }
-      },
-    },
-    {
-      title: 'Drag It Anywhere!',
-      desc: 'The floating button is fully draggable. Click and drag it to snap it to any edge of the screen. Place it wherever suits you best.',
-      getTarget: () => fabElement,
-      onEnter: () => {
-        if (miniPanelOpen) {
-          miniPanelOpen = false;
-          fabPanel.classList.remove('open');
-          fabElement.classList.remove('active');
-        }
+        if (!headerDropdownOpen) openHeaderDropdown();
+        setHeaderDropdownInteractive(false);
       },
     },
   ];
@@ -295,10 +252,7 @@ function startSpotlightTour() {
     });
     document.body.appendChild(tourBlocker);
 
-    floatingButtonHost.style.zIndex = '2147483646';
-    floatingButtonHost.style.pointerEvents = 'none';
-    fabPanel.style.pointerEvents = 'none';
-    fabElement.style.pointerEvents = 'none';
+    setHeaderButtonInteractive(false);
 
     tourHost = document.createElement('div');
     tourHost.id = 'yh-spotlight-host';
@@ -327,59 +281,13 @@ function startSpotlightTour() {
   }
 
   function computeTargetRect(step) {
-    const el = step.getTarget();
+    if (step.getRect) {
+      const r = step.getRect();
+      if (r) return { top: r.top, left: r.left, width: r.width, height: r.height };
+      return { top: 100, left: 100, width: 40, height: 40 };
+    }
+    const el = step.getTarget ? step.getTarget() : null;
     if (!el) return { top: 100, left: 100, width: 40, height: 40 };
-
-    const hostRect = floatingButtonHost.getBoundingClientRect();
-
-    if (el === fabElement) {
-      return {
-        top: hostRect.top,
-        left: hostRect.left,
-        width: hostRect.width,
-        height: hostRect.height,
-      };
-    }
-
-    if (el === fabPanel) {
-      const r = el.getBoundingClientRect();
-      if (r.width > 0 && r.height > 0) {
-        return { top: r.top, left: r.left, width: r.width, height: r.height };
-      }
-      const panelW = el.offsetWidth || 260;
-      const panelH = el.offsetHeight || 320;
-      let panelTop, panelLeft;
-      if (el.style.bottom && el.style.bottom !== 'auto') {
-        panelTop = hostRect.top - panelH - 12;
-      } else {
-        panelTop = hostRect.bottom + 12;
-      }
-      if (
-        el.style.right &&
-        el.style.right !== 'auto' &&
-        el.style.right !== ''
-      ) {
-        panelLeft = hostRect.right - panelW;
-      } else {
-        panelLeft = hostRect.left;
-      }
-      return { top: panelTop, left: panelLeft, width: panelW, height: panelH };
-    }
-
-    if (el.getRootNode() !== document) {
-      const r = el.getBoundingClientRect();
-      if (r.width > 0 && r.height > 0) {
-        return { top: r.top, left: r.left, width: r.width, height: r.height };
-      }
-      const panelRect = computeTargetRect({ getTarget: () => fabPanel });
-      return {
-        top: panelRect.top,
-        left: panelRect.left,
-        width: panelRect.width,
-        height: panelRect.height,
-      };
-    }
-
     const r = el.getBoundingClientRect();
     return { top: r.top, left: r.left, width: r.width, height: r.height };
   }
@@ -410,23 +318,6 @@ function startSpotlightTour() {
     tooltip.style.top = top + 'px';
     tooltip.style.left = left + 'px';
     tooltip.style.width = tooltipW + 'px';
-  }
-
-  function waitForPanelTransition() {
-    return new Promise(resolve => {
-      let resolved = false;
-      const done = () => {
-        if (resolved) return;
-        resolved = true;
-        fabPanel.removeEventListener('transitionend', onEnd);
-        resolve();
-      };
-      const onEnd = e => {
-        if (e.target === fabPanel) done();
-      };
-      fabPanel.addEventListener('transitionend', onEnd);
-      setTimeout(done, 300);
-    });
   }
 
   function measureAndPosition(step) {
@@ -495,13 +386,12 @@ function startSpotlightTour() {
 
   async function renderStep() {
     const step = steps[currentStep];
-    const wasPanelOpen = miniPanelOpen;
+    const wasDropdownOpen = headerDropdownOpen;
     step.onEnter();
-    const isPanelOpen = miniPanelOpen;
-    const panelTransitioned = wasPanelOpen !== isPanelOpen;
+    const justOpened = !wasDropdownOpen && headerDropdownOpen;
 
-    if (panelTransitioned) {
-      await waitForPanelTransition();
+    if (justOpened) {
+      await waitForHeaderDropdownReady();
     }
 
     requestAnimationFrame(() => {
@@ -516,18 +406,11 @@ function startSpotlightTour() {
     prefs.tutorialCompleted = true;
     safeStorageSet('sync', { tutorialCompleted: true });
 
-    if (miniPanelOpen && fabPanel && fabElement) {
-      miniPanelOpen = false;
-      fabPanel.classList.remove('open');
-      fabElement.classList.remove('active');
+    setHeaderButtonInteractive(true);
+    if (headerDropdownOpen) {
+      setHeaderDropdownInteractive(true);
+      closeHeaderDropdown();
     }
-
-    if (floatingButtonHost) {
-      floatingButtonHost.style.zIndex = '2147483640';
-      floatingButtonHost.style.pointerEvents = 'auto';
-    }
-    if (fabPanel) fabPanel.style.pointerEvents = '';
-    if (fabElement) fabElement.style.pointerEvents = '';
 
     if (tourHost) {
       tourHost.remove();

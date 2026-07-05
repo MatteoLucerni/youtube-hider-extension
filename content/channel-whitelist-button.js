@@ -15,6 +15,7 @@ function watchYouTubeTheme() {
   const observer = new MutationObserver(() => {
     const btn = document.getElementById(INLINE_WHITELIST_BTN_ID);
     if (btn) updateInlineWhitelistButtonState(btn, btn.ytHiderChannelValue);
+    applyHeaderButtonTheme();
   });
   observer.observe(document.documentElement, {
     attributes: true,

@@ -8,6 +8,13 @@ function debounce(fn, delay) {
   };
 }
 
+function isYouTube() {
+  return (
+    window.location.hostname === 'www.youtube.com' ||
+    window.location.hostname === 'm.youtube.com'
+  );
+}
+
 const logger = {
   log: (...args) => {
     if (DEV_MODE) console.log(...args);

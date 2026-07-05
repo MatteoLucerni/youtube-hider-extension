@@ -1,5 +1,21 @@
 # Changelog
 
+### Version 3.0.0
+
+**Removed**
+
+- The floating quick-settings button and its draggable mini-panel, including the ability to drag it to a screen edge and its own hand-maintained subset of settings
+
+**Added**
+
+- A header settings button, built into YouTube's own header on desktop next to the Create button, always available including on the Watch page. Clicking it opens a dropdown with your complete settings, the exact same UI as the popup, instead of a smaller hand-maintained subset
+
+**Changed**
+
+- Mobile web (m.youtube.com) no longer has any on-page quick-access element, since the new header button is desktop only. The toolbar popup remains fully available there
+- The onboarding tutorial is now three steps instead of five, covering the new button and its settings dropdown
+- The "Floating Button" setting is renamed to "Header Button" and no longer has a position to remember, since the button lives in YouTube's own header layout instead of floating over the page
+
 ### Version 2.10.0
 
 **Changed**

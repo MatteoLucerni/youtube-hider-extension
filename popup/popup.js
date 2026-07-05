@@ -17,8 +17,8 @@ const WHATS_NEW = {
 document.addEventListener('DOMContentLoaded', () => {
   const extensionToggle = document.getElementById('extension-enabled');
   const advancedModeToggle = document.getElementById('advanced-mode-enabled');
-  const floatingButtonToggle = document.getElementById(
-    'floating-button-enabled',
+  const headerButtonToggle = document.getElementById(
+    'header-button-enabled',
   );
   const dimModeToggle = document.getElementById('dim-mode-enabled');
   const channelWhitelistToggle = document.getElementById(
@@ -27,18 +27,18 @@ document.addEventListener('DOMContentLoaded', () => {
   const hideOnPageControlsToggle = document.getElementById(
     'hide-on-page-controls',
   );
-  // The floating button is one of the on-page controls, so its toggle is
+  // The header button is one of the on-page controls, so its toggle is
   // disabled (greyed) while "Hide on-page controls" is on. A hover tooltip on
   // the greyed toggle (shown via the `.is-locked` class) explains how to unlock
   // it.
-  const floatingButtonToggleWrap = floatingButtonToggle.closest(
+  const headerButtonToggleWrap = headerButtonToggle.closest(
     '.card-compact-toggle',
   );
-  const syncFloatingButtonToggleDisabled = () => {
+  const syncHeaderButtonToggleDisabled = () => {
     const locked = hideOnPageControlsToggle.checked;
-    floatingButtonToggle.disabled = locked;
-    if (floatingButtonToggleWrap) {
-      floatingButtonToggleWrap.classList.toggle('is-locked', locked);
+    headerButtonToggle.disabled = locked;
+    if (headerButtonToggleWrap) {
+      headerButtonToggleWrap.classList.toggle('is-locked', locked);
     }
   };
   let isEasyMode = true;
@@ -215,7 +215,7 @@ document.addEventListener('DOMContentLoaded', () => {
   const storageKeys = [
     'extensionEnabled',
     'easyModeEnabled',
-    'floatingButtonEnabled',
+    'headerButtonEnabled',
     'dimMode',
     'channelWhitelist',
     'channelWhitelistEnabled',
@@ -239,11 +239,11 @@ document.addEventListener('DOMContentLoaded', () => {
       advancedModeToggle.checked = !easyMode;
     }
 
-    floatingButtonToggle.checked = prefs.floatingButtonEnabled ?? true;
+    headerButtonToggle.checked = prefs.headerButtonEnabled ?? true;
     dimModeToggle.checked = prefs.dimMode ?? false;
     channelWhitelistToggle.checked = prefs.channelWhitelistEnabled ?? true;
     hideOnPageControlsToggle.checked = prefs.hideInterfaceElements ?? false;
-    syncFloatingButtonToggleDisabled();
+    syncHeaderButtonToggleDisabled();
 
     ['hide', 'views', 'shorts', 'mixesPlaylists'].forEach(sectionName => {
       const section = cfg[sectionName];
@@ -494,9 +494,9 @@ document.addEventListener('DOMContentLoaded', () => {
     saveSettings();
   });
 
-  floatingButtonToggle.addEventListener('change', () => {
+  headerButtonToggle.addEventListener('change', () => {
     chrome.storage.sync.set({
-      floatingButtonEnabled: floatingButtonToggle.checked,
+      headerButtonEnabled: headerButtonToggle.checked,
     });
   });
 
@@ -508,7 +508,7 @@ document.addEventListener('DOMContentLoaded', () => {
     chrome.storage.sync.set({
       hideInterfaceElements: hideOnPageControlsToggle.checked,
     });
-    syncFloatingButtonToggleDisabled();
+    syncHeaderButtonToggleDisabled();
   });
 
   channelWhitelistToggle.addEventListener('change', () => {
@@ -794,7 +794,7 @@ document.addEventListener('DOMContentLoaded', () => {
     }
     if (changes.hideInterfaceElements) {
       hideOnPageControlsToggle.checked = changes.hideInterfaceElements.newValue ?? false;
-      syncFloatingButtonToggleDisabled();
+      syncHeaderButtonToggleDisabled();
     }
     if (changes.channelWhitelist || changes.channelWhitelistEnabled) {
       refreshAddButtonState();

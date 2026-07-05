@@ -71,7 +71,7 @@ const defaultSettings = {
   dateFilterSearchEnabled: false,
   dateFilterSubsEnabled: false,
   dateFilterCorrEnabled: false,
-  floatingButtonEnabled: true,
+  headerButtonEnabled: true,
   hideInterfaceElements: false,
   tutorialCompleted: false,
 };
@@ -107,6 +107,11 @@ function migrateSettings(currentSettings) {
     if (!(key in currentSettings)) {
       if (key === 'tutorialCompleted') {
         newKeys[key] = true;
+      } else if (key === 'headerButtonEnabled') {
+        newKeys[key] =
+          'floatingButtonEnabled' in currentSettings
+            ? currentSettings.floatingButtonEnabled
+            : true;
       } else {
         newKeys[key] = value;
       }
@@ -123,6 +128,12 @@ function migrateSettings(currentSettings) {
   // Slider-off migration: remove toggle switches, use slider position for on/off
   if (!currentSettings.sliderOffMigrationDone) {
     migrateSliderOff(currentSettings);
+  }
+
+  // Header button migration: the FAB is replaced by a header button, drop its
+  // now-unused settings once headerButtonEnabled has been derived above
+  if (!currentSettings.headerButtonMigrationDone) {
+    migrateHeaderButtonCleanup();
   }
 }
 
@@ -179,6 +190,23 @@ function migrateSliderOff(s) {
       }
     });
   }
+}
+function migrateHeaderButtonCleanup() {
+  chrome.storage.sync.set({ headerButtonMigrationDone: true }, () => {
+    if (!chrome.runtime.lastError) {
+      logger.log('Header button migration done');
+    }
+  });
+  chrome.storage.sync.remove('floatingButtonEnabled', () => {
+    if (!chrome.runtime.lastError) {
+      logger.log('Removed deprecated key: floatingButtonEnabled');
+    }
+  });
+  chrome.storage.local.remove('floatingButtonPosition', () => {
+    if (!chrome.runtime.lastError) {
+      logger.log('Removed deprecated local key: floatingButtonPosition');
+    }
+  });
 }
 function refreshBadge() {
   const defaults = Object.fromEntries(flagKeys.map(key => [key, true]));
