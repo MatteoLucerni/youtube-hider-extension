@@ -13,7 +13,7 @@
 **Changed**
 
 - Mobile web (m.youtube.com) no longer has any on-page quick-access element, since the new header button is desktop only. The toolbar popup remains fully available there
-- The onboarding tutorial is now three steps instead of five, covering the new button and its settings dropdown
+- The onboarding tutorial now walks through the header button and every settings section inside its dropdown, scrolling to and highlighting each one in turn, instead of the old five-step tour over the floating button and mini-panel
 - The "Floating Button" setting is renamed to "Header Button" and no longer has a position to remember, since the button lives in YouTube's own header layout instead of floating over the page
 
 ### Version 2.10.0

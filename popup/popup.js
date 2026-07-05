@@ -801,4 +801,29 @@ document.addEventListener('DOMContentLoaded', () => {
     }
   });
 
+  const clearTourHighlight = () => {
+    document.querySelectorAll('.yh-tour-highlight').forEach(el => {
+      el.classList.remove('yh-tour-highlight');
+    });
+  };
+
+  window.addEventListener('message', event => {
+    if (event.origin !== 'https://www.youtube.com') return;
+    const data = event.data;
+    if (!data || typeof data !== 'object') return;
+
+    if (data.type === 'YH_TOUR_HIGHLIGHT') {
+      clearTourHighlight();
+      const target = document.querySelector(
+        `[data-tour-section="${data.section}"]`,
+      );
+      if (target) {
+        target.classList.add('yh-tour-highlight');
+        target.scrollIntoView({ behavior: 'smooth', block: 'start' });
+      }
+    } else if (data.type === 'YH_TOUR_CLEAR') {
+      clearTourHighlight();
+    }
+  });
+
 });

@@ -169,6 +169,14 @@ function onHeaderDropdownResize() {
   if (card) positionHeaderDropdown(card);
 }
 
+function sendMessageToHeaderDropdown(message) {
+  if (!headerDropdownShadow) return;
+  const iframe = headerDropdownShadow.querySelector('.yh-dropdown-iframe');
+  if (!iframe || !iframe.contentWindow) return;
+  const targetOrigin = new URL(chrome.runtime.getURL('popup/popup.html')).origin;
+  iframe.contentWindow.postMessage(message, targetOrigin);
+}
+
 function getHeaderDropdownRect() {
   if (!headerDropdownShadow) return null;
   const card = headerDropdownShadow.querySelector('.yh-dropdown-card');

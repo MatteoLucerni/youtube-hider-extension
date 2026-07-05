@@ -211,27 +211,47 @@ function startSpotlightTour() {
       title: 'Your Settings Button',
       desc: "This is the Youtube Hider button, built right into YouTube's own header. It appears on every page, including Watch, and opens instantly.",
       getTarget: () => headerButtonElement,
-      onEnter: () => {
-        if (headerDropdownOpen) closeHeaderDropdown();
-      },
     },
     {
       title: 'Your Full Settings, Right Here',
-      desc: 'Clicking it opens your complete Youtube Hider settings: Hide Watched Videos, Shorts, Mixes, Playlists and Lives, Minimum Views, Upload Date Filter, Filter Mode, Channel Whitelist, and the Simple/Advanced interface mode, all in one place.',
+      desc: "Clicking it opens your complete Youtube Hider settings, all in one place. Let's walk through what you'll find inside.",
       getRect: () => getHeaderDropdownRect(),
-      onEnter: () => {
-        if (!headerDropdownOpen) openHeaderDropdown();
-        setHeaderDropdownInteractive(false);
-      },
     },
     {
-      title: 'Tidy It Away Anytime',
-      desc: '"Hide on-page controls" removes this button (and the inline whitelist buttons on video pages) if you\'d rather not see them. Its own dedicated toggle, right next to it, lets you hide just the button while keeping everything else visible.',
+      title: 'Hide Watched Videos',
+      desc: "Hide videos based on how much of them you've already watched. Drag the slider all the way left to turn it off, and use the per-page toggles in Advanced mode for finer control.",
       getRect: () => getHeaderDropdownRect(),
-      onEnter: () => {
-        if (!headerDropdownOpen) openHeaderDropdown();
-        setHeaderDropdownInteractive(false);
-      },
+      section: 'hide-watched',
+    },
+    {
+      title: 'Shorts, Mixes, Playlists & Lives',
+      desc: 'Independently remove Shorts, Mix playlists, regular Playlists, and Live streams from your feed and search results.',
+      getRect: () => getHeaderDropdownRect(),
+      section: 'shorts-mixes-playlists-lives',
+    },
+    {
+      title: 'Minimum Views Filter',
+      desc: 'Hide videos below a certain view count, from 0 up to 10 million views.',
+      getRect: () => getHeaderDropdownRect(),
+      section: 'min-views',
+    },
+    {
+      title: 'Upload Date Filter',
+      desc: 'Hide videos newer or older than a configurable threshold. Use both together to keep only videos from a specific time window.',
+      getRect: () => getHeaderDropdownRect(),
+      section: 'upload-date',
+    },
+    {
+      title: 'Channel Whitelist',
+      desc: 'Exempt your favorite channels from every filter. Add the current channel with one click, or remove a chip to re-apply filters immediately.',
+      getRect: () => getHeaderDropdownRect(),
+      section: 'whitelist',
+    },
+    {
+      title: 'Extra Settings',
+      desc: 'Switch between Simple and Advanced interface, choose Hide or Dim as your Filter Mode, and turn on "Hide on-page controls" anytime to remove this button (and the inline Whitelist buttons) while filtering keeps working in the background.',
+      getRect: () => getHeaderDropdownRect(),
+      section: 'extra-settings',
     },
   ];
 
@@ -384,14 +404,32 @@ function startSpotlightTour() {
     }
   }
 
+  function ensureDropdownStateForStep(step) {
+    if (step.getRect) {
+      if (!headerDropdownOpen) openHeaderDropdown();
+      setHeaderDropdownInteractive(false);
+    } else if (headerDropdownOpen) {
+      closeHeaderDropdown();
+    }
+  }
+
   async function renderStep() {
     const step = steps[currentStep];
     const wasDropdownOpen = headerDropdownOpen;
-    step.onEnter();
+    ensureDropdownStateForStep(step);
     const justOpened = !wasDropdownOpen && headerDropdownOpen;
 
     if (justOpened) {
       await waitForHeaderDropdownReady();
+    }
+
+    if (step.section) {
+      sendMessageToHeaderDropdown({
+        type: 'YH_TOUR_HIGHLIGHT',
+        section: step.section,
+      });
+    } else if (headerDropdownOpen) {
+      sendMessageToHeaderDropdown({ type: 'YH_TOUR_CLEAR' });
     }
 
     requestAnimationFrame(() => {
