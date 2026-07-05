@@ -32,9 +32,8 @@ async function main() {
     await page.waitForSelector('.setting-card');
     await page.waitForTimeout(300);
 
-    await page.screenshot({
+    await page.locator('body').screenshot({
       path: path.join(OUTPUT_DIR, 'full-easy.png'),
-      fullPage: true,
     });
 
     await page.evaluate(() => {
@@ -42,9 +41,8 @@ async function main() {
     });
     await page.waitForTimeout(300);
 
-    await page.screenshot({
+    await page.locator('body').screenshot({
       path: path.join(OUTPUT_DIR, 'full-no-easy.png'),
-      fullPage: true,
     });
 
     console.log(`Screenshots written to ${OUTPUT_DIR}`);
