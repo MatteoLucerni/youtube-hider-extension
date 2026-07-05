@@ -16,6 +16,7 @@
 - Mobile web (m.youtube.com) no longer has any on-page quick-access element, since the new header button is desktop only. The toolbar popup remains fully available there
 - The onboarding tutorial now walks through the header button and every settings section inside its dropdown, scrolling to and highlighting each one in turn, instead of the old five-step tour over the floating button and mini-panel
 - The header button no longer has a position to remember, since it lives in YouTube's own header layout instead of floating over the page
+- Filter Mode moved out of Extra Settings into its own dedicated card at the top of the popup, with a two-option Hide/Dim picker instead of a toggle switch, reflecting how central it is to every other filter
 
 ### Version 2.10.0
 

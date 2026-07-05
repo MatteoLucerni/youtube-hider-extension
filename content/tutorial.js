@@ -218,6 +218,12 @@ function startSpotlightTour() {
       getRect: () => getHeaderDropdownRect(),
     },
     {
+      title: 'Filter Mode',
+      desc: 'Choose how filtered videos are treated: Hide removes them from view entirely, Dim fades them under a dark overlay you can still click through. This applies to every filter below.',
+      getRect: () => getHeaderDropdownRect(),
+      section: 'filter-mode',
+    },
+    {
       title: 'Hide Watched Videos',
       desc: "Hide videos based on how much of them you've already watched. Drag the slider all the way left to turn it off, and use the per-page toggles in Advanced mode for finer control.",
       getRect: () => getHeaderDropdownRect(),
@@ -249,7 +255,7 @@ function startSpotlightTour() {
     },
     {
       title: 'Extra Settings',
-      desc: 'Switch between Simple and Advanced interface, choose Hide or Dim as your Filter Mode, and turn on "Hide on-page controls" anytime to remove this button (and the inline Whitelist buttons) while filtering keeps working in the background.',
+      desc: 'Switch between Simple and Advanced interface, and turn on "Hide on-page controls" anytime to remove this button (and the inline Whitelist buttons) while filtering keeps working in the background.',
       getRect: () => getHeaderDropdownRect(),
       section: 'extra-settings',
     },

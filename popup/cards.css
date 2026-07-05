@@ -38,6 +38,56 @@
     }
 }
 
+.filter-mode-card {
+    display: flex;
+    flex-direction: column;
+    gap: var(--spacing-md);
+}
+
+.filter-mode-title {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: var(--spacing-md);
+}
+
+.filter-mode-options {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: var(--spacing-md);
+}
+
+.filter-mode-option {
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    justify-content: center;
+    gap: 8px;
+    padding: var(--spacing-sm) var(--spacing-md);
+    background: var(--bg-tertiary);
+    border: 2px solid transparent;
+    border-radius: var(--radius-md);
+    color: var(--text-secondary);
+    cursor: pointer;
+    font-family: inherit;
+    transition: border-color 0.2s ease, background 0.2s ease, color 0.2s ease;
+}
+
+.filter-mode-option:hover {
+    background: var(--bg-quaternary);
+}
+
+.filter-mode-option-label {
+    font-size: 13px;
+    font-weight: 700;
+    color: var(--text-primary);
+}
+
+.filter-mode-option.active {
+    border-color: var(--accent-green);
+    background: rgba(16, 185, 129, 0.14);
+}
+
 .restart-tutorial-btn {
     display: inline-flex;
     align-items: center;

@@ -17,7 +17,14 @@ const WHATS_NEW = {
 document.addEventListener('DOMContentLoaded', () => {
   const extensionToggle = document.getElementById('extension-enabled');
   const advancedModeToggle = document.getElementById('advanced-mode-enabled');
-  const dimModeToggle = document.getElementById('dim-mode-enabled');
+  const filterModeHideBtn = document.getElementById('filter-mode-hide');
+  const filterModeDimBtn = document.getElementById('filter-mode-dim');
+  const setFilterModeUI = isDim => {
+    filterModeHideBtn.classList.toggle('active', !isDim);
+    filterModeHideBtn.setAttribute('aria-pressed', String(!isDim));
+    filterModeDimBtn.classList.toggle('active', isDim);
+    filterModeDimBtn.setAttribute('aria-pressed', String(isDim));
+  };
   const channelWhitelistToggle = document.getElementById(
     'channel-whitelist-enabled',
   );
@@ -221,7 +228,7 @@ document.addEventListener('DOMContentLoaded', () => {
       advancedModeToggle.checked = !easyMode;
     }
 
-    dimModeToggle.checked = prefs.dimMode ?? false;
+    setFilterModeUI(prefs.dimMode ?? false);
     channelWhitelistToggle.checked = prefs.channelWhitelistEnabled ?? true;
     hideOnPageControlsToggle.checked = prefs.hideInterfaceElements ?? false;
 
@@ -474,9 +481,13 @@ document.addEventListener('DOMContentLoaded', () => {
     saveSettings();
   });
 
-  dimModeToggle.addEventListener('change', () => {
-    chrome.storage.sync.set({ dimMode: dimModeToggle.checked });
-  });
+  const setDimMode = isDim => {
+    setFilterModeUI(isDim);
+    chrome.storage.sync.set({ dimMode: isDim });
+  };
+
+  filterModeHideBtn.addEventListener('click', () => setDimMode(false));
+  filterModeDimBtn.addEventListener('click', () => setDimMode(true));
 
   hideOnPageControlsToggle.addEventListener('change', () => {
     chrome.storage.sync.set({

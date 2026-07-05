@@ -77,6 +77,25 @@
     margin-left: 0;
 }
 
+/* Filter Mode's info icon sits at the top of the popup, so its tooltip opens
+   downward and right-aligned instead of the default upward/centered position */
+.filter-mode-tooltip .tooltip-text {
+    bottom: auto;
+    top: 125%;
+    left: auto;
+    right: 0;
+    transform: none;
+}
+
+.filter-mode-tooltip .tooltip-text::after {
+    top: auto;
+    bottom: 100%;
+    left: auto;
+    right: 10px;
+    margin-left: 0;
+    border-color: transparent transparent var(--bg-quaternary) transparent;
+}
+
 /* Remove margin-bottom for toggle-item labels and improve alignment */
 .toggle-item .label-content {
     margin-bottom: 0;

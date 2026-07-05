@@ -59,7 +59,7 @@ In Hide mode, lockup-based cards are removed at the correct wrapper level to avo
 
 Filter updates are live in both directions: increasing thresholds hides more content, and lowering thresholds restores matching content immediately without refreshing the page.
 
-The Filter Mode toggle is available in both the popup and the header settings dropdown, since the dropdown embeds the full popup.
+Filter Mode has its own dedicated card at the top of the popup, since it affects every other filter below it. It's available in both the popup and the header settings dropdown, since the dropdown embeds the full popup.
 
 ### Channel Whitelist
 
