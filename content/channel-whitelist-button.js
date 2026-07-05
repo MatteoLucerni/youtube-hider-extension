@@ -25,12 +25,12 @@ function watchYouTubeTheme() {
   });
 }
 
-function injectInlineWhitelistStyles() {
-  if (document.getElementById('yt-hider-inline-whitelist-styles')) return;
+function injectInlineChannelActionStyles(styleId, prefix, tokens) {
+  if (document.getElementById(styleId)) return;
   const style = document.createElement('style');
-  style.id = 'yt-hider-inline-whitelist-styles';
+  style.id = styleId;
   style.textContent = `
-    .yt-hider-inline-whitelist-btn {
+    .${prefix}-btn {
       position: relative;
       display: inline-flex;
       align-items: center;
@@ -50,47 +50,47 @@ function injectInlineWhitelistStyles() {
       color: #0f0f0f;
       transition: background 0.15s ease, color 0.15s ease;
     }
-    .yt-hider-inline-whitelist-btn--channel {
+    .${prefix}-btn--channel {
       flex: 1;
       flex-basis: 0.000000001px;
     }
-    .yt-hider-inline-whitelist-btn--watch {
+    .${prefix}-btn--watch {
       margin-left: 8px;
     }
-    .yt-hider-inline-whitelist-btn:hover {
+    .${prefix}-btn:hover {
       background: #e5e5e5;
     }
-    .yt-hider-inline-whitelist-btn:focus-visible {
-      outline: 2px solid #065fd4;
+    .${prefix}-btn:focus-visible {
+      outline: 2px solid ${tokens.focusOutline};
       outline-offset: 2px;
     }
-    .yt-hider-inline-whitelist-btn .yt-hider-inline-whitelist-icon {
+    .${prefix}-btn .${prefix}-icon {
       display: inline-flex;
       align-items: center;
       flex-shrink: 0;
     }
-    .yt-hider-inline-whitelist-btn.yt-hider-dark {
+    .${prefix}-btn.yt-hider-dark {
       background: #272727;
       color: #f1f1f1;
     }
-    .yt-hider-inline-whitelist-btn.yt-hider-dark:hover {
+    .${prefix}-btn.yt-hider-dark:hover {
       background: #3f3f3f;
     }
-    .yt-hider-inline-whitelist-btn.is-whitelisted {
-      background: #e8f0fe;
-      color: #065fd4;
+    .${prefix}-btn.${tokens.activeClass} {
+      background: ${tokens.activeBg};
+      color: ${tokens.activeColor};
     }
-    .yt-hider-inline-whitelist-btn.is-whitelisted:hover {
-      background: #d7e6fd;
+    .${prefix}-btn.${tokens.activeClass}:hover {
+      background: ${tokens.activeHoverBg};
     }
-    .yt-hider-inline-whitelist-btn.yt-hider-dark.is-whitelisted {
-      background: #1b3a63;
-      color: #bcd6ff;
+    .${prefix}-btn.yt-hider-dark.${tokens.activeClass} {
+      background: ${tokens.activeDarkBg};
+      color: ${tokens.activeDarkColor};
     }
-    .yt-hider-inline-whitelist-btn.yt-hider-dark.is-whitelisted:hover {
-      background: #234a7d;
+    .${prefix}-btn.yt-hider-dark.${tokens.activeClass}:hover {
+      background: ${tokens.activeDarkHoverBg};
     }
-    .yt-hider-inline-whitelist-tooltip {
+    .${prefix}-tooltip {
       visibility: hidden;
       opacity: 0;
       position: absolute;
@@ -113,12 +113,29 @@ function injectInlineWhitelistStyles() {
       pointer-events: none;
       z-index: 20;
     }
-    .yt-hider-inline-whitelist-btn:hover .yt-hider-inline-whitelist-tooltip {
+    .${prefix}-btn:hover .${prefix}-tooltip {
       visibility: visible;
       opacity: 1;
     }
   `;
   document.head.appendChild(style);
+}
+
+function injectInlineWhitelistStyles() {
+  injectInlineChannelActionStyles(
+    'yt-hider-inline-whitelist-styles',
+    'yt-hider-inline-whitelist',
+    {
+      focusOutline: '#065fd4',
+      activeClass: 'is-whitelisted',
+      activeBg: '#e8f0fe',
+      activeColor: '#065fd4',
+      activeHoverBg: '#d7e6fd',
+      activeDarkBg: '#1b3a63',
+      activeDarkColor: '#bcd6ff',
+      activeDarkHoverBg: '#234a7d',
+    },
+  );
 }
 
 function findInlineChannelActionAnchor(pathname) {
@@ -169,14 +186,46 @@ function findInlineChannelActionAnchor(pathname) {
   return null;
 }
 
-function createInlineWhitelistButton(channel, isFlexibleActionsRow) {
+function createInlineChannelActionButton(id, prefix, channel, isFlexibleActionsRow) {
   const btn = document.createElement('button');
-  btn.id = INLINE_WHITELIST_BTN_ID;
-  btn.className = 'yt-hider-inline-whitelist-btn ' + (isFlexibleActionsRow ? 'yt-hider-inline-whitelist-btn--channel' : 'yt-hider-inline-whitelist-btn--watch');
+  btn.id = id;
+  btn.className = `${prefix}-btn ` + (isFlexibleActionsRow ? `${prefix}-btn--channel` : `${prefix}-btn--watch`);
   btn.ytHiderChannelValue = channel;
 
   btn.innerHTML =
-    '<span class="yt-hider-inline-whitelist-label"></span><span class="yt-hider-inline-whitelist-icon"></span><span class="yt-hider-inline-whitelist-tooltip"></span>';
+    `<span class="${prefix}-label"></span><span class="${prefix}-icon"></span><span class="${prefix}-tooltip"></span>`;
+
+  return btn;
+}
+
+function updateInlineChannelActionButtonState(btn, prefix, channel, { isActive, activeClass, tooltipText, iconMarkup, label }) {
+  btn.ytHiderChannelValue = channel;
+  const isDark = isYouTubeDarkTheme();
+
+  btn.classList.toggle(activeClass, isActive);
+  btn.classList.toggle('yt-hider-dark', isDark);
+  btn.setAttribute('aria-pressed', isActive ? 'true' : 'false');
+
+  const tooltip = btn.querySelector(`.${prefix}-tooltip`);
+  if (tooltip) tooltip.textContent = tooltipText;
+
+  const icon = btn.querySelector(`.${prefix}-icon`);
+  if (icon) {
+    icon.innerHTML = isActive ? iconMarkup : '';
+    icon.style.display = isActive ? 'inline-flex' : 'none';
+  }
+
+  const labelEl = btn.querySelector(`.${prefix}-label`);
+  if (labelEl) labelEl.textContent = label;
+}
+
+function createInlineWhitelistButton(channel, isFlexibleActionsRow) {
+  const btn = createInlineChannelActionButton(
+    INLINE_WHITELIST_BTN_ID,
+    'yt-hider-inline-whitelist',
+    channel,
+    isFlexibleActionsRow,
+  );
 
   btn.addEventListener('click', e => {
     e.preventDefault();
@@ -191,44 +240,29 @@ function createInlineWhitelistButton(channel, isFlexibleActionsRow) {
 }
 
 function updateInlineWhitelistButtonState(btn, channel) {
-  btn.ytHiderChannelValue = channel;
   const isWhitelisted = isChannelExempt(channel);
   const isPaused = isChannelPaused(channel);
-  const isDark = isYouTubeDarkTheme();
 
-  btn.classList.toggle('is-whitelisted', isWhitelisted);
-  btn.classList.toggle('yt-hider-dark', isDark);
-  btn.setAttribute('aria-pressed', isWhitelisted ? 'true' : 'false');
-
-  const tooltip = btn.querySelector('.yt-hider-inline-whitelist-tooltip');
-  if (tooltip) {
-    tooltip.textContent = buildWhitelistTooltipText(channel, { isWhitelisted });
-  }
-
-  const icon = btn.querySelector('.yt-hider-inline-whitelist-icon');
-  if (icon) {
-    icon.innerHTML = isWhitelisted ? INLINE_WHITELIST_CHECK_ICON : '';
-    icon.style.display = isWhitelisted ? 'inline-flex' : 'none';
-  }
-
-  const label = btn.querySelector('.yt-hider-inline-whitelist-label');
-  if (label) label.textContent = isWhitelisted ? 'Whitelisted' : isPaused ? 'Resume Whitelist' : 'Whitelist';
+  updateInlineChannelActionButtonState(btn, 'yt-hider-inline-whitelist', channel, {
+    isActive: isWhitelisted,
+    activeClass: 'is-whitelisted',
+    tooltipText: buildWhitelistTooltipText(channel, { isWhitelisted }),
+    iconMarkup: INLINE_WHITELIST_CHECK_ICON,
+    label: isWhitelisted ? 'Whitelisted' : isPaused ? 'Resume Whitelist' : 'Whitelist',
+  });
 }
 
-let cancelInlineWhitelistPoll = null;
+function syncInlineChannelActionButton(pathname, opts) {
+  const { timeout = 3000, buttonId, isEnabled, createButton, updateButtonState, getCancelPoll, setCancelPoll } = opts;
 
-function cancelInlineWhitelistRetry() {
-  if (cancelInlineWhitelistPoll) {
-    cancelInlineWhitelistPoll();
-    cancelInlineWhitelistPoll = null;
+  const existingCancel = getCancelPoll();
+  if (existingCancel) {
+    existingCancel();
+    setCancelPoll(null);
   }
-}
 
-function syncInlineWhitelistButton(pathname, timeout = 3000) {
-  cancelInlineWhitelistRetry();
-
-  if (prefs.hideInterfaceElements) {
-    removeInlineWhitelistButton();
+  if (!isEnabled()) {
+    removeInlineChannelActionButton(buttonId, getCancelPoll, setCancelPoll);
     return;
   }
 
@@ -238,14 +272,14 @@ function syncInlineWhitelistButton(pathname, timeout = 3000) {
     const channel = getCurrentPageChannel();
     if (!channel) return false;
 
-    let btn = document.getElementById(INLINE_WHITELIST_BTN_ID);
+    let btn = document.getElementById(buttonId);
     if (btn && !btn.isConnected) btn = null;
 
     if (!btn) {
       const container = findInlineChannelActionAnchor(pathname);
       if (!container) return false;
       const isFlexibleActionsRow = container.tagName && container.tagName.toLowerCase() === 'yt-flexible-actions-view-model';
-      btn = createInlineWhitelistButton(channel, isFlexibleActionsRow);
+      btn = createButton(channel, isFlexibleActionsRow);
       if (isFlexibleActionsRow) {
         const wrapper = document.createElement('div');
         wrapper.className = 'ytFlexibleActionsViewModelAction';
@@ -256,21 +290,25 @@ function syncInlineWhitelistButton(pathname, timeout = 3000) {
       }
     }
 
-    updateInlineWhitelistButtonState(btn, channel);
+    updateButtonState(btn, channel);
     return true;
   };
 
   const { promise, cancel } = pollUntil(tryRender, { timeout });
-  cancelInlineWhitelistPoll = cancel;
+  setCancelPoll(cancel);
   promise.then(found => {
-    cancelInlineWhitelistPoll = null;
-    if (!found) logger.warn('Inline whitelist button: no anchor found for', pathname);
+    setCancelPoll(null);
+    if (!found) logger.warn(`Inline button ${buttonId}: no anchor found for`, pathname);
   });
 }
 
-function removeInlineWhitelistButton() {
-  cancelInlineWhitelistRetry();
-  const btn = document.getElementById(INLINE_WHITELIST_BTN_ID);
+function removeInlineChannelActionButton(buttonId, getCancelPoll, setCancelPoll) {
+  const cancel = getCancelPoll();
+  if (cancel) {
+    cancel();
+    setCancelPoll(null);
+  }
+  const btn = document.getElementById(buttonId);
   if (!btn) return;
   const wrapper = btn.parentElement;
   if (wrapper && wrapper.classList.contains('ytFlexibleActionsViewModelAction')) {
@@ -278,4 +316,30 @@ function removeInlineWhitelistButton() {
   } else {
     btn.remove();
   }
+}
+
+let cancelInlineWhitelistPoll = null;
+
+function syncInlineWhitelistButton(pathname, timeout = 3000) {
+  syncInlineChannelActionButton(pathname, {
+    timeout,
+    buttonId: INLINE_WHITELIST_BTN_ID,
+    isEnabled: () => !prefs.hideInterfaceElements,
+    createButton: createInlineWhitelistButton,
+    updateButtonState: updateInlineWhitelistButtonState,
+    getCancelPoll: () => cancelInlineWhitelistPoll,
+    setCancelPoll: fn => {
+      cancelInlineWhitelistPoll = fn;
+    },
+  });
+}
+
+function removeInlineWhitelistButton() {
+  removeInlineChannelActionButton(
+    INLINE_WHITELIST_BTN_ID,
+    () => cancelInlineWhitelistPoll,
+    fn => {
+      cancelInlineWhitelistPoll = fn;
+    },
+  );
 }

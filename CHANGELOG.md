@@ -1,5 +1,17 @@
 # Changelog
 
+### Version 3.1.5
+
+**Fixed**
+
+- The hover "Blacklist" pill left behind a forced `position: relative` on the thumbnail it last appeared over, since the marker attribute driving that style was never cleared when the pill was dismissed
+- The hover "Blacklist" pill could get stuck showing on the wrong card, or fail to disappear at all, when the pointer left a card in a way YouTube's own hover-preview reported ambiguously. A periodic check now confirms the pointer's actual position while the pill is visible, instead of relying solely on the single browser event that can be misreported
+- If a video card was removed from the page (YouTube re-rendering the feed) while its "Blacklist" pill was mid-countdown, the pill could block every other card's pill from appearing for up to 3 seconds. It now recovers as soon as the pointer moves to a different card
+
+**Changed**
+
+- Consolidated the duplicated inline Whitelist/Blacklist button styling, rendering and lifecycle code, and the undo-countdown timer shared by both, into common helpers. No behavior change; this only reduces the surface area for the two lists' buttons to drift out of sync with each other
+
 ### Version 3.1.4
 
 **Changed**

@@ -4,6 +4,14 @@ function channelListIncludes(channel, list) {
   return list.includes(channel);
 }
 
+function pluralizeChannelWord(channel) {
+  const isMulti = Array.isArray(channel) && channel.length > 1;
+  return {
+    channelWord: isMulti ? 'these channels' : 'this channel',
+    possessive: isMulti ? 'their' : 'its',
+  };
+}
+
 function computeWhitelistUpdate(
   channel,
   shouldWhitelist,

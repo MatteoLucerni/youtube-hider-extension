@@ -5,12 +5,14 @@ function preventHoverPreviewOnDimmedItems() {
   hoverPreviewBlockerAttached = true;
 
   const blockHoverPreview = e => {
-    if (!prefs.dimMode) return;
-    if (
-      e.target &&
-      e.target.closest &&
-      e.target.closest('[data-yt-hider-dimmed]')
-    ) {
+    if (!e.target || !e.target.closest) return;
+
+    const isDimmedTarget =
+      prefs.dimMode && e.target.closest('[data-yt-hider-dimmed]');
+    const isBlacklistPillTarget =
+      hoverPillContainer && hoverPillContainer.contains(e.target);
+
+    if (isDimmedTarget || isBlacklistPillTarget) {
       e.stopPropagation();
     }
   };
@@ -180,9 +182,7 @@ const ON_PAGE_CONTROLS_TIP =
 const BLACKLIST_REASON = 'Blacklisted channel';
 
 function buildWhitelistTooltipText(channel, { isWhitelisted = false } = {}) {
-  const isMulti = Array.isArray(channel) && channel.length > 1;
-  const channelWord = isMulti ? 'these channels' : 'this channel';
-  const possessive = isMulti ? 'their' : 'its';
+  const { channelWord, possessive } = pluralizeChannelWord(channel);
 
   if (isWhitelisted) {
     return `Removes ${channelWord} from your YouTube Hider whitelist. ${ON_PAGE_CONTROLS_TIP}`;
@@ -214,11 +214,37 @@ function clearDimmedElement(element) {
     .forEach(t => delete t.dataset.ytHiderBadgeTarget);
 }
 
+function startUndoCountdown(btn, onComplete) {
+  const ring = btn.querySelector('.yt-hider-undo-countdown-ring');
+  if (ring) {
+    ring.style.setProperty(
+      '--yt-hider-countdown-circumference',
+      UNDO_COUNTDOWN_CIRCUMFERENCE,
+    );
+    ring.style.animation = `yt-hider-undo-countdown ${UNDO_WINDOW_MS}ms linear forwards`;
+  }
+
+  const deadline = Date.now() + UNDO_WINDOW_MS;
+  const timer = setInterval(() => {
+    const remainingMs = deadline - Date.now();
+    const numberEl = btn.querySelector('.yt-hider-undo-countdown-number');
+    if (numberEl)
+      numberEl.textContent = Math.max(0, Math.ceil(remainingMs / 1000));
+
+    if (remainingMs <= 0) {
+      clearInterval(timer);
+      onComplete();
+    }
+  }, 250);
+
+  return () => clearInterval(timer);
+}
+
 function createWhitelistButton(channel) {
   const btn = document.createElement('button');
   btn.className = 'yt-hider-whitelist-btn';
 
-  let countdownTimer = null;
+  let cancelCountdown = null;
   let pendingContainer = null;
   let pendingResult = null;
 
@@ -231,9 +257,9 @@ function createWhitelistButton(channel) {
   renderIdle();
 
   const cancelPending = () => {
-    if (countdownTimer) {
-      clearInterval(countdownTimer);
-      countdownTimer = null;
+    if (cancelCountdown) {
+      cancelCountdown();
+      cancelCountdown = null;
     }
     if (pendingContainer) {
       delete pendingContainer.dataset.ytHiderPendingAction;
@@ -273,34 +299,14 @@ function createWhitelistButton(channel) {
     btn.innerHTML = `<span class="yt-hider-whitelist-label">Cancel</span>${buildUndoCountdownMarkup(UNDO_WINDOW_SECONDS)}`;
     btn.classList.add('yt-hider-whitelist-btn-pending');
 
-    const ring = btn.querySelector('.yt-hider-undo-countdown-ring');
-    if (ring) {
-      ring.style.setProperty(
-        '--yt-hider-countdown-circumference',
-        UNDO_COUNTDOWN_CIRCUMFERENCE,
-      );
-      ring.style.animation = `yt-hider-undo-countdown ${UNDO_WINDOW_MS}ms linear forwards`;
-    }
-
-    const deadline = Date.now() + UNDO_WINDOW_MS;
-    countdownTimer = setInterval(() => {
-      const remainingMs = deadline - Date.now();
-      const numberEl = btn.querySelector(
-        '.yt-hider-undo-countdown-number',
-      );
-      if (numberEl)
-        numberEl.textContent = Math.max(0, Math.ceil(remainingMs / 1000));
-
-      if (remainingMs <= 0) {
-        clearInterval(countdownTimer);
-        countdownTimer = null;
-        if (pendingContainer) {
-          delete pendingContainer.dataset.ytHiderPendingAction;
-          clearDimmedElement(pendingContainer);
-          pendingContainer = null;
-        }
+    cancelCountdown = startUndoCountdown(btn, () => {
+      cancelCountdown = null;
+      if (pendingContainer) {
+        delete pendingContainer.dataset.ytHiderPendingAction;
+        clearDimmedElement(pendingContainer);
+        pendingContainer = null;
       }
-    }, 250);
+    });
   });
 
   return btn;
@@ -310,7 +316,7 @@ function createBlacklistButton(channel, onCommit) {
   const btn = document.createElement('button');
   btn.className = 'yt-hider-blacklist-btn';
 
-  let countdownTimer = null;
+  let cancelCountdown = null;
   let pendingContainer = null;
 
   const renderIdle = () => {
@@ -320,9 +326,9 @@ function createBlacklistButton(channel, onCommit) {
   renderIdle();
 
   const cancelPending = () => {
-    if (countdownTimer) {
-      clearInterval(countdownTimer);
-      countdownTimer = null;
+    if (cancelCountdown) {
+      cancelCountdown();
+      cancelCountdown = null;
     }
     if (pendingContainer) {
       delete pendingContainer.dataset.ytHiderPendingAction;
@@ -348,34 +354,21 @@ function createBlacklistButton(channel, onCommit) {
     btn.innerHTML = `<span class="yt-hider-whitelist-label">Cancel</span>${buildUndoCountdownMarkup(UNDO_WINDOW_SECONDS)}`;
     btn.classList.add('yt-hider-blacklist-btn-pending');
 
-    const ring = btn.querySelector('.yt-hider-undo-countdown-ring');
-    if (ring) {
-      ring.style.setProperty(
-        '--yt-hider-countdown-circumference',
-        UNDO_COUNTDOWN_CIRCUMFERENCE,
-      );
-      ring.style.animation = `yt-hider-undo-countdown ${UNDO_WINDOW_MS}ms linear forwards`;
-    }
-
-    const deadline = Date.now() + UNDO_WINDOW_MS;
-    countdownTimer = setInterval(() => {
-      const remainingMs = deadline - Date.now();
-      const numberEl = btn.querySelector(
-        '.yt-hider-undo-countdown-number',
-      );
-      if (numberEl)
-        numberEl.textContent = Math.max(0, Math.ceil(remainingMs / 1000));
-
-      if (remainingMs <= 0) {
-        clearInterval(countdownTimer);
-        countdownTimer = null;
-        if (pendingContainer) delete pendingContainer.dataset.ytHiderPendingAction;
-        pendingContainer = null;
-        setChannelBlacklisted(channel, true);
-        if (onCommit) onCommit();
-      }
-    }, 250);
+    cancelCountdown = startUndoCountdown(btn, () => {
+      cancelCountdown = null;
+      if (pendingContainer) delete pendingContainer.dataset.ytHiderPendingAction;
+      pendingContainer = null;
+      setChannelBlacklisted(channel, true);
+      if (onCommit) onCommit();
+    });
   });
+
+  btn.ytHiderCancelPending = () => {
+    if (btn.classList.contains('yt-hider-blacklist-btn-pending')) {
+      cancelPending();
+      renderIdle();
+    }
+  };
 
   return btn;
 }
