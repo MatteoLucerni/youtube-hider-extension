@@ -1,5 +1,11 @@
 # Changelog
 
+### Version 3.1.6
+
+**Fixed**
+
+- The "Add Current Channel" button in the Channel Blacklist popup section stayed disabled even on a valid channel page. Its enabled state was only refreshed when the blacklist data loaded or changed, never when the current tab's channel was actually resolved, so it missed the one update that mattered. The equivalent Whitelist button was unaffected since it was refreshed at the right point already
+
 ### Version 3.1.5
 
 **Fixed**

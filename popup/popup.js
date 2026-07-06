@@ -678,6 +678,7 @@ document.addEventListener('DOMContentLoaded', () => {
     const tab = tabs && tabs[0];
     if (!tab || !tab.id) {
       refreshAddButtonState();
+      refreshAddBlacklistButtonState();
       return;
     }
     chrome.tabs.sendMessage(tab.id, { type: 'GET_CURRENT_CHANNEL' }, response => {
@@ -685,6 +686,7 @@ document.addEventListener('DOMContentLoaded', () => {
         currentTabChannel = response.channel;
       }
       refreshAddButtonState();
+      refreshAddBlacklistButtonState();
     });
   });
 
