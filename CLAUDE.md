@@ -67,13 +67,13 @@ Keep new top-level execution in `content/init.js`, the same way `content.js` is 
 - When a bug report includes a real HTML/DOM snippet (or one can be obtained from the reporter), treat that snippet as the regression case to encode into `tests/parsers.test.js` if it exercises parsing logic. This keeps the test suite driven by real, dated evidence instead of speculative or aging fixtures.
 - **For ad hoc live-DOM debugging (checking a hypothesis against the real YouTube DOM, verifying a fix before writing it, etc.), never create a standalone `.js` file in the project.** Write the throwaway script directly in the chat response, in a code block, together with plain instructions for where to paste it (browser DevTools console) and what page(s) to run it on. If it is useful to auto-copy results, end the script with `copy(JSON.stringify(...))` so the user can paste the output straight back into the chat. Nothing from this kind of debugging session should be committed to the repository or left on disk once the investigation is done.
 
-## Playwright verification (use judiciously)
+## Playwright verification (only when explicitly requested)
 
 Driving a real Chromium session with the unpacked extension loaded is the strongest form of the manual verification the rule above requires: it exercises the actual extension against real youtube.com pages and captures the actual rendered result, not a description of what the code should do.
 
-**This is expensive**: real setup time, real iteration cycles, real cost, every time. Reserve it for changes where being wrong is costly and a careful code read is not enough to be confident: a new interactive on-page component, a multi-step state machine (undo countdowns, hover-then-click flows), or a change touching several render paths at once. Do **not** reach for it for a copy tweak, a single CSS color value, or a straightforward one-line logic fix, reading the diff already gives full confidence there. Weigh the cost every time; most changes in this repo do not need it.
+**Never run this on your own initiative.** It is expensive: real setup time, real iteration cycles, real cost, every time. Do not decide unilaterally that a change "warrants" it, no matter how novel or multi-step the change is. Only run it when the user explicitly asks for a Playwright test/verification in that conversation. Absent that explicit ask, rely on a careful code read and, if needed, the lighter DevTools-console throwaway-script technique described above instead.
 
-When it is warranted:
+The reference below is kept so that, once the user does ask for it, the technique is ready to go without re-deriving it:
 
 1. Install `playwright-core` in the **scratchpad directory**, never in this repo: `npm init -y && npm install playwright-core --no-save` (run `npx --yes playwright install chromium` first if the browser binary is missing).
 2. Launch a **headed persistent context**, extensions do not load in a plain headless launch: `chromium.launchPersistentContext(userDataDir, { headless: false, channel: 'chromium', args: ['--disable-extensions-except=<repo path>', '--load-extension=<repo path>', '--no-first-run'] })`.
