@@ -175,7 +175,6 @@
 
 .toggle-grid-large .toggle-item:hover {
     background-color: var(--bg-quaternary);
-    border-color: var(--accent-blue);
 }
 
 .toggle-grid-large .toggle-label {
