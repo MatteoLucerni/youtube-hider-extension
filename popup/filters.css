@@ -28,12 +28,12 @@
 
 .tooltip-text {
     visibility: hidden;
-    width: 160px;
+    width: 170px;
     background-color: var(--bg-quaternary);
     color: var(--text-primary);
     text-align: center;
     border-radius: var(--radius-sm);
-    padding: 8px;
+    padding: 10px;
     position: absolute;
     z-index: 1000;
     bottom: 125%;
@@ -202,7 +202,7 @@
     justify-content: center;
     gap: 6px;
     margin: 0 auto;
-    padding: 6px 12px;
+    padding: 8px 14px;
     border-radius: var(--radius-sm);
     background-color: rgba(239, 68, 68, 0.12);
     border: 1px solid rgba(239, 68, 68, 0.35);
@@ -308,11 +308,11 @@ body.easy-mode-off .date-filter-group .date-overlap-warning {
 .whitelist-chip {
     display: inline-flex;
     align-items: center;
-    gap: 4px;
+    gap: 5px;
     background: var(--bg-tertiary);
     border: 1px solid var(--border-color);
     border-radius: var(--radius-pill);
-    padding: 2px 8px 2px 10px;
+    padding: 4px 10px 4px 12px;
     max-width: 220px;
     transition: border-color 0.2s var(--ease-standard);
 }
@@ -365,7 +365,7 @@ body.easy-mode-off .date-filter-group .date-overlap-warning {
 
 .add-channel-btn {
     width: 100%;
-    padding: 7px 12px;
+    padding: 10px 14px;
     font-size: 12px;
     font-weight: 500;
     color: var(--text-secondary);
