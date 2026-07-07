@@ -261,7 +261,7 @@ function startSpotlightTour() {
     },
     {
       title: 'Extra Settings',
-      desc: 'Switch between Simple and Advanced interface, and turn on "Hide on-page controls" anytime to remove this button (and the inline Whitelist and Blacklist buttons) while filtering keeps working in the background.',
+      desc: 'Turn on "Advanced Controls" to switch to the Advanced interface, and turn on "Hide on-page controls" anytime to remove this button (and the inline Whitelist and Blacklist buttons) while filtering keeps working in the background.',
       getRect: () => getHeaderDropdownRect(),
       section: 'extra-settings',
     },
