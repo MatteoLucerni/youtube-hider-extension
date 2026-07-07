@@ -237,7 +237,7 @@ body.easy-mode-on .card-compact-toggle.easy-mode-simple {
 }
 
 body.easy-mode-on .toggle-grid.easy-mode-simple {
-    display: grid !important;
+    display: flex !important;
 }
 
 body.easy-mode-on .easy-mode-advanced {
@@ -249,7 +249,7 @@ body.easy-mode-off .card-compact-toggle.easy-mode-simple {
 }
 
 body.easy-mode-off .easy-mode-advanced {
-    display: grid !important;
+    display: flex !important;
 }
 
 body.easy-mode-on .setting-card-easy-mode .card-compact-toggle {

@@ -153,10 +153,6 @@
     margin-top: 0;
 }
 
-.setting-card-compact .toggle-grid-single {
-    width: auto;
-}
-
 .setting-card-compact .easy-mode-advanced {
     flex-direction: column;
 }

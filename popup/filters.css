@@ -96,9 +96,14 @@
     border-color: transparent transparent var(--bg-quaternary) transparent;
 }
 
-/* Remove margin-bottom for toggle-item labels and improve alignment */
+/* Toggle-item labels sit in a list row: left-align text, let it shrink/ellipsize
+   next to the fixed-width switch instead of centering like a standalone label */
 .toggle-item .label-content {
     margin-bottom: 0;
+    justify-content: flex-start;
+    width: auto;
+    flex: 1;
+    min-width: 0;
 }
 
 /* Ensure tooltip icon is vertically aligned with text */
@@ -118,28 +123,15 @@
     z-index: 10;
 }
 
-/* Tooltip positioning for toggle-grid items to prevent overflow */
-/* Left column items: align tooltip to left */
-.toggle-grid .toggle-item:nth-child(odd) .tooltip-text {
+/* Tooltip positioning for toggle-grid items: rows are full-width now, so
+   the tooltip always opens aligned to the left edge of the row */
+.toggle-grid .toggle-item .tooltip-text {
     left: 0;
     transform: translateX(0);
 }
 
-.toggle-grid .toggle-item:nth-child(odd) .tooltip-text::after {
+.toggle-grid .toggle-item .tooltip-text::after {
     left: 15px;
-    margin-left: 0;
-}
-
-/* Right column items: align tooltip to right */
-.toggle-grid .toggle-item:nth-child(even) .tooltip-text {
-    left: auto;
-    right: 0;
-    transform: translateX(0);
-}
-
-.toggle-grid .toggle-item:nth-child(even) .tooltip-text::after {
-    left: auto;
-    right: 15px;
     margin-left: 0;
 }
 
