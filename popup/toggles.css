@@ -152,6 +152,53 @@
     cursor: not-allowed;
 }
 
+/* Boxed row variant: each toggle sits in its own bordered box with the
+   label above the switch, instead of the label-left/switch-right list row.
+   Items wrap onto additional rows when they no longer fit at a readable width. */
+.toggle-grid-large {
+    flex-direction: row;
+    flex-wrap: wrap;
+    gap: var(--spacing-sm);
+}
+
+.toggle-grid-large .toggle-item {
+    flex: 1 1 68px;
+    min-width: 68px;
+    border: 1px solid var(--border-color);
+    border-radius: var(--radius-md);
+    background-color: var(--bg-tertiary);
+}
+
+.toggle-grid-large .toggle-item:first-child {
+    border-top: 1px solid var(--border-color);
+}
+
+.toggle-grid-large .toggle-item:hover {
+    background-color: var(--bg-quaternary);
+    border-color: var(--accent-blue);
+}
+
+.toggle-grid-large .toggle-label {
+    flex-direction: column;
+    justify-content: center;
+    padding: var(--spacing-sm) var(--spacing-xs);
+    min-height: 64px;
+    text-align: center;
+}
+
+.toggle-grid-large .label-content {
+    justify-content: center;
+    flex: none;
+    width: auto;
+}
+
+.toggle-grid-large .toggle-text {
+    white-space: normal;
+    overflow: visible;
+    text-overflow: clip;
+    text-align: center;
+}
+
 .footer-container {
     display: flex;
     flex-direction: row;

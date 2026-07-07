@@ -135,6 +135,18 @@
     margin-left: 0;
 }
 
+/* Boxed toggle-grid items are narrow columns, not full-width rows: center
+   the tooltip under the icon instead of aligning it to the column's edge */
+.toggle-grid-large .toggle-item .tooltip-text {
+    left: 50%;
+    transform: translateX(-50%);
+}
+
+.toggle-grid-large .toggle-item .tooltip-text::after {
+    left: 50%;
+    margin-left: -5px;
+}
+
 /* Date sub-filter: column layout with fixed width */
 .date-sub-filter {
     flex-direction: column;
