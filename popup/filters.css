@@ -28,24 +28,24 @@
 
 .tooltip-text {
     visibility: hidden;
-    width: 160px;
+    width: 170px;
     background-color: var(--bg-quaternary);
     color: var(--text-primary);
     text-align: center;
     border-radius: var(--radius-sm);
-    padding: 8px;
+    padding: 10px;
     position: absolute;
     z-index: 1000;
     bottom: 125%;
     left: 50%;
     transform: translateX(-50%);
     opacity: 0;
-    transition: opacity 0.3s;
+    transition: opacity 0.2s var(--ease-standard);
     font-size: 11px;
     font-weight: 400;
     line-height: 1.4;
     border: 1px solid var(--border-color);
-    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.3);
+    box-shadow: var(--shadow-md);
     pointer-events: none;
     white-space: normal;
 }
@@ -96,9 +96,14 @@
     border-color: transparent transparent var(--bg-quaternary) transparent;
 }
 
-/* Remove margin-bottom for toggle-item labels and improve alignment */
+/* Toggle-item labels sit in a list row: left-align text, let it shrink/ellipsize
+   next to the fixed-width switch instead of centering like a standalone label */
 .toggle-item .label-content {
     margin-bottom: 0;
+    justify-content: flex-start;
+    width: auto;
+    flex: 1;
+    min-width: 0;
 }
 
 /* Ensure tooltip icon is vertically aligned with text */
@@ -118,28 +123,15 @@
     z-index: 10;
 }
 
-/* Tooltip positioning for toggle-grid items to prevent overflow */
-/* Left column items: align tooltip to left */
-.toggle-grid .toggle-item:nth-child(odd) .tooltip-text {
+/* Tooltip positioning for toggle-grid items: rows are full-width now, so
+   the tooltip always opens aligned to the left edge of the row */
+.toggle-grid .toggle-item .tooltip-text {
     left: 0;
     transform: translateX(0);
 }
 
-.toggle-grid .toggle-item:nth-child(odd) .tooltip-text::after {
+.toggle-grid .toggle-item .tooltip-text::after {
     left: 15px;
-    margin-left: 0;
-}
-
-/* Right column items: align tooltip to right */
-.toggle-grid .toggle-item:nth-child(even) .tooltip-text {
-    left: auto;
-    right: 0;
-    transform: translateX(0);
-}
-
-.toggle-grid .toggle-item:nth-child(even) .tooltip-text::after {
-    left: auto;
-    right: 15px;
     margin-left: 0;
 }
 
@@ -202,7 +194,7 @@
     justify-content: center;
     gap: 6px;
     margin: 0 auto;
-    padding: 6px 12px;
+    padding: 8px 14px;
     border-radius: var(--radius-sm);
     background-color: rgba(239, 68, 68, 0.12);
     border: 1px solid rgba(239, 68, 68, 0.35);
@@ -308,17 +300,26 @@ body.easy-mode-off .date-filter-group .date-overlap-warning {
 .whitelist-chip {
     display: inline-flex;
     align-items: center;
-    gap: 4px;
+    gap: 5px;
     background: var(--bg-tertiary);
     border: 1px solid var(--border-color);
-    border-radius: 12px;
-    padding: 2px 8px 2px 10px;
+    border-radius: var(--radius-pill);
+    padding: 4px 10px 4px 12px;
     max-width: 220px;
+    transition: border-color 0.2s var(--ease-standard);
+}
+
+.whitelist-chip:hover {
+    border-color: var(--toggle-inactive);
 }
 
 .blacklist-chip {
     background: rgba(197, 34, 31, 0.08);
     border-color: rgba(197, 34, 31, 0.35);
+}
+
+.blacklist-chip:hover {
+    border-color: rgba(197, 34, 31, 0.55);
 }
 
 .whitelist-chip-label {
@@ -356,7 +357,7 @@ body.easy-mode-off .date-filter-group .date-overlap-warning {
 
 .add-channel-btn {
     width: 100%;
-    padding: 7px 12px;
+    padding: 10px 14px;
     font-size: 12px;
     font-weight: 500;
     color: var(--text-secondary);
@@ -364,7 +365,7 @@ body.easy-mode-off .date-filter-group .date-overlap-warning {
     border: 1px solid var(--border-color);
     border-radius: var(--radius-sm);
     cursor: pointer;
-    transition: background 0.15s, color 0.15s, border-color 0.15s;
+    transition: background-color 0.15s var(--ease-standard), color 0.15s var(--ease-standard), border-color 0.15s var(--ease-standard);
     text-align: center;
 }
 

@@ -1,5 +1,12 @@
 # Changelog
 
+### Version 3.1.7
+
+**Changed**
+
+- Reworked the settings popup visuals: per-filter card icons, a single-column list layout for the per-surface toggles (replacing the previous multi-column grid), refreshed spacing, radii, shadows, and gradient toggle switches
+- The Blacklist and Whitelist buttons' pending state during their 3-second undo countdown now says "Undo" instead of "Cancel"
+
 ### Version 3.1.6
 
 **Fixed**
