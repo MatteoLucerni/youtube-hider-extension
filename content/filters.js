@@ -296,7 +296,7 @@ function createWhitelistButton(channel) {
     if (pendingContainer)
       pendingContainer.dataset.ytHiderPendingAction = '1';
 
-    btn.innerHTML = `<span class="yt-hider-whitelist-label">Cancel</span>${buildUndoCountdownMarkup(UNDO_WINDOW_SECONDS)}`;
+    btn.innerHTML = `<span class="yt-hider-whitelist-label">Undo</span>${buildUndoCountdownMarkup(UNDO_WINDOW_SECONDS)}`;
     btn.classList.add('yt-hider-whitelist-btn-pending');
 
     cancelCountdown = startUndoCountdown(btn, () => {
@@ -351,7 +351,7 @@ function createBlacklistButton(channel, onCommit) {
     pendingContainer = btn.closest('[data-yt-hider-dimmed]');
     if (pendingContainer) pendingContainer.dataset.ytHiderPendingAction = '1';
 
-    btn.innerHTML = `<span class="yt-hider-whitelist-label">Cancel</span>${buildUndoCountdownMarkup(UNDO_WINDOW_SECONDS)}`;
+    btn.innerHTML = `<span class="yt-hider-whitelist-label">Undo</span>${buildUndoCountdownMarkup(UNDO_WINDOW_SECONDS)}`;
     btn.classList.add('yt-hider-blacklist-btn-pending');
 
     cancelCountdown = startUndoCountdown(btn, () => {
