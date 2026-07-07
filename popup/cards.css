@@ -5,6 +5,7 @@
     padding: var(--spacing-lg);
     margin-bottom: var(--spacing-lg);
     scroll-margin-top: calc(var(--yh-header-offset, 70px) + 12px);
+    box-shadow: var(--shadow-xs);
 }
 
 .setting-card-easy-mode {
@@ -70,7 +71,7 @@
     color: var(--text-secondary);
     cursor: pointer;
     font-family: inherit;
-    transition: border-color 0.2s ease, background 0.2s ease, color 0.2s ease;
+    transition: border-color 0.2s var(--ease-standard), background-color 0.2s var(--ease-standard), color 0.2s var(--ease-standard);
 }
 
 .filter-mode-option:hover {
@@ -92,27 +93,27 @@
     display: inline-flex;
     align-items: center;
     gap: 5px;
-    padding: 6px 12px;
+    padding: var(--spacing-sm) var(--spacing-lg);
     font-size: 11px;
     font-weight: 500;
-    color: #999;
-    background: #2a2a2a;
-    border: 1px solid #3a3a3a;
-    border-radius: 6px;
+    color: var(--text-tertiary);
+    background: var(--bg-tertiary);
+    border: 1px solid var(--border-color);
+    border-radius: var(--radius-md);
     cursor: pointer;
-    transition: color 0.2s ease, background 0.2s ease, border-color 0.2s ease;
+    transition: color 0.2s var(--ease-standard), background-color 0.2s var(--ease-standard), border-color 0.2s var(--ease-standard);
     font-family: inherit;
     line-height: 1;
 }
 
 .restart-tutorial-btn:hover {
-    color: #e0e0e0;
-    background: #333;
-    border-color: #555;
+    color: var(--text-primary);
+    background: var(--bg-quaternary);
+    border-color: var(--toggle-inactive);
 }
 
 .restart-tutorial-btn:active {
-    background: #3a3a3a;
+    background: var(--border-color);
 }
 
 .restart-tutorial-btn svg {
@@ -122,7 +123,7 @@
 .restart-tutorial-confirm {
     display: none;
     font-size: 11px;
-    color: #10b981;
+    color: var(--accent-green);
     align-items: center;
     gap: 4px;
 }
@@ -278,8 +279,8 @@
 
 .slider {
     width: 100%;
-    height: 3px;
-    border-radius: 2px;
+    height: 4px;
+    border-radius: var(--radius-pill);
     background: var(--toggle-inactive);
     outline: none;
     -webkit-appearance: none;
@@ -289,15 +290,15 @@
 
 .slider::-webkit-slider-runnable-track {
     width: 100%;
-    height: 3px;
-    border-radius: 2px;
+    height: 4px;
+    border-radius: var(--radius-pill);
     background: transparent;
 }
 
 .slider::-moz-range-track {
     width: 100%;
-    height: 3px;
-    border-radius: 2px;
+    height: 4px;
+    border-radius: var(--radius-pill);
     background: transparent;
 }
 
@@ -308,14 +309,16 @@
     height: 14px;
     border-radius: 50%;
     background: var(--text-primary);
+    box-shadow: var(--shadow-sm);
     cursor: pointer;
-    transition: all 0.2s ease;
+    transition: transform 0.2s var(--ease-standard), box-shadow 0.2s var(--ease-standard);
     position: relative;
-    top: -5.5px;
+    top: -5px;
 }
 
 .slider::-webkit-slider-thumb:hover {
     transform: scale(1.15);
+    box-shadow: var(--shadow-md);
 }
 
 .slider::-moz-range-thumb {
@@ -323,13 +326,15 @@
     height: 14px;
     border-radius: 50%;
     background: var(--text-primary);
+    box-shadow: var(--shadow-sm);
     cursor: pointer;
     border: none;
-    transition: all 0.2s ease;
+    transition: transform 0.2s var(--ease-standard), box-shadow 0.2s var(--ease-standard);
 }
 
 .slider::-moz-range-thumb:hover {
     transform: scale(1.15);
+    box-shadow: var(--shadow-md);
 }
 
 .slider-display {

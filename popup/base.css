@@ -19,7 +19,13 @@
     --spacing-2xl: 20px;
     --radius-sm: 5px;
     --radius-md: 6px;
-    --radius-lg: 8px;
+    --radius-lg: 10px;
+    --radius-pill: 999px;
+    --shadow-xs: 0 1px 2px rgba(0, 0, 0, 0.20);
+    --shadow-sm: 0 1px 2px rgba(0, 0, 0, 0.22), 0 2px 5px rgba(0, 0, 0, 0.20);
+    --shadow-md: 0 4px 14px rgba(0, 0, 0, 0.32);
+    --ease-standard: cubic-bezier(0.4, 0, 0.2, 1);
+    --ease-toggle: cubic-bezier(0.22, 1, 0.36, 1);
 }
 
 * {

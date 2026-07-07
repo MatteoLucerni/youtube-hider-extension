@@ -40,12 +40,12 @@
     left: 50%;
     transform: translateX(-50%);
     opacity: 0;
-    transition: opacity 0.3s;
+    transition: opacity 0.2s var(--ease-standard);
     font-size: 11px;
     font-weight: 400;
     line-height: 1.4;
     border: 1px solid var(--border-color);
-    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.3);
+    box-shadow: var(--shadow-md);
     pointer-events: none;
     white-space: normal;
 }
@@ -311,14 +311,23 @@ body.easy-mode-off .date-filter-group .date-overlap-warning {
     gap: 4px;
     background: var(--bg-tertiary);
     border: 1px solid var(--border-color);
-    border-radius: 12px;
+    border-radius: var(--radius-pill);
     padding: 2px 8px 2px 10px;
     max-width: 220px;
+    transition: border-color 0.2s var(--ease-standard);
+}
+
+.whitelist-chip:hover {
+    border-color: var(--toggle-inactive);
 }
 
 .blacklist-chip {
     background: rgba(197, 34, 31, 0.08);
     border-color: rgba(197, 34, 31, 0.35);
+}
+
+.blacklist-chip:hover {
+    border-color: rgba(197, 34, 31, 0.55);
 }
 
 .whitelist-chip-label {
@@ -364,7 +373,7 @@ body.easy-mode-off .date-filter-group .date-overlap-warning {
     border: 1px solid var(--border-color);
     border-radius: var(--radius-sm);
     cursor: pointer;
-    transition: background 0.15s, color 0.15s, border-color 0.15s;
+    transition: background-color 0.15s var(--ease-standard), color 0.15s var(--ease-standard), border-color 0.15s var(--ease-standard);
     text-align: center;
 }
 

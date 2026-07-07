@@ -37,6 +37,11 @@
     display: flex;
     min-width: 0;
     position: relative;
+    transition: background-color 0.2s var(--ease-standard);
+}
+
+.toggle-item:hover {
+    background-color: var(--bg-quaternary);
 }
 
 .toggle-label {
@@ -67,15 +72,17 @@
 .toggle-switch {
     position: relative;
     display: inline-block;
-    width: 28px;
-    height: 16px;
+    width: 36px;
+    height: 20px;
+    flex-shrink: 0;
 }
 
 .toggle-switch-large {
     position: relative;
     display: inline-block;
-    width: 34px;
-    height: 20px;
+    width: 44px;
+    height: 24px;
+    flex-shrink: 0;
 }
 
 .toggle-switch input,
@@ -94,32 +101,40 @@
     right: 0;
     bottom: 0;
     background-color: var(--toggle-inactive);
-    transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
-    border-radius: 20px;
+    box-shadow: inset 0 1px 2px rgba(0, 0, 0, 0.22);
+    transition: background-color 0.32s var(--ease-toggle), box-shadow 0.32s var(--ease-toggle);
+    border-radius: var(--radius-pill);
 }
 
 .toggle-switch .toggle-slider:before {
     position: absolute;
     content: "";
-    height: 10px;
-    width: 10px;
-    left: 3px;
-    bottom: 3px;
+    height: 16px;
+    width: 16px;
+    left: 2px;
+    bottom: 2px;
     background-color: var(--text-primary);
-    transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+    box-shadow: var(--shadow-sm);
+    transition: transform 0.32s var(--ease-toggle), box-shadow 0.2s var(--ease-standard);
     border-radius: 50%;
 }
 
 .toggle-switch-large .toggle-slider:before {
     position: absolute;
     content: "";
-    height: 14px;
-    width: 14px;
+    height: 18px;
+    width: 18px;
     left: 3px;
     bottom: 3px;
     background-color: var(--text-primary);
-    transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+    box-shadow: var(--shadow-sm);
+    transition: transform 0.32s var(--ease-toggle), box-shadow 0.2s var(--ease-standard);
     border-radius: 50%;
+}
+
+.toggle-switch .toggle-slider:hover:before,
+.toggle-switch-large .toggle-slider:hover:before {
+    box-shadow: var(--shadow-md);
 }
 
 .toggle-switch input:checked+.toggle-slider {
@@ -131,16 +146,16 @@
 }
 
 .toggle-switch input:checked+.toggle-slider:before {
-    transform: translateX(12px);
+    transform: translateX(16px);
 }
 
 .toggle-switch-large input:checked+.toggle-slider:before {
-    transform: translateX(14px);
+    transform: translateX(20px);
 }
 
 .toggle-switch input:focus+.toggle-slider,
 .toggle-switch-large input:focus+.toggle-slider {
-    box-shadow: 0 0 0 2px var(--bg-primary), 0 0 0 4px var(--accent-green);
+    box-shadow: 0 0 0 2px var(--bg-primary), 0 0 0 3px var(--accent-green), inset 0 1px 2px rgba(0, 0, 0, 0.22);
 }
 
 .toggle-switch input:disabled+.toggle-slider,
@@ -177,7 +192,7 @@
     text-decoration: none;
     padding: var(--spacing-xs) var(--spacing-sm);
     border-radius: var(--radius-sm);
-    transition: all 0.2s ease;
+    transition: color 0.2s var(--ease-standard), background-color 0.2s var(--ease-standard), transform 0.15s var(--ease-standard);
     white-space: nowrap;
     background-color: transparent;
     display: inline-flex;
