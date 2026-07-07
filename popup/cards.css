@@ -134,6 +134,33 @@
     margin-bottom: var(--spacing-sm);
 }
 
+.card-icon {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    width: 32px;
+    height: 32px;
+    flex-shrink: 0;
+    border-radius: var(--radius-md);
+    color: var(--accent-blue);
+    background: rgba(138, 180, 248, 0.14);
+}
+
+.card-icon svg {
+    width: 16px;
+    height: 16px;
+}
+
+.card-icon-green {
+    color: var(--accent-green);
+    background: rgba(16, 185, 129, 0.14);
+}
+
+.card-icon-red {
+    color: #ef4444;
+    background: rgba(239, 68, 68, 0.14);
+}
+
 .card-compact-info {
     display: flex;
     flex-direction: column;

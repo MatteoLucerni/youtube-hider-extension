@@ -106,8 +106,6 @@ hr {
     -webkit-background-clip: text;
     background-clip: text;
     -webkit-text-fill-color: transparent;
-    text-shadow: 0 0 20px rgba(138, 180, 248, 0.3);
-    animation: glow 2s ease-in-out infinite alternate;
 }
 
 .title-hider {
@@ -127,16 +125,6 @@ hr {
     height: 2px;
     background: linear-gradient(90deg, #8ab4f8, transparent);
     border-radius: 2px;
-}
-
-@keyframes glow {
-    from {
-        filter: drop-shadow(0 0 3px rgba(138, 180, 248, 0.4));
-    }
-
-    to {
-        filter: drop-shadow(0 0 8px rgba(107, 163, 255, 0.6));
-    }
 }
 
 .yt-color {
@@ -250,18 +238,6 @@ body.easy-mode-off .card-compact-toggle.easy-mode-simple {
 
 body.easy-mode-off .easy-mode-advanced {
     display: flex !important;
-}
-
-body.easy-mode-on .setting-card-easy-mode .card-compact-toggle {
-    position: absolute;
-    top: var(--spacing-lg);
-    right: var(--spacing-lg);
-}
-
-body.easy-mode-on .setting-card-easy-mode .card-compact-header {
-    width: 100%;
-    display: block;
-    padding-right: 50px;
 }
 
 body.easy-mode-on .setting-card-compact .setting-group-compact {
