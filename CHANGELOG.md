@@ -5,7 +5,10 @@
 **Changed**
 
 - Reworked the settings popup visuals: per-filter card icons, a single-column list layout for the per-surface toggles (replacing the previous multi-column grid), refreshed spacing, radii, shadows, and gradient toggle switches
+- The "Hide Shorts, Mixes, Playlists & Lives" card's Simple Mode toggles now sit in bordered boxes with the label above the switch, instead of the label-left/switch-right list row used everywhere else; its Advanced Mode toggles keep the standard list row
 - The Blacklist and Whitelist buttons' pending state during their 3-second undo countdown now says "Undo" instead of "Cancel"
+- Replaced the "Interface Mode" Simple/Advanced switch in Extra Settings with a single "Advanced Controls" toggle
+- Moved Filter Mode's info tooltip icon next to its title instead of the card's top-right corner, matching every other section
 
 ### Version 3.1.6
 

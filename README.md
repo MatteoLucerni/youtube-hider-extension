@@ -95,7 +95,7 @@ For a more discreet setup, enable **Hide on-page controls** in **Extra Settings*
 
 ### Simple Mode & Advanced Mode
 
-The popup starts in **Simple Mode** for quick everyday use. When you need page-level control, open **Extra Settings** and use the **Interface Mode** row to switch to **Advanced Mode**, where per-page toggles are available for each filter.
+The popup starts in **Simple Mode** for quick everyday use. When you need page-level control, open **Extra Settings** and turn on **Advanced Controls** to switch to **Advanced Mode**, where per-page toggles are available for each filter.
 
 ### Badge Indicator
 

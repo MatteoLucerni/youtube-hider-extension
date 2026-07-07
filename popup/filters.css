@@ -78,21 +78,16 @@
 }
 
 /* Filter Mode's info icon sits at the top of the popup, so its tooltip opens
-   downward and right-aligned instead of the default upward/centered position */
+   downward instead of the default upward position, staying centered like
+   every other tooltip */
 .filter-mode-tooltip .tooltip-text {
     bottom: auto;
     top: 125%;
-    left: auto;
-    right: 0;
-    transform: none;
 }
 
 .filter-mode-tooltip .tooltip-text::after {
     top: auto;
     bottom: 100%;
-    left: auto;
-    right: 10px;
-    margin-left: 0;
     border-color: transparent transparent var(--bg-quaternary) transparent;
 }
 
@@ -133,6 +128,18 @@
 .toggle-grid .toggle-item .tooltip-text::after {
     left: 15px;
     margin-left: 0;
+}
+
+/* Boxed toggle-grid items are narrow columns, not full-width rows: center
+   the tooltip under the icon instead of aligning it to the column's edge */
+.toggle-grid-large .toggle-item .tooltip-text {
+    left: 50%;
+    transform: translateX(-50%);
+}
+
+.toggle-grid-large .toggle-item .tooltip-text::after {
+    left: 50%;
+    margin-left: -5px;
 }
 
 /* Date sub-filter: column layout with fixed width */

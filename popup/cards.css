@@ -46,8 +46,8 @@
 .filter-mode-title {
     display: flex;
     align-items: center;
-    justify-content: space-between;
-    gap: var(--spacing-md);
+    justify-content: flex-start;
+    gap: 4px;
 }
 
 .filter-mode-options {
@@ -210,18 +210,6 @@
     align-items: flex-end;
     gap: 4px;
     flex-shrink: 0;
-}
-
-.mode-switch {
-    display: flex;
-    align-items: center;
-    gap: var(--spacing-sm);
-    flex-shrink: 0;
-}
-
-.mode-label {
-    font-size: 12px;
-    color: var(--text-secondary);
 }
 
 .card-title {
