@@ -1,5 +1,11 @@
 # Changelog
 
+### Version 3.1.8
+
+**Fixed**
+
+- Already-watched videos were not hidden on channel pages when rendered as the new `yt-lockup-view-model` cards. The Hide Watched filter used its own hardcoded list of container selectors that, on the channel surface, was missing `yt-lockup-view-model`, so those cards were never matched and stayed visible. It now reuses the shared `getVideoContainerSelectors`/`findOutermostMatch` logic used by every other filter, so the same renderer is handled consistently across all surfaces
+
 ### Version 3.1.7
 
 **Changed**

@@ -548,20 +548,7 @@ function hideWatched(pathname) {
       const pct = parseFloat(bar.style.width) || 0;
       if (pct <= hideThreshold) return;
 
-      let item = bar;
-
-      const isChannelPage = isChannelPagePath(pathname);
-
-      const selectors =
-        pathname === '/watch'
-          ? 'ytd-compact-video-renderer, ytd-rich-item-renderer, ytd-video-renderer, yt-lockup-view-model, ytm-video-with-context-renderer, ytm-compact-video-renderer'
-          : isChannelPage
-            ? 'ytd-compact-video-renderer, ytd-rich-item-renderer, ytd-video-renderer, ytd-grid-video-renderer, ytm-video-with-context-renderer, ytm-compact-video-renderer'
-            : 'ytd-compact-video-renderer, ytd-rich-item-renderer, ytd-video-renderer, ytm-video-with-context-renderer, ytm-compact-video-renderer, ytm-rich-item-renderer';
-
-      while (item && !item.matches(selectors)) {
-        item = item.parentElement;
-      }
+      const item = findOutermostMatch(bar, getVideoContainerSelectors());
       if (!item) return;
 
       applyFilter(item, 'Already watched');
