@@ -1,5 +1,11 @@
 # Changelog
 
+### Version 3.1.9
+
+**Fixed**
+
+- Whitelisted (and blacklisted) channels were not recognized for many recommended videos in the Watch page sidebar. The MAIN-world page bridge that builds the video-to-channel cache walked YouTube's response JSON only up to a depth of 14, but on the Watch page the related lockups sit at depth 17 in `ytInitialData`, so their channel handle was never cached. Those cards resolved to an unknown channel, which meant the Channel Whitelist could not exempt them and they were hidden anyway. The traversal depth limit was raised so those nodes are reached and cached. This only adds channel identity coverage: it never changes the hide/dim decision of cards that already resolved correctly
+
 ### Version 3.1.8
 
 **Fixed**

@@ -176,7 +176,7 @@
   }
 
   function walk(node, depth) {
-    if (!node || depth > 14 || typeof node !== 'object') return;
+    if (!node || depth > 30 || typeof node !== 'object') return;
 
     try {
       if (node.externalId && (node.vanityChannelUrl || node.canonicalBaseUrl)) {
