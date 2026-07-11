@@ -1,5 +1,13 @@
 # Changelog
 
+### Version 3.1.10
+
+**Fixed**
+
+- The hover "Blacklist" pill shown on video thumbnails kept appearing even after the master extension switch was turned off. Its eligibility check never looked at the master switch, only at the Channel Blacklist's own settings, so the on-page control survived the one setting meant to tear down every filter and every piece of on-page UI at once. It now also checks the master switch, matching every other on-page element
+- The "High filtering detected" toast could still appear after the master extension switch was turned off. Its detection logic ran on every DOM mutation regardless of the master switch, only skipping if the toast was already dismissed or shown
+- A channel could still get silently added to the Channel Blacklist after the master switch was turned off (or "Hide on-page controls" was turned on, or the page navigated away) if the hover pill's Blacklist button had already started its 3-second undo countdown. Removing the pill in those cases discarded the button but left its countdown timer running in the background, so the deferred write still fired once the countdown ended. Removing the pill now also cancels any pending countdown, the same way it is already cancelled when the underlying video card disappears from the page on its own
+
 ### Version 3.1.9
 
 **Fixed**

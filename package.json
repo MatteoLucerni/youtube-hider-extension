@@ -1,6 +1,6 @@
 {
   "name": "youtube-hider-extension",
-  "version": "3.1.9",
+  "version": "3.1.10",
   "description": "Chrome extension that hides YouTube videos by view count, upload age and more.",
   "private": true,
   "type": "commonjs",

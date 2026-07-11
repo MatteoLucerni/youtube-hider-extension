@@ -349,6 +349,7 @@ function showWhatsNewToast(version) {
 }
 
 function detectInfiniteLoaderLoop(mutations) {
+  if (!prefs.extensionEnabled) return;
   if (warningDismissed || warningElement) return;
   if (window.location.pathname === '/watch') return;
 

@@ -164,6 +164,7 @@ function stopHoverPillWatchdog() {
 
 function isBlacklistHoverEligible(pathname) {
   return (
+    prefs.extensionEnabled &&
     prefs.channelBlacklistEnabled &&
     !prefs.hideInterfaceElements &&
     isCoreFilterPath(pathname)
@@ -206,6 +207,7 @@ function clearBlacklistHoverButton() {
 }
 
 function removeBlacklistHoverButton() {
+  if (hoverPillBtn && hoverPillBtn.ytHiderCancelPending) hoverPillBtn.ytHiderCancelPending();
   hoverPillPending = false;
   clearBlacklistHoverButton();
 }
