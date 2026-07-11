@@ -20,18 +20,12 @@ function injectInlineBlacklistStyles() {
   const style = document.createElement('style');
   style.id = 'yt-hider-blacklist-hover-styles';
   style.textContent = `
-    [data-yt-hider-hover-anchor] {
-      position: relative !important;
-    }
     .yt-hider-blacklist-hover-wrapper {
-      position: absolute;
-      top: 14px;
-      left: 50%;
+      position: fixed;
       transform: translateX(-50%);
-      z-index: 30;
+      z-index: 2147483647;
       pointer-events: none;
       width: max-content;
-      max-width: calc(100% - 12px);
       animation: yt-hider-blacklist-pill-in 180ms ease-out;
     }
     .yt-hider-blacklist-hover-wrapper .yt-hider-blacklist-btn {
@@ -141,9 +135,22 @@ function trackMouseForHoverPillWatchdog(e) {
   lastMouseClientY = e.clientY;
 }
 
+function positionHoverPill() {
+  if (!hoverPillEl || !hoverPillAnchor) return;
+  if (!hoverPillAnchor.isConnected) {
+    removeBlacklistHoverButton();
+    return;
+  }
+  const rect = hoverPillAnchor.getBoundingClientRect();
+  hoverPillEl.style.left = rect.left + rect.width / 2 + 'px';
+  hoverPillEl.style.top = rect.top + 14 + 'px';
+  hoverPillEl.style.maxWidth = Math.max(24, rect.width - 12) + 'px';
+}
+
 function startHoverPillWatchdog() {
   if (hoverPillWatchdog) return;
   hoverPillWatchdog = setInterval(() => {
+    positionHoverPill();
     if (!hoverPillContainer || hoverPillPending) return;
     const rect = hoverPillContainer.getBoundingClientRect();
     const stillInside =
@@ -199,7 +206,6 @@ function removeHoverPillAnimated(wrapper) {
 function clearBlacklistHoverButton() {
   stopHoverPillWatchdog();
   removeHoverPillAnimated(hoverPillEl);
-  if (hoverPillAnchor) delete hoverPillAnchor.dataset.ytHiderHoverAnchor;
   hoverPillEl = null;
   hoverPillContainer = null;
   hoverPillAnchor = null;
@@ -219,7 +225,6 @@ function showBlacklistHoverButton(container, channel) {
   clearBlacklistHoverButton();
 
   const anchor = getHoverThumbnailAnchor(container);
-  anchor.dataset.ytHiderHoverAnchor = '1';
 
   const wrapper = document.createElement('div');
   wrapper.className = 'yt-hider-blacklist-hover-wrapper';
@@ -236,12 +241,13 @@ function showBlacklistHoverButton(container, channel) {
   });
 
   wrapper.appendChild(btn);
-  anchor.appendChild(wrapper);
+  document.body.appendChild(wrapper);
 
   hoverPillEl = wrapper;
   hoverPillContainer = container;
   hoverPillAnchor = anchor;
   hoverPillBtn = btn;
+  positionHoverPill();
   startHoverPillWatchdog();
 }
 
@@ -304,4 +310,6 @@ function attachBlacklistHoverListener() {
   document.addEventListener('mouseover', handleBlacklistHoverOver, true);
   document.addEventListener('mouseout', handleBlacklistHoverOut, true);
   document.addEventListener('mousemove', trackMouseForHoverPillWatchdog, true);
+  document.addEventListener('scroll', positionHoverPill, true);
+  window.addEventListener('resize', positionHoverPill);
 }
