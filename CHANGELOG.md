@@ -1,5 +1,20 @@
 # Changelog
 
+### Version 3.1.11
+
+**Fixed**
+
+- YouTube's own hover preview no longer starts on unfiltered videos on Home, Subscriptions, and Search. Since the hover "Blacklist" pill was introduced, the guard that blocks the preview on dimmed cards also treated the entire video card hosting the pill as a blocked area, not just the pill itself, so it swallowed the `mouseenter` event YouTube's preview player listens for on `ytd-rich-item-renderer`. Channel pages and the Watch sidebar were unaffected because their `yt-lockup-view-model` cards use an animated thumbnail overlay driven by pointer events instead. The guard now only blocks hover events on the pill element itself; dimmed cards keep suppressing the preview as intended
+- On Search results, the hover "Blacklist" pill was covered by YouTube's inline preview player as soon as the preview started, making it impossible to click. Search still renders legacy `ytd-video-renderer` cards, where the preview is a `ytd-video-preview` player portaled to the `ytd-app` level and drawn larger than the thumbnail, so it painted above anything nested inside the thumbnail regardless of z-index. The pill wrapper is now a `position: fixed` top-level element appended to `document.body`, positioned from the thumbnail's bounding rect and realigned on scroll, resize, and by its existing watchdog, so it always stays on top of the preview. If the underlying card leaves the DOM, the pill is torn down and any pending blacklist countdown is cancelled, preserving the 3.1.10 behavior
+
+### Version 3.1.10
+
+**Fixed**
+
+- The hover "Blacklist" pill shown on video thumbnails kept appearing even after the master extension switch was turned off. Its eligibility check never looked at the master switch, only at the Channel Blacklist's own settings, so the on-page control survived the one setting meant to tear down every filter and every piece of on-page UI at once. It now also checks the master switch, matching every other on-page element
+- The "High filtering detected" toast could still appear after the master extension switch was turned off. Its detection logic ran on every DOM mutation regardless of the master switch, only skipping if the toast was already dismissed or shown
+- A channel could still get silently added to the Channel Blacklist after the master switch was turned off (or "Hide on-page controls" was turned on, or the page navigated away) if the hover pill's Blacklist button had already started its 3-second undo countdown. Removing the pill in those cases discarded the button but left its countdown timer running in the background, so the deferred write still fired once the countdown ended. Removing the pill now also cancels any pending countdown, the same way it is already cancelled when the underlying video card disappears from the page on its own
+
 ### Version 3.1.9
 
 **Fixed**
