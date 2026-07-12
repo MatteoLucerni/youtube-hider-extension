@@ -23,7 +23,7 @@ function injectInlineBlacklistStyles() {
     .yt-hider-blacklist-hover-wrapper {
       position: fixed;
       transform: translateX(-50%);
-      z-index: 2147483647;
+      z-index: 2000;
       pointer-events: none;
       width: max-content;
       animation: yt-hider-blacklist-pill-in 180ms ease-out;
