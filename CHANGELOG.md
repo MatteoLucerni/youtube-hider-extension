@@ -1,5 +1,11 @@
 # Changelog
 
+### Version 3.1.12
+
+**Fixed**
+
+- The hover "Blacklist" pill shown on video thumbnails was drawn on top of YouTube's own header (masthead) when a card was scrolled up against it, unlike the dim-mode overlay badge, which correctly slides under the header. The pill is a `position: fixed` top-level element and carried the maximum possible z-index (2147483647), placing it above everything, header included. That maximum value was never actually needed: now that the pill lives at the document root (appended to `document.body`) instead of nested inside the thumbnail, any positive z-index is enough to stay above YouTube's inline preview player, which paints at stacking level 0. The pill's z-index is now 2000, safely above the preview player but below the masthead's 2020, so it passes under the header the same way the overlay badge does, on every surface
+
 ### Version 3.1.11
 
 **Fixed**
