@@ -119,17 +119,24 @@ function extractViewCount(text) {
   return NaN;
 }
 
+const VIDEO_CONTAINER_SELECTORS_WATCH =
+  'ytd-compact-video-renderer, ytd-rich-item-renderer, ytd-video-renderer, yt-lockup-view-model, ytm-video-with-context-renderer, ytm-compact-video-renderer';
+const VIDEO_CONTAINER_SELECTORS_CHANNEL =
+  'ytd-compact-video-renderer, ytd-rich-item-renderer, ytd-video-renderer, ytd-grid-video-renderer, yt-lockup-view-model, ytm-video-with-context-renderer, ytm-compact-video-renderer';
+const VIDEO_CONTAINER_SELECTORS_DEFAULT =
+  'ytd-compact-video-renderer, ytd-rich-item-renderer, ytd-video-renderer, yt-lockup-view-model, ytm-video-with-context-renderer, ytm-compact-video-renderer, ytm-rich-item-renderer';
+
 function getVideoContainerSelectors() {
   const pathname = window.location.pathname;
   const isChannelPage = isChannelPagePath(pathname);
 
   if (pathname === '/watch') {
-    return 'ytd-compact-video-renderer, ytd-rich-item-renderer, ytd-video-renderer, yt-lockup-view-model, ytm-video-with-context-renderer, ytm-compact-video-renderer';
+    return VIDEO_CONTAINER_SELECTORS_WATCH;
   }
   if (isChannelPage) {
-    return 'ytd-compact-video-renderer, ytd-rich-item-renderer, ytd-video-renderer, ytd-grid-video-renderer, yt-lockup-view-model, ytm-video-with-context-renderer, ytm-compact-video-renderer';
+    return VIDEO_CONTAINER_SELECTORS_CHANNEL;
   }
-  return 'ytd-compact-video-renderer, ytd-rich-item-renderer, ytd-video-renderer, yt-lockup-view-model, ytm-video-with-context-renderer, ytm-compact-video-renderer, ytm-rich-item-renderer';
+  return VIDEO_CONTAINER_SELECTORS_DEFAULT;
 }
 
 function findOutermostMatch(element, selectors) {

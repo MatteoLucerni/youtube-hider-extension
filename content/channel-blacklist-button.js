@@ -263,6 +263,9 @@ function handleBlacklistHoverOver(e) {
   }
   if (!isBlacklistHoverEligible(window.location.pathname)) return;
   if (!e.target || !e.target.closest) return;
+  if (hoverPillEl && hoverPillContainer && hoverPillContainer.contains(e.target)) {
+    return;
+  }
 
   const container = findOutermostMatch(e.target, getVideoContainerSelectors());
   if (!container) return;
