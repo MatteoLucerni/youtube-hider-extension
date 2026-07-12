@@ -684,8 +684,6 @@ function hideDateFilter() {
 const LIVE_INDICATOR_SELECTORS =
   'badge-shape.yt-badge-shape--thumbnail-live, badge-shape.yt-badge-shape--live, ' +
   'badge-shape.ytBadgeShapeThumbnailLive, badge-shape.ytBadgeShapeLive, ' +
-  '.yt-spec-avatar-shape--live-ring, .yt-spec-avatar-shape__live-badge, ' +
-  '.ytSpecAvatarShapeLiveRing, .ytSpecAvatarShapeLiveBadge, ' +
   'ytd-thumbnail-overlay-time-status-renderer[overlay-style="LIVE"], ' +
   '.badge-style-type-live-now';
 
@@ -751,14 +749,6 @@ function hideNewFormatVideos() {
 
       const result = resolveViewsFromSpans(allSpans);
 
-      try {
-        // logger.log('views-check', {
-        //   views: result ? result.views : NaN,
-        //   threshold: viewsHideThreshold,
-        //   pathname: window.location.pathname,
-        // });
-      } catch (e) {}
-
       if (!result || result.views >= viewsHideThreshold) return;
       if (isLiveVideo(result.span)) return;
 
@@ -819,11 +809,6 @@ function hideShorts() {
     if (entry) forceHide(entry);
   });
 
-  document.querySelectorAll('a[title="Shorts"]').forEach(link => {
-    const entry = link.closest('ytd-guide-entry-renderer');
-    if (entry) forceHide(entry);
-  });
-
   document
     .querySelectorAll('yt-formatted-string[title="Shorts"]')
     .forEach(link => {
@@ -853,14 +838,6 @@ function hideShorts() {
     }
   });
 
-  document
-    .querySelectorAll(
-      'grid-shelf-view-model:has(ytm-shorts-lockup-view-model-v2), grid-shelf-view-model:has(ytm-shorts-lockup-view-model)',
-    )
-    .forEach(node => {
-      forceHide(node);
-    });
-
   document.querySelectorAll('yt-chip-cloud-chip-renderer').forEach(node => {
     const label = node.querySelector('.ytChipShapeChip');
     if (label && label.textContent.trim() === 'Shorts') {
@@ -869,12 +846,8 @@ function hideShorts() {
   });
 
   document.querySelectorAll('ytd-rich-section-renderer').forEach(section => {
-    const allChildren = section.querySelectorAll('*');
-    for (const child of allChildren) {
-      if (child.style.display === 'none' || child.dataset.ytHiderDimmed) {
-        forceHide(section);
-        break;
-      }
+    if (section.querySelector('[data-yt-hider-hidden], [data-yt-hider-dimmed]')) {
+      forceHide(section);
     }
   });
 

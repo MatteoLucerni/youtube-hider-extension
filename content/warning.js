@@ -7,6 +7,8 @@ let lastScrollY = 0;
 let lastLoaderTime = 0;
 const LOADER_THRESHOLD = 4;
 const LOADER_RESET_TIME = 10000;
+const LOADER_LOOP_SELECTORS =
+  'ytd-continuation-item-renderer, ytm-continuation-item-renderer, ytm-spinner, .spinner, .yt-spinner, .loading-spinner';
 
 function removeWarning() {
   if (warningElement) {
@@ -365,12 +367,9 @@ function detectInfiniteLoaderLoop(mutations) {
     if (mutation.type === 'childList' && mutation.addedNodes.length > 0) {
       for (const node of mutation.addedNodes) {
         if (node.nodeType !== 1) continue;
-        const loaderSelectors =
-          'ytd-continuation-item-renderer, ytm-continuation-item-renderer, ytm-spinner, .spinner, .yt-spinner, .loading-spinner';
-
         if (
-          node.matches(loaderSelectors) ||
-          node.querySelector(loaderSelectors)
+          node.matches(LOADER_LOOP_SELECTORS) ||
+          node.querySelector(LOADER_LOOP_SELECTORS)
         ) {
           loaderFound = true;
           break;
