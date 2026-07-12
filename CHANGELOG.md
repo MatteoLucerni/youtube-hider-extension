@@ -1,5 +1,13 @@
 # Changelog
 
+### Version 3.1.13
+
+**Changed**
+
+- Performance pass, no behavior change. Every network response that updated the page bridge's channel cache used to trigger an immediate full-page filtering scan on top of the debounced one already scheduled for the same mutation batch, so heavy pages were scanned twice per infinite-scroll continuation; the redundant immediate scan was removed and the debounced pass now handles both cases. Inside the Shorts filter, two query blocks that exactly duplicated the work of earlier blocks (the guide-entry pass and the `grid-shelf-view-model:has()` pass) were removed, and the check that collapses a `ytd-rich-section-renderer` containing filtered content no longer iterates every descendant of every section reading inline styles: it now runs a single query for the extension's own `data-yt-hider-hidden`/`data-yt-hider-dimmed` markers, which every hidden or dimmed element always carries
+- The video container selector strings, rebuilt on every filter pass and on every mouseover for the hover "Blacklist" pill, are now module-level constants, and the infinite-loader detector no longer redeclares its selector list for every added node in every mutation batch. The hover pill's mouseover handler also returns immediately when the pointer is still inside the card that already owns the pill, skipping a parent-chain walk and several channel-resolution queries that fire on every element boundary crossing within the card
+- The MAIN-world page bridge's video-to-channel and channel-identity caches are now size-capped (2000 and 1000 entries) with oldest-first eviction instead of growing without bound for the whole session. This bounds the size of the serialized cache attribute that gets rewritten and re-parsed on every cache update. Entries already read by the content script are unaffected by eviction, since its own copy of the cache is merged additively and never pruned
+
 ### Version 3.1.12
 
 **Fixed**

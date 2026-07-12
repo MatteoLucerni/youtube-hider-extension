@@ -163,12 +163,8 @@ function onMutations(mutations) {
       m.type === 'attributes' &&
       m.attributeName === YT_HIDER_CHANNELID_CACHE_ATTR,
   );
-  const videoCacheUpdated = cacheChanged && readChannelCacheFromDOM();
-  const channelIdCacheUpdated =
-    channelIdCacheChanged && readChannelIdentityCacheFromDOM();
-  if ((videoCacheUpdated || channelIdCacheUpdated) && prefs.extensionEnabled) {
-    startHiding(window.location.pathname);
-  }
+  if (cacheChanged) readChannelCacheFromDOM();
+  if (channelIdCacheChanged) readChannelIdentityCacheFromDOM();
 
   ensureHeaderButton();
 

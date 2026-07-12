@@ -3,8 +3,22 @@
   const CHANNEL_ID_ATTR = 'data-yt-hider-channelid-cache';
   const cache = {};
   const channelIdCache = {};
+  const videoCacheOrder = [];
+  const channelIdCacheOrder = [];
+  const VIDEO_CACHE_MAX = 2000;
+  const CHANNEL_ID_CACHE_MAX = 1000;
   let cacheDirty = false;
   let channelIdCacheDirty = false;
+
+  function cacheInsert(store, order, key, value, max) {
+    if (!(key in store)) {
+      order.push(key);
+      if (order.length > max) {
+        delete store[order.shift()];
+      }
+    }
+    store[key] = value;
+  }
 
   function extractHandleFromUrlish(value) {
     if (!value) return null;
@@ -16,7 +30,7 @@
     if (!id || !handle) return;
     const key = ('/channel/' + id).toLowerCase();
     if (channelIdCache[key] !== handle) {
-      channelIdCache[key] = handle;
+      cacheInsert(channelIdCache, channelIdCacheOrder, key, handle, CHANNEL_ID_CACHE_MAX);
       channelIdCacheDirty = true;
     }
   }
@@ -188,7 +202,7 @@
       const id = node.lockupViewModel && node.lockupViewModel.contentId;
       if (id && !cache[id]) {
         const handle = handleFromLockup(node.lockupViewModel);
-        if (handle) { cache[id] = handle; cacheDirty = true; }
+        if (handle) { cacheInsert(cache, videoCacheOrder, id, handle, VIDEO_CACHE_MAX); cacheDirty = true; }
       }
     } catch (_) {}
     try {
@@ -196,7 +210,7 @@
         const id = new URLSearchParams(window.location.search).get('v');
         if (id && !cache[id]) {
           const handles = handlesFromVideoOwnerRenderer(node.videoOwnerRenderer);
-          if (handles.length) { cache[id] = handles; cacheDirty = true; }
+          if (handles.length) { cacheInsert(cache, videoCacheOrder, id, handles, VIDEO_CACHE_MAX); cacheDirty = true; }
         }
       }
     } catch (_) {}
@@ -204,21 +218,21 @@
       const id = node.compactVideoRenderer && node.compactVideoRenderer.videoId;
       if (id && !cache[id]) {
         const handle = handleFromByline(node.compactVideoRenderer);
-        if (handle) { cache[id] = handle; cacheDirty = true; }
+        if (handle) { cacheInsert(cache, videoCacheOrder, id, handle, VIDEO_CACHE_MAX); cacheDirty = true; }
       }
     } catch (_) {}
     try {
       const id = node.videoRenderer && node.videoRenderer.videoId;
       if (id && !cache[id]) {
         const handle = handleFromByline(node.videoRenderer);
-        if (handle) { cache[id] = handle; cacheDirty = true; }
+        if (handle) { cacheInsert(cache, videoCacheOrder, id, handle, VIDEO_CACHE_MAX); cacheDirty = true; }
       }
     } catch (_) {}
     try {
       const id = node.gridVideoRenderer && node.gridVideoRenderer.videoId;
       if (id && !cache[id]) {
         const handle = handleFromByline(node.gridVideoRenderer);
-        if (handle) { cache[id] = handle; cacheDirty = true; }
+        if (handle) { cacheInsert(cache, videoCacheOrder, id, handle, VIDEO_CACHE_MAX); cacheDirty = true; }
       }
     } catch (_) {}
 
