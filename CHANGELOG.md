@@ -1,5 +1,11 @@
 # Changelog
 
+### Version 3.1.14
+
+**Fixed**
+
+- Regular videos uploaded by a channel that is currently live streaming were immune to the Minimum Views Filter. The views filter deliberately skips live streams, since their "N watching" text would otherwise be read as a very low view count, but the detection also matched the LIVE ring and badge YouTube draws on the channel avatar of every card while that channel is live. Those indicators mean "the channel is live now", not "this video is a live stream", so every upload from a live channel was wrongly exempted for the duration of the stream. The check now only looks at per-video indicators (the LIVE badge on the thumbnail itself), which a regular upload never carries
+
 ### Version 3.1.13
 
 **Changed**
