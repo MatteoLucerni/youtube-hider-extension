@@ -27,25 +27,32 @@ function injectInlineBlacklistStyles() {
       pointer-events: none;
       width: max-content;
       animation: yt-hider-blacklist-pill-in 180ms ease-out;
+      transition: opacity 90ms ease-out;
     }
     .yt-hider-blacklist-hover-wrapper .yt-hider-blacklist-btn {
       max-width: 100%;
     }
-    .yt-hider-blacklist-hover-wrapper.yt-hider-blacklist-pill-leaving {
-      animation: yt-hider-blacklist-pill-out 150ms ease-in forwards;
+    .yt-hider-blacklist-hover-wrapper.yt-hider-blacklist-pill-quick {
+      animation: yt-hider-blacklist-pill-quick-in 90ms ease-out;
+    }
+    .yt-hider-blacklist-hover-wrapper.yt-hider-blacklist-pill-hidden {
+      opacity: 0;
+      visibility: hidden;
+      transition: none;
     }
     @keyframes yt-hider-blacklist-pill-in {
       from { opacity: 0; transform: translateX(-50%) translateY(-10px); }
       to { opacity: 1; transform: translateX(-50%) translateY(0); }
     }
-    @keyframes yt-hider-blacklist-pill-out {
-      from { opacity: 1; transform: translateX(-50%) translateY(0); }
-      to { opacity: 0; transform: translateX(-50%) translateY(-10px); }
+    @keyframes yt-hider-blacklist-pill-quick-in {
+      from { opacity: 0; transform: translateX(-50%) scale(0.96); }
+      to { opacity: 1; transform: translateX(-50%) scale(1); }
     }
     @media (prefers-reduced-motion: reduce) {
       .yt-hider-blacklist-hover-wrapper,
-      .yt-hider-blacklist-hover-wrapper.yt-hider-blacklist-pill-leaving {
+      .yt-hider-blacklist-hover-wrapper.yt-hider-blacklist-pill-quick {
         animation: none;
+        transition: none;
       }
     }
   `;
@@ -119,8 +126,6 @@ function removeInlineBlacklistButton() {
   );
 }
 
-// ── Hover blacklist pill on video cards, filtered or not ──
-
 let hoverPillEl = null;
 let hoverPillContainer = null;
 let hoverPillAnchor = null;
@@ -129,10 +134,29 @@ let hoverPillPending = false;
 let lastMouseClientX = 0;
 let lastMouseClientY = 0;
 let hoverPillWatchdog = null;
+let hoverPillFrame = null;
+let hoverPillScrolling = false;
+let hoverPillScrollIdleTimer = null;
+
+const HOVER_PILL_TOP_OFFSET = 14;
+const HOVER_PILL_SCROLL_IDLE_MS = 100;
 
 function trackMouseForHoverPillWatchdog(e) {
   lastMouseClientX = e.clientX;
   lastMouseClientY = e.clientY;
+}
+
+function getHoverPillViewportTop() {
+  const bar = document.querySelector('ytd-masthead, ytm-mobile-topbar-renderer');
+  if (!bar) return 0;
+  const rect = bar.getBoundingClientRect();
+  if (rect.top > 0 || rect.bottom <= 0) return 0;
+  return rect.bottom;
+}
+
+function setHoverPillHidden(hidden) {
+  if (!hoverPillEl) return;
+  hoverPillEl.classList.toggle('yt-hider-blacklist-pill-hidden', hidden);
 }
 
 function positionHoverPill() {
@@ -142,9 +166,53 @@ function positionHoverPill() {
     return;
   }
   const rect = hoverPillAnchor.getBoundingClientRect();
+  const top = rect.top + HOVER_PILL_TOP_OFFSET;
+
+  if (top < getHoverPillViewportTop() || top > window.innerHeight) {
+    setHoverPillHidden(true);
+    return;
+  }
+
+  setHoverPillHidden(false);
   hoverPillEl.style.left = rect.left + rect.width / 2 + 'px';
-  hoverPillEl.style.top = rect.top + 14 + 'px';
+  hoverPillEl.style.top = top + 'px';
   hoverPillEl.style.maxWidth = Math.max(24, rect.width - 12) + 'px';
+}
+
+function schedulePositionHoverPill() {
+  if (hoverPillFrame) return;
+  hoverPillFrame = requestAnimationFrame(() => {
+    hoverPillFrame = null;
+    positionHoverPill();
+  });
+}
+
+function onHoverPillScroll() {
+  hoverPillScrolling = true;
+  if (hoverPillScrollIdleTimer) clearTimeout(hoverPillScrollIdleTimer);
+  hoverPillScrollIdleTimer = setTimeout(onHoverPillScrollIdle, HOVER_PILL_SCROLL_IDLE_MS);
+  if (!hoverPillEl) return;
+  if (hoverPillPending) {
+    setHoverPillHidden(true);
+    return;
+  }
+  clearBlacklistHoverButton();
+}
+
+function onHoverPillScrollIdle() {
+  hoverPillScrollIdleTimer = null;
+  hoverPillScrolling = false;
+  if (hoverPillPending) {
+    positionHoverPill();
+    return;
+  }
+  if (hoverPillEl) return;
+
+  const stack = document.elementsFromPoint(lastMouseClientX, lastMouseClientY);
+  for (const el of stack) {
+    tryShowBlacklistHoverPill(el, true);
+    if (hoverPillEl) return;
+  }
 }
 
 function startHoverPillWatchdog() {
@@ -191,21 +259,9 @@ function getHoverThumbnailAnchor(container) {
   );
 }
 
-function removeHoverPillAnimated(wrapper) {
-  if (!wrapper || !wrapper.isConnected) return;
-  wrapper.classList.add('yt-hider-blacklist-pill-leaving');
-  const onAnimationEnd = e => {
-    if (e.target !== wrapper) return;
-    wrapper.removeEventListener('animationend', onAnimationEnd);
-    wrapper.remove();
-  };
-  wrapper.addEventListener('animationend', onAnimationEnd);
-  setTimeout(() => wrapper.remove(), 200);
-}
-
 function clearBlacklistHoverButton() {
   stopHoverPillWatchdog();
-  removeHoverPillAnimated(hoverPillEl);
+  if (hoverPillEl) hoverPillEl.remove();
   hoverPillEl = null;
   hoverPillContainer = null;
   hoverPillAnchor = null;
@@ -218,16 +274,20 @@ function removeBlacklistHoverButton() {
   clearBlacklistHoverButton();
 }
 
-function showBlacklistHoverButton(container, channel) {
+function showBlacklistHoverButton(container, channel, quick) {
   if (hoverPillPending) return;
   if (hoverPillContainer === container && hoverPillEl) return;
 
   clearBlacklistHoverButton();
+  document
+    .querySelectorAll('.yt-hider-blacklist-hover-wrapper')
+    .forEach(stray => stray.remove());
 
   const anchor = getHoverThumbnailAnchor(container);
 
   const wrapper = document.createElement('div');
   wrapper.className = 'yt-hider-blacklist-hover-wrapper';
+  if (quick) wrapper.classList.add('yt-hider-blacklist-pill-quick');
 
   const btn = createBlacklistButton(channel, () => {
     hoverPillPending = false;
@@ -251,7 +311,7 @@ function showBlacklistHoverButton(container, channel) {
   startHoverPillWatchdog();
 }
 
-function handleBlacklistHoverOver(e) {
+function tryShowBlacklistHoverPill(target, quick) {
   if (hoverPillPending) {
     if (hoverPillContainer && !hoverPillContainer.isConnected) {
       if (hoverPillBtn && hoverPillBtn.ytHiderCancelPending) hoverPillBtn.ytHiderCancelPending();
@@ -262,19 +322,24 @@ function handleBlacklistHoverOver(e) {
     }
   }
   if (!isBlacklistHoverEligible(window.location.pathname)) return;
-  if (!e.target || !e.target.closest) return;
-  if (hoverPillEl && hoverPillContainer && hoverPillContainer.contains(e.target)) {
+  if (!target || !target.closest) return;
+  if (hoverPillEl && hoverPillContainer && hoverPillContainer.contains(target)) {
     return;
   }
 
-  const container = findOutermostMatch(e.target, getVideoContainerSelectors());
+  const container = findOutermostMatch(target, getVideoContainerSelectors());
   if (!container) return;
   if (hoverPillContainer === container && hoverPillEl) return;
 
   const ch = resolveChannelForElement(container);
   if (!channelIsPresent(ch) || isChannelBlacklisted(ch)) return;
 
-  showBlacklistHoverButton(container, ch);
+  showBlacklistHoverButton(container, ch, quick);
+}
+
+function handleBlacklistHoverOver(e) {
+  if (hoverPillScrolling) return;
+  tryShowBlacklistHoverPill(e.target);
 }
 
 function handleBlacklistHoverOut(e) {
@@ -285,12 +350,6 @@ function handleBlacklistHoverOut(e) {
   const related = e.relatedTarget;
   if (related && hoverPillContainer.contains(related)) return;
 
-  // YouTube's own hover-preview player can render outside hoverPillContainer's
-  // DOM subtree (e.g. as a portaled overlay) while still visually sitting on
-  // top of the same thumbnail, so relatedTarget containment alone reports a
-  // false "pointer left" as soon as the preview takes over. Fall back to the
-  // pointer's actual coordinates against the container's own box before
-  // deciding it really left.
   const rect = hoverPillContainer.getBoundingClientRect();
   if (
     e.clientX >= rect.left &&
@@ -313,6 +372,6 @@ function attachBlacklistHoverListener() {
   document.addEventListener('mouseover', handleBlacklistHoverOver, true);
   document.addEventListener('mouseout', handleBlacklistHoverOut, true);
   document.addEventListener('mousemove', trackMouseForHoverPillWatchdog, true);
-  document.addEventListener('scroll', positionHoverPill, true);
-  window.addEventListener('resize', positionHoverPill);
+  document.addEventListener('scroll', onHoverPillScroll, true);
+  window.addEventListener('resize', schedulePositionHoverPill);
 }

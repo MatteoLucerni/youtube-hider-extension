@@ -1,5 +1,11 @@
 # Changelog
 
+### Version 3.1.15
+
+**Fixed**
+
+- The hover "Blacklist" pill misbehaved while scrolling a feed with the pointer resting over the videos. Three separate defects, all measured on a live Home feed: the pill kept following its thumbnail as the page scrolled, so it visibly chased the card and stayed painted over YouTube's own header (and even past the top of the window) until the 400ms watchdog removed it; moving from one card to the next started the new pill before the previous one had finished its leaving animation, leaving up to three pills on screen at once; and Chrome, unlike Firefox and Safari, keeps dispatching hover events while the page scrolls under a stationary cursor, so every card passing by created and destroyed its own pill. The pill is now dropped the moment a scroll starts and comes straight back, without its fade-in animation, on whichever card the pointer is over once the scroll stops. Finding that card walks the whole element stack under the pointer rather than just the topmost element, since YouTube's inline preview player covers the thumbnail while living outside the card's own subtree, which would otherwise leave the pill gone until the pointer left the card and came back. A pill whose blacklist countdown is already running does the same thing on screen, but is hidden instead of destroyed, since destroying it would silently cancel a blacklist the user had already asked for and remove its Undo button mid-countdown. The pill now never animates out, in any situation: it disappears instantly, since anything that lingers while the page is moving is what made this look broken in the first place. Coming back after a scroll uses a 90ms fade, quicker than the 180ms slide a plain hover uses, and neither plays when the system asks for reduced motion. Replacing a pill now also removes the previous one synchronously, and repositioning happens on an animation frame instead of on every scroll event
+
 ### Version 3.1.14
 
 **Fixed**
