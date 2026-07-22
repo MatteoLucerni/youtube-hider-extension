@@ -87,7 +87,7 @@ Use the **Extension** switch in the popup header to instantly enable or disable 
 
 ### Header Settings Button
 
-A small icon-only button lives right in YouTube's own header (desktop only), next to the Create button, giving you instant access to your full settings without opening the extension popup separately. Clicking it opens a dropdown with the exact same settings UI as the popup. It appears on every page, including Watch, since it lives in page chrome rather than floating over the video. On first install, a guided spotlight tutorial walks you through the button and its dropdown - you can restart it anytime from the popup.
+A small gear button lives right in YouTube's own header (desktop only), next to the Create button, giving you instant access to your full settings without opening the extension popup separately. Clicking it opens a dropdown with the exact same settings UI as the popup. It appears on every page, including Watch, since it lives in page chrome rather than floating over the video. On first install, a guided spotlight tutorial walks you through the button and its dropdown - you can restart it anytime from the popup.
 
 ### Hide On-Page Controls
 

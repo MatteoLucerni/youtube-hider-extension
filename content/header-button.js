@@ -1,6 +1,5 @@
 let headerButtonHost = null;
 let headerButtonElement = null;
-let headerButtonIconElement = null;
 let headerDropdownHost = null;
 let headerDropdownShadow = null;
 let headerDropdownOpen = false;
@@ -20,15 +19,21 @@ function getHeaderButtonCSS() {
       border: none;
       border-radius: 50%;
       background: transparent;
+      color: #909090;
       cursor: pointer;
       outline: none;
-      transition: background 0.15s ease, box-shadow 0.15s ease;
+      transition: background 0.15s ease, box-shadow 0.15s ease, color 0.15s ease;
     }
     .yh-header-btn:hover {
       background: rgba(0, 0, 0, 0.06);
+      color: #606060;
+    }
+    .yh-header-btn.yh-dark {
+      color: #808080;
     }
     .yh-header-btn.yh-dark:hover {
       background: rgba(255, 255, 255, 0.1);
+      color: #aaaaaa;
     }
     .yh-header-btn.active {
       box-shadow: 0 0 0 2px #8ab4f8;
@@ -36,7 +41,8 @@ function getHeaderButtonCSS() {
     .yh-header-btn-icon {
       width: 22px;
       height: 22px;
-      object-fit: contain;
+      display: block;
+      fill: currentColor;
       pointer-events: none;
     }
   `;
@@ -68,13 +74,14 @@ function applyHeaderButtonTheme() {
   if (headerButtonElement) {
     headerButtonElement.classList.toggle('yh-dark', isDark);
   }
-  if (headerButtonIconElement) {
-    headerButtonIconElement.src = chrome.runtime.getURL(
-      isDark
-        ? 'assets/icons/youtube-hider-logo.png'
-        : 'assets/icons/youtube-hider-logo-light.png',
-    );
-  }
+}
+
+function getHeaderButtonIconMarkup() {
+  return `
+    <svg class="yh-header-btn-icon" viewBox="0 0 24 24" aria-hidden="true" focusable="false">
+      <path d="M19.14 12.94c.04-.3.06-.61.06-.94s-.02-.64-.07-.94l2.03-1.58a.49.49 0 0 0 .12-.61l-1.92-3.32a.484.484 0 0 0-.59-.22l-2.39.96c-.5-.38-1.03-.7-1.62-.94l-.36-2.54a.484.484 0 0 0-.48-.41h-3.84c-.24 0-.43.17-.47.41l-.36 2.54c-.59.24-1.13.57-1.62.94l-2.39-.96a.47.47 0 0 0-.59.22L2.74 8.87c-.12.21-.08.47.12.61l2.03 1.58c-.05.3-.09.63-.09.94s.02.64.07.94l-2.03 1.58a.49.49 0 0 0-.12.61l1.92 3.32c.12.22.37.29.59.22l2.39-.96c.5.38 1.03.7 1.62.94l.36 2.54c.05.24.24.41.48.41h3.84c.24 0 .44-.17.47-.41l.36-2.54c.59-.24 1.13-.56 1.62-.94l2.39.96c.22.08.47 0 .59-.22l1.92-3.32a.49.49 0 0 0-.12-.61l-2.01-1.58ZM12 15.6A3.61 3.61 0 0 1 8.4 12c0-1.98 1.62-3.6 3.6-3.6s3.6 1.62 3.6 3.6-1.62 3.6-3.6 3.6Z"/>
+    </svg>
+  `;
 }
 
 function createHeaderButton() {
@@ -100,10 +107,7 @@ function createHeaderButton() {
   button.setAttribute('aria-label', 'Youtube Hider Settings');
   button.title = 'Youtube Hider Settings';
 
-  const img = document.createElement('img');
-  img.className = 'yh-header-btn-icon';
-  img.alt = '';
-  button.appendChild(img);
+  button.innerHTML = getHeaderButtonIconMarkup();
 
   button.addEventListener('click', e => {
     e.stopPropagation();
@@ -114,7 +118,6 @@ function createHeaderButton() {
   anchor.insertBefore(headerButtonHost, anchor.firstChild);
 
   headerButtonElement = button;
-  headerButtonIconElement = img;
   applyHeaderButtonTheme();
 }
 
@@ -130,7 +133,6 @@ function removeHeaderButton() {
   }
   headerButtonHost = null;
   headerButtonElement = null;
-  headerButtonIconElement = null;
 }
 
 function toggleHeaderDropdown() {
