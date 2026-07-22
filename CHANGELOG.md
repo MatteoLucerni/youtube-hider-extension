@@ -1,5 +1,12 @@
 # Changelog
 
+### Version 3.1.16
+
+**Changed**
+
+- The settings button in YouTube's header now shows a gear icon instead of the extension logo, so it reads as a settings control at a glance and matches the visual language of the rest of the header. It is a solid filled shape, drawn in a muted grey rather than the header's full text color, so it sits quietly next to YouTube's own header controls instead of competing with them, and brightens on hover. The icon is an inline SVG using `currentColor`, instead of two separate logo image files, so it stays crisp at any zoom level and no longer needs a theme-dependent image swap. Nothing about the button's position, behavior, or dropdown changed
+- `assets/icons/youtube-hider-logo-light.png` is no longer exposed as a web-accessible resource, since the header button was its only consumer. The dark logo stays exposed for the first-run welcome card
+
 ### Version 3.1.15
 
 **Fixed**

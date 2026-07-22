@@ -209,7 +209,7 @@ function startSpotlightTour() {
   const steps = [
     {
       title: 'Your Settings Button',
-      desc: "This is the Youtube Hider button, built right into YouTube's own header. It appears on every page, including Watch, and opens instantly.",
+      desc: "This is the Youtube Hider gear button, built right into YouTube's own header. It appears on every page, including Watch, and opens instantly.",
       getTarget: () => headerButtonElement,
     },
     {
