@@ -214,6 +214,14 @@ function setupPrefsListener() {
           resetAppliedFilters();
           startHiding(currentPath);
         }
+        if (
+          'tutorialCompleted' in changes &&
+          prefs.tutorialCompleted &&
+          !tutorialActive
+        ) {
+          cleanupTour();
+          removeTutorialOverlay();
+        }
 
         const reapplyKeysChanged = changedKeys.filter(key => FILTER_REAPPLY_KEYS.has(key));
         const onlyWhitelistKeysChanged =

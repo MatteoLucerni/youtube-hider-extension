@@ -213,7 +213,6 @@ document.addEventListener('DOMContentLoaded', () => {
     easyLivesToggle.checked =
       prefs.hideLivesEnabled ?? cfg.mixesPlaylists.defaults.lives;
 
-    // Date filter load
     const newerDays =
       prefs.dateFilterNewerThreshold ?? cfg.date.defaults.newerThreshold;
     const newerIdx = findClosestDateNewerIndex(newerDays);
@@ -234,7 +233,6 @@ document.addEventListener('DOMContentLoaded', () => {
 
     checkDateOverlap();
 
-    // Apply slider-off visual state & display label for all slider sections
     updateSliderOffState(
       cfg.hide.slider,
       parseInt(cfg.hide.slider.value, 10) === 0,
@@ -252,7 +250,6 @@ document.addEventListener('DOMContentLoaded', () => {
       parseInt(cfg.date.olderSlider.value, 10) === 0,
     );
 
-    // Update display labels for Off state
     if (parseInt(cfg.hide.slider.value, 10) === 0) {
       cfg.hide.value.textContent = 'Off';
       const unit = document.querySelector('.slider-unit');
@@ -262,7 +259,6 @@ document.addEventListener('DOMContentLoaded', () => {
       cfg.views.value.textContent = 'Off';
     }
 
-    // Apply per-page disabled state in Advanced Mode when slider is off
     updatePerPageDisabledState(
       'hide',
       parseInt(cfg.hide.slider.value, 10) === 0,
@@ -460,7 +456,6 @@ document.addEventListener('DOMContentLoaded', () => {
     });
   }
 
-  // ── Slider-off visual state helper ──
 
   function updateSliderOffState(slider, isOff) {
     const control = slider.closest('.slider-control');
@@ -482,7 +477,6 @@ document.addEventListener('DOMContentLoaded', () => {
     }
   }
 
-  // Auto-enable per-page flags when slider leaves Off (Easy Mode only)
   function autoEnablePerPage(section) {
     if (!isEasyMode) return;
     const boxes =
@@ -505,7 +499,6 @@ document.addEventListener('DOMContentLoaded', () => {
     const newerThreshold = dateNewerSteps[newerIdx];
     const olderThreshold = dateSteps[olderIdx];
 
-    // Both must be active (not Off) and overlapping
     const isOverlap =
       newerIdx > 0 && olderIdx > 0 && newerThreshold >= olderThreshold;
 
@@ -517,7 +510,6 @@ document.addEventListener('DOMContentLoaded', () => {
     });
   }
 
-  // ── Slider event handlers ──
 
   cfg.date.newerSlider.addEventListener('input', () => {
     const index = parseInt(cfg.date.newerSlider.value, 10);

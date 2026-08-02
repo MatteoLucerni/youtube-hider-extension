@@ -1,5 +1,13 @@
 # Changelog
 
+### Version 3.1.17
+
+**Fixed**
+
+- The extension appeared to do nothing right after being installed, until the page was reloaded by hand. Chrome does not inject content scripts into tabs that are already open when an extension is installed, so the YouTube tab a user had open while installing from the Web Store stayed completely unfiltered: the extension was not running in it at all. Any YouTube tab open at install time is now reloaded once, so filtering starts immediately instead of only on the next navigation. This runs on first install only, never on an update, and needs no new permission, since querying and reloading those tabs is already covered by the extension's existing host permissions
+- The first-run welcome card had to be dismissed once per tab. With several YouTube tabs open at install time (now that they are all reloaded, this is the common case), each one showed its own copy, and starting or skipping the tour in one left the other tabs untouched. Finishing or skipping the tour now dismisses it everywhere, and so does pressing "Start", which previously did not record the choice at all and only wrote it once the tour reached its last step. This reuses the settings-change event the extension already listens to rather than polling: the tab running the tour is identified by its own active-tour flag and is deliberately left alone, so the tab the user is actually working in is never interrupted by another tab's choice, and a tab already mid-tour is never cut short by a different tab finishing first
+- Settings could be silently rewritten some time after a fresh install. The one-time migration that converted the old per-filter on/off toggles into the current "slider at 0 = Off" model is guarded by a `sliderOffMigrationDone` flag, but that flag was missing from the first-install defaults, so a brand new installation was indistinguishable from an old one that had never been migrated. The migration therefore stayed armed and fired on a later service worker start, this time against the user's own live settings rather than legacy ones: turning off all five per-surface toggles of Hide Watched Videos or Minimum Views Filter would then silently force that filter's slider to Off, and re-enabling the toggles no longer had any effect until the slider itself was moved. Fresh installs are now marked as already migrated. Users who genuinely still need the legacy migration are unaffected and keep running it exactly once, since that check reads the settings snapshot taken before the defaults are written
+
 ### Version 3.1.16
 
 **Changed**

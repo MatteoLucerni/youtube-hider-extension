@@ -521,7 +521,6 @@ function forceHide(element) {
 function hideWatched(pathname) {
   const { hideThreshold } = prefs;
 
-  // Slider at 0 = Off, don't hide anything
   if (hideThreshold === 0) return;
 
   document
@@ -554,7 +553,6 @@ function hideWatched(pathname) {
     });
 }
 
-// ── Upload Date Filter: hiding logic ──
 
 function shouldHideDateFilter(pathname) {
   const {
@@ -567,7 +565,6 @@ function shouldHideDateFilter(pathname) {
     dateFilterCorrEnabled,
   } = prefs;
 
-  // Both sliders at Off (threshold 0) means feature is disabled
   if (dateFilterNewerThreshold === 0 && dateFilterOlderThreshold === 0)
     return false;
 
@@ -618,7 +615,6 @@ function getMetadataSpansFromContainer(metadataContainer) {
 function hideDateFilter() {
   const selectors = getVideoContainerSelectors();
 
-  // Classic format: #metadata-line
   document.querySelectorAll('#metadata-line').forEach(metaLine => {
     let spans = metaLine.querySelectorAll('span.inline-metadata-item');
     if (!spans.length) {
@@ -634,14 +630,10 @@ function hideDateFilter() {
     findAndHideContainer(result.span, selectors, dateReason);
   });
 
-  // Mobile format
   document
     .querySelectorAll('.YtmBadgeAndBylineRendererItemByline')
     .forEach(span => {
       const text = (span.textContent || '').trim();
-      // Mobile format concatenates: "Channel · 1.2M views · 2 days ago".
-      // Keep the LAST valid part: the date is the final item, so an earlier
-      // channel name (e.g. "5-Minute Crafts") can't be mistaken for the age.
       const parts = text.split(/[·•]/);
       let ageDays = NaN;
       for (const part of parts) {
@@ -662,7 +654,6 @@ function hideDateFilter() {
       }
     });
 
-  // New format: yt-content-metadata-view-model
   document
     .querySelectorAll('yt-content-metadata-view-model, yt-lockup-view-model')
     .forEach(metadataContainer => {
@@ -678,9 +669,6 @@ function hideDateFilter() {
     });
 }
 
-// Live streams show concurrent-viewer text ("5 spettatori", "5 watching") that
-// must not be treated as a view count. Detect the live badge / avatar live ring
-// on the surrounding container so the views filter can skip live videos.
 const LIVE_INDICATOR_SELECTORS =
   'badge-shape.yt-badge-shape--thumbnail-live, badge-shape.yt-badge-shape--live, ' +
   'badge-shape.ytBadgeShapeThumbnailLive, badge-shape.ytBadgeShapeLive, ' +
@@ -1012,9 +1000,6 @@ function shouldHideLives(pathname) {
   return prefs.hideLivesEnabled && isCoreFilterPath(pathname);
 }
 
-// Extra standalone container shapes that getVideoContainerSelectors doesn't
-// already cover, needed so a blacklisted channel's Mixes/Playlists are hidden
-// even when the Mixes/Playlists filters themselves are turned off.
 const BLACKLIST_EXTRA_SELECTORS =
   'ytd-playlist-renderer, ytd-compact-playlist-renderer, ytd-radio-renderer, ytd-compact-radio-renderer';
 
@@ -1043,9 +1028,6 @@ function hideBlacklistedVideos() {
   });
 }
 
-// Shorts always hard-hide (never dimmed), matching hideShorts()'s own
-// convention. A shorts shelf can mix several channels, so only the
-// individual shorts item is force-hidden, not the whole shelf.
 function hideBlacklistedShorts() {
   document
     .querySelectorAll('ytm-shorts-lockup-view-model, a[href^="/shorts/"]')

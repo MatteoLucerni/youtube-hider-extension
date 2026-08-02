@@ -71,9 +71,6 @@ function normalizeNumStr(numStr, hasSuffix = false) {
   if (dots > 1) return numStr.replace(/\./g, '');
   if (commas > 1) return numStr.replace(/,/g, '');
 
-  // Single separator. Without a suffix the count is an integer, so the
-  // separator is a thousands grouping (e.g. "98.756"/"98,756" → 98756).
-  // With a suffix it is a decimal point (e.g. "1,2 Mn" → 1.2).
   if (!hasSuffix) return numStr.replace(/[.,]/g, '');
   if (commas === 1) return numStr.replace(',', '.');
 
@@ -180,7 +177,6 @@ function resolveViewsFromSpans(spans) {
   return null;
 }
 
-// ── Upload Date Filter: parsing engine ──
 
 const TIME_UNIT_DAYS = {};
 const TIME_UNIT_ENTRIES = [
@@ -378,8 +374,6 @@ TIME_UNIT_ENTRIES.forEach(([multiplier, words]) => {
   });
 });
 
-// The time unit must sit immediately after the number (only spaces allowed
-// between them), so non-date text like "5-Minute Crafts" is not read as an age.
 const TIME_UNIT_ANCHORED = new RegExp(
   '^\\s*(' +
     Object.keys(TIME_UNIT_DAYS)
@@ -389,16 +383,12 @@ const TIME_UNIT_ANCHORED = new RegExp(
   'i',
 );
 
-// Words that may legitimately trail a relative date ("2 days ago", "2 giorni fa",
-// "2 日前"). Languages with a leading marker (de "vor", fr "il y a", es "hace",
-// ar "منذ") strip it before the first digit, so their tail comes out empty.
 const RELATIVE_SUFFIX = new Set(['ago', 'fa', 'atrás', 'atras', 'назад', '前', '전']);
 
 function extractUploadAgeDays(text) {
   const s = String(text).trim();
   if (!/\d/.test(s)) return NaN;
 
-  // Strip everything before the first digit
   const stripped = s.replace(/^[^\d]+/, '');
   if (!stripped) return NaN;
 
@@ -417,8 +407,6 @@ function extractUploadAgeDays(text) {
   const multiplier = TIME_UNIT_DAYS[unitMatch[1].toLowerCase()];
   if (!multiplier) return NaN;
 
-  // After the unit, allow only end-of-string or a known relative marker.
-  // This rejects channel/title text such as "5 Minute Crafts KIDS".
   const tail = afterNum.slice(unitMatch[0].length).trim();
   if (tail) {
     const firstToken = tail.split(/\s+/)[0].replace(/[.,!?;:]+$/, '').toLowerCase();
@@ -432,9 +420,6 @@ function resolveUploadAgeFromSpans(spans) {
   let last = null;
   for (const span of spans) {
     const text = (span.textContent || '').trim();
-    // Evaluate each metadata part separately ("Channel • views • date") and keep
-    // the LAST valid age, since the date is conventionally the final item. This
-    // prevents earlier text (e.g. a "60 Minutes" channel) from winning.
     for (const part of text.split(/[·•]/)) {
       const ageDays = extractUploadAgeDays(part.trim());
       if (!isNaN(ageDays) && ageDays >= 0) {
@@ -551,8 +536,6 @@ function extractChannelFromContainer(container) {
   return null;
 }
 
-// Exposed for unit tests (Node). In a content script `module` is undefined,
-// so this guard is a no-op in the browser.
 if (typeof module !== 'undefined' && module.exports) {
   module.exports = {
     extractViewCount,
