@@ -39,7 +39,6 @@ const flagKeys = [
   'dateFilterCorrEnabled',
 ];
 
-// Keys whose threshold > 0 also counts as "active" for the badge
 const thresholdFlagKeys = [
   'dateFilterNewerThreshold',
   'dateFilterOlderThreshold',
@@ -73,6 +72,8 @@ const defaultSettings = {
   dateFilterCorrEnabled: false,
   hideInterfaceElements: false,
   tutorialCompleted: false,
+  sliderOffMigrationDone: true,
+  headerButtonMigrationDone: true,
 };
 function initializeSettings() {
   chrome.storage.sync.get(null, items => {
@@ -119,7 +120,6 @@ function migrateSettings(currentSettings) {
     });
   }
 
-  // Slider-off migration: remove toggle switches, use slider position for on/off
   if (!currentSettings.sliderOffMigrationDone) {
     migrateSliderOff(currentSettings);
   }
@@ -133,7 +133,6 @@ function migrateSliderOff(s) {
   const updates = { sliderOffMigrationDone: true };
   const removals = [];
 
-  // Hide Watched: if all per-page flags are false, set threshold to 0 (Off)
   const watchAllOff =
     !s.hideHomeEnabled &&
     !s.hideChannelEnabled &&
@@ -143,11 +142,9 @@ function migrateSliderOff(s) {
   if (watchAllOff) {
     updates.hideThreshold = 0;
   } else if (s.hideThreshold === 0) {
-    // User had 0% threshold with feature on - move to 5 (closest active value)
     updates.hideThreshold = 5;
   }
 
-  // Min Views: if all per-page flags are false, set threshold to 0 (Off)
   const viewsAllOff =
     !s.viewsHideHomeEnabled &&
     !s.viewsHideChannelEnabled &&
@@ -158,16 +155,13 @@ function migrateSliderOff(s) {
     updates.viewsHideThreshold = 0;
   }
 
-  // Date Newer: if toggle was off, set threshold to 0 (Off)
   if (s.dateFilterNewerEnabled === false) {
     updates.dateFilterNewerThreshold = 0;
   }
-  // Date Older: if toggle was off, set threshold to 0 (Off)
   if (s.dateFilterOlderEnabled === false) {
     updates.dateFilterOlderThreshold = 0;
   }
 
-  // Remove deprecated boolean keys
   removals.push('dateFilterNewerEnabled', 'dateFilterOlderEnabled');
 
   chrome.storage.sync.set(updates, () => {
@@ -199,6 +193,37 @@ function migrateHeaderButtonCleanup() {
       logger.log('Removed deprecated local key: floatingButtonPosition');
     }
   });
+}
+function reloadOpenYouTubeTabs() {
+  try {
+    chrome.tabs.query(
+      { url: ['https://www.youtube.com/*', 'https://m.youtube.com/*'] },
+      tabs => {
+        if (chrome.runtime.lastError) {
+          logger.log(
+            'Could not query YouTube tabs:',
+            chrome.runtime.lastError.message,
+          );
+          return;
+        }
+        if (!Array.isArray(tabs)) return;
+        tabs.forEach(tab => {
+          if (typeof tab.id !== 'number') return;
+          chrome.tabs.reload(tab.id, {}, () => {
+            if (chrome.runtime.lastError) {
+              logger.log(
+                'Could not reload tab:',
+                chrome.runtime.lastError.message,
+              );
+            }
+          });
+        });
+        logger.log('Reloaded open YouTube tabs:', tabs.length);
+      },
+    );
+  } catch (e) {
+    logger.log('Tab reload unavailable:', e);
+  }
 }
 function refreshBadge() {
   const defaults = Object.fromEntries(flagKeys.map(key => [key, true]));
@@ -290,6 +315,8 @@ chrome.runtime.onInstalled.addListener(details => {
       active: true,
     });
     logger.log('Welcome page opened');
+
+    reloadOpenYouTubeTabs();
   }
 
   if (details.reason === chrome.runtime.OnInstalledReason.UPDATE) {

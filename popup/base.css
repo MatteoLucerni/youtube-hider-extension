@@ -191,7 +191,6 @@ hr {
     }
 }
 
-/* Standalone mode: when popup.html is opened in a full browser tab */
 @media (min-width: 500px) {
     body {
         width: 100%;

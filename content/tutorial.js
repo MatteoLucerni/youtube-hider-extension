@@ -1,4 +1,3 @@
-// ─── Tutorial: Welcome Card & Spotlight Tour ────────────────────────────────
 let tutorialOverlay = null;
 let tutorialActive = false;
 let tutorialSkipInterval = null;
@@ -144,6 +143,8 @@ function showTutorialWelcomeCard() {
     tutorialSkipInterval = null;
     removeTutorialOverlay();
     startSpotlightTour();
+    prefs.tutorialCompleted = true;
+    safeStorageSet('sync', { tutorialCompleted: true });
   });
 
   skipBtn.addEventListener('click', () => {

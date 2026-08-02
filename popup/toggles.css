@@ -152,9 +152,6 @@
     cursor: not-allowed;
 }
 
-/* Boxed row variant: each toggle sits in its own bordered box with the
-   label above the switch, instead of the label-left/switch-right list row.
-   Items wrap onto additional rows when they no longer fit at a readable width. */
 .toggle-grid-large {
     flex-direction: row;
     flex-wrap: wrap;

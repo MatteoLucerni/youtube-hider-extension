@@ -1,4 +1,3 @@
-/* Tooltip Styling */
 .label-content {
     display: flex;
     align-items: center;
@@ -66,7 +65,6 @@
     opacity: 1;
 }
 
-/* Adjust tooltip position for sliders to avoid going off-screen if needed */
 .slider-control-left .tooltip-text {
     left: 0;
     transform: translateX(0);
@@ -77,9 +75,6 @@
     margin-left: 0;
 }
 
-/* Filter Mode's info icon sits at the top of the popup, so its tooltip opens
-   downward instead of the default upward position, staying centered like
-   every other tooltip */
 .filter-mode-tooltip .tooltip-text {
     bottom: auto;
     top: 125%;
@@ -91,8 +86,6 @@
     border-color: transparent transparent var(--bg-quaternary) transparent;
 }
 
-/* Toggle-item labels sit in a list row: left-align text, let it shrink/ellipsize
-   next to the fixed-width switch instead of centering like a standalone label */
 .toggle-item .label-content {
     margin-bottom: 0;
     justify-content: flex-start;
@@ -101,7 +94,6 @@
     min-width: 0;
 }
 
-/* Ensure tooltip icon is vertically aligned with text */
 .tooltip-container {
     display: inline-flex;
     align-items: center;
@@ -113,13 +105,10 @@
     align-items: center;
 }
 
-/* Elevate z-index when tooltip is hovered to prevent overlap from adjacent items */
 .toggle-item:has(.info-icon:hover) {
     z-index: 10;
 }
 
-/* Tooltip positioning for toggle-grid items: rows are full-width now, so
-   the tooltip always opens aligned to the left edge of the row */
 .toggle-grid .toggle-item .tooltip-text {
     left: 0;
     transform: translateX(0);
@@ -130,8 +119,6 @@
     margin-left: 0;
 }
 
-/* Boxed toggle-grid items are narrow columns, not full-width rows: center
-   the tooltip under the icon instead of aligning it to the column's edge */
 .toggle-grid-large .toggle-item .tooltip-text {
     left: 50%;
     transform: translateX(-50%);
@@ -142,7 +129,6 @@
     margin-left: -5px;
 }
 
-/* Date sub-filter: column layout with fixed width */
 .date-sub-filter {
     flex-direction: column;
     align-items: stretch;
@@ -164,7 +150,6 @@
     padding-bottom: var(--spacing-sm);
 }
 
-/* Date slider value display: centered between label and slider */
 .date-slider-display {
     display: flex;
     align-items: center;
@@ -181,20 +166,17 @@
     text-align: center;
 }
 
-/* Disabled state when slider is at Off position */
 .slider-control.slider-off .slider-wrapper,
 .slider-control.slider-off .date-slider-display,
 .slider-control.slider-off .slider-display {
     opacity: 0.35;
 }
 
-/* Per-page toggles disabled when slider is Off (Advanced Mode) */
 .toggle-grid.per-page-disabled {
     opacity: 0.35;
     pointer-events: none;
 }
 
-/* Date overlap warning */
 .date-overlap-warning {
     display: flex;
     align-items: center;
@@ -222,12 +204,10 @@
     line-height: 1.3;
 }
 
-/* Red border on sliders when overlap detected */
 .date-sub-filter.date-overlap {
     border: 1px solid rgba(239, 68, 68, 0.5);
 }
 
-/* ─── Upload Date Filter: Advanced Mode grid layout ─── */
 body.easy-mode-off .date-filter-group {
     display: grid;
     grid-template-columns: auto 1fr;
