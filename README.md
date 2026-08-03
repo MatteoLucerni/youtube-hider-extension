@@ -20,7 +20,8 @@
   <a href="https://chromewebstore.google.com/detail/ebpikpmmnpjmlcpanakfcgchkdjaanmm?utm_source=item-share-cb">Chrome Web Store</a> &middot;
   <a href="https://youtubehider.com/">Website</a> &middot;
   <a href="https://forms.gle/oAqtSjQHQeEp9TFKA">Request a Feature</a> &middot;
-  <a href="https://forms.gle/oAqtSjQHQeEp9TFKA">Report a Bug</a>
+  <a href="https://forms.gle/oAqtSjQHQeEp9TFKA">Report a Bug</a> &middot;
+  <a href="https://ko-fi.com/D5Y424F3EB">Support on Ko-fi</a>
 </p>
 
 ---

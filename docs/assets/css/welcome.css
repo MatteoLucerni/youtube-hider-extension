@@ -304,6 +304,12 @@ body {
     margin-top: 16px;
 }
 
+.footer-support {
+    margin-top: 20px;
+    display: flex;
+    justify-content: center;
+}
+
 /* Animations */
 @keyframes fadeInScale {
     from {
