@@ -1,5 +1,11 @@
 # Changelog
 
+### Version 3.1.18
+
+**Added**
+
+- A "Support on Ko-fi" link in the popup footer, next to the existing Feature/Bug feedback, Changelog and Website links, and a Ko-fi donation button in the footer of every page of youtubehider.com (homepage, welcome page, 404 page)
+
 ### Version 3.1.17
 
 **Fixed**

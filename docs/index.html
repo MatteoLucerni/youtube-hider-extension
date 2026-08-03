@@ -151,6 +151,31 @@
       color: #fff;
     }
 
+    .nav-actions {
+      gap: 12px;
+    }
+
+    .kofi-nav {
+      display: inline-flex;
+      align-items: center;
+      gap: 8px;
+      background: rgba(73, 178, 235, 0.12);
+      color: #7cc6f0;
+      border: 1px solid rgba(73, 178, 235, 0.4);
+      padding: 8px 14px;
+      border-radius: 4px;
+      text-decoration: none;
+      font-weight: 600;
+      transition: background 0.3s ease, border-color 0.3s ease, transform 0.3s ease, color 0.3s ease;
+    }
+
+    .kofi-nav:hover {
+      background: rgba(73, 178, 235, 0.22);
+      border-color: rgba(73, 178, 235, 0.7);
+      color: #9ad4f5;
+      transform: translateY(-2px);
+    }
+
     @keyframes pulse {
       0% {
         transform: scale(1);
@@ -422,6 +447,12 @@
       color: var(--accent-blue-light);
     }
 
+    .footer-support {
+      margin-top: 20px;
+      display: flex;
+      justify-content: center;
+    }
+
     .accent-text {
       color: var(--accent-blue);
     }
@@ -506,11 +537,18 @@
         <div class="fs-4 fw-bold text-white">YouTube Hider</div>
         <div class="fs-6 text-white-50">MV3 Chrome Extension</div>
       </a>
-      <a href="https://chromewebstore.google.com/detail/ebpikpmmnpjmlcpanakfcgchkdjaanmm" target="_blank"
-        rel="noopener noreferrer" class="cta-compact">
-        <span class="d-none d-sm-inline">Install Now</span>
-        <i class="fas fa-download d-sm-none"></i>
-      </a>
+      <div class="nav-actions d-flex align-items-center">
+        <a href="https://ko-fi.com/D5Y424F3EB" target="_blank" rel="noopener noreferrer" class="kofi-nav"
+          aria-label="Support on Ko-fi">
+          <i class="fas fa-mug-hot"></i>
+          <span class="d-none d-sm-inline">Support</span>
+        </a>
+        <a href="https://chromewebstore.google.com/detail/ebpikpmmnpjmlcpanakfcgchkdjaanmm" target="_blank"
+          rel="noopener noreferrer" class="cta-compact">
+          <span class="d-none d-sm-inline">Install Now</span>
+          <i class="fas fa-download d-sm-none"></i>
+        </a>
+      </div>
     </div>
   </nav>
 
@@ -713,6 +751,10 @@
       |
       <a href="https://github.com/MatteoLucerni?tab=repositories" target="_blank" rel="noopener noreferrer"
         class="">GitHub <i class="fa-brands fa-github ms-1"></i></a>
+    </div>
+    <div class="footer-support">
+      <script type='text/javascript' src='https://storage.ko-fi.com/cdn/widget/Widget_2.js'></script>
+      <script type='text/javascript'>kofiwidget2.init('Support me on Ko-fi', '#49b2eb', 'D5Y424F3EB');kofiwidget2.draw();</script>
     </div>
   </footer>
 

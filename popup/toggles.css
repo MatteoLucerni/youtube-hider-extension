@@ -259,6 +259,38 @@
     align-self: flex-end;
 }
 
+.kofi-button {
+    display: inline-flex;
+    align-items: center;
+    gap: 5px;
+    font-size: 12px;
+    font-weight: 600;
+    color: var(--accent-blue);
+    background-color: rgba(138, 180, 248, 0.12);
+    border: 1px solid rgba(138, 180, 248, 0.25);
+    text-decoration: none;
+    padding: 5px var(--spacing-md);
+    border-radius: var(--radius-pill);
+    white-space: nowrap;
+    flex-shrink: 0;
+    transition: background-color 0.2s var(--ease-standard), border-color 0.2s var(--ease-standard), transform 0.15s var(--ease-standard);
+}
+
+.kofi-button:hover {
+    color: var(--accent-blue);
+    background-color: rgba(138, 180, 248, 0.2);
+    border-color: rgba(138, 180, 248, 0.45);
+    transform: translateY(-1px);
+}
+
+.kofi-button:active {
+    transform: scale(0.98);
+}
+
+.kofi-icon {
+    flex-shrink: 0;
+}
+
 .logo-image {
     width: 70px;
     height: auto;
