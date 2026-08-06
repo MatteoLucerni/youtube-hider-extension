@@ -1,4 +1,8 @@
 document.addEventListener('DOMContentLoaded', () => {
+  if (new URLSearchParams(window.location.search).get('standalone') === 'true') {
+    document.body.classList.add('standalone-page');
+  }
+
   const extensionToggle = document.getElementById('extension-enabled');
   const advancedModeToggle = document.getElementById('advanced-mode-enabled');
   const filterModeHideBtn = document.getElementById('filter-mode-hide');
