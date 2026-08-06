@@ -57,6 +57,11 @@ html {
 }
 
 body {
+    /* Never an auto margin here. Chrome sizes the action popup from the
+       document box and only iterates twice, starting from the 800px maximum,
+       so a centering offset is measured as extra width: the popup stays wider
+       than the panel and the panel ends up floating with dead space on both
+       sides. Centering happens in the standalone tab only, see below. */
     margin: 0;
     padding: 0;
     background-color: var(--bg-primary);
@@ -64,9 +69,21 @@ body {
     font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, sans-serif;
     font-size: 14px;
     line-height: 1.55;
+    /* 400px is the width Chrome measures the popup from, and the same width as
+       the on-page settings dropdown, so the two surfaces match. It has to be a
+       real width and not a max-width on a 100% box: .content-wrapper clips its
+       overflow, so the content's own intrinsic width is no longer visible to
+       that measurement and the popup would collapse to almost nothing.
+       max-width keeps it fluid in anything narrower, the dropdown iframe once
+       its scrollbar is out, or a small window. */
     width: 400px;
+    max-width: 100%;
     min-height: 400px;
+    /* Last line of defence against a horizontal scrollbar. The clip that keeps
+       overflow out of the popup measurement is the one on .content-wrapper,
+       since an overflow value set here propagates to the viewport instead. */
     overflow-x: hidden;
+    overflow-x: clip;
 }
 
 label {
@@ -75,6 +92,7 @@ label {
 
 header {
     background-color: var(--bg-primary);
+    overflow-x: clip;
     position: sticky;
     top: 0;
     z-index: 100;
@@ -165,6 +183,13 @@ hr {
 
 .content-wrapper {
     padding: var(--spacing-xl) var(--spacing-2xl) var(--spacing-3xl) var(--spacing-2xl);
+    /* Clips the tooltips that stick out past the right edge. It has to happen
+       on an in-flow element: on body it would propagate to the viewport, which
+       leaves the overflow in the document box the popup is sized from, and the
+       popup grows to fit an invisible tooltip. It must be clip and not hidden:
+       hidden would make this a scroll container and force the vertical axis to
+       auto, cutting off the tooltips, which open upwards out of their card. */
+    overflow-x: clip;
 }
 
 .setting-section {
@@ -191,14 +216,37 @@ hr {
     }
 }
 
-@media (min-width: 500px) {
-    body {
-        width: 100%;
-        max-width: 420px;
-        margin: 0 auto;
-        min-height: 100vh;
+/* Standalone settings tab only (popup.html?standalone=true), where the page
+   owns the whole window and there is genuinely space to center into. The class
+   is set by popup.js. The toolbar popup and the header dropdown iframe are
+   sized to the panel itself, so they must stay flush at margin 0. */
+body.standalone-page {
+    margin: 0 auto;
+    min-height: 100vh;
+}
+
+@media (min-width: 440px) {
+    body.standalone-page {
         border-left: 1px solid var(--border-color);
         border-right: 1px solid var(--border-color);
+    }
+}
+
+@media (max-width: 380px) {
+    header {
+        padding: var(--spacing-2xl) var(--spacing-lg);
+    }
+
+    .content-wrapper {
+        padding: var(--spacing-lg) var(--spacing-lg) var(--spacing-2xl) var(--spacing-lg);
+    }
+
+    .setting-card {
+        padding: var(--spacing-lg);
+    }
+
+    .section-title {
+        padding-left: var(--spacing-sm);
     }
 }
 
@@ -242,4 +290,3 @@ body.easy-mode-off .easy-mode-advanced {
 body.easy-mode-on .setting-card-compact .setting-group-compact {
     display: none;
 }
-

@@ -1,5 +1,14 @@
 # Changelog
 
+### Version 3.1.19
+
+**Fixed**
+
+- The settings menu left a wide empty strip along its right edge, with the panel pinned to the left of a window noticeably wider than the panel itself. The cause was invisible: Chrome sizes the popup window from the document box, and a tooltip belonging to one of the right-hand toggles extends past the panel edge while hidden, so the window was being sized to fit something that is never drawn. That overflow is now clipped by the content wrapper rather than by the page itself, which is what makes it disappear from the measurement, so the window is exactly as wide as the panel and there is no leftover space on either side
+- The menu keeps its 400px width, the same as the on-page settings dropdown, but now shrinks to fit anything narrower instead of overflowing it, and is centered only in the standalone settings tab, which is the one place with a window genuinely wider than the panel. Previously the sole adaptive rule required at least 500px of viewport, so a settings page opened in a narrow window kept the panel at 400px against the left edge and wasted everything past it
+- Below roughly 380px of width, the Upload Date Filter's two side-by-side blocks (the date sliders and their per-page toggles) no longer overflow. The two date sliders lose their fixed 200px width and the per-page toggles move underneath them, and the header, cards and content padding tighten so the menu stays usable on very narrow windows
+- Tooltips on the toggles closest to the right edge, the Shorts, Mixes, Playlists and Lives row and the Upload Date Filter's per-page toggles, now open leftwards instead of being centered, so they stay fully readable instead of running past the panel edge
+
 ### Version 3.1.18
 
 **Added**
