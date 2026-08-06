@@ -92,6 +92,7 @@ label {
 
 header {
     background-color: var(--bg-primary);
+    overflow-x: clip;
     position: sticky;
     top: 0;
     z-index: 100;
@@ -289,4 +290,3 @@ body.easy-mode-off .easy-mode-advanced {
 body.easy-mode-on .setting-card-compact .setting-group-compact {
     display: none;
 }
-
