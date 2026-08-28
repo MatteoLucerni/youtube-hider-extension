@@ -29,6 +29,8 @@ const SUFFIX_REGEX = new RegExp(
   'i',
 );
 
+const VIEW_COUNT_LABELS = new Set(['回視聴']);
+
 function extractNumberAndSuffix(input) {
   const s = String(input)
     .trim()
@@ -106,6 +108,10 @@ function extractViewCount(text) {
 
   if (!remainder) {
     return { views: base, confidence: 'low' };
+  }
+
+  if (VIEW_COUNT_LABELS.has(remainder)) {
+    return { views: base, confidence: 'high' };
   }
 
   const words = remainder.split(/\s+/).filter(Boolean);

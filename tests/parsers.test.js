@@ -35,6 +35,23 @@ test('with a 100-view threshold, a 98k video is no longer hidden', () => {
   assert.ok(views('98,756 views') >= THRESHOLD);
 });
 
+test('regression: Japanese full-form view counts use the exact YouTube label', () => {
+  assert.equal(views('1526 回視聴'), 1526);
+  assert.equal(views('9,999 回視聴'), 9999);
+  assert.equal(views('10,000 回視聴'), 10000);
+  assert.equal(views('1万 回視聴'), 10000);
+  assert.equal(views('9.5万 回視聴'), 95000);
+
+  assert.ok(Number.isNaN(views('1526 日前')));
+  assert.ok(Number.isNaN(views('1526 コメント')));
+});
+
+test('with a 10k-view threshold, Japanese full-form counts filter correctly', () => {
+  const THRESHOLD = 10000;
+  assert.ok(views('1526 回視聴') < THRESHOLD);
+  assert.ok(views('9.5万 回視聴') >= THRESHOLD);
+});
+
 test('abbreviated formats keep working (must not regress)', () => {
   assert.equal(views('98K views'), 98000);
   assert.equal(views('1.2M views'), 1200000);
