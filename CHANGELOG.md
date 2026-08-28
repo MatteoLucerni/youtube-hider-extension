@@ -4,7 +4,8 @@
 
 **Fixed**
 
-- Japanese full view counts such as "1526 回視聴" are now recognized by the Minimum Views Filter, so videos below the configured threshold are hidden correctly
+- Japanese full view counts such as "1526 回視聴" are now recognized by the Minimum Views Filter, so videos below the configured threshold are hidden correctly. Thanks to [@JAM924](https://github.com/JAM924) for reporting the bug and contributing the fix
+- The same gap affected around forty other interface languages, and the Minimum Views Filter now reads full view counts in all of them. The suffixless fallback only accepted a single Latin-script word after the number, so a full count was discarded whenever the label was not written in Latin script ("106 просмотров", "36 προβολές", "36 צפיות"), whenever it was more than one word ("235 x ditonton", "36 de vizionări", "36 lượt xem"), and whenever the language puts the label before the number instead of after it ("조회수 36회", "การดู 104 ครั้ง", "觀看次數：36次"). Two smaller parsing gaps found alongside it are fixed as well: Persian view counts carry an invisible right-to-left mark before the number, which stopped the number from being read at all and is now stripped, and the Japanese and Chinese hundred-million magnitude characters (億, 亿) are now recognized next to the ten-thousand ones that were already there. The label tables are keyed by interface language and every entry was taken from the strings YouTube itself returns for that language, since several are multi-word and some separate their words with a non-breaking space rather than a plain one. Languages that already worked are untouched by design: a label is only added when the parser currently fails on it, which was checked against 5,684 real view-count strings and 2,625 real non-view metadata strings across 80 interface languages, with no value, no confidence level and no rejected date string changing
 
 ### Version 3.1.19
 
