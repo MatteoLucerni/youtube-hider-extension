@@ -1,5 +1,11 @@
 # Changelog
 
+### Version 3.1.20
+
+**Fixed**
+
+- Japanese full view counts such as "1526 回視聴" are now recognized by the Minimum Views Filter, so videos below the configured threshold are hidden correctly
+
 ### Version 3.1.19
 
 **Fixed**
