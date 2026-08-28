@@ -34,7 +34,7 @@ Hide videos you've already watched from Home, Channel pages, Subscriptions, Sear
 
 ### Minimum Views Filter
 
-Hide videos below a certain view count. Choose from a range of thresholds (0 to 10M views) to filter out low-engagement content. Per-page toggles give you full control.
+Hide videos below a certain view count. Choose from a range of thresholds (0 to 10M views) to filter out low-engagement content. Per-page toggles give you full control. Reads YouTube's view counts in every interface language, including the ones that do not write the label in Latin script or place it before the number.
 
 ### Upload Date Filter
 
