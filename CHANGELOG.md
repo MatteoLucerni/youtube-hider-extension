@@ -1,5 +1,11 @@
 # Changelog
 
+### Version 3.1.21
+
+**Fixed**
+
+- Hide Watched Videos stopped hiding anything on the search results page. YouTube has started serving a third generation of thumbnail overlay components there, `ytw-thumbnail-overlay-resume-playback-renderer`, whose progress bar carries a class none of the existing selectors matched, so no watched video was ever detected on that page while every other filter kept working. The new progress bar is now recognized alongside the legacy `ytd-*` and the `yt-lockup-view-model` ones. The rollout is per account and per surface, so the same component can appear on other pages later, and it is handled everywhere rather than only on search
+
 ### Version 3.1.20
 
 **Fixed**
