@@ -1,5 +1,15 @@
 # Changelog
 
+### Version 3.2.0
+
+**Added**
+
+- The Support button in the settings menu header now opens a panel inside the menu instead of jumping straight to Ko-fi. The panel explains why support matters for a project like this one, which aims at a moving target: YouTube reshapes its page markup without warning, and a change nobody announces can quietly break a filter that worked the day before, so keeping the extension working means hunting those changes down one selector at a time. From there it offers two ways to help, contributing on GitHub (a pull request, or a bug report naming the page the breakage happened on) and a one-off contribution on Ko-fi, plus a note that rating the extension or telling someone about it counts too. The panel closes with its close button, a click outside it, or Escape
+
+**Changed**
+
+- The Support button is restyled to match the rest of the menu, and every corner radius in the settings menu is now the same one used by the setting cards. Previously the menu mixed four different radii: the cards, the toggle rows and grids, the tooltips, buttons and warnings, and the fully rounded pills on the Support button, the switches and the channel name chips. Switches and channel chips now use the card radius as well, so the whole panel reads as one set of shapes. Round elements that are shapes rather than boxes, the switch knob and the slider handle and track, are unchanged. The separator lines between the toggle rows are now drawn as straight lines instead of as a row border, so the larger radius does not bend their ends. Nothing outside the menu is affected: the on-page badges, buttons and pills injected into YouTube keep their own styling
+
 ### Version 3.1.21
 
 **Fixed**

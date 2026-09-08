@@ -13,6 +13,7 @@
     <link rel="stylesheet" href="cards.css" />
     <link rel="stylesheet" href="toggles.css" />
     <link rel="stylesheet" href="filters.css" />
+    <link rel="stylesheet" href="support.css" />
   </head>
 
   <body>
@@ -22,35 +23,22 @@
           <span class="title-youtube">Youtube</span>
           <span class="title-hider">Hider</span>
         </h1>
-        <a
-          href="https://ko-fi.com/D5Y424F3EB"
-          target="_blank"
-          class="kofi-button"
-          title="Support the development on Ko-fi"
+        <button
+          type="button"
+          id="support-button"
+          class="support-button"
+          aria-haspopup="dialog"
+          aria-expanded="false"
         >
           <svg
-            class="kofi-icon"
+            class="support-button-icon"
             width="14"
             height="14"
             viewBox="0 0 24 24"
             fill="none"
           >
             <path
-              d="M2 8h15a3 3 0 0 1 0 6h-1"
-              stroke="currentColor"
-              stroke-width="2"
-              stroke-linecap="round"
-              stroke-linejoin="round"
-            />
-            <path
-              d="M2 8v9a2 2 0 0 0 2 2h11a2 2 0 0 0 2-2V8"
-              stroke="currentColor"
-              stroke-width="2"
-              stroke-linecap="round"
-              stroke-linejoin="round"
-            />
-            <path
-              d="M6 2c-.5 1 -1.5 1.5 -1 3M10 2c-.5 1 -1.5 1.5 -1 3"
+              d="M20.84 4.61a5.5 5.5 0 0 0-7.78 0L12 5.67l-1.06-1.06a5.5 5.5 0 0 0-7.78 7.78l1.06 1.06L12 21.23l7.78-7.78 1.06-1.06a5.5 5.5 0 0 0 0-7.78z"
               stroke="currentColor"
               stroke-width="2"
               stroke-linecap="round"
@@ -58,7 +46,7 @@
             />
           </svg>
           Support
-        </a>
+        </button>
         <div class="header-toggles">
           <div class="easy-mode-toggle extension-toggle">
             <label class="easy-mode-label" for="extension-enabled">
@@ -1493,6 +1481,175 @@
               </svg>
             </a>
           </div>
+        </div>
+      </div>
+    </div>
+
+    <div class="support-modal" id="support-modal" hidden>
+      <div class="support-modal-scrim" id="support-modal-scrim"></div>
+      <div
+        class="support-modal-card"
+        role="dialog"
+        aria-modal="true"
+        aria-labelledby="support-modal-title"
+      >
+        <div class="support-modal-header">
+          <h2 class="support-modal-title" id="support-modal-title">
+            Support Youtube Hider
+          </h2>
+          <button
+            type="button"
+            class="support-modal-close"
+            id="support-modal-close"
+            aria-label="Close"
+          >
+            <svg width="14" height="14" viewBox="0 0 24 24" fill="none">
+              <path
+                d="M18 6 6 18M6 6l12 12"
+                stroke="currentColor"
+                stroke-width="2.2"
+                stroke-linecap="round"
+              />
+            </svg>
+          </button>
+        </div>
+
+        <p class="support-modal-text support-modal-lead">
+          Youtube Hider is free, open source, and has no ads and no tracking.
+          It also aims at a moving target: YouTube reshapes its page markup
+          without warning, and a change nobody announces can quietly break a
+          filter that worked yesterday.
+        </p>
+        <p class="support-modal-text">
+          Keeping it working means hunting those changes down one selector at a
+          time, in someone's spare time. Any of these three helps.
+        </p>
+
+        <div class="support-options">
+          <a
+            class="support-option support-option-github"
+            href="https://github.com/MatteoLucerni/youtube-hider-extension"
+            target="_blank"
+            rel="noopener noreferrer"
+          >
+            <span class="support-option-icon" aria-hidden="true">
+              <svg viewBox="0 0 24 24" fill="none">
+                <path
+                  d="m8 18-6-6 6-6M16 6l6 6-6 6"
+                  stroke="currentColor"
+                  stroke-width="2"
+                  stroke-linecap="round"
+                  stroke-linejoin="round"
+                />
+              </svg>
+            </span>
+            <span class="support-option-body">
+              <span class="support-option-title">Contribute on GitHub</span>
+              <span class="support-option-desc">
+                Send a pull request, or report a broken filter with the page it
+                happened on.
+              </span>
+            </span>
+            <span class="support-option-arrow" aria-hidden="true">
+              <svg width="14" height="14" viewBox="0 0 24 24" fill="none">
+                <path
+                  d="M7 17 17 7M9 7h8v8"
+                  stroke="currentColor"
+                  stroke-width="2"
+                  stroke-linecap="round"
+                  stroke-linejoin="round"
+                />
+              </svg>
+            </span>
+          </a>
+
+          <a
+            class="support-option support-option-coffee"
+            href="https://ko-fi.com/D5Y424F3EB"
+            target="_blank"
+            rel="noopener noreferrer"
+          >
+            <span class="support-option-icon" aria-hidden="true">
+              <svg viewBox="0 0 24 24" fill="none">
+                <path
+                  d="M2 8h15a3 3 0 0 1 0 6h-1"
+                  stroke="currentColor"
+                  stroke-width="2"
+                  stroke-linecap="round"
+                  stroke-linejoin="round"
+                />
+                <path
+                  d="M2 8v9a2 2 0 0 0 2 2h11a2 2 0 0 0 2-2V8"
+                  stroke="currentColor"
+                  stroke-width="2"
+                  stroke-linecap="round"
+                  stroke-linejoin="round"
+                />
+                <path
+                  d="M6 2c-.5 1 -1.5 1.5 -1 3M10 2c-.5 1 -1.5 1.5 -1 3"
+                  stroke="currentColor"
+                  stroke-width="2"
+                  stroke-linecap="round"
+                  stroke-linejoin="round"
+                />
+              </svg>
+            </span>
+            <span class="support-option-body">
+              <span class="support-option-title">Buy me a coffee</span>
+              <span class="support-option-desc">
+                A one-off contribution on Ko-fi. No account and no subscription
+                needed.
+              </span>
+            </span>
+            <span class="support-option-arrow" aria-hidden="true">
+              <svg width="14" height="14" viewBox="0 0 24 24" fill="none">
+                <path
+                  d="M7 17 17 7M9 7h8v8"
+                  stroke="currentColor"
+                  stroke-width="2"
+                  stroke-linecap="round"
+                  stroke-linejoin="round"
+                />
+              </svg>
+            </span>
+          </a>
+
+          <a
+            class="support-option support-option-review"
+            href="https://chromewebstore.google.com/detail/ebpikpmmnpjmlcpanakfcgchkdjaanmm/reviews"
+            target="_blank"
+            rel="noopener noreferrer"
+          >
+            <span class="support-option-icon" aria-hidden="true">
+              <svg viewBox="0 0 24 24" fill="none">
+                <path
+                  d="m12 3 2.9 5.9 6.5.9-4.7 4.6 1.1 6.5-5.8-3-5.8 3 1.1-6.5L2.6 9.8l6.5-.9z"
+                  stroke="currentColor"
+                  stroke-width="2"
+                  stroke-linecap="round"
+                  stroke-linejoin="round"
+                />
+              </svg>
+            </span>
+            <span class="support-option-body">
+              <span class="support-option-title">Leave a review</span>
+              <span class="support-option-desc">
+                A rating on the Chrome Web Store costs nothing and helps other
+                people find the extension.
+              </span>
+            </span>
+            <span class="support-option-arrow" aria-hidden="true">
+              <svg width="14" height="14" viewBox="0 0 24 24" fill="none">
+                <path
+                  d="M7 17 17 7M9 7h8v8"
+                  stroke="currentColor"
+                  stroke-width="2"
+                  stroke-linecap="round"
+                  stroke-linejoin="round"
+                />
+              </svg>
+            </span>
+          </a>
         </div>
       </div>
     </div>

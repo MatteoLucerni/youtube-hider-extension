@@ -170,7 +170,8 @@ youtube-hider-extension
 │   ├── base.css           Variables, reset, header, layout, simple/advanced states
 │   ├── cards.css          Setting cards and slider controls
 │   ├── toggles.css        Toggle grid, switches, footer
-│   └── filters.css        Tooltips, date filter, overlap warning
+│   ├── filters.css        Tooltips, date filter, overlap warning
+│   └── support.css        Support button and support panel
 ├── background.js          Service worker (badge, lifecycle, messaging)
 ├── build.ps1              Build/packaging script
 ├── CHANGELOG.md           Version history

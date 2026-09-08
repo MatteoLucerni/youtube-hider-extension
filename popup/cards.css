@@ -1,6 +1,6 @@
 .setting-card {
     background-color: var(--bg-secondary);
-    border-radius: var(--radius-lg);
+    border-radius: var(--radius-box);
     padding: var(--spacing-xl);
     margin-bottom: var(--spacing-2xl);
     scroll-margin-top: calc(var(--yh-header-offset, 70px) + 12px);
@@ -65,7 +65,7 @@
     padding: var(--spacing-md) var(--spacing-lg);
     background: var(--bg-tertiary);
     border: 2px solid transparent;
-    border-radius: var(--radius-md);
+    border-radius: var(--radius-box);
     color: var(--text-secondary);
     cursor: pointer;
     font-family: inherit;
@@ -97,7 +97,7 @@
     color: var(--text-tertiary);
     background: var(--bg-tertiary);
     border: 1px solid var(--border-color);
-    border-radius: var(--radius-md);
+    border-radius: var(--radius-box);
     cursor: pointer;
     transition: color 0.2s var(--ease-standard), background-color 0.2s var(--ease-standard), border-color 0.2s var(--ease-standard);
     font-family: inherit;
@@ -141,7 +141,7 @@
     width: 32px;
     height: 32px;
     flex-shrink: 0;
-    border-radius: var(--radius-md);
+    border-radius: var(--radius-box);
     color: var(--accent-blue);
     background: rgba(138, 180, 248, 0.14);
 }
@@ -237,7 +237,7 @@
 
 .slider-control {
     background-color: var(--bg-tertiary);
-    border-radius: var(--radius-md);
+    border-radius: var(--radius-box);
     padding: var(--spacing-md) var(--spacing-lg);
     min-width: 110px;
     display: flex;

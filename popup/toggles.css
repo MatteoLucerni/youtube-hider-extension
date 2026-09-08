@@ -21,13 +21,23 @@
     align-items: center;
     min-width: 0;
     position: relative;
-    border-top: 1px solid var(--border-color);
-    border-radius: var(--radius-sm);
+    border-radius: var(--radius-box);
     transition: background-color 0.15s var(--ease-standard);
 }
 
-.toggle-item:first-child {
-    border-top: none;
+.toggle-item::before {
+    content: "";
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    height: 1px;
+    background-color: var(--border-color);
+}
+
+.toggle-item:first-child::before,
+.toggle-grid-large .toggle-item::before {
+    display: none;
 }
 
 .toggle-item:hover {
@@ -93,7 +103,7 @@
     background-color: var(--toggle-inactive);
     box-shadow: inset 0 1px 2px rgba(0, 0, 0, 0.22);
     transition: background-color 0.32s var(--ease-toggle), box-shadow 0.32s var(--ease-toggle);
-    border-radius: var(--radius-pill);
+    border-radius: var(--radius-box);
 }
 
 .toggle-switch .toggle-slider:before {
@@ -162,12 +172,8 @@
     flex: 1 1 68px;
     min-width: 68px;
     border: 1px solid var(--border-color);
-    border-radius: var(--radius-md);
+    border-radius: var(--radius-box);
     background-color: var(--bg-tertiary);
-}
-
-.toggle-grid-large .toggle-item:first-child {
-    border-top: 1px solid var(--border-color);
 }
 
 .toggle-grid-large .toggle-item:hover {
@@ -222,7 +228,7 @@
     color: var(--text-tertiary);
     text-decoration: none;
     padding: var(--spacing-xs) var(--spacing-sm);
-    border-radius: var(--radius-sm);
+    border-radius: var(--radius-box);
     transition: color 0.2s var(--ease-standard), background-color 0.2s var(--ease-standard), transform 0.15s var(--ease-standard);
     white-space: nowrap;
     background-color: transparent;
@@ -257,38 +263,6 @@
     color: var(--text-secondary);
     opacity: 0.6;
     align-self: flex-end;
-}
-
-.kofi-button {
-    display: inline-flex;
-    align-items: center;
-    gap: 5px;
-    font-size: 12px;
-    font-weight: 600;
-    color: var(--accent-blue);
-    background-color: rgba(138, 180, 248, 0.12);
-    border: 1px solid rgba(138, 180, 248, 0.25);
-    text-decoration: none;
-    padding: 5px var(--spacing-md);
-    border-radius: var(--radius-pill);
-    white-space: nowrap;
-    flex-shrink: 0;
-    transition: background-color 0.2s var(--ease-standard), border-color 0.2s var(--ease-standard), transform 0.15s var(--ease-standard);
-}
-
-.kofi-button:hover {
-    color: var(--accent-blue);
-    background-color: rgba(138, 180, 248, 0.2);
-    border-color: rgba(138, 180, 248, 0.45);
-    transform: translateY(-1px);
-}
-
-.kofi-button:active {
-    transform: scale(0.98);
-}
-
-.kofi-icon {
-    flex-shrink: 0;
 }
 
 .logo-image {
