@@ -260,6 +260,16 @@
     flex: 0 0 auto;
 }
 
+.slider-control-wide {
+    width: 100%;
+    max-width: 100%;
+}
+
+.slider-control-wide .slider-control-left {
+    flex: 1 1 auto;
+    min-width: 0;
+}
+
 .slider-control-right {
     display: flex;
     flex-direction: column;
