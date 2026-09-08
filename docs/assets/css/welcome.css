@@ -1,6 +1,6 @@
 :root {
     --bg-primary: #1a1a1a;
-    --bg-secondary: #222222;
+    --bg-secondary: #242424;
     --bg-tertiary: #2a2a2a;
     --bg-quaternary: #313131;
     --text-primary: #ebebeb;
@@ -11,6 +11,9 @@
     --accent-green: #10b981;
     --accent-blue: #8ab4f8;
     --accent-blue-dark: #6ba3ff;
+    --radius-box: 8px;
+    --bg-deep: #131313;
+    --bg-raised: #1f1f1f;
 }
 
 * {
@@ -20,7 +23,11 @@
 }
 
 body {
-    background-color: var(--bg-primary);
+    background:
+        radial-gradient(1000px 520px at 50% -6%, rgba(138, 180, 248, 0.15), transparent 64%),
+        radial-gradient(700px 460px at 92% 26%, rgba(16, 185, 129, 0.07), transparent 70%),
+        linear-gradient(180deg, #1c1c1c 0%, var(--bg-primary) 46%, var(--bg-deep) 100%);
+    background-attachment: fixed;
     color: var(--text-primary);
     font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, sans-serif;
     line-height: 1.6;
@@ -98,9 +105,9 @@ body {
 }
 
 .feature-card {
-    background-color: var(--bg-secondary);
+    background: linear-gradient(180deg, #282828 0%, var(--bg-secondary) 100%);
     border: 1px solid var(--border-color);
-    border-radius: 12px;
+    border-radius: var(--radius-box);
     padding: 24px 20px;
     transition: border-color 0.2s ease, transform 0.2s ease;
 }
@@ -144,9 +151,9 @@ body {
     display: flex;
     gap: 16px;
     align-items: flex-start;
-    background-color: var(--bg-secondary);
+    background: linear-gradient(180deg, #282828 0%, var(--bg-secondary) 100%);
     border: 1px solid var(--border-color);
-    border-radius: 12px;
+    border-radius: var(--radius-box);
     padding: 20px;
     transition: border-color 0.2s ease;
 }
@@ -160,7 +167,7 @@ body {
     width: 36px;
     height: 36px;
     background: linear-gradient(135deg, var(--accent-blue) 0%, var(--accent-blue-dark) 100%);
-    border-radius: 50%;
+    border-radius: var(--radius-box);
     display: flex;
     align-items: center;
     justify-content: center;
@@ -232,7 +239,7 @@ body {
 .easymode-card {
     background: linear-gradient(135deg, rgba(16, 185, 129, 0.08) 0%, rgba(138, 180, 248, 0.08) 100%);
     border: 1px solid rgba(16, 185, 129, 0.3);
-    border-radius: 12px;
+    border-radius: var(--radius-box);
     padding: 24px;
     text-align: center;
     position: relative;
@@ -246,7 +253,7 @@ body {
     font-weight: 700;
     letter-spacing: 1px;
     padding: 3px 10px;
-    border-radius: 20px;
+    border-radius: var(--radius-box);
     margin-bottom: 12px;
 }
 
@@ -283,7 +290,7 @@ body {
     font-weight: 700;
     padding: 14px 48px;
     border: none;
-    border-radius: 50px;
+    border-radius: var(--radius-box);
     cursor: pointer;
     transition: transform 0.2s ease, box-shadow 0.2s ease;
     letter-spacing: 0.2px;
