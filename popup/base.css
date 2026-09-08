@@ -20,6 +20,7 @@
     --spacing-2xl: 20px;
     --spacing-3xl: 28px;
     --radius-box: 8px;
+    --radius-knob: calc(var(--radius-box) - 2px);
     --radius-pill: 999px;
     --shadow-card: 0 0 0 1px rgba(255, 255, 255, 0.05), 0 2px 8px rgba(0, 0, 0, 0.25), 0 10px 30px rgba(0, 0, 0, 0.35);
     --shadow-sm: 0 1px 2px rgba(0, 0, 0, 0.22), 0 2px 5px rgba(0, 0, 0, 0.20);

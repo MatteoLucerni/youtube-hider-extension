@@ -116,7 +116,7 @@
     background-color: var(--text-primary);
     box-shadow: var(--shadow-sm);
     transition: transform 0.32s var(--ease-toggle), box-shadow 0.2s var(--ease-standard);
-    border-radius: 50%;
+    border-radius: var(--radius-knob);
 }
 
 .toggle-switch-large .toggle-slider:before {
@@ -129,7 +129,7 @@
     background-color: var(--text-primary);
     box-shadow: var(--shadow-sm);
     transition: transform 0.32s var(--ease-toggle), box-shadow 0.2s var(--ease-standard);
-    border-radius: 50%;
+    border-radius: var(--radius-knob);
 }
 
 .toggle-switch .toggle-slider:hover:before,
