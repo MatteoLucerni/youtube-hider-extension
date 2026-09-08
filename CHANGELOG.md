@@ -4,7 +4,7 @@
 
 **Added**
 
-- The Support button in the settings menu header now opens a panel inside the menu instead of jumping straight to Ko-fi. The panel explains why support matters for a project like this one, which aims at a moving target: YouTube reshapes its page markup without warning, and a change nobody announces can quietly break a filter that worked the day before, so keeping the extension working means hunting those changes down one selector at a time. From there it offers two ways to help, contributing on GitHub (a pull request, or a bug report naming the page the breakage happened on) and a one-off contribution on Ko-fi, plus a note that rating the extension or telling someone about it counts too. The panel closes with its close button, a click outside it, or Escape
+- The Support button in the settings menu header now opens a panel inside the menu instead of jumping straight to Ko-fi. The panel explains why support matters for a project like this one, which aims at a moving target: YouTube reshapes its page markup without warning, and a change nobody announces can quietly break a filter that worked the day before, so keeping the extension working means hunting those changes down one selector at a time. From there it offers three ways to help, each as its own button: contributing on GitHub (a pull request, or a bug report naming the page the breakage happened on), a one-off contribution on Ko-fi, and leaving a review on the Chrome Web Store. The panel closes with its close button, a click outside it, or Escape, and it shrinks its own spacing and scrolls internally when there is not enough vertical room for it, which is what happens to the on-page settings dropdown in a short browser window
 
 **Changed**
 

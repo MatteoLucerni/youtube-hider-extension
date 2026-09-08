@@ -67,12 +67,35 @@ body.support-modal-open {
     max-width: 344px;
     max-height: 100%;
     overflow-y: auto;
+    overscroll-behavior: contain;
     padding: var(--spacing-xl);
     background-color: var(--bg-secondary);
     border: 1px solid var(--border-color);
     border-radius: var(--radius-box);
     box-shadow: var(--shadow-card);
     animation: support-card-in 0.18s var(--ease-standard);
+}
+
+@media (max-height: 520px) {
+    .support-modal {
+        padding: var(--spacing-md);
+    }
+
+    .support-modal-card {
+        padding: var(--spacing-lg);
+    }
+
+    .support-modal-header {
+        margin-bottom: var(--spacing-md);
+    }
+
+    .support-modal-text {
+        margin-bottom: var(--spacing-md);
+    }
+
+    .support-option {
+        padding: var(--spacing-md) var(--spacing-lg);
+    }
 }
 
 @keyframes support-scrim-in {
