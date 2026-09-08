@@ -39,7 +39,9 @@
 
     <style>
       :root {
+        --bg-deep: #131313;
         --bg-primary: #1a1a1a;
+        --bg-raised: #1f1f1f;
         --bg-secondary: #242424;
         --text-primary: #ebebeb;
         --text-secondary: #b8b8b8;
@@ -93,9 +95,12 @@
       }
 
       .error-section {
+        position: relative;
+        overflow: hidden;
         background:
-          radial-gradient(900px 460px at 50% 0%, rgba(138, 180, 248, 0.12), transparent 70%),
-          var(--bg-primary);
+          radial-gradient(1100px 560px at 50% -6%, rgba(138, 180, 248, 0.17), transparent 66%),
+          radial-gradient(680px 420px at 86% 18%, rgba(16, 185, 129, 0.08), transparent 70%),
+          linear-gradient(180deg, #1c1c1c 0%, var(--bg-primary) 55%, var(--bg-deep) 100%);
         flex: 1;
         display: flex;
         align-items: center;
@@ -105,8 +110,21 @@
         min-height: 100vh;
       }
 
+      .error-section::before {
+        content: "";
+        position: absolute;
+        inset: 0;
+        background-image: radial-gradient(rgba(255, 255, 255, 0.06) 1px, transparent 1px);
+        background-size: 26px 26px;
+        -webkit-mask-image: radial-gradient(780px 460px at 50% 30%, #000 0%, transparent 72%);
+        mask-image: radial-gradient(780px 460px at 50% 30%, #000 0%, transparent 72%);
+        pointer-events: none;
+      }
+
       .error-content {
         max-width: 600px;
+        position: relative;
+        z-index: 1;
       }
 
       .error-404 {
@@ -243,12 +261,22 @@
       }
 
       .footer {
-        padding: 48px 20px;
+        padding: 56px 20px;
         text-align: center;
-        background: var(--bg-primary);
+        background: var(--bg-deep);
         color: var(--text-secondary);
-        border-top: 1px solid var(--border-color);
         margin-top: auto;
+        position: relative;
+      }
+
+      .footer::after {
+        content: "";
+        position: absolute;
+        top: 0;
+        left: 0;
+        right: 0;
+        height: 1px;
+        background: linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.09) 22%, rgba(255, 255, 255, 0.09) 78%, transparent);
       }
 
       .footer a {
@@ -454,8 +482,9 @@
         ></a>
       </div>
       <div class="footer-support">
-        <script type='text/javascript' src='https://storage.ko-fi.com/cdn/widget/Widget_2.js'></script>
-        <script type='text/javascript'>kofiwidget2.init('Support me on Ko-fi', '#6ba3ff', 'D5Y424F3EB');kofiwidget2.draw();</script>
+        <button type="button" class="yh-support-trigger" data-support-open aria-haspopup="dialog">
+          Support this project
+        </button>
       </div>
     </footer>
 
@@ -464,6 +493,7 @@
       integrity="sha512-ENjdO4Dr2bkBIFxQpeoE6A7MsXsP1UyJoMp4YLEuNSfAP+JcXn/tWtIaxVXM"
       crossorigin="anonymous"
     ></script>
+    <script src="assets/js/support-modal.js" defer></script>
     <script src="assets/js/feedback-widget.js" defer></script>
   </body>
 </html>

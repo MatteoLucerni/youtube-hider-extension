@@ -12,6 +12,8 @@
     --accent-blue: #8ab4f8;
     --accent-blue-dark: #6ba3ff;
     --radius-box: 8px;
+    --bg-deep: #131313;
+    --bg-raised: #1f1f1f;
 }
 
 * {
@@ -21,7 +23,11 @@
 }
 
 body {
-    background-color: var(--bg-primary);
+    background:
+        radial-gradient(1000px 520px at 50% -6%, rgba(138, 180, 248, 0.15), transparent 64%),
+        radial-gradient(700px 460px at 92% 26%, rgba(16, 185, 129, 0.07), transparent 70%),
+        linear-gradient(180deg, #1c1c1c 0%, var(--bg-primary) 46%, var(--bg-deep) 100%);
+    background-attachment: fixed;
     color: var(--text-primary);
     font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, sans-serif;
     line-height: 1.6;
@@ -99,7 +105,7 @@ body {
 }
 
 .feature-card {
-    background-color: var(--bg-secondary);
+    background: linear-gradient(180deg, #282828 0%, var(--bg-secondary) 100%);
     border: 1px solid var(--border-color);
     border-radius: var(--radius-box);
     padding: 24px 20px;
@@ -145,7 +151,7 @@ body {
     display: flex;
     gap: 16px;
     align-items: flex-start;
-    background-color: var(--bg-secondary);
+    background: linear-gradient(180deg, #282828 0%, var(--bg-secondary) 100%);
     border: 1px solid var(--border-color);
     border-radius: var(--radius-box);
     padding: 20px;

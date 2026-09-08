@@ -74,7 +74,9 @@
 
   <style>
     :root {
+      --bg-deep: #131313;
       --bg-primary: #1a1a1a;
+      --bg-raised: #1f1f1f;
       --bg-secondary: #242424;
       --bg-tertiary: #2a2a2a;
       --bg-quaternary: #313131;
@@ -90,6 +92,26 @@
       --shadow-card: 0 0 0 1px rgba(255, 255, 255, 0.05), 0 2px 8px rgba(0, 0, 0, 0.25), 0 10px 30px rgba(0, 0, 0, 0.35);
       --shadow-md: 0 4px 14px rgba(0, 0, 0, 0.32);
       --ease-standard: cubic-bezier(0.4, 0, 0.2, 1);
+    }
+
+    .section-edge {
+      position: relative;
+    }
+
+    .section-edge > * {
+      position: relative;
+      z-index: 1;
+    }
+
+    .section-edge::after {
+      content: "";
+      position: absolute;
+      top: 0;
+      left: 0;
+      right: 0;
+      height: 1px;
+      background: linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.09) 22%, rgba(255, 255, 255, 0.09) 78%, transparent);
+      z-index: 2;
     }
 
     body {
@@ -154,7 +176,16 @@
       border-radius: var(--radius-box);
       text-decoration: none;
       font-weight: 600;
+      font-family: inherit;
+      font-size: 1rem;
+      line-height: 1.5;
+      cursor: pointer;
       transition: background 0.2s var(--ease-standard), border-color 0.2s var(--ease-standard), transform 0.2s var(--ease-standard);
+    }
+
+    .kofi-nav:focus-visible {
+      outline: 2px solid var(--accent-blue);
+      outline-offset: 2px;
     }
 
     .kofi-nav:hover {
@@ -165,13 +196,32 @@
     }
 
     .hero {
+      position: relative;
       background:
-        radial-gradient(900px 460px at 50% -10%, rgba(138, 180, 248, 0.12), transparent 70%),
-        var(--bg-primary);
+        radial-gradient(1100px 560px at 50% -12%, rgba(138, 180, 248, 0.17), transparent 66%),
+        radial-gradient(680px 420px at 88% 14%, rgba(16, 185, 129, 0.08), transparent 70%),
+        linear-gradient(180deg, #1c1c1c 0%, var(--bg-primary) 55%, var(--bg-deep) 100%);
       text-align: center;
       color: var(--text-primary);
       min-height: 100vh;
       padding-bottom: 80px;
+      overflow: hidden;
+    }
+
+    .hero::before {
+      content: "";
+      position: absolute;
+      inset: 0;
+      background-image: radial-gradient(rgba(255, 255, 255, 0.06) 1px, transparent 1px);
+      background-size: 26px 26px;
+      -webkit-mask-image: radial-gradient(780px 460px at 50% 24%, #000 0%, transparent 72%);
+      mask-image: radial-gradient(780px 460px at 50% 24%, #000 0%, transparent 72%);
+      pointer-events: none;
+    }
+
+    .hero > * {
+      position: relative;
+      z-index: 1;
     }
 
     .hero h1 {
@@ -234,9 +284,10 @@
 
     .chrome-web-store-badge {
       padding: 80px 20px;
-      background: var(--bg-primary);
+      background:
+        radial-gradient(760px 300px at 50% 0%, rgba(138, 180, 248, 0.07), transparent 72%),
+        var(--bg-deep);
       text-align: center;
-      border-top: 1px solid var(--border-color);
     }
 
     .badge-container {
@@ -249,7 +300,7 @@
     }
 
     .stat-item {
-      background: var(--bg-secondary);
+      background: linear-gradient(180deg, #282828 0%, var(--bg-secondary) 100%);
       padding: 24px 32px;
       border-radius: var(--radius-box);
       box-shadow: var(--shadow-card);
@@ -292,10 +343,11 @@
     }
 
     .video-section {
-      padding: 80px 20px;
-      background: var(--bg-primary);
+      padding: 90px 20px;
+      background:
+        radial-gradient(720px 420px at 12% 100%, rgba(16, 185, 129, 0.09), transparent 68%),
+        linear-gradient(180deg, var(--bg-raised) 0%, #1c1c1c 100%);
       text-align: center;
-      border-top: 1px solid var(--border-color);
     }
 
     .video-container {
@@ -325,13 +377,15 @@
     }
 
     .features {
-      padding: 80px 20px;
-      background: var(--bg-primary);
-      border-top: 1px solid var(--border-color);
+      padding: 90px 20px;
+      background:
+        radial-gradient(900px 500px at 78% 8%, rgba(138, 180, 248, 0.10), transparent 68%),
+        radial-gradient(760px 460px at 6% 82%, rgba(16, 185, 129, 0.07), transparent 70%),
+        var(--bg-primary);
     }
 
     .feature {
-      background: var(--bg-secondary);
+      background: linear-gradient(180deg, #282828 0%, var(--bg-secondary) 100%);
       padding: 26px;
       border-radius: var(--radius-box);
       box-shadow: var(--shadow-card);
@@ -404,13 +458,20 @@
     }
 
     .cta-section {
-      padding: 80px 20px;
+      padding: 96px 20px;
       background:
-        linear-gradient(135deg, rgba(138, 180, 248, 0.1) 0%, rgba(16, 185, 129, 0.06) 100%),
-        var(--bg-secondary);
+        radial-gradient(900px 420px at 50% 120%, rgba(16, 185, 129, 0.16), transparent 66%),
+        linear-gradient(135deg, rgba(138, 180, 248, 0.2) 0%, rgba(138, 180, 248, 0.05) 46%, rgba(16, 185, 129, 0.1) 100%),
+        var(--bg-raised);
       color: var(--text-primary);
       text-align: center;
-      border-top: 1px solid var(--border-color);
+    }
+
+    .cta-section h2 span {
+      background: linear-gradient(135deg, #ffffff 0%, #9dc4f0 100%);
+      -webkit-background-clip: text;
+      background-clip: text;
+      -webkit-text-fill-color: transparent;
     }
 
     .cta-section h2 {
@@ -450,11 +511,10 @@
     }
 
     .footer {
-      padding: 48px 20px;
+      padding: 56px 20px;
       text-align: center;
-      background: var(--bg-primary);
+      background: var(--bg-deep);
       color: var(--text-secondary);
-      border-top: 1px solid var(--border-color);
     }
 
     .footer a {
@@ -468,7 +528,7 @@
     }
 
     .footer-support {
-      margin-top: 20px;
+      margin-top: 24px;
       display: flex;
       justify-content: center;
     }
@@ -570,11 +630,11 @@
         <div class="fs-6 text-white-50">MV3 Chrome Extension</div>
       </a>
       <div class="nav-actions d-flex align-items-center">
-        <a href="https://ko-fi.com/D5Y424F3EB" target="_blank" rel="noopener noreferrer" class="kofi-nav"
-          aria-label="Support on Ko-fi">
-          <i class="fas fa-mug-hot"></i>
+        <button type="button" class="kofi-nav" data-support-open aria-haspopup="dialog"
+          aria-label="Support YouTube Hider">
+          <i class="fas fa-heart"></i>
           <span class="d-none d-sm-inline">Support</span>
-        </a>
+        </button>
         <a href="https://chromewebstore.google.com/detail/ebpikpmmnpjmlcpanakfcgchkdjaanmm" target="_blank"
           rel="noopener noreferrer" class="cta-compact">
           <span class="d-none d-sm-inline">Install Now</span>
@@ -605,7 +665,7 @@
     </div>
   </section>
 
-  <section class="chrome-web-store-badge">
+  <section class="chrome-web-store-badge section-edge">
     <div class="container">
       <h2 class="section-title">Trusted by Chrome users</h2>
       <div class="badge-container">
@@ -625,7 +685,7 @@
     </div>
   </section>
 
-  <section class="video-section">
+  <section class="video-section section-edge">
     <div class="container">
       <h2 class="section-title">See It in Action</h2>
       <div class="video-container">
@@ -641,7 +701,7 @@
     </div>
   </section>
 
-  <section class="features">
+  <section class="features section-edge">
     <div class="container">
       <h2 class="section-title">Powerful Features</h2>
       <div class="row align-items-center g-4">
@@ -766,9 +826,9 @@
     </div>
   </section>
 
-  <section class="cta-section">
+  <section class="cta-section section-edge">
     <div class="container">
-      <h2>Ready to Transform Your YouTube?</h2>
+      <h2><span>Ready to Transform Your YouTube?</span></h2>
       <p>
         Join thousands of users who have already simplified their streaming
         experience
@@ -778,7 +838,7 @@
     </div>
   </section>
 
-  <footer class="footer">
+  <footer class="footer section-edge">
     <p>Built for the efficiently lazy, by Matteo</p>
     <div>
       <a href="https://www.linkedin.com/in/matteo-lucerni-0725a526b/" target="_blank" rel="noopener noreferrer"
@@ -788,13 +848,16 @@
         class="">GitHub <i class="fa-brands fa-github ms-1"></i></a>
     </div>
     <div class="footer-support">
-      <script type='text/javascript' src='https://storage.ko-fi.com/cdn/widget/Widget_2.js'></script>
-      <script type='text/javascript'>kofiwidget2.init('Support me on Ko-fi', '#6ba3ff', 'D5Y424F3EB');kofiwidget2.draw();</script>
+      <button type="button" class="yh-support-trigger" data-support-open aria-haspopup="dialog">
+        <i class="fas fa-heart"></i>
+        Support this project
+      </button>
     </div>
   </footer>
 
   <script src="https://cdnjs.cloudflare.com/ajax/libs/bootstrap/5.3.7/js/bootstrap.bundle.min.js"
     integrity="sha512-ENjdO4Dr2bkBIFxQpeoE6A7MsXsP1UyJoMp4YLEuNSfAP+JcXn/tWtIaxVXM" crossorigin="anonymous"></script>
+  <script src="assets/js/support-modal.js" defer></script>
   <script src="assets/js/feedback-widget.js" defer></script>
   <script src="assets/js/stats.js" defer></script>
 </body>
