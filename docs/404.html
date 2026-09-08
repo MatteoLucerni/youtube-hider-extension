@@ -1,5 +1,5 @@
 <!doctype html>
-<html lang="en">
+<html lang="en" data-bs-theme="dark">
   <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
@@ -38,6 +38,20 @@
     />
 
     <style>
+      :root {
+        --bg-primary: #1a1a1a;
+        --bg-secondary: #242424;
+        --text-primary: #ebebeb;
+        --text-secondary: #b8b8b8;
+        --text-tertiary: #888888;
+        --border-color: #3a3a3a;
+        --accent-red: #ff0000;
+        --accent-blue: #8ab4f8;
+        --accent-blue-dark: #6ba3ff;
+        --radius-box: 8px;
+        --ease-standard: cubic-bezier(0.4, 0, 0.2, 1);
+      }
+
       body {
         margin: 0;
         font-family: "Poppins", sans-serif;
@@ -45,6 +59,8 @@
         min-height: 100vh;
         display: flex;
         flex-direction: column;
+        background-color: var(--bg-primary);
+        color: var(--text-primary);
       }
 
       .navbar {
@@ -52,45 +68,34 @@
         width: 100%;
         display: flex;
         justify-content: space-between;
-        padding: 20px;
-        background: rgba(0, 0, 0, 0.5);
+        padding: 16px 20px;
+        background: rgba(26, 26, 26, 0.78);
         z-index: 100;
-        backdrop-filter: blur(10px);
+        backdrop-filter: blur(12px);
+        border-bottom: 1px solid var(--border-color);
       }
 
       .navbar .cta {
-        background: #ff0000;
-        color: #fff;
-        padding: 10px 20px;
+        background: linear-gradient(135deg, var(--accent-blue) 0%, var(--accent-blue-dark) 100%);
+        color: #1a1a1a;
+        padding: 9px 18px;
         border: none;
-        border-radius: 4px;
+        border-radius: var(--radius-box);
         text-decoration: none;
-        font-weight: 600;
-        animation: pulse 2s infinite;
-        transition: transform 0.3s ease;
+        font-weight: 700;
+        transition: transform 0.2s var(--ease-standard), box-shadow 0.2s var(--ease-standard);
       }
 
       .navbar .cta:hover {
         transform: translateY(-2px);
-        box-shadow: 0 4px 12px rgba(255, 0, 0, 0.3);
-      }
-
-      @keyframes pulse {
-        0% {
-          transform: scale(1);
-        }
-
-        50% {
-          transform: scale(1.05);
-        }
-
-        100% {
-          transform: scale(1);
-        }
+        box-shadow: 0 6px 20px rgba(138, 180, 248, 0.28);
+        color: #1a1a1a;
       }
 
       .error-section {
-        background: linear-gradient(135deg, #c3cfe2 0%, #f5f7fa 100%);
+        background:
+          radial-gradient(900px 460px at 50% 0%, rgba(138, 180, 248, 0.12), transparent 70%),
+          var(--bg-primary);
         flex: 1;
         display: flex;
         align-items: center;
@@ -107,10 +112,12 @@
       .error-404 {
         font-size: 8rem;
         font-weight: 700;
-        color: #ff0000;
         margin: 0;
         line-height: 1;
-        text-shadow: 3px 3px 0px rgba(0, 0, 0, 0.1);
+        background: linear-gradient(135deg, #8ab4f8 0%, #6ba3ff 100%);
+        -webkit-background-clip: text;
+        background-clip: text;
+        -webkit-text-fill-color: transparent;
         opacity: 0;
         animation:
           glitchAnimation 2s forwards,
@@ -142,7 +149,7 @@
 
       .error-icon {
         font-size: 5rem;
-        color: #ff0000;
+        color: var(--accent-blue);
         margin-bottom: 20px;
         opacity: 0;
         animation: rotateIn 1s 0.3s forwards;
@@ -163,7 +170,7 @@
       .error-title {
         font-size: 2rem;
         font-weight: 600;
-        color: #333;
+        color: var(--text-primary);
         margin: 20px 0;
         opacity: 0;
         animation: fadeInUp 1s 0.5s forwards;
@@ -171,7 +178,7 @@
 
       .error-message {
         font-size: 1.1rem;
-        color: #666;
+        color: var(--text-secondary);
         margin-bottom: 30px;
         line-height: 1.6;
         opacity: 0;
@@ -180,7 +187,7 @@
 
       .error-submessage {
         font-size: 0.95rem;
-        color: #999;
+        color: var(--text-tertiary);
         margin-bottom: 40px;
         font-style: italic;
         opacity: 0;
@@ -189,7 +196,7 @@
 
       .error-buttons {
         display: flex;
-        gap: 20px;
+        gap: 16px;
         justify-content: center;
         flex-wrap: wrap;
         opacity: 0;
@@ -197,51 +204,61 @@
       }
 
       .btn-primary-404 {
-        background: #ff0000;
-        color: #fff;
-        padding: 12px 30px;
+        background: linear-gradient(135deg, var(--accent-blue) 0%, var(--accent-blue-dark) 100%);
+        color: #1a1a1a;
+        padding: 13px 32px;
         border: none;
-        border-radius: 4px;
+        border-radius: var(--radius-box);
         font-size: 1rem;
-        font-weight: 600;
+        font-weight: 700;
         text-decoration: none;
         display: inline-block;
-        transition: all 0.3s ease;
+        transition: transform 0.2s var(--ease-standard), box-shadow 0.2s var(--ease-standard);
       }
 
       .btn-primary-404:hover {
-        background: #cc0000;
         transform: translateY(-2px);
-        box-shadow: 0 6px 20px rgba(255, 0, 0, 0.3);
-        color: #fff;
+        box-shadow: 0 8px 26px rgba(138, 180, 248, 0.3);
+        color: #1a1a1a;
       }
 
       .btn-secondary-404 {
-        background: transparent;
-        color: #333;
-        padding: 12px 30px;
-        border: 2px solid #333;
-        border-radius: 4px;
+        background: var(--bg-secondary);
+        color: var(--text-primary);
+        padding: 13px 32px;
+        border: 1px solid var(--border-color);
+        border-radius: var(--radius-box);
         font-size: 1rem;
         font-weight: 600;
         text-decoration: none;
         display: inline-block;
-        transition: all 0.3s ease;
+        transition: background 0.2s var(--ease-standard), border-color 0.2s var(--ease-standard), transform 0.2s var(--ease-standard);
       }
 
       .btn-secondary-404:hover {
-        background: #333;
-        color: #fff;
+        background: #313131;
+        border-color: var(--accent-blue);
+        color: var(--text-primary);
         transform: translateY(-2px);
-        box-shadow: 0 6px 20px rgba(0, 0, 0, 0.2);
       }
 
       .footer {
-        padding: 40px 20px;
+        padding: 48px 20px;
         text-align: center;
-        background: #222;
-        color: #ccc;
+        background: var(--bg-primary);
+        color: var(--text-secondary);
+        border-top: 1px solid var(--border-color);
         margin-top: auto;
+      }
+
+      .footer a {
+        color: var(--text-primary);
+        text-decoration: none;
+        transition: color 0.2s var(--ease-standard);
+      }
+
+      .footer a:hover {
+        color: var(--accent-blue);
       }
 
       .footer-support {
@@ -251,14 +268,14 @@
       }
 
       .yt-color {
-        color: #ff0000;
+        color: var(--accent-red);
       }
 
       .video-progress-bar {
         width: 200px;
         height: 4px;
-        background: #ddd;
-        border-radius: 2px;
+        background: var(--border-color);
+        border-radius: 999px;
         margin: 20px auto;
         overflow: hidden;
         opacity: 0;
@@ -267,9 +284,9 @@
 
       .video-progress {
         height: 100%;
-        background: #ff0000;
+        background: linear-gradient(135deg, var(--accent-blue) 0%, var(--accent-blue-dark) 100%);
         width: 404%;
-        border-radius: 2px;
+        border-radius: 999px;
         animation: progressOverflow 3s infinite;
       }
 
@@ -329,6 +346,13 @@
         .btn-secondary-404 {
           width: 100%;
           max-width: 250px;
+        }
+      }
+
+      @media (prefers-reduced-motion: reduce) {
+        * {
+          animation-duration: 0.01ms !important;
+          transition-duration: 0.01ms !important;
         }
       }
     </style>
@@ -411,7 +435,7 @@
     </section>
 
     <footer class="footer">
-      <p>Built for the efficiently lazy – Matteo</p>
+      <p>Built for the efficiently lazy, by Matteo</p>
       <div>
         <a
           href="https://www.linkedin.com/in/matteo-lucerni-0725a526b/"
@@ -431,7 +455,7 @@
       </div>
       <div class="footer-support">
         <script type='text/javascript' src='https://storage.ko-fi.com/cdn/widget/Widget_2.js'></script>
-        <script type='text/javascript'>kofiwidget2.init('Support me on Ko-fi', '#49b2eb', 'D5Y424F3EB');kofiwidget2.draw();</script>
+        <script type='text/javascript'>kofiwidget2.init('Support me on Ko-fi', '#6ba3ff', 'D5Y424F3EB');kofiwidget2.draw();</script>
       </div>
     </footer>
 

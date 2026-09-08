@@ -54,7 +54,9 @@ Within the new renderer, the exact text YouTube emits for a video's age is itsel
 - `tests/parsers.test.js`: Node's built-in test runner against `content/parsers.js` (the only file with a Node-compatible `module.exports` guard). Run with `npm test` / `node --test`.
 - `assets/icons/`: extension + toolbar icons, including the light/dark logo variants used by on-page UI.
 - `build.ps1`: reads `manifest.json` to determine exactly which files ship, copies them to a temp dir, forces `env.js`'s dev flag off, and zips to `dist/{short_name}-{version}-{timestamp}.zip`.
-- `docs/`: static marketing site for youtubehider.com (GitHub Pages).
+- `docs/`: static marketing site for youtubehider.com (GitHub Pages). `index.html` and `404.html` keep their CSS in an inline `<style>` block, `welcome.html` uses `assets/css/welcome.css`, and `assets/js/feedback-widget.js` injects its own. Four places, no build step, so a palette change has to be made in all four.
+
+  **The site runs the extension's palette.** All four carry the same `:root` tokens as `popup/base.css` (`--bg-primary: #1a1a1a`, `--bg-secondary: #242424`, `--text-primary: #ebebeb`, `--border-color: #3a3a3a`, `--accent-blue: #8ab4f8`, `--accent-green: #10b981`) and the same single `--radius-box: 8px` on every box, button, card and icon badge. It was a light theme until 3.2.0 and each page had invented its own scale (4px, 8px, 10px, 12px, 14px, 20px, 50px). Only genuinely round things keep their own shape: the feedback widget's floating action button (`50%`) and the 404 page's 4px-tall progress bar (`999px`), the same distinction the popup draws. Sections do not alternate background shades, they all sit on `--bg-primary` separated by a `1px solid var(--border-color)` rule, with cards on `--bg-secondary`, which is exactly how the popup stacks cards on its own background. Primary buttons across all three pages reuse `welcome.css`'s `.btn-start` treatment, the blue gradient with `#1a1a1a` text.
 - `yt-structures/`: saved YouTube page HTML snapshots for reference when a selector needs updating; not loaded by the extension.
 
 ### Content scripts (injected into `youtube.com` and `m.youtube.com`)
@@ -149,6 +151,7 @@ All defined in `content/state.js`'s `prefs` (content-script runtime state) and m
 - Solid dark (hover "Blacklist" pill over an undimmed thumbnail only, `.yt-hider-blacklist-btn--solid`): `rgba(0, 0, 0, 0.8)` background, `#fff` text. Exists only because the default translucent-white badge-button style (readable over a dark badge overlay) disappears against a raw, bright thumbnail with nothing dimmed behind it.
 - Amber accent: `#fbbf24` (`--accent-amber` in `popup/base.css`), used only by the support panel's "Leave a review" option, so the three options are told apart by icon color rather than by three differently tinted boxes.
 - Green accent: `#10b981` (tutorial CTA buttons, spotlight highlights). A different, more saturated green (`#008000`) is used only for the toolbar badge background when a filter is active, with `#808080` when everything is off. Don't conflate the two.
+- The `docs/` site uses this same palette; see the `docs/` entry under **File layout** for what that covers and which four files hold a copy of the tokens.
 
 ## Versioning rule (mandatory)
 
@@ -166,7 +169,7 @@ Whenever a change affects the content-script load order, the settings (`prefs`/`
 
 - This `CLAUDE.md` (especially **File layout**, **Content scripts**, and **Settings**).
 - `README.md` (its **Features**, **Settings**, and **Project Structure** sections).
-- `docs/` (the marketing site for youtubehider.com): `index.html` for feature descriptions and screenshots, `welcome.html` for the first-install page `background.js` opens on install. Check whether copy, screenshots, or feature claims there are now stale.
+- `docs/` (the marketing site for youtubehider.com): `index.html` for feature descriptions and screenshots, `welcome.html` for the first-install page `background.js` opens on install, `404.html`, and `assets/js/feedback-widget.js`. Check whether copy, screenshots, or feature claims there are now stale, and if the change touched the popup's palette or `--radius-box`, mirror it in all four (they each hold their own copy of the tokens).
 - `content/tutorial.js` (the first-run welcome card + spotlight tour over the header button and its settings dropdown): if the change adds, removes, renames, or repositions something the tour points at or describes, update the relevant step.
 
 Treat stale documentation as a bug. Do not leave structural or behavioral changes undocumented. This rule covers docs specifically; also check the **Testing rule** (does `tests/parsers.test.js` need a new case, or is manual browser verification required) and the **Versioning rule** (version bump + CHANGELOG entry) for every change, since those are the other two recurring checks a change needs before it's done.
