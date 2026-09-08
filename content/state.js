@@ -184,7 +184,6 @@ function setupPrefsListener() {
         if ('extensionEnabled' in changes) {
           if (!prefs.extensionEnabled) {
             resetAppliedFilters(true);
-            removeWarning();
             cleanupTour();
             removeTutorialOverlay();
             removeHeaderButton();

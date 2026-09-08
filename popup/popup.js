@@ -29,6 +29,46 @@ document.addEventListener('DOMContentLoaded', () => {
   const easyPlaylistsToggle = document.getElementById('hide-playlists-easy');
   const easyLivesToggle = document.getElementById('hide-lives-easy');
 
+  const supportButton = document.getElementById('support-button');
+  const supportModal = document.getElementById('support-modal');
+  const supportModalScrim = document.getElementById('support-modal-scrim');
+  const supportModalClose = document.getElementById('support-modal-close');
+
+  if (supportButton && supportModal) {
+    const openSupportModal = () => {
+      supportModal.hidden = false;
+      document.body.classList.add('support-modal-open');
+      supportButton.setAttribute('aria-expanded', 'true');
+      if (supportModalClose) supportModalClose.focus();
+    };
+
+    const closeSupportModal = () => {
+      if (supportModal.hidden) return;
+      supportModal.hidden = true;
+      document.body.classList.remove('support-modal-open');
+      supportButton.setAttribute('aria-expanded', 'false');
+      supportButton.focus();
+    };
+
+    supportButton.addEventListener('click', openSupportModal);
+
+    if (supportModalClose) {
+      supportModalClose.addEventListener('click', closeSupportModal);
+    }
+
+    if (supportModalScrim) {
+      supportModalScrim.addEventListener('click', closeSupportModal);
+    }
+
+    supportModal.querySelectorAll('.support-option').forEach(option => {
+      option.addEventListener('click', closeSupportModal);
+    });
+
+    document.addEventListener('keydown', event => {
+      if (event.key === 'Escape') closeSupportModal();
+    });
+  }
+
   const footerVersion = document.getElementById('footer-version');
   if (footerVersion) {
     footerVersion.textContent = 'v' + chrome.runtime.getManifest().version;

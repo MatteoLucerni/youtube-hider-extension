@@ -1,5 +1,5 @@
 <!doctype html>
-<html lang="en">
+<html lang="en" data-bs-theme="dark">
 
 <head>
   <meta charset="UTF-8" />
@@ -74,16 +74,44 @@
 
   <style>
     :root {
-      --bg-primary: #ffffff;
-      --bg-secondary: #f8f9fa;
-      --bg-tertiary: #f0f2f5;
-      --text-primary: #1a1a1a;
-      --text-secondary: #4a4a4a;
-      --text-tertiary: #6b6b6b;
-      --border-color: #e0e0e0;
+      --bg-deep: #131313;
+      --bg-primary: #1a1a1a;
+      --bg-raised: #1f1f1f;
+      --bg-secondary: #242424;
+      --bg-tertiary: #2a2a2a;
+      --bg-quaternary: #313131;
+      --text-primary: #ebebeb;
+      --text-secondary: #b8b8b8;
+      --text-tertiary: #888888;
+      --border-color: #3a3a3a;
+      --accent-red: #ff0000;
       --accent-green: #10b981;
-      --accent-blue: #5a8fd6;
-      --accent-blue-light: #8ab4f8;
+      --accent-blue: #8ab4f8;
+      --accent-blue-dark: #6ba3ff;
+      --radius-box: 8px;
+      --shadow-card: 0 0 0 1px rgba(255, 255, 255, 0.05), 0 2px 8px rgba(0, 0, 0, 0.25), 0 10px 30px rgba(0, 0, 0, 0.35);
+      --shadow-md: 0 4px 14px rgba(0, 0, 0, 0.32);
+      --ease-standard: cubic-bezier(0.4, 0, 0.2, 1);
+    }
+
+    .section-edge {
+      position: relative;
+    }
+
+    .section-edge > * {
+      position: relative;
+      z-index: 1;
+    }
+
+    .section-edge::after {
+      content: "";
+      position: absolute;
+      top: 0;
+      left: 0;
+      right: 0;
+      height: 1px;
+      background: linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.09) 22%, rgba(255, 255, 255, 0.09) 78%, transparent);
+      z-index: 2;
     }
 
     body {
@@ -99,47 +127,29 @@
       width: 100%;
       display: flex;
       justify-content: space-between;
-      padding: 20px;
-      background: rgba(0, 0, 0, 0.6);
+      padding: 16px 20px;
+      background: rgba(26, 26, 26, 0.78);
       z-index: 100;
-      backdrop-filter: blur(10px);
-      border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+      backdrop-filter: blur(12px);
+      border-bottom: 1px solid var(--border-color);
     }
 
     .navbar .logo {
-      color: #fff;
+      color: var(--text-primary);
       font-weight: 700;
       font-size: 1.5rem;
       text-decoration: none;
     }
 
-    .navbar .cta {
-      background: var(--accent-blue);
-      color: #fff;
-      padding: 10px 20px;
-      border: none;
-      border-radius: 4px;
-      text-decoration: none;
-      font-weight: 600;
-      animation: pulse 2s infinite;
-      transition: transform 0.3s ease;
-    }
-
-    .navbar .cta:hover {
-      transform: translateY(-2px);
-      box-shadow: 0 4px 12px rgba(90, 143, 214, 0.3);
-    }
-
     .cta-compact {
-      background: var(--accent-blue);
-      color: #fff;
-      padding: 8px 12px;
+      background: linear-gradient(135deg, var(--accent-blue) 0%, var(--accent-blue-dark) 100%);
+      color: #1a1a1a;
+      padding: 9px 18px;
       border: none;
-      border-radius: 4px;
+      border-radius: var(--radius-box);
       text-decoration: none;
-      font-weight: 600;
-      animation: pulse 2s infinite;
-      transition: transform 0.3s ease;
+      font-weight: 700;
+      transition: transform 0.2s var(--ease-standard), box-shadow 0.2s var(--ease-standard);
       display: inline-flex;
       align-items: center;
       gap: 8px;
@@ -147,8 +157,8 @@
 
     .cta-compact:hover {
       transform: translateY(-2px);
-      box-shadow: 0 4px 12px rgba(90, 143, 214, 0.3);
-      color: #fff;
+      box-shadow: 0 6px 20px rgba(138, 180, 248, 0.28);
+      color: #1a1a1a;
     }
 
     .nav-actions {
@@ -159,50 +169,80 @@
       display: inline-flex;
       align-items: center;
       gap: 8px;
-      background: rgba(73, 178, 235, 0.12);
-      color: #7cc6f0;
-      border: 1px solid rgba(73, 178, 235, 0.4);
-      padding: 8px 14px;
-      border-radius: 4px;
+      background: rgba(138, 180, 248, 0.14);
+      color: var(--accent-blue);
+      border: 1px solid rgba(138, 180, 248, 0.28);
+      padding: 8px 16px;
+      border-radius: var(--radius-box);
       text-decoration: none;
       font-weight: 600;
-      transition: background 0.3s ease, border-color 0.3s ease, transform 0.3s ease, color 0.3s ease;
+      font-family: inherit;
+      font-size: 1rem;
+      line-height: 1.5;
+      cursor: pointer;
+      transition: background 0.2s var(--ease-standard), border-color 0.2s var(--ease-standard), transform 0.2s var(--ease-standard);
+    }
+
+    .kofi-nav:focus-visible {
+      outline: 2px solid var(--accent-blue);
+      outline-offset: 2px;
     }
 
     .kofi-nav:hover {
-      background: rgba(73, 178, 235, 0.22);
-      border-color: rgba(73, 178, 235, 0.7);
-      color: #9ad4f5;
+      background: rgba(138, 180, 248, 0.22);
+      border-color: rgba(138, 180, 248, 0.5);
+      color: var(--accent-blue);
       transform: translateY(-2px);
     }
 
-    @keyframes pulse {
-      0% {
-        transform: scale(1);
-      }
-
-      50% {
-        transform: scale(1.05);
-      }
-
-      100% {
-        transform: scale(1);
-      }
-    }
-
     .hero {
-      background: #ffffff;
+      position: relative;
+      background:
+        radial-gradient(1100px 560px at 50% -12%, rgba(138, 180, 248, 0.17), transparent 66%),
+        radial-gradient(680px 420px at 88% 14%, rgba(16, 185, 129, 0.08), transparent 70%),
+        linear-gradient(180deg, #1c1c1c 0%, var(--bg-primary) 55%, var(--bg-deep) 100%);
       text-align: center;
       color: var(--text-primary);
       min-height: 100vh;
       padding-bottom: 80px;
+      overflow: hidden;
+    }
+
+    .hero::before {
+      content: "";
+      position: absolute;
+      inset: 0;
+      background-image: radial-gradient(rgba(255, 255, 255, 0.06) 1px, transparent 1px);
+      background-size: 26px 26px;
+      -webkit-mask-image: radial-gradient(780px 460px at 50% 24%, #000 0%, transparent 72%);
+      mask-image: radial-gradient(780px 460px at 50% 24%, #000 0%, transparent 72%);
+      pointer-events: none;
+    }
+
+    .hero > * {
+      position: relative;
+      z-index: 1;
     }
 
     .hero h1 {
       font-size: 3rem;
+      letter-spacing: -1px;
       opacity: 0;
       animation: fadeInDown 1s forwards;
-      color: var(--text-primary);
+    }
+
+    .title-yt {
+      background: linear-gradient(135deg, #8ab4f8 0%, #6ba3ff 100%);
+      -webkit-background-clip: text;
+      background-clip: text;
+      -webkit-text-fill-color: transparent;
+    }
+
+    .title-hd {
+      background: linear-gradient(135deg, #ffffff 0%, #9dc4f0 100%);
+      -webkit-background-clip: text;
+      background-clip: text;
+      -webkit-text-fill-color: transparent;
     }
 
     .hero h2 {
@@ -221,52 +261,60 @@
 
     .hero .btn {
       margin-top: 30px;
-      padding: 12px 30px;
-      background: var(--accent-blue);
-      color: #fff;
+      padding: 14px 36px;
+      background: linear-gradient(135deg, var(--accent-blue) 0%, var(--accent-blue-dark) 100%);
+      color: #1a1a1a;
       border: none;
-      border-radius: 4px;
+      border-radius: var(--radius-box);
       font-size: 1rem;
+      font-weight: 700;
       cursor: pointer;
       opacity: 0;
       animation: fadeInUp 1s 1s forwards;
-      transition: all 0.3s ease;
+      transition: transform 0.2s var(--ease-standard), box-shadow 0.2s var(--ease-standard);
       text-decoration: none;
       display: inline-block;
     }
 
     .hero .btn:hover {
-      background: #4a7ac4;
       transform: translateY(-2px);
-      box-shadow: 0 6px 20px rgba(90, 143, 214, 0.3);
+      box-shadow: 0 8px 26px rgba(138, 180, 248, 0.3);
+      color: #1a1a1a;
     }
 
     .chrome-web-store-badge {
-      padding: 60px 20px;
-      background: #f8f9fa;
+      padding: 80px 20px;
+      background:
+        radial-gradient(760px 300px at 50% 0%, rgba(138, 180, 248, 0.07), transparent 72%),
+        var(--bg-deep);
       text-align: center;
-      border-top: 1px solid var(--border-color);
     }
 
     .badge-container {
       display: flex;
       justify-content: center;
       align-items: center;
-      gap: 40px;
+      gap: 24px;
       flex-wrap: wrap;
       margin-top: 30px;
     }
 
     .stat-item {
-      background: var(--bg-secondary);
-      padding: 20px 30px;
-      border-radius: 12px;
-      box-shadow: 0 4px 15px rgba(0, 0, 0, 0.08);
+      background: linear-gradient(180deg, #282828 0%, var(--bg-secondary) 100%);
+      padding: 24px 32px;
+      border-radius: var(--radius-box);
+      box-shadow: var(--shadow-card);
       border: 1px solid var(--border-color);
       text-align: center;
-      min-width: 150px;
+      min-width: 160px;
       opacity: 0;
       animation: fadeInUp 1s forwards;
+      transition: border-color 0.2s var(--ease-standard), transform 0.2s var(--ease-standard);
+    }
+
+    .stat-item:hover {
+      border-color: var(--accent-blue);
+      transform: translateY(-3px);
     }
 
     .stat-item:nth-child(1) {
@@ -295,10 +343,11 @@
     }
 
     .video-section {
-      padding: 80px 20px;
-      background: #f0f2f5;
+      padding: 90px 20px;
+      background:
+        radial-gradient(720px 420px at 12% 100%, rgba(16, 185, 129, 0.09), transparent 68%),
+        linear-gradient(180deg, var(--bg-raised) 0%, #1c1c1c 100%);
       text-align: center;
-      border-top: 1px solid var(--border-color);
     }
 
     .video-container {
@@ -313,8 +362,8 @@
       padding-bottom: 56.25%;
       height: 0;
       overflow: hidden;
-      border-radius: 12px;
-      box-shadow: 0 8px 30px rgba(0, 0, 0, 0.1);
+      border-radius: var(--radius-box);
+      box-shadow: var(--shadow-card);
       border: 1px solid var(--border-color);
     }
 
@@ -328,30 +377,32 @@
     }
 
     .features {
-      padding: 80px 20px;
-      background: #e8eaed;
-      border-top: 1px solid var(--border-color);
+      padding: 90px 20px;
+      background:
+        radial-gradient(900px 500px at 78% 8%, rgba(138, 180, 248, 0.10), transparent 68%),
+        radial-gradient(760px 460px at 6% 82%, rgba(16, 185, 129, 0.07), transparent 70%),
+        var(--bg-primary);
     }
 
     .feature {
-      background: var(--bg-secondary);
-      padding: 30px;
-      border-radius: 12px;
-      box-shadow: 0 6px 25px rgba(0, 0, 0, 0.08);
+      background: linear-gradient(180deg, #282828 0%, var(--bg-secondary) 100%);
+      padding: 26px;
+      border-radius: var(--radius-box);
+      box-shadow: var(--shadow-card);
       border: 1px solid var(--border-color);
       opacity: 0;
       transform: translateY(30px);
       transition:
-        transform 0.3s ease,
-        box-shadow 0.3s ease,
-        border-color 0.3s ease;
+        transform 0.3s var(--ease-standard),
+        box-shadow 0.3s var(--ease-standard),
+        border-color 0.3s var(--ease-standard);
       height: 100%;
     }
 
     .feature:hover {
       transform: translateY(-5px);
-      box-shadow: 0 12px 35px rgba(0, 0, 0, 0.12);
-      border-color: var(--accent-blue-light);
+      box-shadow: var(--shadow-md);
+      border-color: var(--accent-blue);
     }
 
     .feature:nth-child(1) {
@@ -372,28 +423,55 @@
 
     .feature h3 {
       margin-top: 0;
-      font-size: 1.5rem;
-      color: var(--text-primary);
-      margin-bottom: 15px;
+      font-size: 1.15rem;
+      color: #ffffff;
+      margin-bottom: 12px;
     }
 
     .feature p {
       color: var(--text-secondary);
       line-height: 1.6;
+      font-size: 0.95rem;
+      margin-bottom: 0;
     }
 
     .feature-icon {
-      font-size: 2.5rem;
-      color: var(--accent-blue-light);
-      margin-bottom: 20px;
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      width: 44px;
+      height: 44px;
+      font-size: 1.25rem;
+      color: var(--accent-blue);
+      background: rgba(138, 180, 248, 0.14);
+      border: 1px solid rgba(138, 180, 248, 0.28);
+      border-radius: var(--radius-box);
+      margin-bottom: 18px;
+    }
+
+    .mode-label {
+      font-size: 0.85rem;
+      font-weight: 700;
+      letter-spacing: 1.2px;
+      color: var(--accent-blue);
+      margin-bottom: 16px;
     }
 
     .cta-section {
-      padding: 80px 20px;
-      background: #5a8fd6;
-      color: #fff;
+      padding: 96px 20px;
+      background:
+        radial-gradient(900px 420px at 50% 120%, rgba(16, 185, 129, 0.16), transparent 66%),
+        linear-gradient(135deg, rgba(138, 180, 248, 0.2) 0%, rgba(138, 180, 248, 0.05) 46%, rgba(16, 185, 129, 0.1) 100%),
+        var(--bg-raised);
+      color: var(--text-primary);
       text-align: center;
-      border-top: 1px solid rgba(255, 255, 255, 0.1);
+    }
+
+    .cta-section h2 span {
+      background: linear-gradient(135deg, #ffffff 0%, #9dc4f0 100%);
+      -webkit-background-clip: text;
+      background-clip: text;
+      -webkit-text-fill-color: transparent;
     }
 
     .cta-section h2 {
@@ -406,49 +484,51 @@
     .cta-section p {
       font-size: 1.2rem;
       margin-bottom: 40px;
+      color: var(--text-secondary);
       opacity: 0;
       animation: fadeInUp 1s 0.6s forwards;
     }
 
     .cta-section .btn {
-      background: #fff;
-      color: var(--accent-blue);
+      background: linear-gradient(135deg, var(--accent-blue) 0%, var(--accent-blue-dark) 100%);
+      color: #1a1a1a;
       padding: 15px 40px;
       border: none;
-      border-radius: 8px;
+      border-radius: var(--radius-box);
       font-size: 1.1rem;
-      font-weight: 600;
+      font-weight: 700;
       text-decoration: none;
       display: inline-block;
       opacity: 0;
       animation: fadeInUp 1s 0.9s forwards;
-      transition: all 0.3s ease;
+      transition: transform 0.2s var(--ease-standard), box-shadow 0.2s var(--ease-standard);
     }
 
     .cta-section .btn:hover {
       transform: translateY(-3px);
-      box-shadow: 0 8px 25px rgba(0, 0, 0, 0.2);
+      box-shadow: 0 8px 26px rgba(138, 180, 248, 0.3);
+      color: #1a1a1a;
     }
 
     .footer {
-      padding: 40px 20px;
+      padding: 56px 20px;
       text-align: center;
-      background: #3a3a3a;
-      color: #d0d0d0;
-      border-top: 1px solid #4a4a4a;
+      background: var(--bg-deep);
+      color: var(--text-secondary);
     }
 
     .footer a {
-      color: #fff;
+      color: var(--text-primary);
       text-decoration: none;
+      transition: color 0.2s var(--ease-standard);
     }
 
     .footer a:hover {
-      color: var(--accent-blue-light);
+      color: var(--accent-blue);
     }
 
     .footer-support {
-      margin-top: 20px;
+      margin-top: 24px;
       display: flex;
       justify-content: center;
     }
@@ -465,8 +545,8 @@
       width: 100%;
       max-width: 300px;
       height: auto;
-      border-radius: 12px;
-      box-shadow: 0 8px 30px rgba(0, 0, 0, 0.1);
+      border-radius: var(--radius-box);
+      box-shadow: var(--shadow-card);
       border: 1px solid var(--border-color);
     }
 
@@ -504,6 +584,7 @@
       text-align: center;
       margin-bottom: 50px;
       color: var(--text-primary);
+      letter-spacing: -0.5px;
       opacity: 0;
       animation: fadeInDown 1s 0.2s forwards;
     }
@@ -518,12 +599,23 @@
       }
 
       .badge-container {
-        gap: 20px;
+        gap: 16px;
       }
 
       .stat-item {
-        min-width: 120px;
-        padding: 15px 20px;
+        min-width: 130px;
+        padding: 18px 22px;
+      }
+
+      .section-title {
+        font-size: 2rem;
+      }
+    }
+
+    @media (prefers-reduced-motion: reduce) {
+      * {
+        animation-duration: 0.01ms !important;
+        transition-duration: 0.01ms !important;
       }
     }
   </style>
@@ -538,11 +630,11 @@
         <div class="fs-6 text-white-50">MV3 Chrome Extension</div>
       </a>
       <div class="nav-actions d-flex align-items-center">
-        <a href="https://ko-fi.com/D5Y424F3EB" target="_blank" rel="noopener noreferrer" class="kofi-nav"
-          aria-label="Support on Ko-fi">
-          <i class="fas fa-mug-hot"></i>
+        <button type="button" class="kofi-nav" data-support-open aria-haspopup="dialog"
+          aria-label="Support YouTube Hider">
+          <i class="fas fa-heart"></i>
           <span class="d-none d-sm-inline">Support</span>
-        </a>
+        </button>
         <a href="https://chromewebstore.google.com/detail/ebpikpmmnpjmlcpanakfcgchkdjaanmm" target="_blank"
           rel="noopener noreferrer" class="cta-compact">
           <span class="d-none d-sm-inline">Install Now</span>
@@ -555,10 +647,13 @@
   <section class="extra-top-padding hero d-flex flex-column justify-content-center align-items-center">
     <div>
       <div class="mb-4 d-flex justify-content-center align-items-center">
-        <img class="yh-logo img-fluid" src="assets/images/youtube-hider-logo-black.png" alt="YouTube Hider logo"
+        <img class="yh-logo img-fluid" src="assets/icons/youtube-hider-logo.png" alt="YouTube Hider logo"
           width="150" height="150" />
       </div>
-      <h1 class="fw-bold">YouTube Hider</h1>
+      <h1 class="fw-bold">
+        <span class="title-yt">YouTube</span>
+        <span class="title-hd">Hider</span>
+      </h1>
       <h2 class="fw-normal">Declutter Your Streaming</h2>
       <p class="mb-0">
         Hide watched and low views videos, banish Shorts, Mixes, Playlists,
@@ -570,7 +665,7 @@
     </div>
   </section>
 
-  <section class="chrome-web-store-badge">
+  <section class="chrome-web-store-badge section-edge">
     <div class="container">
       <h2 class="section-title">Trusted by Chrome users</h2>
       <div class="badge-container">
@@ -590,7 +685,7 @@
     </div>
   </section>
 
-  <section class="video-section">
+  <section class="video-section section-edge">
     <div class="container">
       <h2 class="section-title">See It in Action</h2>
       <div class="video-container">
@@ -606,12 +701,12 @@
     </div>
   </section>
 
-  <section class="features">
+  <section class="features section-edge">
     <div class="container">
       <h2 class="section-title">Powerful Features</h2>
       <div class="row align-items-center g-4">
         <div class="col-12 col-lg-3 pe-4 d-flex flex-column align-items-center">
-          <h3>SIMPLE MODE</h3>
+          <div class="mode-label">SIMPLE MODE</div>
           <img src="assets/images/full-easy.png" alt="YouTube Hider Full Screenshot" class="full-img-show img-fluid"
             width="300" height="600" />
         </div>
@@ -723,7 +818,7 @@
           </div>
         </div>
         <div class="col-12 col-lg-3 pe-4 d-flex flex-column align-items-center">
-          <h3>ADVANCED MODE</h3>
+          <div class="mode-label">ADVANCED MODE</div>
           <img src="assets/images/full-no-easy.png" alt="YouTube Hider Full Screenshot" class="full-img-show img-fluid"
             width="300" height="600" />
         </div>
@@ -731,9 +826,9 @@
     </div>
   </section>
 
-  <section class="cta-section">
+  <section class="cta-section section-edge">
     <div class="container">
-      <h2>Ready to Transform Your YouTube?</h2>
+      <h2><span>Ready to Transform Your YouTube?</span></h2>
       <p>
         Join thousands of users who have already simplified their streaming
         experience
@@ -743,8 +838,8 @@
     </div>
   </section>
 
-  <footer class="footer">
-    <p>Built for the efficiently lazy – Matteo</p>
+  <footer class="footer section-edge">
+    <p>Built for the efficiently lazy, by Matteo</p>
     <div>
       <a href="https://www.linkedin.com/in/matteo-lucerni-0725a526b/" target="_blank" rel="noopener noreferrer"
         class="me-2">LinkedIn <i class="fa-brands fa-linkedin ms-1"></i></a>
@@ -753,13 +848,16 @@
         class="">GitHub <i class="fa-brands fa-github ms-1"></i></a>
     </div>
     <div class="footer-support">
-      <script type='text/javascript' src='https://storage.ko-fi.com/cdn/widget/Widget_2.js'></script>
-      <script type='text/javascript'>kofiwidget2.init('Support me on Ko-fi', '#49b2eb', 'D5Y424F3EB');kofiwidget2.draw();</script>
+      <button type="button" class="yh-support-trigger" data-support-open aria-haspopup="dialog">
+        <i class="fas fa-heart"></i>
+        Support this project
+      </button>
     </div>
   </footer>
 
   <script src="https://cdnjs.cloudflare.com/ajax/libs/bootstrap/5.3.7/js/bootstrap.bundle.min.js"
     integrity="sha512-ENjdO4Dr2bkBIFxQpeoE6A7MsXsP1UyJoMp4YLEuNSfAP+JcXn/tWtIaxVXM" crossorigin="anonymous"></script>
+  <script src="assets/js/support-modal.js" defer></script>
   <script src="assets/js/feedback-widget.js" defer></script>
   <script src="assets/js/stats.js" defer></script>
 </body>

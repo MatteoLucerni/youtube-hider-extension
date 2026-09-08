@@ -16,8 +16,10 @@ function updateSliderBackground(slider) {
 }
 
 const viewsSteps = [
-  0, 100, 500, 1000, 2500, 5000, 7500, 10000, 15000, 25000, 50000, 75000,
-  100000, 150000, 250000, 500000, 1000000, 10000000,
+  0, 50, 100, 150, 200, 250, 300, 500, 750, 1000, 1500, 2000, 2500, 3000, 5000,
+  7500, 10000, 15000, 20000, 25000, 30000, 50000, 75000, 100000, 150000, 200000,
+  250000, 300000, 500000, 750000, 1000000, 1500000, 2000000, 2500000, 3000000,
+  5000000, 7500000, 10000000,
 ];
 
 function formatViews(views) {
@@ -42,59 +44,99 @@ function findClosestViewsIndex(value) {
   return closestIndex;
 }
 
-const dateSteps = [0, 1, 3, 7, 14, 30, 60, 90, 180, 365, 730, 1825, 3650];
+const dateSteps = [
+  0, 1, 2, 3, 5, 7, 10, 14, 21, 30, 45, 60, 90, 120, 180, 270, 365, 548, 730,
+  1095, 1460, 1825, 2555, 3650,
+];
 
 const dateStepLabels = [
   'Off',
   '1 day',
+  '2 days',
   '3 days',
+  '5 days',
   '1 week',
+  '10 days',
   '2 weeks',
+  '3 weeks',
   '1 month',
+  '45 days',
   '2 months',
   '3 months',
+  '4 months',
   '6 months',
+  '9 months',
   '1 year',
+  '18 months',
   '2 years',
+  '3 years',
+  '4 years',
   '5 years',
+  '7 years',
   '10 years',
 ];
 
 const dateNewerSteps = [
   0,
   1 / 24,
+  2 / 24,
+  3 / 24,
   0.25,
   0.5,
   1,
+  2,
   3,
+  5,
   7,
+  10,
   14,
+  21,
   30,
+  45,
   60,
   90,
+  120,
   180,
+  270,
   365,
+  548,
   730,
+  1095,
+  1460,
   1825,
+  2555,
   3650,
 ];
 
 const dateNewerStepLabels = [
   'Off',
   '1 hour',
+  '2 hours',
+  '3 hours',
   '6 hours',
   '12 hours',
   '1 day',
+  '2 days',
   '3 days',
+  '5 days',
   '1 week',
+  '10 days',
   '2 weeks',
+  '3 weeks',
   '1 month',
+  '45 days',
   '2 months',
   '3 months',
+  '4 months',
   '6 months',
+  '9 months',
   '1 year',
+  '18 months',
   '2 years',
+  '3 years',
+  '4 years',
   '5 years',
+  '7 years',
   '10 years',
 ];
 
