@@ -323,16 +323,7 @@ chrome.runtime.onInstalled.addListener(details => {
     chrome.runtime.setUninstallURL(UNINSTALL_SURVEY_URL);
     logger.log('Uninstall URL updated');
 
-    const manifest = chrome.runtime.getManifest();
-    const prev = (details.previousVersion || '').split('.');
-    const curr = manifest.version.split('.');
-    const prevMajor = parseInt(prev[0] || '0', 10);
-    const prevMinor = parseInt(prev[1] || '0', 10);
-    const currMajor = parseInt(curr[0] || '0', 10);
-    const currMinor = parseInt(curr[1] || '0', 10);
-    if (currMajor > prevMajor || (currMajor === prevMajor && currMinor > prevMinor)) {
-      chrome.storage.local.set({ whatsNewVersion: curr[0] + '.' + curr[1] });
-    }
+    chrome.storage.local.remove('whatsNewVersion');
   }
 
   initializeSettings();

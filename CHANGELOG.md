@@ -10,6 +10,11 @@
 
 - The Support button is restyled to match the rest of the menu, and every corner radius in the settings menu is now a single, slightly tighter one. Previously the menu mixed four different radii: the setting cards, the toggle rows and grids, the tooltips and buttons and warnings, and the fully rounded pills on the Support button, the switches and the channel name chips. Cards, rows, grids, buttons, tooltips, chips and switch tracks now share one value, so the whole panel reads as one set of shapes. The knob inside each switch is a rounded square as well, rounded slightly tighter than the track it sits in so the two curves stay concentric. The slider handle and the slider bar itself keep their round shapes. The red border marking two overlapping Upload Date sliders is rounded like everything else instead of being a hard rectangle, and the separator lines between toggle rows are drawn as straight lines rather than as a row border, so the radius does not bend their ends. Nothing outside the menu is affected: the on-page badges, buttons and pills injected into YouTube keep their own styling
 
+**Removed**
+
+- The "High filtering detected" toast is gone. It watched for repeated loading spinners appearing without the page scrolling and suggested lowering the filters, but the signal it keyed on is not specific to heavy filtering: YouTube pops those spinners for its own reasons, so the warning fired on people who had nothing wrong and gave advice they did not need, in a corner of the screen they did not ask for. The whole detector went with it, along with `content/warning.js`, which held nothing else once the toast below was removed too
+- The post-update "what's new" toast is gone. Updating no longer announces itself on the page in any way. `background.js` stops recording an update flag and deletes any leftover one, so nobody gets a toast for an update they installed before this version. The changelog is still one click away in the settings menu footer for anyone who wants it
+
 ### Version 3.1.21
 
 **Fixed**

@@ -56,7 +56,6 @@ function waitForPageElements(pathname, timeout = 3000) {
 async function startHiding(pathname) {
   if (!prefs.extensionEnabled) {
     resetAppliedFilters(true);
-    removeWarning();
     return;
   }
 
@@ -116,10 +115,6 @@ function detectPageChange() {
     logger.log(`Page changed: ${currentPath} -> ${newPath}`);
     currentPath = newPath;
 
-    removeWarning();
-    rapidLoaderCount = 0;
-    warningDismissed = false;
-
     cleanupTour();
     removeTutorialOverlay();
 
@@ -168,8 +163,6 @@ function onMutations(mutations) {
 
   ensureHeaderButton();
 
-  detectInfiniteLoaderLoop(mutations);
-
   debouncedHiding();
 }
 
@@ -209,12 +202,6 @@ async function init() {
     }
     if (tutorialPending && headerButtonHost) {
       setTimeout(() => showTutorialWelcomeCard(), 1500);
-    } else {
-      chrome.storage.local.get('whatsNewVersion', local => {
-        if (local.whatsNewVersion) {
-          setTimeout(() => showWhatsNewToast(local.whatsNewVersion), 1500);
-        }
-      });
     }
   }
 }

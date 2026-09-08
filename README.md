@@ -155,7 +155,6 @@ youtube-hider-extension
 │   ├── utils.js           Shared utilities (debounce, logger, safe storage)
 │   ├── whitelist-utils.js Pure list helpers shared by Channel Whitelist and Channel Blacklist
 │   ├── state.js           Preferences, timing constants, storage listener
-│   ├── warning.js         High-filtering warning and infinite-loop detection
 │   ├── header-button.js  Header settings button and its iframe-embedded settings dropdown
 │   ├── tutorial.js        Guided spotlight tutorial
 │   ├── parsers.js         View count, upload date and channel parsers
@@ -184,9 +183,9 @@ youtube-hider-extension
 
 ## How It Works
 
-1. **Content scripts** (13 files in `content/`) load on YouTube pages in the order defined by `manifest.json`. They share a global scope via Chrome's isolated world. `page-bridge.js` is the exception: it runs in the page's `MAIN` world at `document_start` to read YouTube's own internal data and expose a video-id-to-channel cache via a DOM attribute, since the isolated world can read the DOM but not the page's JavaScript globals.
+1. **Content scripts** (12 files in `content/`) load on YouTube pages in the order defined by `manifest.json`. They share a global scope via Chrome's isolated world. `page-bridge.js` is the exception: it runs in the page's `MAIN` world at `document_start` to read YouTube's own internal data and expose a video-id-to-channel cache via a DOM attribute, since the isolated world can read the DOM but not the page's JavaScript globals.
 2. A **MutationObserver** watches for DOM changes and triggers hiding/filtering logic based on your preferences.
-3. Settings are stored in `chrome.storage.sync` (synced across devices), except for the "what's new" flag which is device-specific `chrome.storage.local` state.
+3. Settings are stored in `chrome.storage.sync`, so they follow you across devices.
 4. The **header button** (`content/header-button.js`) uses a closed Shadow DOM to encapsulate its styles from the host page. Its settings dropdown embeds `popup/popup.html` in an `<iframe>`, created fresh on every open, so the dropdown is always the same, unmodified popup UI.
 5. The **background service worker** manages badge updates, extension lifecycle events and messaging between popup/content scripts.
 

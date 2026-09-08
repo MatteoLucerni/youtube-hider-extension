@@ -53,7 +53,6 @@
                 "content/utils.js",
                 "content/whitelist-utils.js",
                 "content/state.js",
-                "content/warning.js",
                 "content/header-button.js",
                 "content/tutorial.js",
                 "content/parsers.js",
