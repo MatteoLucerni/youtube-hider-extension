@@ -109,10 +109,10 @@
 .toggle-switch .toggle-slider:before {
     position: absolute;
     content: "";
-    height: 16px;
-    width: 16px;
-    left: 2px;
-    bottom: 2px;
+    height: 14px;
+    width: 14px;
+    left: 3px;
+    bottom: 3px;
     background-color: var(--text-primary);
     box-shadow: var(--shadow-sm);
     transition: transform 0.32s var(--ease-toggle), box-shadow 0.2s var(--ease-standard);
@@ -122,10 +122,10 @@
 .toggle-switch-large .toggle-slider:before {
     position: absolute;
     content: "";
-    height: 18px;
-    width: 18px;
-    left: 3px;
-    bottom: 3px;
+    height: 16px;
+    width: 16px;
+    left: 4px;
+    bottom: 4px;
     background-color: var(--text-primary);
     box-shadow: var(--shadow-sm);
     transition: transform 0.32s var(--ease-toggle), box-shadow 0.2s var(--ease-standard);
