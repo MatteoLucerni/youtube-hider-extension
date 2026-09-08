@@ -221,6 +221,7 @@
 
 .date-sub-filter.date-overlap {
     border: 1px solid rgba(239, 68, 68, 0.5);
+    border-radius: var(--radius-box);
 }
 
 body.easy-mode-off .date-filter-group {
@@ -343,7 +344,7 @@ body.easy-mode-off
 
 .whitelist-chips-container::-webkit-scrollbar-thumb {
     background: var(--toggle-inactive);
-    border-radius: 3px;
+    border-radius: var(--radius-box);
 }
 
 .whitelist-chips-container::-webkit-scrollbar-thumb:hover {
