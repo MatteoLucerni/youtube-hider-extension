@@ -237,10 +237,10 @@ function startSpotlightTour() {
       section: 'shorts-mixes-playlists-lives',
     },
     {
-      title: 'Minimum Views Filter',
-      desc: 'Hide videos below a certain view count, from 0 up to 10 million views.',
+      title: 'Views Filter',
+      desc: 'Hide videos below a minimum view count, above a maximum one, or both together to keep only videos inside a popularity range.',
       getRect: () => getHeaderDropdownRect(),
-      section: 'min-views',
+      section: 'views',
     },
     {
       title: 'Upload Date Filter',

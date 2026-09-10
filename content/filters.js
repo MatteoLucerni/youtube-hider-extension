@@ -554,6 +554,12 @@ function hideWatched(pathname) {
 }
 
 
+function isRangeOverlapping(lowerBound, upperBound) {
+  const lower = lowerBound || 0;
+  const upper = upperBound || 0;
+  return lower > 0 && upper > 0 && lower >= upper;
+}
+
 function shouldHideDateFilter(pathname) {
   const {
     dateFilterNewerThreshold,
@@ -566,6 +572,9 @@ function shouldHideDateFilter(pathname) {
   } = prefs;
 
   if (dateFilterNewerThreshold === 0 && dateFilterOlderThreshold === 0)
+    return false;
+
+  if (isRangeOverlapping(dateFilterNewerThreshold, dateFilterOlderThreshold))
     return false;
 
   return (
@@ -684,8 +693,18 @@ function isLiveVideo(element) {
   return !!container.querySelector(LIVE_INDICATOR_SELECTORS);
 }
 
+function getViewsFilterReason(views) {
+  const { viewsHideThreshold, viewsHideMaxThreshold } = prefs;
+
+  if (viewsHideThreshold > 0 && views < viewsHideThreshold)
+    return 'Views too low';
+  if (viewsHideMaxThreshold > 0 && views > viewsHideMaxThreshold)
+    return 'Views too high';
+
+  return null;
+}
+
 function hideUnderVisuals() {
-  const { viewsHideThreshold } = prefs;
   const selectors = getVideoContainerSelectors();
 
   document.querySelectorAll('#metadata-line').forEach(metaLine => {
@@ -696,10 +715,12 @@ function hideUnderVisuals() {
     if (!spans.length) return;
 
     const result = resolveViewsFromSpans(spans);
-    if (!result || result.views >= viewsHideThreshold) return;
+    if (!result) return;
+    const viewsReason = getViewsFilterReason(result.views);
+    if (!viewsReason) return;
     if (isLiveVideo(result.span)) return;
 
-    findAndHideContainer(result.span, selectors, 'Views too low');
+    findAndHideContainer(result.span, selectors, viewsReason);
   });
 
   document
@@ -708,7 +729,8 @@ function hideUnderVisuals() {
       const text = (span.textContent || '').trim();
       const result = extractViewCount(text);
       if (!result || typeof result !== 'object') return;
-      if (result.views >= viewsHideThreshold) return;
+      const viewsReason = getViewsFilterReason(result.views);
+      if (!viewsReason) return;
       if (isLiveVideo(span)) return;
 
       const container = span.closest(
@@ -716,9 +738,9 @@ function hideUnderVisuals() {
       );
 
       if (container) {
-        applyFilter(container, 'Views too low');
+        applyFilter(container, viewsReason);
         const wrapper = container.closest('ytm-rich-item-renderer');
-        if (wrapper) applyFilter(wrapper, 'Views too low');
+        if (wrapper) applyFilter(wrapper, viewsReason);
       }
     });
 
@@ -726,7 +748,6 @@ function hideUnderVisuals() {
 }
 
 function hideNewFormatVideos() {
-  const { viewsHideThreshold } = prefs;
   const selectors = getVideoContainerSelectors();
 
   document
@@ -737,10 +758,12 @@ function hideNewFormatVideos() {
 
       const result = resolveViewsFromSpans(allSpans);
 
-      if (!result || result.views >= viewsHideThreshold) return;
+      if (!result) return;
+      const viewsReason = getViewsFilterReason(result.views);
+      if (!viewsReason) return;
       if (isLiveVideo(result.span)) return;
 
-      findAndHideContainer(result.span, selectors, 'Views too low');
+      findAndHideContainer(result.span, selectors, viewsReason);
     });
 }
 
@@ -878,12 +901,19 @@ function shouldHideWatched(pathname) {
 
 function shouldHideViews(pathname) {
   const {
+    viewsHideThreshold,
+    viewsHideMaxThreshold,
     viewsHideHomeEnabled,
     viewsHideChannelEnabled,
     viewsHideSearchEnabled,
     viewsHideSubsEnabled,
     viewsHideCorrEnabled,
   } = prefs;
+
+  if (viewsHideThreshold === 0 && viewsHideMaxThreshold === 0) return false;
+
+  if (isRangeOverlapping(viewsHideThreshold, viewsHideMaxThreshold))
+    return false;
 
   return (
     (pathname === '/' && viewsHideHomeEnabled) ||

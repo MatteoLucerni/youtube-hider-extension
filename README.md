@@ -32,13 +32,13 @@
 
 Hide videos you've already watched from Home, Channel pages, Subscriptions, Search results and Related videos. Set a custom threshold (0-100%) to define how much you need to have watched before a video is hidden.
 
-### Minimum Views Filter
+### Views Filter
 
-Hide videos below a certain view count. Choose from a range of thresholds (0 to 10M views) to filter out low-engagement content. Per-page toggles give you full control. Reads YouTube's view counts in every interface language, including the ones that do not write the label in Latin script or place it before the number.
+Hide videos by their view count with two independent sliders: **Minimum Views** (50 to 10M) hides everything below the threshold, **Maximum Views** (1,000 to 10M) hides everything above it. Use either on its own, or both together to keep only videos inside a popularity range. Both share the card's per-page toggles. If the two ends cross over, the filter switches itself off and says so, rather than hiding everything. Reads YouTube's view counts in every interface language, including the ones that do not write the label in Latin script or place it before the number.
 
 ### Upload Date Filter
 
-Hide videos by their upload date with two independent sub-filters: **Hide newer than** and **Hide older than**. Each has its own toggle and slider with logarithmic time steps, from 1 hour to 10 years for **Hide newer than** and from 1 day to 10 years for **Hide older than**. Use both together to keep only videos in a specific age range - for example, hide recent AI-generated content and outdated videos at the same time. Supports 10+ YouTube interface languages.
+Hide videos by their upload date with two independent sub-filters: **Hide newer than** and **Hide older than**. Each has its own toggle and slider with logarithmic time steps, from 1 hour to 10 years for **Hide newer than** and from 1 day to 10 years for **Hide older than**. Use both together to keep only videos in a specific age range - for example, hide recent AI-generated content and outdated videos at the same time. If the two thresholds cross over, the filter switches itself off and says so, rather than hiding everything. Supports 10+ YouTube interface languages.
 
 ### Hide Shorts, Mixes, Playlists & Lives
 
@@ -54,7 +54,7 @@ Selectively remove content types from your YouTube feed with individual toggles:
 Choose how filtered content is treated across all active filters:
 
 - **Hide** (default) - filtered elements are removed from view entirely
-- **Dim** - filtered elements stay visible under a dark semi-transparent overlay. The overlay displays a compact label indicating why the element was filtered ("Already watched", "Views too low", "Video too new", "Video too old", "Mix playlist", "Playlist", "Live stream", "Blacklisted channel"). Filtered elements remain fully clickable. Shorts are always hidden regardless of this setting.
+- **Dim** - filtered elements stay visible under a dark semi-transparent overlay. The overlay displays a compact label indicating why the element was filtered ("Already watched", "Views too low", "Views too high", "Video too new", "Video too old", "Mix playlist", "Playlist", "Live stream", "Blacklisted channel"). Filtered elements remain fully clickable. Shorts are always hidden regardless of this setting.
 
 In Hide mode, lockup-based cards are removed at the correct wrapper level to avoid empty placeholders in Home and Subscriptions grids.
 
