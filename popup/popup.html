@@ -640,7 +640,7 @@
 
           <div
             class="setting-card setting-card-easy-mode"
-            data-tour-section="min-views"
+            data-tour-section="views"
           >
             <div class="card-compact-header">
               <div class="card-icon" aria-hidden="true">
@@ -651,15 +651,20 @@
                 </svg>
               </div>
               <div class="card-compact-info">
-                <h3 class="card-title">Minimum Views Filter</h3>
+                <h3 class="card-title">Views Filter</h3>
                 <p class="card-description">
-                  Hide videos below a certain view count
+                  Hide videos by their view count
                 </p>
               </div>
             </div>
 
-            <div class="setting-group">
-              <div class="slider-control slider-control-center slider-control-wide">
+            <div
+              class="setting-group range-filter-group"
+              id="views-filter-group"
+            >
+              <div
+                class="slider-control slider-control-center slider-control-wide range-sub-filter"
+              >
                 <div class="slider-control-left">
                   <div class="label-content">
                     <label class="control-label mb-0">Minimum Views</label>
@@ -686,6 +691,9 @@
                       >
                     </div>
                   </div>
+                  <div class="slider-display range-slider-display">
+                    <span class="slider-value" id="views-hide-value">1K</span>
+                  </div>
                   <div class="slider-wrapper">
                     <input
                       type="range"
@@ -694,15 +702,83 @@
                       min="0"
                       max="37"
                       step="1"
-                      value="3"
+                      value="9"
                     />
                   </div>
                 </div>
-                <div class="slider-control-right">
-                  <div class="slider-display">
-                    <span class="slider-value" id="views-hide-value">1000</span>
+              </div>
+
+              <div
+                class="slider-control slider-control-center slider-control-wide range-sub-filter"
+              >
+                <div class="slider-control-left">
+                  <div class="label-content">
+                    <label class="control-label mb-0">Maximum Views</label>
+                    <div class="tooltip-container">
+                      <svg
+                        xmlns="http://www.w3.org/2000/svg"
+                        width="12"
+                        height="12"
+                        viewBox="0 0 24 24"
+                        fill="none"
+                        stroke="currentColor"
+                        stroke-width="2"
+                        stroke-linecap="round"
+                        stroke-linejoin="round"
+                        class="info-icon"
+                      >
+                        <circle cx="12" cy="12" r="10"></circle>
+                        <path d="M9.09 9a3 3 0 0 1 5.83 1c0 2-3 3-3 3"></path>
+                        <line x1="12" y1="17" x2="12.01" y2="17"></line>
+                      </svg>
+                      <span class="tooltip-text"
+                        >Videos with more views than this number will be hidden.
+                        Drag all the way left to turn off</span
+                      >
+                    </div>
+                  </div>
+                  <div class="slider-display range-slider-display">
+                    <span class="slider-value" id="views-hide-max-value"
+                      >Off</span
+                    >
+                  </div>
+                  <div class="slider-wrapper">
+                    <input
+                      type="range"
+                      class="slider"
+                      id="views-hide-max"
+                      min="0"
+                      max="29"
+                      step="1"
+                      value="0"
+                    />
                   </div>
                 </div>
+              </div>
+
+              <div
+                class="range-overlap-warning"
+                id="views-overlap-warning"
+                style="display: none"
+              >
+                <svg
+                  xmlns="http://www.w3.org/2000/svg"
+                  width="12"
+                  height="12"
+                  viewBox="0 0 24 24"
+                  fill="none"
+                  stroke="currentColor"
+                  stroke-width="2"
+                  stroke-linecap="round"
+                  stroke-linejoin="round"
+                >
+                  <path
+                    d="M10.29 3.86L1.82 18a2 2 0 0 0 1.71 3h16.94a2 2 0 0 0 1.71-3L13.71 3.86a2 2 0 0 0-3.42 0z"
+                  ></path>
+                  <line x1="12" y1="9" x2="12" y2="13"></line>
+                  <line x1="12" y1="17" x2="12.01" y2="17"></line>
+                </svg>
+                <span>Filter not active: ranges overlap</span>
               </div>
 
               <div class="toggle-grid easy-mode-advanced">
@@ -728,7 +804,7 @@
                           <line x1="12" y1="17" x2="12.01" y2="17"></line>
                         </svg>
                         <span class="tooltip-text"
-                          >Hides low view count videos on Home</span
+                          >Hides videos by view count on Home</span
                         >
                       </div>
                     </div>
@@ -760,7 +836,7 @@
                           <line x1="12" y1="17" x2="12.01" y2="17"></line>
                         </svg>
                         <span class="tooltip-text"
-                          >Hides low view count videos on Channels</span
+                          >Hides videos by view count on Channels</span
                         >
                       </div>
                     </div>
@@ -792,7 +868,7 @@
                           <line x1="12" y1="17" x2="12.01" y2="17"></line>
                         </svg>
                         <span class="tooltip-text"
-                          >Hides low view count videos in Subs</span
+                          >Hides videos by view count in Subs</span
                         >
                       </div>
                     </div>
@@ -824,7 +900,7 @@
                           <line x1="12" y1="17" x2="12.01" y2="17"></line>
                         </svg>
                         <span class="tooltip-text"
-                          >Hides low view count videos in Search</span
+                          >Hides videos by view count in Search</span
                         >
                       </div>
                     </div>
@@ -856,7 +932,7 @@
                           <line x1="12" y1="17" x2="12.01" y2="17"></line>
                         </svg>
                         <span class="tooltip-text"
-                          >Hides low view count videos in Related</span
+                          >Hides videos by view count in Related</span
                         >
                       </div>
                     </div>
@@ -889,8 +965,8 @@
               </div>
             </div>
 
-            <div class="setting-group date-filter-group">
-              <div class="slider-control slider-control-center slider-control-wide date-sub-filter">
+            <div class="setting-group range-filter-group" id="date-filter-group">
+              <div class="slider-control slider-control-center slider-control-wide range-sub-filter">
                 <div class="slider-control-left">
                   <div class="label-content">
                     <label class="control-label mb-0">Hide newer than</label>
@@ -917,7 +993,7 @@
                       >
                     </div>
                   </div>
-                  <div class="slider-display date-slider-display">
+                  <div class="slider-display range-slider-display">
                     <span class="slider-value" id="date-filter-newer-value"
                       >Off</span
                     >
@@ -936,7 +1012,7 @@
                 </div>
               </div>
 
-              <div class="slider-control slider-control-center slider-control-wide date-sub-filter">
+              <div class="slider-control slider-control-center slider-control-wide range-sub-filter">
                 <div class="slider-control-left">
                   <div class="label-content">
                     <label class="control-label mb-0">Hide older than</label>
@@ -963,7 +1039,7 @@
                       >
                     </div>
                   </div>
-                  <div class="slider-display date-slider-display">
+                  <div class="slider-display range-slider-display">
                     <span class="slider-value" id="date-filter-older-value"
                       >Off</span
                     >
@@ -983,7 +1059,7 @@
               </div>
 
               <div
-                class="date-overlap-warning"
+                class="range-overlap-warning"
                 id="date-overlap-warning"
                 style="display: none"
               >

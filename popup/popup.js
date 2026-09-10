@@ -122,6 +122,8 @@ document.addEventListener('DOMContentLoaded', () => {
     views: {
       slider: document.getElementById('views-hide'),
       value: document.getElementById('views-hide-value'),
+      maxSlider: document.getElementById('views-hide-max'),
+      maxValue: document.getElementById('views-hide-max-value'),
       boxes: {
         home: document.getElementById('views-hide-home-enabled'),
         channel: document.getElementById('views-hide-channel-enabled'),
@@ -131,6 +133,7 @@ document.addEventListener('DOMContentLoaded', () => {
       },
       keys: {
         threshold: 'viewsHideThreshold',
+        maxThreshold: 'viewsHideMaxThreshold',
         home: 'viewsHideHomeEnabled',
         channel: 'viewsHideChannelEnabled',
         search: 'viewsHideSearchEnabled',
@@ -139,6 +142,7 @@ document.addEventListener('DOMContentLoaded', () => {
       },
       defaults: {
         threshold: 1000,
+        maxThreshold: 0,
         home: true,
         channel: true,
         search: true,
@@ -212,7 +216,7 @@ document.addEventListener('DOMContentLoaded', () => {
     channelBlacklistToggle.checked = prefs.channelBlacklistEnabled ?? true;
     hideOnPageControlsToggle.checked = prefs.hideInterfaceElements ?? false;
 
-    ['hide', 'views', 'shorts', 'mixesPlaylists'].forEach(sectionName => {
+    ['hide', 'shorts', 'mixesPlaylists'].forEach(sectionName => {
       const section = cfg[sectionName];
       Object.entries(section.keys).forEach(([keyName, storageKey]) => {
         const def = section.defaults[keyName];
@@ -221,20 +225,10 @@ document.addEventListener('DOMContentLoaded', () => {
           keyName === 'delay' || keyName === 'threshold'
             ? parseInt(raw, 10)
             : raw;
-        if (section.slider && keyName === 'delay') {
-          section.slider.value = val;
-          section.value.textContent = val;
-          updateSliderBackground(section.slider);
-        } else if (
+        if (
           section.slider &&
-          keyName === 'threshold' &&
-          sectionName === 'views'
+          (keyName === 'delay' || keyName === 'threshold')
         ) {
-          const index = findClosestViewsIndex(val);
-          section.slider.value = index;
-          section.value.textContent = formatViews(viewsSteps[index]);
-          updateSliderBackground(section.slider);
-        } else if (section.slider && keyName === 'threshold') {
           section.slider.value = val;
           section.value.textContent = val;
           updateSliderBackground(section.slider);
@@ -244,6 +238,25 @@ document.addEventListener('DOMContentLoaded', () => {
           section.box.checked = val;
         }
       });
+    });
+
+    const minViews = prefs.viewsHideThreshold ?? cfg.views.defaults.threshold;
+    const minViewsIdx = findClosestViewsIndex(parseInt(minViews, 10));
+    cfg.views.slider.value = minViewsIdx;
+    cfg.views.value.textContent =
+      minViewsIdx === 0 ? 'Off' : formatViews(viewsSteps[minViewsIdx]);
+    updateSliderBackground(cfg.views.slider);
+
+    const maxViews =
+      prefs.viewsHideMaxThreshold ?? cfg.views.defaults.maxThreshold;
+    const maxViewsIdx = findClosestViewsMaxIndex(parseInt(maxViews, 10));
+    cfg.views.maxSlider.value = maxViewsIdx;
+    cfg.views.maxValue.textContent =
+      maxViewsIdx === 0 ? 'Off' : formatViews(viewsMaxSteps[maxViewsIdx]);
+    updateSliderBackground(cfg.views.maxSlider);
+
+    Object.entries(cfg.views.boxes).forEach(([k, box]) => {
+      box.checked = prefs[cfg.views.keys[k]] ?? cfg.views.defaults[k];
     });
 
     easyShortsToggle.checked = isAnyTrue({
@@ -276,6 +289,7 @@ document.addEventListener('DOMContentLoaded', () => {
     });
 
     checkDateOverlap();
+    checkViewsOverlap();
 
     updateSliderOffState(
       cfg.hide.slider,
@@ -284,6 +298,10 @@ document.addEventListener('DOMContentLoaded', () => {
     updateSliderOffState(
       cfg.views.slider,
       parseInt(cfg.views.slider.value, 10) === 0,
+    );
+    updateSliderOffState(
+      cfg.views.maxSlider,
+      parseInt(cfg.views.maxSlider.value, 10) === 0,
     );
     updateSliderOffState(
       cfg.date.newerSlider,
@@ -299,17 +317,14 @@ document.addEventListener('DOMContentLoaded', () => {
       const unit = document.querySelector('.slider-unit');
       if (unit) unit.style.display = 'none';
     }
-    if (parseInt(cfg.views.slider.value, 10) === 0) {
-      cfg.views.value.textContent = 'Off';
-    }
-
     updatePerPageDisabledState(
       'hide',
       parseInt(cfg.hide.slider.value, 10) === 0,
     );
     updatePerPageDisabledState(
       'views',
-      parseInt(cfg.views.slider.value, 10) === 0,
+      parseInt(cfg.views.slider.value, 10) === 0 &&
+        parseInt(cfg.views.maxSlider.value, 10) === 0,
     );
     updatePerPageDisabledState(
       'date',
@@ -349,7 +364,9 @@ document.addEventListener('DOMContentLoaded', () => {
           key,
           k === 'threshold'
             ? viewsSteps[parseInt(cfg.views.slider.value, 10)]
-            : cfg.views.boxes[k].checked,
+            : k === 'maxThreshold'
+              ? viewsMaxSteps[parseInt(cfg.views.maxSlider.value, 10)]
+              : cfg.views.boxes[k].checked,
         ]),
       ),
       ...Object.fromEntries(
@@ -378,8 +395,19 @@ document.addEventListener('DOMContentLoaded', () => {
 
     chrome.storage.sync.set(settings, () => {
       const dateThresholdActive =
-        (settings.dateFilterNewerThreshold || 0) > 0 ||
-        (settings.dateFilterOlderThreshold || 0) > 0;
+        ((settings.dateFilterNewerThreshold || 0) > 0 ||
+          (settings.dateFilterOlderThreshold || 0) > 0) &&
+        !isRangeOverlapping(
+          settings.dateFilterNewerThreshold,
+          settings.dateFilterOlderThreshold,
+        );
+      const viewsThresholdActive =
+        ((settings.viewsHideThreshold || 0) > 0 ||
+          (settings.viewsHideMaxThreshold || 0) > 0) &&
+        !isRangeOverlapping(
+          settings.viewsHideThreshold,
+          settings.viewsHideMaxThreshold,
+        );
       const hideOn =
         settings.extensionEnabled &&
         isAnyTrue({
@@ -391,7 +419,7 @@ document.addEventListener('DOMContentLoaded', () => {
               ]),
             )
           : {}),
-        ...(settings.viewsHideThreshold > 0
+        ...(viewsThresholdActive
           ? Object.fromEntries(
               Object.entries(cfg.views.boxes).map(([k]) => [
                 k,
@@ -537,21 +565,46 @@ document.addEventListener('DOMContentLoaded', () => {
     }
   }
 
+  function applyRangeOverlapState(groupId, warningId, isOverlap) {
+    const warning = document.getElementById(warningId);
+    if (warning) warning.style.display = isOverlap ? 'flex' : 'none';
+
+    const group = document.getElementById(groupId);
+    if (!group) return;
+
+    group.querySelectorAll('.range-sub-filter').forEach(el => {
+      el.classList.toggle('range-overlap', isOverlap);
+    });
+  }
+
   function checkDateOverlap() {
     const newerIdx = parseInt(cfg.date.newerSlider.value, 10);
     const olderIdx = parseInt(cfg.date.olderSlider.value, 10);
-    const newerThreshold = dateNewerSteps[newerIdx];
-    const olderThreshold = dateSteps[olderIdx];
 
     const isOverlap =
-      newerIdx > 0 && olderIdx > 0 && newerThreshold >= olderThreshold;
+      newerIdx > 0 &&
+      olderIdx > 0 &&
+      dateNewerSteps[newerIdx] >= dateSteps[olderIdx];
 
-    const warning = document.getElementById('date-overlap-warning');
-    if (warning) warning.style.display = isOverlap ? 'flex' : 'none';
+    applyRangeOverlapState(
+      'date-filter-group',
+      'date-overlap-warning',
+      isOverlap,
+    );
+  }
 
-    document.querySelectorAll('.date-sub-filter').forEach(el => {
-      el.classList.toggle('date-overlap', isOverlap);
-    });
+  function checkViewsOverlap() {
+    const minIdx = parseInt(cfg.views.slider.value, 10);
+    const maxIdx = parseInt(cfg.views.maxSlider.value, 10);
+
+    const isOverlap =
+      minIdx > 0 && maxIdx > 0 && viewsSteps[minIdx] >= viewsMaxSteps[maxIdx];
+
+    applyRangeOverlapState(
+      'views-filter-group',
+      'views-overlap-warning',
+      isOverlap,
+    );
   }
 
 
@@ -613,17 +666,35 @@ document.addEventListener('DOMContentLoaded', () => {
 
   cfg.views.slider.addEventListener('input', () => {
     const index = parseInt(cfg.views.slider.value, 10);
-    if (index === 0) {
-      cfg.views.value.textContent = 'Off';
-    } else {
-      cfg.views.value.textContent = formatViews(viewsSteps[index]);
-    }
+    cfg.views.value.textContent =
+      index === 0 ? 'Off' : formatViews(viewsSteps[index]);
     updateSliderBackground(cfg.views.slider);
     updateSliderOffState(cfg.views.slider, index === 0);
-    updatePerPageDisabledState('views', index === 0);
+    updatePerPageDisabledState(
+      'views',
+      index === 0 && parseInt(cfg.views.maxSlider.value, 10) === 0,
+    );
+    checkViewsOverlap();
   });
   cfg.views.slider.addEventListener('change', () => {
     if (parseInt(cfg.views.slider.value, 10) > 0) autoEnablePerPage('views');
+    saveSettings();
+  });
+
+  cfg.views.maxSlider.addEventListener('input', () => {
+    const index = parseInt(cfg.views.maxSlider.value, 10);
+    cfg.views.maxValue.textContent =
+      index === 0 ? 'Off' : formatViews(viewsMaxSteps[index]);
+    updateSliderBackground(cfg.views.maxSlider);
+    updateSliderOffState(cfg.views.maxSlider, index === 0);
+    updatePerPageDisabledState(
+      'views',
+      index === 0 && parseInt(cfg.views.slider.value, 10) === 0,
+    );
+    checkViewsOverlap();
+  });
+  cfg.views.maxSlider.addEventListener('change', () => {
+    if (parseInt(cfg.views.maxSlider.value, 10) > 0) autoEnablePerPage('views');
     saveSettings();
   });
 

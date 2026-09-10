@@ -1,5 +1,20 @@
 # Changelog
 
+### Version 3.3.0
+
+**Added**
+
+- The Minimum Views Filter becomes the **Views Filter** and gains a **Maximum Views** slider under the existing one, the same shape the Upload Date Filter already had with its two thresholds. Set only the minimum to keep hiding low-view videos exactly as before, set only the maximum to hide anything above a view count, or set both to keep only videos inside a popularity range. The maximum is off by default, so nothing changes until it is moved, and both sliders share the card's per-page toggles. As with the two date sliders, a warning appears when the two ends cross over
+- The Maximum Views slider starts at 1,000 views rather than at the 50 the minimum starts from, and steps through the same 1 / 1.5 / 2 / 2.5 / 3 / 5 / 7.5 ladder per decade up to 10M. The lowest stops of the minimum slider make no sense as an upper bound: a maximum of 50 or 100 views would hide practically every video on the page
+
+**Changed**
+
+- Videos hidden for being above the maximum are labelled "Views too high" in Dim mode, next to the existing "Views too low"
+
+**Fixed**
+
+- Two Upload Date thresholds set so that they cross over hid every video on the page instead of doing nothing, despite the warning under the sliders saying "Filter not active". With **Hide newer than** at 30 days and **Hide older than** at 7 days, every video was either newer than 30 days or older than 7, so each one matched one of the two rules and the feed came out empty. Overlapping thresholds now genuinely switch the filter off, which is what the warning said all along, and the toolbar badge no longer counts an overlapping filter as active. The Views Filter's two thresholds behave the same way
+
 ### Version 3.2.0
 
 **Added**

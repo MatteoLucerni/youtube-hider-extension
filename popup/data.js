@@ -7,6 +7,12 @@ function isAnyTrue(flags) {
   return Object.values(flags).some(Boolean);
 }
 
+function isRangeOverlapping(lowerBound, upperBound) {
+  const lower = lowerBound || 0;
+  const upper = upperBound || 0;
+  return lower > 0 && upper > 0 && lower >= upper;
+}
+
 function updateSliderBackground(slider) {
   const min = slider.min || 0;
   const max = slider.max || 100;
@@ -36,6 +42,25 @@ function findClosestViewsIndex(value) {
   let minDiff = Math.abs(viewsSteps[0] - value);
   for (let i = 1; i < viewsSteps.length; i++) {
     const diff = Math.abs(viewsSteps[i] - value);
+    if (diff < minDiff) {
+      minDiff = diff;
+      closestIndex = i;
+    }
+  }
+  return closestIndex;
+}
+
+const viewsMaxSteps = [
+  0, 1000, 1500, 2000, 2500, 3000, 5000, 7500, 10000, 15000, 20000, 25000,
+  30000, 50000, 75000, 100000, 150000, 200000, 250000, 300000, 500000, 750000,
+  1000000, 1500000, 2000000, 2500000, 3000000, 5000000, 7500000, 10000000,
+];
+
+function findClosestViewsMaxIndex(value) {
+  let closestIndex = 0;
+  let minDiff = Math.abs(viewsMaxSteps[0] - value);
+  for (let i = 1; i < viewsMaxSteps.length; i++) {
+    const diff = Math.abs(viewsMaxSteps[i] - value);
     if (diff < minDiff) {
       minDiff = diff;
       closestIndex = i;

@@ -42,6 +42,7 @@ const flagKeys = [
 const thresholdFlagKeys = [
   'dateFilterNewerThreshold',
   'dateFilterOlderThreshold',
+  'viewsHideMaxThreshold',
 ];
 const defaultSettings = {
   extensionEnabled: true,
@@ -53,6 +54,7 @@ const defaultSettings = {
   hideSubsEnabled: true,
   hideCorrEnabled: true,
   viewsHideThreshold: 1000,
+  viewsHideMaxThreshold: 0,
   viewsHideHomeEnabled: true,
   viewsHideChannelEnabled: true,
   viewsHideSearchEnabled: true,
@@ -251,6 +253,11 @@ function refreshBadge() {
     },
   );
 }
+function isRangeOverlapping(lowerBound, upperBound) {
+  const lower = lowerBound || 0;
+  const upper = upperBound || 0;
+  return lower > 0 && upper > 0 && lower >= upper;
+}
 function getBadgeText(flags = {}) {
   if (flags.extensionEnabled === false) return 'OFF';
 
@@ -258,13 +265,19 @@ function getBadgeText(flags = {}) {
     (flags.hideThreshold || 0) > 0 &&
     ['hideHomeEnabled', 'hideSearchEnabled', 'hideSubsEnabled', 'hideChannelEnabled', 'hideCorrEnabled'].some(k => flags[k]);
   const viewsActive =
-    (flags.viewsHideThreshold || 0) > 0 &&
+    ((flags.viewsHideThreshold || 0) > 0 ||
+      (flags.viewsHideMaxThreshold || 0) > 0) &&
+    !isRangeOverlapping(flags.viewsHideThreshold, flags.viewsHideMaxThreshold) &&
     ['viewsHideHomeEnabled', 'viewsHideSearchEnabled', 'viewsHideSubsEnabled', 'viewsHideChannelEnabled', 'viewsHideCorrEnabled'].some(k => flags[k]);
   const shortsActive = flags.hideShortsEnabled || flags.hideShortsSearchEnabled;
   const mixesPlaylistsActive = flags.hideMixesEnabled || flags.hidePlaylistsEnabled || flags.hideLivesEnabled;
   const dateOn =
-    (flags.dateFilterNewerThreshold || 0) > 0 ||
-    (flags.dateFilterOlderThreshold || 0) > 0;
+    ((flags.dateFilterNewerThreshold || 0) > 0 ||
+      (flags.dateFilterOlderThreshold || 0) > 0) &&
+    !isRangeOverlapping(
+      flags.dateFilterNewerThreshold,
+      flags.dateFilterOlderThreshold,
+    );
   const dateActive =
     dateOn &&
     ['dateFilterHomeEnabled', 'dateFilterChannelEnabled', 'dateFilterSearchEnabled', 'dateFilterSubsEnabled', 'dateFilterCorrEnabled'].some(k => flags[k]);
