@@ -441,10 +441,17 @@ function channelIsPresent(ch) {
   return Array.isArray(ch) ? ch.length > 0 : !!ch;
 }
 
+function isTitleExempt(element, ch) {
+  if (!prefs.titleWhitelistEnabled) return false;
+  if (!Array.isArray(prefs.titleWhitelist) || !prefs.titleWhitelist.length) return false;
+  if (isChannelBlacklisted(ch)) return false;
+  return isTitleWhitelisted(extractTitleFromContainer(element));
+}
+
 function applyFilter(element, reason) {
   if (!element) return;
   const ch = resolveChannelForElement(element);
-  if (isChannelExempt(ch)) {
+  if (isChannelExempt(ch) || isTitleExempt(element, ch)) {
     if (!element.dataset.ytHiderPendingAction) {
       clearDimmedElement(element);
     }

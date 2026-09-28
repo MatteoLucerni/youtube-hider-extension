@@ -1,5 +1,12 @@
 # Changelog
 
+### Version 3.4.0
+
+**Added**
+
+- **Title Whitelist**: a new card under Channel Whitelist that exempts videos by a word or phrase in their title instead of by channel. Type a word such as "tutorial" or "etc", press Enter or **+ Add**, and every video whose title contains it is left alone by every active filter, on every page, the same way a whitelisted channel's videos are. Matching ignores upper and lower case and also finds the word inside a longer one, so "etc" matches "etc." as well as "fetch". Each word shows up as a removable chip, adding or removing one takes effect on the open page immediately, and the card's own switch pauses the whole list without clearing it
+- A blacklisted channel stays hidden even when one of its titles contains a whitelisted word, and Shorts are always filtered regardless, matching how the Channel Whitelist already behaves
+
 ### Version 3.3.0
 
 **Added**

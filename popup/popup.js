@@ -19,6 +19,9 @@ document.addEventListener('DOMContentLoaded', () => {
   const channelBlacklistToggle = document.getElementById(
     'channel-blacklist-enabled',
   );
+  const titleWhitelistToggle = document.getElementById(
+    'title-whitelist-enabled',
+  );
   const hideOnPageControlsToggle = document.getElementById(
     'hide-on-page-controls',
   );
@@ -191,6 +194,8 @@ document.addEventListener('DOMContentLoaded', () => {
     'channelWhitelistEnabled',
     'channelBlacklist',
     'channelBlacklistEnabled',
+    'titleWhitelist',
+    'titleWhitelistEnabled',
     'hideInterfaceElements',
     ...Object.values(cfg.hide.keys),
     ...Object.values(cfg.views.keys),
@@ -214,6 +219,7 @@ document.addEventListener('DOMContentLoaded', () => {
     setFilterModeUI(prefs.dimMode ?? false);
     channelWhitelistToggle.checked = prefs.channelWhitelistEnabled ?? true;
     channelBlacklistToggle.checked = prefs.channelBlacklistEnabled ?? true;
+    titleWhitelistToggle.checked = prefs.titleWhitelistEnabled ?? true;
     hideOnPageControlsToggle.checked = prefs.hideInterfaceElements ?? false;
 
     ['hide', 'shorts', 'mixesPlaylists'].forEach(sectionName => {
@@ -343,6 +349,10 @@ document.addEventListener('DOMContentLoaded', () => {
     blacklistData = Array.isArray(prefs.channelBlacklist) ? prefs.channelBlacklist : [];
     renderBlacklistChips(blacklistData);
     refreshAddBlacklistButtonState();
+
+    titleWhitelistData = Array.isArray(prefs.titleWhitelist) ? prefs.titleWhitelist : [];
+    renderTitleWhitelistChips(titleWhitelistData);
+    refreshTitleWhitelistAddState();
   });
 
   function saveSettings() {
@@ -512,6 +522,12 @@ document.addEventListener('DOMContentLoaded', () => {
   channelBlacklistToggle.addEventListener('change', () => {
     chrome.storage.sync.set({
       channelBlacklistEnabled: channelBlacklistToggle.checked,
+    });
+  });
+
+  titleWhitelistToggle.addEventListener('change', () => {
+    chrome.storage.sync.set({
+      titleWhitelistEnabled: titleWhitelistToggle.checked,
     });
   });
 
@@ -937,8 +953,89 @@ document.addEventListener('DOMContentLoaded', () => {
     });
   }
 
+  const titleChipsContainer = document.getElementById('title-whitelist-chips');
+  const titleEmptyHint = document.getElementById('title-whitelist-empty');
+  const titleForm = document.getElementById('title-whitelist-form');
+  const titleInput = document.getElementById('title-whitelist-input');
+  const titleAddBtn = document.getElementById('title-whitelist-add-btn');
+  const titleHint = document.getElementById('title-whitelist-hint');
+
+  let titleWhitelistData = [];
+
+  function refreshTitleWhitelistAddState() {
+    if (!titleInput || !titleAddBtn) return;
+    const keyword = normalizeTitleKeyword(titleInput.value);
+    const alreadyListed = titleKeywordListIncludes(keyword, titleWhitelistData);
+    titleAddBtn.disabled = !keyword || alreadyListed;
+    if (titleHint) {
+      titleHint.textContent = alreadyListed ? '"' + keyword + '" is already whitelisted' : '';
+    }
+  }
+
+  function renderTitleWhitelistChips(list) {
+    if (!titleChipsContainer) return;
+    titleChipsContainer.querySelectorAll('.whitelist-chip').forEach(c => c.remove());
+    if (titleEmptyHint) titleEmptyHint.style.display = list.length === 0 ? '' : 'none';
+    list.forEach(keyword => {
+      const chip = document.createElement('span');
+      chip.className = 'whitelist-chip';
+      const label = document.createElement('span');
+      label.className = 'whitelist-chip-label';
+      label.textContent = keyword;
+      label.title = keyword;
+      const remove = document.createElement('button');
+      remove.className = 'whitelist-chip-remove';
+      remove.type = 'button';
+      remove.textContent = '×';
+      remove.setAttribute('aria-label', 'Remove ' + keyword);
+      remove.addEventListener('click', () => {
+        titleWhitelistData = titleWhitelistData.filter(k => k !== keyword);
+        renderTitleWhitelistChips(titleWhitelistData);
+        refreshTitleWhitelistAddState();
+        chrome.storage.sync.set({ titleWhitelist: titleWhitelistData });
+      });
+      chip.appendChild(label);
+      chip.appendChild(remove);
+      titleChipsContainer.appendChild(chip);
+    });
+  }
+
+  if (titleInput) {
+    titleInput.addEventListener('input', refreshTitleWhitelistAddState);
+  }
+
+  if (titleForm) {
+    titleForm.addEventListener('submit', e => {
+      e.preventDefault();
+      const keyword = normalizeTitleKeyword(titleInput.value);
+      if (!keyword || titleKeywordListIncludes(keyword, titleWhitelistData)) return;
+
+      titleWhitelistData = [...titleWhitelistData, keyword];
+      titleInput.value = '';
+      renderTitleWhitelistChips(titleWhitelistData);
+      refreshTitleWhitelistAddState();
+
+      const updates = { titleWhitelist: titleWhitelistData };
+      if (!titleWhitelistToggle.checked) {
+        titleWhitelistToggle.checked = true;
+        updates.titleWhitelistEnabled = true;
+      }
+      chrome.storage.sync.set(updates);
+    });
+  }
+
   chrome.storage.onChanged.addListener((changes, area) => {
     if (area !== 'sync') return;
+    if (changes.titleWhitelist) {
+      titleWhitelistData = Array.isArray(changes.titleWhitelist.newValue)
+        ? changes.titleWhitelist.newValue
+        : [];
+      renderTitleWhitelistChips(titleWhitelistData);
+      refreshTitleWhitelistAddState();
+    }
+    if (changes.titleWhitelistEnabled) {
+      titleWhitelistToggle.checked = changes.titleWhitelistEnabled.newValue ?? true;
+    }
     if (changes.channelWhitelist) {
       whitelistData = Array.isArray(changes.channelWhitelist.newValue)
         ? changes.channelWhitelist.newValue

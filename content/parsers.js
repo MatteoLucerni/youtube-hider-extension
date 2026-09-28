@@ -628,6 +628,25 @@ function extractChannelFromContainer(container) {
   return null;
 }
 
+const VIDEO_TITLE_SELECTORS = [
+  '#video-title',
+  '#video-title-link',
+  '.yt-lockup-metadata-view-model__title',
+  '.yt-lockup-metadata-view-model-wiz__title',
+  '.ytLockupMetadataViewModelTitle',
+  '.media-item-headline',
+  '.compact-media-item-headline',
+  '.YtmCompactMediaItemHeadline',
+  'h3[title]',
+].join(', ');
+
+function extractTitleFromContainer(container) {
+  if (!container || !container.querySelector) return '';
+  const el = container.querySelector(VIDEO_TITLE_SELECTORS);
+  if (!el) return '';
+  return (el.getAttribute('title') || el.textContent || '').trim();
+}
+
 if (typeof module !== 'undefined' && module.exports) {
   module.exports = {
     extractViewCount,
