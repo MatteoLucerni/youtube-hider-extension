@@ -70,6 +70,10 @@ Exempt specific channels from every active filter - their videos are never hidde
 - The **inline "Whitelist" button** next to the Subscribe button on video and channel pages
 - The **Channel Whitelist card** in the popup, which lists every whitelisted channel as a removable chip and lets you add the current tab's channel directly
 
+### Title Whitelist
+
+Exempt videos by a word or phrase in their title rather than by channel. Type a word into the **Title Whitelist** card in the popup and press Enter or **+ Add**: every video whose title contains it is never hidden or dimmed by any filter, on every page. Matching is case-insensitive and finds the word anywhere in the title, including inside a longer word ("etc" also matches "fetch"). Each word is listed as a removable chip, changes apply to the open page immediately, and the card's switch pauses the whole list without clearing it. A blacklisted channel stays hidden even when a title matches, and Shorts are always filtered regardless.
+
 ### Channel Blacklist
 
 The opposite of Channel Whitelist: a blacklisted channel's videos are always hidden, everywhere, including Shorts, Mixes, Playlists and Lives, regardless of any other filter's own on/off state. A channel can never be on both lists at once, adding it to one removes it from the other. A channel can be blacklisted from three places:
@@ -153,7 +157,7 @@ youtube-hider-extension
 │   ├── page-bridge.js     MAIN-world script: caches video-id-to-channel mappings from YouTube's internal data
 │   ├── env.js             DEV_MODE flag
 │   ├── utils.js           Shared utilities (debounce, logger, safe storage)
-│   ├── whitelist-utils.js Pure list helpers shared by Channel Whitelist and Channel Blacklist
+│   ├── whitelist-utils.js Pure list helpers shared by Channel Whitelist, Channel Blacklist and Title Whitelist
 │   ├── state.js           Preferences, timing constants, storage listener
 │   ├── header-button.js  Header settings button and its iframe-embedded settings dropdown
 │   ├── tutorial.js        Guided spotlight tutorial

@@ -370,3 +370,42 @@
     line-height: 1.3;
     min-height: 14px;
 }
+
+.title-whitelist-add-row {
+    margin: 10px 0 0;
+    display: flex;
+    gap: 6px;
+    width: 100%;
+}
+
+.title-whitelist-input {
+    flex: 1 1 auto;
+    min-width: 0;
+    padding: 9px 12px;
+    font-size: 12px;
+    font-family: inherit;
+    color: var(--text-primary);
+    background: var(--bg-tertiary);
+    border: 1px solid var(--border-color);
+    border-radius: var(--radius-box);
+    transition: border-color 0.15s var(--ease-standard);
+}
+
+.title-whitelist-input::placeholder {
+    color: var(--text-tertiary);
+}
+
+.title-whitelist-input:focus {
+    outline: none;
+    border-color: var(--accent-blue);
+}
+
+.add-channel-btn.title-whitelist-add-btn {
+    width: auto;
+    flex: 0 0 auto;
+}
+
+.title-whitelist-hint {
+    display: block;
+    margin-top: 5px;
+}

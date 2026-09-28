@@ -48,3 +48,40 @@ function computeWhitelistUpdate(
 
   return { list: nextList, updates, changedChannels, enabledChanged: !!needsReEnable };
 }
+
+const TITLE_KEYWORD_MAX_LENGTH = 100;
+
+function normalizeTitleKeyword(raw) {
+  if (typeof raw !== 'string') return '';
+  return raw.replace(/\s+/g, ' ').trim().slice(0, TITLE_KEYWORD_MAX_LENGTH);
+}
+
+function titleKeywordKey(keyword) {
+  return normalizeTitleKeyword(keyword).toLowerCase();
+}
+
+function titleKeywordListIncludes(keyword, list) {
+  const key = titleKeywordKey(keyword);
+  if (!key || !Array.isArray(list)) return false;
+  return list.some(k => titleKeywordKey(k) === key);
+}
+
+function titleMatchesKeyword(title, keywords) {
+  if (!Array.isArray(keywords) || !keywords.length) return false;
+  const haystack = typeof title === 'string' ? title.replace(/\s+/g, ' ').toLowerCase() : '';
+  if (!haystack) return false;
+  return keywords.some(k => {
+    const key = titleKeywordKey(k);
+    return !!key && haystack.includes(key);
+  });
+}
+
+if (typeof module !== 'undefined' && module.exports) {
+  module.exports = {
+    channelListIncludes,
+    computeWhitelistUpdate,
+    normalizeTitleKeyword,
+    titleKeywordListIncludes,
+    titleMatchesKeyword,
+  };
+}
