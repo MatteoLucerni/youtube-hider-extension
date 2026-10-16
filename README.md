@@ -38,7 +38,7 @@ Hide videos by their view count with two independent sliders: **Minimum Views** 
 
 ### Upload Date Filter
 
-Hide videos by their upload date with two independent sub-filters: **Hide newer than** and **Hide older than**. Each has its own toggle and slider with logarithmic time steps, from 1 hour to 10 years for **Hide newer than** and from 1 day to 10 years for **Hide older than**. Use both together to keep only videos in a specific age range - for example, hide recent AI-generated content and outdated videos at the same time. If the two thresholds cross over, the filter switches itself off and says so, rather than hiding everything. Supports 10+ YouTube interface languages.
+Hide videos by their upload date with two independent sub-filters: **Hide newer than** and **Hide older than**. Each has its own toggle and slider with logarithmic time steps, from 1 hour to 10 years for **Hide newer than** and from 1 day to 10 years for **Hide older than**. Use both together to keep only videos in a specific age range - for example, hide recent AI-generated content and outdated videos at the same time. If the two thresholds cross over, the filter switches itself off and says so, rather than hiding everything. Reads YouTube's dates in every interface language, including the abbreviated forms the current layout uses ("13 gg fa", "vor 2 Std.", "12 h lalu").
 
 ### Hide Shorts, Mixes, Playlists & Lives
 

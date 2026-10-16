@@ -1,5 +1,12 @@
 # Changelog
 
+### Version 3.3.1
+
+**Fixed**
+
+- The Upload Date Filter ignored most videos in most interface languages. YouTube's current layout writes the upload date in a shortened form ("13 gg fa", "vor 2 Std.", "il y a 3 sem.", "1 ч назад", "12 h lalu"), and the extension only recognized the full words in about ten languages, so a video whose date it could not read was simply never filtered: with **Hide older than** set to 1 day, videos weeks or years old stayed on the page. Upload dates are now read in all 82 languages YouTube's interface is available in, in both the short and the full form, including languages that put the unit before the number, wrap it in parentheses, or write a count of one or two as a word (Arabic "قبل سنتين", two years ago). The abbreviations are read in the page's own language, since the same letters mean different things in different languages: "1 h fa" is one hour in Italian, while "1 h lalu" is one day in Indonesian
+- The Views Filter misread or skipped the shortened view counts the current layout shows in about half the interface languages. Some were not read at all (Polish "1,3 tys.", Arabic "1.3 ألف", Hindi "1.5 लाख", and others), and some were read wrongly: Turkish "1,3 B" (1,300 views) was taken as 1.3 billion, and Vietnamese "1,3 N" and Hungarian "1,3 E" as 13. All of them are now read correctly
+
 ### Version 3.3.0
 
 **Added**

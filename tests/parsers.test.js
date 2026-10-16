@@ -122,6 +122,88 @@ test('upload-age: abbreviated units used in the new YouTube UI (regression for #
   assert.ok(Number.isNaN(extractUploadAgeDays('3y Fest')));
 });
 
+test('regression: compact upload dates in the lockup metadata row, read through the page locale', () => {
+  const cases = [
+    ['it-IT', '13 gg fa', 13],
+    ['it-IT', '2 sett. fa', 14],
+    ['it-IT', '1 g fa', 1],
+    ['it-IT', '34 min fa', 34 / 1440],
+    ['it-IT', 'Trasmesso in streaming 2 h fa', 2 / 24],
+    ['de-DE', 'vor 2 Std.', 2 / 24],
+    ['fr-FR', 'il y a 3 sem.', 21],
+    ['es-ES', 'hace 2 m', 60],
+    ['ru-RU', '39 мин. назад', 39 / 1440],
+    ['ru-RU', '1 ч назад', 1 / 24],
+    ['tr-TR', '1 sa. önce', 1 / 24],
+    ['hu-HU', '12 napja', 12],
+    ['id-ID', '12 h lalu', 12],
+    ['sw-TZ', 'saa 2 zilizopita', 2 / 24],
+    ['he-IL', 'לפני שעתיים (2)', 2 / 24],
+    ['pl-PL', '1 godz. temu', 1 / 24],
+    ['vi-VN', '38 phút trước', 38 / 1440],
+    ['th-TH', '1 ชม. ที่แล้ว', 1 / 24],
+  ];
+  for (const [locale, text, expected] of cases) {
+    assert.equal(extractUploadAgeDays(text, locale), expected, `${locale} ${text}`);
+  }
+});
+
+test('regression: the same abbreviation means a different unit in a different locale', () => {
+  assert.equal(extractUploadAgeDays('1 h fa', 'it-IT'), 1 / 24);
+  assert.equal(extractUploadAgeDays('1 h lalu', 'id-ID'), 1);
+  assert.equal(extractUploadAgeDays('hace 1 m', 'es-ES'), 30);
+});
+
+test('regression: Arabic writes counts of one and two without digits', () => {
+  assert.equal(extractUploadAgeDays('قبل ساعتين', 'ar'), 2 / 24);
+  assert.equal(extractUploadAgeDays('قبل سنتين', 'ar'), 730);
+});
+
+test('regression: lockup row resolves the date with the page locale', () => {
+  assert.equal(
+    resolveUploadAgeFromSpans(spans('Barbascura X', 'e Barbascura eXtra', '996K', '2 sett. fa'), 'it-IT').ageDays,
+    14,
+  );
+});
+
+test('upload-age: a locale table never turns non-date text into an age', () => {
+  assert.ok(Number.isNaN(extractUploadAgeDays('5-Minute Crafts', 'en')));
+  assert.ok(Number.isNaN(extractUploadAgeDays('3d Printing Tips', 'en')));
+  assert.ok(Number.isNaN(extractUploadAgeDays('3 settings', 'it-IT')));
+  assert.ok(Number.isNaN(extractUploadAgeDays('8,3K visualizzazioni', 'it-IT')));
+});
+
+test('upload-age: without a matching locale the original parser still applies', () => {
+  assert.equal(extractUploadAgeDays('2 days ago', ''), 2);
+  assert.equal(extractUploadAgeDays('2 giorni fa', 'xx-XX'), 2);
+  assert.equal(extractUploadAgeDays('2 days ago', 'en'), 2);
+});
+
+test('regression: compact view counts in the lockup metadata row, read through the page locale', () => {
+  const cases = [
+    ['pl-PL', '1,3 tys.', 1300],
+    ['cs-CZ', '1,2 tis.', 1200],
+    ['ar', '1.3 ألف', 1300],
+    ['hi-IN', '1.5 लाख', 150000],
+    ['sw-TZ', 'elfu 1.3', 1300],
+    ['he-IL', '‫1.3K‏‬', 1300],
+    ['ja-JP', '3.9万', 39000],
+    ['it-IT', '1,3K', 1300],
+  ];
+  for (const [locale, text, expected] of cases) {
+    const result = extractViewCount(text, locale);
+    assert.equal(result.views, expected, `${locale} ${text}`);
+    assert.equal(result.confidence, 'high', `${locale} ${text}`);
+  }
+});
+
+test('regression: compact view suffixes that the original parser misread', () => {
+  assert.equal(extractViewCount('1,3 B', 'tr-TR').views, 1300);
+  assert.equal(extractViewCount('1,3 N', 'vi-VN').views, 1300);
+  assert.equal(extractViewCount('1,3 E', 'hu-HU').views, 1300);
+  assert.equal(extractViewCount('1,3 ming', 'uz-Latn-UZ').views, 1300);
+});
+
 test('upload-age: resolving spans prefers the real date (last valid)', () => {
   // Channel name first, real date last → date wins.
   assert.equal(
