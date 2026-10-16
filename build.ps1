@@ -38,7 +38,17 @@ $files = [System.Collections.Generic.HashSet[string]]::new()
 [void]$files.Add('manifest.json')
 
 if ($manifest.PSObject.Properties['background'] -and $manifest.background.PSObject.Properties['service_worker']) {
-    [void]$files.Add($manifest.background.service_worker)
+    $serviceWorker = $manifest.background.service_worker
+    [void]$files.Add($serviceWorker)
+
+    $serviceWorkerPath = Join-Path $projectRoot $serviceWorker
+    if (Test-Path $serviceWorkerPath) {
+        $serviceWorkerContent = Get-Content $serviceWorkerPath -Raw
+        $importMatches = [regex]::Matches($serviceWorkerContent, 'importScripts\(\s*["'']([^"'']+)["'']\s*\)')
+        foreach ($m in $importMatches) {
+            [void]$files.Add($m.Groups[1].Value)
+        }
+    }
 }
 
 if ($manifest.icons) {

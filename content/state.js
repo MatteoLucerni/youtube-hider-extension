@@ -123,7 +123,7 @@ function setChannelWhitelisted(channel, shouldWhitelist) {
     }
   }
 
-  safeStorageSet('sync', result.updates);
+  writeChannelListUpdates(result.updates);
   return result;
 }
 
@@ -153,17 +153,25 @@ function setChannelBlacklisted(channel, shouldBlacklist) {
     }
   }
 
-  safeStorageSet('sync', result.updates);
+  writeChannelListUpdates(result.updates);
   return result;
+}
+
+function writeChannelListUpdates(updates) {
+  const { local, sync } = splitChannelListUpdates(updates);
+  if (Object.keys(local).length) safeStorageSet('local', local);
+  if (Object.keys(sync).length) safeStorageSet('sync', sync);
 }
 
 function initPrefs() {
   return new Promise(resolve => {
     try {
-      chrome.storage.sync.get(Object.keys(prefs), result => {
-        Object.assign(prefs, result);
-        logger.log('Prefs loaded', prefs);
-        resolve();
+      chrome.storage.sync.get(Object.keys(prefs), syncResult => {
+        chrome.storage.local.get(CHANNEL_LIST_STORAGE_KEYS, localResult => {
+          Object.assign(prefs, syncResult, chrome.runtime.lastError ? {} : localResult);
+          logger.log('Prefs loaded', prefs);
+          resolve();
+        });
       });
     } catch (e) {
       logger.warn('Could not load prefs (context invalidated?)', e);
@@ -174,8 +182,9 @@ function initPrefs() {
 
 function setupPrefsListener() {
   try {
-    chrome.storage.onChanged.addListener((changes, area) => {
-      if (area === 'sync') {
+    chrome.storage.onChanged.addListener((areaChanges, area) => {
+      const changes = pickStorageChanges(areaChanges, area);
+      if (changes) {
         const changedKeys = Object.keys(changes);
         for (let key in changes) {
           if (prefs.hasOwnProperty(key)) {

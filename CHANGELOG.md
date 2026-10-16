@@ -1,5 +1,13 @@
 # Changelog
 
+### Version 3.3.1
+
+**Fixed**
+
+- The Upload Date Filter ignored most videos in most interface languages. YouTube's current layout writes the upload date in a shortened form ("13 gg fa", "vor 2 Std.", "il y a 3 sem.", "1 ч назад", "12 h lalu"), and the extension only recognized the full words in about ten languages, so a video whose date it could not read was simply never filtered: with **Hide older than** set to 1 day, videos weeks or years old stayed on the page. Upload dates are now read in all 82 languages YouTube's interface is available in, in both the short and the full form, including languages that put the unit before the number, wrap it in parentheses, or write a count of one or two as a word (Arabic "قبل سنتين", two years ago). The abbreviations are read in the page's own language, since the same letters mean different things in different languages: "1 h fa" is one hour in Italian, while "1 h lalu" is one day in Indonesian
+- The Views Filter misread or skipped the shortened view counts the current layout shows in about half the interface languages. Some were not read at all (Polish "1,3 tys.", Arabic "1.3 ألف", Hindi "1.5 लाख", and others), and some were read wrongly: Turkish "1,3 B" (1,300 views) was taken as 1.3 billion, and Vietnamese "1,3 N" and Hungarian "1,3 E" as 13. All of them are now read correctly
+- The Channel Whitelist and Channel Blacklist stopped accepting new channels after a few hundred entries, without saying so. Each list was stored as a single synced setting, and Chrome caps one synced setting at 8 KB, roughly 300 to 600 channels depending on how long their handles are. Past that point a newly added channel looked added until the next page load, then quietly disappeared. The lists are now saved in the browser first, with no practical limit, and synced to other devices compressed and split across several settings, which fits roughly 8,000 to 9,000 channels across the two lists. Beyond that, the lists keep working on the device they were added on, the Whitelist and Blacklist cards show a "Sync paused" notice, and syncing resumes by itself once they fit again. Edits made on another device in the meantime are still merged in without dropping any channel this device has. Existing lists are moved over automatically on update
+
 ### Version 3.3.0
 
 **Added**
