@@ -336,13 +336,22 @@ document.addEventListener('DOMContentLoaded', () => {
       saveSettings();
     }
 
-    whitelistData = Array.isArray(prefs.channelWhitelist) ? prefs.channelWhitelist : [];
-    renderWhitelistChips(whitelistData);
-    refreshAddButtonState();
+    chrome.storage.local.get(
+      [...CHANNEL_LIST_STORAGE_KEYS, CHANNEL_LIST_SYNC_STATE_KEY],
+      local => {
+        const lists = Object.assign({}, prefs, local);
 
-    blacklistData = Array.isArray(prefs.channelBlacklist) ? prefs.channelBlacklist : [];
-    renderBlacklistChips(blacklistData);
-    refreshAddBlacklistButtonState();
+        whitelistData = Array.isArray(lists.channelWhitelist) ? lists.channelWhitelist : [];
+        renderWhitelistChips(whitelistData);
+        refreshAddButtonState();
+
+        blacklistData = Array.isArray(lists.channelBlacklist) ? lists.channelBlacklist : [];
+        renderBlacklistChips(blacklistData);
+        refreshAddBlacklistButtonState();
+
+        renderChannelSyncWarning(local[CHANNEL_LIST_SYNC_STATE_KEY]);
+      },
+    );
   });
 
   function saveSettings() {
@@ -726,8 +735,23 @@ document.addEventListener('DOMContentLoaded', () => {
   let whitelistData = [];
   let currentTabChannel = null;
 
+  const CHANNEL_LIST_SYNC_STATE_KEY = 'channelListsSyncState';
+
+  function storeChannelListUpdates(updates) {
+    const { local, sync } = splitChannelListUpdates(updates);
+    if (Object.keys(local).length) chrome.storage.local.set(local);
+    if (Object.keys(sync).length) chrome.storage.sync.set(sync);
+  }
+
+  function renderChannelSyncWarning(syncState) {
+    const paused = !!syncState && syncState.status === 'paused';
+    document.querySelectorAll('[data-channel-sync-warning]').forEach(el => {
+      el.hidden = !paused;
+    });
+  }
+
   function saveWhitelist(list, extraUpdates) {
-    chrome.storage.sync.set(Object.assign({ channelWhitelist: list }, extraUpdates));
+    storeChannelListUpdates(Object.assign({ channelWhitelist: list }, extraUpdates));
   }
 
   function channelDisplayName(channel) {
@@ -807,7 +831,7 @@ document.addEventListener('DOMContentLoaded', () => {
   let blacklistData = [];
 
   function saveBlacklist(list, extraUpdates) {
-    chrome.storage.sync.set(Object.assign({ channelBlacklist: list }, extraUpdates));
+    storeChannelListUpdates(Object.assign({ channelBlacklist: list }, extraUpdates));
   }
 
   function refreshAddBlacklistButtonState() {
@@ -893,7 +917,7 @@ document.addEventListener('DOMContentLoaded', () => {
         updates.channelBlacklist = blacklistData;
       }
 
-      chrome.storage.sync.set(updates);
+      storeChannelListUpdates(updates);
     });
   }
 
@@ -933,12 +957,16 @@ document.addEventListener('DOMContentLoaded', () => {
         updates.channelWhitelist = whitelistData;
       }
 
-      chrome.storage.sync.set(updates);
+      storeChannelListUpdates(updates);
     });
   }
 
-  chrome.storage.onChanged.addListener((changes, area) => {
-    if (area !== 'sync') return;
+  chrome.storage.onChanged.addListener((areaChanges, area) => {
+    if (area === 'local' && areaChanges[CHANNEL_LIST_SYNC_STATE_KEY]) {
+      renderChannelSyncWarning(areaChanges[CHANNEL_LIST_SYNC_STATE_KEY].newValue);
+    }
+    const changes = pickStorageChanges(areaChanges, area);
+    if (!changes) return;
     if (changes.channelWhitelist) {
       whitelistData = Array.isArray(changes.channelWhitelist.newValue)
         ? changes.channelWhitelist.newValue

@@ -82,6 +82,10 @@ A filtered/dimmed overlay never carries its own "Blacklist" button, only "Whitel
 
 Turning the whole Channel Blacklist toggle off removes every on-page Blacklist button; the list itself is kept and resumes filtering once the toggle is turned back on.
 
+### Channel List Sync
+
+Both lists follow you across devices, and there is no fixed limit on how many channels they hold. Each list is saved in the browser first, then compressed and synced to your other devices, which fits roughly 8,000 to 9,000 channels across the two lists inside Chrome's sync storage. Past that point the lists keep working and keep growing on the device where they were added: the Whitelist and Blacklist cards show a "Sync paused" notice, other devices keep the last version that fit, and syncing resumes on its own once the lists are small enough again. Changes made on another device while sync is paused are still merged in, without dropping any channel that only this device has.
+
 ### Master Extension Switch
 
 Use the **Extension** switch in the popup header to instantly enable or disable the entire extension. When disabled, filtering is paused globally and the badge shows **OFF**.
@@ -171,7 +175,11 @@ youtube-hider-extension
 │   ├── toggles.css        Toggle grid, switches, footer
 │   ├── filters.css        Tooltips, date filter, overlap warning
 │   └── support.css        Support button and support panel
-├── background.js          Service worker (badge, lifecycle, messaging)
+├── tests/
+│   ├── parsers.test.js           Parser regression tests
+│   └── channel-list-sync.test.js Channel list sync encoding, chunking and merge tests
+├── background.js          Service worker (badge, lifecycle, messaging, channel list sync)
+├── channel-list-sync.js   Pure channel list sync helpers: compression, chunking, quota planning, merge
 ├── build.ps1              Build/packaging script
 ├── CHANGELOG.md           Version history
 ├── LICENSE                MIT License
@@ -185,7 +193,7 @@ youtube-hider-extension
 
 1. **Content scripts** (12 files in `content/`) load on YouTube pages in the order defined by `manifest.json`. They share a global scope via Chrome's isolated world. `page-bridge.js` is the exception: it runs in the page's `MAIN` world at `document_start` to read YouTube's own internal data and expose a video-id-to-channel cache via a DOM attribute, since the isolated world can read the DOM but not the page's JavaScript globals.
 2. A **MutationObserver** watches for DOM changes and triggers hiding/filtering logic based on your preferences.
-3. Settings are stored in `chrome.storage.sync`, so they follow you across devices.
+3. Settings are stored in `chrome.storage.sync`, so they follow you across devices. The Channel Whitelist and Blacklist are the exception: they live in `chrome.storage.local`, and the service worker mirrors them into `chrome.storage.sync` compressed and split into chunks, so they sync too without being capped by the 8 KB per-item sync quota.
 4. The **header button** (`content/header-button.js`) uses a closed Shadow DOM to encapsulate its styles from the host page. Its settings dropdown embeds `popup/popup.html` in an `<iframe>`, created fresh on every open, so the dropdown is always the same, unmodified popup UI.
 5. The **background service worker** manages badge updates, extension lifecycle events and messaging between popup/content scripts.
 
