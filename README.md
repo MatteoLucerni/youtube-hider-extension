@@ -72,7 +72,7 @@ Exempt specific channels from every active filter - their videos are never hidde
 
 ### Title Whitelist
 
-Exempt videos by a word or phrase in their title rather than by channel. Type a word into the **Title Whitelist** card in the popup and press Enter or **+ Add**: every video whose title contains it is never hidden or dimmed by any filter, on every page. Matching is case-insensitive and looks for the word at the start of a word in the title: "tutorial" also matches "tutorials" and "AI" matches "AI-generated", but "AI" does not match "said". In languages written without spaces (Chinese, Japanese, Thai, ...) the word is found anywhere in the title. Each word is listed as a removable chip, changes apply to the open page immediately, and the card's switch pauses the whole list without clearing it. A blacklisted channel stays hidden even when a title matches, and Shorts are always filtered regardless.
+Exempt videos by a word or phrase in their title rather than by channel. Type a word into the **Title Whitelist** card in the popup and press Enter or **+ Add**: every video whose title contains it is never hidden or dimmed by any filter, on every page. Matching is case-insensitive and looks for the word at the start of a word in the title: "tutorial" also matches "tutorials" and "AI" matches "AI-generated", but "AI" does not match "said". In languages written without spaces (Chinese, Japanese, Thai, ...) the word is found anywhere in the title. The list syncs across devices as a single setting and holds as many words as fit in Chrome's 8 KB per-setting quota, a few hundred in practice; once it is full, **+ Add** is disabled and the card says so. Each word is listed as a removable chip, changes apply to the open page immediately, and the card's switch pauses the whole list without clearing it. A blacklisted channel stays hidden even when a title matches, and Shorts are always filtered regardless.
 
 ### Channel Blacklist
 
@@ -181,7 +181,8 @@ youtube-hider-extension
 │   └── support.css        Support button and support panel
 ├── tests/
 │   ├── parsers.test.js           Parser regression tests
-│   └── channel-list-sync.test.js Channel list sync encoding, chunking and merge tests
+│   ├── channel-list-sync.test.js Channel list sync encoding, chunking and merge tests
+│   └── whitelist-utils.test.js   Title Whitelist keyword matching and quota tests
 ├── background.js          Service worker (badge, lifecycle, messaging, channel list sync)
 ├── channel-list-sync.js   Pure channel list sync helpers: compression, chunking, quota planning, merge
 ├── build.ps1              Build/packaging script
