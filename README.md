@@ -72,7 +72,7 @@ Exempt specific channels from every active filter - their videos are never hidde
 
 ### Title Whitelist
 
-Exempt videos by a word or phrase in their title rather than by channel. Type a word into the **Title Whitelist** card in the popup and press Enter or **+ Add**: every video whose title contains it is never hidden or dimmed by any filter, on every page. Matching is case-insensitive and finds the word anywhere in the title, including inside a longer word ("etc" also matches "fetch"). Each word is listed as a removable chip, changes apply to the open page immediately, and the card's switch pauses the whole list without clearing it. A blacklisted channel stays hidden even when a title matches, and Shorts are always filtered regardless.
+Exempt videos by a word or phrase in their title rather than by channel. Type a word into the **Title Whitelist** card in the popup and press Enter or **+ Add**: every video whose title contains it is never hidden or dimmed by any filter, on every page. Matching is case-insensitive and looks for the word at the start of a word in the title: "tutorial" also matches "tutorials" and "AI" matches "AI-generated", but "AI" does not match "said". In languages written without spaces (Chinese, Japanese, Thai, ...) the word is found anywhere in the title. Each word is listed as a removable chip, changes apply to the open page immediately, and the card's switch pauses the whole list without clearing it. A blacklisted channel stays hidden even when a title matches, and Shorts are always filtered regardless.
 
 ### Channel Blacklist
 

@@ -7,11 +7,13 @@ const {
   normalizeTitleKeyword,
   titleKeywordListIncludes,
   titleMatchesKeyword,
+  titleWhitelistFits,
 } = require('../content/whitelist-utils.js');
 
 test('titleMatchesKeyword: finds a whitelisted word anywhere in the title', () => {
   assert.equal(titleMatchesKeyword('Tools, tips, etc. for beginners', ['etc']), true);
   assert.equal(titleMatchesKeyword('Tools and tips for beginners', ['etc']), false);
+  assert.equal(titleMatchesKeyword('Etc: the full list', ['etc']), true);
 });
 
 test('titleMatchesKeyword: ignores upper and lower case on both sides', () => {
@@ -19,8 +21,38 @@ test('titleMatchesKeyword: ignores upper and lower case on both sides', () => {
   assert.equal(titleMatchesKeyword('full tutorial: blender donut', ['Tutorial']), true);
 });
 
-test('titleMatchesKeyword: matches inside longer words (substring match)', () => {
-  assert.equal(titleMatchesKeyword('How to fetch data in JavaScript', ['etc']), true);
+test('titleMatchesKeyword: the keyword has to start where a word starts', () => {
+  assert.equal(titleMatchesKeyword('How to fetch data in JavaScript', ['etc']), false);
+  assert.equal(titleMatchesKeyword('What he said about the rain', ['AI']), false);
+  assert.equal(titleMatchesKeyword('OpenAI ships a new model', ['AI']), false);
+  assert.equal(titleMatchesKeyword('AI news this week', ['AI']), true);
+  assert.equal(titleMatchesKeyword('Spotting AI-generated images', ['AI']), true);
+  assert.equal(titleMatchesKeyword('#AI explained', ['AI']), true);
+  assert.equal(titleMatchesKeyword('Said and done, the AI recap', ['AI']), true);
+});
+
+test('titleMatchesKeyword: a word start also matches longer forms of the word', () => {
+  assert.equal(titleMatchesKeyword('Blender tutorials for beginners', ['tutorial']), true);
+  assert.equal(titleMatchesKeyword('Café vlog in Paris', ['café']), true);
+  assert.equal(titleMatchesKeyword('Le décafé du matin', ['café']), false);
+});
+
+test('titleMatchesKeyword: keywords not starting with a letter or digit match anywhere', () => {
+  assert.equal(titleMatchesKeyword('Funny cats#shorts', ['#shorts']), true);
+  assert.equal(titleMatchesKeyword('Learning C++ in a weekend', ['++']), true);
+});
+
+test('titleMatchesKeyword: scripts without spaces match anywhere and count as word boundaries', () => {
+  assert.equal(titleMatchesKeyword('初心者向けチュートリアル 完全版', ['チュートリアル']), true);
+  assert.equal(titleMatchesKeyword('รีวิวมือถือใหม่ล่าสุด', ['มือถือ']), true);
+  assert.equal(titleMatchesKeyword('これはAIの話です', ['AI']), true);
+});
+
+test('titleWhitelistFits: accepts lists under the sync item quota and rejects larger ones', () => {
+  assert.equal(titleWhitelistFits([]), true);
+  assert.equal(titleWhitelistFits(Array.from({ length: 300 }, (_, i) => 'keyword ' + i)), true);
+  assert.equal(titleWhitelistFits(Array.from({ length: 100 }, () => 'x'.repeat(100))), false);
+  assert.equal(titleWhitelistFits(Array.from({ length: 30 }, () => 'チ'.repeat(100))), false);
 });
 
 test('titleMatchesKeyword: phrases collapse whitespace, including non-breaking spaces', () => {
