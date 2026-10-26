@@ -255,16 +255,22 @@ function startSpotlightTour() {
       section: 'whitelist',
     },
     {
+      title: 'Channel Blacklist',
+      desc: 'The opposite of Whitelist: always hide a channel everywhere, including Shorts, Mixes, Playlists and Lives. Add the current channel with one click, or remove a chip to show it again immediately.',
+      getRect: () => getHeaderDropdownRect(),
+      section: 'blacklist',
+    },
+    {
       title: 'Title Whitelist',
       desc: 'Exempt videos by a word in their title instead of by channel. Every video whose title contains one of your words is left alone by every filter.',
       getRect: () => getHeaderDropdownRect(),
       section: 'title-whitelist',
     },
     {
-      title: 'Channel Blacklist',
-      desc: 'The opposite of Whitelist: always hide a channel everywhere, including Shorts, Mixes, Playlists and Lives. Add the current channel with one click, or remove a chip to show it again immediately.',
+      title: 'Title Blacklist',
+      desc: 'The opposite of Title Whitelist: always hide every video whose title contains one of your words, everywhere, even from a whitelisted channel.',
       getRect: () => getHeaderDropdownRect(),
-      section: 'blacklist',
+      section: 'title-blacklist',
     },
     {
       title: 'Extra Settings',

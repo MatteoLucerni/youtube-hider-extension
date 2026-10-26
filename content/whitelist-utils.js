@@ -73,7 +73,7 @@ function computeWhitelistUpdate(
 }
 
 const TITLE_KEYWORD_MAX_LENGTH = 100;
-const TITLE_WHITELIST_MAX_BYTES = 8192;
+const TITLE_KEYWORD_LIST_MAX_BYTES = 8192;
 const TITLE_WORD_START = /^[\p{L}\p{N}]/u;
 const TITLE_WORD_CHAR = /^[\p{L}\p{N}\p{M}]$/u;
 const TITLE_UNSPACED_SCRIPT =
@@ -113,19 +113,24 @@ function titleContainsKeyword(haystack, key) {
   return false;
 }
 
-function titleMatchesKeyword(title, keywords) {
-  if (!Array.isArray(keywords) || !keywords.length) return false;
+function findTitleKeywordMatch(title, keywords) {
+  if (!Array.isArray(keywords) || !keywords.length) return null;
   const haystack = typeof title === 'string' ? title.replace(/\s+/g, ' ').toLowerCase() : '';
-  if (!haystack) return false;
-  return keywords.some(k => {
+  if (!haystack) return null;
+  const match = keywords.find(k => {
     const key = titleKeywordKey(k);
     return !!key && titleContainsKeyword(haystack, key);
   });
+  return match === undefined ? null : match;
 }
 
-function titleWhitelistFits(list) {
-  const bytes = new TextEncoder().encode('titleWhitelist' + JSON.stringify(list)).length;
-  return bytes <= TITLE_WHITELIST_MAX_BYTES;
+function titleMatchesKeyword(title, keywords) {
+  return findTitleKeywordMatch(title, keywords) !== null;
+}
+
+function titleKeywordListFits(listKey, list) {
+  const bytes = new TextEncoder().encode(listKey + JSON.stringify(list)).length;
+  return bytes <= TITLE_KEYWORD_LIST_MAX_BYTES;
 }
 
 if (typeof module !== 'undefined' && module.exports) {
@@ -134,7 +139,8 @@ if (typeof module !== 'undefined' && module.exports) {
     computeWhitelistUpdate,
     normalizeTitleKeyword,
     titleKeywordListIncludes,
+    findTitleKeywordMatch,
     titleMatchesKeyword,
-    titleWhitelistFits,
+    titleKeywordListFits,
   };
 }

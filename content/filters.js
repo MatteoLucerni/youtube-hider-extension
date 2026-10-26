@@ -179,6 +179,7 @@ const ON_PAGE_CONTROLS_TIP =
   'You can hide this button from the extension settings, under "Hide on-page controls".';
 
 const BLACKLIST_REASON = 'Blacklisted channel';
+const TITLE_BLACKLIST_REASON = 'Blacklisted word';
 
 function buildWhitelistTooltipText(channel, { isWhitelisted = false } = {}) {
   const { channelWord, possessive } = pluralizeChannelWord(channel);
@@ -399,7 +400,17 @@ function getOrCreateBadgeButtonRow(badge) {
 function createDimBadge(reason, channel) {
   const badge = document.createElement('div');
   badge.className = 'yt-hider-badge';
-  badge.innerHTML = reason ? `<span class="yt-hider-badge-reason">${reason}</span>` : '';
+  if (reason) {
+    const reasonEl = document.createElement('span');
+    reasonEl.className = 'yt-hider-badge-reason';
+    reasonEl.textContent = reason;
+    badge.appendChild(reasonEl);
+  }
+
+  if (reason && reason.startsWith(TITLE_BLACKLIST_REASON)) {
+    badge.dataset.ytHiderBadgeKind = 'blacklist';
+    return badge;
+  }
 
   if (reason === BLACKLIST_REASON) {
     badge.dataset.ytHiderBadgeKind = 'blacklist';
@@ -441,17 +452,34 @@ function channelIsPresent(ch) {
   return Array.isArray(ch) ? ch.length > 0 : !!ch;
 }
 
-function isTitleExempt(element, ch) {
+function isTitleExempt(element) {
   if (!prefs.titleWhitelistEnabled) return false;
   if (!Array.isArray(prefs.titleWhitelist) || !prefs.titleWhitelist.length) return false;
-  if (isChannelBlacklisted(ch)) return false;
   return isTitleWhitelisted(extractTitleFromContainer(element));
+}
+
+function isTitleBlacklistActive() {
+  return (
+    !!prefs.titleBlacklistEnabled &&
+    Array.isArray(prefs.titleBlacklist) &&
+    prefs.titleBlacklist.length > 0
+  );
+}
+
+function getElementTitleBlacklistMatch(element) {
+  if (!isTitleBlacklistActive()) return null;
+  return getTitleBlacklistMatch(extractTitleFromContainer(element));
+}
+
+function isElementBlacklisted(element, ch) {
+  return isChannelBlacklisted(ch) || getElementTitleBlacklistMatch(element) !== null;
 }
 
 function applyFilter(element, reason) {
   if (!element) return;
   const ch = resolveChannelForElement(element);
-  if (isChannelExempt(ch) || isTitleExempt(element, ch)) {
+  const blacklisted = isElementBlacklisted(element, ch);
+  if (!blacklisted && (isChannelExempt(ch) || isTitleExempt(element))) {
     if (!element.dataset.ytHiderPendingAction) {
       clearDimmedElement(element);
     }
@@ -1083,4 +1111,43 @@ function hideBlacklistedShorts() {
 function hideBlacklisted() {
   hideBlacklistedVideos();
   hideBlacklistedShorts();
+}
+
+function shouldHideTitleBlacklisted(pathname) {
+  return isTitleBlacklistActive() && isCoreFilterPath(pathname);
+}
+
+function hideTitleBlacklistedVideos() {
+  const selectors = getVideoContainerSelectors() + ', ' + BLACKLIST_EXTRA_SELECTORS;
+  const seen = new Set();
+
+  document.querySelectorAll(selectors).forEach(node => {
+    const container = findOutermostMatch(node, selectors);
+    if (!container || seen.has(container)) return;
+    seen.add(container);
+
+    const keyword = getElementTitleBlacklistMatch(container);
+    if (keyword !== null) {
+      applyFilter(container, `${TITLE_BLACKLIST_REASON}: "${keyword}"`);
+    }
+  });
+}
+
+function hideTitleBlacklistedShorts() {
+  document
+    .querySelectorAll('ytm-shorts-lockup-view-model, a[href^="/shorts/"]')
+    .forEach(node => {
+      const container =
+        node.closest('ytm-shorts-lockup-view-model') ||
+        node.closest('ytd-rich-item-renderer, ytm-video-with-context-renderer') ||
+        node;
+      if (getElementTitleBlacklistMatch(container) !== null) {
+        forceHide(container);
+      }
+    });
+}
+
+function hideTitleBlacklisted() {
+  hideTitleBlacklistedVideos();
+  hideTitleBlacklistedShorts();
 }

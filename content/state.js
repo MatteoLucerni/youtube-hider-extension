@@ -39,6 +39,8 @@ const prefs = {
   channelBlacklistEnabled: true,
   titleWhitelist: [],
   titleWhitelistEnabled: true,
+  titleBlacklist: [],
+  titleBlacklistEnabled: true,
   hideInterfaceElements: false,
 };
 
@@ -74,6 +76,8 @@ const FILTER_REAPPLY_KEYS = new Set([
   'channelBlacklistEnabled',
   'titleWhitelist',
   'titleWhitelistEnabled',
+  'titleBlacklist',
+  'titleBlacklistEnabled',
 ]);
 
 const WHITELIST_REAPPLY_KEYS = new Set([
@@ -105,6 +109,11 @@ function isChannelBlacklisted(channel) {
 
 function isTitleWhitelisted(title) {
   return !!prefs.titleWhitelistEnabled && titleMatchesKeyword(title, prefs.titleWhitelist);
+}
+
+function getTitleBlacklistMatch(title) {
+  if (!prefs.titleBlacklistEnabled) return null;
+  return findTitleKeywordMatch(title, prefs.titleBlacklist);
 }
 
 const CHANNEL_BLACKLIST_KEYS = { listKey: 'channelBlacklist', enabledKey: 'channelBlacklistEnabled' };

@@ -19,9 +19,6 @@ document.addEventListener('DOMContentLoaded', () => {
   const channelBlacklistToggle = document.getElementById(
     'channel-blacklist-enabled',
   );
-  const titleWhitelistToggle = document.getElementById(
-    'title-whitelist-enabled',
-  );
   const hideOnPageControlsToggle = document.getElementById(
     'hide-on-page-controls',
   );
@@ -196,6 +193,8 @@ document.addEventListener('DOMContentLoaded', () => {
     'channelBlacklistEnabled',
     'titleWhitelist',
     'titleWhitelistEnabled',
+    'titleBlacklist',
+    'titleBlacklistEnabled',
     'hideInterfaceElements',
     ...Object.values(cfg.hide.keys),
     ...Object.values(cfg.views.keys),
@@ -219,7 +218,8 @@ document.addEventListener('DOMContentLoaded', () => {
     setFilterModeUI(prefs.dimMode ?? false);
     channelWhitelistToggle.checked = prefs.channelWhitelistEnabled ?? true;
     channelBlacklistToggle.checked = prefs.channelBlacklistEnabled ?? true;
-    titleWhitelistToggle.checked = prefs.titleWhitelistEnabled ?? true;
+    titleWhitelistUI.setEnabled(prefs.titleWhitelistEnabled);
+    titleBlacklistUI.setEnabled(prefs.titleBlacklistEnabled);
     hideOnPageControlsToggle.checked = prefs.hideInterfaceElements ?? false;
 
     ['hide', 'shorts', 'mixesPlaylists'].forEach(sectionName => {
@@ -359,9 +359,8 @@ document.addEventListener('DOMContentLoaded', () => {
       },
     );
 
-    titleWhitelistData = Array.isArray(prefs.titleWhitelist) ? prefs.titleWhitelist : [];
-    renderTitleWhitelistChips(titleWhitelistData);
-    refreshTitleWhitelistAddState();
+    titleWhitelistUI.setData(prefs.titleWhitelist);
+    titleBlacklistUI.setData(prefs.titleBlacklist);
   });
 
   function saveSettings() {
@@ -531,12 +530,6 @@ document.addEventListener('DOMContentLoaded', () => {
   channelBlacklistToggle.addEventListener('change', () => {
     chrome.storage.sync.set({
       channelBlacklistEnabled: channelBlacklistToggle.checked,
-    });
-  });
-
-  titleWhitelistToggle.addEventListener('change', () => {
-    chrome.storage.sync.set({
-      titleWhitelistEnabled: titleWhitelistToggle.checked,
     });
   });
 
@@ -977,80 +970,114 @@ document.addEventListener('DOMContentLoaded', () => {
     });
   }
 
-  const titleChipsContainer = document.getElementById('title-whitelist-chips');
-  const titleEmptyHint = document.getElementById('title-whitelist-empty');
-  const titleForm = document.getElementById('title-whitelist-form');
-  const titleInput = document.getElementById('title-whitelist-input');
-  const titleAddBtn = document.getElementById('title-whitelist-add-btn');
-  const titleHint = document.getElementById('title-whitelist-hint');
+  function createTitleKeywordList({ prefix, listKey, enabledKey, name, verb, chipClass }) {
+    const toggle = document.getElementById(prefix + '-enabled');
+    const chipsContainer = document.getElementById(prefix + '-chips');
+    const emptyHint = document.getElementById(prefix + '-empty');
+    const form = document.getElementById(prefix + '-form');
+    const input = document.getElementById(prefix + '-input');
+    const addBtn = document.getElementById(prefix + '-add-btn');
+    const hint = document.getElementById(prefix + '-hint');
+    let data = [];
 
-  let titleWhitelistData = [];
-
-  function refreshTitleWhitelistAddState() {
-    if (!titleInput || !titleAddBtn) return;
-    const keyword = normalizeTitleKeyword(titleInput.value);
-    const alreadyListed = titleKeywordListIncludes(keyword, titleWhitelistData);
-    const full = !!keyword && !alreadyListed && !titleWhitelistFits([...titleWhitelistData, keyword]);
-    titleAddBtn.disabled = !keyword || alreadyListed || full;
-    if (titleHint) {
-      if (alreadyListed) titleHint.textContent = '"' + keyword + '" is already whitelisted';
-      else if (full) titleHint.textContent = 'Title Whitelist is full: remove a word to add a new one';
-      else titleHint.textContent = '';
-    }
-  }
-
-  function renderTitleWhitelistChips(list) {
-    if (!titleChipsContainer) return;
-    titleChipsContainer.querySelectorAll('.whitelist-chip').forEach(c => c.remove());
-    if (titleEmptyHint) titleEmptyHint.style.display = list.length === 0 ? '' : 'none';
-    list.forEach(keyword => {
-      const chip = document.createElement('span');
-      chip.className = 'whitelist-chip';
-      const label = document.createElement('span');
-      label.className = 'whitelist-chip-label';
-      label.textContent = keyword;
-      label.title = keyword;
-      const remove = document.createElement('button');
-      remove.className = 'whitelist-chip-remove';
-      remove.type = 'button';
-      remove.textContent = '×';
-      remove.setAttribute('aria-label', 'Remove ' + keyword);
-      remove.addEventListener('click', () => {
-        titleWhitelistData = titleWhitelistData.filter(k => k !== keyword);
-        renderTitleWhitelistChips(titleWhitelistData);
-        refreshTitleWhitelistAddState();
-        chrome.storage.sync.set({ titleWhitelist: titleWhitelistData });
-      });
-      chip.appendChild(label);
-      chip.appendChild(remove);
-      titleChipsContainer.appendChild(chip);
-    });
-  }
-
-  if (titleInput) {
-    titleInput.addEventListener('input', refreshTitleWhitelistAddState);
-  }
-
-  if (titleForm) {
-    titleForm.addEventListener('submit', e => {
-      e.preventDefault();
-      const keyword = normalizeTitleKeyword(titleInput.value);
-      if (!keyword || titleKeywordListIncludes(keyword, titleWhitelistData)) return;
-      if (!titleWhitelistFits([...titleWhitelistData, keyword])) return;
-
-      titleWhitelistData = [...titleWhitelistData, keyword];
-      titleInput.value = '';
-      renderTitleWhitelistChips(titleWhitelistData);
-      refreshTitleWhitelistAddState();
-
-      const updates = { titleWhitelist: titleWhitelistData };
-      if (!titleWhitelistToggle.checked) {
-        titleWhitelistToggle.checked = true;
-        updates.titleWhitelistEnabled = true;
+    function refreshAddState() {
+      if (!input || !addBtn) return;
+      const keyword = normalizeTitleKeyword(input.value);
+      const alreadyListed = titleKeywordListIncludes(keyword, data);
+      const full = !!keyword && !alreadyListed && !titleKeywordListFits(listKey, [...data, keyword]);
+      addBtn.disabled = !keyword || alreadyListed || full;
+      if (hint) {
+        if (alreadyListed) hint.textContent = '"' + keyword + '" is already ' + verb;
+        else if (full) hint.textContent = name + ' is full: remove a word to add a new one';
+        else hint.textContent = '';
       }
-      chrome.storage.sync.set(updates);
-    });
+    }
+
+    function renderChips() {
+      if (!chipsContainer) return;
+      chipsContainer.querySelectorAll('.whitelist-chip').forEach(c => c.remove());
+      if (emptyHint) emptyHint.style.display = data.length === 0 ? '' : 'none';
+      data.forEach(keyword => {
+        const chip = document.createElement('span');
+        chip.className = chipClass;
+        const label = document.createElement('span');
+        label.className = 'whitelist-chip-label';
+        label.textContent = keyword;
+        label.title = keyword;
+        const remove = document.createElement('button');
+        remove.className = 'whitelist-chip-remove';
+        remove.type = 'button';
+        remove.textContent = '×';
+        remove.setAttribute('aria-label', 'Remove ' + keyword);
+        remove.addEventListener('click', () => {
+          setData(data.filter(k => k !== keyword));
+          chrome.storage.sync.set({ [listKey]: data });
+        });
+        chip.appendChild(label);
+        chip.appendChild(remove);
+        chipsContainer.appendChild(chip);
+      });
+    }
+
+    function setData(list) {
+      data = Array.isArray(list) ? list : [];
+      renderChips();
+      refreshAddState();
+    }
+
+    function setEnabled(value) {
+      if (toggle) toggle.checked = value ?? true;
+    }
+
+    if (toggle) {
+      toggle.addEventListener('change', () => {
+        chrome.storage.sync.set({ [enabledKey]: toggle.checked });
+      });
+    }
+
+    if (input) {
+      input.addEventListener('input', refreshAddState);
+    }
+
+    if (form) {
+      form.addEventListener('submit', e => {
+        e.preventDefault();
+        const keyword = normalizeTitleKeyword(input.value);
+        if (!keyword || titleKeywordListIncludes(keyword, data)) return;
+        if (!titleKeywordListFits(listKey, [...data, keyword])) return;
+
+        input.value = '';
+        setData([...data, keyword]);
+
+        const updates = { [listKey]: data };
+        if (toggle && !toggle.checked) {
+          toggle.checked = true;
+          updates[enabledKey] = true;
+        }
+        chrome.storage.sync.set(updates);
+      });
+    }
+
+    return { setData, setEnabled };
   }
+
+  const titleWhitelistUI = createTitleKeywordList({
+    prefix: 'title-whitelist',
+    listKey: 'titleWhitelist',
+    enabledKey: 'titleWhitelistEnabled',
+    name: 'Title Whitelist',
+    verb: 'whitelisted',
+    chipClass: 'whitelist-chip',
+  });
+
+  const titleBlacklistUI = createTitleKeywordList({
+    prefix: 'title-blacklist',
+    listKey: 'titleBlacklist',
+    enabledKey: 'titleBlacklistEnabled',
+    name: 'Title Blacklist',
+    verb: 'blacklisted',
+    chipClass: 'whitelist-chip blacklist-chip',
+  });
 
   chrome.storage.onChanged.addListener((areaChanges, area) => {
     if (area === 'local' && areaChanges[CHANNEL_LIST_SYNC_STATE_KEY]) {
@@ -1059,14 +1086,16 @@ document.addEventListener('DOMContentLoaded', () => {
     const changes = pickStorageChanges(areaChanges, area);
     if (!changes) return;
     if (changes.titleWhitelist) {
-      titleWhitelistData = Array.isArray(changes.titleWhitelist.newValue)
-        ? changes.titleWhitelist.newValue
-        : [];
-      renderTitleWhitelistChips(titleWhitelistData);
-      refreshTitleWhitelistAddState();
+      titleWhitelistUI.setData(changes.titleWhitelist.newValue);
     }
     if (changes.titleWhitelistEnabled) {
-      titleWhitelistToggle.checked = changes.titleWhitelistEnabled.newValue ?? true;
+      titleWhitelistUI.setEnabled(changes.titleWhitelistEnabled.newValue);
+    }
+    if (changes.titleBlacklist) {
+      titleBlacklistUI.setData(changes.titleBlacklist.newValue);
+    }
+    if (changes.titleBlacklistEnabled) {
+      titleBlacklistUI.setEnabled(changes.titleBlacklistEnabled.newValue);
     }
     if (changes.channelWhitelist) {
       whitelistData = Array.isArray(changes.channelWhitelist.newValue)

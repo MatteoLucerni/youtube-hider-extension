@@ -2042,6 +2042,7 @@ const VIDEO_TITLE_SELECTORS = [
   '.media-item-headline',
   '.compact-media-item-headline',
   '.YtmCompactMediaItemHeadline',
+  '.shortsLockupViewModelHostMetadataTitle',
   'h3[title]',
 ].join(', ');
 

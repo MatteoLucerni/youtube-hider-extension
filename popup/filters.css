@@ -371,14 +371,14 @@
     min-height: 14px;
 }
 
-.title-whitelist-add-row {
+.title-list-add-row {
     margin: 10px 0 0;
     display: flex;
     gap: 6px;
     width: 100%;
 }
 
-.title-whitelist-input {
+.title-list-input {
     flex: 1 1 auto;
     min-width: 0;
     padding: 9px 12px;
@@ -391,21 +391,21 @@
     transition: border-color 0.15s var(--ease-standard);
 }
 
-.title-whitelist-input::placeholder {
+.title-list-input::placeholder {
     color: var(--text-tertiary);
 }
 
-.title-whitelist-input:focus {
+.title-list-input:focus {
     outline: none;
     border-color: var(--accent-blue);
 }
 
-.add-channel-btn.title-whitelist-add-btn {
+.add-channel-btn.title-list-add-btn {
     width: auto;
     flex: 0 0 auto;
 }
 
-.title-whitelist-hint {
+.title-list-hint {
     display: block;
     margin-top: 5px;
 }

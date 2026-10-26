@@ -6,8 +6,9 @@ const assert = require('node:assert/strict');
 const {
   normalizeTitleKeyword,
   titleKeywordListIncludes,
+  findTitleKeywordMatch,
   titleMatchesKeyword,
-  titleWhitelistFits,
+  titleKeywordListFits,
 } = require('../content/whitelist-utils.js');
 
 test('titleMatchesKeyword: finds a whitelisted word anywhere in the title', () => {
@@ -48,11 +49,19 @@ test('titleMatchesKeyword: scripts without spaces match anywhere and count as wo
   assert.equal(titleMatchesKeyword('これはAIの話です', ['AI']), true);
 });
 
-test('titleWhitelistFits: accepts lists under the sync item quota and rejects larger ones', () => {
-  assert.equal(titleWhitelistFits([]), true);
-  assert.equal(titleWhitelistFits(Array.from({ length: 300 }, (_, i) => 'keyword ' + i)), true);
-  assert.equal(titleWhitelistFits(Array.from({ length: 100 }, () => 'x'.repeat(100))), false);
-  assert.equal(titleWhitelistFits(Array.from({ length: 30 }, () => 'チ'.repeat(100))), false);
+test('titleKeywordListFits: accepts lists under the sync item quota and rejects larger ones', () => {
+  assert.equal(titleKeywordListFits('titleWhitelist', []), true);
+  assert.equal(titleKeywordListFits('titleBlacklist', Array.from({ length: 300 }, (_, i) => 'keyword ' + i)), true);
+  assert.equal(titleKeywordListFits('titleWhitelist', Array.from({ length: 100 }, () => 'x'.repeat(100))), false);
+  assert.equal(titleKeywordListFits('titleBlacklist', Array.from({ length: 30 }, () => 'チ'.repeat(100))), false);
+});
+
+test('findTitleKeywordMatch: returns the first matching keyword as it was typed', () => {
+  assert.equal(findTitleKeywordMatch('O LA VICA SE PREFERISCI - POLTERGUYS COMPILATION', ['minecraft', 'Vica']), 'Vica');
+  assert.equal(findTitleKeywordMatch('Reaction to the new trailer', ['trailer', 'reaction']), 'trailer');
+  assert.equal(findTitleKeywordMatch('What he said about the rain', ['AI']), null);
+  assert.equal(findTitleKeywordMatch('', ['AI']), null);
+  assert.equal(findTitleKeywordMatch('AI news', []), null);
 });
 
 test('titleMatchesKeyword: phrases collapse whitespace, including non-breaking spaces', () => {
