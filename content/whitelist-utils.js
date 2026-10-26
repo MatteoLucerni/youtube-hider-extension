@@ -1,3 +1,26 @@
+const CHANNEL_LIST_STORAGE_KEYS = ['channelWhitelist', 'channelBlacklist'];
+
+function splitChannelListUpdates(updates) {
+  const local = {};
+  const sync = {};
+  Object.entries(updates || {}).forEach(([key, value]) => {
+    if (CHANNEL_LIST_STORAGE_KEYS.includes(key)) local[key] = value;
+    else sync[key] = value;
+  });
+  return { local, sync };
+}
+
+function pickStorageChanges(changes, area) {
+  const picked = {};
+  Object.keys(changes || {}).forEach(key => {
+    const isListKey = CHANNEL_LIST_STORAGE_KEYS.includes(key);
+    if ((area === 'local' && isListKey) || (area === 'sync' && !isListKey)) {
+      picked[key] = changes[key];
+    }
+  });
+  return Object.keys(picked).length ? picked : null;
+}
+
 function channelListIncludes(channel, list) {
   if (!channel || !Array.isArray(list)) return false;
   if (Array.isArray(channel)) return channel.some(c => list.includes(c));

@@ -1,3 +1,5 @@
+importScripts('channel-list-sync.js');
+
 const DEV_MODE = false;
 const logger = {
   log: (...args) => {
@@ -227,6 +229,179 @@ function reloadOpenYouTubeTabs() {
     logger.log('Tab reload unavailable:', e);
   }
 }
+const CHANNEL_LIST_SYNC_DELAY_MS = 500;
+const CHANNEL_LIST_RETRY_DELAY_MS = 60000;
+const CHANNEL_LIST_INCOMPLETE_HEAL_MS = 10 * 60 * 1000;
+let channelListSyncQueue = Promise.resolve();
+let channelListPushTimer = null;
+let channelListPullTimer = null;
+
+function enqueueChannelListSync(task) {
+  channelListSyncQueue = channelListSyncQueue
+    .then(task)
+    .catch(e => logger.log('Channel list sync failed:', e));
+  return channelListSyncQueue;
+}
+
+function scheduleChannelListPush(delay = CHANNEL_LIST_SYNC_DELAY_MS) {
+  clearTimeout(channelListPushTimer);
+  channelListPushTimer = setTimeout(() => {
+    enqueueChannelListSync(() => pushChannelLists());
+  }, delay);
+}
+
+function scheduleChannelListPull() {
+  clearTimeout(channelListPullTimer);
+  channelListPullTimer = setTimeout(() => {
+    reconcileChannelLists();
+  }, CHANNEL_LIST_SYNC_DELAY_MS);
+}
+
+async function readLocalChannelListState() {
+  const local = await chrome.storage.local.get([
+    ...CHANNEL_LIST_LOCAL_KEYS,
+    CHANNEL_LIST_BASE_KEY,
+    CHANNEL_LIST_STATE_KEY,
+  ]);
+  return {
+    lists: normalizeChannelLists({ w: local.channelWhitelist, b: local.channelBlacklist }),
+    base: local[CHANNEL_LIST_BASE_KEY] ? normalizeChannelLists(local[CHANNEL_LIST_BASE_KEY]) : null,
+    state: local[CHANNEL_LIST_STATE_KEY] || {},
+  };
+}
+
+function getChannelListLocalUpdates(previous, next) {
+  if (channelListsEqual(previous, next)) return {};
+  return { channelWhitelist: next.w, channelBlacklist: next.b };
+}
+
+function markChannelListIncomplete(state, gen) {
+  if (state.incompleteGen === gen) return;
+  state.incompleteGen = gen;
+  state.incompleteSince = Date.now();
+}
+
+async function pullChannelLists() {
+  const items = await chrome.storage.sync.get(null);
+  const { lists, base, state } = await readLocalChannelListState();
+  let nextLists = lists;
+  const nextState = { ...state };
+  const updates = {};
+
+  const legacy = readLegacyChannelLists(items);
+  if (legacy) nextLists = unionChannelLists(nextLists, legacy);
+
+  const payload = readChannelListSyncPayload(items);
+  if (payload.status === 'complete' && payload.gen !== state.gen) {
+    let remote = null;
+    try {
+      remote = await decodeChannelLists(payload.encoded);
+    } catch (e) {
+      logger.log('Could not decode synced channel lists:', e);
+    }
+    if (remote) {
+      const mergeBase = resolveChannelListMergeBase(payload.parent, state.gen, base);
+      nextLists = mergeChannelLists(nextLists, mergeBase, remote);
+      updates[CHANNEL_LIST_BASE_KEY] = remote;
+      nextState.gen = payload.gen;
+      nextState.status = channelListsEqual(nextLists, remote) ? 'ok' : 'pending';
+      delete nextState.incompleteGen;
+      delete nextState.incompleteSince;
+    } else {
+      markChannelListIncomplete(nextState, payload.gen);
+    }
+  } else if (
+    (payload.status === 'incomplete' || payload.status === 'invalid') &&
+    payload.gen !== state.gen
+  ) {
+    markChannelListIncomplete(nextState, payload.gen);
+  }
+
+  Object.assign(updates, getChannelListLocalUpdates(lists, nextLists));
+  if (JSON.stringify(nextState) !== JSON.stringify(state)) {
+    updates[CHANNEL_LIST_STATE_KEY] = nextState;
+  }
+  if (Object.keys(updates).length) await chrome.storage.local.set(updates);
+  if (legacy) await chrome.storage.sync.remove(CHANNEL_LIST_LOCAL_KEYS);
+}
+
+function isChannelListSyncStalled(state, payload) {
+  return (
+    (payload.status === 'incomplete' || payload.status === 'invalid') &&
+    state.incompleteGen === payload.gen &&
+    Date.now() - (state.incompleteSince || 0) > CHANNEL_LIST_INCOMPLETE_HEAL_MS
+  );
+}
+
+async function setChannelListSyncStatus(state, status) {
+  if (state.status === status) return;
+  await chrome.storage.local.set({ [CHANNEL_LIST_STATE_KEY]: { ...state, status } });
+}
+
+async function pushChannelLists() {
+  const current = await chrome.storage.sync.get(null);
+  const local = await readLocalChannelListState();
+  const { base, state } = local;
+  let lists = local.lists;
+
+  const legacy = readLegacyChannelLists(current);
+  if (legacy) {
+    lists = unionChannelLists(lists, legacy);
+    const legacyUpdates = getChannelListLocalUpdates(local.lists, lists);
+    if (Object.keys(legacyUpdates).length) await chrome.storage.local.set(legacyUpdates);
+  }
+
+  const payload = readChannelListSyncPayload(current);
+  if (payload.status === 'unsupported') {
+    await setChannelListSyncStatus(state, 'outdated');
+    return;
+  }
+
+  const stalled = isChannelListSyncStalled(state, payload);
+  const inSync = !!base && channelListsEqual(lists, base) && state.status === 'ok';
+  if (inSync && !stalled && !legacy) return;
+  if (!base && !state.gen && !lists.w.length && !lists.b.length && !legacy) return;
+
+  const gen = createChannelListGeneration();
+  const newItems = buildChannelListSyncItems(await encodeChannelLists(lists), gen, state.gen || null);
+  const plan = planChannelListSyncWrite(current, newItems);
+
+  if (!plan.fits) {
+    await setChannelListSyncStatus(state, 'paused');
+    logger.log('Channel lists too large to sync:', plan.newBytes, 'bytes');
+    return;
+  }
+
+  try {
+    if (plan.removeFirst && plan.staleKeys.length) {
+      await chrome.storage.sync.remove(plan.staleKeys);
+    }
+    await chrome.storage.sync.set(newItems);
+    if (!plan.removeFirst && plan.staleKeys.length) {
+      await chrome.storage.sync.remove(plan.staleKeys);
+    }
+  } catch (e) {
+    const message = String((e && e.message) || e);
+    const status = /QUOTA_BYTES/.test(message) ? 'paused' : 'error';
+    await setChannelListSyncStatus(state, status);
+    logger.log('Channel list sync write failed:', message);
+    if (status === 'error') scheduleChannelListPush(CHANNEL_LIST_RETRY_DELAY_MS);
+    return;
+  }
+
+  await chrome.storage.local.set({
+    [CHANNEL_LIST_BASE_KEY]: lists,
+    [CHANNEL_LIST_STATE_KEY]: { status: 'ok', gen },
+  });
+  logger.log('Channel lists synced:', plan.newBytes, 'bytes, generation', gen);
+}
+
+function reconcileChannelLists() {
+  return enqueueChannelListSync(async () => {
+    await pullChannelLists();
+    await pushChannelLists();
+  });
+}
 function refreshBadge() {
   const defaults = Object.fromEntries(flagKeys.map(key => [key, true]));
   const thresholdDefaults = Object.fromEntries(
@@ -247,9 +422,13 @@ function refreshBadge() {
         logger.log('Storage error:', chrome.runtime.lastError.message);
         return;
       }
-      if (prefs) {
+      if (!prefs) return;
+      chrome.storage.local.get('channelBlacklist', local => {
+        if (!chrome.runtime.lastError && local && Array.isArray(local.channelBlacklist)) {
+          prefs.channelBlacklist = local.channelBlacklist;
+        }
         updateBadge(prefs);
-      }
+      });
     },
   );
 }
@@ -301,7 +480,17 @@ function updateBadge(flags = {}) {
   });
 }
 chrome.storage.onChanged.addListener((changes, area) => {
+  if (area === 'local') {
+    if (CHANNEL_LIST_LOCAL_KEYS.some(key => key in changes)) {
+      scheduleChannelListPush();
+    }
+    if ('channelBlacklist' in changes) refreshBadge();
+    return;
+  }
   if (area !== 'sync') return;
+  if (Object.keys(changes).some(key => isChannelListSyncKey(key))) {
+    scheduleChannelListPull();
+  }
   const allBadgeKeys = [
     ...flagKeys,
     ...thresholdFlagKeys,
@@ -354,3 +543,4 @@ chrome.runtime.onMessage.addListener((message, sender, sendResponse) => {
 });
 
 initializeSettings();
+reconcileChannelLists();
