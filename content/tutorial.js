@@ -261,6 +261,18 @@ function startSpotlightTour() {
       section: 'blacklist',
     },
     {
+      title: 'Title Whitelist',
+      desc: 'Exempt videos by a word in their title instead of by channel. Every video whose title contains one of your words is left alone by every filter.',
+      getRect: () => getHeaderDropdownRect(),
+      section: 'title-whitelist',
+    },
+    {
+      title: 'Title Blacklist',
+      desc: 'The opposite of Title Whitelist: always hide every video whose title contains one of your words, everywhere, even from a whitelisted channel.',
+      getRect: () => getHeaderDropdownRect(),
+      section: 'title-blacklist',
+    },
+    {
       title: 'Extra Settings',
       desc: 'Turn on "Advanced Controls" to switch to the Advanced interface, and turn on "Hide on-page controls" anytime to remove this button (and the inline Whitelist and Blacklist buttons) while filtering keeps working in the background.',
       getRect: () => getHeaderDropdownRect(),
