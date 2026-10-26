@@ -62,6 +62,7 @@ async function startHiding(pathname) {
   await waitForPageElements(pathname);
 
   const canHideBlacklisted = shouldHideBlacklisted(pathname);
+  const canHideTitleBlacklisted = shouldHideTitleBlacklisted(pathname);
   const canHideWatched = shouldHideWatched(pathname);
   const canHideViews = shouldHideViews(pathname);
   const canHideShortsFlag = shouldHideShorts(pathname);
@@ -72,6 +73,10 @@ async function startHiding(pathname) {
 
   if (canHideBlacklisted) {
     hideBlacklisted();
+  }
+
+  if (canHideTitleBlacklisted) {
+    hideTitleBlacklisted();
   }
 
   if (canHideWatched) {

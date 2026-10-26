@@ -71,3 +71,76 @@ function computeWhitelistUpdate(
 
   return { list: nextList, updates, changedChannels, enabledChanged: !!needsReEnable };
 }
+
+const TITLE_KEYWORD_MAX_LENGTH = 100;
+const TITLE_KEYWORD_LIST_MAX_BYTES = 8192;
+const TITLE_WORD_START = /^[\p{L}\p{N}]/u;
+const TITLE_WORD_CHAR = /^[\p{L}\p{N}\p{M}]$/u;
+const TITLE_UNSPACED_SCRIPT =
+  /^[\p{Script=Han}\p{Script=Hiragana}\p{Script=Katakana}\p{Script=Thai}\p{Script=Lao}\p{Script=Khmer}\p{Script=Myanmar}]$/u;
+
+function normalizeTitleKeyword(raw) {
+  if (typeof raw !== 'string') return '';
+  return raw.replace(/\s+/g, ' ').trim().slice(0, TITLE_KEYWORD_MAX_LENGTH);
+}
+
+function titleKeywordKey(keyword) {
+  return normalizeTitleKeyword(keyword).toLowerCase();
+}
+
+function titleKeywordListIncludes(keyword, list) {
+  const key = titleKeywordKey(keyword);
+  if (!key || !Array.isArray(list)) return false;
+  return list.some(k => titleKeywordKey(k) === key);
+}
+
+function isTitleWordBoundary(haystack, index) {
+  if (index === 0) return true;
+  const before = String.fromCodePoint(haystack.codePointAt(index - 1));
+  return !TITLE_WORD_CHAR.test(before) || TITLE_UNSPACED_SCRIPT.test(before);
+}
+
+function titleContainsKeyword(haystack, key) {
+  const first = String.fromCodePoint(key.codePointAt(0));
+  if (!TITLE_WORD_START.test(first) || TITLE_UNSPACED_SCRIPT.test(first)) {
+    return haystack.includes(key);
+  }
+  let index = haystack.indexOf(key);
+  while (index !== -1) {
+    if (isTitleWordBoundary(haystack, index)) return true;
+    index = haystack.indexOf(key, index + 1);
+  }
+  return false;
+}
+
+function findTitleKeywordMatch(title, keywords) {
+  if (!Array.isArray(keywords) || !keywords.length) return null;
+  const haystack = typeof title === 'string' ? title.replace(/\s+/g, ' ').toLowerCase() : '';
+  if (!haystack) return null;
+  const match = keywords.find(k => {
+    const key = titleKeywordKey(k);
+    return !!key && titleContainsKeyword(haystack, key);
+  });
+  return match === undefined ? null : match;
+}
+
+function titleMatchesKeyword(title, keywords) {
+  return findTitleKeywordMatch(title, keywords) !== null;
+}
+
+function titleKeywordListFits(listKey, list) {
+  const bytes = new TextEncoder().encode(listKey + JSON.stringify(list)).length;
+  return bytes <= TITLE_KEYWORD_LIST_MAX_BYTES;
+}
+
+if (typeof module !== 'undefined' && module.exports) {
+  module.exports = {
+    channelListIncludes,
+    computeWhitelistUpdate,
+    normalizeTitleKeyword,
+    titleKeywordListIncludes,
+    findTitleKeywordMatch,
+    titleMatchesKeyword,
+    titleKeywordListFits,
+  };
+}

@@ -86,6 +86,14 @@ Turning the whole Channel Blacklist toggle off removes every on-page Blacklist b
 
 Both lists follow you across devices, and there is no fixed limit on how many channels they hold. Each list is saved in the browser first, then compressed and synced to your other devices, which fits roughly 8,000 to 9,000 channels across the two lists inside Chrome's sync storage. Past that point the lists keep working and keep growing on the device where they were added: the Whitelist and Blacklist cards show a "Sync paused" notice, other devices keep the last version that fit, and syncing resumes on its own once the lists are small enough again. Changes made on another device while sync is paused are still merged in, without dropping any channel that only this device has.
 
+### Title Whitelist
+
+Exempt videos by a word or phrase in their title rather than by channel. Type a word into the **Title Whitelist** card in the popup and press Enter or **+ Add**: every video whose title contains it is never hidden or dimmed by any filter, on every page. Matching is case-insensitive and looks for the word at the start of a word in the title: "tutorial" also matches "tutorials" and "AI" matches "AI-generated", but "AI" does not match "said". In languages written without spaces (Chinese, Japanese, Thai, ...) the word is found anywhere in the title. The list syncs across devices as a single setting and holds as many words as fit in Chrome's 8 KB per-setting quota, a few hundred in practice; once it is full, **+ Add** is disabled and the card says so. Each word is listed as a removable chip, changes apply to the open page immediately, and the card's switch pauses the whole list without clearing it. A blacklisted channel or a title containing a Title Blacklist word stays hidden even when a title matches, and Shorts are always filtered regardless.
+
+### Title Blacklist
+
+The opposite of Title Whitelist: every video whose title contains one of the listed words or phrases is always hidden, everywhere, including Shorts, Mixes and Playlists, regardless of any other filter's own on/off state. A blacklisted word always wins: it hides the video even from a whitelisted channel, and even when the same title also contains a Title Whitelist word. Matching follows the same rules as the Title Whitelist (case-insensitive, from the start of a word, anywhere in the title for languages written without spaces), and the list has the same size limit. Words are added and removed only from the **Title Blacklist** card in the popup; there is no on-page button for it. In Dim mode, the overlay names the word that matched, for example **Blacklisted word: "reaction"**, so it is always clear why a video was hidden. Removing a chip shows those videos again immediately, and the card's switch pauses the whole list without clearing it.
+
 ### Master Extension Switch
 
 Use the **Extension** switch in the popup header to instantly enable or disable the entire extension. When disabled, filtering is paused globally and the badge shows **OFF**.
@@ -157,7 +165,7 @@ youtube-hider-extension
 │   ├── page-bridge.js     MAIN-world script: caches video-id-to-channel mappings from YouTube's internal data
 │   ├── env.js             DEV_MODE flag
 │   ├── utils.js           Shared utilities (debounce, logger, safe storage)
-│   ├── whitelist-utils.js Pure list helpers shared by Channel Whitelist and Channel Blacklist
+│   ├── whitelist-utils.js Pure list helpers shared by the Channel and Title Whitelist and Blacklist
 │   ├── state.js           Preferences, timing constants, storage listener
 │   ├── header-button.js  Header settings button and its iframe-embedded settings dropdown
 │   ├── tutorial.js        Guided spotlight tutorial
@@ -177,7 +185,8 @@ youtube-hider-extension
 │   └── support.css        Support button and support panel
 ├── tests/
 │   ├── parsers.test.js           Parser regression tests
-│   └── channel-list-sync.test.js Channel list sync encoding, chunking and merge tests
+│   ├── channel-list-sync.test.js Channel list sync encoding, chunking and merge tests
+│   └── whitelist-utils.test.js   Title Whitelist and Blacklist keyword matching and quota tests
 ├── background.js          Service worker (badge, lifecycle, messaging, channel list sync)
 ├── channel-list-sync.js   Pure channel list sync helpers: compression, chunking, quota planning, merge
 ├── build.ps1              Build/packaging script

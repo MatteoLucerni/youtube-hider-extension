@@ -1449,6 +1449,186 @@
             </div>
           </div>
 
+          <div class="setting-card" data-tour-section="title-whitelist">
+            <div class="card-compact-header">
+              <div class="card-icon card-icon-green" aria-hidden="true">
+                <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                  <polyline points="4 7 4 4 20 4 20 7"></polyline>
+                  <line x1="9" y1="20" x2="15" y2="20"></line>
+                  <line x1="12" y1="4" x2="12" y2="20"></line>
+                </svg>
+              </div>
+              <div class="card-compact-info">
+                <h3
+                  class="card-title"
+                  style="display: flex; align-items: center; gap: 6px"
+                >
+                  Title Whitelist
+                  <div class="tooltip-container">
+                    <svg
+                      xmlns="http://www.w3.org/2000/svg"
+                      width="12"
+                      height="12"
+                      viewBox="0 0 24 24"
+                      fill="none"
+                      stroke="currentColor"
+                      stroke-width="2"
+                      stroke-linecap="round"
+                      stroke-linejoin="round"
+                      class="info-icon"
+                    >
+                      <circle cx="12" cy="12" r="10"></circle>
+                      <path d="M9.09 9a3 3 0 0 1 5.83 1c0 2-3 3-3 3"></path>
+                      <line x1="12" y1="17" x2="12.01" y2="17"></line>
+                    </svg>
+                    <span class="tooltip-text"
+                      >Videos whose title contains one of these words bypass
+                      all active filters. Matching ignores upper and lower
+                      case and matches the start of a word, so "AI" matches
+                      "AI-generated" but not "said".
+                      Blacklisted channels and words stay hidden, and Shorts
+                      are always filtered regardless</span
+                    >
+                  </div>
+                </h3>
+                <p class="card-description">
+                  Videos with one of these words in their title will not be
+                  filtered
+                </p>
+              </div>
+              <div class="card-compact-toggle">
+                <div class="toggle-switch-large">
+                  <input type="checkbox" id="title-whitelist-enabled" />
+                  <span class="toggle-slider"></span>
+                </div>
+              </div>
+            </div>
+            <div class="setting-group whitelist-group">
+              <div
+                id="title-whitelist-chips"
+                class="whitelist-chips-container"
+              >
+                <span class="whitelist-empty-hint" id="title-whitelist-empty"
+                  >No title words whitelisted yet</span
+                >
+              </div>
+              <form class="title-list-add-row" id="title-whitelist-form">
+                <input
+                  type="text"
+                  id="title-whitelist-input"
+                  class="title-list-input"
+                  placeholder="Word or phrase, e.g. tutorial"
+                  maxlength="100"
+                  autocomplete="off"
+                  spellcheck="false"
+                  aria-label="Word or phrase to whitelist"
+                />
+                <button
+                  type="submit"
+                  id="title-whitelist-add-btn"
+                  class="add-channel-btn title-list-add-btn"
+                  disabled
+                >
+                  + Add
+                </button>
+              </form>
+              <span
+                class="whitelist-btn-hint title-list-hint"
+                id="title-whitelist-hint"
+              ></span>
+            </div>
+          </div>
+
+          <div class="setting-card" data-tour-section="title-blacklist">
+            <div class="card-compact-header">
+              <div class="card-icon card-icon-red" aria-hidden="true">
+                <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                  <polyline points="4 7 4 4 20 4 20 7"></polyline>
+                  <line x1="9" y1="20" x2="15" y2="20"></line>
+                  <line x1="12" y1="4" x2="12" y2="20"></line>
+                </svg>
+              </div>
+              <div class="card-compact-info">
+                <h3
+                  class="card-title"
+                  style="display: flex; align-items: center; gap: 6px"
+                >
+                  Title Blacklist
+                  <div class="tooltip-container">
+                    <svg
+                      xmlns="http://www.w3.org/2000/svg"
+                      width="12"
+                      height="12"
+                      viewBox="0 0 24 24"
+                      fill="none"
+                      stroke="currentColor"
+                      stroke-width="2"
+                      stroke-linecap="round"
+                      stroke-linejoin="round"
+                      class="info-icon"
+                    >
+                      <circle cx="12" cy="12" r="10"></circle>
+                      <path d="M9.09 9a3 3 0 0 1 5.83 1c0 2-3 3-3 3"></path>
+                      <line x1="12" y1="17" x2="12.01" y2="17"></line>
+                    </svg>
+                    <span class="tooltip-text"
+                      >Videos whose title contains one of these words are
+                      always hidden, everywhere, including Shorts, Mixes and
+                      Playlists, even from whitelisted channels or when the
+                      title also contains a whitelisted word. Matching ignores
+                      upper and lower case and matches the start of a word, so
+                      "AI" matches "AI-generated" but not "said"</span
+                    >
+                  </div>
+                </h3>
+                <p class="card-description">
+                  Videos with one of these words in their title are always
+                  hidden
+                </p>
+              </div>
+              <div class="card-compact-toggle">
+                <div class="toggle-switch-large">
+                  <input type="checkbox" id="title-blacklist-enabled" />
+                  <span class="toggle-slider"></span>
+                </div>
+              </div>
+            </div>
+            <div class="setting-group whitelist-group">
+              <div
+                id="title-blacklist-chips"
+                class="whitelist-chips-container"
+              >
+                <span class="whitelist-empty-hint" id="title-blacklist-empty"
+                  >No title words blacklisted yet</span
+                >
+              </div>
+              <form class="title-list-add-row" id="title-blacklist-form">
+                <input
+                  type="text"
+                  id="title-blacklist-input"
+                  class="title-list-input"
+                  placeholder="Word or phrase, e.g. reaction"
+                  maxlength="100"
+                  autocomplete="off"
+                  spellcheck="false"
+                  aria-label="Word or phrase to blacklist"
+                />
+                <button
+                  type="submit"
+                  id="title-blacklist-add-btn"
+                  class="add-channel-btn blacklist-add-btn title-list-add-btn"
+                  disabled
+                >
+                  + Add
+                </button>
+              </form>
+              <span
+                class="whitelist-btn-hint title-list-hint"
+                id="title-blacklist-hint"
+              ></span>
+            </div>
+          </div>
+
           <div
             class="setting-card setting-card-compact"
             data-tour-section="extra-settings"

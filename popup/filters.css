@@ -371,6 +371,45 @@
     min-height: 14px;
 }
 
+.title-list-add-row {
+    margin: 10px 0 0;
+    display: flex;
+    gap: 6px;
+    width: 100%;
+}
+
+.title-list-input {
+    flex: 1 1 auto;
+    min-width: 0;
+    padding: 9px 12px;
+    font-size: 12px;
+    font-family: inherit;
+    color: var(--text-primary);
+    background: var(--bg-tertiary);
+    border: 1px solid var(--border-color);
+    border-radius: var(--radius-box);
+    transition: border-color 0.15s var(--ease-standard);
+}
+
+.title-list-input::placeholder {
+    color: var(--text-tertiary);
+}
+
+.title-list-input:focus {
+    outline: none;
+    border-color: var(--accent-blue);
+}
+
+.add-channel-btn.title-list-add-btn {
+    width: auto;
+    flex: 0 0 auto;
+}
+
+.title-list-hint {
+    display: block;
+    margin-top: 5px;
+}
+
 .channel-sync-warning {
     display: flex;
     align-items: flex-start;

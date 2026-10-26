@@ -416,6 +416,8 @@ function refreshBadge() {
       viewsHideThreshold: 1000,
       channelBlacklist: [],
       channelBlacklistEnabled: true,
+      titleBlacklist: [],
+      titleBlacklistEnabled: true,
     },
     prefs => {
       if (chrome.runtime.lastError) {
@@ -462,7 +464,9 @@ function getBadgeText(flags = {}) {
     ['dateFilterHomeEnabled', 'dateFilterChannelEnabled', 'dateFilterSearchEnabled', 'dateFilterSubsEnabled', 'dateFilterCorrEnabled'].some(k => flags[k]);
   const blacklistActive =
     !!flags.channelBlacklistEnabled && Array.isArray(flags.channelBlacklist) && flags.channelBlacklist.length > 0;
-  if (hideWatchedActive || viewsActive || shortsActive || mixesPlaylistsActive || dateActive || blacklistActive) return '';
+  const titleBlacklistActive =
+    !!flags.titleBlacklistEnabled && Array.isArray(flags.titleBlacklist) && flags.titleBlacklist.length > 0;
+  if (hideWatchedActive || viewsActive || shortsActive || mixesPlaylistsActive || dateActive || blacklistActive || titleBlacklistActive) return '';
   return 'OFF';
 }
 function updateBadge(flags = {}) {
@@ -499,6 +503,8 @@ chrome.storage.onChanged.addListener((changes, area) => {
     'viewsHideThreshold',
     'channelBlacklist',
     'channelBlacklistEnabled',
+    'titleBlacklist',
+    'titleBlacklistEnabled',
   ];
   if (Object.keys(changes).some(key => allBadgeKeys.includes(key))) {
     refreshBadge();
