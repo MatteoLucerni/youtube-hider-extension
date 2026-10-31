@@ -8,6 +8,7 @@
 - A new **Marked as watched** row in the Hide Watched Videos card shows how many videos are marked, and its **Manage** button opens a full page listing them all, newest first, with thumbnail, title, channel and date. From there you can search them, remove one or several at once, clear the whole list, and export it to a JSON file or import one back, for example to move the list to another browser. Every removal, including **Clear all**, can be undone from the message that confirms it for 10 seconds, and a selection made before a search is kept while you search
 - Up to 3,000 videos are kept. Marking one more drops the video marked longest ago, which then shows up on YouTube again. From 2,700 videos on, the count in the card and on the page turns amber and says so, before anything is dropped
 - The marked videos sync across devices signed into the same Chrome profile, like the channel lists. They share Chrome's synced storage with the Channel Whitelist and Channel Blacklist, and the channel lists always come first: when both do not fit, syncing of the marked videos pauses (the card says so) while they keep working in this browser, and resumes once there is room again. Titles and channels are kept only on the device where a video was marked, so another device shows the video's thumbnail until it comes across the video on YouTube and fills them in
+- youtubehider.com has a new **Mark as Watched** section that explains the feature step by step, next to a screenshot of the page that manages the marked videos
 
 ### Version 3.4.0
 
