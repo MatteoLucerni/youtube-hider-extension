@@ -2053,8 +2053,38 @@ function extractTitleFromContainer(container) {
   return (el.getAttribute('title') || el.textContent || '').trim();
 }
 
+const VIDEO_ID_PATTERN = /^[A-Za-z0-9_-]{11}$/;
+const VIDEO_LINK_SELECTORS = 'a[href*="/watch?v="], a[href*="/shorts/"]';
+
+function extractVideoIdFromHref(href) {
+  if (typeof href !== 'string' || !href) return null;
+  let url;
+  try {
+    url = new URL(href, 'https://www.youtube.com');
+  } catch (_) {
+    return null;
+  }
+  if (url.searchParams.get('start_radio') === '1') return null;
+  const shortsMatch = url.pathname.match(/^\/shorts\/([^/]+)/);
+  const id = shortsMatch ? shortsMatch[1] : url.pathname === '/watch' ? url.searchParams.get('v') : null;
+  return id && VIDEO_ID_PATTERN.test(id) ? id : null;
+}
+
+function extractVideoIdFromContainer(container) {
+  if (!container || !container.querySelector) return null;
+  const contentEl = container.querySelector('[class*="content-id-"]');
+  const contentMatch =
+    contentEl && typeof contentEl.className === 'string'
+      ? contentEl.className.match(/content-id-([A-Za-z0-9_-]+)/)
+      : null;
+  if (contentMatch) return VIDEO_ID_PATTERN.test(contentMatch[1]) ? contentMatch[1] : null;
+  const link = container.querySelector(VIDEO_LINK_SELECTORS);
+  return link ? extractVideoIdFromHref(link.getAttribute('href')) : null;
+}
+
 if (typeof module !== 'undefined' && module.exports) {
   module.exports = {
+    extractVideoIdFromHref,
     extractViewCount,
     normalizeNumStr,
     parseToNumber,

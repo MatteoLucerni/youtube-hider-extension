@@ -1,10 +1,15 @@
 const CHANNEL_LIST_STORAGE_KEYS = ['channelWhitelist', 'channelBlacklist'];
+const MARKED_WATCHED_KEY = 'markedWatched';
+const MARKED_WATCHED_META_KEY = 'markedWatchedMeta';
+const MARKED_WATCHED_LIMIT = 3000;
+const MARKED_WATCHED_WARN_AT = 2700;
+const LOCAL_PREF_KEYS = [...CHANNEL_LIST_STORAGE_KEYS, MARKED_WATCHED_KEY];
 
 function splitChannelListUpdates(updates) {
   const local = {};
   const sync = {};
   Object.entries(updates || {}).forEach(([key, value]) => {
-    if (CHANNEL_LIST_STORAGE_KEYS.includes(key)) local[key] = value;
+    if (LOCAL_PREF_KEYS.includes(key)) local[key] = value;
     else sync[key] = value;
   });
   return { local, sync };
@@ -13,7 +18,7 @@ function splitChannelListUpdates(updates) {
 function pickStorageChanges(changes, area) {
   const picked = {};
   Object.keys(changes || {}).forEach(key => {
-    const isListKey = CHANNEL_LIST_STORAGE_KEYS.includes(key);
+    const isListKey = LOCAL_PREF_KEYS.includes(key);
     if ((area === 'local' && isListKey) || (area === 'sync' && !isListKey)) {
       picked[key] = changes[key];
     }
@@ -133,8 +138,97 @@ function titleKeywordListFits(listKey, list) {
   return bytes <= TITLE_KEYWORD_LIST_MAX_BYTES;
 }
 
+const MARKED_WATCHED_ID_PATTERN = /^[A-Za-z0-9_-]{11}$/;
+
+function isValidVideoId(id) {
+  return typeof id === 'string' && MARKED_WATCHED_ID_PATTERN.test(id);
+}
+
+function normalizeMarkedWatched(list, limit = MARKED_WATCHED_LIMIT) {
+  if (!Array.isArray(list)) return [];
+  const latest = new Map();
+  list.forEach(entry => {
+    if (!Array.isArray(entry) || !isValidVideoId(entry[0])) return;
+    const markedAt = Number.isFinite(entry[1]) ? Math.max(0, Math.floor(entry[1])) : 0;
+    const previous = latest.get(entry[0]);
+    if (previous === undefined || markedAt > previous) latest.set(entry[0], markedAt);
+  });
+  const sorted = [...latest.entries()]
+    .map(([id, markedAt]) => [id, markedAt])
+    .sort((a, b) => a[1] - b[1]);
+  return sorted.length > limit ? sorted.slice(sorted.length - limit) : sorted;
+}
+
+function describeMarkedWatchedCount(count) {
+  if (!count) return { text: 'No videos marked yet', nearLimit: false };
+  const amount = count === 1 ? '1 video' : count.toLocaleString('en-US') + ' videos';
+  const text = amount + ' of ' + MARKED_WATCHED_LIMIT.toLocaleString('en-US');
+  if (count >= MARKED_WATCHED_LIMIT) {
+    return { text: text + '. Full: each new mark drops the oldest one', nearLimit: true };
+  }
+  if (count >= MARKED_WATCHED_WARN_AT) {
+    return { text: text + '. Almost full: past the limit, the oldest marks are dropped', nearLimit: true };
+  }
+  return { text, nearLimit: false };
+}
+
+function markedWatchedEqual(a, b) {
+  return JSON.stringify(normalizeMarkedWatched(a)) === JSON.stringify(normalizeMarkedWatched(b));
+}
+
+function markedWatchedIncludes(list, id) {
+  return Array.isArray(list) && list.some(entry => Array.isArray(entry) && entry[0] === id);
+}
+
+function computeMarkedWatchedUpdate(list, ids, shouldMark, now = Math.floor(Date.now() / 1000)) {
+  const targets = (Array.isArray(ids) ? ids : [ids]).filter(isValidVideoId);
+  if (!targets.length) return null;
+  const current = normalizeMarkedWatched(list);
+  const targetSet = new Set(targets);
+  if (shouldMark) {
+    const next = normalizeMarkedWatched([
+      ...current.filter(entry => !targetSet.has(entry[0])),
+      ...targets.map(id => [id, now]),
+    ]);
+    return markedWatchedEqual(current, next) ? null : next;
+  }
+  const next = current.filter(entry => !targetSet.has(entry[0]));
+  return next.length === current.length ? null : next;
+}
+
+function normalizeMarkedWatchedMetaEntry(title, channel) {
+  const cleanTitle = typeof title === 'string' ? title.replace(/\s+/g, ' ').trim().slice(0, 200) : '';
+  const firstChannel = Array.isArray(channel) ? channel[0] : channel;
+  const cleanChannel = typeof firstChannel === 'string' ? firstChannel.slice(0, 100) : '';
+  return [cleanTitle, cleanChannel];
+}
+
+function pruneMarkedWatchedMeta(meta, list) {
+  const source = meta && typeof meta === 'object' && !Array.isArray(meta) ? meta : {};
+  const pruned = {};
+  normalizeMarkedWatched(list).forEach(([id]) => {
+    const entry = source[id];
+    if (Array.isArray(entry)) pruned[id] = normalizeMarkedWatchedMetaEntry(entry[0], entry[1]);
+  });
+  return pruned;
+}
+
 if (typeof module !== 'undefined' && module.exports) {
   module.exports = {
+    MARKED_WATCHED_KEY,
+    MARKED_WATCHED_META_KEY,
+    MARKED_WATCHED_LIMIT,
+    LOCAL_PREF_KEYS,
+    splitChannelListUpdates,
+    pickStorageChanges,
+    isValidVideoId,
+    normalizeMarkedWatched,
+    describeMarkedWatchedCount,
+    markedWatchedEqual,
+    markedWatchedIncludes,
+    computeMarkedWatchedUpdate,
+    normalizeMarkedWatchedMetaEntry,
+    pruneMarkedWatchedMeta,
     channelListIncludes,
     computeWhitelistUpdate,
     normalizeTitleKeyword,

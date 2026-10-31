@@ -37,6 +37,8 @@ $files = [System.Collections.Generic.HashSet[string]]::new()
 
 [void]$files.Add('manifest.json')
 
+$serviceWorkerContent = ''
+
 if ($manifest.PSObject.Properties['background'] -and $manifest.background.PSObject.Properties['service_worker']) {
     $serviceWorker = $manifest.background.service_worker
     [void]$files.Add($serviceWorker)
@@ -82,38 +84,48 @@ if ($manifest.PSObject.Properties['web_accessible_resources']) {
     }
 }
 
+function Resolve-AssetPath($relPath, $baseDir, $root) {
+    $combined = if ($baseDir) { Join-Path $baseDir $relPath } else { $relPath }
+    $fullPath = [System.IO.Path]::GetFullPath((Join-Path $root $combined))
+    $rootFull = [System.IO.Path]::GetFullPath($root)
+    $rel = $fullPath.Substring($rootFull.Length).TrimStart('\', '/')
+    return ($rel -replace '\\', '/')
+}
+
+function Add-ExtensionPage($pageFile) {
+    [void]$files.Add($pageFile)
+
+    $pagePath = Join-Path $projectRoot $pageFile
+    $pageDir = [System.IO.Path]::GetDirectoryName($pageFile) -replace '\\', '/'
+    if (-not (Test-Path $pagePath)) { return }
+
+    $pageContent = Get-Content $pagePath -Raw
+
+    $scriptMatches = [regex]::Matches($pageContent, '<script\s+[^>]*src=["'']([^"'']+)["'']')
+    foreach ($m in $scriptMatches) {
+        $src = $m.Groups[1].Value
+        if ($src -notmatch '^https?://') {
+            [void]$files.Add((Resolve-AssetPath $src $pageDir $projectRoot))
+        }
+    }
+
+    $linkMatches = [regex]::Matches($pageContent, '<link\s+[^>]*href=["'']([^"'']+)["''][^>]*>')
+    foreach ($m in $linkMatches) {
+        $href = $m.Groups[1].Value
+        if ($href -notmatch '^https?://') {
+            [void]$files.Add((Resolve-AssetPath $href $pageDir $projectRoot))
+        }
+    }
+}
+
 if ($manifest.PSObject.Properties['action'] -and $manifest.action.PSObject.Properties['default_popup']) {
-    $popupFile = $manifest.action.default_popup
-    [void]$files.Add($popupFile)
+    Add-ExtensionPage $manifest.action.default_popup
+}
 
-    $popupPath = Join-Path $projectRoot $popupFile
-    $popupDir = [System.IO.Path]::GetDirectoryName($popupFile) -replace '\\', '/'
-    if (Test-Path $popupPath) {
-        $popupContent = Get-Content $popupPath -Raw
-
-        function Resolve-AssetPath($relPath, $baseDir, $root) {
-            $combined = if ($baseDir) { Join-Path $baseDir $relPath } else { $relPath }
-            $fullPath = [System.IO.Path]::GetFullPath((Join-Path $root $combined))
-            $rootFull = [System.IO.Path]::GetFullPath($root)
-            $rel = $fullPath.Substring($rootFull.Length).TrimStart('\', '/')
-            return ($rel -replace '\\', '/')
-        }
-
-        $scriptMatches = [regex]::Matches($popupContent, '<script\s+[^>]*src=["\u0027]([^"\u0027]+)["\u0027]')
-        foreach ($m in $scriptMatches) {
-            $src = $m.Groups[1].Value
-            if ($src -notmatch '^https?://') {
-                [void]$files.Add((Resolve-AssetPath $src $popupDir $projectRoot))
-            }
-        }
-
-        $linkMatches = [regex]::Matches($popupContent, '<link\s+[^>]*href=["\u0027]([^"\u0027]+)["\u0027][^>]*>')
-        foreach ($m in $linkMatches) {
-            $href = $m.Groups[1].Value
-            if ($href -notmatch '^https?://') {
-                [void]$files.Add((Resolve-AssetPath $href $popupDir $projectRoot))
-            }
-        }
+if ($serviceWorkerContent) {
+    $pageMatches = [regex]::Matches($serviceWorkerContent, 'getURL\(\s*["'']([^"''?#]+\.html)')
+    foreach ($m in $pageMatches) {
+        Add-ExtensionPage $m.Groups[1].Value
     }
 }
 

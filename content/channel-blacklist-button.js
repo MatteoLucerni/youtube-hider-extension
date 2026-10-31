@@ -26,11 +26,16 @@ function injectInlineBlacklistStyles() {
       z-index: 2000;
       pointer-events: none;
       width: max-content;
+      display: flex;
+      justify-content: center;
+      gap: 6px;
       animation: yt-hider-blacklist-pill-in 180ms ease-out;
       transition: opacity 90ms ease-out;
     }
-    .yt-hider-blacklist-hover-wrapper .yt-hider-blacklist-btn {
+    .yt-hider-blacklist-hover-wrapper .yt-hider-blacklist-btn,
+    .yt-hider-blacklist-hover-wrapper .yt-hider-watched-btn {
       max-width: 100%;
+      min-width: 0;
     }
     .yt-hider-blacklist-hover-wrapper.yt-hider-blacklist-pill-quick {
       animation: yt-hider-blacklist-pill-quick-in 90ms ease-out;
@@ -129,7 +134,7 @@ function removeInlineBlacklistButton() {
 let hoverPillEl = null;
 let hoverPillContainer = null;
 let hoverPillAnchor = null;
-let hoverPillBtn = null;
+let hoverPillButtons = [];
 let hoverPillPending = false;
 let lastMouseClientX = 0;
 let lastMouseClientY = 0;
@@ -237,13 +242,28 @@ function stopHoverPillWatchdog() {
   }
 }
 
+function isHoverPillEligible(pathname) {
+  return prefs.extensionEnabled && !prefs.hideInterfaceElements && isCoreFilterPath(pathname);
+}
+
 function isBlacklistHoverEligible(pathname) {
-  return (
-    prefs.extensionEnabled &&
-    prefs.channelBlacklistEnabled &&
-    !prefs.hideInterfaceElements &&
-    isCoreFilterPath(pathname)
-  );
+  return isHoverPillEligible(pathname) && prefs.channelBlacklistEnabled;
+}
+
+function isMarkWatchedHoverEligible(pathname) {
+  return isHoverPillEligible(pathname) && isMarkedWatchedActive(pathname);
+}
+
+const HOVER_PILL_PENDING_CLASSES = ['yt-hider-blacklist-btn-pending', 'yt-hider-watched-btn-pending'];
+
+function isHoverPillButtonPending(btn) {
+  return HOVER_PILL_PENDING_CLASSES.some(cls => btn.classList.contains(cls));
+}
+
+function cancelHoverPillPending() {
+  hoverPillButtons.forEach(btn => {
+    if (btn.ytHiderCancelPending) btn.ytHiderCancelPending();
+  });
 }
 
 function isContainerAlreadyFiltered(container) {
@@ -265,16 +285,16 @@ function clearBlacklistHoverButton() {
   hoverPillEl = null;
   hoverPillContainer = null;
   hoverPillAnchor = null;
-  hoverPillBtn = null;
+  hoverPillButtons = [];
 }
 
 function removeBlacklistHoverButton() {
-  if (hoverPillBtn && hoverPillBtn.ytHiderCancelPending) hoverPillBtn.ytHiderCancelPending();
+  cancelHoverPillPending();
   hoverPillPending = false;
   clearBlacklistHoverButton();
 }
 
-function showBlacklistHoverButton(container, channel, quick) {
+function showBlacklistHoverButton(container, actions, quick) {
   if (hoverPillPending) return;
   if (hoverPillContainer === container && hoverPillEl) return;
 
@@ -289,24 +309,45 @@ function showBlacklistHoverButton(container, channel, quick) {
   wrapper.className = 'yt-hider-blacklist-hover-wrapper';
   if (quick) wrapper.classList.add('yt-hider-blacklist-pill-quick');
 
-  const btn = createBlacklistButton(channel, () => {
-    hoverPillPending = false;
-    clearBlacklistHoverButton();
-  });
-  if (!isContainerAlreadyFiltered(container)) {
-    btn.classList.add('yt-hider-blacklist-btn--solid');
-  }
-  btn.addEventListener('click', () => {
-    hoverPillPending = btn.classList.contains('yt-hider-blacklist-btn-pending');
-  });
+  const buttons = [];
+  const onCommit = committed => () => {
+    if (hoverPillEl !== wrapper) return;
+    hoverPillPending = buttons.some(btn => btn !== committed.btn && isHoverPillButtonPending(btn));
+    if (!hoverPillPending) clearBlacklistHoverButton();
+  };
 
-  wrapper.appendChild(btn);
+  if (actions.videoId) {
+    const committed = {};
+    committed.btn = createMarkWatchedButton(
+      actions.videoId,
+      () => ({
+        title: extractTitleFromContainer(container),
+        channel: resolveChannelForElement(container),
+      }),
+      onCommit(committed),
+    );
+    buttons.push(committed.btn);
+  }
+  if (actions.channel) {
+    const committed = {};
+    committed.btn = createBlacklistButton(actions.channel, onCommit(committed));
+    buttons.push(committed.btn);
+  }
+
+  const solid = !isContainerAlreadyFiltered(container);
+  buttons.forEach(btn => {
+    if (solid) btn.classList.add('yt-hider-blacklist-btn--solid');
+    btn.addEventListener('click', () => {
+      hoverPillPending = buttons.some(isHoverPillButtonPending);
+    });
+    wrapper.appendChild(btn);
+  });
   document.body.appendChild(wrapper);
 
   hoverPillEl = wrapper;
   hoverPillContainer = container;
   hoverPillAnchor = anchor;
-  hoverPillBtn = btn;
+  hoverPillButtons = buttons;
   positionHoverPill();
   startHoverPillWatchdog();
 }
@@ -314,14 +355,15 @@ function showBlacklistHoverButton(container, channel, quick) {
 function tryShowBlacklistHoverPill(target, quick) {
   if (hoverPillPending) {
     if (hoverPillContainer && !hoverPillContainer.isConnected) {
-      if (hoverPillBtn && hoverPillBtn.ytHiderCancelPending) hoverPillBtn.ytHiderCancelPending();
+      cancelHoverPillPending();
       hoverPillPending = false;
       clearBlacklistHoverButton();
     } else {
       return;
     }
   }
-  if (!isBlacklistHoverEligible(window.location.pathname)) return;
+  const pathname = window.location.pathname;
+  if (!isHoverPillEligible(pathname)) return;
   if (!target || !target.closest) return;
   if (hoverPillEl && hoverPillContainer && hoverPillContainer.contains(target)) {
     return;
@@ -331,10 +373,18 @@ function tryShowBlacklistHoverPill(target, quick) {
   if (!container) return;
   if (hoverPillContainer === container && hoverPillEl) return;
 
-  const ch = resolveChannelForElement(container);
-  if (!channelIsPresent(ch) || isChannelBlacklisted(ch)) return;
+  const actions = { channel: null, videoId: null };
+  if (isBlacklistHoverEligible(pathname)) {
+    const ch = resolveChannelForElement(container);
+    if (channelIsPresent(ch) && !isChannelBlacklisted(ch)) actions.channel = ch;
+  }
+  if (isMarkWatchedHoverEligible(pathname)) {
+    const videoId = extractVideoIdFromContainer(container);
+    if (videoId && !isVideoMarkedWatched(videoId)) actions.videoId = videoId;
+  }
+  if (!actions.channel && !actions.videoId) return;
 
-  showBlacklistHoverButton(container, ch, quick);
+  showBlacklistHoverButton(container, actions, quick);
 }
 
 function handleBlacklistHoverOver(e) {

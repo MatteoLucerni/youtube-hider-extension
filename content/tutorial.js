@@ -64,14 +64,15 @@ function getTutorialCSS() {
     }
     .yh-spot-title { font-size: 15px; font-weight: 700; margin-bottom: 6px; color: #f0f0f0; }
     .yh-spot-desc { font-size: 12.5px; line-height: 1.6; color: #aaa; margin-bottom: 16px; }
-    .yh-spot-footer { display: flex; align-items: center; justify-content: space-between; }
-    .yh-spot-dots { display: flex; gap: 6px; }
+    .yh-spot-footer { display: flex; align-items: center; justify-content: space-between; gap: 16px; }
+    .yh-spot-dots { display: flex; flex-wrap: wrap; gap: 4px; min-width: 0; }
     .yh-spot-dot {
-      width: 7px; height: 7px; border-radius: 50%; background: #444;
+      flex: 0 0 auto;
+      width: 6px; height: 6px; border-radius: 50%; background: #444;
       transition: background 0.2s ease;
     }
     .yh-spot-dot.active { background: #10b981; }
-    .yh-spot-btns { display: flex; gap: 8px; }
+    .yh-spot-btns { display: flex; flex: 0 0 auto; gap: 8px; }
     .yh-spot-btn {
       padding: 7px 16px; border-radius: 6px; font-size: 12px; font-weight: 600;
       cursor: pointer; border: none; transition: all 0.2s ease;
@@ -226,7 +227,7 @@ function startSpotlightTour() {
     },
     {
       title: 'Hide Watched Videos',
-      desc: "Hide videos based on how much of them you've already watched. Drag the slider all the way left to turn it off, and use the per-page toggles in Advanced mode for finer control.",
+      desc: "Hide videos based on how much of them you've already watched. Drag the slider all the way left to turn it off, and use the per-page toggles in Advanced mode for finer control. YouTube missed one? Hover the video and click Watched to hide it too, and use Manage to bring it back.",
       getRect: () => getHeaderDropdownRect(),
       section: 'hide-watched',
     },
@@ -274,7 +275,7 @@ function startSpotlightTour() {
     },
     {
       title: 'Extra Settings',
-      desc: 'Turn on "Advanced Controls" to switch to the Advanced interface, and turn on "Hide on-page controls" anytime to remove this button (and the inline Whitelist and Blacklist buttons) while filtering keeps working in the background.',
+      desc: 'Turn on "Advanced Controls" to switch to the Advanced interface, and turn on "Hide on-page controls" anytime to remove this button (and the Whitelist, Blacklist and Watched buttons on the page) while filtering keeps working in the background.',
       getRect: () => getHeaderDropdownRect(),
       section: 'extra-settings',
     },
