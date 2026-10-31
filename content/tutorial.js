@@ -64,14 +64,15 @@ function getTutorialCSS() {
     }
     .yh-spot-title { font-size: 15px; font-weight: 700; margin-bottom: 6px; color: #f0f0f0; }
     .yh-spot-desc { font-size: 12.5px; line-height: 1.6; color: #aaa; margin-bottom: 16px; }
-    .yh-spot-footer { display: flex; align-items: center; justify-content: space-between; }
-    .yh-spot-dots { display: flex; gap: 6px; }
+    .yh-spot-footer { display: flex; align-items: center; justify-content: space-between; gap: 16px; }
+    .yh-spot-dots { display: flex; flex-wrap: wrap; gap: 4px; min-width: 0; }
     .yh-spot-dot {
-      width: 7px; height: 7px; border-radius: 50%; background: #444;
+      flex: 0 0 auto;
+      width: 6px; height: 6px; border-radius: 50%; background: #444;
       transition: background 0.2s ease;
     }
     .yh-spot-dot.active { background: #10b981; }
-    .yh-spot-btns { display: flex; gap: 8px; }
+    .yh-spot-btns { display: flex; flex: 0 0 auto; gap: 8px; }
     .yh-spot-btn {
       padding: 7px 16px; border-radius: 6px; font-size: 12px; font-weight: 600;
       cursor: pointer; border: none; transition: all 0.2s ease;
