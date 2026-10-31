@@ -42,6 +42,7 @@ const prefs = {
   titleBlacklist: [],
   titleBlacklistEnabled: true,
   hideInterfaceElements: false,
+  markedWatched: [],
 };
 
 const FILTER_REAPPLY_KEYS = new Set([
@@ -78,6 +79,7 @@ const FILTER_REAPPLY_KEYS = new Set([
   'titleWhitelistEnabled',
   'titleBlacklist',
   'titleBlacklistEnabled',
+  'markedWatched',
 ]);
 
 const WHITELIST_REAPPLY_KEYS = new Set([
@@ -185,11 +187,83 @@ function writeChannelListUpdates(updates) {
   if (Object.keys(sync).length) safeStorageSet('sync', sync);
 }
 
+let markedWatchedIdSource = null;
+let markedWatchedIds = new Set();
+
+function isVideoMarkedWatched(videoId) {
+  if (!videoId) return false;
+  if (markedWatchedIdSource !== prefs.markedWatched) {
+    markedWatchedIdSource = prefs.markedWatched;
+    markedWatchedIds = new Set(
+      (Array.isArray(prefs.markedWatched) ? prefs.markedWatched : [])
+        .filter(entry => Array.isArray(entry))
+        .map(entry => entry[0]),
+    );
+  }
+  return markedWatchedIds.has(videoId);
+}
+
+function hasMarkedWatchedVideos() {
+  return Array.isArray(prefs.markedWatched) && prefs.markedWatched.length > 0;
+}
+
+function updateMarkedWatchedMeta(mutate) {
+  try {
+    chrome.storage.local.get(MARKED_WATCHED_META_KEY, result => {
+      if (chrome.runtime.lastError) return;
+      const meta = pruneMarkedWatchedMeta(result && result[MARKED_WATCHED_META_KEY], prefs.markedWatched);
+      if (!mutate(meta)) return;
+      safeStorageSet('local', { [MARKED_WATCHED_META_KEY]: meta });
+    });
+  } catch (e) {
+    logger.warn('Could not update marked watched metadata (context invalidated?)', e);
+  }
+}
+
+function setVideoMarkedWatched(videoId, shouldMark, details) {
+  const next = computeMarkedWatchedUpdate(prefs.markedWatched, videoId, shouldMark);
+  if (!next) return false;
+  prefs.markedWatched = next;
+  safeStorageSet('local', { [MARKED_WATCHED_KEY]: next });
+  updateMarkedWatchedMeta(meta => {
+    if (shouldMark && details) {
+      meta[videoId] = normalizeMarkedWatchedMetaEntry(details.title, details.channel);
+    }
+    return true;
+  });
+  return true;
+}
+
+let pendingMarkedWatchedMeta = new Map();
+const markedWatchedMetaChecked = new Set();
+
+const flushMarkedWatchedMetaBackfill = debounce(() => {
+  const pending = pendingMarkedWatchedMeta;
+  pendingMarkedWatchedMeta = new Map();
+  updateMarkedWatchedMeta(meta => {
+    let changed = false;
+    pending.forEach((details, videoId) => {
+      if (meta[videoId] && meta[videoId][0]) return;
+      if (!isVideoMarkedWatched(videoId) || !details.title) return;
+      meta[videoId] = normalizeMarkedWatchedMetaEntry(details.title, details.channel);
+      changed = true;
+    });
+    return changed;
+  });
+}, 2000);
+
+function queueMarkedWatchedMetaBackfill(videoId, details) {
+  if (markedWatchedMetaChecked.has(videoId)) return;
+  markedWatchedMetaChecked.add(videoId);
+  pendingMarkedWatchedMeta.set(videoId, details);
+  flushMarkedWatchedMetaBackfill();
+}
+
 function initPrefs() {
   return new Promise(resolve => {
     try {
       chrome.storage.sync.get(Object.keys(prefs), syncResult => {
-        chrome.storage.local.get(CHANNEL_LIST_STORAGE_KEYS, localResult => {
+        chrome.storage.local.get(LOCAL_PREF_KEYS, localResult => {
           Object.assign(prefs, syncResult, chrome.runtime.lastError ? {} : localResult);
           logger.log('Prefs loaded', prefs);
           resolve();

@@ -226,7 +226,7 @@ function startSpotlightTour() {
     },
     {
       title: 'Hide Watched Videos',
-      desc: "Hide videos based on how much of them you've already watched. Drag the slider all the way left to turn it off, and use the per-page toggles in Advanced mode for finer control.",
+      desc: "Hide videos based on how much of them you've already watched. Drag the slider all the way left to turn it off, and use the per-page toggles in Advanced mode for finer control. YouTube missed one? Hover the video and click Watched to hide it too, and use Manage to bring it back.",
       getRect: () => getHeaderDropdownRect(),
       section: 'hide-watched',
     },
@@ -274,7 +274,7 @@ function startSpotlightTour() {
     },
     {
       title: 'Extra Settings',
-      desc: 'Turn on "Advanced Controls" to switch to the Advanced interface, and turn on "Hide on-page controls" anytime to remove this button (and the inline Whitelist and Blacklist buttons) while filtering keeps working in the background.',
+      desc: 'Turn on "Advanced Controls" to switch to the Advanced interface, and turn on "Hide on-page controls" anytime to remove this button (and the Whitelist, Blacklist and Watched buttons on the page) while filtering keeps working in the background.',
       getRect: () => getHeaderDropdownRect(),
       section: 'extra-settings',
     },

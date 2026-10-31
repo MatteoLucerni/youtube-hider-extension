@@ -65,15 +65,21 @@ function isChannelListChunkKey(key) {
   return typeof key === 'string' && key.startsWith(CHANNEL_LIST_CHUNK_PREFIX);
 }
 
-function buildChannelListSyncItems(encoded, gen, parent = null, now = Date.now()) {
+const CHANNEL_LIST_SYNC_LAYOUT = {
+  indexKey: CHANNEL_LIST_INDEX_KEY,
+  version: CHANNEL_LIST_FORMAT_VERSION,
+  chunkKey: getChannelListChunkKey,
+};
+
+function buildChunkedSyncItems(encoded, gen, parent, now, layout) {
   const items = {};
   let count = 0;
   for (let offset = 0; offset < encoded.length || count === 0; offset += CHANNEL_LIST_CHUNK_LENGTH) {
-    items[getChannelListChunkKey(gen, count)] = encoded.slice(offset, offset + CHANNEL_LIST_CHUNK_LENGTH);
+    items[layout.chunkKey(gen, count)] = encoded.slice(offset, offset + CHANNEL_LIST_CHUNK_LENGTH);
     count++;
   }
-  items[CHANNEL_LIST_INDEX_KEY] = {
-    v: CHANNEL_LIST_FORMAT_VERSION,
+  items[layout.indexKey] = {
+    v: layout.version,
     gen,
     p: parent || null,
     n: count,
@@ -83,20 +89,28 @@ function buildChannelListSyncItems(encoded, gen, parent = null, now = Date.now()
   return items;
 }
 
-function readChannelListSyncPayload(items) {
-  const index = items && items[CHANNEL_LIST_INDEX_KEY];
+function readChunkedSyncPayload(items, layout) {
+  const index = items && items[layout.indexKey];
   if (!index || typeof index.gen !== 'string') return { status: 'none' };
-  if (index.v !== CHANNEL_LIST_FORMAT_VERSION) return { status: 'unsupported', gen: index.gen };
+  if (index.v !== layout.version) return { status: 'unsupported', gen: index.gen };
   const count = Number(index.n);
   if (!Number.isInteger(count) || count < 1) return { status: 'invalid', gen: index.gen };
   let encoded = '';
   for (let i = 0; i < count; i++) {
-    const chunk = items[getChannelListChunkKey(index.gen, i)];
+    const chunk = items[layout.chunkKey(index.gen, i)];
     if (typeof chunk !== 'string') return { status: 'incomplete', gen: index.gen };
     encoded += chunk;
   }
   if (encoded.length !== index.len) return { status: 'incomplete', gen: index.gen };
   return { status: 'complete', gen: index.gen, parent: index.p || null, encoded };
+}
+
+function buildChannelListSyncItems(encoded, gen, parent = null, now = Date.now()) {
+  return buildChunkedSyncItems(encoded, gen, parent, now, CHANNEL_LIST_SYNC_LAYOUT);
+}
+
+function readChannelListSyncPayload(items) {
+  return readChunkedSyncPayload(items, CHANNEL_LIST_SYNC_LAYOUT);
 }
 
 function resolveChannelListMergeBase(remoteParent, localGen, localBase) {
@@ -124,12 +138,14 @@ function isChannelListSyncKey(key) {
   return key === CHANNEL_LIST_INDEX_KEY || isChannelListChunkKey(key) || CHANNEL_LIST_LOCAL_KEYS.includes(key);
 }
 
-function planChannelListSyncWrite(currentItems, newItems) {
+function planSyncWrite(currentItems, newItems, isOwnKey, isEvictableKey = () => false) {
   const others = {};
   const stale = {};
+  const evictable = {};
   Object.entries(currentItems || {}).forEach(([key, value]) => {
     if (key in newItems) return;
-    if (isChannelListSyncKey(key)) stale[key] = value;
+    if (isOwnKey(key)) stale[key] = value;
+    else if (isEvictableKey(key)) evictable[key] = value;
     else others[key] = value;
   });
   const oversizedItem = Object.entries(newItems).some(
@@ -138,14 +154,23 @@ function planChannelListSyncWrite(currentItems, newItems) {
   const otherBytes = getSyncItemsBytes(others);
   const newBytes = getSyncItemsBytes(newItems);
   const staleBytes = getSyncItemsBytes(stale);
+  const evictableBytes = getSyncItemsBytes(evictable);
   const limit = SYNC_QUOTA_BYTES - SYNC_RESERVED_BYTES;
+  const fits = !oversizedItem && otherBytes + newBytes <= limit;
+  const keepsEvictable = fits && otherBytes + evictableBytes + newBytes <= limit;
+  const keptBytes = otherBytes + (keepsEvictable ? evictableBytes : 0);
   return {
-    fits: !oversizedItem && otherBytes + newBytes <= limit,
-    removeFirst: otherBytes + newBytes + staleBytes > limit,
+    fits,
+    removeFirst: keptBytes + newBytes + staleBytes > limit,
     staleKeys: Object.keys(stale),
+    evictKeys: fits && !keepsEvictable ? Object.keys(evictable) : [],
     newBytes,
     otherBytes,
   };
+}
+
+function planChannelListSyncWrite(currentItems, newItems, isEvictableKey) {
+  return planSyncWrite(currentItems, newItems, isChannelListSyncKey, isEvictableKey);
 }
 
 function mergeChannelLists(local, base, remote) {
@@ -189,6 +214,14 @@ if (typeof module !== 'undefined' && module.exports) {
     CHANNEL_LIST_CHUNK_LENGTH,
     SYNC_QUOTA_BYTES,
     SYNC_QUOTA_BYTES_PER_ITEM,
+    SYNC_RESERVED_BYTES,
+    bytesToBase64,
+    base64ToBytes,
+    pipeBytes,
+    getSyncItemBytes,
+    planSyncWrite,
+    buildChunkedSyncItems,
+    readChunkedSyncPayload,
     normalizeChannelLists,
     channelListsEqual,
     encodeChannelLists,

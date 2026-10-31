@@ -1,0 +1,98 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>Marked as Watched | YouTube Hider</title>
+    <link rel="stylesheet" href="base.css" />
+    <link rel="stylesheet" href="filters.css" />
+    <link rel="stylesheet" href="watched.css" />
+  </head>
+
+  <body class="watched-page">
+    <header class="watched-header">
+      <h1 class="header-title mb-0">
+        <span class="title-youtube">Youtube</span>
+        <span class="title-hider">Hider</span>
+      </h1>
+    </header>
+
+    <main class="watched-main">
+      <section class="watched-intro">
+        <h2 class="watched-title">Marked as watched</h2>
+        <p class="watched-description">
+          Videos you marked with the Watched button on YouTube. They are hidden
+          like watched videos, following the Hide Watched Videos settings.
+          Remove one to bring it back. Up to 3,000 videos are kept: past that,
+          the oldest mark is dropped.
+        </p>
+        <p class="watched-count" id="watched-count" aria-live="polite"></p>
+      </section>
+
+      <div class="channel-sync-warning" id="watched-sync-warning" hidden>
+        <svg
+          xmlns="http://www.w3.org/2000/svg"
+          width="12"
+          height="12"
+          viewBox="0 0 24 24"
+          fill="none"
+          stroke="currentColor"
+          stroke-width="2"
+          stroke-linecap="round"
+          stroke-linejoin="round"
+        >
+          <path
+            d="M10.29 3.86L1.82 18a2 2 0 0 0 1.71 3h16.94a2 2 0 0 0 1.71-3L13.71 3.86a2 2 0 0 0-3.42 0z"
+          ></path>
+          <line x1="12" y1="9" x2="12" y2="13"></line>
+          <line x1="12" y1="17" x2="12.01" y2="17"></line>
+        </svg>
+        <span>Sync paused: the channel lists need the space shared across
+          devices. Your marked videos are saved in this browser, and syncing
+          resumes once they fit again</span>
+      </div>
+
+      <div class="watched-toolbar">
+        <input
+          type="search"
+          id="watched-search"
+          class="watched-search"
+          placeholder="Search by title, channel or video ID"
+          aria-label="Search marked videos"
+          autocomplete="off"
+        />
+        <div class="watched-toolbar-actions">
+          <button type="button" id="watched-export" class="watched-btn">Export</button>
+          <button type="button" id="watched-import" class="watched-btn">Import</button>
+          <input type="file" id="watched-import-file" accept="application/json,.json" hidden />
+          <button type="button" id="watched-clear" class="watched-btn watched-btn-danger">
+            Clear all
+          </button>
+        </div>
+      </div>
+
+      <p class="watched-status" id="watched-status" role="status" hidden></p>
+
+      <div class="watched-selection-bar" id="watched-selection-bar" hidden>
+        <label class="watched-select-all">
+          <input type="checkbox" id="watched-select-all" />
+          <span>Select all shown</span>
+        </label>
+        <button type="button" id="watched-remove-selected" class="watched-btn watched-btn-danger" disabled>
+          Remove selected
+        </button>
+      </div>
+
+      <ul class="watched-list" id="watched-list"></ul>
+
+      <p class="watched-empty" id="watched-empty" hidden></p>
+
+      <button type="button" id="watched-load-more" class="watched-btn watched-load-more" hidden>
+        Load more
+      </button>
+    </main>
+
+    <script src="../content/whitelist-utils.js"></script>
+    <script src="watched.js"></script>
+  </body>
+</html>

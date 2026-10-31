@@ -80,7 +80,8 @@ function injectDimStyles() {
       padding: 0 6px;
     }
     .yt-hider-whitelist-btn,
-    .yt-hider-blacklist-btn {
+    .yt-hider-blacklist-btn,
+    .yt-hider-watched-btn {
       display: inline-flex;
       align-items: center;
       gap: 5px;
@@ -107,24 +108,29 @@ function injectDimStyles() {
       min-width: 0;
     }
     .yt-hider-whitelist-btn svg,
-    .yt-hider-blacklist-btn svg {
+    .yt-hider-blacklist-btn svg,
+    .yt-hider-watched-btn svg {
       flex-shrink: 0;
     }
     .yt-hider-whitelist-btn:hover,
-    .yt-hider-blacklist-btn:hover {
+    .yt-hider-blacklist-btn:hover,
+    .yt-hider-watched-btn:hover {
       background: rgba(255, 255, 255, 0.2);
       color: rgba(255, 255, 255, 0.95);
     }
     .yt-hider-whitelist-btn:focus-visible,
-    .yt-hider-blacklist-btn:focus-visible {
+    .yt-hider-blacklist-btn:focus-visible,
+    .yt-hider-watched-btn:focus-visible {
       outline: 2px solid #8ab4f8;
       outline-offset: 2px;
     }
-    .yt-hider-blacklist-btn.yt-hider-blacklist-btn--solid {
+    .yt-hider-blacklist-btn.yt-hider-blacklist-btn--solid,
+    .yt-hider-watched-btn.yt-hider-blacklist-btn--solid {
       background: rgba(0, 0, 0, 0.8);
       color: #fff;
     }
-    .yt-hider-blacklist-btn.yt-hider-blacklist-btn--solid:hover {
+    .yt-hider-blacklist-btn.yt-hider-blacklist-btn--solid:hover,
+    .yt-hider-watched-btn.yt-hider-blacklist-btn--solid:hover {
       background: rgba(0, 0, 0, 0.92);
     }
     .yt-hider-whitelist-btn.yt-hider-whitelist-btn-pending {
@@ -140,6 +146,13 @@ function injectDimStyles() {
     }
     .yt-hider-blacklist-btn.yt-hider-blacklist-btn-pending:hover {
       background: #732121;
+    }
+    .yt-hider-watched-btn.yt-hider-watched-btn-pending {
+      background: #1b3a63;
+      color: #bcd6ff;
+    }
+    .yt-hider-watched-btn.yt-hider-watched-btn-pending:hover {
+      background: #234a7d;
     }
     .yt-hider-undo-countdown {
       flex-shrink: 0;
@@ -180,6 +193,7 @@ const ON_PAGE_CONTROLS_TIP =
 
 const BLACKLIST_REASON = 'Blacklisted channel';
 const TITLE_BLACKLIST_REASON = 'Blacklisted word';
+const MARKED_WATCHED_REASON = 'Marked as watched';
 
 function buildWhitelistTooltipText(channel, { isWhitelisted = false } = {}) {
   const { channelWord, possessive } = pluralizeChannelWord(channel);
@@ -373,6 +387,74 @@ function createBlacklistButton(channel, onCommit) {
   return btn;
 }
 
+function createMarkWatchedButton(videoId, getDetails, onCommit) {
+  const btn = document.createElement('button');
+  btn.className = 'yt-hider-watched-btn';
+  btn.title = 'Mark as watched';
+  btn.setAttribute('aria-label', 'Mark as watched');
+
+  let cancelCountdown = null;
+
+  const renderIdle = () => {
+    btn.classList.remove('yt-hider-watched-btn-pending');
+    btn.innerHTML = `<span class="yt-hider-whitelist-label">Watched</span>`;
+  };
+  renderIdle();
+
+  const cancelPending = () => {
+    if (cancelCountdown) {
+      cancelCountdown();
+      cancelCountdown = null;
+    }
+  };
+
+  btn.addEventListener('click', e => {
+    e.preventDefault();
+    e.stopPropagation();
+
+    if (btn.classList.contains('yt-hider-watched-btn-pending')) {
+      cancelPending();
+      renderIdle();
+      return;
+    }
+
+    if (isVideoMarkedWatched(videoId)) return;
+
+    btn.innerHTML = `<span class="yt-hider-whitelist-label">Undo</span>${buildUndoCountdownMarkup(UNDO_WINDOW_SECONDS)}`;
+    btn.classList.add('yt-hider-watched-btn-pending');
+
+    cancelCountdown = startUndoCountdown(btn, () => {
+      cancelCountdown = null;
+      setVideoMarkedWatched(videoId, true, getDetails ? getDetails() : null);
+      if (onCommit) onCommit();
+    });
+  });
+
+  btn.ytHiderCancelPending = () => {
+    if (btn.classList.contains('yt-hider-watched-btn-pending')) {
+      cancelPending();
+      renderIdle();
+    }
+  };
+
+  return btn;
+}
+
+function createUnmarkWatchedButton(videoId) {
+  const btn = document.createElement('button');
+  btn.className = 'yt-hider-watched-btn';
+  btn.title = 'Remove the watched mark from this video';
+  btn.innerHTML = `<span class="yt-hider-whitelist-label">Unmark</span>`;
+
+  btn.addEventListener('click', e => {
+    e.preventDefault();
+    e.stopPropagation();
+    setVideoMarkedWatched(videoId, false);
+  });
+
+  return btn;
+}
+
 function createUnblacklistButton(channel) {
   const btn = document.createElement('button');
   btn.className = 'yt-hider-blacklist-btn';
@@ -397,7 +479,7 @@ function getOrCreateBadgeButtonRow(badge) {
   return row;
 }
 
-function createDimBadge(reason, channel) {
+function createDimBadge(reason, channel, element) {
   const badge = document.createElement('div');
   badge.className = 'yt-hider-badge';
   if (reason) {
@@ -416,6 +498,15 @@ function createDimBadge(reason, channel) {
     badge.dataset.ytHiderBadgeKind = 'blacklist';
     if (!prefs.hideInterfaceElements) {
       getOrCreateBadgeButtonRow(badge).appendChild(createUnblacklistButton(channel));
+    }
+    return badge;
+  }
+
+  if (reason === MARKED_WATCHED_REASON) {
+    badge.dataset.ytHiderBadgeKind = 'marked';
+    const videoId = extractVideoIdFromContainer(element);
+    if (videoId && !prefs.hideInterfaceElements) {
+      getOrCreateBadgeButtonRow(badge).appendChild(createUnmarkWatchedButton(videoId));
     }
     return badge;
   }
@@ -475,11 +566,21 @@ function isElementBlacklisted(element, ch) {
   return isChannelBlacklisted(ch) || getElementTitleBlacklistMatch(element) !== null;
 }
 
+function isMarkedWatchedActive(pathname) {
+  return prefs.hideThreshold > 0 && shouldHideWatched(pathname);
+}
+
+function isElementMarkedWatched(element) {
+  if (!hasMarkedWatchedVideos()) return false;
+  if (!isMarkedWatchedActive(window.location.pathname)) return false;
+  return isVideoMarkedWatched(extractVideoIdFromContainer(element));
+}
+
 function applyFilter(element, reason) {
   if (!element) return;
   const ch = resolveChannelForElement(element);
-  const blacklisted = isElementBlacklisted(element, ch);
-  if (!blacklisted && (isChannelExempt(ch) || isTitleExempt(element))) {
+  const forced = isElementBlacklisted(element, ch) || isElementMarkedWatched(element);
+  if (!forced && (isChannelExempt(ch) || isTitleExempt(element))) {
     if (!element.dataset.ytHiderPendingAction) {
       clearDimmedElement(element);
     }
@@ -501,10 +602,10 @@ function applyFilter(element, reason) {
       if (!existingBadge) {
         const target = badgeTarget();
         target.dataset.ytHiderBadgeTarget = '1';
-        target.appendChild(createDimBadge(reason, ch));
+        target.appendChild(createDimBadge(reason, ch, element));
         return;
       }
-      if (existingBadge.dataset.ytHiderBadgeKind === 'blacklist') return;
+      if (existingBadge.dataset.ytHiderBadgeKind) return;
       if (
         channelIsPresent(ch) &&
         !prefs.hideInterfaceElements &&
@@ -517,7 +618,7 @@ function applyFilter(element, reason) {
     element.dataset.ytHiderDimmed = '1';
     const target = badgeTarget();
     target.dataset.ytHiderBadgeTarget = '1';
-    target.appendChild(createDimBadge(reason, ch));
+    target.appendChild(createDimBadge(reason, ch, element));
   } else {
     if (element.dataset.ytHiderHidden || element.dataset.ytHiderDimmed) return;
     element.dataset.ytHiderHidden = '1';
@@ -553,10 +654,32 @@ function forceHide(element) {
   element.style.display = 'none';
 }
 
+function hideMarkedWatched() {
+  if (!hasMarkedWatchedVideos()) return;
+  const selectors = getVideoContainerSelectors();
+  const seen = new Set();
+
+  document.querySelectorAll(selectors).forEach(node => {
+    const container = findOutermostMatch(node, selectors);
+    if (!container || seen.has(container)) return;
+    seen.add(container);
+
+    const videoId = extractVideoIdFromContainer(container);
+    if (!isVideoMarkedWatched(videoId)) return;
+    applyFilter(container, MARKED_WATCHED_REASON);
+    queueMarkedWatchedMetaBackfill(videoId, {
+      title: extractTitleFromContainer(container),
+      channel: resolveChannelForElement(container),
+    });
+  });
+}
+
 function hideWatched(pathname) {
   const { hideThreshold } = prefs;
 
   if (hideThreshold === 0) return;
+
+  hideMarkedWatched();
 
   document
     .querySelectorAll(
