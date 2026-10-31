@@ -397,6 +397,77 @@
                   </label>
                 </div>
               </div>
+
+              <div class="marked-watched-row">
+                <div class="marked-watched-info">
+                  <div class="label-content">
+                    <span class="control-label mb-0">Marked as watched</span>
+                    <div class="tooltip-container">
+                      <svg
+                        xmlns="http://www.w3.org/2000/svg"
+                        width="12"
+                        height="12"
+                        viewBox="0 0 24 24"
+                        fill="none"
+                        stroke="currentColor"
+                        stroke-width="2"
+                        stroke-linecap="round"
+                        stroke-linejoin="round"
+                        class="info-icon"
+                      >
+                        <circle cx="12" cy="12" r="10"></circle>
+                        <path d="M9.09 9a3 3 0 0 1 5.83 1c0 2-3 3-3 3"></path>
+                        <line x1="12" y1="17" x2="12.01" y2="17"></line>
+                      </svg>
+                      <span class="tooltip-text"
+                        >Hover a video and click Watched to treat it as already
+                        watched, even when YouTube shows no progress bar. Marked
+                        videos follow this card's slider and page toggles, and
+                        stay hidden even from whitelisted channels. They sync
+                        automatically to every device signed into the same
+                        Chrome profile, no export needed. Up to 3,000 videos are
+                        kept: past that, the oldest mark is dropped</span
+                      >
+                    </div>
+                  </div>
+                  <span class="marked-watched-count" id="marked-watched-count"
+                    >No videos marked yet</span
+                  >
+                </div>
+                <button
+                  type="button"
+                  id="marked-watched-manage-btn"
+                  class="add-channel-btn marked-watched-manage-btn"
+                >
+                  Manage
+                </button>
+              </div>
+              <div
+                class="channel-sync-warning"
+                id="marked-watched-sync-warning"
+                hidden
+              >
+                <svg
+                  xmlns="http://www.w3.org/2000/svg"
+                  width="12"
+                  height="12"
+                  viewBox="0 0 24 24"
+                  fill="none"
+                  stroke="currentColor"
+                  stroke-width="2"
+                  stroke-linecap="round"
+                  stroke-linejoin="round"
+                >
+                  <path
+                    d="M10.29 3.86L1.82 18a2 2 0 0 0 1.71 3h16.94a2 2 0 0 0 1.71-3L13.71 3.86a2 2 0 0 0-3.42 0z"
+                  ></path>
+                  <line x1="12" y1="9" x2="12" y2="13"></line>
+                  <line x1="12" y1="17" x2="12.01" y2="17"></line>
+                </svg>
+                <span>Sync paused: the channel lists need the space shared
+                  across devices. Your marked videos are saved in this browser,
+                  and syncing resumes once they fit again</span>
+              </div>
             </div>
           </div>
 

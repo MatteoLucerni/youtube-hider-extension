@@ -1,4 +1,6 @@
 importScripts('channel-list-sync.js');
+importScripts('content/whitelist-utils.js');
+importScripts('marked-watched-sync.js');
 
 const DEV_MODE = false;
 const logger = {
@@ -364,7 +366,7 @@ async function pushChannelLists() {
 
   const gen = createChannelListGeneration();
   const newItems = buildChannelListSyncItems(await encodeChannelLists(lists), gen, state.gen || null);
-  const plan = planChannelListSyncWrite(current, newItems);
+  const plan = planChannelListSyncWrite(current, newItems, isMarkedWatchedSyncKey);
 
   if (!plan.fits) {
     await setChannelListSyncStatus(state, 'paused');
@@ -373,6 +375,11 @@ async function pushChannelLists() {
   }
 
   try {
+    if (plan.evictKeys.length) {
+      await chrome.storage.sync.remove(plan.evictKeys);
+      await pauseMarkedWatchedSync();
+      logger.log('Marked watched videos removed from sync to make room for the channel lists');
+    }
     if (plan.removeFirst && plan.staleKeys.length) {
       await chrome.storage.sync.remove(plan.staleKeys);
     }
@@ -394,13 +401,156 @@ async function pushChannelLists() {
     [CHANNEL_LIST_STATE_KEY]: { status: 'ok', gen },
   });
   logger.log('Channel lists synced:', plan.newBytes, 'bytes, generation', gen);
+  scheduleMarkedWatchedPush();
 }
 
 function reconcileChannelLists() {
   return enqueueChannelListSync(async () => {
     await pullChannelLists();
     await pushChannelLists();
+    await pullMarkedWatched();
+    await pushMarkedWatched();
   });
+}
+
+const MARKED_WATCHED_SYNC_DELAY_MS = 5000;
+
+let markedWatchedPushTimer = null;
+let markedWatchedPullTimer = null;
+
+function scheduleMarkedWatchedPush(delay = MARKED_WATCHED_SYNC_DELAY_MS) {
+  clearTimeout(markedWatchedPushTimer);
+  markedWatchedPushTimer = setTimeout(() => {
+    enqueueChannelListSync(() => pushMarkedWatched());
+  }, delay);
+}
+
+function scheduleMarkedWatchedPull() {
+  clearTimeout(markedWatchedPullTimer);
+  markedWatchedPullTimer = setTimeout(() => {
+    enqueueChannelListSync(async () => {
+      await pullMarkedWatched();
+      await pushMarkedWatched();
+    });
+  }, CHANNEL_LIST_SYNC_DELAY_MS);
+}
+
+async function readLocalMarkedWatchedState() {
+  const local = await chrome.storage.local.get([
+    MARKED_WATCHED_KEY,
+    MARKED_WATCHED_SYNC_BASE_KEY,
+    MARKED_WATCHED_SYNC_STATE_KEY,
+  ]);
+  return {
+    list: normalizeMarkedWatched(local[MARKED_WATCHED_KEY]),
+    base: Array.isArray(local[MARKED_WATCHED_SYNC_BASE_KEY])
+      ? normalizeMarkedWatched(local[MARKED_WATCHED_SYNC_BASE_KEY])
+      : null,
+    state: local[MARKED_WATCHED_SYNC_STATE_KEY] || {},
+  };
+}
+
+async function setMarkedWatchedSyncStatus(state, status) {
+  if (state.status === status) return;
+  await chrome.storage.local.set({ [MARKED_WATCHED_SYNC_STATE_KEY]: { ...state, status } });
+}
+
+async function pauseMarkedWatchedSync() {
+  const { state } = await readLocalMarkedWatchedState();
+  await setMarkedWatchedSyncStatus(state, 'paused');
+}
+
+async function pullMarkedWatched() {
+  const items = await chrome.storage.sync.get(null);
+  const { list, base, state } = await readLocalMarkedWatchedState();
+  let nextList = list;
+  const nextState = { ...state };
+  const updates = {};
+
+  const payload = readMarkedWatchedSyncPayload(items);
+  if (payload.status === 'complete' && payload.gen !== state.gen) {
+    let remote = null;
+    try {
+      remote = await decodeMarkedWatched(payload.encoded);
+    } catch (e) {
+      logger.log('Could not decode synced marked watched videos:', e);
+    }
+    if (remote) {
+      const mergeBase = resolveChannelListMergeBase(payload.parent, state.gen, base);
+      nextList = mergeMarkedWatched(list, mergeBase, remote);
+      updates[MARKED_WATCHED_SYNC_BASE_KEY] = remote;
+      nextState.gen = payload.gen;
+      nextState.status = markedWatchedEqual(nextList, remote) ? 'ok' : 'pending';
+      delete nextState.incompleteGen;
+      delete nextState.incompleteSince;
+    } else {
+      markChannelListIncomplete(nextState, payload.gen);
+    }
+  } else if (
+    (payload.status === 'incomplete' || payload.status === 'invalid') &&
+    payload.gen !== state.gen
+  ) {
+    markChannelListIncomplete(nextState, payload.gen);
+  }
+
+  if (!markedWatchedEqual(list, nextList)) {
+    const local = await chrome.storage.local.get(MARKED_WATCHED_META_KEY);
+    updates[MARKED_WATCHED_KEY] = nextList;
+    updates[MARKED_WATCHED_META_KEY] = pruneMarkedWatchedMeta(local[MARKED_WATCHED_META_KEY], nextList);
+  }
+  if (JSON.stringify(nextState) !== JSON.stringify(state)) {
+    updates[MARKED_WATCHED_SYNC_STATE_KEY] = nextState;
+  }
+  if (Object.keys(updates).length) await chrome.storage.local.set(updates);
+}
+
+async function pushMarkedWatched() {
+  const current = await chrome.storage.sync.get(null);
+  const { list, base, state } = await readLocalMarkedWatchedState();
+
+  const payload = readMarkedWatchedSyncPayload(current);
+  if (payload.status === 'unsupported') {
+    await setMarkedWatchedSyncStatus(state, 'outdated');
+    return;
+  }
+
+  const stalled = isChannelListSyncStalled(state, payload);
+  const inSync = !!base && markedWatchedEqual(list, base) && state.status === 'ok';
+  if (inSync && !stalled) return;
+  if (!base && !state.gen && !list.length) return;
+
+  const gen = createChannelListGeneration();
+  const newItems = buildMarkedWatchedSyncItems(await encodeMarkedWatched(list), gen, state.gen || null);
+  const plan = planMarkedWatchedSyncWrite(current, newItems);
+
+  if (!plan.fits) {
+    await setMarkedWatchedSyncStatus(state, 'paused');
+    logger.log('Marked watched videos do not fit in sync:', plan.newBytes, 'bytes');
+    return;
+  }
+
+  try {
+    if (plan.removeFirst && plan.staleKeys.length) {
+      await chrome.storage.sync.remove(plan.staleKeys);
+    }
+    await chrome.storage.sync.set(newItems);
+    if (!plan.removeFirst && plan.staleKeys.length) {
+      await chrome.storage.sync.remove(plan.staleKeys);
+    }
+  } catch (e) {
+    const message = String((e && e.message) || e);
+    const status = /QUOTA_BYTES/.test(message) ? 'paused' : 'error';
+    await setMarkedWatchedSyncStatus(state, status);
+    logger.log('Marked watched sync write failed:', message);
+    if (status === 'error') scheduleMarkedWatchedPush(CHANNEL_LIST_RETRY_DELAY_MS);
+    return;
+  }
+
+  await chrome.storage.local.set({
+    [MARKED_WATCHED_SYNC_BASE_KEY]: list,
+    [MARKED_WATCHED_SYNC_STATE_KEY]: { status: 'ok', gen },
+  });
+  logger.log('Marked watched videos synced:', plan.newBytes, 'bytes, generation', gen);
 }
 function refreshBadge() {
   const defaults = Object.fromEntries(flagKeys.map(key => [key, true]));
@@ -488,12 +638,16 @@ chrome.storage.onChanged.addListener((changes, area) => {
     if (CHANNEL_LIST_LOCAL_KEYS.some(key => key in changes)) {
       scheduleChannelListPush();
     }
+    if (MARKED_WATCHED_KEY in changes) scheduleMarkedWatchedPush();
     if ('channelBlacklist' in changes) refreshBadge();
     return;
   }
   if (area !== 'sync') return;
   if (Object.keys(changes).some(key => isChannelListSyncKey(key))) {
     scheduleChannelListPull();
+  }
+  if (Object.keys(changes).some(key => isMarkedWatchedSyncKey(key))) {
+    scheduleMarkedWatchedPull();
   }
   const allBadgeKeys = [
     ...flagKeys,
@@ -541,6 +695,13 @@ chrome.runtime.onMessage.addListener((message, sender, sendResponse) => {
   if (message.action === 'openSettings') {
     chrome.tabs.create({
       url: chrome.runtime.getURL('popup/popup.html?standalone=true'),
+      active: true,
+    });
+    sendResponse({ success: true });
+  }
+  if (message.action === 'openWatchedManager') {
+    chrome.tabs.create({
+      url: chrome.runtime.getURL('popup/watched.html'),
       active: true,
     });
     sendResponse({ success: true });

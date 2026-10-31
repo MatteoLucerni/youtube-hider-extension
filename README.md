@@ -32,6 +32,17 @@
 
 Hide videos you've already watched from Home, Channel pages, Subscriptions, Search results and Related videos. Set a custom threshold (0-100%) to define how much you need to have watched before a video is hidden.
 
+### Mark as Watched
+
+YouTube does not always show a progress bar on a video you already watched, and it never shows one for a video you watched on another account. Hover the video and click **Watched**, next to **Blacklist** at the top of the thumbnail, to hide it the same way. The button runs a 3-second countdown with **Undo** before anything is hidden.
+
+- Marked videos follow the **Hide Watched Videos** card: they are hidden only where that card is active (slider above 0 and the page's toggle on), and the **Watched** button only appears there
+- A marked video stays hidden even when its channel or title is whitelisted, since marking it is a choice about that one video
+- In Dim mode the overlay reads **Marked as watched** and carries an **Unmark** button that brings the video back immediately
+- The **Marked as watched** row in the Hide Watched Videos card shows how many videos are marked; **Manage** opens a full page that lists them newest first with thumbnail, title, channel and date, and lets you search, remove one or several, clear the list, and export or import it as a JSON file. Any removal can be undone for 10 seconds from the confirmation message
+- Up to 3,000 videos are kept. Marking one more drops the video marked longest ago. From 2,700 on, the count turns amber and warns about it
+- The list syncs across devices like the channel lists, sharing the same synced storage with them. The channel lists always come first: when both do not fit, syncing of the marked videos pauses, the card shows a "Sync paused" notice, and the list keeps working in this browser. Titles and channels stay on the device where a video was marked; other devices show its thumbnail until they come across the video on YouTube
+
 ### Views Filter
 
 Hide videos by their view count with two independent sliders: **Minimum Views** (50 to 10M) hides everything below the threshold, **Maximum Views** (1,000 to 10M) hides everything above it. Use either on its own, or both together to keep only videos inside a popularity range. Both share the card's per-page toggles. If the two ends cross over, the filter switches itself off and says so, rather than hiding everything. Reads YouTube's view counts in every interface language, including the ones that do not write the label in Latin script or place it before the number.
@@ -54,7 +65,7 @@ Selectively remove content types from your YouTube feed with individual toggles:
 Choose how filtered content is treated across all active filters:
 
 - **Hide** (default) - filtered elements are removed from view entirely
-- **Dim** - filtered elements stay visible under a dark semi-transparent overlay. The overlay displays a compact label indicating why the element was filtered ("Already watched", "Views too low", "Views too high", "Video too new", "Video too old", "Mix playlist", "Playlist", "Live stream", "Blacklisted channel"). Filtered elements remain fully clickable. Shorts are always hidden regardless of this setting.
+- **Dim** - filtered elements stay visible under a dark semi-transparent overlay. The overlay displays a compact label indicating why the element was filtered ("Already watched", "Marked as watched", "Views too low", "Views too high", "Video too new", "Video too old", "Mix playlist", "Playlist", "Live stream", "Blacklisted channel"). Filtered elements remain fully clickable. Shorts are always hidden regardless of this setting.
 
 In Hide mode, lockup-based cards are removed at the correct wrapper level to avoid empty placeholders in Home and Subscriptions grids.
 
@@ -84,7 +95,7 @@ Turning the whole Channel Blacklist toggle off removes every on-page Blacklist b
 
 ### Channel List Sync
 
-Both lists follow you across devices, and there is no fixed limit on how many channels they hold. Each list is saved in the browser first, then compressed and synced to your other devices, which fits roughly 8,000 to 9,000 channels across the two lists inside Chrome's sync storage. Past that point the lists keep working and keep growing on the device where they were added: the Whitelist and Blacklist cards show a "Sync paused" notice, other devices keep the last version that fit, and syncing resumes on its own once the lists are small enough again. Changes made on another device while sync is paused are still merged in, without dropping any channel that only this device has.
+Both lists follow you across devices, and there is no fixed limit on how many channels they hold. Each list is saved in the browser first, then compressed and synced to your other devices, which fits roughly 8,000 to 9,000 channels across the two lists inside Chrome's sync storage. Past that point the lists keep working and keep growing on the device where they were added: the Whitelist and Blacklist cards show a "Sync paused" notice, other devices keep the last version that fit, and syncing resumes on its own once the lists are small enough again. Changes made on another device while sync is paused are still merged in, without dropping any channel that only this device has. The marked watched videos share this synced storage, but never at the channel lists' expense: when the channel lists need the room, the marked videos stop syncing instead.
 
 ### Title Whitelist
 
@@ -104,7 +115,7 @@ A small gear button lives right in YouTube's own header (desktop only), next to 
 
 ### Hide On-Page Controls
 
-For a more discreet setup, enable **Hide on-page controls** in **Extra Settings** to remove all of the extension's on-screen elements from YouTube - the header settings button, the inline "Whitelist"/"Blacklist" buttons, the overlay's "Whitelist"/"Unblacklist" button, and the hover "Blacklist" pill. Filtering keeps working in the background. This is the only way to hide the header button; there is no separate toggle for it.
+For a more discreet setup, enable **Hide on-page controls** in **Extra Settings** to remove all of the extension's on-screen elements from YouTube - the header settings button, the inline "Whitelist"/"Blacklist" buttons, the overlay's "Whitelist"/"Unblacklist"/"Unmark" button, and the hover "Blacklist"/"Watched" pill. Filtering keeps working in the background. This is the only way to hide the header button; there is no separate toggle for it.
 
 ### Simple Mode & Advanced Mode
 
@@ -165,14 +176,14 @@ youtube-hider-extension
 │   ├── page-bridge.js     MAIN-world script: caches video-id-to-channel mappings from YouTube's internal data
 │   ├── env.js             DEV_MODE flag
 │   ├── utils.js           Shared utilities (debounce, logger, safe storage)
-│   ├── whitelist-utils.js Pure list helpers shared by the Channel and Title Whitelist and Blacklist
+│   ├── whitelist-utils.js Pure list helpers shared by the Channel and Title Whitelist and Blacklist and the marked watched videos
 │   ├── state.js           Preferences, timing constants, storage listener
 │   ├── header-button.js  Header settings button and its iframe-embedded settings dropdown
 │   ├── tutorial.js        Guided spotlight tutorial
 │   ├── parsers.js         View count, upload date and channel parsers
 │   ├── filters.js         Video hiding/filtering logic, Channel Whitelist and Unblacklist overlay buttons
 │   ├── channel-whitelist-button.js  Inline Whitelist button next to Subscribe
-│   ├── channel-blacklist-button.js  Inline Blacklist button and the hover Blacklist pill on video cards
+│   ├── channel-blacklist-button.js  Inline Blacklist button and the hover Blacklist/Watched pill on video cards
 │   └── init.js            Page detection, observers, bootstrap
 ├── popup/
 │   ├── popup.html         Settings popup UI
@@ -182,13 +193,18 @@ youtube-hider-extension
 │   ├── cards.css          Setting cards and slider controls
 │   ├── toggles.css        Toggle grid, switches, footer
 │   ├── filters.css        Tooltips, date filter, overlap warning
-│   └── support.css        Support button and support panel
+│   ├── support.css        Support button and support panel
+│   ├── watched.html       Marked as watched manager page, opened in a tab
+│   ├── watched.js         Manager page logic: list, search, remove, export, import
+│   └── watched.css        Manager page styles
 ├── tests/
 │   ├── parsers.test.js           Parser regression tests
 │   ├── channel-list-sync.test.js Channel list sync encoding, chunking and merge tests
-│   └── whitelist-utils.test.js   Title Whitelist and Blacklist keyword matching and quota tests
-├── background.js          Service worker (badge, lifecycle, messaging, channel list sync)
+│   ├── marked-watched-sync.test.js Marked watched sync encoding, merge and quota priority tests
+│   └── whitelist-utils.test.js   Title keyword matching, quota and marked watched list tests
+├── background.js          Service worker (badge, lifecycle, messaging, channel list and marked watched sync)
 ├── channel-list-sync.js   Pure channel list sync helpers: compression, chunking, quota planning, merge
+├── marked-watched-sync.js Pure marked watched sync helpers: encoding, chunk layout, merge
 ├── build.ps1              Build/packaging script
 ├── CHANGELOG.md           Version history
 ├── LICENSE                MIT License
@@ -202,7 +218,7 @@ youtube-hider-extension
 
 1. **Content scripts** (12 files in `content/`) load on YouTube pages in the order defined by `manifest.json`. They share a global scope via Chrome's isolated world. `page-bridge.js` is the exception: it runs in the page's `MAIN` world at `document_start` to read YouTube's own internal data and expose a video-id-to-channel cache via a DOM attribute, since the isolated world can read the DOM but not the page's JavaScript globals.
 2. A **MutationObserver** watches for DOM changes and triggers hiding/filtering logic based on your preferences.
-3. Settings are stored in `chrome.storage.sync`, so they follow you across devices. The Channel Whitelist and Blacklist are the exception: they live in `chrome.storage.local`, and the service worker mirrors them into `chrome.storage.sync` compressed and split into chunks, so they sync too without being capped by the 8 KB per-item sync quota.
+3. Settings are stored in `chrome.storage.sync`, so they follow you across devices. The Channel Whitelist and Blacklist are the exception: they live in `chrome.storage.local`, and the service worker mirrors them into `chrome.storage.sync` compressed and split into chunks, so they sync too without being capped by the 8 KB per-item sync quota. The marked watched videos work the same way, with their titles and channels kept in `chrome.storage.local` only.
 4. The **header button** (`content/header-button.js`) uses a closed Shadow DOM to encapsulate its styles from the host page. Its settings dropdown embeds `popup/popup.html` in an `<iframe>`, created fresh on every open, so the dropdown is always the same, unmodified popup UI.
 5. The **background service worker** manages badge updates, extension lifecycle events and messaging between popup/content scripts.
 

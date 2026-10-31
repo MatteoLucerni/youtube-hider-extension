@@ -343,8 +343,11 @@ document.addEventListener('DOMContentLoaded', () => {
     }
 
     chrome.storage.local.get(
-      [...CHANNEL_LIST_STORAGE_KEYS, CHANNEL_LIST_SYNC_STATE_KEY],
+      [...LOCAL_PREF_KEYS, CHANNEL_LIST_SYNC_STATE_KEY, MARKED_WATCHED_SYNC_STATE_KEY],
       local => {
+        renderMarkedWatchedCount(local[MARKED_WATCHED_KEY]);
+        renderMarkedWatchedSyncWarning(local[MARKED_WATCHED_SYNC_STATE_KEY]);
+
         const lists = Object.assign({}, prefs, local);
 
         whitelistData = Array.isArray(lists.channelWhitelist) ? lists.channelWhitelist : [];
@@ -745,6 +748,31 @@ document.addEventListener('DOMContentLoaded', () => {
   let currentTabChannel = null;
 
   const CHANNEL_LIST_SYNC_STATE_KEY = 'channelListsSyncState';
+  const MARKED_WATCHED_SYNC_STATE_KEY = 'markedWatchedSyncState';
+
+  const markedWatchedCount = document.getElementById('marked-watched-count');
+  const markedWatchedSyncWarning = document.getElementById('marked-watched-sync-warning');
+  const markedWatchedManageBtn = document.getElementById('marked-watched-manage-btn');
+
+  function renderMarkedWatchedCount(list) {
+    if (!markedWatchedCount) return;
+    const { text, nearLimit } = describeMarkedWatchedCount(normalizeMarkedWatched(list).length);
+    markedWatchedCount.textContent = text;
+    markedWatchedCount.classList.toggle('is-near-limit', nearLimit);
+  }
+
+  function renderMarkedWatchedSyncWarning(syncState) {
+    if (!markedWatchedSyncWarning) return;
+    markedWatchedSyncWarning.hidden = !(syncState && syncState.status === 'paused');
+  }
+
+  if (markedWatchedManageBtn) {
+    markedWatchedManageBtn.addEventListener('click', () => {
+      chrome.runtime.sendMessage({ action: 'openWatchedManager' }, () => {
+        void chrome.runtime.lastError;
+      });
+    });
+  }
 
   function storeChannelListUpdates(updates) {
     const { local, sync } = splitChannelListUpdates(updates);
@@ -1082,6 +1110,12 @@ document.addEventListener('DOMContentLoaded', () => {
   chrome.storage.onChanged.addListener((areaChanges, area) => {
     if (area === 'local' && areaChanges[CHANNEL_LIST_SYNC_STATE_KEY]) {
       renderChannelSyncWarning(areaChanges[CHANNEL_LIST_SYNC_STATE_KEY].newValue);
+    }
+    if (area === 'local' && areaChanges[MARKED_WATCHED_SYNC_STATE_KEY]) {
+      renderMarkedWatchedSyncWarning(areaChanges[MARKED_WATCHED_SYNC_STATE_KEY].newValue);
+    }
+    if (area === 'local' && areaChanges[MARKED_WATCHED_KEY]) {
+      renderMarkedWatchedCount(areaChanges[MARKED_WATCHED_KEY].newValue);
     }
     const changes = pickStorageChanges(areaChanges, area);
     if (!changes) return;

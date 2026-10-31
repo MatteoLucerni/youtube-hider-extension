@@ -410,6 +410,39 @@
     margin-top: 5px;
 }
 
+.marked-watched-row {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: var(--spacing-lg);
+    margin-top: var(--spacing-lg);
+    padding-top: var(--spacing-lg);
+    border-top: 1px solid var(--border-color);
+}
+
+.marked-watched-info {
+    display: flex;
+    flex-direction: column;
+    gap: 2px;
+    min-width: 0;
+}
+
+.marked-watched-count {
+    font-size: 11px;
+    color: var(--text-tertiary);
+    line-height: 1.3;
+}
+
+.marked-watched-count.is-near-limit {
+    color: var(--accent-amber);
+}
+
+.add-channel-btn.marked-watched-manage-btn {
+    width: auto;
+    flex: 0 0 auto;
+    padding: 6px 14px;
+}
+
 .channel-sync-warning {
     display: flex;
     align-items: flex-start;

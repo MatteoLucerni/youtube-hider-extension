@@ -4,6 +4,7 @@ const { test } = require('node:test');
 const assert = require('node:assert/strict');
 
 const {
+  extractVideoIdFromHref,
   extractViewCount,
   extractUploadAgeDays,
   resolveUploadAgeFromSpans,
@@ -322,4 +323,30 @@ test('regression: localized upload dates are never read as a view count', () => 
   for (const [locale, text] of rejected) {
     assert.ok(Number.isNaN(views(text)), locale + ': ' + text);
   }
+});
+
+test('extractVideoIdFromHref: reads the id from real search result links (2026-10-31, /results?search_query=lofi+mix)', () => {
+  assert.equal(extractVideoIdFromHref('/watch?v=1Tl2FtV06qo&pp=ygUIbG9maSBtaXg%3D'), '1Tl2FtV06qo');
+  assert.equal(
+    extractVideoIdFromHref('/watch?v=-zWP3XVLvJU&pp=YAHIAQHwAQG6AwIYAqIGFQGodqkzc-vlJnFFGIegMstlnAN5LpAHAg%3D%3D'),
+    '-zWP3XVLvJU',
+  );
+  assert.equal(extractVideoIdFromHref('/watch?v=1Tl2FtV06qo'), '1Tl2FtV06qo');
+  assert.equal(extractVideoIdFromHref('/shorts/l9plo_h4fMQ'), 'l9plo_h4fMQ');
+  assert.equal(extractVideoIdFromHref('https://www.youtube.com/watch?v=1Tl2FtV06qo&t=42s'), '1Tl2FtV06qo');
+  assert.equal(extractVideoIdFromHref('https://m.youtube.com/shorts/l9plo_h4fMQ'), 'l9plo_h4fMQ');
+});
+
+test('extractVideoIdFromHref: a Mix link is not a single video (2026-10-31, /results?search_query=lofi+mix)', () => {
+  assert.equal(
+    extractVideoIdFromHref('/watch?v=1J4a9cT2lkw&list=RD1J4a9cT2lkw&start_radio=1&pp=ygUIbG9maSBtaXigBwE%3D'),
+    null,
+  );
+});
+
+test('extractVideoIdFromHref: rejects links that do not point to one video (2026-10-31, /results?search_query=lofi+mix)', () => {
+  assert.equal(extractVideoIdFromHref('/@LofiShop24h'), null);
+  assert.equal(extractVideoIdFromHref('/watch?v=RDATfcbG9maQ'), null);
+  assert.equal(extractVideoIdFromHref(''), null);
+  assert.equal(extractVideoIdFromHref(null), null);
 });

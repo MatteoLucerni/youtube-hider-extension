@@ -457,6 +457,64 @@
       margin-bottom: 16px;
     }
 
+    .watched-section {
+      padding: 90px 20px;
+      background:
+        radial-gradient(820px 460px at 12% 10%, rgba(138, 180, 248, 0.09), transparent 68%),
+        radial-gradient(700px 420px at 92% 94%, rgba(16, 185, 129, 0.08), transparent 70%),
+        var(--bg-deep);
+    }
+
+    .watched-lead {
+      max-width: 720px;
+      margin: -30px auto 50px;
+      text-align: center;
+      font-size: 1.1rem;
+      line-height: 1.6;
+      color: var(--text-secondary);
+    }
+
+    .watched-steps {
+      list-style: none;
+      margin: 0;
+      padding: 0;
+      display: flex;
+      flex-direction: column;
+      gap: 28px;
+    }
+
+    .watched-step {
+      display: flex;
+      align-items: flex-start;
+      gap: 16px;
+    }
+
+    .watched-step .feature-icon {
+      flex: 0 0 auto;
+      margin-bottom: 0;
+    }
+
+    .watched-step h3 {
+      margin: 0 0 6px;
+      font-size: 1.05rem;
+      color: #ffffff;
+    }
+
+    .watched-step p {
+      margin: 0;
+      font-size: 0.95rem;
+      line-height: 1.6;
+      color: var(--text-secondary);
+    }
+
+    .watched-shot {
+      width: 100%;
+      height: auto;
+      border-radius: var(--radius-box);
+      box-shadow: var(--shadow-card);
+      border: 1px solid var(--border-color);
+    }
+
     .cta-section {
       padding: 96px 20px;
       background:
@@ -610,6 +668,11 @@
       .section-title {
         font-size: 2rem;
       }
+
+      .watched-lead {
+        margin-top: -24px;
+        font-size: 1rem;
+      }
     }
 
     @media (prefers-reduced-motion: reduce) {
@@ -720,7 +783,9 @@
                 <h3>Hide Watched Videos</h3>
                 <p>
                   Set your watch threshold and enjoy fresh content only. Never
-                  see the same video twice.
+                  see the same video twice. YouTube missed one? Hover it and
+                  click Watched to hide it too, and manage every marked video
+                  from one page.
                 </p>
               </div>
             </div>
@@ -825,6 +890,81 @@
           <div class="mode-label">ADVANCED MODE</div>
           <img src="assets/images/full-no-easy.png" alt="YouTube Hider Full Screenshot" class="full-img-show img-fluid"
             width="300" height="600" />
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <section class="watched-section section-edge">
+    <div class="container">
+      <h2 class="section-title">Mark as Watched</h2>
+      <p class="watched-lead">
+        YouTube sometimes forgets the progress bar on a video you already saw,
+        and it knows nothing about the ones you watched on another account.
+        Mark them yourself, and they go away like any other watched video.
+      </p>
+      <div class="row align-items-center g-5">
+        <div class="col-12 col-lg-5">
+          <ul class="watched-steps">
+            <li class="watched-step">
+              <div class="feature-icon">
+                <i class="fas fa-hand-pointer"></i>
+              </div>
+              <div>
+                <h3>Hover and click Watched</h3>
+                <p>
+                  A Watched button appears next to Blacklist at the top of any
+                  video thumbnail. The video is hidden or dimmed following your
+                  Hide Watched Videos settings, on the same pages.
+                </p>
+              </div>
+            </li>
+            <li class="watched-step">
+              <div class="feature-icon">
+                <i class="fas fa-rotate-left"></i>
+              </div>
+              <div>
+                <h3>Change your mind anytime</h3>
+                <p>
+                  A 3 second Undo catches a stray click before it counts. In
+                  Dim mode, the overlay of a marked video carries an Unmark
+                  button that brings it back right away.
+                </p>
+              </div>
+            </li>
+            <li class="watched-step">
+              <div class="feature-icon">
+                <i class="fas fa-list-check"></i>
+              </div>
+              <div>
+                <h3>Manage them in one page</h3>
+                <p>
+                  Manage, in the Hide Watched Videos card, opens every marked
+                  video newest first. Search by title, channel or ID, remove one
+                  or several with Undo, and export or import the list as a
+                  file.
+                </p>
+              </div>
+            </li>
+            <li class="watched-step">
+              <div class="feature-icon">
+                <i class="fas fa-arrows-rotate"></i>
+              </div>
+              <div>
+                <h3>Synced across devices</h3>
+                <p>
+                  Marks follow you to every computer signed into the same
+                  Chrome profile. Up to 3,000 videos are kept, and the page
+                  warns you well before the oldest ones start to drop.
+                </p>
+              </div>
+            </li>
+          </ul>
+        </div>
+        <div class="col-12 col-lg-7">
+          <img src="assets/images/watched-manager.png"
+            alt="The Marked as watched page, listing marked videos with thumbnail, title, channel and date, a search box, and Export, Import and Clear all buttons"
+            class="watched-shot img-fluid" width="890" height="1054" loading="lazy" />
         </div>
       </div>
     </div>

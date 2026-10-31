@@ -1,5 +1,19 @@
 # Changelog
 
+### Version 3.5.0
+
+**Added**
+
+- **Mark as watched**: hover any video and click the new **Watched** button, next to **Blacklist** at the top of the thumbnail, to hide it the same way as a video you already watched. This covers the videos YouTube forgets to show a progress bar on, and the ones you watched on another account. The button runs the same 3-second countdown as **Blacklist**, so a click can be undone with **Undo** before anything is hidden. Marked videos follow the Hide Watched Videos card: they are hidden only where that card is active (its slider above 0 and its per-page toggle on), and the button only shows up there. A marked video stays hidden even when its channel or its title is on a whitelist, since marking it is a choice about that one video. In Dim mode the overlay reads **Marked as watched** and carries an **Unmark** button that brings the video back right away
+- A new **Marked as watched** row in the Hide Watched Videos card shows how many videos are marked, and its **Manage** button opens a full page listing them all, newest first, with thumbnail, title, channel and date. From there you can search them, remove one or several at once, clear the whole list, and export it to a JSON file or import one back, for example to move the list to another browser. Every removal, including **Clear all**, can be undone from the message that confirms it for 10 seconds, and a selection made before a search is kept while you search
+- Up to 3,000 videos are kept. Marking one more drops the video marked longest ago, which then shows up on YouTube again. From 2,700 videos on, the count in the card and on the page turns amber and says so, before anything is dropped
+- The marked videos sync across devices signed into the same Chrome profile, like the channel lists. They share Chrome's synced storage with the Channel Whitelist and Channel Blacklist, and the channel lists always come first: when both do not fit, syncing of the marked videos pauses (the card says so) while they keep working in this browser, and resumes once there is room again. Titles and channels are kept only on the device where a video was marked, so another device shows the video's thumbnail until it comes across the video on YouTube and fills them in
+- youtubehider.com has a new **Mark as Watched** section that explains the feature step by step, next to a screenshot of the page that manages the marked videos
+
+**Fixed**
+
+- The progress dots of the first-run tour no longer touch the **Back** button: with the tour at twelve steps, the row of dots had grown wide enough to leave no space before the buttons
+
 ### Version 3.4.0
 
 **Added**
