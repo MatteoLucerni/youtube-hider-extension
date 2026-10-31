@@ -104,7 +104,8 @@ document.addEventListener('DOMContentLoaded', () => {
     }
     const metaEl = document.createElement('span');
     metaEl.className = 'watched-item-meta';
-    metaEl.textContent = [channel, 'Marked ' + formatDate(markedAt), id].filter(Boolean).join(' · ');
+    const markedOn = formatDate(markedAt);
+    metaEl.textContent = [channel, markedOn && 'Marked ' + markedOn, id].filter(Boolean).join(' · ');
     infoEl.appendChild(titleEl);
     infoEl.appendChild(metaEl);
 
