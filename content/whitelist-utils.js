@@ -2,6 +2,7 @@ const CHANNEL_LIST_STORAGE_KEYS = ['channelWhitelist', 'channelBlacklist'];
 const MARKED_WATCHED_KEY = 'markedWatched';
 const MARKED_WATCHED_META_KEY = 'markedWatchedMeta';
 const MARKED_WATCHED_LIMIT = 3000;
+const MARKED_WATCHED_WARN_AT = 2700;
 const LOCAL_PREF_KEYS = [...CHANNEL_LIST_STORAGE_KEYS, MARKED_WATCHED_KEY];
 
 function splitChannelListUpdates(updates) {
@@ -158,6 +159,19 @@ function normalizeMarkedWatched(list, limit = MARKED_WATCHED_LIMIT) {
   return sorted.length > limit ? sorted.slice(sorted.length - limit) : sorted;
 }
 
+function describeMarkedWatchedCount(count) {
+  if (!count) return { text: 'No videos marked yet', nearLimit: false };
+  const amount = count === 1 ? '1 video' : count.toLocaleString('en-US') + ' videos';
+  const text = amount + ' of ' + MARKED_WATCHED_LIMIT.toLocaleString('en-US');
+  if (count >= MARKED_WATCHED_LIMIT) {
+    return { text: text + '. Full: each new mark drops the oldest one', nearLimit: true };
+  }
+  if (count >= MARKED_WATCHED_WARN_AT) {
+    return { text: text + '. Almost full: past the limit, the oldest marks are dropped', nearLimit: true };
+  }
+  return { text, nearLimit: false };
+}
+
 function markedWatchedEqual(a, b) {
   return JSON.stringify(normalizeMarkedWatched(a)) === JSON.stringify(normalizeMarkedWatched(b));
 }
@@ -209,6 +223,7 @@ if (typeof module !== 'undefined' && module.exports) {
     pickStorageChanges,
     isValidVideoId,
     normalizeMarkedWatched,
+    describeMarkedWatchedCount,
     markedWatchedEqual,
     markedWatchedIncludes,
     computeMarkedWatchedUpdate,

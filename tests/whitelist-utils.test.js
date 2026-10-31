@@ -9,6 +9,7 @@ const {
   pickStorageChanges,
   isValidVideoId,
   normalizeMarkedWatched,
+  describeMarkedWatchedCount,
   markedWatchedIncludes,
   computeMarkedWatchedUpdate,
   normalizeMarkedWatchedMetaEntry,
@@ -194,4 +195,13 @@ test('local storage split: markedWatched lives in local next to the channel list
   assert.deepEqual(Object.keys(sync), ['dimMode']);
   assert.deepEqual(Object.keys(pickStorageChanges({ markedWatched: {} }, 'local')), ['markedWatched']);
   assert.equal(pickStorageChanges({ markedWatched: {} }, 'sync'), null);
+});
+
+test('describeMarkedWatchedCount: warns before the list is full and says what happens at the limit', () => {
+  assert.deepEqual(describeMarkedWatchedCount(0), { text: 'No videos marked yet', nearLimit: false });
+  assert.deepEqual(describeMarkedWatchedCount(1), { text: '1 video of 3,000', nearLimit: false });
+  assert.deepEqual(describeMarkedWatchedCount(2699), { text: '2,699 videos of 3,000', nearLimit: false });
+  assert.equal(describeMarkedWatchedCount(2700).nearLimit, true);
+  assert.match(describeMarkedWatchedCount(2700).text, /^2,700 videos of 3,000\. Almost full/);
+  assert.match(describeMarkedWatchedCount(MARKED_WATCHED_LIMIT).text, /Full: each new mark drops the oldest one$/);
 });

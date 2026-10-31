@@ -71,7 +71,12 @@
         </div>
       </div>
 
-      <p class="watched-status" id="watched-status" role="status" hidden></p>
+      <div class="watched-status" id="watched-status" role="status" hidden>
+        <span class="watched-status-text" id="watched-status-text"></span>
+        <button type="button" class="watched-status-undo" id="watched-status-undo" hidden>
+          Undo
+        </button>
+      </div>
 
       <div class="watched-selection-bar" id="watched-selection-bar" hidden>
         <label class="watched-select-all">
@@ -85,7 +90,12 @@
 
       <ul class="watched-list" id="watched-list"></ul>
 
-      <p class="watched-empty" id="watched-empty" hidden></p>
+      <div class="watched-empty" id="watched-empty" hidden>
+        <p class="watched-empty-text" id="watched-empty-text"></p>
+        <button type="button" class="watched-btn" id="watched-clear-search" hidden>
+          Clear search
+        </button>
+      </div>
 
       <button type="button" id="watched-load-more" class="watched-btn watched-load-more" hidden>
         Load more

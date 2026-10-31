@@ -756,16 +756,9 @@ document.addEventListener('DOMContentLoaded', () => {
 
   function renderMarkedWatchedCount(list) {
     if (!markedWatchedCount) return;
-    const count = normalizeMarkedWatched(list).length;
-    if (count === 0) {
-      markedWatchedCount.textContent = 'No videos marked yet';
-    } else {
-      const formatted = count.toLocaleString('en-US');
-      markedWatchedCount.textContent =
-        (count === 1 ? '1 video' : formatted + ' videos') +
-        ' of ' +
-        MARKED_WATCHED_LIMIT.toLocaleString('en-US');
-    }
+    const { text, nearLimit } = describeMarkedWatchedCount(normalizeMarkedWatched(list).length);
+    markedWatchedCount.textContent = text;
+    markedWatchedCount.classList.toggle('is-near-limit', nearLimit);
   }
 
   function renderMarkedWatchedSyncWarning(syncState) {

@@ -34,6 +34,10 @@ body.watched-page {
     margin: 0 0 var(--spacing-lg);
 }
 
+.watched-count.is-near-limit {
+    color: var(--accent-amber);
+}
+
 .watched-toolbar {
     display: flex;
     flex-wrap: wrap;
@@ -97,13 +101,48 @@ body.watched-page {
 }
 
 .watched-status {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: var(--spacing-md);
+    margin: 0 0 var(--spacing-md);
+    padding: var(--spacing-md) var(--spacing-lg);
     font-size: 12px;
     color: var(--accent-green);
-    margin: 0 0 var(--spacing-md);
+    background: rgba(16, 185, 129, 0.08);
+    border: 1px solid rgba(16, 185, 129, 0.3);
+    border-radius: var(--radius-box);
 }
 
 .watched-status.is-error {
     color: #f6aea9;
+    background: rgba(246, 174, 169, 0.08);
+    border-color: rgba(246, 174, 169, 0.3);
+}
+
+.watched-status-undo {
+    flex: 0 0 auto;
+    padding: 4px 12px;
+    font-size: 12px;
+    font-weight: 600;
+    color: var(--text-primary);
+    background: transparent;
+    border: 1px solid var(--border-color);
+    border-radius: var(--radius-box);
+    cursor: pointer;
+}
+
+.watched-status-undo:hover {
+    border-color: var(--accent-blue);
+}
+
+.watched-status-undo:focus-visible {
+    outline: 2px solid var(--accent-blue);
+    outline-offset: 2px;
+}
+
+.watched-status-undo[hidden] {
+    display: none;
 }
 
 .watched-selection-bar {
@@ -227,6 +266,14 @@ body.watched-page {
     text-align: center;
     font-size: 13px;
     color: var(--text-tertiary);
+}
+
+.watched-empty-text {
+    margin: 0 0 var(--spacing-md);
+}
+
+.watched-empty .watched-btn[hidden] {
+    display: none;
 }
 
 .watched-load-more {

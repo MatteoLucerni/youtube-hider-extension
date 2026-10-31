@@ -39,8 +39,8 @@ YouTube does not always show a progress bar on a video you already watched, and 
 - Marked videos follow the **Hide Watched Videos** card: they are hidden only where that card is active (slider above 0 and the page's toggle on), and the **Watched** button only appears there
 - A marked video stays hidden even when its channel or title is whitelisted, since marking it is a choice about that one video
 - In Dim mode the overlay reads **Marked as watched** and carries an **Unmark** button that brings the video back immediately
-- The **Marked as watched** row in the Hide Watched Videos card shows how many videos are marked; **Manage** opens a full page that lists them newest first with thumbnail, title, channel and date, and lets you search, remove one or several, clear the list, and export or import it as a JSON file
-- Up to 3,000 videos are kept. Marking one more drops the video marked longest ago
+- The **Marked as watched** row in the Hide Watched Videos card shows how many videos are marked; **Manage** opens a full page that lists them newest first with thumbnail, title, channel and date, and lets you search, remove one or several, clear the list, and export or import it as a JSON file. Any removal can be undone for 10 seconds from the confirmation message
+- Up to 3,000 videos are kept. Marking one more drops the video marked longest ago. From 2,700 on, the count turns amber and warns about it
 - The list syncs across devices like the channel lists, sharing the same synced storage with them. The channel lists always come first: when both do not fit, syncing of the marked videos pauses, the card shows a "Sync paused" notice, and the list keeps working in this browser. Titles and channels stay on the device where a video was marked; other devices show its thumbnail until they come across the video on YouTube
 
 ### Views Filter

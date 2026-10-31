@@ -433,6 +433,10 @@
     line-height: 1.3;
 }
 
+.marked-watched-count.is-near-limit {
+    color: var(--accent-amber);
+}
+
 .add-channel-btn.marked-watched-manage-btn {
     width: auto;
     flex: 0 0 auto;

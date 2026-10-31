@@ -390,13 +390,12 @@ function createBlacklistButton(channel, onCommit) {
 function createMarkWatchedButton(videoId, getDetails, onCommit) {
   const btn = document.createElement('button');
   btn.className = 'yt-hider-watched-btn';
-  btn.title = 'Mark as watched';
-  btn.setAttribute('aria-label', 'Mark as watched');
 
   let cancelCountdown = null;
 
   const renderIdle = () => {
     btn.classList.remove('yt-hider-watched-btn-pending');
+    btn.title = 'Mark as watched: hides this video like one you already watched';
     btn.innerHTML = `<span class="yt-hider-whitelist-label">Watched</span>`;
   };
   renderIdle();
@@ -421,6 +420,7 @@ function createMarkWatchedButton(videoId, getDetails, onCommit) {
     if (isVideoMarkedWatched(videoId)) return;
 
     btn.innerHTML = `<span class="yt-hider-whitelist-label">Undo</span>${buildUndoCountdownMarkup(UNDO_WINDOW_SECONDS)}`;
+    btn.title = 'Cancel marking this video as watched';
     btn.classList.add('yt-hider-watched-btn-pending');
 
     cancelCountdown = startUndoCountdown(btn, () => {
