@@ -524,5 +524,345 @@
   "titleBlacklistFull": {
     "message": "Title Blacklist is full: remove a word to add a new one",
     "description": "Hint under the Title Blacklist text box when the list reached its storage limit. Keep 'Title Blacklist' in English."
+  },
+  "watchedPageTitle": {
+    "message": "Marked as Watched | YouTube Hider",
+    "description": "Browser tab title of the page listing the marked videos. Keep 'YouTube Hider' untranslated."
+  },
+  "watchedDescription": {
+    "message": "Videos you marked with the Watched button on YouTube. They are hidden like watched videos, following the Hide Watched Videos settings. Remove one to bring it back. Up to 3,000 videos are kept: past that, the oldest mark is dropped.",
+    "description": "Intro paragraph of the marked videos page. 'Watched' is the on-page button label (buttonWatched) and 'Hide Watched Videos' the card title (hideWatchedTitle): keep them identical to those translations."
+  },
+  "watchedSyncDescription": {
+    "message": "Your marks sync automatically to every computer signed into the same Chrome profile, so there is no need to export and import them between devices. Use Export to keep a backup or to move them to a different profile.",
+    "description": "Second intro paragraph of the marked videos page. 'Export' is the button label (watchedExport)."
+  },
+  "watchedExport": {
+    "message": "Export",
+    "description": "Button that downloads the marked videos as a file. One short word."
+  },
+  "watchedImport": {
+    "message": "Import",
+    "description": "Button that loads marked videos from a file. One short word."
+  },
+  "watchedClearAll": {
+    "message": "Clear all",
+    "description": "Button that removes every marked video. Short."
+  },
+  "watchedUndo": {
+    "message": "Undo",
+    "description": "Button in the status message that undoes the last removal. One short word."
+  },
+  "watchedSelectAllShown": {
+    "message": "Select all shown",
+    "description": "Checkbox label that selects every video currently listed."
+  },
+  "watchedRemoveSelected": {
+    "message": "Remove selected",
+    "description": "Button that removes the selected videos, shown when nothing is selected."
+  },
+  "watchedClearSearch": {
+    "message": "Clear search",
+    "description": "Button that empties the search box when nothing matches."
+  },
+  "watchedLoadMore": {
+    "message": "Load more",
+    "description": "Button that shows the next videos of the list."
+  },
+  "watchedSearchPlaceholder": {
+    "message": "Search by title, channel or video ID",
+    "description": "Placeholder of the search box on the marked videos page."
+  },
+  "watchedSearchLabel": {
+    "message": "Search marked videos",
+    "description": "Accessible label of the search box on the marked videos page."
+  },
+  "markedCount_one": {
+    "message": "$count$ video of $limit$",
+    "description": "Number of marked videos and the maximum the list keeps.",
+    "placeholders": {
+      "count": {
+        "content": "$1",
+        "example": "1"
+      },
+      "limit": {
+        "content": "$2",
+        "example": "3,000"
+      }
+    }
+  },
+  "markedCount_other": {
+    "message": "$count$ videos of $limit$",
+    "description": "Number of marked videos and the maximum the list keeps.",
+    "placeholders": {
+      "count": {
+        "content": "$1",
+        "example": "120"
+      },
+      "limit": {
+        "content": "$2",
+        "example": "3,000"
+      }
+    }
+  },
+  "markedCountAlmostFull_one": {
+    "message": "$count$ video of $limit$. Almost full: past the limit, the oldest marks are dropped",
+    "description": "Number of marked videos when the list is close to its maximum, with a warning.",
+    "placeholders": {
+      "count": {
+        "content": "$1",
+        "example": "2,701"
+      },
+      "limit": {
+        "content": "$2",
+        "example": "3,000"
+      }
+    }
+  },
+  "markedCountAlmostFull_other": {
+    "message": "$count$ videos of $limit$. Almost full: past the limit, the oldest marks are dropped",
+    "description": "Number of marked videos when the list is close to its maximum, with a warning.",
+    "placeholders": {
+      "count": {
+        "content": "$1",
+        "example": "2,750"
+      },
+      "limit": {
+        "content": "$2",
+        "example": "3,000"
+      }
+    }
+  },
+  "markedCountFull_one": {
+    "message": "$count$ video of $limit$. Full: each new mark drops the oldest one",
+    "description": "Number of marked videos when the list reached its maximum.",
+    "placeholders": {
+      "count": {
+        "content": "$1",
+        "example": "3,000"
+      },
+      "limit": {
+        "content": "$2",
+        "example": "3,000"
+      }
+    }
+  },
+  "markedCountFull_other": {
+    "message": "$count$ videos of $limit$. Full: each new mark drops the oldest one",
+    "description": "Number of marked videos when the list reached its maximum.",
+    "placeholders": {
+      "count": {
+        "content": "$1",
+        "example": "3,000"
+      },
+      "limit": {
+        "content": "$2",
+        "example": "3,000"
+      }
+    }
+  },
+  "watchedSelectItem": {
+    "message": "Select $title$",
+    "description": "Accessible label of the checkbox next to one marked video.",
+    "placeholders": {
+      "title": {
+        "content": "$1",
+        "example": "How to bake bread"
+      }
+    }
+  },
+  "watchedTitleUnavailable": {
+    "message": "Title not available on this device",
+    "description": "Shown instead of a title for a video marked on another device whose title is not known here."
+  },
+  "watchedMarkedOn": {
+    "message": "Marked $date$",
+    "description": "Date a video was marked as watched, shown in its row.",
+    "placeholders": {
+      "date": {
+        "content": "$1",
+        "example": "Nov 1, 2026"
+      }
+    }
+  },
+  "watchedRemove": {
+    "message": "Remove",
+    "description": "Button in a video row that removes the mark. One short word."
+  },
+  "watchedRemoveItem": {
+    "message": "Remove $title$",
+    "description": "Accessible label of the Remove button in a video row.",
+    "placeholders": {
+      "title": {
+        "content": "$1",
+        "example": "How to bake bread"
+      }
+    }
+  },
+  "watchedRemoveSelectedCount_one": {
+    "message": "Remove selected ($count$)",
+    "description": "Button that removes the selected videos, with how many are selected.",
+    "placeholders": {
+      "count": {
+        "content": "$1",
+        "example": "1"
+      }
+    }
+  },
+  "watchedRemoveSelectedCount_other": {
+    "message": "Remove selected ($count$)",
+    "description": "Button that removes the selected videos, with how many are selected.",
+    "placeholders": {
+      "count": {
+        "content": "$1",
+        "example": "12"
+      }
+    }
+  },
+  "watchedLoadMoreCount_one": {
+    "message": "Load more ($count$ left)",
+    "description": "Button that shows the next videos, with how many are still hidden.",
+    "placeholders": {
+      "count": {
+        "content": "$1",
+        "example": "1"
+      }
+    }
+  },
+  "watchedLoadMoreCount_other": {
+    "message": "Load more ($count$ left)",
+    "description": "Button that shows the next videos, with how many are still hidden.",
+    "placeholders": {
+      "count": {
+        "content": "$1",
+        "example": "70"
+      }
+    }
+  },
+  "watchedEmpty": {
+    "message": "No videos marked yet. On YouTube, hover a video and click Watched to add it here.",
+    "description": "Shown on the marked videos page when the list is empty. 'Watched' is the on-page button label (buttonWatched)."
+  },
+  "watchedNoMatch": {
+    "message": "No marked videos match \"$query$\".",
+    "description": "Shown when the search finds nothing.",
+    "placeholders": {
+      "query": {
+        "content": "$1",
+        "example": "bread"
+      }
+    }
+  },
+  "watchedRestored_one": {
+    "message": "Restored $count$ video.",
+    "description": "Status message after Undo brought removed videos back.",
+    "placeholders": {
+      "count": {
+        "content": "$1",
+        "example": "1"
+      }
+    }
+  },
+  "watchedRestored_other": {
+    "message": "Restored $count$ videos.",
+    "description": "Status message after Undo brought removed videos back.",
+    "placeholders": {
+      "count": {
+        "content": "$1",
+        "example": "5"
+      }
+    }
+  },
+  "watchedRemoved_one": {
+    "message": "Removed $count$ video. It shows up on YouTube again.",
+    "description": "Status message after removing marks. An Undo button follows it.",
+    "placeholders": {
+      "count": {
+        "content": "$1",
+        "example": "1"
+      }
+    }
+  },
+  "watchedRemoved_other": {
+    "message": "Removed $count$ videos. They show up on YouTube again.",
+    "description": "Status message after removing marks. An Undo button follows it.",
+    "placeholders": {
+      "count": {
+        "content": "$1",
+        "example": "5"
+      }
+    }
+  },
+  "watchedExported_one": {
+    "message": "Exported $count$ video.",
+    "description": "Status message after downloading the export file.",
+    "placeholders": {
+      "count": {
+        "content": "$1",
+        "example": "1"
+      }
+    }
+  },
+  "watchedExported_other": {
+    "message": "Exported $count$ videos.",
+    "description": "Status message after downloading the export file.",
+    "placeholders": {
+      "count": {
+        "content": "$1",
+        "example": "120"
+      }
+    }
+  },
+  "watchedImportEmpty": {
+    "message": "No valid videos found in that file.",
+    "description": "Error after importing a file with no usable video."
+  },
+  "watchedImported_one": {
+    "message": "Imported $count$ new video.",
+    "description": "Status message after an import. watchedImportListFull may follow it as a second sentence.",
+    "placeholders": {
+      "count": {
+        "content": "$1",
+        "example": "1"
+      }
+    }
+  },
+  "watchedImported_other": {
+    "message": "Imported $count$ new videos.",
+    "description": "Status message after an import. watchedImportListFull may follow it as a second sentence.",
+    "placeholders": {
+      "count": {
+        "content": "$1",
+        "example": "40"
+      }
+    }
+  },
+  "watchedImportListFull": {
+    "message": "The list is full, so the oldest marks were dropped.",
+    "description": "Second sentence after watchedImported, when the import pushed the list past its maximum."
+  },
+  "watchedImportError": {
+    "message": "That file could not be read as a YouTube Hider export.",
+    "description": "Error after importing a file that is not an export of this page."
+  },
+  "watchedClearConfirm_one": {
+    "message": "Remove the $count$ marked video? It will show up on YouTube again.",
+    "description": "Confirmation dialog of the Clear all button.",
+    "placeholders": {
+      "count": {
+        "content": "$1",
+        "example": "1"
+      }
+    }
+  },
+  "watchedClearConfirm_other": {
+    "message": "Remove all $count$ marked videos? They will show up on YouTube again.",
+    "description": "Confirmation dialog of the Clear all button.",
+    "placeholders": {
+      "count": {
+        "content": "$1",
+        "example": "120"
+      }
+    }
   }
 }

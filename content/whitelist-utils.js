@@ -160,16 +160,15 @@ function normalizeMarkedWatched(list, limit = MARKED_WATCHED_LIMIT) {
 }
 
 function describeMarkedWatchedCount(count) {
-  if (!count) return { text: 'No videos marked yet', nearLimit: false };
-  const amount = count === 1 ? '1 video' : count.toLocaleString('en-US') + ' videos';
-  const text = amount + ' of ' + MARKED_WATCHED_LIMIT.toLocaleString('en-US');
+  if (!count) return { text: getText('markedCountNone'), nearLimit: false };
+  const substitutions = [formatLocaleNumber(count), formatLocaleNumber(MARKED_WATCHED_LIMIT)];
   if (count >= MARKED_WATCHED_LIMIT) {
-    return { text: text + '. Full: each new mark drops the oldest one', nearLimit: true };
+    return { text: getPluralText('markedCountFull', count, substitutions), nearLimit: true };
   }
   if (count >= MARKED_WATCHED_WARN_AT) {
-    return { text: text + '. Almost full: past the limit, the oldest marks are dropped', nearLimit: true };
+    return { text: getPluralText('markedCountAlmostFull', count, substitutions), nearLimit: true };
   }
-  return { text, nearLimit: false };
+  return { text: getPluralText('markedCount', count, substitutions), nearLimit: false };
 }
 
 function markedWatchedEqual(a, b) {
