@@ -124,6 +124,8 @@
     color: var(--accent-green);
     align-items: center;
     gap: 4px;
+    text-align: right;
+    overflow-wrap: break-word;
 }
 
 .card-compact-header {
@@ -211,6 +213,7 @@
     align-items: flex-end;
     gap: 4px;
     flex-shrink: 0;
+    max-width: 50%;
 }
 
 .card-title {
