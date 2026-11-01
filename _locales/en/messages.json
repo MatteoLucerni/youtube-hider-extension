@@ -10,5 +10,519 @@
   "extDescription": {
     "message": "Hides already watched videos from YouTube, as well as low views videos and remove Shorts.",
     "description": "Short description shown in the Chrome Web Store. Max 132 characters."
+  },
+  "popupPageTitle": {
+    "message": "YouTube Hider Extension",
+    "description": "Browser tab title of the settings page. Keep 'YouTube Hider' untranslated."
+  },
+  "headerSupport": {
+    "message": "Support",
+    "description": "Header button that opens the panel about supporting the project. About 10 characters max."
+  },
+  "headerExtensionToggle": {
+    "message": "Extension",
+    "description": "Small uppercase label next to the master on/off switch of the whole extension. One short word."
+  },
+  "sectionYouTubeVideos": {
+    "message": "YouTube Videos",
+    "description": "Section heading above all the video filter cards."
+  },
+  "filterModeTitle": {
+    "message": "Filter Mode",
+    "description": "Card title. The setting chooses whether filtered videos are hidden or dimmed."
+  },
+  "filterModeTooltip": {
+    "message": "Hide removes filtered videos completely. Dim keeps them visible under a dark overlay with a label explaining why, and they stay clickable. Shorts are always hidden regardless of this setting",
+    "description": "Tooltip of the Filter Mode card. 'Hide' and 'Dim' are the two option labels and must match filterModeHide and filterModeDim."
+  },
+  "filterModeDescription": {
+    "message": "Choose how filtered videos are treated. Shorts are always hidden regardless",
+    "description": "Subtitle of the Filter Mode card."
+  },
+  "filterModeHide": {
+    "message": "Hide",
+    "description": "Filter Mode option: filtered videos are removed completely. One short word, shown on a half-width button."
+  },
+  "filterModeDim": {
+    "message": "Dim",
+    "description": "Filter Mode option: filtered videos stay visible under a dark overlay. One short word, shown on a half-width button."
+  },
+  "hideWatchedTitle": {
+    "message": "Hide Watched Videos",
+    "description": "Card title of the filter that hides videos you already watched."
+  },
+  "hideWatchedDescription": {
+    "message": "Hide videos based on watch percentage threshold",
+    "description": "Subtitle of the Hide Watched Videos card."
+  },
+  "watchPercentageLabel": {
+    "message": "Watch Percentage",
+    "description": "Label of the slider that sets how much of a video must be watched before it is hidden."
+  },
+  "watchPercentageTooltip": {
+    "message": "Hides videos if you have watched more than this % of the total duration. Drag all the way left to turn off",
+    "description": "Tooltip of the Watch Percentage slider."
+  },
+  "pageHome": {
+    "message": "Home",
+    "description": "Per-page toggle for YouTube's Home feed. Use the name YouTube itself shows in this language. Very short: the toggle is about 70px wide."
+  },
+  "hideWatchedHomeTooltip": {
+    "message": "Hides watched videos on the Home feed",
+    "description": "Tooltip of the Home toggle in the Hide Watched Videos card."
+  },
+  "pageChannel": {
+    "message": "Channel",
+    "description": "Per-page toggle for channel pages. Very short: the toggle is about 70px wide."
+  },
+  "hideWatchedChannelTooltip": {
+    "message": "Hides watched videos on Channel pages",
+    "description": "Tooltip of the Channel toggle in the Hide Watched Videos card."
+  },
+  "pageSubs": {
+    "message": "Subs",
+    "description": "Per-page toggle for the Subscriptions feed, abbreviated. Very short: the toggle is about 70px wide."
+  },
+  "hideWatchedSubsTooltip": {
+    "message": "Hides watched videos in the Subscriptions feed",
+    "description": "Tooltip of the Subs toggle in the Hide Watched Videos card."
+  },
+  "pageSearch": {
+    "message": "Search",
+    "description": "Per-page toggle for search results. Very short: the toggle is about 70px wide."
+  },
+  "hideWatchedSearchTooltip": {
+    "message": "Hides watched videos in Search results",
+    "description": "Tooltip of the Search toggle in the Hide Watched Videos card."
+  },
+  "pageRelated": {
+    "message": "Related",
+    "description": "Per-page toggle for the related videos sidebar next to the video being played. Very short: the toggle is about 70px wide."
+  },
+  "hideWatchedRelatedTooltip": {
+    "message": "Hides watched videos in the 'Related Videos' sidebar",
+    "description": "Tooltip of the Related toggle in the Hide Watched Videos card."
+  },
+  "markedWatchedLabel": {
+    "message": "Marked as watched",
+    "description": "Label of the row that shows how many videos were marked as watched by hand."
+  },
+  "markedWatchedTooltip": {
+    "message": "Hover a video and click Watched to treat it as already watched, even when YouTube shows no progress bar. Marked videos follow this card's slider and page toggles, and stay hidden even from whitelisted channels. They sync automatically to every device signed into the same Chrome profile, no export needed. Up to 3,000 videos are kept: past that, the oldest mark is dropped",
+    "description": "Tooltip of the Marked as watched row. 'Watched' is the on-page button label (buttonWatched) and must match it."
+  },
+  "markedCountNone": {
+    "message": "No videos marked yet",
+    "description": "Shown instead of a count when no video has been marked as watched."
+  },
+  "markedWatchedManage": {
+    "message": "Manage",
+    "description": "Button that opens the page listing the marked videos. One short word."
+  },
+  "markedWatchedSyncPaused": {
+    "message": "Sync paused: the channel lists need the space shared across devices. Your marked videos are saved in this browser, and syncing resumes once they fit again",
+    "description": "Notice shown when the marked videos stop syncing because the channel lists use all the sync space."
+  },
+  "contentTypesTitle": {
+    "message": "Hide Shorts, Mixes, Playlists & Lives",
+    "description": "Card title. Use YouTube's own names for Shorts, Mixes, Playlists and live streams in this language."
+  },
+  "contentTypesDescription": {
+    "message": "Remove Shorts, Mixes, Playlists and Lives from YouTube",
+    "description": "Subtitle of the Shorts, Mixes, Playlists and Lives card."
+  },
+  "contentShorts": {
+    "message": "Shorts",
+    "description": "Toggle label for hiding Shorts. Use YouTube's own name in this language. Very short."
+  },
+  "contentMixes": {
+    "message": "Mixes",
+    "description": "Toggle label for hiding Mixes (YouTube's automatic playlists). Use YouTube's own name in this language. Very short."
+  },
+  "contentPlaylists": {
+    "message": "Playlists",
+    "description": "Toggle label for hiding playlists. Very short."
+  },
+  "contentLives": {
+    "message": "Lives",
+    "description": "Toggle label for hiding live streams. Very short."
+  },
+  "hideShortsLabel": {
+    "message": "Hide Shorts",
+    "description": "Advanced toggle label."
+  },
+  "hideShortsTooltip": {
+    "message": "Removes the Shorts shelf and Shorts tab",
+    "description": "Tooltip of the Hide Shorts toggle."
+  },
+  "hideShortsSearchLabel": {
+    "message": "Hide Shorts in Search",
+    "description": "Advanced toggle label."
+  },
+  "hideShortsSearchTooltip": {
+    "message": "Removes Shorts videos from Search results",
+    "description": "Tooltip of the Hide Shorts in Search toggle."
+  },
+  "hideMixesLabel": {
+    "message": "Hide Mixes",
+    "description": "Advanced toggle label."
+  },
+  "hideMixesTooltip": {
+    "message": "Removes Mix playlists from your YouTube feed",
+    "description": "Tooltip of the Hide Mixes toggle."
+  },
+  "hidePlaylistsLabel": {
+    "message": "Hide Playlists",
+    "description": "Advanced toggle label."
+  },
+  "hidePlaylistsTooltip": {
+    "message": "Removes Playlists from your YouTube feed",
+    "description": "Tooltip of the Hide Playlists toggle."
+  },
+  "hideLivesLabel": {
+    "message": "Hide Lives",
+    "description": "Advanced toggle label."
+  },
+  "hideLivesTooltip": {
+    "message": "Removes live streams from your YouTube feed",
+    "description": "Tooltip of the Hide Lives toggle."
+  },
+  "viewsFilterTitle": {
+    "message": "Views Filter",
+    "description": "Card title of the filter based on a video's view count."
+  },
+  "viewsFilterDescription": {
+    "message": "Hide videos by their view count",
+    "description": "Subtitle of the Views Filter card."
+  },
+  "minViewsLabel": {
+    "message": "Minimum Views",
+    "description": "Label of the slider for the lower view count bound."
+  },
+  "minViewsTooltip": {
+    "message": "Videos with fewer views than this number will be hidden. Drag all the way left to turn off",
+    "description": "Tooltip of the Minimum Views slider."
+  },
+  "maxViewsLabel": {
+    "message": "Maximum Views",
+    "description": "Label of the slider for the upper view count bound."
+  },
+  "maxViewsTooltip": {
+    "message": "Videos with more views than this number will be hidden. Drag all the way left to turn off",
+    "description": "Tooltip of the Maximum Views slider."
+  },
+  "sliderOff": {
+    "message": "Off",
+    "description": "Value shown by a slider when it is turned off. One short word."
+  },
+  "rangeOverlapWarning": {
+    "message": "Filter not active: ranges overlap",
+    "description": "Warning shown when the lower bound slider is at or above the upper bound one, which turns the filter off."
+  },
+  "viewsHomeTooltip": {
+    "message": "Hides videos by view count on Home",
+    "description": "Tooltip of the Home toggle in the Views Filter card."
+  },
+  "viewsChannelTooltip": {
+    "message": "Hides videos by view count on Channels",
+    "description": "Tooltip of the Channel toggle in the Views Filter card."
+  },
+  "viewsSubsTooltip": {
+    "message": "Hides videos by view count in Subs",
+    "description": "Tooltip of the Subs toggle in the Views Filter card."
+  },
+  "viewsSearchTooltip": {
+    "message": "Hides videos by view count in Search",
+    "description": "Tooltip of the Search toggle in the Views Filter card."
+  },
+  "viewsRelatedTooltip": {
+    "message": "Hides videos by view count in Related",
+    "description": "Tooltip of the Related toggle in the Views Filter card."
+  },
+  "dateFilterTitle": {
+    "message": "Upload Date Filter",
+    "description": "Card title of the filter based on how long ago a video was uploaded."
+  },
+  "dateFilterDescription": {
+    "message": "Hide videos by their upload date",
+    "description": "Subtitle of the Upload Date Filter card."
+  },
+  "dateNewerLabel": {
+    "message": "Hide newer than",
+    "description": "Label of the slider: videos uploaded more recently than the chosen time are hidden."
+  },
+  "dateNewerTooltip": {
+    "message": "Hide videos uploaded more recently than this. Drag all the way left to turn off",
+    "description": "Tooltip of the Hide newer than slider."
+  },
+  "dateOlderLabel": {
+    "message": "Hide older than",
+    "description": "Label of the slider: videos uploaded longer ago than the chosen time are hidden."
+  },
+  "dateOlderTooltip": {
+    "message": "Hide videos uploaded longer ago than this. Drag all the way left to turn off",
+    "description": "Tooltip of the Hide older than slider."
+  },
+  "dateHomeTooltip": {
+    "message": "Hides videos by date on Home",
+    "description": "Tooltip of the Home toggle in the Upload Date Filter card."
+  },
+  "dateChannelTooltip": {
+    "message": "Hides videos by date on Channels",
+    "description": "Tooltip of the Channel toggle in the Upload Date Filter card."
+  },
+  "dateSubsTooltip": {
+    "message": "Hides videos by date in Subs",
+    "description": "Tooltip of the Subs toggle in the Upload Date Filter card."
+  },
+  "dateSearchTooltip": {
+    "message": "Hides videos by date in Search",
+    "description": "Tooltip of the Search toggle in the Upload Date Filter card."
+  },
+  "dateRelatedTooltip": {
+    "message": "Hides videos by date in Related",
+    "description": "Tooltip of the Related toggle in the Upload Date Filter card."
+  },
+  "channelWhitelistTitle": {
+    "message": "Channel Whitelist",
+    "description": "Card title. Keep 'Whitelist' in English."
+  },
+  "channelWhitelistTooltip": {
+    "message": "Whitelisted channels bypass all active filters. Add a channel from the button below or from the header button while on a channel page or video. Removing a chip immediately re-applies all filters to that channel. Shorts are always filtered regardless",
+    "description": "Tooltip of the Channel Whitelist card. A chip is one listed channel with a remove button."
+  },
+  "channelWhitelistDescription": {
+    "message": "Channels listed here will not be filtered. Shorts are always filtered regardless",
+    "description": "Subtitle of the Channel Whitelist card."
+  },
+  "channelWhitelistEmpty": {
+    "message": "No channels whitelisted yet",
+    "description": "Shown in the Channel Whitelist card when the list is empty."
+  },
+  "addCurrentChannel": {
+    "message": "+ Add current channel",
+    "description": "Button that adds the channel of the open YouTube tab to the list. Keep the leading '+'."
+  },
+  "channelListsSyncPaused": {
+    "message": "Sync paused: too many channels to sync across devices. Your lists are saved in this browser, and syncing resumes once they fit again",
+    "description": "Notice shown when the channel lists are too large to sync across devices."
+  },
+  "channelBlacklistTitle": {
+    "message": "Channel Blacklist",
+    "description": "Card title. Keep 'Blacklist' in English."
+  },
+  "channelBlacklistTooltip": {
+    "message": "Blacklisted channels are always hidden, regardless of any other filter. Add a channel from the button below or from the header button while on a channel page or video. Removing a chip immediately shows that channel's videos again. Shorts are always filtered regardless",
+    "description": "Tooltip of the Channel Blacklist card. A chip is one listed channel with a remove button."
+  },
+  "channelBlacklistDescription": {
+    "message": "Channels listed here are always hidden, everywhere. Shorts are always filtered regardless",
+    "description": "Subtitle of the Channel Blacklist card."
+  },
+  "channelBlacklistEmpty": {
+    "message": "No channels blacklisted yet",
+    "description": "Shown in the Channel Blacklist card when the list is empty."
+  },
+  "titleWhitelistTitle": {
+    "message": "Title Whitelist",
+    "description": "Card title. Keep 'Title Whitelist' in English."
+  },
+  "titleWhitelistTooltip": {
+    "message": "Videos whose title contains one of these words bypass all active filters. Matching ignores upper and lower case and matches the start of a word, so \"AI\" matches \"AI-generated\" but not \"said\". Blacklisted channels and words stay hidden, and Shorts are always filtered regardless",
+    "description": "Tooltip of the Title Whitelist card. Replace the \"AI\" / \"AI-generated\" / \"said\" example with an equivalent one that works in this language: a short word, a longer word starting with it, and a word that only contains it in the middle."
+  },
+  "titleWhitelistDescription": {
+    "message": "Videos with one of these words in their title will not be filtered",
+    "description": "Subtitle of the Title Whitelist card."
+  },
+  "titleWhitelistEmpty": {
+    "message": "No title words whitelisted yet",
+    "description": "Shown in the Title Whitelist card when the list is empty."
+  },
+  "addTitleWord": {
+    "message": "+ Add",
+    "description": "Button that adds the typed word to the list. Keep the leading '+'. Very short."
+  },
+  "titleBlacklistTitle": {
+    "message": "Title Blacklist",
+    "description": "Card title. Keep 'Title Blacklist' in English."
+  },
+  "titleBlacklistTooltip": {
+    "message": "Videos whose title contains one of these words are always hidden, everywhere, including Shorts, Mixes and Playlists, even from whitelisted channels or when the title also contains a whitelisted word. Matching ignores upper and lower case and matches the start of a word, so \"AI\" matches \"AI-generated\" but not \"said\"",
+    "description": "Tooltip of the Title Blacklist card. Replace the \"AI\" / \"AI-generated\" / \"said\" example the same way as in titleWhitelistTooltip."
+  },
+  "titleBlacklistDescription": {
+    "message": "Videos with one of these words in their title are always hidden",
+    "description": "Subtitle of the Title Blacklist card."
+  },
+  "titleBlacklistEmpty": {
+    "message": "No title words blacklisted yet",
+    "description": "Shown in the Title Blacklist card when the list is empty."
+  },
+  "advancedControlsLabel": {
+    "message": "Advanced Controls",
+    "description": "Toggle label. The tutorial quotes it, so keep the tutorial text in step."
+  },
+  "advancedControlsDescription": {
+    "message": "Show advanced per-page controls for every filter instead of the simplified toggles",
+    "description": "Description of the Advanced Controls toggle."
+  },
+  "hideOnPageControlsLabel": {
+    "message": "Hide on-page controls",
+    "description": "Toggle label. On-page tooltips and the tutorial quote it, so keep them in step."
+  },
+  "hideOnPageControlsDescription": {
+    "message": "Hides all of YouTube Hider's on-screen elements for a cleaner, more discreet look. Filtering keeps working in the background",
+    "description": "Description of the Hide on-page controls toggle."
+  },
+  "tutorialLabel": {
+    "message": "Tutorial",
+    "description": "Label of the row that restarts the first-run tutorial."
+  },
+  "tutorialDescription": {
+    "message": "Restart the guided walkthrough of the header button",
+    "description": "Description of the Tutorial row."
+  },
+  "tutorialRestart": {
+    "message": "Restart",
+    "description": "Button that restarts the tutorial. One short word."
+  },
+  "tutorialRestartConfirm": {
+    "message": "Tutorial will appear on your next YouTube visit",
+    "description": "Confirmation shown after pressing Restart."
+  },
+  "footerFeedback": {
+    "message": "Feature or Bug feedback",
+    "description": "Footer link to the feedback form."
+  },
+  "footerChangelog": {
+    "message": "Changelog",
+    "description": "Footer link to the list of changes per version."
+  },
+  "footerWebsite": {
+    "message": "Website",
+    "description": "Footer link to the project website."
+  },
+  "supportTitle": {
+    "message": "Support YouTube Hider",
+    "description": "Title of the support panel. Keep 'YouTube Hider' untranslated."
+  },
+  "supportLead": {
+    "message": "YouTube Hider is free, open source, and has no ads and no tracking. It also aims at a moving target: YouTube reshapes its page markup without warning, and a change nobody announces can quietly break a filter that worked yesterday.",
+    "description": "First paragraph of the support panel."
+  },
+  "supportText": {
+    "message": "Keeping it working means hunting those changes down one selector at a time, in someone's spare time. Any of these three helps.",
+    "description": "Second paragraph of the support panel. 'these three' are the three options listed below it."
+  },
+  "supportKofiTitle": {
+    "message": "Buy me a coffee",
+    "description": "Support option: donate on Ko-fi."
+  },
+  "supportKofiDescription": {
+    "message": "A one-off contribution on Ko-fi. No account and no subscription needed.",
+    "description": "Description of the Ko-fi option."
+  },
+  "supportGithubTitle": {
+    "message": "Contribute on GitHub",
+    "description": "Support option: contribute on GitHub."
+  },
+  "supportGithubDescription": {
+    "message": "Send a pull request, or report a broken filter with the page it happened on.",
+    "description": "Description of the GitHub option."
+  },
+  "supportReviewTitle": {
+    "message": "Leave a review",
+    "description": "Support option: rate the extension on the Chrome Web Store."
+  },
+  "supportReviewDescription": {
+    "message": "A rating on the Chrome Web Store costs nothing and helps other people find the extension.",
+    "description": "Description of the review option."
+  },
+  "titleWhitelistPlaceholder": {
+    "message": "Word or phrase, e.g. tutorial",
+    "description": "Placeholder of the Title Whitelist text box. Replace 'tutorial' with a natural example word in this language."
+  },
+  "titleWhitelistInputLabel": {
+    "message": "Word or phrase to whitelist",
+    "description": "Accessible label of the Title Whitelist text box."
+  },
+  "titleBlacklistPlaceholder": {
+    "message": "Word or phrase, e.g. reaction",
+    "description": "Placeholder of the Title Blacklist text box. Replace 'reaction' with a natural example word in this language."
+  },
+  "titleBlacklistInputLabel": {
+    "message": "Word or phrase to blacklist",
+    "description": "Accessible label of the Title Blacklist text box."
+  },
+  "logoAlt": {
+    "message": "YouTube Hider Extension Logo",
+    "description": "Alternative text of the extension logo in the footer."
+  },
+  "closeLabel": {
+    "message": "Close",
+    "description": "Accessible label of a close button."
+  },
+  "channelAddHintNoChannel": {
+    "message": "Navigate to a channel page to add it",
+    "description": "Hint under the '+ Add current channel' button when the open tab is not a channel page or video."
+  },
+  "channelAlreadyWhitelisted": {
+    "message": "$channel$ is already whitelisted",
+    "description": "Hint under the '+ Add current channel' button of the Channel Whitelist. Keep 'whitelisted' close to the English word.",
+    "placeholders": {
+      "channel": {
+        "content": "$1",
+        "example": "@veritasium"
+      }
+    }
+  },
+  "channelAlreadyBlacklisted": {
+    "message": "$channel$ is already blacklisted",
+    "description": "Hint under the '+ Add current channel' button of the Channel Blacklist. Keep 'blacklisted' close to the English word.",
+    "placeholders": {
+      "channel": {
+        "content": "$1",
+        "example": "@veritasium"
+      }
+    }
+  },
+  "chipRemoveLabel": {
+    "message": "Remove $item$",
+    "description": "Accessible label of the x button on a list chip.",
+    "placeholders": {
+      "item": {
+        "content": "$1",
+        "example": "@veritasium"
+      }
+    }
+  },
+  "titleWhitelistAlreadyListed": {
+    "message": "\"$word$\" is already whitelisted",
+    "description": "Hint under the Title Whitelist text box when the typed word is already in the list.",
+    "placeholders": {
+      "word": {
+        "content": "$1",
+        "example": "tutorial"
+      }
+    }
+  },
+  "titleWhitelistFull": {
+    "message": "Title Whitelist is full: remove a word to add a new one",
+    "description": "Hint under the Title Whitelist text box when the list reached its storage limit. Keep 'Title Whitelist' in English."
+  },
+  "titleBlacklistAlreadyListed": {
+    "message": "\"$word$\" is already blacklisted",
+    "description": "Hint under the Title Blacklist text box when the typed word is already in the list.",
+    "placeholders": {
+      "word": {
+        "content": "$1",
+        "example": "reaction"
+      }
+    }
+  },
+  "titleBlacklistFull": {
+    "message": "Title Blacklist is full: remove a word to add a new one",
+    "description": "Hint under the Title Blacklist text box when the list reached its storage limit. Keep 'Title Blacklist' in English."
   }
 }

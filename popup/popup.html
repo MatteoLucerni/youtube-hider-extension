@@ -8,7 +8,7 @@
       integrity="sha512-jnSuA4Ss2PkkikSOLtYs8BlYIeeIK1h99ty4YfvRPAlzr377vr3CXDb7sb7eEEBYjDtcYj+AjBH3FLv5uSJuXg=="
       crossorigin="anonymous"
     />
-    <title>Youtube Hider Extension</title>
+    <title data-i18n="popupPageTitle">YouTube Hider Extension</title>
     <link rel="stylesheet" href="base.css" />
     <link rel="stylesheet" href="cards.css" />
     <link rel="stylesheet" href="toggles.css" />
@@ -20,7 +20,7 @@
     <div class="container-fluid px-0">
       <header class="text-center">
         <h1 class="header-title mb-0">
-          <span class="title-youtube">Youtube</span>
+          <span class="title-youtube">YouTube</span>
           <span class="title-hider">Hider</span>
         </h1>
         <button
@@ -45,12 +45,12 @@
               stroke-linejoin="round"
             />
           </svg>
-          Support
+          <span data-i18n="headerSupport">Support</span>
         </button>
         <div class="header-toggles">
           <div class="easy-mode-toggle extension-toggle">
             <label class="easy-mode-label" for="extension-enabled">
-              <span class="easy-mode-text extension-toggle-text"
+              <span data-i18n="headerExtensionToggle" class="easy-mode-text extension-toggle-text"
                 >Extension</span
               >
               <div class="toggle-switch-large">
@@ -66,7 +66,7 @@
 
       <div class="content-wrapper">
         <div class="section-header">
-          <h2 class="section-title">YouTube Videos</h2>
+          <h2 data-i18n="sectionYouTubeVideos" class="section-title">YouTube Videos</h2>
         </div>
 
         <section class="setting-section">
@@ -79,7 +79,7 @@
               </div>
               <div class="card-compact-info">
                 <h3 class="card-title filter-mode-title">
-                  Filter Mode
+                  <span data-i18n="filterModeTitle">Filter Mode</span>
                   <div class="tooltip-container filter-mode-tooltip">
                     <svg
                       xmlns="http://www.w3.org/2000/svg"
@@ -97,7 +97,7 @@
                       <path d="M9.09 9a3 3 0 0 1 5.83 1c0 2-3 3-3 3"></path>
                       <line x1="12" y1="17" x2="12.01" y2="17"></line>
                     </svg>
-                    <span class="tooltip-text"
+                    <span data-i18n="filterModeTooltip" class="tooltip-text"
                       >Hide removes filtered videos completely. Dim keeps them
                       visible under a dark overlay with a label explaining
                       why, and they stay clickable. Shorts are always hidden
@@ -105,13 +105,13 @@
                     >
                   </div>
                 </h3>
-                <p class="card-description">
+                <p data-i18n="filterModeDescription" class="card-description">
                   Choose how filtered videos are treated. Shorts are always
                   hidden regardless
                 </p>
               </div>
             </div>
-            <div class="filter-mode-options" role="radiogroup" aria-label="Filter Mode">
+            <div data-i18n-attr="aria-label:filterModeTitle" class="filter-mode-options" role="radiogroup" aria-label="Filter Mode">
               <button
                 type="button"
                 class="filter-mode-option"
@@ -136,7 +136,7 @@
                   ></path>
                   <line x1="1" y1="1" x2="23" y2="23"></line>
                 </svg>
-                <span class="filter-mode-option-label">Hide</span>
+                <span data-i18n="filterModeHide" class="filter-mode-option-label">Hide</span>
               </button>
               <button
                 type="button"
@@ -161,7 +161,7 @@
                     stroke="none"
                   ></path>
                 </svg>
-                <span class="filter-mode-option-label">Dim</span>
+                <span data-i18n="filterModeDim" class="filter-mode-option-label">Dim</span>
               </button>
             </div>
           </div>
@@ -178,8 +178,8 @@
                 </svg>
               </div>
               <div class="card-compact-info">
-                <h3 class="card-title">Hide Watched Videos</h3>
-                <p class="card-description">
+                <h3 data-i18n="hideWatchedTitle" class="card-title">Hide Watched Videos</h3>
+                <p data-i18n="hideWatchedDescription" class="card-description">
                   Hide videos based on watch percentage threshold
                 </p>
               </div>
@@ -189,7 +189,7 @@
               <div class="slider-control slider-control-center slider-control-wide">
                 <div class="slider-control-left">
                   <div class="label-content">
-                    <label class="control-label mb-0">Watch Percentage</label>
+                    <label data-i18n="watchPercentageLabel" class="control-label mb-0">Watch Percentage</label>
                     <div class="tooltip-container">
                       <svg
                         xmlns="http://www.w3.org/2000/svg"
@@ -207,7 +207,7 @@
                         <path d="M9.09 9a3 3 0 0 1 5.83 1c0 2-3 3-3 3"></path>
                         <line x1="12" y1="17" x2="12.01" y2="17"></line>
                       </svg>
-                      <span class="tooltip-text"
+                      <span data-i18n="watchPercentageTooltip" class="tooltip-text"
                         >Hides videos if you have watched more than this % of
                         the total duration. Drag all the way left to turn
                         off</span
@@ -238,7 +238,7 @@
                 <div class="toggle-item">
                   <label class="toggle-label" for="hide-home-enabled">
                     <div class="label-content">
-                      <span class="toggle-text">Home</span>
+                      <span data-i18n="pageHome" class="toggle-text">Home</span>
                       <div class="tooltip-container">
                         <svg
                           xmlns="http://www.w3.org/2000/svg"
@@ -256,7 +256,7 @@
                           <path d="M9.09 9a3 3 0 0 1 5.83 1c0 2-3 3-3 3"></path>
                           <line x1="12" y1="17" x2="12.01" y2="17"></line>
                         </svg>
-                        <span class="tooltip-text"
+                        <span data-i18n="hideWatchedHomeTooltip" class="tooltip-text"
                           >Hides watched videos on the Home feed</span
                         >
                       </div>
@@ -270,7 +270,7 @@
                 <div class="toggle-item">
                   <label class="toggle-label" for="hide-channel-enabled">
                     <div class="label-content">
-                      <span class="toggle-text">Channel</span>
+                      <span data-i18n="pageChannel" class="toggle-text">Channel</span>
                       <div class="tooltip-container">
                         <svg
                           xmlns="http://www.w3.org/2000/svg"
@@ -288,7 +288,7 @@
                           <path d="M9.09 9a3 3 0 0 1 5.83 1c0 2-3 3-3 3"></path>
                           <line x1="12" y1="17" x2="12.01" y2="17"></line>
                         </svg>
-                        <span class="tooltip-text"
+                        <span data-i18n="hideWatchedChannelTooltip" class="tooltip-text"
                           >Hides watched videos on Channel pages</span
                         >
                       </div>
@@ -302,7 +302,7 @@
                 <div class="toggle-item">
                   <label class="toggle-label" for="hide-subs-enabled">
                     <div class="label-content">
-                      <span class="toggle-text">Subs</span>
+                      <span data-i18n="pageSubs" class="toggle-text">Subs</span>
                       <div class="tooltip-container">
                         <svg
                           xmlns="http://www.w3.org/2000/svg"
@@ -320,7 +320,7 @@
                           <path d="M9.09 9a3 3 0 0 1 5.83 1c0 2-3 3-3 3"></path>
                           <line x1="12" y1="17" x2="12.01" y2="17"></line>
                         </svg>
-                        <span class="tooltip-text"
+                        <span data-i18n="hideWatchedSubsTooltip" class="tooltip-text"
                           >Hides watched videos in the Subscriptions feed</span
                         >
                       </div>
@@ -334,7 +334,7 @@
                 <div class="toggle-item">
                   <label class="toggle-label" for="hide-search-enabled">
                     <div class="label-content">
-                      <span class="toggle-text">Search</span>
+                      <span data-i18n="pageSearch" class="toggle-text">Search</span>
                       <div class="tooltip-container">
                         <svg
                           xmlns="http://www.w3.org/2000/svg"
@@ -352,7 +352,7 @@
                           <path d="M9.09 9a3 3 0 0 1 5.83 1c0 2-3 3-3 3"></path>
                           <line x1="12" y1="17" x2="12.01" y2="17"></line>
                         </svg>
-                        <span class="tooltip-text"
+                        <span data-i18n="hideWatchedSearchTooltip" class="tooltip-text"
                           >Hides watched videos in Search results</span
                         >
                       </div>
@@ -366,7 +366,7 @@
                 <div class="toggle-item">
                   <label class="toggle-label" for="hide-corr-enabled">
                     <div class="label-content">
-                      <span class="toggle-text">Related</span>
+                      <span data-i18n="pageRelated" class="toggle-text">Related</span>
                       <div class="tooltip-container">
                         <svg
                           xmlns="http://www.w3.org/2000/svg"
@@ -384,7 +384,7 @@
                           <path d="M9.09 9a3 3 0 0 1 5.83 1c0 2-3 3-3 3"></path>
                           <line x1="12" y1="17" x2="12.01" y2="17"></line>
                         </svg>
-                        <span class="tooltip-text"
+                        <span data-i18n="hideWatchedRelatedTooltip" class="tooltip-text"
                           >Hides watched videos in the 'Related Videos'
                           sidebar</span
                         >
@@ -401,7 +401,7 @@
               <div class="marked-watched-row">
                 <div class="marked-watched-info">
                   <div class="label-content">
-                    <span class="control-label mb-0">Marked as watched</span>
+                    <span data-i18n="markedWatchedLabel" class="control-label mb-0">Marked as watched</span>
                     <div class="tooltip-container">
                       <svg
                         xmlns="http://www.w3.org/2000/svg"
@@ -419,7 +419,7 @@
                         <path d="M9.09 9a3 3 0 0 1 5.83 1c0 2-3 3-3 3"></path>
                         <line x1="12" y1="17" x2="12.01" y2="17"></line>
                       </svg>
-                      <span class="tooltip-text"
+                      <span data-i18n="markedWatchedTooltip" class="tooltip-text"
                         >Hover a video and click Watched to treat it as already
                         watched, even when YouTube shows no progress bar. Marked
                         videos follow this card's slider and page toggles, and
@@ -430,11 +430,11 @@
                       >
                     </div>
                   </div>
-                  <span class="marked-watched-count" id="marked-watched-count"
+                  <span data-i18n="markedCountNone" class="marked-watched-count" id="marked-watched-count"
                     >No videos marked yet</span
                   >
                 </div>
-                <button
+                <button data-i18n="markedWatchedManage"
                   type="button"
                   id="marked-watched-manage-btn"
                   class="add-channel-btn marked-watched-manage-btn"
@@ -464,7 +464,7 @@
                   <line x1="12" y1="9" x2="12" y2="13"></line>
                   <line x1="12" y1="17" x2="12.01" y2="17"></line>
                 </svg>
-                <span>Sync paused: the channel lists need the space shared
+                <span data-i18n="markedWatchedSyncPaused">Sync paused: the channel lists need the space shared
                   across devices. Your marked videos are saved in this browser,
                   and syncing resumes once they fit again</span>
               </div>
@@ -487,10 +487,10 @@
                 </svg>
               </div>
               <div class="card-compact-info">
-                <h3 class="card-title">
+                <h3 data-i18n="contentTypesTitle" class="card-title">
                   Hide Shorts, Mixes, Playlists & Lives
                 </h3>
-                <p class="card-description">
+                <p data-i18n="contentTypesDescription" class="card-description">
                   Remove Shorts, Mixes, Playlists and Lives from YouTube
                 </p>
               </div>
@@ -500,7 +500,7 @@
               <div class="toggle-item">
                 <label class="toggle-label" for="hide-shorts-easy">
                   <div class="label-content">
-                    <span class="toggle-text">Shorts</span>
+                    <span data-i18n="contentShorts" class="toggle-text">Shorts</span>
                   </div>
                   <div class="toggle-switch">
                     <input type="checkbox" id="hide-shorts-easy" />
@@ -511,7 +511,7 @@
               <div class="toggle-item">
                 <label class="toggle-label" for="hide-mixes-easy">
                   <div class="label-content">
-                    <span class="toggle-text">Mixes</span>
+                    <span data-i18n="contentMixes" class="toggle-text">Mixes</span>
                   </div>
                   <div class="toggle-switch">
                     <input type="checkbox" id="hide-mixes-easy" />
@@ -522,7 +522,7 @@
               <div class="toggle-item">
                 <label class="toggle-label" for="hide-playlists-easy">
                   <div class="label-content">
-                    <span class="toggle-text">Playlists</span>
+                    <span data-i18n="contentPlaylists" class="toggle-text">Playlists</span>
                   </div>
                   <div class="toggle-switch">
                     <input type="checkbox" id="hide-playlists-easy" />
@@ -533,7 +533,7 @@
               <div class="toggle-item">
                 <label class="toggle-label" for="hide-lives-easy">
                   <div class="label-content">
-                    <span class="toggle-text">Lives</span>
+                    <span data-i18n="contentLives" class="toggle-text">Lives</span>
                   </div>
                   <div class="toggle-switch">
                     <input type="checkbox" id="hide-lives-easy" />
@@ -548,7 +548,7 @@
                 <div class="toggle-item">
                   <label class="toggle-label" for="hide-shorts-enabled">
                     <div class="label-content">
-                      <span class="toggle-text">Hide Shorts</span>
+                      <span data-i18n="hideShortsLabel" class="toggle-text">Hide Shorts</span>
                       <div class="tooltip-container">
                         <svg
                           xmlns="http://www.w3.org/2000/svg"
@@ -566,7 +566,7 @@
                           <path d="M9.09 9a3 3 0 0 1 5.83 1c0 2-3 3-3 3"></path>
                           <line x1="12" y1="17" x2="12.01" y2="17"></line>
                         </svg>
-                        <span class="tooltip-text"
+                        <span data-i18n="hideShortsTooltip" class="tooltip-text"
                           >Removes the Shorts shelf and Shorts tab</span
                         >
                       </div>
@@ -580,7 +580,7 @@
                 <div class="toggle-item">
                   <label class="toggle-label" for="hide-shorts-search-enabled">
                     <div class="label-content">
-                      <span class="toggle-text">Hide Shorts in Search</span>
+                      <span data-i18n="hideShortsSearchLabel" class="toggle-text">Hide Shorts in Search</span>
                       <div class="tooltip-container">
                         <svg
                           xmlns="http://www.w3.org/2000/svg"
@@ -598,7 +598,7 @@
                           <path d="M9.09 9a3 3 0 0 1 5.83 1c0 2-3 3-3 3"></path>
                           <line x1="12" y1="17" x2="12.01" y2="17"></line>
                         </svg>
-                        <span class="tooltip-text"
+                        <span data-i18n="hideShortsSearchTooltip" class="tooltip-text"
                           >Removes Shorts videos from Search results</span
                         >
                       </div>
@@ -612,7 +612,7 @@
                 <div class="toggle-item">
                   <label class="toggle-label" for="hide-mixes-enabled">
                     <div class="label-content">
-                      <span class="toggle-text">Hide Mixes</span>
+                      <span data-i18n="hideMixesLabel" class="toggle-text">Hide Mixes</span>
                       <div class="tooltip-container">
                         <svg
                           xmlns="http://www.w3.org/2000/svg"
@@ -630,7 +630,7 @@
                           <path d="M9.09 9a3 3 0 0 1 5.83 1c0 2-3 3-3 3"></path>
                           <line x1="12" y1="17" x2="12.01" y2="17"></line>
                         </svg>
-                        <span class="tooltip-text"
+                        <span data-i18n="hideMixesTooltip" class="tooltip-text"
                           >Removes Mix playlists from your YouTube feed</span
                         >
                       </div>
@@ -644,7 +644,7 @@
                 <div class="toggle-item">
                   <label class="toggle-label" for="hide-playlists-enabled">
                     <div class="label-content">
-                      <span class="toggle-text">Hide Playlists</span>
+                      <span data-i18n="hidePlaylistsLabel" class="toggle-text">Hide Playlists</span>
                       <div class="tooltip-container">
                         <svg
                           xmlns="http://www.w3.org/2000/svg"
@@ -662,7 +662,7 @@
                           <path d="M9.09 9a3 3 0 0 1 5.83 1c0 2-3 3-3 3"></path>
                           <line x1="12" y1="17" x2="12.01" y2="17"></line>
                         </svg>
-                        <span class="tooltip-text"
+                        <span data-i18n="hidePlaylistsTooltip" class="tooltip-text"
                           >Removes Playlists from your YouTube feed</span
                         >
                       </div>
@@ -676,7 +676,7 @@
                 <div class="toggle-item">
                   <label class="toggle-label" for="hide-lives-enabled">
                     <div class="label-content">
-                      <span class="toggle-text">Hide Lives</span>
+                      <span data-i18n="hideLivesLabel" class="toggle-text">Hide Lives</span>
                       <div class="tooltip-container">
                         <svg
                           xmlns="http://www.w3.org/2000/svg"
@@ -694,7 +694,7 @@
                           <path d="M9.09 9a3 3 0 0 1 5.83 1c0 2-3 3-3 3"></path>
                           <line x1="12" y1="17" x2="12.01" y2="17"></line>
                         </svg>
-                        <span class="tooltip-text"
+                        <span data-i18n="hideLivesTooltip" class="tooltip-text"
                           >Removes live streams from your YouTube feed</span
                         >
                       </div>
@@ -722,8 +722,8 @@
                 </svg>
               </div>
               <div class="card-compact-info">
-                <h3 class="card-title">Views Filter</h3>
-                <p class="card-description">
+                <h3 data-i18n="viewsFilterTitle" class="card-title">Views Filter</h3>
+                <p data-i18n="viewsFilterDescription" class="card-description">
                   Hide videos by their view count
                 </p>
               </div>
@@ -738,7 +738,7 @@
               >
                 <div class="slider-control-left">
                   <div class="label-content">
-                    <label class="control-label mb-0">Minimum Views</label>
+                    <label data-i18n="minViewsLabel" class="control-label mb-0">Minimum Views</label>
                     <div class="tooltip-container">
                       <svg
                         xmlns="http://www.w3.org/2000/svg"
@@ -756,7 +756,7 @@
                         <path d="M9.09 9a3 3 0 0 1 5.83 1c0 2-3 3-3 3"></path>
                         <line x1="12" y1="17" x2="12.01" y2="17"></line>
                       </svg>
-                      <span class="tooltip-text"
+                      <span data-i18n="minViewsTooltip" class="tooltip-text"
                         >Videos with fewer views than this number will be
                         hidden. Drag all the way left to turn off</span
                       >
@@ -784,7 +784,7 @@
               >
                 <div class="slider-control-left">
                   <div class="label-content">
-                    <label class="control-label mb-0">Maximum Views</label>
+                    <label data-i18n="maxViewsLabel" class="control-label mb-0">Maximum Views</label>
                     <div class="tooltip-container">
                       <svg
                         xmlns="http://www.w3.org/2000/svg"
@@ -802,14 +802,14 @@
                         <path d="M9.09 9a3 3 0 0 1 5.83 1c0 2-3 3-3 3"></path>
                         <line x1="12" y1="17" x2="12.01" y2="17"></line>
                       </svg>
-                      <span class="tooltip-text"
+                      <span data-i18n="maxViewsTooltip" class="tooltip-text"
                         >Videos with more views than this number will be hidden.
                         Drag all the way left to turn off</span
                       >
                     </div>
                   </div>
                   <div class="slider-display range-slider-display">
-                    <span class="slider-value" id="views-hide-max-value"
+                    <span data-i18n="sliderOff" class="slider-value" id="views-hide-max-value"
                       >Off</span
                     >
                   </div>
@@ -849,14 +849,14 @@
                   <line x1="12" y1="9" x2="12" y2="13"></line>
                   <line x1="12" y1="17" x2="12.01" y2="17"></line>
                 </svg>
-                <span>Filter not active: ranges overlap</span>
+                <span data-i18n="rangeOverlapWarning">Filter not active: ranges overlap</span>
               </div>
 
               <div class="toggle-grid easy-mode-advanced">
                 <div class="toggle-item">
                   <label class="toggle-label" for="views-hide-home-enabled">
                     <div class="label-content">
-                      <span class="toggle-text">Home</span>
+                      <span data-i18n="pageHome" class="toggle-text">Home</span>
                       <div class="tooltip-container">
                         <svg
                           xmlns="http://www.w3.org/2000/svg"
@@ -874,7 +874,7 @@
                           <path d="M9.09 9a3 3 0 0 1 5.83 1c0 2-3 3-3 3"></path>
                           <line x1="12" y1="17" x2="12.01" y2="17"></line>
                         </svg>
-                        <span class="tooltip-text"
+                        <span data-i18n="viewsHomeTooltip" class="tooltip-text"
                           >Hides videos by view count on Home</span
                         >
                       </div>
@@ -888,7 +888,7 @@
                 <div class="toggle-item">
                   <label class="toggle-label" for="views-hide-channel-enabled">
                     <div class="label-content">
-                      <span class="toggle-text">Channel</span>
+                      <span data-i18n="pageChannel" class="toggle-text">Channel</span>
                       <div class="tooltip-container">
                         <svg
                           xmlns="http://www.w3.org/2000/svg"
@@ -906,7 +906,7 @@
                           <path d="M9.09 9a3 3 0 0 1 5.83 1c0 2-3 3-3 3"></path>
                           <line x1="12" y1="17" x2="12.01" y2="17"></line>
                         </svg>
-                        <span class="tooltip-text"
+                        <span data-i18n="viewsChannelTooltip" class="tooltip-text"
                           >Hides videos by view count on Channels</span
                         >
                       </div>
@@ -920,7 +920,7 @@
                 <div class="toggle-item">
                   <label class="toggle-label" for="views-hide-subs-enabled">
                     <div class="label-content">
-                      <span class="toggle-text">Subs</span>
+                      <span data-i18n="pageSubs" class="toggle-text">Subs</span>
                       <div class="tooltip-container">
                         <svg
                           xmlns="http://www.w3.org/2000/svg"
@@ -938,7 +938,7 @@
                           <path d="M9.09 9a3 3 0 0 1 5.83 1c0 2-3 3-3 3"></path>
                           <line x1="12" y1="17" x2="12.01" y2="17"></line>
                         </svg>
-                        <span class="tooltip-text"
+                        <span data-i18n="viewsSubsTooltip" class="tooltip-text"
                           >Hides videos by view count in Subs</span
                         >
                       </div>
@@ -952,7 +952,7 @@
                 <div class="toggle-item">
                   <label class="toggle-label" for="views-hide-search-enabled">
                     <div class="label-content">
-                      <span class="toggle-text">Search</span>
+                      <span data-i18n="pageSearch" class="toggle-text">Search</span>
                       <div class="tooltip-container">
                         <svg
                           xmlns="http://www.w3.org/2000/svg"
@@ -970,7 +970,7 @@
                           <path d="M9.09 9a3 3 0 0 1 5.83 1c0 2-3 3-3 3"></path>
                           <line x1="12" y1="17" x2="12.01" y2="17"></line>
                         </svg>
-                        <span class="tooltip-text"
+                        <span data-i18n="viewsSearchTooltip" class="tooltip-text"
                           >Hides videos by view count in Search</span
                         >
                       </div>
@@ -984,7 +984,7 @@
                 <div class="toggle-item">
                   <label class="toggle-label" for="views-hide-corr-enabled">
                     <div class="label-content">
-                      <span class="toggle-text">Related</span>
+                      <span data-i18n="pageRelated" class="toggle-text">Related</span>
                       <div class="tooltip-container">
                         <svg
                           xmlns="http://www.w3.org/2000/svg"
@@ -1002,7 +1002,7 @@
                           <path d="M9.09 9a3 3 0 0 1 5.83 1c0 2-3 3-3 3"></path>
                           <line x1="12" y1="17" x2="12.01" y2="17"></line>
                         </svg>
-                        <span class="tooltip-text"
+                        <span data-i18n="viewsRelatedTooltip" class="tooltip-text"
                           >Hides videos by view count in Related</span
                         >
                       </div>
@@ -1031,8 +1031,8 @@
                 </svg>
               </div>
               <div class="card-compact-info">
-                <h3 class="card-title">Upload Date Filter</h3>
-                <p class="card-description">Hide videos by their upload date</p>
+                <h3 data-i18n="dateFilterTitle" class="card-title">Upload Date Filter</h3>
+                <p data-i18n="dateFilterDescription" class="card-description">Hide videos by their upload date</p>
               </div>
             </div>
 
@@ -1040,7 +1040,7 @@
               <div class="slider-control slider-control-center slider-control-wide range-sub-filter">
                 <div class="slider-control-left">
                   <div class="label-content">
-                    <label class="control-label mb-0">Hide newer than</label>
+                    <label data-i18n="dateNewerLabel" class="control-label mb-0">Hide newer than</label>
                     <div class="tooltip-container">
                       <svg
                         xmlns="http://www.w3.org/2000/svg"
@@ -1058,14 +1058,14 @@
                         <path d="M9.09 9a3 3 0 0 1 5.83 1c0 2-3 3-3 3"></path>
                         <line x1="12" y1="17" x2="12.01" y2="17"></line>
                       </svg>
-                      <span class="tooltip-text"
+                      <span data-i18n="dateNewerTooltip" class="tooltip-text"
                         >Hide videos uploaded more recently than this. Drag all
                         the way left to turn off</span
                       >
                     </div>
                   </div>
                   <div class="slider-display range-slider-display">
-                    <span class="slider-value" id="date-filter-newer-value"
+                    <span data-i18n="sliderOff" class="slider-value" id="date-filter-newer-value"
                       >Off</span
                     >
                   </div>
@@ -1086,7 +1086,7 @@
               <div class="slider-control slider-control-center slider-control-wide range-sub-filter">
                 <div class="slider-control-left">
                   <div class="label-content">
-                    <label class="control-label mb-0">Hide older than</label>
+                    <label data-i18n="dateOlderLabel" class="control-label mb-0">Hide older than</label>
                     <div class="tooltip-container">
                       <svg
                         xmlns="http://www.w3.org/2000/svg"
@@ -1104,14 +1104,14 @@
                         <path d="M9.09 9a3 3 0 0 1 5.83 1c0 2-3 3-3 3"></path>
                         <line x1="12" y1="17" x2="12.01" y2="17"></line>
                       </svg>
-                      <span class="tooltip-text"
+                      <span data-i18n="dateOlderTooltip" class="tooltip-text"
                         >Hide videos uploaded longer ago than this. Drag all the
                         way left to turn off</span
                       >
                     </div>
                   </div>
                   <div class="slider-display range-slider-display">
-                    <span class="slider-value" id="date-filter-older-value"
+                    <span data-i18n="sliderOff" class="slider-value" id="date-filter-older-value"
                       >Off</span
                     >
                   </div>
@@ -1151,14 +1151,14 @@
                   <line x1="12" y1="9" x2="12" y2="13"></line>
                   <line x1="12" y1="17" x2="12.01" y2="17"></line>
                 </svg>
-                <span>Filter not active: ranges overlap</span>
+                <span data-i18n="rangeOverlapWarning">Filter not active: ranges overlap</span>
               </div>
 
               <div class="toggle-grid easy-mode-advanced">
                 <div class="toggle-item">
                   <label class="toggle-label" for="date-filter-home-enabled">
                     <div class="label-content">
-                      <span class="toggle-text">Home</span>
+                      <span data-i18n="pageHome" class="toggle-text">Home</span>
                       <div class="tooltip-container">
                         <svg
                           xmlns="http://www.w3.org/2000/svg"
@@ -1176,7 +1176,7 @@
                           <path d="M9.09 9a3 3 0 0 1 5.83 1c0 2-3 3-3 3"></path>
                           <line x1="12" y1="17" x2="12.01" y2="17"></line>
                         </svg>
-                        <span class="tooltip-text"
+                        <span data-i18n="dateHomeTooltip" class="tooltip-text"
                           >Hides videos by date on Home</span
                         >
                       </div>
@@ -1190,7 +1190,7 @@
                 <div class="toggle-item">
                   <label class="toggle-label" for="date-filter-channel-enabled">
                     <div class="label-content">
-                      <span class="toggle-text">Channel</span>
+                      <span data-i18n="pageChannel" class="toggle-text">Channel</span>
                       <div class="tooltip-container">
                         <svg
                           xmlns="http://www.w3.org/2000/svg"
@@ -1208,7 +1208,7 @@
                           <path d="M9.09 9a3 3 0 0 1 5.83 1c0 2-3 3-3 3"></path>
                           <line x1="12" y1="17" x2="12.01" y2="17"></line>
                         </svg>
-                        <span class="tooltip-text"
+                        <span data-i18n="dateChannelTooltip" class="tooltip-text"
                           >Hides videos by date on Channels</span
                         >
                       </div>
@@ -1222,7 +1222,7 @@
                 <div class="toggle-item">
                   <label class="toggle-label" for="date-filter-subs-enabled">
                     <div class="label-content">
-                      <span class="toggle-text">Subs</span>
+                      <span data-i18n="pageSubs" class="toggle-text">Subs</span>
                       <div class="tooltip-container">
                         <svg
                           xmlns="http://www.w3.org/2000/svg"
@@ -1240,7 +1240,7 @@
                           <path d="M9.09 9a3 3 0 0 1 5.83 1c0 2-3 3-3 3"></path>
                           <line x1="12" y1="17" x2="12.01" y2="17"></line>
                         </svg>
-                        <span class="tooltip-text"
+                        <span data-i18n="dateSubsTooltip" class="tooltip-text"
                           >Hides videos by date in Subs</span
                         >
                       </div>
@@ -1254,7 +1254,7 @@
                 <div class="toggle-item">
                   <label class="toggle-label" for="date-filter-search-enabled">
                     <div class="label-content">
-                      <span class="toggle-text">Search</span>
+                      <span data-i18n="pageSearch" class="toggle-text">Search</span>
                       <div class="tooltip-container">
                         <svg
                           xmlns="http://www.w3.org/2000/svg"
@@ -1272,7 +1272,7 @@
                           <path d="M9.09 9a3 3 0 0 1 5.83 1c0 2-3 3-3 3"></path>
                           <line x1="12" y1="17" x2="12.01" y2="17"></line>
                         </svg>
-                        <span class="tooltip-text"
+                        <span data-i18n="dateSearchTooltip" class="tooltip-text"
                           >Hides videos by date in Search</span
                         >
                       </div>
@@ -1286,7 +1286,7 @@
                 <div class="toggle-item">
                   <label class="toggle-label" for="date-filter-corr-enabled">
                     <div class="label-content">
-                      <span class="toggle-text">Related</span>
+                      <span data-i18n="pageRelated" class="toggle-text">Related</span>
                       <div class="tooltip-container">
                         <svg
                           xmlns="http://www.w3.org/2000/svg"
@@ -1304,7 +1304,7 @@
                           <path d="M9.09 9a3 3 0 0 1 5.83 1c0 2-3 3-3 3"></path>
                           <line x1="12" y1="17" x2="12.01" y2="17"></line>
                         </svg>
-                        <span class="tooltip-text"
+                        <span data-i18n="dateRelatedTooltip" class="tooltip-text"
                           >Hides videos by date in Related</span
                         >
                       </div>
@@ -1332,7 +1332,7 @@
                   class="card-title"
                   style="display: flex; align-items: center; gap: 6px"
                 >
-                  Channel Whitelist
+                  <span data-i18n="channelWhitelistTitle">Channel Whitelist</span>
                   <div class="tooltip-container">
                     <svg
                       xmlns="http://www.w3.org/2000/svg"
@@ -1350,7 +1350,7 @@
                       <path d="M9.09 9a3 3 0 0 1 5.83 1c0 2-3 3-3 3"></path>
                       <line x1="12" y1="17" x2="12.01" y2="17"></line>
                     </svg>
-                    <span class="tooltip-text"
+                    <span data-i18n="channelWhitelistTooltip" class="tooltip-text"
                       >Whitelisted channels bypass all active filters. Add a
                       channel from the button below or from the header button
                       while on a channel page or video. Removing a chip
@@ -1359,7 +1359,7 @@
                     >
                   </div>
                 </h3>
-                <p class="card-description">
+                <p data-i18n="channelWhitelistDescription" class="card-description">
                   Channels listed here will not be filtered. Shorts are always
                   filtered regardless
                 </p>
@@ -1376,12 +1376,12 @@
                 id="channel-whitelist-chips"
                 class="whitelist-chips-container"
               >
-                <span class="whitelist-empty-hint" id="channel-whitelist-empty"
+                <span data-i18n="channelWhitelistEmpty" class="whitelist-empty-hint" id="channel-whitelist-empty"
                   >No channels whitelisted yet</span
                 >
               </div>
               <div class="whitelist-add-row">
-                <button
+                <button data-i18n="addCurrentChannel"
                   type="button"
                   id="add-current-channel-btn"
                   class="add-channel-btn"
@@ -1412,7 +1412,7 @@
                   <line x1="12" y1="9" x2="12" y2="13"></line>
                   <line x1="12" y1="17" x2="12.01" y2="17"></line>
                 </svg>
-                <span>Sync paused: too many channels to sync across devices.
+                <span data-i18n="channelListsSyncPaused">Sync paused: too many channels to sync across devices.
                   Your lists are saved in this browser, and syncing resumes
                   once they fit again</span>
               </div>
@@ -1433,7 +1433,7 @@
                   class="card-title"
                   style="display: flex; align-items: center; gap: 6px"
                 >
-                  Channel Blacklist
+                  <span data-i18n="channelBlacklistTitle">Channel Blacklist</span>
                   <div class="tooltip-container">
                     <svg
                       xmlns="http://www.w3.org/2000/svg"
@@ -1451,7 +1451,7 @@
                       <path d="M9.09 9a3 3 0 0 1 5.83 1c0 2-3 3-3 3"></path>
                       <line x1="12" y1="17" x2="12.01" y2="17"></line>
                     </svg>
-                    <span class="tooltip-text"
+                    <span data-i18n="channelBlacklistTooltip" class="tooltip-text"
                       >Blacklisted channels are always hidden, regardless of
                       any other filter. Add a channel from the button below or
                       from the header button while on a channel page or video.
@@ -1460,7 +1460,7 @@
                     >
                   </div>
                 </h3>
-                <p class="card-description">
+                <p data-i18n="channelBlacklistDescription" class="card-description">
                   Channels listed here are always hidden, everywhere. Shorts
                   are always filtered regardless
                 </p>
@@ -1477,12 +1477,12 @@
                 id="channel-blacklist-chips"
                 class="whitelist-chips-container"
               >
-                <span class="whitelist-empty-hint" id="channel-blacklist-empty"
+                <span data-i18n="channelBlacklistEmpty" class="whitelist-empty-hint" id="channel-blacklist-empty"
                   >No channels blacklisted yet</span
                 >
               </div>
               <div class="whitelist-add-row">
-                <button
+                <button data-i18n="addCurrentChannel"
                   type="button"
                   id="add-current-channel-blacklist-btn"
                   class="add-channel-btn blacklist-add-btn"
@@ -1513,7 +1513,7 @@
                   <line x1="12" y1="9" x2="12" y2="13"></line>
                   <line x1="12" y1="17" x2="12.01" y2="17"></line>
                 </svg>
-                <span>Sync paused: too many channels to sync across devices.
+                <span data-i18n="channelListsSyncPaused">Sync paused: too many channels to sync across devices.
                   Your lists are saved in this browser, and syncing resumes
                   once they fit again</span>
               </div>
@@ -1534,7 +1534,7 @@
                   class="card-title"
                   style="display: flex; align-items: center; gap: 6px"
                 >
-                  Title Whitelist
+                  <span data-i18n="titleWhitelistTitle">Title Whitelist</span>
                   <div class="tooltip-container">
                     <svg
                       xmlns="http://www.w3.org/2000/svg"
@@ -1552,7 +1552,7 @@
                       <path d="M9.09 9a3 3 0 0 1 5.83 1c0 2-3 3-3 3"></path>
                       <line x1="12" y1="17" x2="12.01" y2="17"></line>
                     </svg>
-                    <span class="tooltip-text"
+                    <span data-i18n="titleWhitelistTooltip" class="tooltip-text"
                       >Videos whose title contains one of these words bypass
                       all active filters. Matching ignores upper and lower
                       case and matches the start of a word, so "AI" matches
@@ -1562,7 +1562,7 @@
                     >
                   </div>
                 </h3>
-                <p class="card-description">
+                <p data-i18n="titleWhitelistDescription" class="card-description">
                   Videos with one of these words in their title will not be
                   filtered
                 </p>
@@ -1579,12 +1579,12 @@
                 id="title-whitelist-chips"
                 class="whitelist-chips-container"
               >
-                <span class="whitelist-empty-hint" id="title-whitelist-empty"
+                <span data-i18n="titleWhitelistEmpty" class="whitelist-empty-hint" id="title-whitelist-empty"
                   >No title words whitelisted yet</span
                 >
               </div>
               <form class="title-list-add-row" id="title-whitelist-form">
-                <input
+                <input data-i18n-attr="placeholder:titleWhitelistPlaceholder,aria-label:titleWhitelistInputLabel"
                   type="text"
                   id="title-whitelist-input"
                   class="title-list-input"
@@ -1594,7 +1594,7 @@
                   spellcheck="false"
                   aria-label="Word or phrase to whitelist"
                 />
-                <button
+                <button data-i18n="addTitleWord"
                   type="submit"
                   id="title-whitelist-add-btn"
                   class="add-channel-btn title-list-add-btn"
@@ -1624,7 +1624,7 @@
                   class="card-title"
                   style="display: flex; align-items: center; gap: 6px"
                 >
-                  Title Blacklist
+                  <span data-i18n="titleBlacklistTitle">Title Blacklist</span>
                   <div class="tooltip-container">
                     <svg
                       xmlns="http://www.w3.org/2000/svg"
@@ -1642,7 +1642,7 @@
                       <path d="M9.09 9a3 3 0 0 1 5.83 1c0 2-3 3-3 3"></path>
                       <line x1="12" y1="17" x2="12.01" y2="17"></line>
                     </svg>
-                    <span class="tooltip-text"
+                    <span data-i18n="titleBlacklistTooltip" class="tooltip-text"
                       >Videos whose title contains one of these words are
                       always hidden, everywhere, including Shorts, Mixes and
                       Playlists, even from whitelisted channels or when the
@@ -1652,7 +1652,7 @@
                     >
                   </div>
                 </h3>
-                <p class="card-description">
+                <p data-i18n="titleBlacklistDescription" class="card-description">
                   Videos with one of these words in their title are always
                   hidden
                 </p>
@@ -1669,12 +1669,12 @@
                 id="title-blacklist-chips"
                 class="whitelist-chips-container"
               >
-                <span class="whitelist-empty-hint" id="title-blacklist-empty"
+                <span data-i18n="titleBlacklistEmpty" class="whitelist-empty-hint" id="title-blacklist-empty"
                   >No title words blacklisted yet</span
                 >
               </div>
               <form class="title-list-add-row" id="title-blacklist-form">
-                <input
+                <input data-i18n-attr="placeholder:titleBlacklistPlaceholder,aria-label:titleBlacklistInputLabel"
                   type="text"
                   id="title-blacklist-input"
                   class="title-list-input"
@@ -1684,7 +1684,7 @@
                   spellcheck="false"
                   aria-label="Word or phrase to blacklist"
                 />
-                <button
+                <button data-i18n="addTitleWord"
                   type="submit"
                   id="title-blacklist-add-btn"
                   class="add-channel-btn blacklist-add-btn title-list-add-btn"
@@ -1706,8 +1706,8 @@
           >
             <div class="extra-setting-row">
               <div class="card-compact-info">
-                <span class="toggle-text">Advanced Controls</span>
-                <p class="card-description">
+                <span data-i18n="advancedControlsLabel" class="toggle-text">Advanced Controls</span>
+                <p data-i18n="advancedControlsDescription" class="card-description">
                   Show advanced per-page controls for every filter instead of
                   the simplified toggles
                 </p>
@@ -1722,8 +1722,8 @@
 
             <div class="extra-setting-row">
               <div class="card-compact-info">
-                <span class="toggle-text">Hide on-page controls</span>
-                <p class="card-description">
+                <span data-i18n="hideOnPageControlsLabel" class="toggle-text">Hide on-page controls</span>
+                <p data-i18n="hideOnPageControlsDescription" class="card-description">
                   Hides all of YouTube Hider's on-screen elements for a cleaner,
                   more discreet look. Filtering keeps working in the background
                 </p>
@@ -1738,8 +1738,8 @@
 
             <div class="extra-setting-row">
               <div class="card-compact-info">
-                <span class="toggle-text">Tutorial</span>
-                <p class="card-description">
+                <span data-i18n="tutorialLabel" class="toggle-text">Tutorial</span>
+                <p data-i18n="tutorialDescription" class="card-description">
                   Restart the guided walkthrough of the header button
                 </p>
               </div>
@@ -1762,9 +1762,9 @@
                     <polyline points="1 4 1 10 7 10"></polyline>
                     <path d="M3.51 15a9 9 0 1 0 2.13-9.36L1 10"></path>
                   </svg>
-                  Restart
+                  <span data-i18n="tutorialRestart">Restart</span>
                 </button>
-                <span
+                <span data-i18n="tutorialRestartConfirm"
                   id="restart-tutorial-confirm"
                   class="restart-tutorial-confirm"
                 >
@@ -1777,10 +1777,10 @@
 
         <div class="footer-container">
           <div class="footer-logo">
-            <img
+            <img data-i18n-attr="alt:logoAlt"
               class="logo-image"
               src="../assets/icons/youtube-hider-logo.png"
-              alt="Youtube Hider Extension Logo"
+              alt="YouTube Hider Extension Logo"
             />
           </div>
           <div class="footer-version" id="footer-version"></div>
@@ -1790,7 +1790,7 @@
               target="_blank"
               class="footer-link"
             >
-              Feature or Bug feedback
+              <span data-i18n="footerFeedback">Feature or Bug feedback</span>
               <svg
                 class="external-icon"
                 width="12"
@@ -1812,7 +1812,7 @@
               target="_blank"
               class="footer-link"
             >
-              Changelog
+              <span data-i18n="footerChangelog">Changelog</span>
               <svg
                 class="external-icon"
                 width="12"
@@ -1834,7 +1834,7 @@
               target="_blank"
               class="footer-link"
             >
-              Website
+              <span data-i18n="footerWebsite">Website</span>
               <svg
                 class="external-icon"
                 width="12"
@@ -1865,10 +1865,10 @@
         aria-labelledby="support-modal-title"
       >
         <div class="support-modal-header">
-          <h2 class="support-modal-title" id="support-modal-title">
-            Support Youtube Hider
+          <h2 data-i18n="supportTitle" class="support-modal-title" id="support-modal-title">
+            Support YouTube Hider
           </h2>
-          <button
+          <button data-i18n-attr="aria-label:closeLabel"
             type="button"
             class="support-modal-close"
             id="support-modal-close"
@@ -1885,13 +1885,13 @@
           </button>
         </div>
 
-        <p class="support-modal-text support-modal-lead">
-          Youtube Hider is free, open source, and has no ads and no tracking.
+        <p data-i18n="supportLead" class="support-modal-text support-modal-lead">
+          YouTube Hider is free, open source, and has no ads and no tracking.
           It also aims at a moving target: YouTube reshapes its page markup
           without warning, and a change nobody announces can quietly break a
           filter that worked yesterday.
         </p>
-        <p class="support-modal-text">
+        <p data-i18n="supportText" class="support-modal-text">
           Keeping it working means hunting those changes down one selector at a
           time, in someone's spare time. Any of these three helps.
         </p>
@@ -1929,8 +1929,8 @@
               </svg>
             </span>
             <span class="support-option-body">
-              <span class="support-option-title">Buy me a coffee</span>
-              <span class="support-option-desc">
+              <span data-i18n="supportKofiTitle" class="support-option-title">Buy me a coffee</span>
+              <span data-i18n="supportKofiDescription" class="support-option-desc">
                 A one-off contribution on Ko-fi. No account and no subscription
                 needed.
               </span>
@@ -1966,8 +1966,8 @@
               </svg>
             </span>
             <span class="support-option-body">
-              <span class="support-option-title">Contribute on GitHub</span>
-              <span class="support-option-desc">
+              <span data-i18n="supportGithubTitle" class="support-option-title">Contribute on GitHub</span>
+              <span data-i18n="supportGithubDescription" class="support-option-desc">
                 Send a pull request, or report a broken filter with the page it
                 happened on.
               </span>
@@ -2003,8 +2003,8 @@
               </svg>
             </span>
             <span class="support-option-body">
-              <span class="support-option-title">Leave a review</span>
-              <span class="support-option-desc">
+              <span data-i18n="supportReviewTitle" class="support-option-title">Leave a review</span>
+              <span data-i18n="supportReviewDescription" class="support-option-desc">
                 A rating on the Chrome Web Store costs nothing and helps other
                 people find the extension.
               </span>
@@ -2025,6 +2025,7 @@
       </div>
     </div>
 
+    <script src="../content/i18n.js"></script>
     <script src="data.js"></script>
     <script src="../content/whitelist-utils.js"></script>
     <script src="popup.js"></script>

@@ -1,4 +1,6 @@
 document.addEventListener('DOMContentLoaded', () => {
+  applyDocumentI18n(document);
+
   if (new URLSearchParams(window.location.search).get('standalone') === 'true') {
     document.body.classList.add('standalone-page');
   }
@@ -250,7 +252,7 @@ document.addEventListener('DOMContentLoaded', () => {
     const minViewsIdx = findClosestViewsIndex(parseInt(minViews, 10));
     cfg.views.slider.value = minViewsIdx;
     cfg.views.value.textContent =
-      minViewsIdx === 0 ? 'Off' : formatViews(viewsSteps[minViewsIdx]);
+      minViewsIdx === 0 ? getText('sliderOff') : formatViews(viewsSteps[minViewsIdx]);
     updateSliderBackground(cfg.views.slider);
 
     const maxViews =
@@ -258,7 +260,7 @@ document.addEventListener('DOMContentLoaded', () => {
     const maxViewsIdx = findClosestViewsMaxIndex(parseInt(maxViews, 10));
     cfg.views.maxSlider.value = maxViewsIdx;
     cfg.views.maxValue.textContent =
-      maxViewsIdx === 0 ? 'Off' : formatViews(viewsMaxSteps[maxViewsIdx]);
+      maxViewsIdx === 0 ? getText('sliderOff') : formatViews(viewsMaxSteps[maxViewsIdx]);
     updateSliderBackground(cfg.views.maxSlider);
 
     Object.entries(cfg.views.boxes).forEach(([k, box]) => {
@@ -319,7 +321,7 @@ document.addEventListener('DOMContentLoaded', () => {
     );
 
     if (parseInt(cfg.hide.slider.value, 10) === 0) {
-      cfg.hide.value.textContent = 'Off';
+      cfg.hide.value.textContent = getText('sliderOff');
       const unit = document.querySelector('.slider-unit');
       if (unit) unit.style.display = 'none';
     }
@@ -667,7 +669,7 @@ document.addEventListener('DOMContentLoaded', () => {
     slider.addEventListener('input', () => {
       const val = parseInt(slider.value, 10);
       if (val === 0) {
-        display.textContent = 'Off';
+        display.textContent = getText('sliderOff');
         const unit = display.parentElement.querySelector('.slider-unit');
         if (unit) unit.style.display = 'none';
       } else {
@@ -688,7 +690,7 @@ document.addEventListener('DOMContentLoaded', () => {
   cfg.views.slider.addEventListener('input', () => {
     const index = parseInt(cfg.views.slider.value, 10);
     cfg.views.value.textContent =
-      index === 0 ? 'Off' : formatViews(viewsSteps[index]);
+      index === 0 ? getText('sliderOff') : formatViews(viewsSteps[index]);
     updateSliderBackground(cfg.views.slider);
     updateSliderOffState(cfg.views.slider, index === 0);
     updatePerPageDisabledState(
@@ -705,7 +707,7 @@ document.addEventListener('DOMContentLoaded', () => {
   cfg.views.maxSlider.addEventListener('input', () => {
     const index = parseInt(cfg.views.maxSlider.value, 10);
     cfg.views.maxValue.textContent =
-      index === 0 ? 'Off' : formatViews(viewsMaxSteps[index]);
+      index === 0 ? getText('sliderOff') : formatViews(viewsMaxSteps[index]);
     updateSliderBackground(cfg.views.maxSlider);
     updateSliderOffState(cfg.views.maxSlider, index === 0);
     updatePerPageDisabledState(
@@ -799,13 +801,13 @@ document.addEventListener('DOMContentLoaded', () => {
     if (!addCurrentBtn) return;
     if (!currentTabChannel) {
       addCurrentBtn.disabled = true;
-      if (whitelistHint) whitelistHint.textContent = 'Navigate to a channel page to add it';
+      if (whitelistHint) whitelistHint.textContent = getText('channelAddHintNoChannel');
       return;
     }
     const pending = computeWhitelistUpdate(currentTabChannel, true, whitelistData, channelWhitelistToggle.checked);
     if (!pending) {
       addCurrentBtn.disabled = true;
-      if (whitelistHint) whitelistHint.textContent = channelDisplayName(currentTabChannel) + ' is already whitelisted';
+      if (whitelistHint) whitelistHint.textContent = getText('channelAlreadyWhitelisted', channelDisplayName(currentTabChannel));
       return;
     }
     addCurrentBtn.disabled = false;
@@ -826,7 +828,7 @@ document.addEventListener('DOMContentLoaded', () => {
       remove.className = 'whitelist-chip-remove';
       remove.type = 'button';
       remove.textContent = '×';
-      remove.setAttribute('aria-label', 'Remove ' + channel);
+      remove.setAttribute('aria-label', getText('chipRemoveLabel', channel));
       remove.addEventListener('click', () => {
         const current = Array.isArray(whitelistData) ? [...whitelistData] : [];
         const idx = current.indexOf(channel);
@@ -875,13 +877,13 @@ document.addEventListener('DOMContentLoaded', () => {
     if (!addCurrentBlacklistBtn) return;
     if (!currentTabChannel) {
       addCurrentBlacklistBtn.disabled = true;
-      if (blacklistHint) blacklistHint.textContent = 'Navigate to a channel page to add it';
+      if (blacklistHint) blacklistHint.textContent = getText('channelAddHintNoChannel');
       return;
     }
     const pending = computeWhitelistUpdate(currentTabChannel, true, blacklistData, channelBlacklistToggle.checked, BLACKLIST_KEYS);
     if (!pending) {
       addCurrentBlacklistBtn.disabled = true;
-      if (blacklistHint) blacklistHint.textContent = channelDisplayName(currentTabChannel) + ' is already blacklisted';
+      if (blacklistHint) blacklistHint.textContent = getText('channelAlreadyBlacklisted', channelDisplayName(currentTabChannel));
       return;
     }
     addCurrentBlacklistBtn.disabled = false;
@@ -902,7 +904,7 @@ document.addEventListener('DOMContentLoaded', () => {
       remove.className = 'whitelist-chip-remove';
       remove.type = 'button';
       remove.textContent = '×';
-      remove.setAttribute('aria-label', 'Remove ' + channel);
+      remove.setAttribute('aria-label', getText('chipRemoveLabel', channel));
       remove.addEventListener('click', () => {
         const current = Array.isArray(blacklistData) ? [...blacklistData] : [];
         const idx = current.indexOf(channel);
@@ -998,7 +1000,7 @@ document.addEventListener('DOMContentLoaded', () => {
     });
   }
 
-  function createTitleKeywordList({ prefix, listKey, enabledKey, name, verb, chipClass }) {
+  function createTitleKeywordList({ prefix, listKey, enabledKey, alreadyListedKey, fullKey, chipClass }) {
     const toggle = document.getElementById(prefix + '-enabled');
     const chipsContainer = document.getElementById(prefix + '-chips');
     const emptyHint = document.getElementById(prefix + '-empty');
@@ -1015,8 +1017,8 @@ document.addEventListener('DOMContentLoaded', () => {
       const full = !!keyword && !alreadyListed && !titleKeywordListFits(listKey, [...data, keyword]);
       addBtn.disabled = !keyword || alreadyListed || full;
       if (hint) {
-        if (alreadyListed) hint.textContent = '"' + keyword + '" is already ' + verb;
-        else if (full) hint.textContent = name + ' is full: remove a word to add a new one';
+        if (alreadyListed) hint.textContent = getText(alreadyListedKey, keyword);
+        else if (full) hint.textContent = getText(fullKey);
         else hint.textContent = '';
       }
     }
@@ -1036,7 +1038,7 @@ document.addEventListener('DOMContentLoaded', () => {
         remove.className = 'whitelist-chip-remove';
         remove.type = 'button';
         remove.textContent = '×';
-        remove.setAttribute('aria-label', 'Remove ' + keyword);
+        remove.setAttribute('aria-label', getText('chipRemoveLabel', keyword));
         remove.addEventListener('click', () => {
           setData(data.filter(k => k !== keyword));
           chrome.storage.sync.set({ [listKey]: data });
@@ -1093,8 +1095,8 @@ document.addEventListener('DOMContentLoaded', () => {
     prefix: 'title-whitelist',
     listKey: 'titleWhitelist',
     enabledKey: 'titleWhitelistEnabled',
-    name: 'Title Whitelist',
-    verb: 'whitelisted',
+    alreadyListedKey: 'titleWhitelistAlreadyListed',
+    fullKey: 'titleWhitelistFull',
     chipClass: 'whitelist-chip',
   });
 
@@ -1102,8 +1104,8 @@ document.addEventListener('DOMContentLoaded', () => {
     prefix: 'title-blacklist',
     listKey: 'titleBlacklist',
     enabledKey: 'titleBlacklistEnabled',
-    name: 'Title Blacklist',
-    verb: 'blacklisted',
+    alreadyListedKey: 'titleBlacklistAlreadyListed',
+    fullKey: 'titleBlacklistFull',
     chipClass: 'whitelist-chip blacklist-chip',
   });
 
