@@ -108,6 +108,7 @@ function injectInlineChannelActionStyles(styleId, prefix, tokens) {
       line-height: 1.4;
       text-align: center;
       white-space: normal;
+      overflow-wrap: anywhere;
       box-shadow: 0 4px 12px rgba(0, 0, 0, 0.3);
       transition: opacity 0.15s ease;
       pointer-events: none;
@@ -248,7 +249,7 @@ function updateInlineWhitelistButtonState(btn, channel) {
     activeClass: 'is-whitelisted',
     tooltipText: buildWhitelistTooltipText(channel, { isWhitelisted }),
     iconMarkup: INLINE_WHITELIST_CHECK_ICON,
-    label: isWhitelisted ? 'Whitelisted' : isPaused ? 'Resume Whitelist' : 'Whitelist',
+    label: getText(isWhitelisted ? 'buttonWhitelisted' : isPaused ? 'buttonResumeWhitelist' : 'buttonWhitelist'),
   });
 }
 

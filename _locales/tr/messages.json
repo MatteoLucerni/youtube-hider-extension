@@ -1,0 +1,893 @@
+{
+  "localeCode": {
+    "message": "tr"
+  },
+  "extName": {
+    "message": "YouTube Hider: izlenen videoları, Shorts'u ve az izlenenleri gizle"
+  },
+  "extDescription": {
+    "message": "YouTube'da daha önce izlediğiniz videoları, az görüntülenen videoları ve Shorts'u gizler."
+  },
+  "popupPageTitle": {
+    "message": "YouTube Hider Uzantısı"
+  },
+  "headerSupport": {
+    "message": "Destekle"
+  },
+  "headerExtensionToggle": {
+    "message": "Uzantı"
+  },
+  "sectionYouTubeVideos": {
+    "message": "YouTube Videoları"
+  },
+  "filterModeTitle": {
+    "message": "Filtre Modu"
+  },
+  "filterModeTooltip": {
+    "message": "Gizle, filtrelenen videoları tamamen kaldırır. Soldur, onları nedenini açıklayan bir etiketle koyu bir katmanın altında görünür bırakır ve tıklanabilir kalırlar. Shorts bu ayardan bağımsız olarak her zaman gizlenir"
+  },
+  "filterModeDescription": {
+    "message": "Filtrelenen videolara ne olacağını seçin. Shorts her zaman gizlenir"
+  },
+  "filterModeHide": {
+    "message": "Gizle"
+  },
+  "filterModeDim": {
+    "message": "Soldur"
+  },
+  "hideWatchedTitle": {
+    "message": "İzlenen Videoları Gizle"
+  },
+  "hideWatchedDescription": {
+    "message": "Videoları izlenme yüzdesine göre gizler"
+  },
+  "watchPercentageLabel": {
+    "message": "İzlenme Yüzdesi"
+  },
+  "watchPercentageTooltip": {
+    "message": "Süresinin bu yüzdesinden fazlasını izlediğiniz videoları gizler. Kapatmak için tamamen sola sürükleyin"
+  },
+  "pageHome": {
+    "message": "Ana Sayfa"
+  },
+  "hideWatchedHomeTooltip": {
+    "message": "Ana Sayfa'daki izlenen videoları gizler"
+  },
+  "pageChannel": {
+    "message": "Kanal"
+  },
+  "hideWatchedChannelTooltip": {
+    "message": "Kanal sayfalarındaki izlenen videoları gizler"
+  },
+  "pageSubs": {
+    "message": "Abonelikler"
+  },
+  "hideWatchedSubsTooltip": {
+    "message": "Abonelikler akışındaki izlenen videoları gizler"
+  },
+  "pageSearch": {
+    "message": "Arama"
+  },
+  "hideWatchedSearchTooltip": {
+    "message": "Arama sonuçlarındaki izlenen videoları gizler"
+  },
+  "pageRelated": {
+    "message": "İlgili"
+  },
+  "hideWatchedRelatedTooltip": {
+    "message": "İlgili videolar kenar çubuğundaki izlenen videoları gizler"
+  },
+  "markedWatchedLabel": {
+    "message": "İzlendi olarak işaretlenenler"
+  },
+  "markedWatchedTooltip": {
+    "message": "Bir videonun üzerine gelip İzlendi'ye tıklayarak, YouTube ilerleme çubuğu göstermese bile onu izlenmiş sayabilirsiniz. İşaretlenen videolar bu kartın kaydırıcısına ve sayfa anahtarlarına uyar, kanal Whitelist'te olsa bile gizli kalır. Aynı Chrome profiliyle oturum açılmış tüm cihazlarda otomatik olarak senkronize edilir, dışa aktarmaya gerek yoktur. En fazla 3.000 video saklanır: bunu aşınca en eski işaret silinir"
+  },
+  "markedCountNone": {
+    "message": "Henüz işaretlenmiş video yok"
+  },
+  "markedWatchedManage": {
+    "message": "Yönet"
+  },
+  "markedWatchedSyncPaused": {
+    "message": "Senkronizasyon duraklatıldı: kanal listeleri cihazlar arasında paylaşılan alanı kullanıyor. İşaretlediğiniz videolar bu tarayıcıda kayıtlı kalır ve tekrar sığdıklarında senkronizasyon devam eder"
+  },
+  "contentTypesTitle": {
+    "message": "Shorts, Mix, Oynatma Listeleri ve Canlıları Gizle"
+  },
+  "contentTypesDescription": {
+    "message": "YouTube'dan Shorts, Mix, oynatma listeleri ve canlı yayınları kaldırır"
+  },
+  "contentShorts": {
+    "message": "Shorts"
+  },
+  "contentMixes": {
+    "message": "Mix"
+  },
+  "contentPlaylists": {
+    "message": "Listeler"
+  },
+  "contentLives": {
+    "message": "Canlı"
+  },
+  "hideShortsLabel": {
+    "message": "Shorts'u gizle"
+  },
+  "hideShortsTooltip": {
+    "message": "Shorts rafını ve Shorts sekmesini kaldırır"
+  },
+  "hideShortsSearchLabel": {
+    "message": "Aramada Shorts"
+  },
+  "hideShortsSearchTooltip": {
+    "message": "Arama sonuçlarından Shorts videolarını kaldırır"
+  },
+  "hideMixesLabel": {
+    "message": "Mix'leri gizle"
+  },
+  "hideMixesTooltip": {
+    "message": "YouTube akışınızdan Mix listelerini kaldırır"
+  },
+  "hidePlaylistsLabel": {
+    "message": "Listeleri gizle"
+  },
+  "hidePlaylistsTooltip": {
+    "message": "YouTube akışınızdan oynatma listelerini kaldırır"
+  },
+  "hideLivesLabel": {
+    "message": "Canlıları gizle"
+  },
+  "hideLivesTooltip": {
+    "message": "YouTube akışınızdan canlı yayınları kaldırır"
+  },
+  "viewsFilterTitle": {
+    "message": "Görüntüleme Filtresi"
+  },
+  "viewsFilterDescription": {
+    "message": "Videoları görüntüleme sayısına göre gizler"
+  },
+  "minViewsLabel": {
+    "message": "En Az Görüntüleme"
+  },
+  "minViewsTooltip": {
+    "message": "Bu sayıdan az görüntülenen videolar gizlenir. Kapatmak için tamamen sola sürükleyin"
+  },
+  "maxViewsLabel": {
+    "message": "En Çok Görüntüleme"
+  },
+  "maxViewsTooltip": {
+    "message": "Bu sayıdan çok görüntülenen videolar gizlenir. Kapatmak için tamamen sola sürükleyin"
+  },
+  "sliderOff": {
+    "message": "Kapalı"
+  },
+  "rangeOverlapWarning": {
+    "message": "Filtre etkin değil: aralıklar çakışıyor"
+  },
+  "viewsHomeTooltip": {
+    "message": "Ana Sayfa'da videoları görüntülemeye göre gizler"
+  },
+  "viewsChannelTooltip": {
+    "message": "Kanallarda videoları görüntülemeye göre gizler"
+  },
+  "viewsSubsTooltip": {
+    "message": "Aboneliklerde videoları görüntülemeye göre gizler"
+  },
+  "viewsSearchTooltip": {
+    "message": "Aramada videoları görüntülemeye göre gizler"
+  },
+  "viewsRelatedTooltip": {
+    "message": "İlgili videolarda görüntülemeye göre gizler"
+  },
+  "dateFilterTitle": {
+    "message": "Yükleme Tarihi Filtresi"
+  },
+  "dateFilterDescription": {
+    "message": "Videoları yükleme tarihine göre gizler"
+  },
+  "dateNewerLabel": {
+    "message": "Şundan yenileri gizle"
+  },
+  "dateNewerTooltip": {
+    "message": "Bundan daha yakın zamanda yüklenen videoları gizler. Kapatmak için tamamen sola sürükleyin"
+  },
+  "dateOlderLabel": {
+    "message": "Şundan eskileri gizle"
+  },
+  "dateOlderTooltip": {
+    "message": "Bundan daha uzun süre önce yüklenen videoları gizler. Kapatmak için tamamen sola sürükleyin"
+  },
+  "dateHomeTooltip": {
+    "message": "Ana Sayfa'da videoları tarihe göre gizler"
+  },
+  "dateChannelTooltip": {
+    "message": "Kanallarda videoları tarihe göre gizler"
+  },
+  "dateSubsTooltip": {
+    "message": "Aboneliklerde videoları tarihe göre gizler"
+  },
+  "dateSearchTooltip": {
+    "message": "Aramada videoları tarihe göre gizler"
+  },
+  "dateRelatedTooltip": {
+    "message": "İlgili videolarda tarihe göre gizler"
+  },
+  "channelWhitelistTitle": {
+    "message": "Channel Whitelist"
+  },
+  "channelWhitelistTooltip": {
+    "message": "Whitelist'teki kanallar tüm etkin filtreleri atlar. Bir kanal sayfasında veya videoda iken aşağıdaki düğmeyle ya da üst bilgideki düğmeyle kanal ekleyin. Bir etiketi kaldırdığınızda o kanala tüm filtreler hemen yeniden uygulanır. Shorts her zaman filtrelenir"
+  },
+  "channelWhitelistDescription": {
+    "message": "Bu listedeki kanallar filtrelenmez. Shorts her zaman filtrelenir"
+  },
+  "channelWhitelistEmpty": {
+    "message": "Whitelist'te henüz kanal yok"
+  },
+  "addCurrentChannel": {
+    "message": "+ Bu kanalı ekle"
+  },
+  "channelListsSyncPaused": {
+    "message": "Senkronizasyon duraklatıldı: cihazlar arasında senkronize edilecek çok fazla kanal var. Listeleriniz bu tarayıcıda kayıtlı kalır ve tekrar sığdıklarında senkronizasyon devam eder"
+  },
+  "channelBlacklistTitle": {
+    "message": "Channel Blacklist"
+  },
+  "channelBlacklistTooltip": {
+    "message": "Blacklist'teki kanallar diğer filtrelerden bağımsız olarak her zaman gizlenir. Bir kanal sayfasında veya videoda iken aşağıdaki düğmeyle ya da üst bilgideki düğmeyle kanal ekleyin. Bir etiketi kaldırdığınızda o kanalın videoları hemen yeniden görünür. Shorts her zaman filtrelenir"
+  },
+  "channelBlacklistDescription": {
+    "message": "Bu listedeki kanallar her yerde her zaman gizlenir. Shorts her zaman filtrelenir"
+  },
+  "channelBlacklistEmpty": {
+    "message": "Blacklist'te henüz kanal yok"
+  },
+  "titleWhitelistTitle": {
+    "message": "Title Whitelist"
+  },
+  "titleWhitelistTooltip": {
+    "message": "Başlığında bu kelimelerden biri geçen videolar tüm etkin filtreleri atlar. Büyük ve küçük harf fark etmez ve eşleşme bir kelimenin başında aranır: \"ev\", \"evler\" ile eşleşir ama \"sevgi\" ile eşleşmez. Blacklist'teki kanallar ve kelimeler gizli kalır, Shorts her zaman filtrelenir"
+  },
+  "titleWhitelistDescription": {
+    "message": "Başlığında bu kelimelerden biri geçen videolar filtrelenmez"
+  },
+  "titleWhitelistEmpty": {
+    "message": "Title Whitelist'te henüz kelime yok"
+  },
+  "addTitleWord": {
+    "message": "+ Ekle"
+  },
+  "titleBlacklistTitle": {
+    "message": "Title Blacklist"
+  },
+  "titleBlacklistTooltip": {
+    "message": "Başlığında bu kelimelerden biri geçen videolar Shorts, Mix ve oynatma listeleri dahil her yerde her zaman gizlenir; kanal Whitelist'te olsa ya da başlıkta Whitelist'teki bir kelime de geçse bile. Büyük ve küçük harf fark etmez ve eşleşme bir kelimenin başında aranır: \"ev\", \"evler\" ile eşleşir ama \"sevgi\" ile eşleşmez"
+  },
+  "titleBlacklistDescription": {
+    "message": "Başlığında bu kelimelerden biri geçen videolar her zaman gizlenir"
+  },
+  "titleBlacklistEmpty": {
+    "message": "Title Blacklist'te henüz kelime yok"
+  },
+  "advancedControlsLabel": {
+    "message": "Gelişmiş Kontroller"
+  },
+  "advancedControlsDescription": {
+    "message": "Basit anahtarlar yerine her filtre için sayfa bazında gelişmiş kontrolleri gösterir"
+  },
+  "hideOnPageControlsLabel": {
+    "message": "Sayfadaki kontrolleri gizle"
+  },
+  "hideOnPageControlsDescription": {
+    "message": "Daha sade ve göze batmayan bir görünüm için YouTube Hider'ın ekrandaki tüm öğelerini gizler. Filtreleme arka planda çalışmaya devam eder"
+  },
+  "tutorialLabel": {
+    "message": "Eğitim"
+  },
+  "tutorialDescription": {
+    "message": "Üst bilgi düğmesinin rehberli turunu yeniden başlatır"
+  },
+  "tutorialRestart": {
+    "message": "Yeniden başlat"
+  },
+  "tutorialRestartConfirm": {
+    "message": "Eğitim bir sonraki YouTube ziyaretinizde görünecek"
+  },
+  "footerFeedback": {
+    "message": "Öneri veya hata bildir"
+  },
+  "footerChangelog": {
+    "message": "Değişiklikler"
+  },
+  "footerWebsite": {
+    "message": "Web sitesi"
+  },
+  "supportTitle": {
+    "message": "YouTube Hider'ı destekleyin"
+  },
+  "supportLead": {
+    "message": "YouTube Hider ücretsiz, açık kaynaklı, reklamsız ve izlemesizdir. Ama hareketli bir hedefi kovalar: YouTube sayfa yapısını haber vermeden değiştirir ve kimsenin duyurmadığı bir değişiklik, dün çalışan bir filtreyi sessizce bozabilir."
+  },
+  "supportText": {
+    "message": "Çalışır durumda tutmak, bu değişiklikleri birinin boş zamanında, seçici seçici bulmak demektir. Bu üç seçenekten herhangi biri yardımcı olur."
+  },
+  "supportKofiTitle": {
+    "message": "Bana bir kahve ısmarla"
+  },
+  "supportKofiDescription": {
+    "message": "Ko-fi üzerinden tek seferlik bir katkı. Hesap ve abonelik gerekmez."
+  },
+  "supportGithubTitle": {
+    "message": "GitHub'da katkıda bulunun"
+  },
+  "supportGithubDescription": {
+    "message": "Bir pull request gönderin ya da bozuk bir filtreyi, olduğu sayfayla birlikte bildirin."
+  },
+  "supportReviewTitle": {
+    "message": "Yorum bırakın"
+  },
+  "supportReviewDescription": {
+    "message": "Chrome Web Mağazası'nda bir puan hiçbir şeye mal olmaz ve başkalarının uzantıyı bulmasına yardım eder."
+  },
+  "titleWhitelistPlaceholder": {
+    "message": "Kelime veya ifade, ör. eğitim"
+  },
+  "titleWhitelistInputLabel": {
+    "message": "Whitelist'e eklenecek kelime veya ifade"
+  },
+  "titleBlacklistPlaceholder": {
+    "message": "Kelime veya ifade, ör. tepki"
+  },
+  "titleBlacklistInputLabel": {
+    "message": "Blacklist'e eklenecek kelime veya ifade"
+  },
+  "logoAlt": {
+    "message": "YouTube Hider uzantısı logosu"
+  },
+  "closeLabel": {
+    "message": "Kapat"
+  },
+  "channelAddHintNoChannel": {
+    "message": "Eklemek için bir kanal sayfası açın"
+  },
+  "channelAlreadyWhitelisted": {
+    "message": "$channel$ zaten Whitelist'te",
+    "placeholders": {
+      "channel": {
+        "content": "$1"
+      }
+    }
+  },
+  "channelAlreadyBlacklisted": {
+    "message": "$channel$ zaten Blacklist'te",
+    "placeholders": {
+      "channel": {
+        "content": "$1"
+      }
+    }
+  },
+  "chipRemoveLabel": {
+    "message": "$item$ öğesini kaldır",
+    "placeholders": {
+      "item": {
+        "content": "$1"
+      }
+    }
+  },
+  "titleWhitelistAlreadyListed": {
+    "message": "\"$word$\" zaten Whitelist'te",
+    "placeholders": {
+      "word": {
+        "content": "$1"
+      }
+    }
+  },
+  "titleWhitelistFull": {
+    "message": "Title Whitelist dolu: yeni bir kelime eklemek için bir kelimeyi kaldırın"
+  },
+  "titleBlacklistAlreadyListed": {
+    "message": "\"$word$\" zaten Blacklist'te",
+    "placeholders": {
+      "word": {
+        "content": "$1"
+      }
+    }
+  },
+  "titleBlacklistFull": {
+    "message": "Title Blacklist dolu: yeni bir kelime eklemek için bir kelimeyi kaldırın"
+  },
+  "watchedPageTitle": {
+    "message": "İzlendi olarak işaretlenenler | YouTube Hider"
+  },
+  "watchedDescription": {
+    "message": "YouTube'da İzlendi düğmesiyle işaretlediğiniz videolar. İzlenen Videoları Gizle ayarlarına göre izlenen videolar gibi gizlenirler. Geri getirmek için birini kaldırın. En fazla 3.000 video saklanır: bunu aşınca en eski işaret silinir."
+  },
+  "watchedSyncDescription": {
+    "message": "İşaretleriniz aynı Chrome profiliyle oturum açılmış tüm bilgisayarlarda otomatik olarak senkronize edilir, bu yüzden cihazlar arasında dışa ve içe aktarmanıza gerek yoktur. Yedek almak veya başka bir profile taşımak için Dışa aktar'ı kullanın."
+  },
+  "watchedExport": {
+    "message": "Dışa aktar"
+  },
+  "watchedImport": {
+    "message": "İçe aktar"
+  },
+  "watchedClearAll": {
+    "message": "Tümünü temizle"
+  },
+  "watchedUndo": {
+    "message": "Geri al"
+  },
+  "watchedSelectAllShown": {
+    "message": "Gösterilenlerin tümünü seç"
+  },
+  "watchedRemoveSelected": {
+    "message": "Seçilenleri kaldır"
+  },
+  "watchedClearSearch": {
+    "message": "Aramayı temizle"
+  },
+  "watchedLoadMore": {
+    "message": "Daha fazla yükle"
+  },
+  "watchedSearchPlaceholder": {
+    "message": "Başlık, kanal veya video kimliğine göre ara"
+  },
+  "watchedSearchLabel": {
+    "message": "İşaretlenen videolarda ara"
+  },
+  "markedCount_one": {
+    "message": "$limit$ videodan $count$",
+    "placeholders": {
+      "count": {
+        "content": "$1"
+      },
+      "limit": {
+        "content": "$2"
+      }
+    }
+  },
+  "markedCount_other": {
+    "message": "$limit$ videodan $count$",
+    "placeholders": {
+      "count": {
+        "content": "$1"
+      },
+      "limit": {
+        "content": "$2"
+      }
+    }
+  },
+  "markedCountAlmostFull_one": {
+    "message": "$limit$ videodan $count$. Neredeyse dolu: sınır aşılınca en eski işaretler silinir",
+    "placeholders": {
+      "count": {
+        "content": "$1"
+      },
+      "limit": {
+        "content": "$2"
+      }
+    }
+  },
+  "markedCountAlmostFull_other": {
+    "message": "$limit$ videodan $count$. Neredeyse dolu: sınır aşılınca en eski işaretler silinir",
+    "placeholders": {
+      "count": {
+        "content": "$1"
+      },
+      "limit": {
+        "content": "$2"
+      }
+    }
+  },
+  "markedCountFull_one": {
+    "message": "$limit$ videodan $count$. Dolu: her yeni işaret en eskisini siler",
+    "placeholders": {
+      "count": {
+        "content": "$1"
+      },
+      "limit": {
+        "content": "$2"
+      }
+    }
+  },
+  "markedCountFull_other": {
+    "message": "$limit$ videodan $count$. Dolu: her yeni işaret en eskisini siler",
+    "placeholders": {
+      "count": {
+        "content": "$1"
+      },
+      "limit": {
+        "content": "$2"
+      }
+    }
+  },
+  "watchedSelectItem": {
+    "message": "$title$ öğesini seç",
+    "placeholders": {
+      "title": {
+        "content": "$1"
+      }
+    }
+  },
+  "watchedTitleUnavailable": {
+    "message": "Başlık bu cihazda kullanılamıyor"
+  },
+  "watchedMarkedOn": {
+    "message": "İşaretlenme: $date$",
+    "placeholders": {
+      "date": {
+        "content": "$1"
+      }
+    }
+  },
+  "watchedRemove": {
+    "message": "Kaldır"
+  },
+  "watchedRemoveItem": {
+    "message": "$title$ öğesini kaldır",
+    "placeholders": {
+      "title": {
+        "content": "$1"
+      }
+    }
+  },
+  "watchedRemoveSelectedCount_one": {
+    "message": "Seçilenleri kaldır ($count$)",
+    "placeholders": {
+      "count": {
+        "content": "$1"
+      }
+    }
+  },
+  "watchedRemoveSelectedCount_other": {
+    "message": "Seçilenleri kaldır ($count$)",
+    "placeholders": {
+      "count": {
+        "content": "$1"
+      }
+    }
+  },
+  "watchedLoadMoreCount_one": {
+    "message": "Daha fazla yükle ($count$ kaldı)",
+    "placeholders": {
+      "count": {
+        "content": "$1"
+      }
+    }
+  },
+  "watchedLoadMoreCount_other": {
+    "message": "Daha fazla yükle ($count$ kaldı)",
+    "placeholders": {
+      "count": {
+        "content": "$1"
+      }
+    }
+  },
+  "watchedEmpty": {
+    "message": "Henüz işaretlenmiş video yok. YouTube'da bir videonun üzerine gelin ve buraya eklemek için İzlendi'ye tıklayın."
+  },
+  "watchedNoMatch": {
+    "message": "\"$query$\" ile eşleşen işaretli video yok.",
+    "placeholders": {
+      "query": {
+        "content": "$1"
+      }
+    }
+  },
+  "watchedRestored_one": {
+    "message": "$count$ video geri yüklendi.",
+    "placeholders": {
+      "count": {
+        "content": "$1"
+      }
+    }
+  },
+  "watchedRestored_other": {
+    "message": "$count$ video geri yüklendi.",
+    "placeholders": {
+      "count": {
+        "content": "$1"
+      }
+    }
+  },
+  "watchedRemoved_one": {
+    "message": "$count$ video kaldırıldı. YouTube'da yeniden görünecek.",
+    "placeholders": {
+      "count": {
+        "content": "$1"
+      }
+    }
+  },
+  "watchedRemoved_other": {
+    "message": "$count$ video kaldırıldı. YouTube'da yeniden görünecekler.",
+    "placeholders": {
+      "count": {
+        "content": "$1"
+      }
+    }
+  },
+  "watchedExported_one": {
+    "message": "$count$ video dışa aktarıldı.",
+    "placeholders": {
+      "count": {
+        "content": "$1"
+      }
+    }
+  },
+  "watchedExported_other": {
+    "message": "$count$ video dışa aktarıldı.",
+    "placeholders": {
+      "count": {
+        "content": "$1"
+      }
+    }
+  },
+  "watchedImportEmpty": {
+    "message": "Bu dosyada geçerli video bulunamadı."
+  },
+  "watchedImported_one": {
+    "message": "$count$ yeni video içe aktarıldı.",
+    "placeholders": {
+      "count": {
+        "content": "$1"
+      }
+    }
+  },
+  "watchedImported_other": {
+    "message": "$count$ yeni video içe aktarıldı.",
+    "placeholders": {
+      "count": {
+        "content": "$1"
+      }
+    }
+  },
+  "watchedImportListFull": {
+    "message": "Liste dolu olduğu için en eski işaretler silindi."
+  },
+  "watchedImportError": {
+    "message": "Bu dosya bir YouTube Hider dışa aktarımı olarak okunamadı."
+  },
+  "watchedClearConfirm_one": {
+    "message": "İşaretlenen $count$ video kaldırılsın mı? YouTube'da yeniden görünecek.",
+    "placeholders": {
+      "count": {
+        "content": "$1"
+      }
+    }
+  },
+  "watchedClearConfirm_other": {
+    "message": "İşaretlenen $count$ videonun tümü kaldırılsın mı? YouTube'da yeniden görünecekler.",
+    "placeholders": {
+      "count": {
+        "content": "$1"
+      }
+    }
+  },
+  "headerButtonLabel": {
+    "message": "YouTube Hider Ayarları"
+  },
+  "buttonWhitelist": {
+    "message": "Whitelist"
+  },
+  "buttonWhitelisted": {
+    "message": "Whitelist'te"
+  },
+  "buttonResumeWhitelist": {
+    "message": "Whitelist'i aç"
+  },
+  "buttonBlacklist": {
+    "message": "Blacklist"
+  },
+  "buttonBlacklisted": {
+    "message": "Blacklist'te"
+  },
+  "buttonUnblacklist": {
+    "message": "Unblacklist"
+  },
+  "buttonUndo": {
+    "message": "Geri al"
+  },
+  "buttonWatched": {
+    "message": "İzlendi"
+  },
+  "buttonWatchedTitle": {
+    "message": "İzlendi olarak işaretle: bu videoyu zaten izlediğiniz bir video gibi gizler"
+  },
+  "buttonWatchedPendingTitle": {
+    "message": "Bu videoyu izlendi olarak işaretlemeyi iptal et"
+  },
+  "buttonUnmark": {
+    "message": "İşareti kaldır"
+  },
+  "buttonUnmarkTitle": {
+    "message": "Bu videodaki izlendi işaretini kaldır"
+  },
+  "tooltipOnPageControls": {
+    "message": "Bu düğmeyi uzantı ayarlarında \"$setting$\" altından gizleyebilirsiniz.",
+    "placeholders": {
+      "setting": {
+        "content": "$1"
+      }
+    }
+  },
+  "tooltipWhitelistAddOne": {
+    "message": "Bu kanalı YouTube Hider Whitelist'inize ekler: videoları filtrelenmez (Shorts her zaman filtrelenir)."
+  },
+  "tooltipWhitelistAddMany": {
+    "message": "Bu kanalları YouTube Hider Whitelist'inize ekler: videoları filtrelenmez (Shorts her zaman filtrelenir)."
+  },
+  "tooltipWhitelistRemoveOne": {
+    "message": "Bu kanalı YouTube Hider Whitelist'inizden kaldırır."
+  },
+  "tooltipWhitelistRemoveMany": {
+    "message": "Bu kanalları YouTube Hider Whitelist'inizden kaldırır."
+  },
+  "tooltipWhitelistPaused": {
+    "message": "Bu kanal Whitelist'te, ancak Channel Whitelist şu anda kapalı. Yeniden açmak için tıklayın."
+  },
+  "tooltipBlacklistAddOne": {
+    "message": "Bu kanalı YouTube Hider Blacklist'inize ekler: videoları her zaman gizlenir (Shorts her zaman filtrelenir)."
+  },
+  "tooltipBlacklistAddMany": {
+    "message": "Bu kanalları YouTube Hider Blacklist'inize ekler: videoları her zaman gizlenir (Shorts her zaman filtrelenir)."
+  },
+  "tooltipBlacklistRemoveOne": {
+    "message": "Bu kanalı YouTube Hider Blacklist'inizden kaldırır."
+  },
+  "tooltipBlacklistRemoveMany": {
+    "message": "Bu kanalları YouTube Hider Blacklist'inizden kaldırır."
+  },
+  "reasonAlreadyWatched": {
+    "message": "Zaten izlendi"
+  },
+  "reasonMarkedWatched": {
+    "message": "İzlendi olarak işaretlendi"
+  },
+  "reasonVideoTooNew": {
+    "message": "Video çok yeni"
+  },
+  "reasonVideoTooOld": {
+    "message": "Video çok eski"
+  },
+  "reasonViewsTooLow": {
+    "message": "Görüntüleme çok az"
+  },
+  "reasonViewsTooHigh": {
+    "message": "Görüntüleme çok fazla"
+  },
+  "reasonMixPlaylist": {
+    "message": "Mix listesi"
+  },
+  "reasonPlaylist": {
+    "message": "Oynatma listesi"
+  },
+  "reasonLiveStream": {
+    "message": "Canlı yayın"
+  },
+  "reasonBlacklistedChannel": {
+    "message": "Blacklist'teki kanal"
+  },
+  "reasonBlacklistedWord": {
+    "message": "Blacklist'teki kelime: \"$word$\"",
+    "placeholders": {
+      "word": {
+        "content": "$1"
+      }
+    }
+  },
+  "tourWelcomeTitle": {
+    "message": "YouTube Hider'a hoş geldiniz!"
+  },
+  "tourWelcomeDescription": {
+    "message": "YouTube'un üst bilgisine yerleşik YouTube Hider düğmesini, ayarlarınızı ve uzantıdan en iyi şekilde nasıl yararlanacağınızı keşfetmek için kısa bir tur atın."
+  },
+  "tourStart": {
+    "message": "Eğitimi başlat"
+  },
+  "tourSkip": {
+    "message": "Atla"
+  },
+  "tourSkipCountdown": {
+    "message": "Atla ($seconds$sn)",
+    "placeholders": {
+      "seconds": {
+        "content": "$1"
+      }
+    }
+  },
+  "tourBack": {
+    "message": "Geri"
+  },
+  "tourNext": {
+    "message": "İleri"
+  },
+  "tourDone": {
+    "message": "Bitti"
+  },
+  "tourStepCount": {
+    "message": "Adım $current$ / $total$",
+    "placeholders": {
+      "current": {
+        "content": "$1"
+      },
+      "total": {
+        "content": "$2"
+      }
+    }
+  },
+  "tourSettingsButtonTitle": {
+    "message": "Ayarlar Düğmeniz"
+  },
+  "tourSettingsButtonDescription": {
+    "message": "Bu, YouTube'un üst bilgisine yerleşik YouTube Hider dişli düğmesidir. İzleme sayfası dahil her sayfada görünür ve anında açılır."
+  },
+  "tourFullSettingsTitle": {
+    "message": "Tüm Ayarlarınız Burada"
+  },
+  "tourFullSettingsDescription": {
+    "message": "Tıkladığınızda tüm YouTube Hider ayarları tek bir yerde açılır. İçinde neler olduğuna birlikte bakalım."
+  },
+  "tourFilterModeDescription": {
+    "message": "Filtrelenen videolara ne olacağını seçin: $hide$ onları tamamen görünümden kaldırır, $dim$ yine de tıklayabileceğiniz koyu bir katmanla soldurur. Bu, aşağıdaki tüm filtreler için geçerlidir.",
+    "placeholders": {
+      "hide": {
+        "content": "$1"
+      },
+      "dim": {
+        "content": "$2"
+      }
+    }
+  },
+  "tourHideWatchedDescription": {
+    "message": "Videoları ne kadarını izlediğinize göre gizler. Kapatmak için kaydırıcıyı tamamen sola sürükleyin, daha ince ayar için gelişmiş moddaki sayfa anahtarlarını kullanın. YouTube birini kaçırdı mı? Videonun üzerine gelip $watched$ düğmesine tıklayarak onu da gizleyin, geri getirmek için $manage$ düğmesini kullanın.",
+    "placeholders": {
+      "watched": {
+        "content": "$1"
+      },
+      "manage": {
+        "content": "$2"
+      }
+    }
+  },
+  "tourContentTypesTitle": {
+    "message": "Shorts, Mix, Oynatma Listeleri ve Canlılar"
+  },
+  "tourContentTypesDescription": {
+    "message": "Akışınızdan ve arama sonuçlarından Shorts'u, Mix listelerini, normal oynatma listelerini ve canlı yayınları birbirinden bağımsız olarak kaldırın."
+  },
+  "tourViewsDescription": {
+    "message": "Belirli bir popülerlik aralığındaki videoları tutmak için en az görüntülemenin altındaki, en çok görüntülemenin üstündeki veya her ikisini birden gizleyin."
+  },
+  "tourDateDescription": {
+    "message": "Ayarlanabilir bir eşikten daha yeni veya daha eski videoları gizleyin. Yalnızca belirli bir dönemin videolarını tutmak için ikisini birlikte kullanın."
+  },
+  "tourChannelWhitelistDescription": {
+    "message": "Sevdiğiniz kanalları tüm filtrelerden muaf tutun. Mevcut kanalı tek tıkla ekleyin veya filtreleri hemen yeniden uygulamak için bir etiketi kaldırın."
+  },
+  "tourChannelBlacklistDescription": {
+    "message": "Whitelist'in tersi: bir kanalı Shorts, Mix, oynatma listeleri ve canlılar dahil her yerde her zaman gizler. Mevcut kanalı tek tıkla ekleyin veya hemen yeniden göstermek için bir etiketi kaldırın."
+  },
+  "tourTitleWhitelistDescription": {
+    "message": "Videoları kanala göre değil, başlıklarındaki bir kelimeye göre muaf tutun. Başlığında kelimelerinizden biri geçen videolara hiçbir filtre dokunmaz."
+  },
+  "tourTitleBlacklistDescription": {
+    "message": "Title Whitelist'in tersi: başlığında kelimelerinizden biri geçen her videoyu, Whitelist'teki bir kanaldan olsa bile, her yerde her zaman gizler."
+  },
+  "tourExtraSettingsTitle": {
+    "message": "Ek Ayarlar"
+  },
+  "tourExtraSettingsDescription": {
+    "message": "Gelişmiş arayüze geçmek için \"$advanced$\" seçeneğini açın; filtreleme arka planda sürerken bu düğmeyi (ve sayfadaki Whitelist, Blacklist ve $watched$ düğmelerini) kaldırmak için istediğiniz zaman \"$hidecontrols$\" seçeneğini açın.",
+    "placeholders": {
+      "advanced": {
+        "content": "$1"
+      },
+      "hidecontrols": {
+        "content": "$2"
+      },
+      "watched": {
+        "content": "$3"
+      }
+    }
+  }
+}

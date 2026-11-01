@@ -104,8 +104,8 @@ function createHeaderButton() {
   const button = document.createElement('button');
   button.type = 'button';
   button.className = 'yh-header-btn';
-  button.setAttribute('aria-label', 'Youtube Hider Settings');
-  button.title = 'Youtube Hider Settings';
+  button.setAttribute('aria-label', getText('headerButtonLabel'));
+  button.title = getText('headerButtonLabel');
 
   button.innerHTML = getHeaderButtonIconMarkup();
 
@@ -240,6 +240,7 @@ function openHeaderDropdown() {
 
   const iframe = document.createElement('iframe');
   iframe.className = 'yh-dropdown-iframe';
+  iframe.title = getText('headerButtonLabel');
   card.appendChild(iframe);
 
   headerDropdownShadow.appendChild(card);

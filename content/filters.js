@@ -67,6 +67,7 @@ function injectDimStyles() {
       text-align: center;
       padding: 0 6px;
       line-height: 1.2;
+      overflow-wrap: anywhere;
     }
     .yt-hider-badge-buttons {
       display: flex;
@@ -188,23 +189,34 @@ function buildUndoCountdownMarkup(seconds) {
   </svg>`;
 }
 
-const ON_PAGE_CONTROLS_TIP =
-  'You can hide this button from the extension settings, under "Hide on-page controls".';
+const ON_PAGE_CONTROLS_TIP = getText('tooltipOnPageControls', getText('hideOnPageControlsLabel'));
 
-const BLACKLIST_REASON = 'Blacklisted channel';
-const TITLE_BLACKLIST_REASON = 'Blacklisted word';
-const MARKED_WATCHED_REASON = 'Marked as watched';
+const BLACKLIST_REASON = 'reasonBlacklistedChannel';
+const TITLE_BLACKLIST_REASON = 'reasonBlacklistedWord';
+const MARKED_WATCHED_REASON = 'reasonMarkedWatched';
+
+function isMultiChannel(channel) {
+  return Array.isArray(channel) && channel.length > 1;
+}
 
 function buildWhitelistTooltipText(channel, { isWhitelisted = false } = {}) {
-  const { channelWord, possessive } = pluralizeChannelWord(channel);
+  const many = isMultiChannel(channel);
 
   if (isWhitelisted) {
-    return `Removes ${channelWord} from your YouTube Hider whitelist. ${ON_PAGE_CONTROLS_TIP}`;
+    return getText(many ? 'tooltipWhitelistRemoveMany' : 'tooltipWhitelistRemoveOne') + ' ' + ON_PAGE_CONTROLS_TIP;
   }
   if (isChannelPaused(channel)) {
-    return `This whitelist entry exists, but Channel Whitelist is currently turned off. Click to turn it back on. ${ON_PAGE_CONTROLS_TIP}`;
+    return getText('tooltipWhitelistPaused') + ' ' + ON_PAGE_CONTROLS_TIP;
   }
-  return `Adds ${channelWord} to your YouTube Hider whitelist: ${possessive} videos won't be filtered (Shorts are always filtered). ${ON_PAGE_CONTROLS_TIP}`;
+  return getText(many ? 'tooltipWhitelistAddMany' : 'tooltipWhitelistAddOne') + ' ' + ON_PAGE_CONTROLS_TIP;
+}
+
+function renderBadgeButtonLabel(btn, label, withCountdown) {
+  btn.innerHTML = withCountdown ? buildUndoCountdownMarkup(UNDO_WINDOW_SECONDS) : '';
+  const labelEl = document.createElement('span');
+  labelEl.className = 'yt-hider-whitelist-label';
+  labelEl.textContent = label;
+  btn.prepend(labelEl);
 }
 
 function removeBadgeAnimated(badge) {
@@ -265,8 +277,7 @@ function createWhitelistButton(channel) {
   const renderIdle = () => {
     const paused = isChannelPaused(channel);
     btn.classList.remove('yt-hider-whitelist-btn-pending');
-    const label = paused ? 'Resume Whitelist' : 'Whitelist';
-    btn.innerHTML = `<span class="yt-hider-whitelist-label">${label}</span>`;
+    renderBadgeButtonLabel(btn, getText(paused ? 'buttonResumeWhitelist' : 'buttonWhitelist'));
   };
   renderIdle();
 
@@ -310,7 +321,7 @@ function createWhitelistButton(channel) {
     if (pendingContainer)
       pendingContainer.dataset.ytHiderPendingAction = '1';
 
-    btn.innerHTML = `<span class="yt-hider-whitelist-label">Undo</span>${buildUndoCountdownMarkup(UNDO_WINDOW_SECONDS)}`;
+    renderBadgeButtonLabel(btn, getText('buttonUndo'), true);
     btn.classList.add('yt-hider-whitelist-btn-pending');
 
     cancelCountdown = startUndoCountdown(btn, () => {
@@ -335,7 +346,7 @@ function createBlacklistButton(channel, onCommit) {
 
   const renderIdle = () => {
     btn.classList.remove('yt-hider-blacklist-btn-pending');
-    btn.innerHTML = `<span class="yt-hider-whitelist-label">Blacklist</span>`;
+    renderBadgeButtonLabel(btn, getText('buttonBlacklist'));
   };
   renderIdle();
 
@@ -365,7 +376,7 @@ function createBlacklistButton(channel, onCommit) {
     pendingContainer = btn.closest('[data-yt-hider-dimmed]');
     if (pendingContainer) pendingContainer.dataset.ytHiderPendingAction = '1';
 
-    btn.innerHTML = `<span class="yt-hider-whitelist-label">Undo</span>${buildUndoCountdownMarkup(UNDO_WINDOW_SECONDS)}`;
+    renderBadgeButtonLabel(btn, getText('buttonUndo'), true);
     btn.classList.add('yt-hider-blacklist-btn-pending');
 
     cancelCountdown = startUndoCountdown(btn, () => {
@@ -395,8 +406,8 @@ function createMarkWatchedButton(videoId, getDetails, onCommit) {
 
   const renderIdle = () => {
     btn.classList.remove('yt-hider-watched-btn-pending');
-    btn.title = 'Mark as watched: hides this video like one you already watched';
-    btn.innerHTML = `<span class="yt-hider-whitelist-label">Watched</span>`;
+    btn.title = getText('buttonWatchedTitle');
+    renderBadgeButtonLabel(btn, getText('buttonWatched'));
   };
   renderIdle();
 
@@ -419,8 +430,8 @@ function createMarkWatchedButton(videoId, getDetails, onCommit) {
 
     if (isVideoMarkedWatched(videoId)) return;
 
-    btn.innerHTML = `<span class="yt-hider-whitelist-label">Undo</span>${buildUndoCountdownMarkup(UNDO_WINDOW_SECONDS)}`;
-    btn.title = 'Cancel marking this video as watched';
+    renderBadgeButtonLabel(btn, getText('buttonUndo'), true);
+    btn.title = getText('buttonWatchedPendingTitle');
     btn.classList.add('yt-hider-watched-btn-pending');
 
     cancelCountdown = startUndoCountdown(btn, () => {
@@ -443,8 +454,8 @@ function createMarkWatchedButton(videoId, getDetails, onCommit) {
 function createUnmarkWatchedButton(videoId) {
   const btn = document.createElement('button');
   btn.className = 'yt-hider-watched-btn';
-  btn.title = 'Remove the watched mark from this video';
-  btn.innerHTML = `<span class="yt-hider-whitelist-label">Unmark</span>`;
+  btn.title = getText('buttonUnmarkTitle');
+  renderBadgeButtonLabel(btn, getText('buttonUnmark'));
 
   btn.addEventListener('click', e => {
     e.preventDefault();
@@ -458,7 +469,7 @@ function createUnmarkWatchedButton(videoId) {
 function createUnblacklistButton(channel) {
   const btn = document.createElement('button');
   btn.className = 'yt-hider-blacklist-btn';
-  btn.innerHTML = `<span class="yt-hider-whitelist-label">Unblacklist</span>`;
+  renderBadgeButtonLabel(btn, getText('buttonUnblacklist'));
 
   btn.addEventListener('click', e => {
     e.preventDefault();
@@ -479,17 +490,17 @@ function getOrCreateBadgeButtonRow(badge) {
   return row;
 }
 
-function createDimBadge(reason, channel, element) {
+function createDimBadge(reason, channel, element, reasonDetail) {
   const badge = document.createElement('div');
   badge.className = 'yt-hider-badge';
   if (reason) {
     const reasonEl = document.createElement('span');
     reasonEl.className = 'yt-hider-badge-reason';
-    reasonEl.textContent = reason;
+    reasonEl.textContent = getText(reason, reasonDetail);
     badge.appendChild(reasonEl);
   }
 
-  if (reason && reason.startsWith(TITLE_BLACKLIST_REASON)) {
+  if (reason === TITLE_BLACKLIST_REASON) {
     badge.dataset.ytHiderBadgeKind = 'blacklist';
     return badge;
   }
@@ -576,7 +587,7 @@ function isElementMarkedWatched(element) {
   return isVideoMarkedWatched(extractVideoIdFromContainer(element));
 }
 
-function applyFilter(element, reason) {
+function applyFilter(element, reason, reasonDetail) {
   if (!element) return;
   const ch = resolveChannelForElement(element);
   const forced = isElementBlacklisted(element, ch) || isElementMarkedWatched(element);
@@ -602,7 +613,7 @@ function applyFilter(element, reason) {
       if (!existingBadge) {
         const target = badgeTarget();
         target.dataset.ytHiderBadgeTarget = '1';
-        target.appendChild(createDimBadge(reason, ch, element));
+        target.appendChild(createDimBadge(reason, ch, element, reasonDetail));
         return;
       }
       if (existingBadge.dataset.ytHiderBadgeKind) return;
@@ -618,7 +629,7 @@ function applyFilter(element, reason) {
     element.dataset.ytHiderDimmed = '1';
     const target = badgeTarget();
     target.dataset.ytHiderBadgeTarget = '1';
-    target.appendChild(createDimBadge(reason, ch, element));
+    target.appendChild(createDimBadge(reason, ch, element, reasonDetail));
   } else {
     if (element.dataset.ytHiderHidden || element.dataset.ytHiderDimmed) return;
     element.dataset.ytHiderHidden = '1';
@@ -707,7 +718,7 @@ function hideWatched(pathname) {
       const item = findOutermostMatch(bar, getVideoContainerSelectors());
       if (!item) return;
 
-      applyFilter(item, 'Already watched');
+      applyFilter(item, 'reasonAlreadyWatched');
     });
 }
 
@@ -748,9 +759,9 @@ function getDateFilterReason(ageDays) {
   const { dateFilterNewerThreshold, dateFilterOlderThreshold } = prefs;
 
   if (dateFilterNewerThreshold > 0 && ageDays < dateFilterNewerThreshold)
-    return 'Video too new';
+    return 'reasonVideoTooNew';
   if (dateFilterOlderThreshold > 0 && ageDays > dateFilterOlderThreshold)
-    return 'Video too old';
+    return 'reasonVideoTooOld';
 
   return null;
 }
@@ -855,9 +866,9 @@ function getViewsFilterReason(views) {
   const { viewsHideThreshold, viewsHideMaxThreshold } = prefs;
 
   if (viewsHideThreshold > 0 && views < viewsHideThreshold)
-    return 'Views too low';
+    return 'reasonViewsTooLow';
   if (viewsHideMaxThreshold > 0 && views > viewsHideMaxThreshold)
-    return 'Views too high';
+    return 'reasonViewsTooHigh';
 
   return null;
 }
@@ -1118,7 +1129,7 @@ function hideMixes() {
     const item =
       el.closest('ytd-rich-item-renderer, ytm-rich-item-renderer') ||
       el.closest('yt-lockup-view-model');
-    if (item) applyFilter(item, 'Mix playlist');
+    if (item) applyFilter(item, 'reasonMixPlaylist');
   });
 
   document.querySelectorAll('a[href*="start_radio=1"]').forEach(link => {
@@ -1126,13 +1137,13 @@ function hideMixes() {
       link.closest(
         'ytd-rich-item-renderer, ytd-compact-radio-renderer, ytd-radio-renderer, ytm-rich-item-renderer, ytm-video-with-context-renderer',
       ) || link.closest('yt-lockup-view-model');
-    if (item) applyFilter(item, 'Mix playlist');
+    if (item) applyFilter(item, 'reasonMixPlaylist');
   });
 
   document
     .querySelectorAll('ytd-radio-renderer, ytd-compact-radio-renderer')
     .forEach(node => {
-      applyFilter(node, 'Mix playlist');
+      applyFilter(node, 'reasonMixPlaylist');
     });
 }
 
@@ -1145,13 +1156,13 @@ function hidePlaylists() {
     const item =
       el.closest('ytd-rich-item-renderer, ytm-rich-item-renderer') ||
       el.closest('yt-lockup-view-model');
-    if (item) applyFilter(item, 'Playlist');
+    if (item) applyFilter(item, 'reasonPlaylist');
   });
 
   document
     .querySelectorAll('ytd-playlist-renderer, ytd-compact-playlist-renderer')
     .forEach(node => {
-      applyFilter(node, 'Playlist');
+      applyFilter(node, 'reasonPlaylist');
     });
 }
 
@@ -1169,7 +1180,7 @@ function hideLives() {
         el.closest(
           'ytd-rich-item-renderer, ytm-rich-item-renderer, ytd-video-renderer, ytd-compact-video-renderer',
         ) || el.closest('yt-lockup-view-model');
-      if (item) applyFilter(item, 'Live stream');
+      if (item) applyFilter(item, 'reasonLiveStream');
     });
 
   document.querySelectorAll('yt-lockup-view-model').forEach(el => {
@@ -1179,7 +1190,7 @@ function hideLives() {
     ) {
       const item =
         el.closest('ytd-rich-item-renderer, ytm-rich-item-renderer') || el;
-      applyFilter(item, 'Live stream');
+      applyFilter(item, 'reasonLiveStream');
     }
   });
 }
@@ -1251,7 +1262,7 @@ function hideTitleBlacklistedVideos() {
 
     const keyword = getElementTitleBlacklistMatch(container);
     if (keyword !== null) {
-      applyFilter(container, `${TITLE_BLACKLIST_REASON}: "${keyword}"`);
+      applyFilter(container, TITLE_BLACKLIST_REASON, keyword);
     }
   });
 }

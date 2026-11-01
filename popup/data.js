@@ -29,12 +29,7 @@ const viewsSteps = [
 ];
 
 function formatViews(views) {
-  if (views >= 1000000) {
-    return (views / 1000000).toFixed(views % 1000000 === 0 ? 0 : 1) + 'M';
-  } else if (views >= 1000) {
-    return (views / 1000).toFixed(views % 1000 === 0 ? 0 : 1) + 'K';
-  }
-  return views.toString();
+  return formatLocaleNumber(views, { notation: 'compact', maximumFractionDigits: 1 });
 }
 
 function findClosestViewsIndex(value) {
@@ -69,37 +64,44 @@ function findClosestViewsMaxIndex(value) {
   return closestIndex;
 }
 
+function formatDurationLabel(entry) {
+  if (!entry) return getText('sliderOff');
+  return formatLocaleNumber(entry[0], { style: 'unit', unit: entry[1], unitDisplay: 'long' });
+}
+
 const dateSteps = [
   0, 1, 2, 3, 5, 7, 10, 14, 21, 30, 45, 60, 90, 120, 180, 270, 365, 548, 730,
   1095, 1460, 1825, 2555, 3650,
 ];
 
-const dateStepLabels = [
-  'Off',
-  '1 day',
-  '2 days',
-  '3 days',
-  '5 days',
-  '1 week',
-  '10 days',
-  '2 weeks',
-  '3 weeks',
-  '1 month',
-  '45 days',
-  '2 months',
-  '3 months',
-  '4 months',
-  '6 months',
-  '9 months',
-  '1 year',
-  '18 months',
-  '2 years',
-  '3 years',
-  '4 years',
-  '5 years',
-  '7 years',
-  '10 years',
+const dateStepUnits = [
+  null,
+  [1, 'day'],
+  [2, 'day'],
+  [3, 'day'],
+  [5, 'day'],
+  [1, 'week'],
+  [10, 'day'],
+  [2, 'week'],
+  [3, 'week'],
+  [1, 'month'],
+  [45, 'day'],
+  [2, 'month'],
+  [3, 'month'],
+  [4, 'month'],
+  [6, 'month'],
+  [9, 'month'],
+  [1, 'year'],
+  [18, 'month'],
+  [2, 'year'],
+  [3, 'year'],
+  [4, 'year'],
+  [5, 'year'],
+  [7, 'year'],
+  [10, 'year'],
 ];
+
+const dateStepLabels = dateStepUnits.map(formatDurationLabel);
 
 const dateNewerSteps = [
   0,
@@ -133,37 +135,39 @@ const dateNewerSteps = [
   3650,
 ];
 
-const dateNewerStepLabels = [
-  'Off',
-  '1 hour',
-  '2 hours',
-  '3 hours',
-  '6 hours',
-  '12 hours',
-  '1 day',
-  '2 days',
-  '3 days',
-  '5 days',
-  '1 week',
-  '10 days',
-  '2 weeks',
-  '3 weeks',
-  '1 month',
-  '45 days',
-  '2 months',
-  '3 months',
-  '4 months',
-  '6 months',
-  '9 months',
-  '1 year',
-  '18 months',
-  '2 years',
-  '3 years',
-  '4 years',
-  '5 years',
-  '7 years',
-  '10 years',
+const dateNewerStepUnits = [
+  null,
+  [1, 'hour'],
+  [2, 'hour'],
+  [3, 'hour'],
+  [6, 'hour'],
+  [12, 'hour'],
+  [1, 'day'],
+  [2, 'day'],
+  [3, 'day'],
+  [5, 'day'],
+  [1, 'week'],
+  [10, 'day'],
+  [2, 'week'],
+  [3, 'week'],
+  [1, 'month'],
+  [45, 'day'],
+  [2, 'month'],
+  [3, 'month'],
+  [4, 'month'],
+  [6, 'month'],
+  [9, 'month'],
+  [1, 'year'],
+  [18, 'month'],
+  [2, 'year'],
+  [3, 'year'],
+  [4, 'year'],
+  [5, 'year'],
+  [7, 'year'],
+  [10, 'year'],
 ];
+
+const dateNewerStepLabels = dateNewerStepUnits.map(formatDurationLabel);
 
 function findClosestDateNewerIndex(value) {
   let closestIndex = 0;

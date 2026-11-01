@@ -1,0 +1,804 @@
+{
+  "localeCode": {
+    "message": "ko"
+  },
+  "extName": {
+    "message": "YouTube Hider: 시청한 동영상, Shorts, 조회수 낮은 동영상 숨기기"
+  },
+  "extDescription": {
+    "message": "YouTube에서 이미 시청한 동영상, 조회수가 낮은 동영상, Shorts를 숨깁니다."
+  },
+  "popupPageTitle": {
+    "message": "YouTube Hider 확장 프로그램"
+  },
+  "headerSupport": {
+    "message": "후원하기"
+  },
+  "headerExtensionToggle": {
+    "message": "확장 프로그램"
+  },
+  "sectionYouTubeVideos": {
+    "message": "YouTube 동영상"
+  },
+  "filterModeTitle": {
+    "message": "필터 모드"
+  },
+  "filterModeTooltip": {
+    "message": "숨기기는 필터링된 동영상을 완전히 없앱니다. 어둡게는 이유를 알려 주는 라벨과 함께 어두운 오버레이 아래에 동영상을 남겨 두며, 계속 클릭할 수 있습니다. Shorts는 이 설정과 관계없이 항상 숨겨집니다"
+  },
+  "filterModeDescription": {
+    "message": "필터링된 동영상을 어떻게 처리할지 선택합니다. Shorts는 항상 숨겨집니다"
+  },
+  "filterModeHide": {
+    "message": "숨기기"
+  },
+  "filterModeDim": {
+    "message": "어둡게"
+  },
+  "hideWatchedTitle": {
+    "message": "시청한 동영상 숨기기"
+  },
+  "hideWatchedDescription": {
+    "message": "시청한 비율에 따라 동영상을 숨깁니다"
+  },
+  "watchPercentageLabel": {
+    "message": "시청 비율"
+  },
+  "watchPercentageTooltip": {
+    "message": "전체 길이 중 이 비율보다 많이 시청한 동영상을 숨깁니다. 끄려면 왼쪽 끝까지 드래그하세요"
+  },
+  "pageHome": {
+    "message": "홈"
+  },
+  "hideWatchedHomeTooltip": {
+    "message": "홈 피드에서 시청한 동영상을 숨깁니다"
+  },
+  "pageChannel": {
+    "message": "채널"
+  },
+  "hideWatchedChannelTooltip": {
+    "message": "채널 페이지에서 시청한 동영상을 숨깁니다"
+  },
+  "pageSubs": {
+    "message": "구독"
+  },
+  "hideWatchedSubsTooltip": {
+    "message": "구독 피드에서 시청한 동영상을 숨깁니다"
+  },
+  "pageSearch": {
+    "message": "검색"
+  },
+  "hideWatchedSearchTooltip": {
+    "message": "검색 결과에서 시청한 동영상을 숨깁니다"
+  },
+  "pageRelated": {
+    "message": "관련 동영상"
+  },
+  "hideWatchedRelatedTooltip": {
+    "message": "관련 동영상 사이드바에서 시청한 동영상을 숨깁니다"
+  },
+  "markedWatchedLabel": {
+    "message": "시청함으로 표시한 동영상"
+  },
+  "markedWatchedTooltip": {
+    "message": "동영상에 마우스를 올리고 시청함을 클릭하면, YouTube에 진행 표시줄이 없어도 이미 시청한 동영상으로 처리됩니다. 표시한 동영상은 이 카드의 슬라이더와 페이지별 스위치를 따르며, Whitelist에 있는 채널이라도 계속 숨겨집니다. 같은 Chrome 프로필로 로그인한 모든 기기에 자동으로 동기화되므로 내보낼 필요가 없습니다. 최대 3,000개까지 보관되며, 이를 넘으면 가장 오래된 표시가 삭제됩니다"
+  },
+  "markedCountNone": {
+    "message": "아직 표시한 동영상이 없습니다"
+  },
+  "markedWatchedManage": {
+    "message": "관리"
+  },
+  "markedWatchedSyncPaused": {
+    "message": "동기화 일시중지됨: 채널 목록이 기기 간에 공유되는 공간을 사용하고 있습니다. 표시한 동영상은 이 브라우저에 저장되어 있으며, 다시 공간이 생기면 동기화가 재개됩니다"
+  },
+  "contentTypesTitle": {
+    "message": "Shorts, 믹스, 재생목록, 실시간 숨기기"
+  },
+  "contentTypesDescription": {
+    "message": "YouTube에서 Shorts, 믹스, 재생목록, 실시간 스트림을 없앱니다"
+  },
+  "contentShorts": {
+    "message": "Shorts"
+  },
+  "contentMixes": {
+    "message": "믹스"
+  },
+  "contentPlaylists": {
+    "message": "재생목록"
+  },
+  "contentLives": {
+    "message": "실시간"
+  },
+  "hideShortsLabel": {
+    "message": "Shorts 숨기기"
+  },
+  "hideShortsTooltip": {
+    "message": "Shorts 섹션과 Shorts 탭을 없앱니다"
+  },
+  "hideShortsSearchLabel": {
+    "message": "검색에서 Shorts 숨기기"
+  },
+  "hideShortsSearchTooltip": {
+    "message": "검색 결과에서 Shorts 동영상을 없앱니다"
+  },
+  "hideMixesLabel": {
+    "message": "믹스 숨기기"
+  },
+  "hideMixesTooltip": {
+    "message": "YouTube 피드에서 믹스 재생목록을 없앱니다"
+  },
+  "hidePlaylistsLabel": {
+    "message": "재생목록 숨기기"
+  },
+  "hidePlaylistsTooltip": {
+    "message": "YouTube 피드에서 재생목록을 없앱니다"
+  },
+  "hideLivesLabel": {
+    "message": "실시간 숨기기"
+  },
+  "hideLivesTooltip": {
+    "message": "YouTube 피드에서 실시간 스트림을 없앱니다"
+  },
+  "viewsFilterTitle": {
+    "message": "조회수 필터"
+  },
+  "viewsFilterDescription": {
+    "message": "조회수에 따라 동영상을 숨깁니다"
+  },
+  "minViewsLabel": {
+    "message": "최소 조회수"
+  },
+  "minViewsTooltip": {
+    "message": "조회수가 이 숫자보다 적은 동영상을 숨깁니다. 끄려면 왼쪽 끝까지 드래그하세요"
+  },
+  "maxViewsLabel": {
+    "message": "최대 조회수"
+  },
+  "maxViewsTooltip": {
+    "message": "조회수가 이 숫자보다 많은 동영상을 숨깁니다. 끄려면 왼쪽 끝까지 드래그하세요"
+  },
+  "sliderOff": {
+    "message": "사용 안함"
+  },
+  "rangeOverlapWarning": {
+    "message": "필터 비활성: 범위가 겹칩니다"
+  },
+  "viewsHomeTooltip": {
+    "message": "홈에서 조회수에 따라 동영상을 숨깁니다"
+  },
+  "viewsChannelTooltip": {
+    "message": "채널에서 조회수에 따라 동영상을 숨깁니다"
+  },
+  "viewsSubsTooltip": {
+    "message": "구독에서 조회수에 따라 동영상을 숨깁니다"
+  },
+  "viewsSearchTooltip": {
+    "message": "검색에서 조회수에 따라 동영상을 숨깁니다"
+  },
+  "viewsRelatedTooltip": {
+    "message": "관련 동영상에서 조회수에 따라 동영상을 숨깁니다"
+  },
+  "dateFilterTitle": {
+    "message": "업로드 날짜 필터"
+  },
+  "dateFilterDescription": {
+    "message": "업로드 날짜에 따라 동영상을 숨깁니다"
+  },
+  "dateNewerLabel": {
+    "message": "이보다 최근이면 숨기기"
+  },
+  "dateNewerTooltip": {
+    "message": "이보다 최근에 업로드된 동영상을 숨깁니다. 끄려면 왼쪽 끝까지 드래그하세요"
+  },
+  "dateOlderLabel": {
+    "message": "이보다 오래되면 숨기기"
+  },
+  "dateOlderTooltip": {
+    "message": "이보다 오래전에 업로드된 동영상을 숨깁니다. 끄려면 왼쪽 끝까지 드래그하세요"
+  },
+  "dateHomeTooltip": {
+    "message": "홈에서 날짜에 따라 동영상을 숨깁니다"
+  },
+  "dateChannelTooltip": {
+    "message": "채널에서 날짜에 따라 동영상을 숨깁니다"
+  },
+  "dateSubsTooltip": {
+    "message": "구독에서 날짜에 따라 동영상을 숨깁니다"
+  },
+  "dateSearchTooltip": {
+    "message": "검색에서 날짜에 따라 동영상을 숨깁니다"
+  },
+  "dateRelatedTooltip": {
+    "message": "관련 동영상에서 날짜에 따라 동영상을 숨깁니다"
+  },
+  "channelWhitelistTitle": {
+    "message": "Channel Whitelist"
+  },
+  "channelWhitelistTooltip": {
+    "message": "Whitelist에 있는 채널은 모든 활성 필터를 건너뜁니다. 채널 페이지나 동영상에서 아래 버튼 또는 헤더 버튼으로 채널을 추가하세요. 칩을 삭제하면 해당 채널에 모든 필터가 즉시 다시 적용됩니다. Shorts는 항상 필터링됩니다"
+  },
+  "channelWhitelistDescription": {
+    "message": "이 목록의 채널은 필터링되지 않습니다. Shorts는 항상 필터링됩니다"
+  },
+  "channelWhitelistEmpty": {
+    "message": "아직 Whitelist에 채널이 없습니다"
+  },
+  "addCurrentChannel": {
+    "message": "+ 현재 채널 추가"
+  },
+  "channelListsSyncPaused": {
+    "message": "동기화 일시중지됨: 기기 간에 동기화하기에는 채널이 너무 많습니다. 목록은 이 브라우저에 저장되어 있으며, 다시 공간이 생기면 동기화가 재개됩니다"
+  },
+  "channelBlacklistTitle": {
+    "message": "Channel Blacklist"
+  },
+  "channelBlacklistTooltip": {
+    "message": "Blacklist에 있는 채널은 다른 필터와 관계없이 항상 숨겨집니다. 채널 페이지나 동영상에서 아래 버튼 또는 헤더 버튼으로 채널을 추가하세요. 칩을 삭제하면 해당 채널의 동영상이 즉시 다시 표시됩니다. Shorts는 항상 필터링됩니다"
+  },
+  "channelBlacklistDescription": {
+    "message": "이 목록의 채널은 어디서나 항상 숨겨집니다. Shorts는 항상 필터링됩니다"
+  },
+  "channelBlacklistEmpty": {
+    "message": "아직 Blacklist에 채널이 없습니다"
+  },
+  "titleWhitelistTitle": {
+    "message": "Title Whitelist"
+  },
+  "titleWhitelistTooltip": {
+    "message": "제목에 이 단어 중 하나가 들어간 동영상은 모든 활성 필터를 건너뜁니다. 대소문자는 구분하지 않으며 단어의 시작 부분과 일치해야 하므로, \"게임\"은 \"게임기\"와 일치하지만 \"모바일게임\"과는 일치하지 않습니다. Blacklist에 있는 채널과 단어는 계속 숨겨지며, Shorts는 항상 필터링됩니다"
+  },
+  "titleWhitelistDescription": {
+    "message": "제목에 이 단어 중 하나가 들어간 동영상은 필터링되지 않습니다"
+  },
+  "titleWhitelistEmpty": {
+    "message": "아직 Title Whitelist에 단어가 없습니다"
+  },
+  "addTitleWord": {
+    "message": "+ 추가"
+  },
+  "titleBlacklistTitle": {
+    "message": "Title Blacklist"
+  },
+  "titleBlacklistTooltip": {
+    "message": "제목에 이 단어 중 하나가 들어간 동영상은 Shorts, 믹스, 재생목록을 포함해 어디서나 항상 숨겨지며, Whitelist에 있는 채널이거나 제목에 Whitelist 단어가 함께 들어 있어도 마찬가지입니다. 대소문자는 구분하지 않으며 단어의 시작 부분과 일치해야 하므로, \"게임\"은 \"게임기\"와 일치하지만 \"모바일게임\"과는 일치하지 않습니다"
+  },
+  "titleBlacklistDescription": {
+    "message": "제목에 이 단어 중 하나가 들어간 동영상은 항상 숨겨집니다"
+  },
+  "titleBlacklistEmpty": {
+    "message": "아직 Title Blacklist에 단어가 없습니다"
+  },
+  "advancedControlsLabel": {
+    "message": "고급 설정"
+  },
+  "advancedControlsDescription": {
+    "message": "간단한 스위치 대신 필터마다 페이지별 고급 설정을 표시합니다"
+  },
+  "hideOnPageControlsLabel": {
+    "message": "페이지 내 버튼 숨기기"
+  },
+  "hideOnPageControlsDescription": {
+    "message": "화면에 표시되는 YouTube Hider 요소를 모두 숨겨 더 깔끔하고 눈에 띄지 않게 합니다. 필터는 백그라운드에서 계속 작동합니다"
+  },
+  "tutorialLabel": {
+    "message": "튜토리얼"
+  },
+  "tutorialDescription": {
+    "message": "헤더 버튼 안내 투어를 다시 시작합니다"
+  },
+  "tutorialRestart": {
+    "message": "다시 시작"
+  },
+  "tutorialRestartConfirm": {
+    "message": "다음에 YouTube를 방문하면 튜토리얼이 표시됩니다"
+  },
+  "footerFeedback": {
+    "message": "기능 제안 또는 버그 신고"
+  },
+  "footerChangelog": {
+    "message": "변경 사항"
+  },
+  "footerWebsite": {
+    "message": "웹사이트"
+  },
+  "supportTitle": {
+    "message": "YouTube Hider 후원하기"
+  },
+  "supportLead": {
+    "message": "YouTube Hider는 무료 오픈소스이며 광고도 추적도 없습니다. 하지만 움직이는 과녁을 쫓고 있습니다. YouTube는 예고 없이 페이지 구조를 바꾸고, 아무도 알리지 않은 변경이 어제까지 잘 되던 필터를 조용히 망가뜨릴 수 있습니다."
+  },
+  "supportText": {
+    "message": "제대로 작동하게 하려면 누군가 여가 시간에 그런 변경을 선택자 하나하나 찾아내야 합니다. 아래 세 가지 중 무엇이든 도움이 됩니다."
+  },
+  "supportKofiTitle": {
+    "message": "커피 한 잔 사 주기"
+  },
+  "supportKofiDescription": {
+    "message": "Ko-fi에서 한 번만 후원합니다. 계정도 구독도 필요 없습니다."
+  },
+  "supportGithubTitle": {
+    "message": "GitHub에서 기여하기"
+  },
+  "supportGithubDescription": {
+    "message": "풀 리퀘스트를 보내거나, 고장 난 필터를 문제가 생긴 페이지와 함께 신고해 주세요."
+  },
+  "supportReviewTitle": {
+    "message": "리뷰 남기기"
+  },
+  "supportReviewDescription": {
+    "message": "Chrome 웹 스토어의 평점은 비용이 들지 않으며 다른 사람들이 이 확장 프로그램을 찾는 데 도움이 됩니다."
+  },
+  "titleWhitelistPlaceholder": {
+    "message": "단어 또는 구문, 예: 강좌"
+  },
+  "titleWhitelistInputLabel": {
+    "message": "Whitelist에 추가할 단어 또는 구문"
+  },
+  "titleBlacklistPlaceholder": {
+    "message": "단어 또는 구문, 예: 리액션"
+  },
+  "titleBlacklistInputLabel": {
+    "message": "Blacklist에 추가할 단어 또는 구문"
+  },
+  "logoAlt": {
+    "message": "YouTube Hider 확장 프로그램 로고"
+  },
+  "closeLabel": {
+    "message": "닫기"
+  },
+  "channelAddHintNoChannel": {
+    "message": "추가하려면 채널 페이지로 이동하세요"
+  },
+  "channelAlreadyWhitelisted": {
+    "message": "$channel$은(는) 이미 Whitelist에 있습니다",
+    "placeholders": {
+      "channel": {
+        "content": "$1"
+      }
+    }
+  },
+  "channelAlreadyBlacklisted": {
+    "message": "$channel$은(는) 이미 Blacklist에 있습니다",
+    "placeholders": {
+      "channel": {
+        "content": "$1"
+      }
+    }
+  },
+  "chipRemoveLabel": {
+    "message": "$item$ 삭제",
+    "placeholders": {
+      "item": {
+        "content": "$1"
+      }
+    }
+  },
+  "titleWhitelistAlreadyListed": {
+    "message": "\"$word$\"은(는) 이미 Whitelist에 있습니다",
+    "placeholders": {
+      "word": {
+        "content": "$1"
+      }
+    }
+  },
+  "titleWhitelistFull": {
+    "message": "Title Whitelist가 가득 찼습니다: 새 단어를 추가하려면 단어를 삭제하세요"
+  },
+  "titleBlacklistAlreadyListed": {
+    "message": "\"$word$\"은(는) 이미 Blacklist에 있습니다",
+    "placeholders": {
+      "word": {
+        "content": "$1"
+      }
+    }
+  },
+  "titleBlacklistFull": {
+    "message": "Title Blacklist가 가득 찼습니다: 새 단어를 추가하려면 단어를 삭제하세요"
+  },
+  "watchedPageTitle": {
+    "message": "시청함으로 표시한 동영상 | YouTube Hider"
+  },
+  "watchedDescription": {
+    "message": "YouTube에서 시청함 버튼으로 표시한 동영상입니다. 시청한 동영상 숨기기 설정에 따라 시청한 동영상처럼 숨겨집니다. 다시 보이게 하려면 목록에서 삭제하세요. 최대 3,000개까지 보관되며, 이를 넘으면 가장 오래된 표시가 삭제됩니다."
+  },
+  "watchedSyncDescription": {
+    "message": "표시는 같은 Chrome 프로필로 로그인한 모든 컴퓨터에 자동으로 동기화되므로 기기 간에 내보내고 가져올 필요가 없습니다. 백업하거나 다른 프로필로 옮기려면 내보내기를 사용하세요."
+  },
+  "watchedExport": {
+    "message": "내보내기"
+  },
+  "watchedImport": {
+    "message": "가져오기"
+  },
+  "watchedClearAll": {
+    "message": "모두 삭제"
+  },
+  "watchedUndo": {
+    "message": "실행취소"
+  },
+  "watchedSelectAllShown": {
+    "message": "표시된 항목 모두 선택"
+  },
+  "watchedRemoveSelected": {
+    "message": "선택 항목 삭제"
+  },
+  "watchedClearSearch": {
+    "message": "검색어 지우기"
+  },
+  "watchedLoadMore": {
+    "message": "더보기"
+  },
+  "watchedSearchPlaceholder": {
+    "message": "제목, 채널 또는 동영상 ID로 검색"
+  },
+  "watchedSearchLabel": {
+    "message": "표시한 동영상 검색"
+  },
+  "markedCount_other": {
+    "message": "동영상 $count$/$limit$개",
+    "placeholders": {
+      "count": {
+        "content": "$1"
+      },
+      "limit": {
+        "content": "$2"
+      }
+    }
+  },
+  "markedCountAlmostFull_other": {
+    "message": "동영상 $count$/$limit$개. 거의 가득 참: 한도를 넘으면 가장 오래된 표시부터 삭제됩니다",
+    "placeholders": {
+      "count": {
+        "content": "$1"
+      },
+      "limit": {
+        "content": "$2"
+      }
+    }
+  },
+  "markedCountFull_other": {
+    "message": "동영상 $count$/$limit$개. 가득 참: 새로 표시할 때마다 가장 오래된 표시가 삭제됩니다",
+    "placeholders": {
+      "count": {
+        "content": "$1"
+      },
+      "limit": {
+        "content": "$2"
+      }
+    }
+  },
+  "watchedSelectItem": {
+    "message": "$title$ 선택",
+    "placeholders": {
+      "title": {
+        "content": "$1"
+      }
+    }
+  },
+  "watchedTitleUnavailable": {
+    "message": "이 기기에서는 제목을 확인할 수 없습니다"
+  },
+  "watchedMarkedOn": {
+    "message": "$date$에 표시함",
+    "placeholders": {
+      "date": {
+        "content": "$1"
+      }
+    }
+  },
+  "watchedRemove": {
+    "message": "삭제"
+  },
+  "watchedRemoveItem": {
+    "message": "$title$ 삭제",
+    "placeholders": {
+      "title": {
+        "content": "$1"
+      }
+    }
+  },
+  "watchedRemoveSelectedCount_other": {
+    "message": "선택 항목 삭제 ($count$)",
+    "placeholders": {
+      "count": {
+        "content": "$1"
+      }
+    }
+  },
+  "watchedLoadMoreCount_other": {
+    "message": "더보기 ($count$개 남음)",
+    "placeholders": {
+      "count": {
+        "content": "$1"
+      }
+    }
+  },
+  "watchedEmpty": {
+    "message": "아직 표시한 동영상이 없습니다. YouTube에서 동영상에 마우스를 올리고 시청함을 클릭하면 여기에 추가됩니다."
+  },
+  "watchedNoMatch": {
+    "message": "\"$query$\"와(과) 일치하는 표시한 동영상이 없습니다.",
+    "placeholders": {
+      "query": {
+        "content": "$1"
+      }
+    }
+  },
+  "watchedRestored_other": {
+    "message": "동영상 $count$개를 복원했습니다.",
+    "placeholders": {
+      "count": {
+        "content": "$1"
+      }
+    }
+  },
+  "watchedRemoved_other": {
+    "message": "동영상 $count$개를 삭제했습니다. YouTube에 다시 표시됩니다.",
+    "placeholders": {
+      "count": {
+        "content": "$1"
+      }
+    }
+  },
+  "watchedExported_other": {
+    "message": "동영상 $count$개를 내보냈습니다.",
+    "placeholders": {
+      "count": {
+        "content": "$1"
+      }
+    }
+  },
+  "watchedImportEmpty": {
+    "message": "이 파일에서 유효한 동영상을 찾지 못했습니다."
+  },
+  "watchedImported_other": {
+    "message": "새 동영상 $count$개를 가져왔습니다.",
+    "placeholders": {
+      "count": {
+        "content": "$1"
+      }
+    }
+  },
+  "watchedImportListFull": {
+    "message": "목록이 가득 차서 가장 오래된 표시가 삭제되었습니다."
+  },
+  "watchedImportError": {
+    "message": "이 파일을 YouTube Hider 내보내기 파일로 읽을 수 없습니다."
+  },
+  "watchedClearConfirm_other": {
+    "message": "표시한 동영상 $count$개를 모두 삭제할까요? YouTube에 다시 표시됩니다.",
+    "placeholders": {
+      "count": {
+        "content": "$1"
+      }
+    }
+  },
+  "headerButtonLabel": {
+    "message": "YouTube Hider 설정"
+  },
+  "buttonWhitelist": {
+    "message": "Whitelist"
+  },
+  "buttonWhitelisted": {
+    "message": "Whitelist에 있음"
+  },
+  "buttonResumeWhitelist": {
+    "message": "Whitelist 다시 켜기"
+  },
+  "buttonBlacklist": {
+    "message": "Blacklist"
+  },
+  "buttonBlacklisted": {
+    "message": "Blacklist에 있음"
+  },
+  "buttonUnblacklist": {
+    "message": "Unblacklist"
+  },
+  "buttonUndo": {
+    "message": "실행취소"
+  },
+  "buttonWatched": {
+    "message": "시청함"
+  },
+  "buttonWatchedTitle": {
+    "message": "시청함으로 표시: 이미 시청한 동영상처럼 이 동영상을 숨깁니다"
+  },
+  "buttonWatchedPendingTitle": {
+    "message": "이 동영상의 시청함 표시 취소"
+  },
+  "buttonUnmark": {
+    "message": "표시 해제"
+  },
+  "buttonUnmarkTitle": {
+    "message": "이 동영상의 시청함 표시를 해제합니다"
+  },
+  "tooltipOnPageControls": {
+    "message": "확장 프로그램 설정의 \"$setting$\"에서 이 버튼을 숨길 수 있습니다.",
+    "placeholders": {
+      "setting": {
+        "content": "$1"
+      }
+    }
+  },
+  "tooltipWhitelistAddOne": {
+    "message": "이 채널을 YouTube Hider Whitelist에 추가합니다. 이 채널의 동영상은 필터링되지 않습니다 (Shorts는 항상 필터링됨)."
+  },
+  "tooltipWhitelistAddMany": {
+    "message": "이 채널들을 YouTube Hider Whitelist에 추가합니다. 이 채널들의 동영상은 필터링되지 않습니다 (Shorts는 항상 필터링됨)."
+  },
+  "tooltipWhitelistRemoveOne": {
+    "message": "이 채널을 YouTube Hider Whitelist에서 삭제합니다."
+  },
+  "tooltipWhitelistRemoveMany": {
+    "message": "이 채널들을 YouTube Hider Whitelist에서 삭제합니다."
+  },
+  "tooltipWhitelistPaused": {
+    "message": "이 채널은 Whitelist에 있지만 지금은 Channel Whitelist가 꺼져 있습니다. 다시 켜려면 클릭하세요."
+  },
+  "tooltipBlacklistAddOne": {
+    "message": "이 채널을 YouTube Hider Blacklist에 추가합니다. 이 채널의 동영상은 항상 숨겨집니다 (Shorts는 항상 필터링됨)."
+  },
+  "tooltipBlacklistAddMany": {
+    "message": "이 채널들을 YouTube Hider Blacklist에 추가합니다. 이 채널들의 동영상은 항상 숨겨집니다 (Shorts는 항상 필터링됨)."
+  },
+  "tooltipBlacklistRemoveOne": {
+    "message": "이 채널을 YouTube Hider Blacklist에서 삭제합니다."
+  },
+  "tooltipBlacklistRemoveMany": {
+    "message": "이 채널들을 YouTube Hider Blacklist에서 삭제합니다."
+  },
+  "reasonAlreadyWatched": {
+    "message": "이미 시청함"
+  },
+  "reasonMarkedWatched": {
+    "message": "시청함으로 표시됨"
+  },
+  "reasonVideoTooNew": {
+    "message": "너무 최근 동영상"
+  },
+  "reasonVideoTooOld": {
+    "message": "너무 오래된 동영상"
+  },
+  "reasonViewsTooLow": {
+    "message": "조회수가 너무 적음"
+  },
+  "reasonViewsTooHigh": {
+    "message": "조회수가 너무 많음"
+  },
+  "reasonMixPlaylist": {
+    "message": "믹스 재생목록"
+  },
+  "reasonPlaylist": {
+    "message": "재생목록"
+  },
+  "reasonLiveStream": {
+    "message": "실시간 스트림"
+  },
+  "reasonBlacklistedChannel": {
+    "message": "Blacklist 채널"
+  },
+  "reasonBlacklistedWord": {
+    "message": "Blacklist 단어: \"$word$\"",
+    "placeholders": {
+      "word": {
+        "content": "$1"
+      }
+    }
+  },
+  "tourWelcomeTitle": {
+    "message": "YouTube Hider에 오신 것을 환영합니다!"
+  },
+  "tourWelcomeDescription": {
+    "message": "짧은 투어로 YouTube 헤더에 들어 있는 YouTube Hider 버튼, 내 설정, 그리고 확장 프로그램을 최대한 활용하는 방법을 알아보세요."
+  },
+  "tourStart": {
+    "message": "튜토리얼 시작"
+  },
+  "tourSkip": {
+    "message": "건너뛰기"
+  },
+  "tourSkipCountdown": {
+    "message": "건너뛰기 ($seconds$초)",
+    "placeholders": {
+      "seconds": {
+        "content": "$1"
+      }
+    }
+  },
+  "tourBack": {
+    "message": "이전"
+  },
+  "tourNext": {
+    "message": "다음"
+  },
+  "tourDone": {
+    "message": "완료"
+  },
+  "tourStepCount": {
+    "message": "$total$단계 중 $current$단계",
+    "placeholders": {
+      "current": {
+        "content": "$1"
+      },
+      "total": {
+        "content": "$2"
+      }
+    }
+  },
+  "tourSettingsButtonTitle": {
+    "message": "설정 버튼"
+  },
+  "tourSettingsButtonDescription": {
+    "message": "YouTube 헤더에 바로 들어 있는 YouTube Hider 톱니바퀴 버튼입니다. 시청 페이지를 포함한 모든 페이지에 표시되며 즉시 열립니다."
+  },
+  "tourFullSettingsTitle": {
+    "message": "모든 설정을 바로 여기서"
+  },
+  "tourFullSettingsDescription": {
+    "message": "클릭하면 YouTube Hider의 모든 설정이 한곳에 열립니다. 안에 무엇이 있는지 함께 살펴보세요."
+  },
+  "tourFilterModeDescription": {
+    "message": "필터링된 동영상을 어떻게 처리할지 선택하세요. $hide$는 화면에서 완전히 없애고, $dim$는 클릭할 수 있는 어두운 오버레이로 덮습니다. 아래의 모든 필터에 적용됩니다.",
+    "placeholders": {
+      "hide": {
+        "content": "$1"
+      },
+      "dim": {
+        "content": "$2"
+      }
+    }
+  },
+  "tourHideWatchedDescription": {
+    "message": "얼마나 시청했는지에 따라 동영상을 숨깁니다. 끄려면 슬라이더를 왼쪽 끝까지 드래그하고, 더 세밀하게 조정하려면 고급 모드의 페이지별 스위치를 사용하세요. YouTube가 놓친 동영상이 있나요? 동영상에 마우스를 올리고 $watched$을 클릭하면 숨겨지고, $manage$에서 다시 되돌릴 수 있습니다.",
+    "placeholders": {
+      "watched": {
+        "content": "$1"
+      },
+      "manage": {
+        "content": "$2"
+      }
+    }
+  },
+  "tourContentTypesTitle": {
+    "message": "Shorts, 믹스, 재생목록, 실시간"
+  },
+  "tourContentTypesDescription": {
+    "message": "피드와 검색 결과에서 Shorts, 믹스 재생목록, 일반 재생목록, 실시간 스트림을 각각 따로 없앨 수 있습니다."
+  },
+  "tourViewsDescription": {
+    "message": "조회수가 최솟값보다 적거나 최댓값보다 많은 동영상, 또는 둘 다를 숨겨 원하는 인기 범위의 동영상만 남길 수 있습니다."
+  },
+  "tourDateDescription": {
+    "message": "설정한 기준보다 최근이거나 오래된 동영상을 숨깁니다. 둘을 함께 사용하면 특정 기간의 동영상만 남길 수 있습니다."
+  },
+  "tourChannelWhitelistDescription": {
+    "message": "좋아하는 채널을 모든 필터에서 제외하세요. 클릭 한 번으로 현재 채널을 추가하거나, 칩을 삭제해 필터를 즉시 다시 적용할 수 있습니다."
+  },
+  "tourChannelBlacklistDescription": {
+    "message": "Whitelist의 반대입니다. Shorts, 믹스, 재생목록, 실시간을 포함해 채널을 어디서나 항상 숨깁니다. 클릭 한 번으로 현재 채널을 추가하거나, 칩을 삭제해 즉시 다시 표시할 수 있습니다."
+  },
+  "tourTitleWhitelistDescription": {
+    "message": "채널 대신 제목의 단어로 동영상을 제외하세요. 제목에 내 단어 중 하나가 들어간 동영상은 어떤 필터도 건드리지 않습니다."
+  },
+  "tourTitleBlacklistDescription": {
+    "message": "Title Whitelist의 반대입니다. 제목에 내 단어 중 하나가 들어간 동영상은 Whitelist에 있는 채널이라도 어디서나 항상 숨깁니다."
+  },
+  "tourExtraSettingsTitle": {
+    "message": "추가 설정"
+  },
+  "tourExtraSettingsDescription": {
+    "message": "\"$advanced$\"을 켜면 고급 화면으로 전환되고, \"$hidecontrols$\"를 켜면 필터는 백그라운드에서 계속 작동하면서 언제든 이 버튼(과 페이지의 Whitelist, Blacklist, $watched$ 버튼)을 없앨 수 있습니다.",
+    "placeholders": {
+      "advanced": {
+        "content": "$1"
+      },
+      "hidecontrols": {
+        "content": "$2"
+      },
+      "watched": {
+        "content": "$3"
+      }
+    }
+  }
+}

@@ -12,7 +12,8 @@
     padding: 7px var(--spacing-lg);
     border-radius: var(--radius-box);
     white-space: nowrap;
-    flex-shrink: 0;
+    flex-shrink: 1;
+    min-width: 0;
     cursor: pointer;
     transition: background-color 0.2s var(--ease-standard), border-color 0.2s var(--ease-standard), transform 0.15s var(--ease-standard);
 }
@@ -34,6 +35,11 @@
 
 .support-button-icon {
     flex-shrink: 0;
+}
+
+.support-button > span {
+    overflow: hidden;
+    text-overflow: ellipsis;
 }
 
 .support-modal {
