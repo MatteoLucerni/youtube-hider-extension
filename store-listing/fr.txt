@@ -1,0 +1,20 @@
+YouTube Hider vous aide à faire le ménage sur YouTube en masquant ce que vous ne voulez pas voir.
+Retirez automatiquement les vidéos déjà vues, filtrez par nombre de vues ou date de mise en ligne, et éliminez Shorts, Mix, playlists et directs : le tout avec des réglages simples et personnalisables qui vous suivent sur tous vos appareils.
+
+✔ Masquez les vidéos vues selon le seuil de progression de votre choix
+✔ Marquez n'importe quelle vidéo comme vue en un clic, même quand YouTube n'affiche pas de barre de progression ou que vous l'avez regardée sur un autre compte
+✔ Gérez vos vidéos marquées depuis une page dédiée : recherche, suppression, annulation, export et import
+✔ Filtrez les vidéos par nombre de vues : trop peu, trop, ou les deux
+✔ Masquez par date de mise en ligne : retirez les vidéos trop récentes, trop anciennes, ou les deux
+✔ Retirez les Shorts, les Mix, les playlists et les directs
+✔ Mettez des chaînes ou des mots du titre dans la Whitelist pour les exempter de tous les filtres
+✔ Mettez des chaînes ou des mots du titre dans la Blacklist pour les masquer toujours
+✔ Choisissez de masquer complètement le contenu filtré ou de l'assombrir avec un voile qui affiche la raison du filtre
+✔ Mode simple avec des interrupteurs rapides, mode avancé avec un contrôle page par page
+✔ Bouton de réglages intégré à l'en-tête de YouTube, accessible instantanément depuis n'importe quelle page
+✔ Tout se synchronise automatiquement entre vos appareils : réglages, Whitelist, Blacklist et vidéos marquées, sans aucun export
+
+Fonctionne sur l'accueil, les chaînes, les abonnements, la recherche et les vidéos suggérées.
+Entièrement open source, léger et sans collecte de données : la synchronisation passe par votre propre compte Chrome, jamais par des serveurs externes.
+
+Idées, bugs ou avis : https://forms.gle/oAqtSjQHQeEp9TFKA
