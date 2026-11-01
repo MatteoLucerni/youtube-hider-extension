@@ -29,10 +29,10 @@ function getTutorialCSS() {
       -webkit-background-clip: text; -webkit-text-fill-color: transparent;
     }
     .yh-welcome-desc { font-size: 13px; line-height: 1.6; color: #aaa; margin-bottom: 24px; }
-    .yh-welcome-actions { display: flex; gap: 12px; justify-content: center; }
+    .yh-welcome-actions { display: flex; flex-wrap: wrap; gap: 12px; justify-content: center; }
     .yh-welcome-btn {
-      padding: 10px 24px; border-radius: 8px; font-size: 13px; font-weight: 600;
-      cursor: pointer; border: none; transition: all 0.2s ease;
+      padding: 10px 18px; border-radius: 8px; font-size: 13px; font-weight: 600;
+      cursor: pointer; border: none; transition: all 0.2s ease; white-space: nowrap;
     }
     .yh-welcome-btn-start {
       background: #10b981; color: #fff;
@@ -76,7 +76,7 @@ function getTutorialCSS() {
     .yh-spot-dot.active { background: #10b981; }
     .yh-spot-btns { display: flex; flex: 0 0 auto; gap: 8px; margin-left: auto; }
     .yh-spot-btn {
-      padding: 7px 14px; border-radius: 6px; font-size: 12px; font-weight: 600;
+      padding: 7px 14px; border-radius: 6px; font-size: 12px; font-weight: 600; white-space: nowrap;
       cursor: pointer; border: none; transition: all 0.2s ease;
     }
     .yh-spot-btn-back { background: #333; color: #aaa; }
