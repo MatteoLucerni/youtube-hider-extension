@@ -141,7 +141,7 @@
     "message": "Entfernt Livestreams aus deinem YouTube-Feed"
   },
   "viewsFilterTitle": {
-    "message": "Aufruf-Filter"
+    "message": "Filter nach Aufrufen"
   },
   "viewsFilterDescription": {
     "message": "Blendet Videos nach ihrer Aufrufzahl aus"
@@ -180,19 +180,19 @@
     "message": "Blendet Videos nach Aufrufen bei ähnlichen Videos aus"
   },
   "dateFilterTitle": {
-    "message": "Upload-Datum-Filter"
+    "message": "Filter nach Upload-Datum"
   },
   "dateFilterDescription": {
     "message": "Blendet Videos nach ihrem Upload-Datum aus"
   },
   "dateNewerLabel": {
-    "message": "Neuer ausblenden als"
+    "message": "Ausblenden, wenn neuer als"
   },
   "dateNewerTooltip": {
     "message": "Blendet Videos aus, die vor kürzerer Zeit hochgeladen wurden. Ganz nach links ziehen zum Ausschalten"
   },
   "dateOlderLabel": {
-    "message": "Älter ausblenden als"
+    "message": "Ausblenden, wenn älter als"
   },
   "dateOlderTooltip": {
     "message": "Blendet Videos aus, die vor längerer Zeit hochgeladen wurden. Ganz nach links ziehen zum Ausschalten"
@@ -697,7 +697,7 @@
     "message": "Markierung als gesehen abbrechen"
   },
   "buttonUnmark": {
-    "message": "Entmarkieren"
+    "message": "Markierung aufheben"
   },
   "buttonUnmarkTitle": {
     "message": "Die Markierung als gesehen von diesem Video entfernen"

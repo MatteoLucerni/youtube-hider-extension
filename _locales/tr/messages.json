@@ -186,13 +186,13 @@
     "message": "Videoları yükleme tarihine göre gizler"
   },
   "dateNewerLabel": {
-    "message": "Şundan yenileri gizle"
+    "message": "Daha yeni olanları gizle"
   },
   "dateNewerTooltip": {
     "message": "Bundan daha yakın zamanda yüklenen videoları gizler. Kapatmak için tamamen sola sürükleyin"
   },
   "dateOlderLabel": {
-    "message": "Şundan eskileri gizle"
+    "message": "Daha eski olanları gizle"
   },
   "dateOlderTooltip": {
     "message": "Bundan daha uzun süre önce yüklenen videoları gizler. Kapatmak için tamamen sola sürükleyin"
@@ -312,7 +312,7 @@
     "message": "Çalışır durumda tutmak, bu değişiklikleri birinin boş zamanında, seçici seçici bulmak demektir. Bu üç seçenekten herhangi biri yardımcı olur."
   },
   "supportKofiTitle": {
-    "message": "Bana bir kahve ısmarla"
+    "message": "Bana bir kahve ısmarlayın"
   },
   "supportKofiDescription": {
     "message": "Ko-fi üzerinden tek seferlik bir katkı. Hesap ve abonelik gerekmez."

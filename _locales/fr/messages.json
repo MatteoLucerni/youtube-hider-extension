@@ -186,13 +186,13 @@
     "message": "Masque les vidéos selon leur date de mise en ligne"
   },
   "dateNewerLabel": {
-    "message": "Masquer plus récentes que"
+    "message": "Masquer si plus récente que"
   },
   "dateNewerTooltip": {
     "message": "Masque les vidéos mises en ligne plus récemment que cela. Faites glisser tout à gauche pour désactiver"
   },
   "dateOlderLabel": {
-    "message": "Masquer plus anciennes que"
+    "message": "Masquer si plus ancienne que"
   },
   "dateOlderTooltip": {
     "message": "Masque les vidéos mises en ligne il y a plus longtemps que cela. Faites glisser tout à gauche pour désactiver"
@@ -418,7 +418,7 @@
     "message": "Annuler"
   },
   "watchedSelectAllShown": {
-    "message": "Tout sélectionner (affichées)"
+    "message": "Sélectionner les vidéos affichées"
   },
   "watchedRemoveSelected": {
     "message": "Retirer la sélection"

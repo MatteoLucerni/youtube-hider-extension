@@ -567,7 +567,7 @@
     "message": "このファイルは YouTube Hider のエクスポートとして読み込めませんでした。"
   },
   "watchedClearConfirm_other": {
-    "message": "印を付けた動画 $count$ 本をすべて削除しますか? YouTube で再び表示されます。",
+    "message": "印を付けた動画 $count$ 本をすべて削除しますか？YouTube で再び表示されます。",
     "placeholders": {
       "count": {
         "content": "$1"
@@ -687,7 +687,7 @@
     }
   },
   "tourWelcomeTitle": {
-    "message": "YouTube Hider へようこそ!"
+    "message": "YouTube Hider へようこそ！"
   },
   "tourWelcomeDescription": {
     "message": "簡単なツアーで、YouTube のヘッダーに組み込まれた YouTube Hider のボタン、設定、拡張機能を使いこなすコツを紹介します。"
