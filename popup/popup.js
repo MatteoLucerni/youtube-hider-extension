@@ -1,5 +1,28 @@
+const TOOLTIP_EDGE_MARGIN = 8;
+
+function keepTooltipsInsidePanel() {
+  document.querySelectorAll('.tooltip-text').forEach(tooltip => {
+    const icon = tooltip.previousElementSibling;
+    if (!icon) return;
+    icon.addEventListener('mouseenter', () => {
+      tooltip.style.translate = '';
+      tooltip.style.removeProperty('--tooltip-arrow-shift');
+      const panel = tooltip.closest('.content-wrapper') || document.body;
+      const bounds = panel.getBoundingClientRect();
+      const rect = tooltip.getBoundingClientRect();
+      let shift = 0;
+      if (rect.right > bounds.right - TOOLTIP_EDGE_MARGIN) shift = bounds.right - TOOLTIP_EDGE_MARGIN - rect.right;
+      if (rect.left + shift < bounds.left + TOOLTIP_EDGE_MARGIN) shift = bounds.left + TOOLTIP_EDGE_MARGIN - rect.left;
+      if (!shift) return;
+      tooltip.style.translate = shift + 'px 0';
+      tooltip.style.setProperty('--tooltip-arrow-shift', -shift + 'px');
+    });
+  });
+}
+
 document.addEventListener('DOMContentLoaded', () => {
   applyDocumentI18n(document);
+  keepTooltipsInsidePanel();
 
   if (new URLSearchParams(window.location.search).get('standalone') === 'true') {
     document.body.classList.add('standalone-page');

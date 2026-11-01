@@ -20,6 +20,7 @@ function getTutorialCSS() {
       padding: 32px 28px 24px; width: 380px; max-width: 90vw;
       text-align: center; color: #e0e0e0;
       box-shadow: 0 8px 32px rgba(0,0,0,0.6);
+      overflow-wrap: anywhere;
     }
     .yh-welcome-logo { width: 48px; height: 48px; margin-bottom: 16px; }
     .yh-welcome-title {
@@ -56,6 +57,7 @@ function getTutorialCSS() {
       color: #e0e0e0;
       box-shadow: 0 4px 20px rgba(0,0,0,0.5);
       transition: all 0.4s ease;
+      overflow-wrap: anywhere;
     }
     .yh-spot-step-badge {
       display: inline-block; font-size: 11px; font-weight: 600;

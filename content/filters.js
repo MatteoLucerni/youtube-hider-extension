@@ -67,6 +67,7 @@ function injectDimStyles() {
       text-align: center;
       padding: 0 6px;
       line-height: 1.2;
+      overflow-wrap: anywhere;
     }
     .yt-hider-badge-buttons {
       display: flex;

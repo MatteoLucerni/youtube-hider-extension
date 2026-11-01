@@ -55,6 +55,7 @@
     top: 100%;
     left: 50%;
     margin-left: -5px;
+    translate: var(--tooltip-arrow-shift, 0) 0;
     border-width: 5px;
     border-style: solid;
     border-color: var(--bg-quaternary) transparent transparent transparent;
