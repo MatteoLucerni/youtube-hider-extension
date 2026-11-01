@@ -121,6 +121,10 @@ For a more discreet setup, enable **Hide on-page controls** in **Extra Settings*
 
 The popup starts in **Simple Mode** for quick everyday use. When you need page-level control, open **Extra Settings** and turn on **Advanced Controls** to switch to **Advanced Mode**, where per-page toggles are available for each filter.
 
+### Languages
+
+The interface is available in English, Spanish, Brazilian Portuguese, German, French, Italian, Japanese, Russian, Turkish, Indonesian and Korean, and follows your browser's language. Numbers, dates, the slider values and the dim overlay labels are written the way YouTube writes them in that language. The names **Whitelist** and **Blacklist** stay in English everywhere. Independently of the interface language, view counts and upload dates are read correctly with YouTube set to any of its 82 interface languages.
+
 ### Badge Indicator
 
 The extension icon shows a badge reflecting the current state:
@@ -160,7 +164,7 @@ Package the extension for Chrome Web Store upload:
 .\build.ps1
 ```
 
-This creates a zip file in `dist/` containing only the files needed by the extension. The script automatically reads `manifest.json` and parses `popup.html` to collect all referenced files.
+This creates a zip file in `dist/` containing only the files needed by the extension. The script automatically reads `manifest.json` and parses `popup.html` to collect all referenced files, and includes every translation in `_locales/`.
 
 ---
 
@@ -168,6 +172,7 @@ This creates a zip file in `dist/` containing only the files needed by the exten
 
 ```
 youtube-hider-extension
+├── _locales/              Interface translations, one messages.json per language (en is the default)
 ├── assets/
 │   └── icons/
 │       ├── youtube-hider-logo.png
@@ -176,6 +181,7 @@ youtube-hider-extension
 │   ├── page-bridge.js     MAIN-world script: caches video-id-to-channel mappings from YouTube's internal data
 │   ├── env.js             DEV_MODE flag
 │   ├── utils.js           Shared utilities (debounce, logger, safe storage)
+│   ├── i18n.js            Translation helpers: messages, plurals, number and date formatting
 │   ├── whitelist-utils.js Pure list helpers shared by the Channel and Title Whitelist and Blacklist and the marked watched videos
 │   ├── state.js           Preferences, timing constants, storage listener
 │   ├── header-button.js  Header settings button and its iframe-embedded settings dropdown
@@ -201,7 +207,8 @@ youtube-hider-extension
 │   ├── parsers.test.js           Parser regression tests
 │   ├── channel-list-sync.test.js Channel list sync encoding, chunking and merge tests
 │   ├── marked-watched-sync.test.js Marked watched sync encoding, merge and quota priority tests
-│   └── whitelist-utils.test.js   Title keyword matching, quota and marked watched list tests
+│   ├── whitelist-utils.test.js   Title keyword matching, quota and marked watched list tests
+│   └── i18n.test.js              Translation catalog checks: keys, placeholders, plurals, store limits
 ├── background.js          Service worker (badge, lifecycle, messaging, channel list and marked watched sync)
 ├── channel-list-sync.js   Pure channel list sync helpers: compression, chunking, quota planning, merge
 ├── marked-watched-sync.js Pure marked watched sync helpers: encoding, chunk layout, merge
@@ -209,6 +216,7 @@ youtube-hider-extension
 ├── CHANGELOG.md           Version history
 ├── LICENSE                MIT License
 ├── manifest.json          Extension manifest (MV3)
+├── store-listing/         Chrome Web Store description per language
 └── README.md
 ```
 
@@ -216,7 +224,7 @@ youtube-hider-extension
 
 ## How It Works
 
-1. **Content scripts** (12 files in `content/`) load on YouTube pages in the order defined by `manifest.json`. They share a global scope via Chrome's isolated world. `page-bridge.js` is the exception: it runs in the page's `MAIN` world at `document_start` to read YouTube's own internal data and expose a video-id-to-channel cache via a DOM attribute, since the isolated world can read the DOM but not the page's JavaScript globals.
+1. **Content scripts** (13 files in `content/`) load on YouTube pages in the order defined by `manifest.json`. They share a global scope via Chrome's isolated world. `page-bridge.js` is the exception: it runs in the page's `MAIN` world at `document_start` to read YouTube's own internal data and expose a video-id-to-channel cache via a DOM attribute, since the isolated world can read the DOM but not the page's JavaScript globals.
 2. A **MutationObserver** watches for DOM changes and triggers hiding/filtering logic based on your preferences.
 3. Settings are stored in `chrome.storage.sync`, so they follow you across devices. The Channel Whitelist and Blacklist are the exception: they live in `chrome.storage.local`, and the service worker mirrors them into `chrome.storage.sync` compressed and split into chunks, so they sync too without being capped by the 8 KB per-item sync quota. The marked watched videos work the same way, with their titles and channels kept in `chrome.storage.local` only.
 4. The **header button** (`content/header-button.js`) uses a closed Shadow DOM to encapsulate its styles from the host page. Its settings dropdown embeds `popup/popup.html` in an `<iframe>`, created fresh on every open, so the dropdown is always the same, unmodified popup UI.
