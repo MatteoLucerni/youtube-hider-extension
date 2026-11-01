@@ -1,4 +1,5 @@
 const I18N_PLURAL_RULES_CACHE = {};
+const I18N_MESSAGE_CACHE = {};
 let i18nNodeCatalog = null;
 
 function hasChromeI18n() {
@@ -37,7 +38,15 @@ function resolveI18nMessage(entry, substitutions) {
 
 function lookupI18nMessage(key, substitutions) {
   if (hasChromeI18n()) {
-    return chrome.i18n.getMessage(key, normalizeI18nSubstitutions(substitutions));
+    const subs = normalizeI18nSubstitutions(substitutions);
+    const cacheKey = [key, ...subs].join('\u0000');
+    try {
+      const message = chrome.i18n.getMessage(key, subs);
+      I18N_MESSAGE_CACHE[cacheKey] = message;
+      return message;
+    } catch (e) {
+      return I18N_MESSAGE_CACHE[cacheKey] || '';
+    }
   }
   const catalog = loadNodeI18nCatalog();
   const entry = Object.keys(catalog).find(name => name.toLowerCase() === key.toLowerCase());

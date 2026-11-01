@@ -170,6 +170,27 @@ test('resolveI18nMessage: fills named placeholders, digits and escaped dollars l
   assert.equal(resolveI18nMessage(undefined), '');
 });
 
+test('getText: keeps answering from memory once the extension context is invalidated', () => {
+  let invalidated = false;
+  globalThis.chrome = {
+    i18n: {
+      getMessage(key, subs) {
+        if (invalidated) throw new Error('Extension context invalidated.');
+        return key === 'localeCode' ? 'it' : key + ':' + subs.join(',');
+      },
+    },
+  };
+  try {
+    assert.equal(getText('reasonBlacklistedWord', 'reaction'), 'reasonBlacklistedWord:reaction');
+    assert.equal(getText('localeCode'), 'it');
+    invalidated = true;
+    assert.equal(getText('reasonBlacklistedWord', 'reaction'), 'reasonBlacklistedWord:reaction');
+    assert.equal(getText('reasonBlacklistedWord', 'other'), 'reasonBlacklistedWord');
+  } finally {
+    delete globalThis.chrome;
+  }
+});
+
 test('getText: falls back to the key when a message is missing', () => {
   assert.equal(getText('extName'), base.extName.message);
   assert.equal(getText('thisKeyDoesNotExist'), 'thisKeyDoesNotExist');
