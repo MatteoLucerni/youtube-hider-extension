@@ -136,6 +136,32 @@ if ($manifest.PSObject.Properties['action'] -and $manifest.action.PSObject.Prope
     }
 }
 
+$displayName = $manifest.name
+
+if ($manifest.PSObject.Properties['default_locale']) {
+    $defaultCatalog = "_locales/$($manifest.default_locale)/messages.json"
+    [void]$files.Add($defaultCatalog)
+
+    $localesDir = Join-Path $projectRoot '_locales'
+    if (Test-Path $localesDir) {
+        Get-ChildItem -Path $localesDir -Directory | ForEach-Object {
+            $catalog = "_locales/$($_.Name)/messages.json"
+            if (Test-Path (Join-Path $projectRoot $catalog)) {
+                [void]$files.Add($catalog)
+            }
+        }
+    }
+
+    $defaultCatalogPath = Join-Path $projectRoot $defaultCatalog
+    if ($displayName -match '^__MSG_(\w+)__$' -and (Test-Path $defaultCatalogPath)) {
+        $catalogContent = Get-Content $defaultCatalogPath -Raw -Encoding UTF8 | ConvertFrom-Json
+        $entry = $catalogContent.PSObject.Properties | Where-Object { $_.Name -ieq $Matches[1] } | Select-Object -First 1
+        if ($entry) {
+            $displayName = $entry.Value.message
+        }
+    }
+}
+
 $missing = @()
 foreach ($f in $files) {
     $fullPath = Join-Path $projectRoot $f
@@ -195,7 +221,7 @@ try {
     Write-Host '  |         Extension packaged successfully!              |' -ForegroundColor Green
     Write-Host '  +======================================================+' -ForegroundColor Green
     Write-Host ''
-    Write-Host "  Name:     $($manifest.name)" -ForegroundColor Cyan
+    Write-Host "  Name:     $displayName" -ForegroundColor Cyan
     Write-Host "  Version:  $version" -ForegroundColor Cyan
     Write-Host "  Files:    $($files.Count)" -ForegroundColor Cyan
     Write-Host "  Size:     $sizeKB KB" -ForegroundColor Cyan

@@ -1,0 +1,14 @@
+{
+  "localeCode": {
+    "message": "en",
+    "description": "Do not translate. The BCP 47 language tag of this catalog, used to format numbers, dates and plurals."
+  },
+  "extName": {
+    "message": "YouTube Hider: hide watched videos, Shorts and low views",
+    "description": "Extension name shown in the Chrome Web Store and in chrome://extensions. Max 75 characters. Keep 'YouTube Hider' untranslated and use the words people search for in this language."
+  },
+  "extDescription": {
+    "message": "Hides already watched videos from YouTube, as well as low views videos and remove Shorts.",
+    "description": "Short description shown in the Chrome Web Store. Max 132 characters."
+  }
+}
