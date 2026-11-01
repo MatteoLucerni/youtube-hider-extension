@@ -877,7 +877,7 @@
     "message": "Omitir"
   },
   "tourSkipCountdown": {
-    "message": "Omitir ($seconds$ s)",
+    "message": "Omitir ($seconds$s)",
     "placeholders": {
       "seconds": {
         "content": "$1"

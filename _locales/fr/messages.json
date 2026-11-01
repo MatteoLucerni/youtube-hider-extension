@@ -877,7 +877,7 @@
     "message": "Passer"
   },
   "tourSkipCountdown": {
-    "message": "Passer ($seconds$ s)",
+    "message": "Passer ($seconds$s)",
     "placeholders": {
       "seconds": {
         "content": "$1"

@@ -699,7 +699,7 @@
     "message": "スキップ"
   },
   "tourSkipCountdown": {
-    "message": "スキップ ($seconds$ 秒)",
+    "message": "スキップ ($seconds$秒)",
     "placeholders": {
       "seconds": {
         "content": "$1"

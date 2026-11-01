@@ -877,7 +877,7 @@
     "message": "Pular"
   },
   "tourSkipCountdown": {
-    "message": "Pular ($seconds$ s)",
+    "message": "Pular ($seconds$s)",
     "placeholders": {
       "seconds": {
         "content": "$1"

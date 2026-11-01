@@ -966,7 +966,7 @@
     "message": "Пропустить"
   },
   "tourSkipCountdown": {
-    "message": "Пропустить ($seconds$ с)",
+    "message": "Пропустить ($seconds$с)",
     "placeholders": {
       "seconds": {
         "content": "$1"

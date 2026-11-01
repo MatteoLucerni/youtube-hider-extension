@@ -877,7 +877,7 @@
     "message": "Salta"
   },
   "tourSkipCountdown": {
-    "message": "Salta ($seconds$ s)",
+    "message": "Salta ($seconds$s)",
     "placeholders": {
       "seconds": {
         "content": "$1"
