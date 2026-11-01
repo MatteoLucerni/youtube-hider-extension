@@ -248,7 +248,7 @@ function updateInlineWhitelistButtonState(btn, channel) {
     activeClass: 'is-whitelisted',
     tooltipText: buildWhitelistTooltipText(channel, { isWhitelisted }),
     iconMarkup: INLINE_WHITELIST_CHECK_ICON,
-    label: isWhitelisted ? 'Whitelisted' : isPaused ? 'Resume Whitelist' : 'Whitelist',
+    label: getText(isWhitelisted ? 'buttonWhitelisted' : isPaused ? 'buttonResumeWhitelist' : 'buttonWhitelist'),
   });
 }
 
