@@ -7,9 +7,17 @@ function keepTooltipsInsidePanel() {
     icon.addEventListener('mouseenter', () => {
       tooltip.style.translate = '';
       tooltip.style.removeProperty('--tooltip-arrow-shift');
+      tooltip.classList.remove('tooltip-below');
       const panel = tooltip.closest('.content-wrapper') || document.body;
       const bounds = panel.getBoundingClientRect();
       const rect = tooltip.getBoundingClientRect();
+      const iconRect = icon.getBoundingClientRect();
+      const opensAbove = rect.bottom <= iconRect.top;
+      const spaceAbove = iconRect.top - TOOLTIP_EDGE_MARGIN;
+      const spaceBelow = window.innerHeight - iconRect.bottom - TOOLTIP_EDGE_MARGIN;
+      if (opensAbove && rect.top < TOOLTIP_EDGE_MARGIN && spaceBelow > spaceAbove) {
+        tooltip.classList.add('tooltip-below');
+      }
       let shift = 0;
       if (rect.right > bounds.right - TOOLTIP_EDGE_MARGIN) shift = bounds.right - TOOLTIP_EDGE_MARGIN - rect.right;
       if (rect.left + shift < bounds.left + TOOLTIP_EDGE_MARGIN) shift = bounds.left + TOOLTIP_EDGE_MARGIN - rect.left;

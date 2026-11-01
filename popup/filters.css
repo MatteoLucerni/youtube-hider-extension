@@ -76,12 +76,14 @@
     margin-left: 0;
 }
 
-.filter-mode-tooltip .tooltip-text {
+.filter-mode-tooltip .tooltip-text,
+.tooltip-text.tooltip-below {
     bottom: auto;
     top: 125%;
 }
 
-.filter-mode-tooltip .tooltip-text::after {
+.filter-mode-tooltip .tooltip-text::after,
+.tooltip-text.tooltip-below::after {
     top: auto;
     bottom: 100%;
     border-color: transparent transparent var(--bg-quaternary) transparent;
