@@ -1,0 +1,893 @@
+{
+  "localeCode": {
+    "message": "de"
+  },
+  "extName": {
+    "message": "YouTube Hider: gesehene Videos, Shorts und wenige Aufrufe ausblenden"
+  },
+  "extDescription": {
+    "message": "Blendet auf YouTube bereits gesehene Videos, Videos mit wenigen Aufrufen und Shorts aus."
+  },
+  "popupPageTitle": {
+    "message": "YouTube Hider Erweiterung"
+  },
+  "headerSupport": {
+    "message": "Unterstützen"
+  },
+  "headerExtensionToggle": {
+    "message": "Erweiterung"
+  },
+  "sectionYouTubeVideos": {
+    "message": "YouTube-Videos"
+  },
+  "filterModeTitle": {
+    "message": "Filtermodus"
+  },
+  "filterModeTooltip": {
+    "message": "Ausblenden entfernt gefilterte Videos komplett. Abdunkeln lässt sie unter einer dunklen Ebene mit einem Hinweis auf den Grund sichtbar, und sie bleiben anklickbar. Shorts werden unabhängig von dieser Einstellung immer ausgeblendet"
+  },
+  "filterModeDescription": {
+    "message": "Lege fest, was mit gefilterten Videos passiert. Shorts werden immer ausgeblendet"
+  },
+  "filterModeHide": {
+    "message": "Ausblenden"
+  },
+  "filterModeDim": {
+    "message": "Abdunkeln"
+  },
+  "hideWatchedTitle": {
+    "message": "Gesehene Videos ausblenden"
+  },
+  "hideWatchedDescription": {
+    "message": "Blendet Videos ab einem bestimmten angesehenen Anteil aus"
+  },
+  "watchPercentageLabel": {
+    "message": "Angesehener Anteil"
+  },
+  "watchPercentageTooltip": {
+    "message": "Blendet Videos aus, von denen du mehr als diesen Prozentsatz der Länge angesehen hast. Ganz nach links ziehen zum Ausschalten"
+  },
+  "pageHome": {
+    "message": "Startseite"
+  },
+  "hideWatchedHomeTooltip": {
+    "message": "Blendet gesehene Videos auf der Startseite aus"
+  },
+  "pageChannel": {
+    "message": "Kanal"
+  },
+  "hideWatchedChannelTooltip": {
+    "message": "Blendet gesehene Videos auf Kanalseiten aus"
+  },
+  "pageSubs": {
+    "message": "Abos"
+  },
+  "hideWatchedSubsTooltip": {
+    "message": "Blendet gesehene Videos im Abo-Feed aus"
+  },
+  "pageSearch": {
+    "message": "Suche"
+  },
+  "hideWatchedSearchTooltip": {
+    "message": "Blendet gesehene Videos in den Suchergebnissen aus"
+  },
+  "pageRelated": {
+    "message": "Ähnliche"
+  },
+  "hideWatchedRelatedTooltip": {
+    "message": "Blendet gesehene Videos in der Seitenleiste mit ähnlichen Videos aus"
+  },
+  "markedWatchedLabel": {
+    "message": "Als gesehen markiert"
+  },
+  "markedWatchedTooltip": {
+    "message": "Fahre mit der Maus über ein Video und klicke auf Gesehen, um es als bereits angesehen zu behandeln, auch wenn YouTube keinen Fortschrittsbalken zeigt. Markierte Videos folgen dem Schieberegler und den Seitenschaltern dieser Karte und bleiben auch bei Kanälen auf der Whitelist ausgeblendet. Sie werden automatisch auf allen Geräten mit demselben Chrome-Profil synchronisiert, ganz ohne Export. Bis zu 3.000 Videos werden gespeichert: danach fällt die älteste Markierung weg"
+  },
+  "markedCountNone": {
+    "message": "Noch keine Videos markiert"
+  },
+  "markedWatchedManage": {
+    "message": "Verwalten"
+  },
+  "markedWatchedSyncPaused": {
+    "message": "Synchronisierung pausiert: Die Kanallisten belegen den zwischen den Geräten geteilten Speicher. Deine markierten Videos bleiben in diesem Browser gespeichert, und die Synchronisierung läuft weiter, sobald sie wieder Platz haben"
+  },
+  "contentTypesTitle": {
+    "message": "Shorts, Mixe, Playlists und Livestreams ausblenden"
+  },
+  "contentTypesDescription": {
+    "message": "Entfernt Shorts, Mixe, Playlists und Livestreams von YouTube"
+  },
+  "contentShorts": {
+    "message": "Shorts"
+  },
+  "contentMixes": {
+    "message": "Mixe"
+  },
+  "contentPlaylists": {
+    "message": "Playlists"
+  },
+  "contentLives": {
+    "message": "Live"
+  },
+  "hideShortsLabel": {
+    "message": "Shorts ausblenden"
+  },
+  "hideShortsTooltip": {
+    "message": "Entfernt das Shorts-Regal und den Shorts-Tab"
+  },
+  "hideShortsSearchLabel": {
+    "message": "Shorts in der Suche"
+  },
+  "hideShortsSearchTooltip": {
+    "message": "Entfernt Shorts aus den Suchergebnissen"
+  },
+  "hideMixesLabel": {
+    "message": "Mixe ausblenden"
+  },
+  "hideMixesTooltip": {
+    "message": "Entfernt Mix-Playlists aus deinem YouTube-Feed"
+  },
+  "hidePlaylistsLabel": {
+    "message": "Playlists ausblenden"
+  },
+  "hidePlaylistsTooltip": {
+    "message": "Entfernt Playlists aus deinem YouTube-Feed"
+  },
+  "hideLivesLabel": {
+    "message": "Live ausblenden"
+  },
+  "hideLivesTooltip": {
+    "message": "Entfernt Livestreams aus deinem YouTube-Feed"
+  },
+  "viewsFilterTitle": {
+    "message": "Aufruf-Filter"
+  },
+  "viewsFilterDescription": {
+    "message": "Blendet Videos nach ihrer Aufrufzahl aus"
+  },
+  "minViewsLabel": {
+    "message": "Mindestaufrufe"
+  },
+  "minViewsTooltip": {
+    "message": "Videos mit weniger Aufrufen als diese Zahl werden ausgeblendet. Ganz nach links ziehen zum Ausschalten"
+  },
+  "maxViewsLabel": {
+    "message": "Höchstaufrufe"
+  },
+  "maxViewsTooltip": {
+    "message": "Videos mit mehr Aufrufen als diese Zahl werden ausgeblendet. Ganz nach links ziehen zum Ausschalten"
+  },
+  "sliderOff": {
+    "message": "Aus"
+  },
+  "rangeOverlapWarning": {
+    "message": "Filter inaktiv: Bereiche überschneiden sich"
+  },
+  "viewsHomeTooltip": {
+    "message": "Blendet Videos nach Aufrufen auf der Startseite aus"
+  },
+  "viewsChannelTooltip": {
+    "message": "Blendet Videos nach Aufrufen auf Kanälen aus"
+  },
+  "viewsSubsTooltip": {
+    "message": "Blendet Videos nach Aufrufen in den Abos aus"
+  },
+  "viewsSearchTooltip": {
+    "message": "Blendet Videos nach Aufrufen in der Suche aus"
+  },
+  "viewsRelatedTooltip": {
+    "message": "Blendet Videos nach Aufrufen bei ähnlichen Videos aus"
+  },
+  "dateFilterTitle": {
+    "message": "Upload-Datum-Filter"
+  },
+  "dateFilterDescription": {
+    "message": "Blendet Videos nach ihrem Upload-Datum aus"
+  },
+  "dateNewerLabel": {
+    "message": "Neuer ausblenden als"
+  },
+  "dateNewerTooltip": {
+    "message": "Blendet Videos aus, die vor kürzerer Zeit hochgeladen wurden. Ganz nach links ziehen zum Ausschalten"
+  },
+  "dateOlderLabel": {
+    "message": "Älter ausblenden als"
+  },
+  "dateOlderTooltip": {
+    "message": "Blendet Videos aus, die vor längerer Zeit hochgeladen wurden. Ganz nach links ziehen zum Ausschalten"
+  },
+  "dateHomeTooltip": {
+    "message": "Blendet Videos nach Datum auf der Startseite aus"
+  },
+  "dateChannelTooltip": {
+    "message": "Blendet Videos nach Datum auf Kanälen aus"
+  },
+  "dateSubsTooltip": {
+    "message": "Blendet Videos nach Datum in den Abos aus"
+  },
+  "dateSearchTooltip": {
+    "message": "Blendet Videos nach Datum in der Suche aus"
+  },
+  "dateRelatedTooltip": {
+    "message": "Blendet Videos nach Datum bei ähnlichen Videos aus"
+  },
+  "channelWhitelistTitle": {
+    "message": "Channel Whitelist"
+  },
+  "channelWhitelistTooltip": {
+    "message": "Kanäle auf der Whitelist umgehen alle aktiven Filter. Füge einen Kanal über die Schaltfläche unten oder über die Schaltfläche in der Kopfzeile hinzu, während du auf einer Kanalseite oder einem Video bist. Entfernst du einen Eintrag, gelten sofort wieder alle Filter für diesen Kanal. Shorts werden trotzdem immer gefiltert"
+  },
+  "channelWhitelistDescription": {
+    "message": "Kanäle in dieser Liste werden nicht gefiltert. Shorts werden trotzdem immer gefiltert"
+  },
+  "channelWhitelistEmpty": {
+    "message": "Noch keine Kanäle auf der Whitelist"
+  },
+  "addCurrentChannel": {
+    "message": "+ Aktuellen Kanal hinzufügen"
+  },
+  "channelListsSyncPaused": {
+    "message": "Synchronisierung pausiert: zu viele Kanäle für die geräteübergreifende Synchronisierung. Deine Listen bleiben in diesem Browser gespeichert, und die Synchronisierung läuft weiter, sobald sie wieder Platz haben"
+  },
+  "channelBlacklistTitle": {
+    "message": "Channel Blacklist"
+  },
+  "channelBlacklistTooltip": {
+    "message": "Kanäle auf der Blacklist werden immer ausgeblendet, egal welche anderen Filter aktiv sind. Füge einen Kanal über die Schaltfläche unten oder über die Schaltfläche in der Kopfzeile hinzu, während du auf einer Kanalseite oder einem Video bist. Entfernst du einen Eintrag, erscheinen die Videos dieses Kanals sofort wieder. Shorts werden trotzdem immer gefiltert"
+  },
+  "channelBlacklistDescription": {
+    "message": "Kanäle in dieser Liste werden immer und überall ausgeblendet. Shorts werden trotzdem immer gefiltert"
+  },
+  "channelBlacklistEmpty": {
+    "message": "Noch keine Kanäle auf der Blacklist"
+  },
+  "titleWhitelistTitle": {
+    "message": "Title Whitelist"
+  },
+  "titleWhitelistTooltip": {
+    "message": "Videos, deren Titel eines dieser Wörter enthält, umgehen alle aktiven Filter. Groß- und Kleinschreibung spielt keine Rolle, und der Eintrag muss am Anfang eines Wortes stehen: \"Ball\" passt zu \"Ballspiel\", aber nicht zu \"Fußball\". Kanäle und Wörter auf der Blacklist bleiben ausgeblendet, und Shorts werden trotzdem immer gefiltert"
+  },
+  "titleWhitelistDescription": {
+    "message": "Videos mit einem dieser Wörter im Titel werden nicht gefiltert"
+  },
+  "titleWhitelistEmpty": {
+    "message": "Noch keine Wörter auf der Title Whitelist"
+  },
+  "addTitleWord": {
+    "message": "+ Hinzufügen"
+  },
+  "titleBlacklistTitle": {
+    "message": "Title Blacklist"
+  },
+  "titleBlacklistTooltip": {
+    "message": "Videos, deren Titel eines dieser Wörter enthält, werden immer und überall ausgeblendet, auch Shorts, Mixe und Playlists, selbst bei Kanälen auf der Whitelist oder wenn der Titel auch ein Wort der Whitelist enthält. Groß- und Kleinschreibung spielt keine Rolle, und der Eintrag muss am Anfang eines Wortes stehen: \"Ball\" passt zu \"Ballspiel\", aber nicht zu \"Fußball\""
+  },
+  "titleBlacklistDescription": {
+    "message": "Videos mit einem dieser Wörter im Titel werden immer ausgeblendet"
+  },
+  "titleBlacklistEmpty": {
+    "message": "Noch keine Wörter auf der Title Blacklist"
+  },
+  "advancedControlsLabel": {
+    "message": "Erweiterte Steuerung"
+  },
+  "advancedControlsDescription": {
+    "message": "Zeigt für jeden Filter erweiterte Einstellungen pro Seite statt der vereinfachten Schalter"
+  },
+  "hideOnPageControlsLabel": {
+    "message": "Steuerelemente auf der Seite ausblenden"
+  },
+  "hideOnPageControlsDescription": {
+    "message": "Blendet alle Elemente von YouTube Hider auf dem Bildschirm aus, für einen aufgeräumteren, dezenteren Look. Die Filter arbeiten im Hintergrund weiter"
+  },
+  "tutorialLabel": {
+    "message": "Tutorial"
+  },
+  "tutorialDescription": {
+    "message": "Startet die geführte Tour zur Schaltfläche in der Kopfzeile neu"
+  },
+  "tutorialRestart": {
+    "message": "Neu starten"
+  },
+  "tutorialRestartConfirm": {
+    "message": "Das Tutorial erscheint bei deinem nächsten YouTube-Besuch"
+  },
+  "footerFeedback": {
+    "message": "Ideen oder Fehler melden"
+  },
+  "footerChangelog": {
+    "message": "Änderungen"
+  },
+  "footerWebsite": {
+    "message": "Website"
+  },
+  "supportTitle": {
+    "message": "YouTube Hider unterstützen"
+  },
+  "supportLead": {
+    "message": "YouTube Hider ist kostenlos, Open Source und kommt ohne Werbung und Tracking aus. Es verfolgt aber ein bewegliches Ziel: YouTube baut seine Seiten ohne Vorwarnung um, und eine Änderung, die niemand ankündigt, kann einen Filter, der gestern noch funktionierte, still und leise kaputt machen."
+  },
+  "supportText": {
+    "message": "Damit alles funktioniert, müssen diese Änderungen Selektor für Selektor aufgespürt werden, in der Freizeit von jemandem. Jede dieser drei Möglichkeiten hilft."
+  },
+  "supportKofiTitle": {
+    "message": "Spendier mir einen Kaffee"
+  },
+  "supportKofiDescription": {
+    "message": "Ein einmaliger Beitrag über Ko-fi. Kein Konto und kein Abo nötig."
+  },
+  "supportGithubTitle": {
+    "message": "Auf GitHub mitwirken"
+  },
+  "supportGithubDescription": {
+    "message": "Schick einen Pull Request oder melde einen kaputten Filter zusammen mit der Seite, auf der es passiert ist."
+  },
+  "supportReviewTitle": {
+    "message": "Bewertung schreiben"
+  },
+  "supportReviewDescription": {
+    "message": "Eine Bewertung im Chrome Web Store kostet nichts und hilft anderen, die Erweiterung zu finden."
+  },
+  "titleWhitelistPlaceholder": {
+    "message": "Wort oder Ausdruck, z. B. Tutorial"
+  },
+  "titleWhitelistInputLabel": {
+    "message": "Wort oder Ausdruck für die Whitelist"
+  },
+  "titleBlacklistPlaceholder": {
+    "message": "Wort oder Ausdruck, z. B. Reaktion"
+  },
+  "titleBlacklistInputLabel": {
+    "message": "Wort oder Ausdruck für die Blacklist"
+  },
+  "logoAlt": {
+    "message": "Logo der Erweiterung YouTube Hider"
+  },
+  "closeLabel": {
+    "message": "Schließen"
+  },
+  "channelAddHintNoChannel": {
+    "message": "Öffne eine Kanalseite, um den Kanal hinzuzufügen"
+  },
+  "channelAlreadyWhitelisted": {
+    "message": "$channel$ ist bereits auf der Whitelist",
+    "placeholders": {
+      "channel": {
+        "content": "$1"
+      }
+    }
+  },
+  "channelAlreadyBlacklisted": {
+    "message": "$channel$ ist bereits auf der Blacklist",
+    "placeholders": {
+      "channel": {
+        "content": "$1"
+      }
+    }
+  },
+  "chipRemoveLabel": {
+    "message": "$item$ entfernen",
+    "placeholders": {
+      "item": {
+        "content": "$1"
+      }
+    }
+  },
+  "titleWhitelistAlreadyListed": {
+    "message": "\"$word$\" ist bereits auf der Whitelist",
+    "placeholders": {
+      "word": {
+        "content": "$1"
+      }
+    }
+  },
+  "titleWhitelistFull": {
+    "message": "Die Title Whitelist ist voll: Entferne ein Wort, um ein neues hinzuzufügen"
+  },
+  "titleBlacklistAlreadyListed": {
+    "message": "\"$word$\" ist bereits auf der Blacklist",
+    "placeholders": {
+      "word": {
+        "content": "$1"
+      }
+    }
+  },
+  "titleBlacklistFull": {
+    "message": "Die Title Blacklist ist voll: Entferne ein Wort, um ein neues hinzuzufügen"
+  },
+  "watchedPageTitle": {
+    "message": "Als gesehen markiert | YouTube Hider"
+  },
+  "watchedDescription": {
+    "message": "Videos, die du auf YouTube mit der Schaltfläche Gesehen markiert hast. Sie werden wie gesehene Videos ausgeblendet und folgen den Einstellungen von Gesehene Videos ausblenden. Entferne eines, damit es wieder erscheint. Bis zu 3.000 Videos werden gespeichert: danach fällt die älteste Markierung weg."
+  },
+  "watchedSyncDescription": {
+    "message": "Deine Markierungen werden automatisch auf allen Computern mit demselben Chrome-Profil synchronisiert, du musst sie also nicht zwischen Geräten exportieren und importieren. Nutze Exportieren für ein Backup oder um sie in ein anderes Profil zu übertragen."
+  },
+  "watchedExport": {
+    "message": "Exportieren"
+  },
+  "watchedImport": {
+    "message": "Importieren"
+  },
+  "watchedClearAll": {
+    "message": "Alle löschen"
+  },
+  "watchedUndo": {
+    "message": "Rückgängig"
+  },
+  "watchedSelectAllShown": {
+    "message": "Alle angezeigten auswählen"
+  },
+  "watchedRemoveSelected": {
+    "message": "Auswahl entfernen"
+  },
+  "watchedClearSearch": {
+    "message": "Suche zurücksetzen"
+  },
+  "watchedLoadMore": {
+    "message": "Mehr laden"
+  },
+  "watchedSearchPlaceholder": {
+    "message": "Nach Titel, Kanal oder Video-ID suchen"
+  },
+  "watchedSearchLabel": {
+    "message": "Markierte Videos durchsuchen"
+  },
+  "markedCount_one": {
+    "message": "$count$ Video von $limit$",
+    "placeholders": {
+      "count": {
+        "content": "$1"
+      },
+      "limit": {
+        "content": "$2"
+      }
+    }
+  },
+  "markedCount_other": {
+    "message": "$count$ Videos von $limit$",
+    "placeholders": {
+      "count": {
+        "content": "$1"
+      },
+      "limit": {
+        "content": "$2"
+      }
+    }
+  },
+  "markedCountAlmostFull_one": {
+    "message": "$count$ Video von $limit$. Fast voll: Über dem Limit fallen die ältesten Markierungen weg",
+    "placeholders": {
+      "count": {
+        "content": "$1"
+      },
+      "limit": {
+        "content": "$2"
+      }
+    }
+  },
+  "markedCountAlmostFull_other": {
+    "message": "$count$ Videos von $limit$. Fast voll: Über dem Limit fallen die ältesten Markierungen weg",
+    "placeholders": {
+      "count": {
+        "content": "$1"
+      },
+      "limit": {
+        "content": "$2"
+      }
+    }
+  },
+  "markedCountFull_one": {
+    "message": "$count$ Video von $limit$. Voll: Jede neue Markierung ersetzt die älteste",
+    "placeholders": {
+      "count": {
+        "content": "$1"
+      },
+      "limit": {
+        "content": "$2"
+      }
+    }
+  },
+  "markedCountFull_other": {
+    "message": "$count$ Videos von $limit$. Voll: Jede neue Markierung ersetzt die älteste",
+    "placeholders": {
+      "count": {
+        "content": "$1"
+      },
+      "limit": {
+        "content": "$2"
+      }
+    }
+  },
+  "watchedSelectItem": {
+    "message": "$title$ auswählen",
+    "placeholders": {
+      "title": {
+        "content": "$1"
+      }
+    }
+  },
+  "watchedTitleUnavailable": {
+    "message": "Titel auf diesem Gerät nicht verfügbar"
+  },
+  "watchedMarkedOn": {
+    "message": "Markiert am $date$",
+    "placeholders": {
+      "date": {
+        "content": "$1"
+      }
+    }
+  },
+  "watchedRemove": {
+    "message": "Entfernen"
+  },
+  "watchedRemoveItem": {
+    "message": "$title$ entfernen",
+    "placeholders": {
+      "title": {
+        "content": "$1"
+      }
+    }
+  },
+  "watchedRemoveSelectedCount_one": {
+    "message": "Auswahl entfernen ($count$)",
+    "placeholders": {
+      "count": {
+        "content": "$1"
+      }
+    }
+  },
+  "watchedRemoveSelectedCount_other": {
+    "message": "Auswahl entfernen ($count$)",
+    "placeholders": {
+      "count": {
+        "content": "$1"
+      }
+    }
+  },
+  "watchedLoadMoreCount_one": {
+    "message": "Mehr laden ($count$ übrig)",
+    "placeholders": {
+      "count": {
+        "content": "$1"
+      }
+    }
+  },
+  "watchedLoadMoreCount_other": {
+    "message": "Mehr laden ($count$ übrig)",
+    "placeholders": {
+      "count": {
+        "content": "$1"
+      }
+    }
+  },
+  "watchedEmpty": {
+    "message": "Noch keine Videos markiert. Fahre auf YouTube mit der Maus über ein Video und klicke auf Gesehen, um es hier hinzuzufügen."
+  },
+  "watchedNoMatch": {
+    "message": "Keine markierten Videos passen zu \"$query$\".",
+    "placeholders": {
+      "query": {
+        "content": "$1"
+      }
+    }
+  },
+  "watchedRestored_one": {
+    "message": "$count$ Video wiederhergestellt.",
+    "placeholders": {
+      "count": {
+        "content": "$1"
+      }
+    }
+  },
+  "watchedRestored_other": {
+    "message": "$count$ Videos wiederhergestellt.",
+    "placeholders": {
+      "count": {
+        "content": "$1"
+      }
+    }
+  },
+  "watchedRemoved_one": {
+    "message": "$count$ Video entfernt. Es erscheint wieder auf YouTube.",
+    "placeholders": {
+      "count": {
+        "content": "$1"
+      }
+    }
+  },
+  "watchedRemoved_other": {
+    "message": "$count$ Videos entfernt. Sie erscheinen wieder auf YouTube.",
+    "placeholders": {
+      "count": {
+        "content": "$1"
+      }
+    }
+  },
+  "watchedExported_one": {
+    "message": "$count$ Video exportiert.",
+    "placeholders": {
+      "count": {
+        "content": "$1"
+      }
+    }
+  },
+  "watchedExported_other": {
+    "message": "$count$ Videos exportiert.",
+    "placeholders": {
+      "count": {
+        "content": "$1"
+      }
+    }
+  },
+  "watchedImportEmpty": {
+    "message": "In dieser Datei wurden keine gültigen Videos gefunden."
+  },
+  "watchedImported_one": {
+    "message": "$count$ neues Video importiert.",
+    "placeholders": {
+      "count": {
+        "content": "$1"
+      }
+    }
+  },
+  "watchedImported_other": {
+    "message": "$count$ neue Videos importiert.",
+    "placeholders": {
+      "count": {
+        "content": "$1"
+      }
+    }
+  },
+  "watchedImportListFull": {
+    "message": "Die Liste ist voll, deshalb wurden die ältesten Markierungen entfernt."
+  },
+  "watchedImportError": {
+    "message": "Diese Datei konnte nicht als YouTube Hider-Export gelesen werden."
+  },
+  "watchedClearConfirm_one": {
+    "message": "$count$ markiertes Video entfernen? Es erscheint dann wieder auf YouTube.",
+    "placeholders": {
+      "count": {
+        "content": "$1"
+      }
+    }
+  },
+  "watchedClearConfirm_other": {
+    "message": "Alle $count$ markierten Videos entfernen? Sie erscheinen dann wieder auf YouTube.",
+    "placeholders": {
+      "count": {
+        "content": "$1"
+      }
+    }
+  },
+  "headerButtonLabel": {
+    "message": "YouTube Hider-Einstellungen"
+  },
+  "buttonWhitelist": {
+    "message": "Whitelist"
+  },
+  "buttonWhitelisted": {
+    "message": "Auf Whitelist"
+  },
+  "buttonResumeWhitelist": {
+    "message": "Whitelist fortsetzen"
+  },
+  "buttonBlacklist": {
+    "message": "Blacklist"
+  },
+  "buttonBlacklisted": {
+    "message": "Auf Blacklist"
+  },
+  "buttonUnblacklist": {
+    "message": "Unblacklist"
+  },
+  "buttonUndo": {
+    "message": "Rückgängig"
+  },
+  "buttonWatched": {
+    "message": "Gesehen"
+  },
+  "buttonWatchedTitle": {
+    "message": "Als gesehen markieren: blendet dieses Video wie ein bereits angesehenes aus"
+  },
+  "buttonWatchedPendingTitle": {
+    "message": "Markierung als gesehen abbrechen"
+  },
+  "buttonUnmark": {
+    "message": "Entmarkieren"
+  },
+  "buttonUnmarkTitle": {
+    "message": "Die Markierung als gesehen von diesem Video entfernen"
+  },
+  "tooltipOnPageControls": {
+    "message": "Du kannst diese Schaltfläche in den Einstellungen der Erweiterung unter \"$setting$\" ausblenden.",
+    "placeholders": {
+      "setting": {
+        "content": "$1"
+      }
+    }
+  },
+  "tooltipWhitelistAddOne": {
+    "message": "Fügt diesen Kanal zu deiner YouTube Hider-Whitelist hinzu: Seine Videos werden nicht gefiltert (Shorts werden immer gefiltert)."
+  },
+  "tooltipWhitelistAddMany": {
+    "message": "Fügt diese Kanäle zu deiner YouTube Hider-Whitelist hinzu: Ihre Videos werden nicht gefiltert (Shorts werden immer gefiltert)."
+  },
+  "tooltipWhitelistRemoveOne": {
+    "message": "Entfernt diesen Kanal von deiner YouTube Hider-Whitelist."
+  },
+  "tooltipWhitelistRemoveMany": {
+    "message": "Entfernt diese Kanäle von deiner YouTube Hider-Whitelist."
+  },
+  "tooltipWhitelistPaused": {
+    "message": "Dieser Kanal steht auf der Whitelist, aber die Channel Whitelist ist gerade ausgeschaltet. Klicke, um sie wieder einzuschalten."
+  },
+  "tooltipBlacklistAddOne": {
+    "message": "Fügt diesen Kanal zu deiner YouTube Hider-Blacklist hinzu: Seine Videos werden immer ausgeblendet (Shorts werden immer gefiltert)."
+  },
+  "tooltipBlacklistAddMany": {
+    "message": "Fügt diese Kanäle zu deiner YouTube Hider-Blacklist hinzu: Ihre Videos werden immer ausgeblendet (Shorts werden immer gefiltert)."
+  },
+  "tooltipBlacklistRemoveOne": {
+    "message": "Entfernt diesen Kanal von deiner YouTube Hider-Blacklist."
+  },
+  "tooltipBlacklistRemoveMany": {
+    "message": "Entfernt diese Kanäle von deiner YouTube Hider-Blacklist."
+  },
+  "reasonAlreadyWatched": {
+    "message": "Bereits gesehen"
+  },
+  "reasonMarkedWatched": {
+    "message": "Als gesehen markiert"
+  },
+  "reasonVideoTooNew": {
+    "message": "Video zu neu"
+  },
+  "reasonVideoTooOld": {
+    "message": "Video zu alt"
+  },
+  "reasonViewsTooLow": {
+    "message": "Zu wenige Aufrufe"
+  },
+  "reasonViewsTooHigh": {
+    "message": "Zu viele Aufrufe"
+  },
+  "reasonMixPlaylist": {
+    "message": "Mix-Playlist"
+  },
+  "reasonPlaylist": {
+    "message": "Playlist"
+  },
+  "reasonLiveStream": {
+    "message": "Livestream"
+  },
+  "reasonBlacklistedChannel": {
+    "message": "Kanal auf der Blacklist"
+  },
+  "reasonBlacklistedWord": {
+    "message": "Wort auf der Blacklist: \"$word$\"",
+    "placeholders": {
+      "word": {
+        "content": "$1"
+      }
+    }
+  },
+  "tourWelcomeTitle": {
+    "message": "Willkommen bei YouTube Hider!"
+  },
+  "tourWelcomeDescription": {
+    "message": "Mach eine kurze Tour und entdecke die YouTube Hider-Schaltfläche in der Kopfzeile von YouTube, deine Einstellungen und wie du das Beste aus der Erweiterung herausholst."
+  },
+  "tourStart": {
+    "message": "Tutorial starten"
+  },
+  "tourSkip": {
+    "message": "Überspringen"
+  },
+  "tourSkipCountdown": {
+    "message": "Überspringen ($seconds$ s)",
+    "placeholders": {
+      "seconds": {
+        "content": "$1"
+      }
+    }
+  },
+  "tourBack": {
+    "message": "Zurück"
+  },
+  "tourNext": {
+    "message": "Weiter"
+  },
+  "tourDone": {
+    "message": "Fertig"
+  },
+  "tourStepCount": {
+    "message": "Schritt $current$ von $total$",
+    "placeholders": {
+      "current": {
+        "content": "$1"
+      },
+      "total": {
+        "content": "$2"
+      }
+    }
+  },
+  "tourSettingsButtonTitle": {
+    "message": "Deine Einstellungs-Schaltfläche"
+  },
+  "tourSettingsButtonDescription": {
+    "message": "Das ist die Zahnrad-Schaltfläche von YouTube Hider, direkt in die Kopfzeile von YouTube eingebaut. Sie erscheint auf jeder Seite, auch beim Ansehen eines Videos, und öffnet sich sofort."
+  },
+  "tourFullSettingsTitle": {
+    "message": "Alle Einstellungen, genau hier"
+  },
+  "tourFullSettingsDescription": {
+    "message": "Ein Klick öffnet alle Einstellungen von YouTube Hider an einem Ort. Schauen wir uns an, was du darin findest."
+  },
+  "tourFilterModeDescription": {
+    "message": "Lege fest, was mit gefilterten Videos passiert: $hide$ entfernt sie komplett, $dim$ legt eine dunkle Ebene darüber, die du trotzdem anklicken kannst. Das gilt für alle Filter darunter.",
+    "placeholders": {
+      "hide": {
+        "content": "$1"
+      },
+      "dim": {
+        "content": "$2"
+      }
+    }
+  },
+  "tourHideWatchedDescription": {
+    "message": "Blendet Videos danach aus, wie viel du schon von ihnen angesehen hast. Zieh den Schieberegler ganz nach links, um ihn auszuschalten, und nutze im erweiterten Modus die Schalter pro Seite für mehr Kontrolle. YouTube hat eins übersehen? Fahre mit der Maus über das Video und klicke auf $watched$, um es auch auszublenden, und hol es mit $manage$ zurück.",
+    "placeholders": {
+      "watched": {
+        "content": "$1"
+      },
+      "manage": {
+        "content": "$2"
+      }
+    }
+  },
+  "tourContentTypesTitle": {
+    "message": "Shorts, Mixe, Playlists und Livestreams"
+  },
+  "tourContentTypesDescription": {
+    "message": "Entferne Shorts, Mix-Playlists, normale Playlists und Livestreams unabhängig voneinander aus deinem Feed und den Suchergebnissen."
+  },
+  "tourViewsDescription": {
+    "message": "Blendet Videos unter einer Mindestzahl an Aufrufen, über einer Höchstzahl oder beides aus, damit nur Videos in einem bestimmten Beliebtheitsbereich bleiben."
+  },
+  "tourDateDescription": {
+    "message": "Blendet Videos aus, die neuer oder älter als ein einstellbarer Wert sind. Nutze beides zusammen, um nur Videos aus einem bestimmten Zeitraum zu behalten."
+  },
+  "tourChannelWhitelistDescription": {
+    "message": "Nimm deine Lieblingskanäle von allen Filtern aus. Füge den aktuellen Kanal mit einem Klick hinzu, oder entferne einen Eintrag, damit die Filter sofort wieder greifen."
+  },
+  "tourChannelBlacklistDescription": {
+    "message": "Das Gegenteil der Whitelist: Blendet einen Kanal immer und überall aus, auch bei Shorts, Mixen, Playlists und Livestreams. Füge den aktuellen Kanal mit einem Klick hinzu, oder entferne einen Eintrag, damit er sofort wieder erscheint."
+  },
+  "tourTitleWhitelistDescription": {
+    "message": "Nimm Videos anhand eines Wortes im Titel statt anhand des Kanals aus. Videos, deren Titel eines deiner Wörter enthält, lässt jeder Filter in Ruhe."
+  },
+  "tourTitleBlacklistDescription": {
+    "message": "Das Gegenteil der Title Whitelist: Blendet immer und überall jedes Video aus, dessen Titel eines deiner Wörter enthält, selbst bei einem Kanal auf der Whitelist."
+  },
+  "tourExtraSettingsTitle": {
+    "message": "Weitere Einstellungen"
+  },
+  "tourExtraSettingsDescription": {
+    "message": "Schalte \"$advanced$\" ein, um zur erweiterten Oberfläche zu wechseln, und schalte \"$hidecontrols$\" jederzeit ein, um diese Schaltfläche (und die Schaltflächen Whitelist, Blacklist und $watched$ auf der Seite) zu entfernen, während die Filter im Hintergrund weiterarbeiten.",
+    "placeholders": {
+      "advanced": {
+        "content": "$1"
+      },
+      "hidecontrols": {
+        "content": "$2"
+      },
+      "watched": {
+        "content": "$3"
+      }
+    }
+  }
+}
