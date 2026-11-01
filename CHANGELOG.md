@@ -1,5 +1,18 @@
 # Changelog
 
+### Version 3.6.0
+
+**Added**
+
+- **YouTube Hider now speaks your language**: the settings menu, the marked videos page, the first-run tour and every button and label on YouTube itself are available in Spanish, Brazilian Portuguese, German, French, Italian, Japanese, Russian, Turkish, Indonesian and Korean, besides English. The language follows the browser's, with nothing to set. Pages and content types use the words YouTube itself uses in each language, and the names **Whitelist** and **Blacklist** stay in English everywhere so they always match the feature's name
+- Numbers and dates follow the language too: the slider values ("2 settimane", "2 Wochen", "2週間"), the view counts ("2,5 Mln", "250万"), the marked video counts and the date each video was marked are written the way YouTube writes them there
+- The extension's name and short description in the Chrome Web Store are translated as well, so it can be found by searching in any of these languages
+
+**Fixed**
+
+- Removing every marked video when only one was left asked to "Remove all 1 marked videos"; it now asks about that one video
+- A few labels still read "Youtube Hider" instead of "YouTube Hider"
+
 ### Version 3.5.0
 
 **Added**

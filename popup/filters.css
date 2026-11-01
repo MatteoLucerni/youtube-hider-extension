@@ -55,6 +55,7 @@
     top: 100%;
     left: 50%;
     margin-left: -5px;
+    translate: var(--tooltip-arrow-shift, 0) 0;
     border-width: 5px;
     border-style: solid;
     border-color: var(--bg-quaternary) transparent transparent transparent;
@@ -75,12 +76,14 @@
     margin-left: 0;
 }
 
-.filter-mode-tooltip .tooltip-text {
+.filter-mode-tooltip .tooltip-text,
+.tooltip-text.tooltip-below {
     bottom: auto;
     top: 125%;
 }
 
-.filter-mode-tooltip .tooltip-text::after {
+.filter-mode-tooltip .tooltip-text::after,
+.tooltip-text.tooltip-below::after {
     top: auto;
     bottom: 100%;
     border-color: transparent transparent var(--bg-quaternary) transparent;
@@ -412,6 +415,7 @@
 
 .marked-watched-row {
     display: flex;
+    flex: 1 1 100%;
     align-items: center;
     justify-content: space-between;
     gap: var(--spacing-lg);

@@ -1,0 +1,804 @@
+{
+  "localeCode": {
+    "message": "ja"
+  },
+  "extName": {
+    "message": "YouTube Hider: 視聴済み動画・ショート・再生回数の少ない動画を非表示"
+  },
+  "extDescription": {
+    "message": "YouTube で視聴済みの動画、再生回数の少ない動画、ショート動画を非表示にします。"
+  },
+  "popupPageTitle": {
+    "message": "YouTube Hider 拡張機能"
+  },
+  "headerSupport": {
+    "message": "支援する"
+  },
+  "headerExtensionToggle": {
+    "message": "拡張機能"
+  },
+  "sectionYouTubeVideos": {
+    "message": "YouTube の動画"
+  },
+  "filterModeTitle": {
+    "message": "フィルタモード"
+  },
+  "filterModeTooltip": {
+    "message": "「非表示」はフィルタされた動画を完全に取り除きます。「暗くする」は理由を示すラベル付きの暗いオーバーレイの下に動画を残し、クリックもできます。ショートはこの設定に関係なく常に非表示になります"
+  },
+  "filterModeDescription": {
+    "message": "フィルタされた動画の扱い方を選びます。ショートは常に非表示になります"
+  },
+  "filterModeHide": {
+    "message": "非表示"
+  },
+  "filterModeDim": {
+    "message": "暗くする"
+  },
+  "hideWatchedTitle": {
+    "message": "視聴済み動画を非表示"
+  },
+  "hideWatchedDescription": {
+    "message": "視聴した割合に応じて動画を非表示にします"
+  },
+  "watchPercentageLabel": {
+    "message": "視聴した割合"
+  },
+  "watchPercentageTooltip": {
+    "message": "再生時間のうちこの割合より多く視聴した動画を非表示にします。左端までドラッグするとオフになります"
+  },
+  "pageHome": {
+    "message": "ホーム"
+  },
+  "hideWatchedHomeTooltip": {
+    "message": "ホームの視聴済み動画を非表示にします"
+  },
+  "pageChannel": {
+    "message": "チャンネル"
+  },
+  "hideWatchedChannelTooltip": {
+    "message": "チャンネルページの視聴済み動画を非表示にします"
+  },
+  "pageSubs": {
+    "message": "登録"
+  },
+  "hideWatchedSubsTooltip": {
+    "message": "登録チャンネルのフィードの視聴済み動画を非表示にします"
+  },
+  "pageSearch": {
+    "message": "検索"
+  },
+  "hideWatchedSearchTooltip": {
+    "message": "検索結果の視聴済み動画を非表示にします"
+  },
+  "pageRelated": {
+    "message": "関連動画"
+  },
+  "hideWatchedRelatedTooltip": {
+    "message": "関連動画のサイドバーにある視聴済み動画を非表示にします"
+  },
+  "markedWatchedLabel": {
+    "message": "視聴済みにした動画"
+  },
+  "markedWatchedTooltip": {
+    "message": "動画にカーソルを合わせて「視聴済み」をクリックすると、YouTube に再生バーが表示されていなくても視聴済みとして扱います。視聴済みにした動画はこのカードのスライダーとページ別スイッチに従い、Whitelist にあるチャンネルでも非表示のままです。同じ Chrome プロフィールでログインしているすべてのデバイスに自動で同期されるので、エクスポートは不要です。保存できるのは 3,000 本までで、超えると最も古い印から削除されます"
+  },
+  "markedCountNone": {
+    "message": "視聴済みにした動画はまだありません"
+  },
+  "markedWatchedManage": {
+    "message": "管理"
+  },
+  "markedWatchedSyncPaused": {
+    "message": "同期を一時停止中: チャンネルリストがデバイス間で共有される容量を使っています。視聴済みにした動画はこのブラウザに保存されており、容量に収まれば同期が再開されます"
+  },
+  "contentTypesTitle": {
+    "message": "ショート・ミックス・再生リスト・ライブを非表示"
+  },
+  "contentTypesDescription": {
+    "message": "YouTube からショート、ミックス、再生リスト、ライブを取り除きます"
+  },
+  "contentShorts": {
+    "message": "ショート"
+  },
+  "contentMixes": {
+    "message": "ミックス"
+  },
+  "contentPlaylists": {
+    "message": "再生リスト"
+  },
+  "contentLives": {
+    "message": "ライブ"
+  },
+  "hideShortsLabel": {
+    "message": "ショートを非表示"
+  },
+  "hideShortsTooltip": {
+    "message": "ショートの棚とショートタブを取り除きます"
+  },
+  "hideShortsSearchLabel": {
+    "message": "検索のショートを非表示"
+  },
+  "hideShortsSearchTooltip": {
+    "message": "検索結果からショート動画を取り除きます"
+  },
+  "hideMixesLabel": {
+    "message": "ミックスを非表示"
+  },
+  "hideMixesTooltip": {
+    "message": "YouTube のフィードからミックスリストを取り除きます"
+  },
+  "hidePlaylistsLabel": {
+    "message": "再生リストを非表示"
+  },
+  "hidePlaylistsTooltip": {
+    "message": "YouTube のフィードから再生リストを取り除きます"
+  },
+  "hideLivesLabel": {
+    "message": "ライブを非表示"
+  },
+  "hideLivesTooltip": {
+    "message": "YouTube のフィードからライブ配信を取り除きます"
+  },
+  "viewsFilterTitle": {
+    "message": "再生回数フィルタ"
+  },
+  "viewsFilterDescription": {
+    "message": "再生回数で動画を非表示にします"
+  },
+  "minViewsLabel": {
+    "message": "最小再生回数"
+  },
+  "minViewsTooltip": {
+    "message": "再生回数がこの数より少ない動画を非表示にします。左端までドラッグするとオフになります"
+  },
+  "maxViewsLabel": {
+    "message": "最大再生回数"
+  },
+  "maxViewsTooltip": {
+    "message": "再生回数がこの数より多い動画を非表示にします。左端までドラッグするとオフになります"
+  },
+  "sliderOff": {
+    "message": "オフ"
+  },
+  "rangeOverlapWarning": {
+    "message": "フィルタ無効: 範囲が重なっています"
+  },
+  "viewsHomeTooltip": {
+    "message": "ホームで再生回数により動画を非表示にします"
+  },
+  "viewsChannelTooltip": {
+    "message": "チャンネルで再生回数により動画を非表示にします"
+  },
+  "viewsSubsTooltip": {
+    "message": "登録チャンネルで再生回数により動画を非表示にします"
+  },
+  "viewsSearchTooltip": {
+    "message": "検索で再生回数により動画を非表示にします"
+  },
+  "viewsRelatedTooltip": {
+    "message": "関連動画で再生回数により動画を非表示にします"
+  },
+  "dateFilterTitle": {
+    "message": "投稿日フィルタ"
+  },
+  "dateFilterDescription": {
+    "message": "投稿日で動画を非表示にします"
+  },
+  "dateNewerLabel": {
+    "message": "これより新しい動画を非表示"
+  },
+  "dateNewerTooltip": {
+    "message": "これより最近に投稿された動画を非表示にします。左端までドラッグするとオフになります"
+  },
+  "dateOlderLabel": {
+    "message": "これより古い動画を非表示"
+  },
+  "dateOlderTooltip": {
+    "message": "これより前に投稿された動画を非表示にします。左端までドラッグするとオフになります"
+  },
+  "dateHomeTooltip": {
+    "message": "ホームで投稿日により動画を非表示にします"
+  },
+  "dateChannelTooltip": {
+    "message": "チャンネルで投稿日により動画を非表示にします"
+  },
+  "dateSubsTooltip": {
+    "message": "登録チャンネルで投稿日により動画を非表示にします"
+  },
+  "dateSearchTooltip": {
+    "message": "検索で投稿日により動画を非表示にします"
+  },
+  "dateRelatedTooltip": {
+    "message": "関連動画で投稿日により動画を非表示にします"
+  },
+  "channelWhitelistTitle": {
+    "message": "Channel Whitelist"
+  },
+  "channelWhitelistTooltip": {
+    "message": "Whitelist にあるチャンネルは有効なすべてのフィルタの対象外になります。チャンネルページや動画を開いているときに、下のボタンかヘッダーのボタンから追加できます。チップを削除すると、そのチャンネルにすぐにすべてのフィルタが再適用されます。ショートは常にフィルタされます"
+  },
+  "channelWhitelistDescription": {
+    "message": "このリストのチャンネルはフィルタされません。ショートは常にフィルタされます"
+  },
+  "channelWhitelistEmpty": {
+    "message": "Whitelist にチャンネルはまだありません"
+  },
+  "addCurrentChannel": {
+    "message": "+ 現在のチャンネルを追加"
+  },
+  "channelListsSyncPaused": {
+    "message": "同期を一時停止中: デバイス間で同期するにはチャンネルが多すぎます。リストはこのブラウザに保存されており、容量に収まれば同期が再開されます"
+  },
+  "channelBlacklistTitle": {
+    "message": "Channel Blacklist"
+  },
+  "channelBlacklistTooltip": {
+    "message": "Blacklist にあるチャンネルは、ほかのフィルタに関係なく常に非表示になります。チャンネルページや動画を開いているときに、下のボタンかヘッダーのボタンから追加できます。チップを削除すると、そのチャンネルの動画がすぐに再び表示されます。ショートは常にフィルタされます"
+  },
+  "channelBlacklistDescription": {
+    "message": "このリストのチャンネルはどこでも常に非表示になります。ショートは常にフィルタされます"
+  },
+  "channelBlacklistEmpty": {
+    "message": "Blacklist にチャンネルはまだありません"
+  },
+  "titleWhitelistTitle": {
+    "message": "Title Whitelist"
+  },
+  "titleWhitelistTooltip": {
+    "message": "タイトルにこれらの語のいずれかを含む動画は、有効なすべてのフィルタの対象外になります。大文字と小文字は区別されません。英語などの単語は語の先頭と一致する必要があり、「AI」は「AI-generated」には一致しますが「said」には一致しません。日本語の語はタイトルのどこにあっても一致します。Blacklist のチャンネルと語は非表示のままで、ショートは常にフィルタされます"
+  },
+  "titleWhitelistDescription": {
+    "message": "タイトルにこれらの語のいずれかを含む動画はフィルタされません"
+  },
+  "titleWhitelistEmpty": {
+    "message": "Title Whitelist に語はまだありません"
+  },
+  "addTitleWord": {
+    "message": "+ 追加"
+  },
+  "titleBlacklistTitle": {
+    "message": "Title Blacklist"
+  },
+  "titleBlacklistTooltip": {
+    "message": "タイトルにこれらの語のいずれかを含む動画は、ショート、ミックス、再生リストも含めてどこでも常に非表示になります。Whitelist のチャンネルの動画や、タイトルに Whitelist の語も含まれる場合も同じです。大文字と小文字は区別されません。英語などの単語は語の先頭と一致する必要があり、「AI」は「AI-generated」には一致しますが「said」には一致しません。日本語の語はタイトルのどこにあっても一致します"
+  },
+  "titleBlacklistDescription": {
+    "message": "タイトルにこれらの語のいずれかを含む動画は常に非表示になります"
+  },
+  "titleBlacklistEmpty": {
+    "message": "Title Blacklist に語はまだありません"
+  },
+  "advancedControlsLabel": {
+    "message": "詳細コントロール"
+  },
+  "advancedControlsDescription": {
+    "message": "簡易スイッチの代わりに、各フィルタのページ別の詳細設定を表示します"
+  },
+  "hideOnPageControlsLabel": {
+    "message": "ページ上のコントロールを非表示"
+  },
+  "hideOnPageControlsDescription": {
+    "message": "画面上の YouTube Hider の要素をすべて隠して、すっきり目立たない見た目にします。フィルタはバックグラウンドで動作し続けます"
+  },
+  "tutorialLabel": {
+    "message": "チュートリアル"
+  },
+  "tutorialDescription": {
+    "message": "ヘッダーボタンのガイドツアーをもう一度始めます"
+  },
+  "tutorialRestart": {
+    "message": "やり直す"
+  },
+  "tutorialRestartConfirm": {
+    "message": "次に YouTube を開いたときにチュートリアルが表示されます"
+  },
+  "footerFeedback": {
+    "message": "機能の要望・不具合報告"
+  },
+  "footerChangelog": {
+    "message": "更新履歴"
+  },
+  "footerWebsite": {
+    "message": "ウェブサイト"
+  },
+  "supportTitle": {
+    "message": "YouTube Hider を支援する"
+  },
+  "supportLead": {
+    "message": "YouTube Hider は無料のオープンソースで、広告もトラッキングもありません。ただし相手は動く標的です。YouTube は予告なくページの構造を変え、誰も告知しない変更が昨日まで動いていたフィルタを黙って壊すことがあります。"
+  },
+  "supportText": {
+    "message": "動かし続けるには、そうした変更をセレクタ一つずつ、誰かの空き時間に探し出す必要があります。次の 3 つのどれもが助けになります。"
+  },
+  "supportKofiTitle": {
+    "message": "コーヒーをおごる"
+  },
+  "supportKofiDescription": {
+    "message": "Ko-fi での 1 回限りの支援です。アカウントも定期購入も不要です。"
+  },
+  "supportGithubTitle": {
+    "message": "GitHub で貢献する"
+  },
+  "supportGithubDescription": {
+    "message": "プルリクエストを送るか、壊れたフィルタを発生したページと一緒に報告してください。"
+  },
+  "supportReviewTitle": {
+    "message": "レビューを書く"
+  },
+  "supportReviewDescription": {
+    "message": "Chrome ウェブストアでの評価は無料で、ほかの人がこの拡張機能を見つける助けになります。"
+  },
+  "titleWhitelistPlaceholder": {
+    "message": "語句、例: 解説"
+  },
+  "titleWhitelistInputLabel": {
+    "message": "Whitelist に追加する語句"
+  },
+  "titleBlacklistPlaceholder": {
+    "message": "語句、例: 切り抜き"
+  },
+  "titleBlacklistInputLabel": {
+    "message": "Blacklist に追加する語句"
+  },
+  "logoAlt": {
+    "message": "YouTube Hider 拡張機能のロゴ"
+  },
+  "closeLabel": {
+    "message": "閉じる"
+  },
+  "channelAddHintNoChannel": {
+    "message": "追加するにはチャンネルページを開いてください"
+  },
+  "channelAlreadyWhitelisted": {
+    "message": "$channel$ はすでに Whitelist にあります",
+    "placeholders": {
+      "channel": {
+        "content": "$1"
+      }
+    }
+  },
+  "channelAlreadyBlacklisted": {
+    "message": "$channel$ はすでに Blacklist にあります",
+    "placeholders": {
+      "channel": {
+        "content": "$1"
+      }
+    }
+  },
+  "chipRemoveLabel": {
+    "message": "$item$ を削除",
+    "placeholders": {
+      "item": {
+        "content": "$1"
+      }
+    }
+  },
+  "titleWhitelistAlreadyListed": {
+    "message": "「$word$」はすでに Whitelist にあります",
+    "placeholders": {
+      "word": {
+        "content": "$1"
+      }
+    }
+  },
+  "titleWhitelistFull": {
+    "message": "Title Whitelist がいっぱいです。新しい語を追加するには語を削除してください"
+  },
+  "titleBlacklistAlreadyListed": {
+    "message": "「$word$」はすでに Blacklist にあります",
+    "placeholders": {
+      "word": {
+        "content": "$1"
+      }
+    }
+  },
+  "titleBlacklistFull": {
+    "message": "Title Blacklist がいっぱいです。新しい語を追加するには語を削除してください"
+  },
+  "watchedPageTitle": {
+    "message": "視聴済みにした動画 | YouTube Hider"
+  },
+  "watchedDescription": {
+    "message": "YouTube の「視聴済み」ボタンで印を付けた動画です。「視聴済み動画を非表示」の設定に従って、視聴済みの動画と同じように非表示になります。削除すると再び表示されます。保存できるのは 3,000 本までで、超えると最も古い印から削除されます。"
+  },
+  "watchedSyncDescription": {
+    "message": "印は同じ Chrome プロフィールでログインしているすべてのパソコンに自動で同期されるため、デバイス間でエクスポートやインポートをする必要はありません。「エクスポート」はバックアップや別のプロフィールへの移動に使えます。"
+  },
+  "watchedExport": {
+    "message": "エクスポート"
+  },
+  "watchedImport": {
+    "message": "インポート"
+  },
+  "watchedClearAll": {
+    "message": "すべて削除"
+  },
+  "watchedUndo": {
+    "message": "元に戻す"
+  },
+  "watchedSelectAllShown": {
+    "message": "表示中をすべて選択"
+  },
+  "watchedRemoveSelected": {
+    "message": "選択項目を削除"
+  },
+  "watchedClearSearch": {
+    "message": "検索をクリア"
+  },
+  "watchedLoadMore": {
+    "message": "さらに表示"
+  },
+  "watchedSearchPlaceholder": {
+    "message": "タイトル、チャンネル、動画 ID で検索"
+  },
+  "watchedSearchLabel": {
+    "message": "視聴済みにした動画を検索"
+  },
+  "markedCount_other": {
+    "message": "$count$ / $limit$ 本",
+    "placeholders": {
+      "count": {
+        "content": "$1"
+      },
+      "limit": {
+        "content": "$2"
+      }
+    }
+  },
+  "markedCountAlmostFull_other": {
+    "message": "$count$ / $limit$ 本。まもなく上限です: 上限を超えると古い印から削除されます",
+    "placeholders": {
+      "count": {
+        "content": "$1"
+      },
+      "limit": {
+        "content": "$2"
+      }
+    }
+  },
+  "markedCountFull_other": {
+    "message": "$count$ / $limit$ 本。上限に達しました: 新しく印を付けるたびに最も古い印が削除されます",
+    "placeholders": {
+      "count": {
+        "content": "$1"
+      },
+      "limit": {
+        "content": "$2"
+      }
+    }
+  },
+  "watchedSelectItem": {
+    "message": "$title$ を選択",
+    "placeholders": {
+      "title": {
+        "content": "$1"
+      }
+    }
+  },
+  "watchedTitleUnavailable": {
+    "message": "このデバイスではタイトルを取得できません"
+  },
+  "watchedMarkedOn": {
+    "message": "$date$ に印を付けました",
+    "placeholders": {
+      "date": {
+        "content": "$1"
+      }
+    }
+  },
+  "watchedRemove": {
+    "message": "削除"
+  },
+  "watchedRemoveItem": {
+    "message": "$title$ を削除",
+    "placeholders": {
+      "title": {
+        "content": "$1"
+      }
+    }
+  },
+  "watchedRemoveSelectedCount_other": {
+    "message": "選択項目を削除 ($count$)",
+    "placeholders": {
+      "count": {
+        "content": "$1"
+      }
+    }
+  },
+  "watchedLoadMoreCount_other": {
+    "message": "さらに表示 (残り $count$ 本)",
+    "placeholders": {
+      "count": {
+        "content": "$1"
+      }
+    }
+  },
+  "watchedEmpty": {
+    "message": "視聴済みにした動画はまだありません。YouTube で動画にカーソルを合わせ、「視聴済み」をクリックするとここに追加されます。"
+  },
+  "watchedNoMatch": {
+    "message": "「$query$」に一致する動画はありません。",
+    "placeholders": {
+      "query": {
+        "content": "$1"
+      }
+    }
+  },
+  "watchedRestored_other": {
+    "message": "$count$ 本の動画を元に戻しました。",
+    "placeholders": {
+      "count": {
+        "content": "$1"
+      }
+    }
+  },
+  "watchedRemoved_other": {
+    "message": "$count$ 本の動画を削除しました。YouTube で再び表示されます。",
+    "placeholders": {
+      "count": {
+        "content": "$1"
+      }
+    }
+  },
+  "watchedExported_other": {
+    "message": "$count$ 本の動画をエクスポートしました。",
+    "placeholders": {
+      "count": {
+        "content": "$1"
+      }
+    }
+  },
+  "watchedImportEmpty": {
+    "message": "このファイルに有効な動画は見つかりませんでした。"
+  },
+  "watchedImported_other": {
+    "message": "新しい動画を $count$ 本インポートしました。",
+    "placeholders": {
+      "count": {
+        "content": "$1"
+      }
+    }
+  },
+  "watchedImportListFull": {
+    "message": "リストがいっぱいのため、最も古い印が削除されました。"
+  },
+  "watchedImportError": {
+    "message": "このファイルは YouTube Hider のエクスポートとして読み込めませんでした。"
+  },
+  "watchedClearConfirm_other": {
+    "message": "印を付けた動画 $count$ 本をすべて削除しますか？YouTube で再び表示されます。",
+    "placeholders": {
+      "count": {
+        "content": "$1"
+      }
+    }
+  },
+  "headerButtonLabel": {
+    "message": "YouTube Hider の設定"
+  },
+  "buttonWhitelist": {
+    "message": "Whitelist"
+  },
+  "buttonWhitelisted": {
+    "message": "Whitelist 済み"
+  },
+  "buttonResumeWhitelist": {
+    "message": "Whitelist を再開"
+  },
+  "buttonBlacklist": {
+    "message": "Blacklist"
+  },
+  "buttonBlacklisted": {
+    "message": "Blacklist 済み"
+  },
+  "buttonUnblacklist": {
+    "message": "Unblacklist"
+  },
+  "buttonUndo": {
+    "message": "元に戻す"
+  },
+  "buttonWatched": {
+    "message": "視聴済み"
+  },
+  "buttonWatchedTitle": {
+    "message": "視聴済みにする: 視聴済みの動画と同じようにこの動画を非表示にします"
+  },
+  "buttonWatchedPendingTitle": {
+    "message": "この動画を視聴済みにするのをやめる"
+  },
+  "buttonUnmark": {
+    "message": "印を外す"
+  },
+  "buttonUnmarkTitle": {
+    "message": "この動画の視聴済みの印を外す"
+  },
+  "tooltipOnPageControls": {
+    "message": "このボタンは拡張機能の設定の「$setting$」で非表示にできます。",
+    "placeholders": {
+      "setting": {
+        "content": "$1"
+      }
+    }
+  },
+  "tooltipWhitelistAddOne": {
+    "message": "このチャンネルを YouTube Hider の Whitelist に追加します。動画はフィルタされなくなります (ショートは常にフィルタされます)。"
+  },
+  "tooltipWhitelistAddMany": {
+    "message": "これらのチャンネルを YouTube Hider の Whitelist に追加します。動画はフィルタされなくなります (ショートは常にフィルタされます)。"
+  },
+  "tooltipWhitelistRemoveOne": {
+    "message": "このチャンネルを YouTube Hider の Whitelist から削除します。"
+  },
+  "tooltipWhitelistRemoveMany": {
+    "message": "これらのチャンネルを YouTube Hider の Whitelist から削除します。"
+  },
+  "tooltipWhitelistPaused": {
+    "message": "このチャンネルは Whitelist にありますが、Channel Whitelist は現在オフです。クリックするとオンに戻ります。"
+  },
+  "tooltipBlacklistAddOne": {
+    "message": "このチャンネルを YouTube Hider の Blacklist に追加します。動画は常に非表示になります (ショートは常にフィルタされます)。"
+  },
+  "tooltipBlacklistAddMany": {
+    "message": "これらのチャンネルを YouTube Hider の Blacklist に追加します。動画は常に非表示になります (ショートは常にフィルタされます)。"
+  },
+  "tooltipBlacklistRemoveOne": {
+    "message": "このチャンネルを YouTube Hider の Blacklist から削除します。"
+  },
+  "tooltipBlacklistRemoveMany": {
+    "message": "これらのチャンネルを YouTube Hider の Blacklist から削除します。"
+  },
+  "reasonAlreadyWatched": {
+    "message": "視聴済み"
+  },
+  "reasonMarkedWatched": {
+    "message": "視聴済みにした動画"
+  },
+  "reasonVideoTooNew": {
+    "message": "新しすぎる動画"
+  },
+  "reasonVideoTooOld": {
+    "message": "古すぎる動画"
+  },
+  "reasonViewsTooLow": {
+    "message": "再生回数が少なすぎます"
+  },
+  "reasonViewsTooHigh": {
+    "message": "再生回数が多すぎます"
+  },
+  "reasonMixPlaylist": {
+    "message": "ミックスリスト"
+  },
+  "reasonPlaylist": {
+    "message": "再生リスト"
+  },
+  "reasonLiveStream": {
+    "message": "ライブ配信"
+  },
+  "reasonBlacklistedChannel": {
+    "message": "Blacklist のチャンネル"
+  },
+  "reasonBlacklistedWord": {
+    "message": "Blacklist の語: 「$word$」",
+    "placeholders": {
+      "word": {
+        "content": "$1"
+      }
+    }
+  },
+  "tourWelcomeTitle": {
+    "message": "YouTube Hider へようこそ！"
+  },
+  "tourWelcomeDescription": {
+    "message": "簡単なツアーで、YouTube のヘッダーに組み込まれた YouTube Hider のボタン、設定、拡張機能を使いこなすコツを紹介します。"
+  },
+  "tourStart": {
+    "message": "チュートリアルを始める"
+  },
+  "tourSkip": {
+    "message": "スキップ"
+  },
+  "tourSkipCountdown": {
+    "message": "スキップ ($seconds$秒)",
+    "placeholders": {
+      "seconds": {
+        "content": "$1"
+      }
+    }
+  },
+  "tourBack": {
+    "message": "戻る"
+  },
+  "tourNext": {
+    "message": "次へ"
+  },
+  "tourDone": {
+    "message": "完了"
+  },
+  "tourStepCount": {
+    "message": "ステップ $current$ / $total$",
+    "placeholders": {
+      "current": {
+        "content": "$1"
+      },
+      "total": {
+        "content": "$2"
+      }
+    }
+  },
+  "tourSettingsButtonTitle": {
+    "message": "設定ボタン"
+  },
+  "tourSettingsButtonDescription": {
+    "message": "これが YouTube のヘッダーに組み込まれた YouTube Hider の歯車ボタンです。再生ページを含むすべてのページに表示され、すぐに開きます。"
+  },
+  "tourFullSettingsTitle": {
+    "message": "すべての設定がここに"
+  },
+  "tourFullSettingsDescription": {
+    "message": "クリックすると YouTube Hider のすべての設定が 1 か所に開きます。中身を順に見ていきましょう。"
+  },
+  "tourFilterModeDescription": {
+    "message": "フィルタされた動画の扱い方を選びます。「$hide$」は画面から完全に取り除き、「$dim$」はクリックできる暗いオーバーレイで覆います。下のすべてのフィルタに適用されます。",
+    "placeholders": {
+      "hide": {
+        "content": "$1"
+      },
+      "dim": {
+        "content": "$2"
+      }
+    }
+  },
+  "tourHideWatchedDescription": {
+    "message": "どれだけ視聴したかに応じて動画を非表示にします。スライダーを左端までドラッグするとオフになり、詳細モードのページ別スイッチでさらに細かく調整できます。YouTube が見落とした動画は、カーソルを合わせて「$watched$」をクリックすれば非表示にでき、「$manage$」から元に戻せます。",
+    "placeholders": {
+      "watched": {
+        "content": "$1"
+      },
+      "manage": {
+        "content": "$2"
+      }
+    }
+  },
+  "tourContentTypesTitle": {
+    "message": "ショート・ミックス・再生リスト・ライブ"
+  },
+  "tourContentTypesDescription": {
+    "message": "フィードと検索結果から、ショート、ミックスリスト、通常の再生リスト、ライブ配信をそれぞれ個別に取り除けます。"
+  },
+  "tourViewsDescription": {
+    "message": "再生回数が最小値より少ない動画、最大値より多い動画、またはその両方を非表示にして、一定の人気の範囲の動画だけを残せます。"
+  },
+  "tourDateDescription": {
+    "message": "設定した期間より新しい動画や古い動画を非表示にします。両方を組み合わせると、特定の期間の動画だけを残せます。"
+  },
+  "tourChannelWhitelistDescription": {
+    "message": "お気に入りのチャンネルをすべてのフィルタの対象外にします。現在のチャンネルはワンクリックで追加でき、チップを削除するとすぐにフィルタが再適用されます。"
+  },
+  "tourChannelBlacklistDescription": {
+    "message": "Whitelist の逆です。チャンネルをショート、ミックス、再生リスト、ライブも含めてどこでも常に非表示にします。現在のチャンネルはワンクリックで追加でき、チップを削除するとすぐに再び表示されます。"
+  },
+  "tourTitleWhitelistDescription": {
+    "message": "チャンネルではなくタイトルの語で動画を対象外にします。タイトルに登録した語を含む動画は、どのフィルタにもかかりません。"
+  },
+  "tourTitleBlacklistDescription": {
+    "message": "Title Whitelist の逆です。タイトルに登録した語を含む動画を、Whitelist のチャンネルのものでも、どこでも常に非表示にします。"
+  },
+  "tourExtraSettingsTitle": {
+    "message": "その他の設定"
+  },
+  "tourExtraSettingsDescription": {
+    "message": "「$advanced$」をオンにすると詳細画面に切り替わります。「$hidecontrols$」をオンにすれば、フィルタをバックグラウンドで動かしたまま、いつでもこのボタン (とページ上の Whitelist、Blacklist、$watched$ ボタン) を消せます。",
+    "placeholders": {
+      "advanced": {
+        "content": "$1"
+      },
+      "hidecontrols": {
+        "content": "$2"
+      },
+      "watched": {
+        "content": "$3"
+      }
+    }
+  }
+}

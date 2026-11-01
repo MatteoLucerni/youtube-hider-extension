@@ -65,12 +65,12 @@ function injectInlineBlacklistStyles() {
 }
 
 function findInlineBlacklistTooltipText(channel, isBlacklisted) {
-  const { channelWord, possessive } = pluralizeChannelWord(channel);
+  const many = isMultiChannel(channel);
 
   if (isBlacklisted) {
-    return `Removes ${channelWord} from your YouTube Hider blacklist. ${ON_PAGE_CONTROLS_TIP}`;
+    return getText(many ? 'tooltipBlacklistRemoveMany' : 'tooltipBlacklistRemoveOne') + ' ' + ON_PAGE_CONTROLS_TIP;
   }
-  return `Adds ${channelWord} to your YouTube Hider blacklist: ${possessive} videos will always be hidden (Shorts are always filtered). ${ON_PAGE_CONTROLS_TIP}`;
+  return getText(many ? 'tooltipBlacklistAddMany' : 'tooltipBlacklistAddOne') + ' ' + ON_PAGE_CONTROLS_TIP;
 }
 
 function createInlineBlacklistButton(channel, isFlexibleActionsRow) {
@@ -101,7 +101,7 @@ function updateInlineBlacklistButtonState(btn, channel) {
     activeClass: 'is-blacklisted',
     tooltipText: findInlineBlacklistTooltipText(channel, isBlacklisted),
     iconMarkup: INLINE_WHITELIST_CHECK_ICON,
-    label: isBlacklisted ? 'Blacklisted' : 'Blacklist',
+    label: getText(isBlacklisted ? 'buttonBlacklisted' : 'buttonBlacklist'),
   });
 }
 

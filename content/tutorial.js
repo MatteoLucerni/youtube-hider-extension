@@ -20,6 +20,7 @@ function getTutorialCSS() {
       padding: 32px 28px 24px; width: 380px; max-width: 90vw;
       text-align: center; color: #e0e0e0;
       box-shadow: 0 8px 32px rgba(0,0,0,0.6);
+      overflow-wrap: anywhere;
     }
     .yh-welcome-logo { width: 48px; height: 48px; margin-bottom: 16px; }
     .yh-welcome-title {
@@ -28,10 +29,10 @@ function getTutorialCSS() {
       -webkit-background-clip: text; -webkit-text-fill-color: transparent;
     }
     .yh-welcome-desc { font-size: 13px; line-height: 1.6; color: #aaa; margin-bottom: 24px; }
-    .yh-welcome-actions { display: flex; gap: 12px; justify-content: center; }
+    .yh-welcome-actions { display: flex; flex-wrap: wrap; gap: 12px; justify-content: center; }
     .yh-welcome-btn {
-      padding: 10px 24px; border-radius: 8px; font-size: 13px; font-weight: 600;
-      cursor: pointer; border: none; transition: all 0.2s ease;
+      padding: 10px 18px; border-radius: 8px; font-size: 13px; font-weight: 600;
+      cursor: pointer; border: none; transition: all 0.2s ease; white-space: nowrap;
     }
     .yh-welcome-btn-start {
       background: #10b981; color: #fff;
@@ -56,6 +57,7 @@ function getTutorialCSS() {
       color: #e0e0e0;
       box-shadow: 0 4px 20px rgba(0,0,0,0.5);
       transition: all 0.4s ease;
+      overflow-wrap: anywhere;
     }
     .yh-spot-step-badge {
       display: inline-block; font-size: 11px; font-weight: 600;
@@ -64,17 +66,17 @@ function getTutorialCSS() {
     }
     .yh-spot-title { font-size: 15px; font-weight: 700; margin-bottom: 6px; color: #f0f0f0; }
     .yh-spot-desc { font-size: 12.5px; line-height: 1.6; color: #aaa; margin-bottom: 16px; }
-    .yh-spot-footer { display: flex; align-items: center; justify-content: space-between; gap: 16px; }
-    .yh-spot-dots { display: flex; flex-wrap: wrap; gap: 4px; min-width: 0; }
+    .yh-spot-footer { display: flex; flex-wrap: wrap; align-items: center; justify-content: space-between; gap: 12px; }
+    .yh-spot-dots { display: flex; flex-wrap: nowrap; flex-shrink: 0; gap: 3px; }
     .yh-spot-dot {
       flex: 0 0 auto;
       width: 6px; height: 6px; border-radius: 50%; background: #444;
       transition: background 0.2s ease;
     }
     .yh-spot-dot.active { background: #10b981; }
-    .yh-spot-btns { display: flex; flex: 0 0 auto; gap: 8px; }
+    .yh-spot-btns { display: flex; flex: 0 0 auto; gap: 8px; margin-left: auto; }
     .yh-spot-btn {
-      padding: 7px 16px; border-radius: 6px; font-size: 12px; font-weight: 600;
+      padding: 7px 14px; border-radius: 6px; font-size: 12px; font-weight: 600; white-space: nowrap;
       cursor: pointer; border: none; transition: all 0.2s ease;
     }
     .yh-spot-btn-back { background: #333; color: #aaa; }
@@ -108,34 +110,33 @@ function showTutorialWelcomeCard() {
 
   const title = document.createElement('div');
   title.className = 'yh-welcome-title';
-  title.textContent = 'Welcome to Youtube Hider!';
+  title.textContent = getText('tourWelcomeTitle');
 
   const desc = document.createElement('div');
   desc.className = 'yh-welcome-desc';
-  desc.textContent =
-    "Take a quick tour to discover the Youtube Hider button built into YouTube's own header, your settings, and how to get the most out of the extension.";
+  desc.textContent = getText('tourWelcomeDescription');
 
   const actions = document.createElement('div');
   actions.className = 'yh-welcome-actions';
 
   const startBtn = document.createElement('button');
   startBtn.className = 'yh-welcome-btn yh-welcome-btn-start';
-  startBtn.textContent = 'Start Tutorial';
+  startBtn.textContent = getText('tourStart');
 
   const skipBtn = document.createElement('button');
   skipBtn.className = 'yh-welcome-btn yh-welcome-btn-skip';
   skipBtn.disabled = true;
   let skipCountdown = 5;
-  skipBtn.textContent = `Skip (${skipCountdown}s)`;
+  skipBtn.textContent = getText('tourSkipCountdown', skipCountdown);
   tutorialSkipInterval = setInterval(() => {
     skipCountdown--;
     if (skipCountdown <= 0) {
       clearInterval(tutorialSkipInterval);
       tutorialSkipInterval = null;
-      skipBtn.textContent = 'Skip';
+      skipBtn.textContent = getText('tourSkip');
       skipBtn.disabled = false;
     } else {
-      skipBtn.textContent = `Skip (${skipCountdown}s)`;
+      skipBtn.textContent = getText('tourSkipCountdown', skipCountdown);
     }
   }, 1000);
 
@@ -210,72 +211,76 @@ function startSpotlightTour() {
 
   const steps = [
     {
-      title: 'Your Settings Button',
-      desc: "This is the Youtube Hider gear button, built right into YouTube's own header. It appears on every page, including Watch, and opens instantly.",
+      title: getText('tourSettingsButtonTitle'),
+      desc: getText('tourSettingsButtonDescription'),
       getTarget: () => headerButtonElement,
     },
     {
-      title: 'Your Full Settings, Right Here',
-      desc: "Clicking it opens your complete Youtube Hider settings, all in one place. Let's walk through what you'll find inside.",
+      title: getText('tourFullSettingsTitle'),
+      desc: getText('tourFullSettingsDescription'),
       getRect: () => getHeaderDropdownRect(),
     },
     {
-      title: 'Filter Mode',
-      desc: 'Choose how filtered videos are treated: Hide removes them from view entirely, Dim fades them under a dark overlay you can still click through. This applies to every filter below.',
+      title: getText('filterModeTitle'),
+      desc: getText('tourFilterModeDescription', [getText('filterModeHide'), getText('filterModeDim')]),
       getRect: () => getHeaderDropdownRect(),
       section: 'filter-mode',
     },
     {
-      title: 'Hide Watched Videos',
-      desc: "Hide videos based on how much of them you've already watched. Drag the slider all the way left to turn it off, and use the per-page toggles in Advanced mode for finer control. YouTube missed one? Hover the video and click Watched to hide it too, and use Manage to bring it back.",
+      title: getText('hideWatchedTitle'),
+      desc: getText('tourHideWatchedDescription', [getText('buttonWatched'), getText('markedWatchedManage')]),
       getRect: () => getHeaderDropdownRect(),
       section: 'hide-watched',
     },
     {
-      title: 'Shorts, Mixes, Playlists & Lives',
-      desc: 'Independently remove Shorts, Mix playlists, regular Playlists, and Live streams from your feed and search results.',
+      title: getText('tourContentTypesTitle'),
+      desc: getText('tourContentTypesDescription'),
       getRect: () => getHeaderDropdownRect(),
       section: 'shorts-mixes-playlists-lives',
     },
     {
-      title: 'Views Filter',
-      desc: 'Hide videos below a minimum view count, above a maximum one, or both together to keep only videos inside a popularity range.',
+      title: getText('viewsFilterTitle'),
+      desc: getText('tourViewsDescription'),
       getRect: () => getHeaderDropdownRect(),
       section: 'views',
     },
     {
-      title: 'Upload Date Filter',
-      desc: 'Hide videos newer or older than a configurable threshold. Use both together to keep only videos from a specific time window.',
+      title: getText('dateFilterTitle'),
+      desc: getText('tourDateDescription'),
       getRect: () => getHeaderDropdownRect(),
       section: 'upload-date',
     },
     {
-      title: 'Channel Whitelist',
-      desc: 'Exempt your favorite channels from every filter. Add the current channel with one click, or remove a chip to re-apply filters immediately.',
+      title: getText('channelWhitelistTitle'),
+      desc: getText('tourChannelWhitelistDescription'),
       getRect: () => getHeaderDropdownRect(),
       section: 'whitelist',
     },
     {
-      title: 'Channel Blacklist',
-      desc: 'The opposite of Whitelist: always hide a channel everywhere, including Shorts, Mixes, Playlists and Lives. Add the current channel with one click, or remove a chip to show it again immediately.',
+      title: getText('channelBlacklistTitle'),
+      desc: getText('tourChannelBlacklistDescription'),
       getRect: () => getHeaderDropdownRect(),
       section: 'blacklist',
     },
     {
-      title: 'Title Whitelist',
-      desc: 'Exempt videos by a word in their title instead of by channel. Every video whose title contains one of your words is left alone by every filter.',
+      title: getText('titleWhitelistTitle'),
+      desc: getText('tourTitleWhitelistDescription'),
       getRect: () => getHeaderDropdownRect(),
       section: 'title-whitelist',
     },
     {
-      title: 'Title Blacklist',
-      desc: 'The opposite of Title Whitelist: always hide every video whose title contains one of your words, everywhere, even from a whitelisted channel.',
+      title: getText('titleBlacklistTitle'),
+      desc: getText('tourTitleBlacklistDescription'),
       getRect: () => getHeaderDropdownRect(),
       section: 'title-blacklist',
     },
     {
-      title: 'Extra Settings',
-      desc: 'Turn on "Advanced Controls" to switch to the Advanced interface, and turn on "Hide on-page controls" anytime to remove this button (and the Whitelist, Blacklist and Watched buttons on the page) while filtering keeps working in the background.',
+      title: getText('tourExtraSettingsTitle'),
+      desc: getText('tourExtraSettingsDescription', [
+        getText('advancedControlsLabel'),
+        getText('hideOnPageControlsLabel'),
+        getText('buttonWatched'),
+      ]),
       getRect: () => getHeaderDropdownRect(),
       section: 'extra-settings',
     },
@@ -418,22 +423,28 @@ function startSpotlightTour() {
 
     const backBtn =
       currentStep > 0
-        ? `<button class="yh-spot-btn yh-spot-btn-back" id="yh-tour-back">Back</button>`
+        ? `<button class="yh-spot-btn yh-spot-btn-back" id="yh-tour-back"></button>`
         : '';
-    const nextLabel = currentStep === steps.length - 1 ? 'Done' : 'Next';
+    const nextLabel = getText(currentStep === steps.length - 1 ? 'tourDone' : 'tourNext');
 
     tooltip.innerHTML = `
-      <div class="yh-spot-step-badge">Step ${currentStep + 1} of ${steps.length}</div>
-      <div class="yh-spot-title">${step.title}</div>
-      <div class="yh-spot-desc">${step.desc}</div>
+      <div class="yh-spot-step-badge"></div>
+      <div class="yh-spot-title"></div>
+      <div class="yh-spot-desc"></div>
       <div class="yh-spot-footer">
         <div class="yh-spot-dots">${dotsHTML}</div>
         <div class="yh-spot-btns">
           ${backBtn}
-          <button class="yh-spot-btn yh-spot-btn-next" id="yh-tour-next">${nextLabel}</button>
+          <button class="yh-spot-btn yh-spot-btn-next" id="yh-tour-next"></button>
         </div>
       </div>
     `;
+    tooltip.querySelector('.yh-spot-step-badge').textContent = getText('tourStepCount', [currentStep + 1, steps.length]);
+    tooltip.querySelector('.yh-spot-title').textContent = step.title;
+    tooltip.querySelector('.yh-spot-desc').textContent = step.desc;
+    tooltip.querySelector('#yh-tour-next').textContent = nextLabel;
+    const backLabelEl = tooltip.querySelector('#yh-tour-back');
+    if (backLabelEl) backLabelEl.textContent = getText('tourBack');
 
     positionTooltip(rect);
 

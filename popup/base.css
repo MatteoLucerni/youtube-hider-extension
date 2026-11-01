@@ -84,6 +84,7 @@ body {
        since an overflow value set here propagates to the viewport instead. */
     overflow-x: hidden;
     overflow-x: clip;
+    overflow-wrap: anywhere;
 }
 
 label {
@@ -100,6 +101,7 @@ header {
     display: flex;
     justify-content: space-between;
     align-items: center;
+    gap: var(--spacing-md);
 }
 
 hr {
@@ -117,6 +119,8 @@ hr {
     align-items: center;
     gap: 6px;
     position: relative;
+    flex-shrink: 0;
+    white-space: nowrap;
 }
 
 .title-youtube {
@@ -158,6 +162,8 @@ hr {
     display: flex;
     align-items: center;
     gap: 10px;
+    flex-shrink: 0;
+    max-width: 96px;
 }
 
 .extension-toggle-text {
@@ -179,6 +185,8 @@ hr {
     color: #9dc4f0;
     text-transform: uppercase;
     letter-spacing: 0.3px;
+    text-align: center;
+    overflow-wrap: normal;
 }
 
 .content-wrapper {

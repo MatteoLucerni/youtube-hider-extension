@@ -1,0 +1,804 @@
+{
+  "localeCode": {
+    "message": "id"
+  },
+  "extName": {
+    "message": "YouTube Hider: sembunyikan video ditonton, Shorts & penayangan rendah"
+  },
+  "extDescription": {
+    "message": "Menyembunyikan video yang sudah Anda tonton, video dengan sedikit penayangan, dan Shorts di YouTube."
+  },
+  "popupPageTitle": {
+    "message": "Ekstensi YouTube Hider"
+  },
+  "headerSupport": {
+    "message": "Dukung"
+  },
+  "headerExtensionToggle": {
+    "message": "Ekstensi"
+  },
+  "sectionYouTubeVideos": {
+    "message": "Video YouTube"
+  },
+  "filterModeTitle": {
+    "message": "Mode Filter"
+  },
+  "filterModeTooltip": {
+    "message": "Sembunyikan menghapus video yang terfilter sepenuhnya. Redupkan membiarkannya terlihat di bawah lapisan gelap dengan label yang menjelaskan alasannya, dan video tetap bisa diklik. Shorts selalu disembunyikan, apa pun setelan ini"
+  },
+  "filterModeDescription": {
+    "message": "Pilih cara memperlakukan video yang terfilter. Shorts selalu disembunyikan"
+  },
+  "filterModeHide": {
+    "message": "Sembunyikan"
+  },
+  "filterModeDim": {
+    "message": "Redupkan"
+  },
+  "hideWatchedTitle": {
+    "message": "Sembunyikan Video yang Ditonton"
+  },
+  "hideWatchedDescription": {
+    "message": "Menyembunyikan video berdasarkan persentase yang sudah ditonton"
+  },
+  "watchPercentageLabel": {
+    "message": "Persentase Ditonton"
+  },
+  "watchPercentageTooltip": {
+    "message": "Menyembunyikan video yang sudah Anda tonton lebih dari persentase durasi ini. Geser sampai ujung kiri untuk menonaktifkan"
+  },
+  "pageHome": {
+    "message": "Beranda"
+  },
+  "hideWatchedHomeTooltip": {
+    "message": "Menyembunyikan video yang sudah ditonton di Beranda"
+  },
+  "pageChannel": {
+    "message": "Saluran"
+  },
+  "hideWatchedChannelTooltip": {
+    "message": "Menyembunyikan video yang sudah ditonton di halaman saluran"
+  },
+  "pageSubs": {
+    "message": "Subscription"
+  },
+  "hideWatchedSubsTooltip": {
+    "message": "Menyembunyikan video yang sudah ditonton di feed Subscription"
+  },
+  "pageSearch": {
+    "message": "Penelusuran"
+  },
+  "hideWatchedSearchTooltip": {
+    "message": "Menyembunyikan video yang sudah ditonton di hasil penelusuran"
+  },
+  "pageRelated": {
+    "message": "Terkait"
+  },
+  "hideWatchedRelatedTooltip": {
+    "message": "Menyembunyikan video yang sudah ditonton di sidebar video terkait"
+  },
+  "markedWatchedLabel": {
+    "message": "Ditandai sudah ditonton"
+  },
+  "markedWatchedTooltip": {
+    "message": "Arahkan kursor ke video dan klik Ditonton untuk menganggapnya sudah ditonton, meskipun YouTube tidak menampilkan bilah progres. Video yang ditandai mengikuti penggeser dan tombol per halaman di kartu ini, dan tetap tersembunyi meskipun salurannya ada di Whitelist. Semuanya disinkronkan otomatis ke semua perangkat dengan profil Chrome yang sama, tanpa perlu ekspor. Maksimal 3.000 video disimpan: lebih dari itu, tanda tertua dihapus"
+  },
+  "markedCountNone": {
+    "message": "Belum ada video yang ditandai"
+  },
+  "markedWatchedManage": {
+    "message": "Kelola"
+  },
+  "markedWatchedSyncPaused": {
+    "message": "Sinkronisasi dijeda: daftar saluran memakai ruang yang dibagi antarperangkat. Video yang Anda tandai tetap tersimpan di browser ini, dan sinkronisasi berlanjut setelah muat lagi"
+  },
+  "contentTypesTitle": {
+    "message": "Sembunyikan Shorts, Mix, Playlist & Live"
+  },
+  "contentTypesDescription": {
+    "message": "Menghapus Shorts, Mix, Playlist, dan Live dari YouTube"
+  },
+  "contentShorts": {
+    "message": "Shorts"
+  },
+  "contentMixes": {
+    "message": "Mix"
+  },
+  "contentPlaylists": {
+    "message": "Playlist"
+  },
+  "contentLives": {
+    "message": "Live"
+  },
+  "hideShortsLabel": {
+    "message": "Sembunyikan Shorts"
+  },
+  "hideShortsTooltip": {
+    "message": "Menghapus rak Shorts dan tab Shorts"
+  },
+  "hideShortsSearchLabel": {
+    "message": "Shorts di penelusuran"
+  },
+  "hideShortsSearchTooltip": {
+    "message": "Menghapus video Shorts dari hasil penelusuran"
+  },
+  "hideMixesLabel": {
+    "message": "Sembunyikan Mix"
+  },
+  "hideMixesTooltip": {
+    "message": "Menghapus playlist Mix dari feed YouTube Anda"
+  },
+  "hidePlaylistsLabel": {
+    "message": "Sembunyikan Playlist"
+  },
+  "hidePlaylistsTooltip": {
+    "message": "Menghapus playlist dari feed YouTube Anda"
+  },
+  "hideLivesLabel": {
+    "message": "Sembunyikan Live"
+  },
+  "hideLivesTooltip": {
+    "message": "Menghapus live streaming dari feed YouTube Anda"
+  },
+  "viewsFilterTitle": {
+    "message": "Filter Penayangan"
+  },
+  "viewsFilterDescription": {
+    "message": "Menyembunyikan video berdasarkan jumlah penayangan"
+  },
+  "minViewsLabel": {
+    "message": "Penayangan Minimum"
+  },
+  "minViewsTooltip": {
+    "message": "Video dengan penayangan lebih sedikit dari angka ini akan disembunyikan. Geser sampai ujung kiri untuk menonaktifkan"
+  },
+  "maxViewsLabel": {
+    "message": "Penayangan Maksimum"
+  },
+  "maxViewsTooltip": {
+    "message": "Video dengan penayangan lebih banyak dari angka ini akan disembunyikan. Geser sampai ujung kiri untuk menonaktifkan"
+  },
+  "sliderOff": {
+    "message": "Nonaktif"
+  },
+  "rangeOverlapWarning": {
+    "message": "Filter tidak aktif: rentang tumpang tindih"
+  },
+  "viewsHomeTooltip": {
+    "message": "Menyembunyikan video berdasarkan penayangan di Beranda"
+  },
+  "viewsChannelTooltip": {
+    "message": "Menyembunyikan video berdasarkan penayangan di saluran"
+  },
+  "viewsSubsTooltip": {
+    "message": "Menyembunyikan video berdasarkan penayangan di Subscription"
+  },
+  "viewsSearchTooltip": {
+    "message": "Menyembunyikan video berdasarkan penayangan di penelusuran"
+  },
+  "viewsRelatedTooltip": {
+    "message": "Menyembunyikan video berdasarkan penayangan di video terkait"
+  },
+  "dateFilterTitle": {
+    "message": "Filter Tanggal Upload"
+  },
+  "dateFilterDescription": {
+    "message": "Menyembunyikan video berdasarkan tanggal upload"
+  },
+  "dateNewerLabel": {
+    "message": "Sembunyikan yang lebih baru dari"
+  },
+  "dateNewerTooltip": {
+    "message": "Menyembunyikan video yang diupload lebih baru dari ini. Geser sampai ujung kiri untuk menonaktifkan"
+  },
+  "dateOlderLabel": {
+    "message": "Sembunyikan yang lebih lama dari"
+  },
+  "dateOlderTooltip": {
+    "message": "Menyembunyikan video yang diupload lebih lama dari ini. Geser sampai ujung kiri untuk menonaktifkan"
+  },
+  "dateHomeTooltip": {
+    "message": "Menyembunyikan video berdasarkan tanggal di Beranda"
+  },
+  "dateChannelTooltip": {
+    "message": "Menyembunyikan video berdasarkan tanggal di saluran"
+  },
+  "dateSubsTooltip": {
+    "message": "Menyembunyikan video berdasarkan tanggal di Subscription"
+  },
+  "dateSearchTooltip": {
+    "message": "Menyembunyikan video berdasarkan tanggal di penelusuran"
+  },
+  "dateRelatedTooltip": {
+    "message": "Menyembunyikan video berdasarkan tanggal di video terkait"
+  },
+  "channelWhitelistTitle": {
+    "message": "Channel Whitelist"
+  },
+  "channelWhitelistTooltip": {
+    "message": "Saluran di Whitelist melewati semua filter aktif. Tambahkan saluran dengan tombol di bawah atau tombol di header saat Anda berada di halaman saluran atau video. Menghapus chip langsung menerapkan ulang semua filter ke saluran itu. Shorts tetap selalu difilter"
+  },
+  "channelWhitelistDescription": {
+    "message": "Saluran di daftar ini tidak difilter. Shorts tetap selalu difilter"
+  },
+  "channelWhitelistEmpty": {
+    "message": "Belum ada saluran di Whitelist"
+  },
+  "addCurrentChannel": {
+    "message": "+ Tambahkan saluran ini"
+  },
+  "channelListsSyncPaused": {
+    "message": "Sinkronisasi dijeda: terlalu banyak saluran untuk disinkronkan antarperangkat. Daftar Anda tetap tersimpan di browser ini, dan sinkronisasi berlanjut setelah muat lagi"
+  },
+  "channelBlacklistTitle": {
+    "message": "Channel Blacklist"
+  },
+  "channelBlacklistTooltip": {
+    "message": "Saluran di Blacklist selalu disembunyikan, apa pun filter lainnya. Tambahkan saluran dengan tombol di bawah atau tombol di header saat Anda berada di halaman saluran atau video. Menghapus chip langsung menampilkan lagi video saluran itu. Shorts tetap selalu difilter"
+  },
+  "channelBlacklistDescription": {
+    "message": "Saluran di daftar ini selalu disembunyikan, di mana saja. Shorts tetap selalu difilter"
+  },
+  "channelBlacklistEmpty": {
+    "message": "Belum ada saluran di Blacklist"
+  },
+  "titleWhitelistTitle": {
+    "message": "Title Whitelist"
+  },
+  "titleWhitelistTooltip": {
+    "message": "Video yang judulnya mengandung salah satu kata ini melewati semua filter aktif. Huruf besar dan kecil diabaikan, dan kata harus cocok dengan awal sebuah kata, jadi \"main\" cocok dengan \"mainan\" tetapi tidak dengan \"pemain\". Saluran dan kata di Blacklist tetap tersembunyi, dan Shorts tetap selalu difilter"
+  },
+  "titleWhitelistDescription": {
+    "message": "Video dengan salah satu kata ini di judulnya tidak difilter"
+  },
+  "titleWhitelistEmpty": {
+    "message": "Belum ada kata di Title Whitelist"
+  },
+  "addTitleWord": {
+    "message": "+ Tambah"
+  },
+  "titleBlacklistTitle": {
+    "message": "Title Blacklist"
+  },
+  "titleBlacklistTooltip": {
+    "message": "Video yang judulnya mengandung salah satu kata ini selalu disembunyikan, di mana saja, termasuk Shorts, Mix, dan Playlist, bahkan dari saluran di Whitelist atau jika judulnya juga mengandung kata dari Whitelist. Huruf besar dan kecil diabaikan, dan kata harus cocok dengan awal sebuah kata, jadi \"main\" cocok dengan \"mainan\" tetapi tidak dengan \"pemain\""
+  },
+  "titleBlacklistDescription": {
+    "message": "Video dengan salah satu kata ini di judulnya selalu disembunyikan"
+  },
+  "titleBlacklistEmpty": {
+    "message": "Belum ada kata di Title Blacklist"
+  },
+  "advancedControlsLabel": {
+    "message": "Kontrol Lanjutan"
+  },
+  "advancedControlsDescription": {
+    "message": "Menampilkan kontrol lanjutan per halaman untuk setiap filter, bukan tombol sederhana"
+  },
+  "hideOnPageControlsLabel": {
+    "message": "Sembunyikan kontrol di halaman"
+  },
+  "hideOnPageControlsDescription": {
+    "message": "Menyembunyikan semua elemen YouTube Hider di layar agar tampilan lebih bersih dan tidak mencolok. Filter tetap berjalan di latar belakang"
+  },
+  "tutorialLabel": {
+    "message": "Tutorial"
+  },
+  "tutorialDescription": {
+    "message": "Mulai ulang panduan tombol header"
+  },
+  "tutorialRestart": {
+    "message": "Mulai ulang"
+  },
+  "tutorialRestartConfirm": {
+    "message": "Tutorial akan muncul saat Anda membuka YouTube berikutnya"
+  },
+  "footerFeedback": {
+    "message": "Masukan fitur atau bug"
+  },
+  "footerChangelog": {
+    "message": "Riwayat perubahan"
+  },
+  "footerWebsite": {
+    "message": "Situs web"
+  },
+  "supportTitle": {
+    "message": "Dukung YouTube Hider"
+  },
+  "supportLead": {
+    "message": "YouTube Hider gratis, open source, tanpa iklan, dan tanpa pelacakan. Tapi ia mengejar sasaran yang terus bergerak: YouTube mengubah struktur halamannya tanpa pemberitahuan, dan perubahan yang tidak diumumkan siapa pun bisa diam-diam merusak filter yang kemarin masih berfungsi."
+  },
+  "supportText": {
+    "message": "Agar tetap berfungsi, perubahan itu harus dilacak satu selektor demi satu selektor, di waktu luang seseorang. Salah satu dari tiga cara ini sudah membantu."
+  },
+  "supportKofiTitle": {
+    "message": "Traktir saya kopi"
+  },
+  "supportKofiDescription": {
+    "message": "Kontribusi sekali bayar di Ko-fi. Tidak perlu akun atau langganan."
+  },
+  "supportGithubTitle": {
+    "message": "Berkontribusi di GitHub"
+  },
+  "supportGithubDescription": {
+    "message": "Kirim pull request, atau laporkan filter yang rusak beserta halaman tempat terjadinya."
+  },
+  "supportReviewTitle": {
+    "message": "Tulis ulasan"
+  },
+  "supportReviewDescription": {
+    "message": "Rating di Chrome Web Store tidak memakan biaya dan membantu orang lain menemukan ekstensi ini."
+  },
+  "titleWhitelistPlaceholder": {
+    "message": "Kata atau frasa, mis. tutorial"
+  },
+  "titleWhitelistInputLabel": {
+    "message": "Kata atau frasa untuk Whitelist"
+  },
+  "titleBlacklistPlaceholder": {
+    "message": "Kata atau frasa, mis. reaksi"
+  },
+  "titleBlacklistInputLabel": {
+    "message": "Kata atau frasa untuk Blacklist"
+  },
+  "logoAlt": {
+    "message": "Logo ekstensi YouTube Hider"
+  },
+  "closeLabel": {
+    "message": "Tutup"
+  },
+  "channelAddHintNoChannel": {
+    "message": "Buka halaman saluran untuk menambahkannya"
+  },
+  "channelAlreadyWhitelisted": {
+    "message": "$channel$ sudah ada di Whitelist",
+    "placeholders": {
+      "channel": {
+        "content": "$1"
+      }
+    }
+  },
+  "channelAlreadyBlacklisted": {
+    "message": "$channel$ sudah ada di Blacklist",
+    "placeholders": {
+      "channel": {
+        "content": "$1"
+      }
+    }
+  },
+  "chipRemoveLabel": {
+    "message": "Hapus $item$",
+    "placeholders": {
+      "item": {
+        "content": "$1"
+      }
+    }
+  },
+  "titleWhitelistAlreadyListed": {
+    "message": "\"$word$\" sudah ada di Whitelist",
+    "placeholders": {
+      "word": {
+        "content": "$1"
+      }
+    }
+  },
+  "titleWhitelistFull": {
+    "message": "Title Whitelist penuh: hapus satu kata untuk menambahkan yang baru"
+  },
+  "titleBlacklistAlreadyListed": {
+    "message": "\"$word$\" sudah ada di Blacklist",
+    "placeholders": {
+      "word": {
+        "content": "$1"
+      }
+    }
+  },
+  "titleBlacklistFull": {
+    "message": "Title Blacklist penuh: hapus satu kata untuk menambahkan yang baru"
+  },
+  "watchedPageTitle": {
+    "message": "Ditandai sudah ditonton | YouTube Hider"
+  },
+  "watchedDescription": {
+    "message": "Video yang Anda tandai dengan tombol Ditonton di YouTube. Video ini disembunyikan seperti video yang sudah ditonton, mengikuti setelan Sembunyikan Video yang Ditonton. Hapus salah satunya untuk menampilkannya lagi. Maksimal 3.000 video disimpan: lebih dari itu, tanda tertua dihapus."
+  },
+  "watchedSyncDescription": {
+    "message": "Tanda Anda disinkronkan otomatis ke semua komputer dengan profil Chrome yang sama, jadi tidak perlu ekspor dan impor antarperangkat. Gunakan Ekspor untuk menyimpan cadangan atau memindahkannya ke profil lain."
+  },
+  "watchedExport": {
+    "message": "Ekspor"
+  },
+  "watchedImport": {
+    "message": "Impor"
+  },
+  "watchedClearAll": {
+    "message": "Hapus semua"
+  },
+  "watchedUndo": {
+    "message": "Urungkan"
+  },
+  "watchedSelectAllShown": {
+    "message": "Pilih semua yang ditampilkan"
+  },
+  "watchedRemoveSelected": {
+    "message": "Hapus yang dipilih"
+  },
+  "watchedClearSearch": {
+    "message": "Hapus penelusuran"
+  },
+  "watchedLoadMore": {
+    "message": "Muat lebih banyak"
+  },
+  "watchedSearchPlaceholder": {
+    "message": "Telusuri judul, saluran, atau ID video"
+  },
+  "watchedSearchLabel": {
+    "message": "Telusuri video yang ditandai"
+  },
+  "markedCount_other": {
+    "message": "$count$ dari $limit$ video",
+    "placeholders": {
+      "count": {
+        "content": "$1"
+      },
+      "limit": {
+        "content": "$2"
+      }
+    }
+  },
+  "markedCountAlmostFull_other": {
+    "message": "$count$ dari $limit$ video. Hampir penuh: melewati batas, tanda tertua dihapus",
+    "placeholders": {
+      "count": {
+        "content": "$1"
+      },
+      "limit": {
+        "content": "$2"
+      }
+    }
+  },
+  "markedCountFull_other": {
+    "message": "$count$ dari $limit$ video. Penuh: setiap tanda baru menghapus yang tertua",
+    "placeholders": {
+      "count": {
+        "content": "$1"
+      },
+      "limit": {
+        "content": "$2"
+      }
+    }
+  },
+  "watchedSelectItem": {
+    "message": "Pilih $title$",
+    "placeholders": {
+      "title": {
+        "content": "$1"
+      }
+    }
+  },
+  "watchedTitleUnavailable": {
+    "message": "Judul tidak tersedia di perangkat ini"
+  },
+  "watchedMarkedOn": {
+    "message": "Ditandai $date$",
+    "placeholders": {
+      "date": {
+        "content": "$1"
+      }
+    }
+  },
+  "watchedRemove": {
+    "message": "Hapus"
+  },
+  "watchedRemoveItem": {
+    "message": "Hapus $title$",
+    "placeholders": {
+      "title": {
+        "content": "$1"
+      }
+    }
+  },
+  "watchedRemoveSelectedCount_other": {
+    "message": "Hapus yang dipilih ($count$)",
+    "placeholders": {
+      "count": {
+        "content": "$1"
+      }
+    }
+  },
+  "watchedLoadMoreCount_other": {
+    "message": "Muat lebih banyak ($count$ lagi)",
+    "placeholders": {
+      "count": {
+        "content": "$1"
+      }
+    }
+  },
+  "watchedEmpty": {
+    "message": "Belum ada video yang ditandai. Di YouTube, arahkan kursor ke video dan klik Ditonton untuk menambahkannya ke sini."
+  },
+  "watchedNoMatch": {
+    "message": "Tidak ada video yang ditandai yang cocok dengan \"$query$\".",
+    "placeholders": {
+      "query": {
+        "content": "$1"
+      }
+    }
+  },
+  "watchedRestored_other": {
+    "message": "$count$ video dipulihkan.",
+    "placeholders": {
+      "count": {
+        "content": "$1"
+      }
+    }
+  },
+  "watchedRemoved_other": {
+    "message": "$count$ video dihapus. Video akan muncul lagi di YouTube.",
+    "placeholders": {
+      "count": {
+        "content": "$1"
+      }
+    }
+  },
+  "watchedExported_other": {
+    "message": "$count$ video diekspor.",
+    "placeholders": {
+      "count": {
+        "content": "$1"
+      }
+    }
+  },
+  "watchedImportEmpty": {
+    "message": "Tidak ada video valid di file itu."
+  },
+  "watchedImported_other": {
+    "message": "$count$ video baru diimpor.",
+    "placeholders": {
+      "count": {
+        "content": "$1"
+      }
+    }
+  },
+  "watchedImportListFull": {
+    "message": "Daftar sudah penuh, jadi tanda tertua dihapus."
+  },
+  "watchedImportError": {
+    "message": "File itu tidak dapat dibaca sebagai ekspor YouTube Hider."
+  },
+  "watchedClearConfirm_other": {
+    "message": "Hapus semua $count$ video yang ditandai? Video akan muncul lagi di YouTube.",
+    "placeholders": {
+      "count": {
+        "content": "$1"
+      }
+    }
+  },
+  "headerButtonLabel": {
+    "message": "Setelan YouTube Hider"
+  },
+  "buttonWhitelist": {
+    "message": "Whitelist"
+  },
+  "buttonWhitelisted": {
+    "message": "Di Whitelist"
+  },
+  "buttonResumeWhitelist": {
+    "message": "Aktifkan Whitelist"
+  },
+  "buttonBlacklist": {
+    "message": "Blacklist"
+  },
+  "buttonBlacklisted": {
+    "message": "Di Blacklist"
+  },
+  "buttonUnblacklist": {
+    "message": "Unblacklist"
+  },
+  "buttonUndo": {
+    "message": "Urungkan"
+  },
+  "buttonWatched": {
+    "message": "Ditonton"
+  },
+  "buttonWatchedTitle": {
+    "message": "Tandai sudah ditonton: sembunyikan video ini seperti video yang sudah Anda tonton"
+  },
+  "buttonWatchedPendingTitle": {
+    "message": "Batalkan penandaan video ini sebagai sudah ditonton"
+  },
+  "buttonUnmark": {
+    "message": "Hapus tanda"
+  },
+  "buttonUnmarkTitle": {
+    "message": "Hapus tanda sudah ditonton dari video ini"
+  },
+  "tooltipOnPageControls": {
+    "message": "Anda bisa menyembunyikan tombol ini di setelan ekstensi, di bagian \"$setting$\".",
+    "placeholders": {
+      "setting": {
+        "content": "$1"
+      }
+    }
+  },
+  "tooltipWhitelistAddOne": {
+    "message": "Menambahkan saluran ini ke Whitelist YouTube Hider Anda: videonya tidak akan difilter (Shorts tetap selalu difilter)."
+  },
+  "tooltipWhitelistAddMany": {
+    "message": "Menambahkan saluran-saluran ini ke Whitelist YouTube Hider Anda: videonya tidak akan difilter (Shorts tetap selalu difilter)."
+  },
+  "tooltipWhitelistRemoveOne": {
+    "message": "Menghapus saluran ini dari Whitelist YouTube Hider Anda."
+  },
+  "tooltipWhitelistRemoveMany": {
+    "message": "Menghapus saluran-saluran ini dari Whitelist YouTube Hider Anda."
+  },
+  "tooltipWhitelistPaused": {
+    "message": "Saluran ini ada di Whitelist, tetapi Channel Whitelist sedang nonaktif. Klik untuk mengaktifkannya lagi."
+  },
+  "tooltipBlacklistAddOne": {
+    "message": "Menambahkan saluran ini ke Blacklist YouTube Hider Anda: videonya akan selalu disembunyikan (Shorts tetap selalu difilter)."
+  },
+  "tooltipBlacklistAddMany": {
+    "message": "Menambahkan saluran-saluran ini ke Blacklist YouTube Hider Anda: videonya akan selalu disembunyikan (Shorts tetap selalu difilter)."
+  },
+  "tooltipBlacklistRemoveOne": {
+    "message": "Menghapus saluran ini dari Blacklist YouTube Hider Anda."
+  },
+  "tooltipBlacklistRemoveMany": {
+    "message": "Menghapus saluran-saluran ini dari Blacklist YouTube Hider Anda."
+  },
+  "reasonAlreadyWatched": {
+    "message": "Sudah ditonton"
+  },
+  "reasonMarkedWatched": {
+    "message": "Ditandai sudah ditonton"
+  },
+  "reasonVideoTooNew": {
+    "message": "Video terlalu baru"
+  },
+  "reasonVideoTooOld": {
+    "message": "Video terlalu lama"
+  },
+  "reasonViewsTooLow": {
+    "message": "Penayangan terlalu sedikit"
+  },
+  "reasonViewsTooHigh": {
+    "message": "Penayangan terlalu banyak"
+  },
+  "reasonMixPlaylist": {
+    "message": "Playlist Mix"
+  },
+  "reasonPlaylist": {
+    "message": "Playlist"
+  },
+  "reasonLiveStream": {
+    "message": "Live streaming"
+  },
+  "reasonBlacklistedChannel": {
+    "message": "Saluran di Blacklist"
+  },
+  "reasonBlacklistedWord": {
+    "message": "Kata di Blacklist: \"$word$\"",
+    "placeholders": {
+      "word": {
+        "content": "$1"
+      }
+    }
+  },
+  "tourWelcomeTitle": {
+    "message": "Selamat datang di YouTube Hider!"
+  },
+  "tourWelcomeDescription": {
+    "message": "Ikuti tur singkat untuk mengenal tombol YouTube Hider yang terpasang di header YouTube, setelan Anda, dan cara memaksimalkan ekstensi ini."
+  },
+  "tourStart": {
+    "message": "Mulai Tutorial"
+  },
+  "tourSkip": {
+    "message": "Lewati"
+  },
+  "tourSkipCountdown": {
+    "message": "Lewati ($seconds$dtk)",
+    "placeholders": {
+      "seconds": {
+        "content": "$1"
+      }
+    }
+  },
+  "tourBack": {
+    "message": "Kembali"
+  },
+  "tourNext": {
+    "message": "Berikutnya"
+  },
+  "tourDone": {
+    "message": "Selesai"
+  },
+  "tourStepCount": {
+    "message": "Langkah $current$ dari $total$",
+    "placeholders": {
+      "current": {
+        "content": "$1"
+      },
+      "total": {
+        "content": "$2"
+      }
+    }
+  },
+  "tourSettingsButtonTitle": {
+    "message": "Tombol Setelan Anda"
+  },
+  "tourSettingsButtonDescription": {
+    "message": "Ini tombol roda gigi YouTube Hider, terpasang langsung di header YouTube. Tombol ini muncul di setiap halaman, termasuk saat menonton, dan terbuka seketika."
+  },
+  "tourFullSettingsTitle": {
+    "message": "Semua Setelan, di Sini"
+  },
+  "tourFullSettingsDescription": {
+    "message": "Mengkliknya membuka semua setelan YouTube Hider di satu tempat. Mari lihat apa saja isinya."
+  },
+  "tourFilterModeDescription": {
+    "message": "Pilih cara memperlakukan video yang terfilter: $hide$ menghilangkannya sepenuhnya dari tampilan, $dim$ meredupkannya di bawah lapisan gelap yang tetap bisa diklik. Ini berlaku untuk semua filter di bawahnya.",
+    "placeholders": {
+      "hide": {
+        "content": "$1"
+      },
+      "dim": {
+        "content": "$2"
+      }
+    }
+  },
+  "tourHideWatchedDescription": {
+    "message": "Menyembunyikan video berdasarkan seberapa banyak yang sudah Anda tonton. Geser penggeser sampai ujung kiri untuk menonaktifkan, dan gunakan tombol per halaman di mode Lanjutan untuk kontrol lebih rinci. Ada yang terlewat oleh YouTube? Arahkan kursor ke video dan klik $watched$ untuk menyembunyikannya juga, lalu gunakan $manage$ untuk menampilkannya lagi.",
+    "placeholders": {
+      "watched": {
+        "content": "$1"
+      },
+      "manage": {
+        "content": "$2"
+      }
+    }
+  },
+  "tourContentTypesTitle": {
+    "message": "Shorts, Mix, Playlist & Live"
+  },
+  "tourContentTypesDescription": {
+    "message": "Hapus Shorts, playlist Mix, playlist biasa, dan live streaming dari feed dan hasil penelusuran secara terpisah."
+  },
+  "tourViewsDescription": {
+    "message": "Sembunyikan video di bawah jumlah penayangan minimum, di atas maksimum, atau keduanya sekaligus untuk menyisakan video dalam rentang popularitas tertentu."
+  },
+  "tourDateDescription": {
+    "message": "Sembunyikan video yang lebih baru atau lebih lama dari batas yang bisa diatur. Gunakan keduanya untuk menyisakan video dari periode tertentu saja."
+  },
+  "tourChannelWhitelistDescription": {
+    "message": "Kecualikan saluran favorit Anda dari semua filter. Tambahkan saluran saat ini dengan satu klik, atau hapus chip untuk langsung menerapkan ulang filter."
+  },
+  "tourChannelBlacklistDescription": {
+    "message": "Kebalikan dari Whitelist: selalu sembunyikan sebuah saluran di mana saja, termasuk Shorts, Mix, Playlist, dan Live. Tambahkan saluran saat ini dengan satu klik, atau hapus chip untuk langsung menampilkannya lagi."
+  },
+  "tourTitleWhitelistDescription": {
+    "message": "Kecualikan video berdasarkan kata di judulnya, bukan berdasarkan saluran. Video yang judulnya mengandung salah satu kata Anda tidak disentuh filter apa pun."
+  },
+  "tourTitleBlacklistDescription": {
+    "message": "Kebalikan dari Title Whitelist: selalu sembunyikan setiap video yang judulnya mengandung salah satu kata Anda, di mana saja, bahkan dari saluran di Whitelist."
+  },
+  "tourExtraSettingsTitle": {
+    "message": "Setelan Tambahan"
+  },
+  "tourExtraSettingsDescription": {
+    "message": "Aktifkan \"$advanced$\" untuk beralih ke tampilan Lanjutan, dan aktifkan \"$hidecontrols$\" kapan saja untuk menghapus tombol ini (serta tombol Whitelist, Blacklist, dan $watched$ di halaman) sementara filter tetap berjalan di latar belakang.",
+    "placeholders": {
+      "advanced": {
+        "content": "$1"
+      },
+      "hidecontrols": {
+        "content": "$2"
+      },
+      "watched": {
+        "content": "$3"
+      }
+    }
+  }
+}

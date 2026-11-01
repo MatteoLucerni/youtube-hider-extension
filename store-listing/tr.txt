@@ -1,0 +1,20 @@
+YouTube Hider, görmek istemediklerinizi gizleyerek YouTube'u temizlemenize yardımcı olur.
+İzlediğiniz videoları otomatik olarak kaldırın, görüntülemeye veya yükleme tarihine göre filtreleyin; Shorts'u, Mix'leri, oynatma listelerini ve canlı yayınları ortadan kaldırın. Hepsi tüm cihazlarınızda sizinle gelen basit ve özelleştirilebilir ayarlarla.
+
+✔ İzlenen videoları seçtiğiniz ilerleme eşiğine göre gizleyin
+✔ YouTube ilerleme çubuğu göstermese ya da videoyu başka bir hesapta izlemiş olsanız bile, herhangi bir videoyu tek tıkla izlendi olarak işaretleyin
+✔ İşaretlediğiniz videoları ayrı bir sayfadan yönetin: arayın, kaldırın, geri alın, dışa ve içe aktarın
+✔ Videoları görüntüleme sayısına göre filtreleyin: çok az, çok fazla veya ikisi birden
+✔ Yükleme tarihine göre gizleyin: çok yeni, çok eski veya ikisini birden kaldırın
+✔ Shorts'u, Mix'leri, oynatma listelerini ve canlı yayınları kaldırın
+✔ Kanalları veya başlık kelimelerini tüm filtrelerden muaf tutmak için Whitelist'e ekleyin
+✔ Kanalları veya başlık kelimelerini her zaman gizlemek için Blacklist'e ekleyin
+✔ Filtrelenen içeriği tamamen gizleyin ya da filtre nedenini gösteren bir katmanla soldurun
+✔ Hızlı anahtarlar için Kolay Mod, sayfa bazında kontrol için Gelişmiş Mod
+✔ YouTube'un üst bilgisine yerleşik ayarlar düğmesiyle her sayfadan anında erişim
+✔ Her şey cihazlarınız arasında otomatik olarak senkronize edilir: ayarlar, Whitelist'ler, Blacklist'ler ve işaretlenen videolar, dışa aktarmaya gerek yok
+
+Ana Sayfa, kanal, Abonelikler, Arama ve ilgili video sayfalarında çalışır.
+Tamamen açık kaynaklı, hafif ve veri toplamaz: senkronizasyon dış sunucular üzerinden değil, kendi Chrome hesabınız üzerinden yapılır.
+
+Öneri, hata veya geri bildirim: https://forms.gle/oAqtSjQHQeEp9TFKA

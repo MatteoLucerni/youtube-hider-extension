@@ -3,6 +3,8 @@
 const { test } = require('node:test');
 const assert = require('node:assert/strict');
 
+Object.assign(globalThis, require('../content/i18n.js'));
+
 const {
   MARKED_WATCHED_LIMIT,
   splitChannelListUpdates,

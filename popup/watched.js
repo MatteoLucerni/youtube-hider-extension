@@ -6,6 +6,8 @@ const WATCHED_STATUS_MS = 5000;
 const WATCHED_UNDO_STATUS_MS = 10000;
 
 document.addEventListener('DOMContentLoaded', () => {
+  applyDocumentI18n(document);
+
   const countEl = document.getElementById('watched-count');
   const syncWarning = document.getElementById('watched-sync-warning');
   const searchInput = document.getElementById('watched-search');
@@ -34,7 +36,7 @@ document.addEventListener('DOMContentLoaded', () => {
 
   function formatDate(seconds) {
     if (!seconds) return '';
-    return new Date(seconds * 1000).toLocaleDateString('en-US', {
+    return formatLocaleDate(new Date(seconds * 1000), {
       year: 'numeric',
       month: 'short',
       day: 'numeric',
@@ -86,7 +88,7 @@ document.addEventListener('DOMContentLoaded', () => {
     checkbox.type = 'checkbox';
     checkbox.dataset.focusRole = 'select';
     checkbox.checked = selected.has(id);
-    checkbox.setAttribute('aria-label', 'Select ' + (title || id));
+    checkbox.setAttribute('aria-label', getText('watchedSelectItem', title || id));
     checkbox.addEventListener('change', () => {
       if (checkbox.checked) selected.add(id);
       else selected.delete(id);
@@ -116,13 +118,13 @@ document.addEventListener('DOMContentLoaded', () => {
     if (title) {
       titleEl.textContent = title;
     } else {
-      titleEl.textContent = 'Title not available on this device';
+      titleEl.textContent = getText('watchedTitleUnavailable');
       titleEl.classList.add('is-missing');
     }
     const metaEl = document.createElement('span');
     metaEl.className = 'watched-item-meta';
     const markedOn = formatDate(markedAt);
-    metaEl.textContent = [channel, markedOn && 'Marked ' + markedOn, id].filter(Boolean).join(' · ');
+    metaEl.textContent = [channel, markedOn && getText('watchedMarkedOn', markedOn), id].filter(Boolean).join(' · ');
     infoEl.appendChild(titleEl);
     infoEl.appendChild(metaEl);
 
@@ -130,8 +132,8 @@ document.addEventListener('DOMContentLoaded', () => {
     remove.type = 'button';
     remove.className = 'watched-remove';
     remove.dataset.focusRole = 'remove';
-    remove.textContent = 'Remove';
-    remove.setAttribute('aria-label', 'Remove ' + (title || id));
+    remove.textContent = getText('watchedRemove');
+    remove.setAttribute('aria-label', getText('watchedRemoveItem', title || id));
     remove.addEventListener('click', () => {
       const rows = [...listEl.querySelectorAll('.watched-item')];
       const index = rows.indexOf(item);
@@ -160,8 +162,8 @@ document.addEventListener('DOMContentLoaded', () => {
     selectAll.indeterminate = selectedVisible.length > 0 && selectedVisible.length < visibleIds.length;
     removeSelectedBtn.disabled = selected.size === 0;
     removeSelectedBtn.textContent = selected.size
-      ? 'Remove selected (' + selected.size.toLocaleString('en-US') + ')'
-      : 'Remove selected';
+      ? getPluralText('watchedRemoveSelectedCount', selected.size, formatLocaleNumber(selected.size))
+      : getText('watchedRemoveSelected');
     selectionBar.hidden = visibleIds.length === 0 && selected.size === 0;
   }
 
@@ -195,16 +197,16 @@ document.addEventListener('DOMContentLoaded', () => {
     searchInput.disabled = total === 0 && !searchInput.value;
     loadMoreBtn.hidden = filtered.length <= shown;
     if (!loadMoreBtn.hidden) {
-      loadMoreBtn.textContent = 'Load more (' + (filtered.length - shown).toLocaleString('en-US') + ' left)';
+      const remaining = filtered.length - shown;
+      loadMoreBtn.textContent = getPluralText('watchedLoadMoreCount', remaining, formatLocaleNumber(remaining));
     }
 
     if (total === 0) {
-      emptyText.textContent =
-        'No videos marked yet. On YouTube, hover a video and click Watched to add it here.';
+      emptyText.textContent = getText('watchedEmpty');
       clearSearchBtn.hidden = true;
       emptyEl.hidden = false;
     } else if (filtered.length === 0) {
-      emptyText.textContent = 'No marked videos match "' + searchInput.value.trim() + '".';
+      emptyText.textContent = getText('watchedNoMatch', searchInput.value.trim());
       clearSearchBtn.hidden = false;
       emptyEl.hidden = false;
     } else {
@@ -245,7 +247,7 @@ document.addEventListener('DOMContentLoaded', () => {
     })).then(({ before, after }) => {
       const beforeIds = new Set(before.map(entry => entry[0]));
       const restored = after.filter(entry => !beforeIds.has(entry[0])).length;
-      showStatus(restored === 1 ? 'Restored 1 video.' : 'Restored ' + restored + ' videos.');
+      showStatus(getPluralText('watchedRestored', restored, formatLocaleNumber(restored)));
     });
   }
 
@@ -264,10 +266,7 @@ document.addEventListener('DOMContentLoaded', () => {
       });
       if (!removedEntries.length) return;
       const count = removedEntries.length;
-      const message =
-        count === 1
-          ? 'Removed 1 video. It shows up on YouTube again.'
-          : 'Removed ' + count.toLocaleString('en-US') + ' videos. They show up on YouTube again.';
+      const message = getPluralText('watchedRemoved', count, formatLocaleNumber(count));
       showStatus(message, { undo: () => restoreVideos(removedEntries, removedMeta) });
     });
   }
@@ -291,9 +290,7 @@ document.addEventListener('DOMContentLoaded', () => {
     link.click();
     link.remove();
     setTimeout(() => URL.revokeObjectURL(url), 1000);
-    showStatus(
-      'Exported ' + (entries.length === 1 ? '1 video' : entries.length.toLocaleString('en-US') + ' videos') + '.',
-    );
+    showStatus(getPluralText('watchedExported', entries.length, formatLocaleNumber(entries.length)));
   }
 
   function parseImport(text) {
@@ -321,7 +318,7 @@ document.addEventListener('DOMContentLoaded', () => {
       .then(text => {
         const imported = parseImport(text);
         if (!imported.list.length) {
-          showStatus('No valid videos found in that file.', { isError: true });
+          showStatus(getText('watchedImportEmpty'), { isError: true });
           return null;
         }
         return writeMarkedWatched((list, currentMeta) => {
@@ -333,15 +330,15 @@ document.addEventListener('DOMContentLoaded', () => {
         }).then(({ before, after }) => {
           const beforeIds = new Set(before.map(entry => entry[0]));
           const added = after.filter(entry => !beforeIds.has(entry[0])).length;
-          let message = added === 1 ? 'Imported 1 new video.' : 'Imported ' + added + ' new videos.';
+          let message = getPluralText('watchedImported', added, formatLocaleNumber(added));
           if (before.length + imported.list.length > MARKED_WATCHED_LIMIT && after.length === MARKED_WATCHED_LIMIT) {
-            message += ' The list is full, so the oldest marks were dropped.';
+            message += ' ' + getText('watchedImportListFull');
           }
           showStatus(message);
         });
       })
       .catch(() => {
-        showStatus('That file could not be read as a YouTube Hider export.', { isError: true });
+        showStatus(getText('watchedImportError'), { isError: true });
       })
       .finally(() => {
         importFile.value = '';
@@ -384,7 +381,7 @@ document.addEventListener('DOMContentLoaded', () => {
   clearBtn.addEventListener('click', () => {
     if (!entries.length) return;
     const confirmed = window.confirm(
-      'Remove all ' + entries.length.toLocaleString('en-US') + ' marked videos? They will show up on YouTube again.',
+      getPluralText('watchedClearConfirm', entries.length, formatLocaleNumber(entries.length)),
     );
     if (!confirmed) return;
     removeVideos(entries.map(entry => entry[0]));

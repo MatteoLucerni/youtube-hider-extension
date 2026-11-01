@@ -1,0 +1,20 @@
+YouTube Hider räumt YouTube für dich auf, indem es ausblendet, was du nicht sehen willst.
+Entferne gesehene Videos automatisch, filtere nach Aufrufen oder Upload-Datum und wirf Shorts, Mixe, Playlists und Livestreams raus: alles mit einfachen, anpassbaren Einstellungen, die dir auf jedes Gerät folgen.
+
+✔ Gesehene Videos ab dem von dir gewählten Fortschritt ausblenden
+✔ Jedes Video mit einem Klick als gesehen markieren, auch wenn YouTube keinen Fortschrittsbalken zeigt oder du es mit einem anderen Konto angesehen hast
+✔ Markierte Videos auf einer eigenen Seite verwalten: suchen, entfernen, rückgängig machen, exportieren und importieren
+✔ Videos nach Aufrufzahl filtern: zu wenige, zu viele oder beides
+✔ Nach Upload-Datum ausblenden: zu neue Videos, zu alte oder beides entfernen
+✔ Shorts, Mixe, Playlists und Livestreams entfernen
+✔ Kanäle oder Wörter im Titel auf die Whitelist setzen, um sie von allen Filtern auszunehmen
+✔ Kanäle oder Wörter im Titel auf die Blacklist setzen, um sie immer auszublenden
+✔ Gefilterte Inhalte ganz ausblenden oder mit einer Ebene abdunkeln, die den Filtergrund anzeigt
+✔ Einfacher Modus mit schnellen Schaltern, erweiterter Modus mit Einstellungen pro Seite
+✔ Einstellungs-Schaltfläche direkt in der Kopfzeile von YouTube, auf jeder Seite sofort erreichbar
+✔ Alles wird automatisch zwischen deinen Geräten synchronisiert: Einstellungen, Whitelists, Blacklists und markierte Videos, ganz ohne Export
+
+Funktioniert auf der Startseite, auf Kanälen, in den Abos, in der Suche und bei ähnlichen Videos.
+Komplett Open Source, schlank und ohne Datensammlung: Die Synchronisierung läuft über dein eigenes Chrome-Konto, nie über fremde Server.
+
+Ideen, Fehler oder Feedback: https://forms.gle/oAqtSjQHQeEp9TFKA
