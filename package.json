@@ -6,7 +6,9 @@
   "type": "commonjs",
   "scripts": {
     "test": "node --test",
-    "screenshots": "node tools/generate-popup-screenshots.js"
+    "screenshots": "node tools/generate-popup-screenshots.js",
+    "screenshots:store": "node tools/generate-store-screenshots.js",
+    "screenshots:store:login": "node tools/generate-store-screenshots.js --login"
   },
   "devDependencies": {
     "playwright-core": "^1.48.0"
