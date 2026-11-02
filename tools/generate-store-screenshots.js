@@ -672,7 +672,8 @@ async function withDeviceScale(page, scale, fn) {
   }
 }
 
-const HOVER_WATCHED_BUTTON = '.yt-hider-blacklist-hover-wrapper .yt-hider-watched-btn';
+const HEADER_BUTTON_MARGIN = 8;
+const HOVER_WATCHED_BUTTON ='.yt-hider-blacklist-hover-wrapper .yt-hider-watched-btn';
 
 async function captureHoverPill(page, extensionId, card) {
   const located = await evaluateInExtensionWorld(page, extensionId, locateCard, card.videoId);
@@ -798,7 +799,14 @@ async function captureSettingsSlide(page) {
   await page.keyboard.press('Escape');
 
   const { panel, map } = fitCapture(capture, STAGE);
-  const ring = padRect(map(gear), 4);
+  const gearSize = gear.width - HEADER_BUTTON_MARGIN;
+  const gearButton = {
+    x: gear.x,
+    y: gear.y + (gear.height - gearSize) / 2,
+    width: gearSize,
+    height: gearSize,
+  };
+  const ring = padRect(map(gearButton), 2);
   const dropdownBox = map(dropdown);
   const labelCenter = (dropdownBox.x + dropdownBox.width + panel.x + panel.width) / 2;
   const labelDx = labelCenter - (ring.x + ring.width / 2);
@@ -807,7 +815,6 @@ async function captureSettingsSlide(page) {
     title: 'All settings, <em>right inside YouTube</em>',
     subtitle: "Open the menu from YouTube's header and tune every filter without leaving the page.",
     panels: [panel],
-    rings: [ring],
     callouts: [callout('Open settings', ring, labelDx, Math.max(130, Math.abs(labelDx)))],
   };
 }
