@@ -6,6 +6,11 @@ const { buildManagerSample } = require('./screenshot-utils');
 
 const EXTENSION_PATH = path.resolve(__dirname, '..');
 const OUTPUT_DIR = path.join(EXTENSION_PATH, 'store-listing', 'screenshots');
+const PROMO_DIR = path.join(EXTENSION_PATH, 'store-listing', 'promo');
+const LOGO_PATH = path.join(EXTENSION_PATH, 'assets', 'icons', 'youtube-hider-logo.png');
+const SMALL_TILE = { width: 440, height: 280 };
+const MARQUEE = { width: 1400, height: 560 };
+const POPUP_PANEL_VIEWPORT = { width: 400, height: 720 };
 const PROFILE_DIR = path.join(process.env.LOCALAPPDATA || os.homedir(), 'yt-hider-screenshot-profile');
 const VIEWPORT = { width: 1280, height: 800 };
 const BEFORE_AFTER_VIEWPORT = { width: 840, height: 800 };
@@ -151,6 +156,126 @@ const SLIDE_CSS = `
     box-shadow: 0 10px 28px rgba(0, 0, 0, 0.5);
   }
 `;
+
+const TILE_CSS = `
+  * { box-sizing: border-box; margin: 0; padding: 0; }
+  html, body { overflow: hidden; background: #131313; }
+  .tile {
+    position: relative;
+    overflow: hidden;
+    font-family: 'Poppins', 'Segoe UI', sans-serif;
+    color: #ebebeb;
+    background:
+      radial-gradient(60% 95% at 16% 0%, rgba(138, 180, 248, 0.32), transparent 70%),
+      radial-gradient(50% 85% at 100% 100%, rgba(16, 185, 129, 0.16), transparent 70%),
+      linear-gradient(160deg, #1f2533 0%, #171717 55%, #111111 100%);
+  }
+  .tile::before {
+    content: '';
+    position: absolute;
+    inset: 0;
+    background-image: radial-gradient(rgba(255, 255, 255, 0.07) 1px, transparent 1px);
+    background-size: 22px 22px;
+    -webkit-mask-image: radial-gradient(70% 90% at 20% 30%, #000 0%, transparent 75%);
+    mask-image: radial-gradient(70% 90% at 20% 30%, #000 0%, transparent 75%);
+  }
+  .brand {
+    position: absolute;
+    top: 0;
+    bottom: 0;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+  }
+  .brand img { display: block; }
+  .wordmark { font-weight: 700; letter-spacing: -0.02em; line-height: 1.05; }
+  .wordmark span { display: inline-block; -webkit-background-clip: text; background-clip: text; -webkit-text-fill-color: transparent; }
+  .wordmark .yt { background-image: linear-gradient(135deg, #8ab4f8 0%, #6ba3ff 100%); }
+  .wordmark .hd { position: relative; background-image: linear-gradient(135deg, #ffffff 0%, #9dc4f0 100%); }
+  .wordmark .hd::after {
+    content: '';
+    position: absolute;
+    left: 0;
+    bottom: -0.04em;
+    width: 100%;
+    height: 0.07em;
+    border-radius: 2px;
+    background: linear-gradient(90deg, #8ab4f8, transparent);
+  }
+  .tagline { color: #b4b4b4; }
+  .panel {
+    position: absolute;
+    overflow: hidden;
+    border: 1px solid #3a3a3a;
+    border-radius: 8px;
+    background: #1a1a1a;
+    box-shadow: 0 24px 60px rgba(0, 0, 0, 0.6);
+    z-index: 2;
+  }
+  .panel img { display: block; width: 100%; }
+  .yt-card {
+    position: absolute;
+    z-index: 1;
+    padding: 12px 12px 16px;
+    border: 1px solid #3a3a3a;
+    border-radius: 8px;
+    background: #0f0f0f;
+    box-shadow: 0 24px 60px rgba(0, 0, 0, 0.6);
+    font-family: 'Roboto', Arial, sans-serif;
+  }
+  .yt-thumb { position: relative; aspect-ratio: 16 / 9; border-radius: 12px; overflow: hidden; }
+  .yt-thumb svg { display: block; width: 100%; height: 100%; }
+  .yt-duration {
+    position: absolute;
+    right: 8px;
+    bottom: 10px;
+    padding: 1px 4px;
+    border-radius: 4px;
+    background: rgba(0, 0, 0, 0.8);
+    color: #ffffff;
+    font-size: 12px;
+    font-weight: 500;
+  }
+  .yt-progress { position: absolute; left: 0; right: 0; bottom: 0; height: 4px; background: rgba(255, 255, 255, 0.35); }
+  .yt-progress div { height: 100%; background: #ff0033; }
+  .yt-meta { display: flex; gap: 12px; margin-top: 12px; }
+  .yt-avatar {
+    flex: none;
+    width: 36px;
+    height: 36px;
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    background: linear-gradient(135deg, #ffd38a 0%, #ff8f6b 100%);
+    color: #2a1d3d;
+    font-size: 14px;
+    font-weight: 700;
+  }
+  .yt-title { color: #f1f1f1; font-size: 16px; font-weight: 500; line-height: 22px; }
+  .yt-sub { color: #aaaaaa; font-size: 14px; line-height: 20px; }
+  .yt-sub:first-of-type { margin-top: 4px; }
+  .yt-hider-badge { animation: none !important; }
+`;
+
+const FIXTURE_THUMBNAIL_SVG = `<svg viewBox="0 0 320 180" preserveAspectRatio="xMidYMid slice" xmlns="http://www.w3.org/2000/svg">
+<defs><linearGradient id="fixture-sky" x1="0" y1="0" x2="0" y2="1"><stop offset="0" stop-color="#3a63ff"/><stop offset="0.55" stop-color="#ff7eb3"/><stop offset="1" stop-color="#ffc46b"/></linearGradient></defs>
+<rect width="320" height="180" fill="url(#fixture-sky)"/>
+<circle cx="238" cy="98" r="30" fill="#fff3c4"/>
+<path d="M0 132 L58 80 L96 112 L150 56 L206 120 L250 90 L320 140 V180 H0 Z" fill="#5b3f8c"/>
+<path d="M150 56 L135 71 L145 69 L151 77 L159 67 L167 71 Z" fill="#ffffff" opacity="0.9"/>
+<path d="M0 152 L70 112 L130 146 L196 106 L260 150 L320 126 V180 H0 Z" fill="#2f2560"/>
+<path d="M0 168 Q80 150 160 166 T320 160 V180 H0 Z" fill="#1b1638"/>
+</svg>`;
+
+const FIXTURE_VIDEO = {
+  title: 'Five Days Hiking the Alps Alone, No Phone',
+  channel: 'Trail &amp; Tea',
+  initials: 'TT',
+  stats: '248K views &bull; 2 weeks ago',
+  duration: '18:42',
+  progress: 86,
+};
 
 function launchBrowser() {
   return chromium.launchPersistentContext(PROFILE_DIR, {
@@ -405,7 +530,10 @@ async function ensureSignedIn(page) {
 async function waitForYouTubeHome(page) {
   await page.goto(YOUTUBE_HOME_URL, { waitUntil: 'domcontentloaded' });
   await ensureSignedIn(page);
-  await page.waitForSelector('ytd-rich-grid-renderer ytd-rich-item-renderer', { timeout: 30000 });
+  await page.waitForSelector('ytd-rich-grid-renderer ytd-rich-item-renderer', {
+    state: 'attached',
+    timeout: 30000,
+  });
   await page.addStyleTag({ content: YOUTUBE_CLEANUP_CSS });
   await page.waitForTimeout(2500);
   await waitForVisibleImages(page);
@@ -594,32 +722,150 @@ ${rings}
 </html>`;
 }
 
-async function renderSlide(context, slide) {
+async function renderImage(context, html, size, filePath) {
   const page = await context.newPage();
   try {
-    await page.setViewportSize(VIEWPORT);
-    await page.setContent(buildSlideHtml(slide), { waitUntil: 'load' });
+    await page.setViewportSize(size);
+    await page.setContent(html, { waitUntil: 'load' });
     await page.waitForSelector('body[data-ready="1"]', { timeout: 15000 });
     await page.waitForTimeout(200);
-    await saveScreenshot(page, slide.file);
+    await saveImage(page, filePath, size);
   } finally {
     await page.close();
   }
 }
 
-async function saveScreenshot(page, fileName) {
-  const filePath = path.join(OUTPUT_DIR, fileName);
+function renderSlide(context, slide) {
+  return renderImage(context, buildSlideHtml(slide), VIEWPORT, path.join(OUTPUT_DIR, slide.file));
+}
+
+async function saveImage(page, filePath, size) {
   await page.screenshot({ path: filePath });
   const header = fs.readFileSync(filePath).subarray(0, 26);
   const width = header.readUInt32BE(16);
   const height = header.readUInt32BE(20);
   const colorType = header[25];
-  if (width !== VIEWPORT.width || height !== VIEWPORT.height || colorType !== 2) {
+  if (width !== size.width || height !== size.height || colorType !== 2) {
     throw new Error(
-      `${fileName} is ${width}x${height} with PNG color type ${colorType}, the Web Store needs ${VIEWPORT.width}x${VIEWPORT.height} without alpha`
+      `${path.basename(filePath)} is ${width}x${height} with PNG color type ${colorType}, the Web Store needs ${size.width}x${size.height} without alpha`
     );
   }
   console.log(`Saved ${filePath}`);
+}
+
+function buildTileHtml(size, content, extraCss = '') {
+  return `<!doctype html>
+<html>
+<head>
+<meta charset="utf-8">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;600;700&family=Roboto:wght@400;500;700&display=swap" rel="stylesheet">
+<style>${extraCss}</style>
+<style>${TILE_CSS}</style>
+</head>
+<body>
+<div class="tile" style="width:${size.width}px;height:${size.height}px">${content}</div>
+<script>Promise.all([document.fonts.ready, ...Array.from(document.images).map(img => img.decode())]).then(() => { document.body.dataset.ready = '1'; });</script>
+</body>
+</html>`;
+}
+
+function logoDataUrl() {
+  return `data:image/png;base64,${fs.readFileSync(LOGO_PATH).toString('base64')}`;
+}
+
+function buildSmallTileHtml(popupPanel) {
+  return buildTileHtml(
+    SMALL_TILE,
+    `<div class="brand" style="left:28px;gap:12px">
+<img src="${logoDataUrl()}" style="width:84px;height:84px">
+<div class="wordmark" style="font-size:38px"><span class="yt">YouTube</span><br><span class="hd">Hider</span></div>
+</div>
+<div class="panel" style="left:248px;top:30px;width:172px;height:270px"><img src="${popupPanel.src}"></div>`
+  );
+}
+
+function buildFixtureCard(badge, style) {
+  const video = FIXTURE_VIDEO;
+  return `<div class="yt-card" style="${style}">
+<div class="yt-thumb" data-yt-hider-badge-target="1">
+${FIXTURE_THUMBNAIL_SVG}
+<div class="yt-duration">${video.duration}</div>
+<div class="yt-progress"><div style="width:${video.progress}%"></div></div>
+${badge.html}
+</div>
+<div class="yt-meta">
+<div class="yt-avatar">${video.initials}</div>
+<div>
+<div class="yt-title">${video.title}</div>
+<div class="yt-sub">${video.channel}</div>
+<div class="yt-sub">${video.stats}</div>
+</div>
+</div>
+</div>`;
+}
+
+function buildMarqueeHtml(popupPanel, badge) {
+  const card = badge ? buildFixtureCard(badge, 'left:688px;top:128px;width:340px') : '';
+  return buildTileHtml(
+    MARQUEE,
+    `<div class="brand" style="left:104px;gap:20px">
+<img src="${logoDataUrl()}" style="width:120px;height:120px">
+<div class="wordmark" style="font-size:64px"><span class="yt">YouTube</span> <span class="hd">Hider</span></div>
+<div class="tagline" style="font-size:26px">Your YouTube feed, without the clutter</div>
+</div>
+${card}
+<div class="panel" style="left:1016px;top:56px;width:330px;height:540px"><img src="${popupPanel.src}"></div>`,
+    badge ? badge.css : ''
+  );
+}
+
+async function extractBadgeTemplate(page) {
+  const template = await page.evaluate(() => {
+    const badges = Array.from(document.querySelectorAll('.yt-hider-badge'));
+    const badge =
+      badges.find(item => item.querySelector('.yt-hider-whitelist-btn')) ||
+      badges.find(item => !item.dataset.ytHiderBadgeKind) ||
+      badges[0];
+    if (!badge) return null;
+    return {
+      css: Array.from(document.querySelectorAll('style[id^="yt-hider"]'))
+        .map(style => style.textContent)
+        .join('\n'),
+      html: badge.outerHTML,
+      hasWhitelist: !!badge.querySelector('.yt-hider-whitelist-btn'),
+    };
+  });
+  if (!template) {
+    console.warn('No dim badge on the Home page to reuse in the marquee tile');
+    return null;
+  }
+  if (template.hasWhitelist) {
+    const messages = JSON.parse(fs.readFileSync(path.join(EXTENSION_PATH, '_locales', 'en', 'messages.json'), 'utf8'));
+    template.html = template.html.replace(
+      /(<span class="yt-hider-badge-reason">)[\s\S]*?(<\/span>)/,
+      `$1${messages.reasonAlreadyWatched.message}$2`
+    );
+  }
+  return template;
+}
+
+async function capturePopupPanel(context, serviceWorker, extensionId) {
+  await applySettings(serviceWorker, { hideThreshold: 20, dimMode: true });
+  const page = await context.newPage();
+  try {
+    await page.setViewportSize(POPUP_PANEL_VIEWPORT);
+    await page.goto(`chrome-extension://${extensionId}/popup/popup.html?standalone=true`);
+    await page.waitForSelector('.setting-card');
+    await page.addStyleTag({ content: '* { scrollbar-width: none !important; }' });
+    await page.waitForTimeout(500);
+    return await withDeviceScale(page, 2, () =>
+      captureRegion(page, { x: 0, y: 0, ...POPUP_PANEL_VIEWPORT })
+    );
+  } finally {
+    await page.close();
+  }
 }
 
 async function captureHomeSlide(page, extensionId, cards) {
@@ -902,6 +1148,7 @@ async function captureChannelsSlide(page, serviceWorker, extensionId, ladders, h
   await page.addStyleTag({ content: YOUTUBE_CLEANUP_CSS });
   await waitForVideoPlayback(page);
   await page.waitForSelector('#secondary yt-lockup-view-model, #secondary ytd-compact-video-renderer', {
+    state: 'attached',
     timeout: 30000,
   });
   await page.waitForSelector('#yt-hider-inline-blacklist-btn', { timeout: 20000 });
@@ -1036,10 +1283,12 @@ async function main() {
       return;
     }
 
-    fs.mkdirSync(OUTPUT_DIR, { recursive: true });
-    fs.readdirSync(OUTPUT_DIR)
-      .filter(name => name.endsWith('.png'))
-      .forEach(name => fs.rmSync(path.join(OUTPUT_DIR, name)));
+    for (const dir of [OUTPUT_DIR, PROMO_DIR]) {
+      fs.mkdirSync(dir, { recursive: true });
+      fs.readdirSync(dir)
+        .filter(name => name.endsWith('.png'))
+        .forEach(name => fs.rmSync(path.join(dir, name)));
+    }
     await applyBaseSettings(serviceWorker);
     await forceYouTubeLanguage(context);
     const ladders = await loadLadders(context, extensionId);
@@ -1049,6 +1298,7 @@ async function main() {
     await waitForYouTubeHome(page);
     const homeCards = await applyDimmingPlan(page, serviceWorker, extensionId, ladders, 'Home');
     const homeSlide = await captureHomeSlide(page, extensionId, homeCards);
+    const badgeTemplate = await extractBadgeTemplate(page);
     const hover = await captureMarkWatchedCard(page, extensionId, homeCards);
     const settingsSlide = await captureSettingsSlide(page);
     const beforeAfterSlide = await captureBeforeAfterSlide(page, serviceWorker);
@@ -1059,7 +1309,16 @@ async function main() {
       await renderSlide(context, slide);
     }
 
-    console.log(`Store screenshots written to ${OUTPUT_DIR}`);
+    const popupPanel = await capturePopupPanel(context, serviceWorker, extensionId);
+    await renderImage(context, buildSmallTileHtml(popupPanel), SMALL_TILE, path.join(PROMO_DIR, 'small-tile.png'));
+    await renderImage(
+      context,
+      buildMarqueeHtml(popupPanel, badgeTemplate),
+      MARQUEE,
+      path.join(PROMO_DIR, 'marquee.png')
+    );
+
+    console.log(`Store screenshots written to ${OUTPUT_DIR}, promo tiles to ${PROMO_DIR}`);
   } finally {
     await context.close().catch(() => {});
   }
