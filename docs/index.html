@@ -1,5 +1,5 @@
-<!doctype html>
-<html lang="en" data-bs-theme="dark">
+<!DOCTYPE html>
+<html lang="en">
 
 <head>
   <meta charset="UTF-8" />
@@ -34,13 +34,10 @@
     content="Hide watched videos, remove Shorts, Mixes, Playlists and Lives, and declutter your YouTube experience" />
   <meta name="twitter:image" content="https://youtubehider.com/assets/images/youtube-hider-logo-black.png" />
 
-  <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;600;700&display=swap" rel="stylesheet" />
-  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap/5.3.7/css/bootstrap.min.css"
-    integrity="sha512-fw7f+TcMjTb7bpbLJZlP8g2Y4XcCyFZW8uy8HsRZsH/SwbMw0plKHFHr99DN3l04VsYNwvzicUX/6qurvIxbxw=="
-    crossorigin="anonymous" />
-  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.7.2/css/all.min.css"
-    integrity="sha512-Evv84Mr4kqVGRNSgIGL/F/aIDqQb7xQ2vcrdIwxfjThSH8CSR7PBEakCr51Ck+w+/U6swU2Im1vVX0SVk9ABhg=="
-    crossorigin="anonymous" />
+  <meta name="theme-color" content="#0e0e10" />
+  <link rel="preload" href="assets/fonts/space-grotesk-700-latin.woff2" as="font" type="font/woff2" crossorigin />
+  <link rel="preload" href="assets/fonts/inter-latin.woff2" as="font" type="font/woff2" crossorigin />
+  <link rel="stylesheet" href="assets/css/site.css" />
   <link rel="shortcut icon" href="assets/images/youtube-hider-logo-128-128-filled-gray.png" type="image/x-icon" />
   <link rel="icon" href="assets/images/youtube-hider-logo-128-128-filled-gray.png" type="image/png" />
 
@@ -72,938 +69,357 @@
       }
     </script>
 
-  <style>
-    :root {
-      --bg-deep: #131313;
-      --bg-primary: #1a1a1a;
-      --bg-raised: #1f1f1f;
-      --bg-secondary: #242424;
-      --bg-tertiary: #2a2a2a;
-      --bg-quaternary: #313131;
-      --text-primary: #ebebeb;
-      --text-secondary: #b8b8b8;
-      --text-tertiary: #888888;
-      --border-color: #3a3a3a;
-      --accent-red: #ff0000;
-      --accent-green: #10b981;
-      --accent-blue: #8ab4f8;
-      --accent-blue-dark: #6ba3ff;
-      --radius-box: 8px;
-      --shadow-card: 0 0 0 1px rgba(255, 255, 255, 0.05), 0 2px 8px rgba(0, 0, 0, 0.25), 0 10px 30px rgba(0, 0, 0, 0.35);
-      --shadow-md: 0 4px 14px rgba(0, 0, 0, 0.32);
-      --ease-standard: cubic-bezier(0.4, 0, 0.2, 1);
-    }
-
-    .section-edge {
-      position: relative;
-    }
-
-    .section-edge > * {
-      position: relative;
-      z-index: 1;
-    }
-
-    .section-edge::after {
-      content: "";
-      position: absolute;
-      top: 0;
-      left: 0;
-      right: 0;
-      height: 1px;
-      background: linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.09) 22%, rgba(255, 255, 255, 0.09) 78%, transparent);
-      z-index: 2;
-    }
-
-    body {
-      margin: 0;
-      font-family: "Poppins", sans-serif;
-      overflow-x: hidden;
-      background-color: var(--bg-primary);
-      color: var(--text-primary);
-    }
-
-    .navbar {
-      position: fixed;
-      width: 100%;
-      display: flex;
-      justify-content: space-between;
-      padding: 16px 20px;
-      background: rgba(26, 26, 26, 0.78);
-      z-index: 100;
-      backdrop-filter: blur(12px);
-      border-bottom: 1px solid var(--border-color);
-    }
-
-    .navbar .logo {
-      color: var(--text-primary);
-      font-weight: 700;
-      font-size: 1.5rem;
-      text-decoration: none;
-    }
-
-    .cta-compact {
-      background: linear-gradient(135deg, var(--accent-blue) 0%, var(--accent-blue-dark) 100%);
-      color: #1a1a1a;
-      padding: 9px 18px;
-      border: none;
-      border-radius: var(--radius-box);
-      text-decoration: none;
-      font-weight: 700;
-      transition: transform 0.2s var(--ease-standard), box-shadow 0.2s var(--ease-standard);
-      display: inline-flex;
-      align-items: center;
-      gap: 8px;
-    }
-
-    .cta-compact:hover {
-      transform: translateY(-2px);
-      box-shadow: 0 6px 20px rgba(138, 180, 248, 0.28);
-      color: #1a1a1a;
-    }
-
-    .nav-actions {
-      gap: 12px;
-    }
-
-    .kofi-nav {
-      display: inline-flex;
-      align-items: center;
-      gap: 8px;
-      background: rgba(138, 180, 248, 0.14);
-      color: var(--accent-blue);
-      border: 1px solid rgba(138, 180, 248, 0.28);
-      padding: 8px 16px;
-      border-radius: var(--radius-box);
-      text-decoration: none;
-      font-weight: 600;
-      font-family: inherit;
-      font-size: 1rem;
-      line-height: 1.5;
-      cursor: pointer;
-      transition: background 0.2s var(--ease-standard), border-color 0.2s var(--ease-standard), transform 0.2s var(--ease-standard);
-    }
-
-    .kofi-nav:focus-visible {
-      outline: 2px solid var(--accent-blue);
-      outline-offset: 2px;
-    }
-
-    .kofi-nav:hover {
-      background: rgba(138, 180, 248, 0.22);
-      border-color: rgba(138, 180, 248, 0.5);
-      color: var(--accent-blue);
-      transform: translateY(-2px);
-    }
-
-    .hero {
-      position: relative;
-      background:
-        radial-gradient(1100px 560px at 50% -12%, rgba(138, 180, 248, 0.17), transparent 66%),
-        radial-gradient(680px 420px at 88% 14%, rgba(16, 185, 129, 0.08), transparent 70%),
-        linear-gradient(180deg, #1c1c1c 0%, var(--bg-primary) 55%, var(--bg-deep) 100%);
-      text-align: center;
-      color: var(--text-primary);
-      min-height: 100vh;
-      padding-bottom: 80px;
-      overflow: hidden;
-    }
-
-    .hero::before {
-      content: "";
-      position: absolute;
-      inset: 0;
-      background-image: radial-gradient(rgba(255, 255, 255, 0.06) 1px, transparent 1px);
-      background-size: 26px 26px;
-      -webkit-mask-image: radial-gradient(780px 460px at 50% 24%, #000 0%, transparent 72%);
-      mask-image: radial-gradient(780px 460px at 50% 24%, #000 0%, transparent 72%);
-      pointer-events: none;
-    }
-
-    .hero > * {
-      position: relative;
-      z-index: 1;
-    }
-
-    .hero h1 {
-      font-size: 3rem;
-      letter-spacing: -1px;
-      opacity: 0;
-      animation: fadeInDown 1s forwards;
-    }
-
-    .title-yt {
-      background: linear-gradient(135deg, #8ab4f8 0%, #6ba3ff 100%);
-      -webkit-background-clip: text;
-      background-clip: text;
-      -webkit-text-fill-color: transparent;
-    }
-
-    .title-hd {
-      background: linear-gradient(135deg, #ffffff 0%, #9dc4f0 100%);
-      -webkit-background-clip: text;
-      background-clip: text;
-      -webkit-text-fill-color: transparent;
-    }
-
-    .hero h2 {
-      opacity: 0;
-      animation: fadeInDown 1s 0.3s forwards;
-      color: var(--text-secondary);
-    }
-
-    .hero p {
-      font-size: 1.2rem;
-      margin-top: 20px;
-      opacity: 0;
-      animation: fadeInUp 1s 0.5s forwards;
-      color: var(--text-secondary);
-    }
-
-    .hero .btn {
-      margin-top: 30px;
-      padding: 14px 36px;
-      background: linear-gradient(135deg, var(--accent-blue) 0%, var(--accent-blue-dark) 100%);
-      color: #1a1a1a;
-      border: none;
-      border-radius: var(--radius-box);
-      font-size: 1rem;
-      font-weight: 700;
-      cursor: pointer;
-      opacity: 0;
-      animation: fadeInUp 1s 1s forwards;
-      transition: transform 0.2s var(--ease-standard), box-shadow 0.2s var(--ease-standard);
-      text-decoration: none;
-      display: inline-block;
-    }
-
-    .hero .btn:hover {
-      transform: translateY(-2px);
-      box-shadow: 0 8px 26px rgba(138, 180, 248, 0.3);
-      color: #1a1a1a;
-    }
-
-    .chrome-web-store-badge {
-      padding: 80px 20px;
-      background:
-        radial-gradient(760px 300px at 50% 0%, rgba(138, 180, 248, 0.07), transparent 72%),
-        var(--bg-deep);
-      text-align: center;
-    }
-
-    .badge-container {
-      display: flex;
-      justify-content: center;
-      align-items: center;
-      gap: 24px;
-      flex-wrap: wrap;
-      margin-top: 30px;
-    }
-
-    .stat-item {
-      background: linear-gradient(180deg, #282828 0%, var(--bg-secondary) 100%);
-      padding: 24px 32px;
-      border-radius: var(--radius-box);
-      box-shadow: var(--shadow-card);
-      border: 1px solid var(--border-color);
-      text-align: center;
-      min-width: 160px;
-      opacity: 0;
-      animation: fadeInUp 1s forwards;
-      transition: border-color 0.2s var(--ease-standard), transform 0.2s var(--ease-standard);
-    }
-
-    .stat-item:hover {
-      border-color: var(--accent-blue);
-      transform: translateY(-3px);
-    }
-
-    .stat-item:nth-child(1) {
-      animation-delay: 0.2s;
-    }
-
-    .stat-item:nth-child(2) {
-      animation-delay: 0.4s;
-    }
-
-    .stat-item:nth-child(3) {
-      animation-delay: 0.6s;
-    }
-
-    .stat-number {
-      font-size: 2rem;
-      font-weight: 700;
-      color: var(--accent-blue);
-      display: block;
-    }
-
-    .stat-label {
-      font-size: 0.9rem;
-      color: var(--text-secondary);
-      margin-top: 5px;
-    }
-
-    .video-section {
-      padding: 90px 20px;
-      background:
-        radial-gradient(720px 420px at 12% 100%, rgba(16, 185, 129, 0.09), transparent 68%),
-        linear-gradient(180deg, var(--bg-raised) 0%, #1c1c1c 100%);
-      text-align: center;
-    }
-
-    .video-container {
-      max-width: 800px;
-      margin: 0 auto;
-      opacity: 0;
-      animation: fadeInUp 1s 0.5s forwards;
-    }
-
-    .video-wrapper {
-      position: relative;
-      padding-bottom: 56.25%;
-      height: 0;
-      overflow: hidden;
-      border-radius: var(--radius-box);
-      box-shadow: var(--shadow-card);
-      border: 1px solid var(--border-color);
-    }
-
-    .video-wrapper iframe {
-      position: absolute;
-      top: 0;
-      left: 0;
-      width: 100%;
-      height: 100%;
-      border: none;
-    }
-
-    .features {
-      padding: 90px 20px;
-      background:
-        radial-gradient(900px 500px at 78% 8%, rgba(138, 180, 248, 0.10), transparent 68%),
-        radial-gradient(760px 460px at 6% 82%, rgba(16, 185, 129, 0.07), transparent 70%),
-        var(--bg-primary);
-    }
-
-    .feature {
-      background: linear-gradient(180deg, #282828 0%, var(--bg-secondary) 100%);
-      padding: 26px;
-      border-radius: var(--radius-box);
-      box-shadow: var(--shadow-card);
-      border: 1px solid var(--border-color);
-      opacity: 0;
-      transform: translateY(30px);
-      transition:
-        transform 0.3s var(--ease-standard),
-        box-shadow 0.3s var(--ease-standard),
-        border-color 0.3s var(--ease-standard);
-      height: 100%;
-    }
-
-    .feature:hover {
-      transform: translateY(-5px);
-      box-shadow: var(--shadow-md);
-      border-color: var(--accent-blue);
-    }
-
-    .feature:nth-child(1) {
-      animation: fadeInUp 1s 0.3s forwards;
-    }
-
-    .feature:nth-child(2) {
-      animation: fadeInUp 1s 0.6s forwards;
-    }
-
-    .feature:nth-child(3) {
-      animation: fadeInUp 1s 0.9s forwards;
-    }
-
-    .feature:nth-child(4) {
-      animation: fadeInUp 1s 1.2s forwards;
-    }
-
-    .feature h3 {
-      margin-top: 0;
-      font-size: 1.15rem;
-      color: #ffffff;
-      margin-bottom: 12px;
-    }
-
-    .feature p {
-      color: var(--text-secondary);
-      line-height: 1.6;
-      font-size: 0.95rem;
-      margin-bottom: 0;
-    }
-
-    .feature-icon {
-      display: inline-flex;
-      align-items: center;
-      justify-content: center;
-      width: 44px;
-      height: 44px;
-      font-size: 1.25rem;
-      color: var(--accent-blue);
-      background: rgba(138, 180, 248, 0.14);
-      border: 1px solid rgba(138, 180, 248, 0.28);
-      border-radius: var(--radius-box);
-      margin-bottom: 18px;
-    }
-
-    .mode-label {
-      font-size: 0.85rem;
-      font-weight: 700;
-      letter-spacing: 1.2px;
-      color: var(--accent-blue);
-      margin-bottom: 16px;
-    }
-
-    .watched-section {
-      padding: 90px 20px;
-      background:
-        radial-gradient(820px 460px at 12% 10%, rgba(138, 180, 248, 0.09), transparent 68%),
-        radial-gradient(700px 420px at 92% 94%, rgba(16, 185, 129, 0.08), transparent 70%),
-        var(--bg-deep);
-    }
-
-    .watched-lead {
-      max-width: 720px;
-      margin: -30px auto 50px;
-      text-align: center;
-      font-size: 1.1rem;
-      line-height: 1.6;
-      color: var(--text-secondary);
-    }
-
-    .watched-steps {
-      list-style: none;
-      margin: 0;
-      padding: 0;
-      display: flex;
-      flex-direction: column;
-      gap: 28px;
-    }
-
-    .watched-step {
-      display: flex;
-      align-items: flex-start;
-      gap: 16px;
-    }
-
-    .watched-step .feature-icon {
-      flex: 0 0 auto;
-      margin-bottom: 0;
-    }
-
-    .watched-step h3 {
-      margin: 0 0 6px;
-      font-size: 1.05rem;
-      color: #ffffff;
-    }
-
-    .watched-step p {
-      margin: 0;
-      font-size: 0.95rem;
-      line-height: 1.6;
-      color: var(--text-secondary);
-    }
-
-    .watched-shot {
-      width: 100%;
-      height: auto;
-      border-radius: var(--radius-box);
-      box-shadow: var(--shadow-card);
-      border: 1px solid var(--border-color);
-    }
-
-    .cta-section {
-      padding: 96px 20px;
-      background:
-        radial-gradient(900px 420px at 50% 120%, rgba(16, 185, 129, 0.16), transparent 66%),
-        linear-gradient(135deg, rgba(138, 180, 248, 0.2) 0%, rgba(138, 180, 248, 0.05) 46%, rgba(16, 185, 129, 0.1) 100%),
-        var(--bg-raised);
-      color: var(--text-primary);
-      text-align: center;
-    }
-
-    .cta-section h2 span {
-      background: linear-gradient(135deg, #ffffff 0%, #9dc4f0 100%);
-      -webkit-background-clip: text;
-      background-clip: text;
-      -webkit-text-fill-color: transparent;
-    }
-
-    .cta-section h2 {
-      font-size: 2.5rem;
-      margin-bottom: 20px;
-      opacity: 0;
-      animation: fadeInUp 1s 0.3s forwards;
-    }
-
-    .cta-section p {
-      font-size: 1.2rem;
-      margin-bottom: 40px;
-      color: var(--text-secondary);
-      opacity: 0;
-      animation: fadeInUp 1s 0.6s forwards;
-    }
-
-    .cta-section .btn {
-      background: linear-gradient(135deg, var(--accent-blue) 0%, var(--accent-blue-dark) 100%);
-      color: #1a1a1a;
-      padding: 15px 40px;
-      border: none;
-      border-radius: var(--radius-box);
-      font-size: 1.1rem;
-      font-weight: 700;
-      text-decoration: none;
-      display: inline-block;
-      opacity: 0;
-      animation: fadeInUp 1s 0.9s forwards;
-      transition: transform 0.2s var(--ease-standard), box-shadow 0.2s var(--ease-standard);
-    }
-
-    .cta-section .btn:hover {
-      transform: translateY(-3px);
-      box-shadow: 0 8px 26px rgba(138, 180, 248, 0.3);
-      color: #1a1a1a;
-    }
-
-    .footer {
-      padding: 56px 20px;
-      text-align: center;
-      background: var(--bg-deep);
-      color: var(--text-secondary);
-    }
-
-    .footer a {
-      color: var(--text-primary);
-      text-decoration: none;
-      transition: color 0.2s var(--ease-standard);
-    }
-
-    .footer a:hover {
-      color: var(--accent-blue);
-    }
-
-    .footer-support {
-      margin-top: 24px;
-      display: flex;
-      justify-content: center;
-    }
-
-    .accent-text {
-      color: var(--accent-blue);
-    }
-
-    .yh-logo {
-      max-width: 150px;
-    }
-
-    .full-img-show {
-      width: 100%;
-      max-width: 300px;
-      height: auto;
-      border-radius: var(--radius-box);
-      box-shadow: var(--shadow-card);
-      border: 1px solid var(--border-color);
-    }
-
-    .extra-top-padding {
-      padding-top: 150px;
-    }
-
-    @keyframes fadeInDown {
-      from {
-        opacity: 0;
-        transform: translateY(-50px);
-      }
-
-      to {
-        opacity: 1;
-        transform: translateY(0);
-      }
-    }
-
-    @keyframes fadeInUp {
-      from {
-        opacity: 0;
-        transform: translateY(50px);
-      }
-
-      to {
-        opacity: 1;
-        transform: translateY(0);
-      }
-    }
-
-    .section-title {
-      font-size: 2.5rem;
-      font-weight: 700;
-      text-align: center;
-      margin-bottom: 50px;
-      color: var(--text-primary);
-      letter-spacing: -0.5px;
-      opacity: 0;
-      animation: fadeInDown 1s 0.2s forwards;
-    }
-
-    .text-muted {
-      color: var(--text-tertiary) !important;
-    }
-
-    @media (max-width: 768px) {
-      .hero h1 {
-        font-size: 2.2rem;
-      }
-
-      .badge-container {
-        gap: 16px;
-      }
-
-      .stat-item {
-        min-width: 130px;
-        padding: 18px 22px;
-      }
-
-      .section-title {
-        font-size: 2rem;
-      }
-
-      .watched-lead {
-        margin-top: -24px;
-        font-size: 1rem;
-      }
-    }
-
-    @media (prefers-reduced-motion: reduce) {
-      * {
-        animation-duration: 0.01ms !important;
-        transition-duration: 0.01ms !important;
-      }
-    }
-  </style>
 </head>
 
 <body>
-  <nav class="navbar navbar-expand-lg">
-    <div class="container-fluid">
-      <a class="d-flex flex-column justify-content-center align-items-center text-decoration-none" href="/"
-        aria-label="YouTube Hider Home">
-        <div class="fs-4 fw-bold text-white">YouTube Hider</div>
-        <div class="fs-6 text-white-50">MV3 Chrome Extension</div>
+  <a class="skip-link" href="#main">Skip to content</a>
+  <header class="site-nav" data-nav>
+    <div class="container site-nav-inner">
+      <a class="brand" href="/" aria-label="YouTube Hider Home">
+        <img src="assets/icons/youtube-hider-logo-96.webp" alt="" width="36" height="36" />
+        <span class="brand-text">
+          <span class="brand-name">YouTube <span>Hider</span></span>
+          <span class="brand-sub">MV3 Chrome Extension</span>
+        </span>
       </a>
-      <div class="nav-actions d-flex align-items-center">
-        <button type="button" class="kofi-nav" data-support-open aria-haspopup="dialog"
-          aria-label="Support YouTube Hider">
-          <i class="fas fa-heart"></i>
-          <span class="d-none d-sm-inline">Support</span>
+      <nav class="nav-links" id="site-menu" aria-label="Main">
+        <a href="#demo">Demo</a>
+        <a href="#features">Features</a>
+        <a href="#watched">Mark as Watched</a>
+      </nav>
+      <div class="nav-actions">
+        <button type="button" class="btn btn-soft" data-support-open aria-haspopup="dialog" aria-label="Support YouTube Hider">
+          <svg class="icon" aria-hidden="true"><use href="assets/icons/sprite.svg#i-heart" /></svg><span class="hide-sm">Support</span>
         </button>
-        <a href="https://chromewebstore.google.com/detail/ebpikpmmnpjmlcpanakfcgchkdjaanmm" target="_blank"
-          rel="noopener noreferrer" class="cta-compact">
-          <span class="d-none d-sm-inline">Install Now</span>
-          <i class="fas fa-download d-sm-none"></i>
+        <a href="https://chromewebstore.google.com/detail/ebpikpmmnpjmlcpanakfcgchkdjaanmm" target="_blank" rel="noopener noreferrer" class="btn btn-primary" aria-label="Install YouTube Hider">
+          <svg class="icon" aria-hidden="true"><use href="assets/icons/sprite.svg#i-download" /></svg><span class="hide-sm">Install Now</span>
         </a>
+        <button type="button" class="nav-toggle" aria-expanded="false" aria-controls="site-menu" aria-label="Open menu">
+          <svg class="icon icon-menu" aria-hidden="true"><use href="assets/icons/sprite.svg#i-menu" /></svg><svg class="icon icon-close" aria-hidden="true"><use href="assets/icons/sprite.svg#i-close" /></svg>
+        </button>
       </div>
     </div>
-  </nav>
+  </header>
 
-  <section class="extra-top-padding hero d-flex flex-column justify-content-center align-items-center">
-    <div>
-      <div class="mb-4 d-flex justify-content-center align-items-center">
-        <img class="yh-logo img-fluid" src="assets/icons/youtube-hider-logo.png" alt="YouTube Hider logo"
-          width="150" height="150" />
-      </div>
-      <h1 class="fw-bold">
-        <span class="title-yt">YouTube</span>
-        <span class="title-hd">Hider</span>
-      </h1>
-      <h2 class="fw-normal">Declutter Your Streaming</h2>
-      <p class="mb-0">
-        Hide watched and low views videos, banish Shorts, Mixes, Playlists,
-        Lives and declutter your feed
-      </p>
-      <p class="mt-1 text-muted">Because laziness deserves optimization</p>
-      <a href="https://chromewebstore.google.com/detail/ebpikpmmnpjmlcpanakfcgchkdjaanmm" target="_blank"
-        rel="noopener noreferrer" class="btn">Add to Chrome</a>
-    </div>
-  </section>
+  <main id="main">
+    <section class="hero" data-declutter data-tone="red">
+      <div class="hero-sticky">
+        <div class="container hero-grid">
+          <div class="hero-copy">
+            <div class="mascot" data-mascot>
+              <img src="assets/icons/youtube-hider-logo.webp" alt="YouTube Hider logo" width="150" height="150" fetchpriority="high" />
+              <span class="pupil pupil-l" aria-hidden="true"></span>
+              <span class="pupil pupil-r" aria-hidden="true"></span>
+            </div>
+            <h1 class="hero-title">
+              <span class="line"><span>YouTube</span></span>
+              <span class="line"><span class="accent">Hider</span></span>
+            </h1>
+            <h2 class="hero-sub">Declutter Your Streaming</h2>
+            <p class="hero-lead">
+              Hide watched and low views videos, banish Shorts, Mixes, Playlists,
+              Lives and declutter your feed
+            </p>
+            <div class="hero-actions">
+              <a href="https://chromewebstore.google.com/detail/ebpikpmmnpjmlcpanakfcgchkdjaanmm" target="_blank" rel="noopener noreferrer" class="btn btn-primary btn-lg" data-magnetic><svg class="icon" aria-hidden="true"><use href="assets/icons/sprite.svg#i-chrome" /></svg>Add to Chrome</a>
+            </div>
+          </div>
 
-  <section class="chrome-web-store-badge section-edge">
-    <div class="container">
-      <h2 class="section-title">Trusted by Chrome users</h2>
-      <div class="badge-container">
-        <div class="stat-item">
-          <span class="stat-number" id="stat-users">1000+</span>
-          <div class="stat-label">Active Users</div>
-        </div>
-        <div class="stat-item">
-          <span class="stat-number" id="stat-rating">4.5★</span>
-          <div class="stat-label">Rating</div>
-        </div>
-        <div class="stat-item">
-          <span class="stat-number"><i class="fa-solid fa-shield-halved"></i></span>
-          <div class="stat-label">Featured</div>
-        </div>
-      </div>
-    </div>
-  </section>
-
-  <section class="video-section section-edge">
-    <div class="container">
-      <h2 class="section-title">See It in Action</h2>
-      <div class="video-container">
-        <div class="video-wrapper">
-          <iframe src="https://www.youtube.com/embed/T9KB02NlJQk?rel=0&modestbranding=1&showinfo=0"
-            title="YouTube Hider Extension Demo" allowfullscreen loading="lazy">
-          </iframe>
-        </div>
-        <p class="mt-3 text-muted">
-          Watch how YouTube Hider transforms your viewing experience
-        </p>
-      </div>
-    </div>
-  </section>
-
-  <section class="features section-edge">
-    <div class="container">
-      <h2 class="section-title">Powerful Features</h2>
-      <div class="row align-items-center g-4">
-        <div class="col-12 col-lg-3 pe-4 d-flex flex-column align-items-center">
-          <div class="mode-label">SIMPLE MODE</div>
-          <img src="assets/images/full-easy.png" alt="YouTube Hider Full Screenshot" class="full-img-show img-fluid"
-            width="300" height="600" />
-        </div>
-        <div class="col-12 col-lg-6">
-          <div class="row g-4">
-            <div class="col-12 col-md-6 col-lg-6">
-              <div class="feature h-100">
-                <div class="feature-icon">
-                  <i class="fas fa-eye-slash"></i>
-                </div>
-                <h3>Hide Watched Videos</h3>
-                <p>
-                  Set your watch threshold and enjoy fresh content only. Never
-                  see the same video twice. YouTube missed one? Hover it and
-                  click Watched to hide it too, and manage every marked video
-                  from one page.
-                </p>
+          <div class="hero-visual" aria-hidden="true">
+            <div class="feed-window">
+              <div class="feed-bar">
+                <span class="feed-dots"><i></i><i></i><i></i></span>
+                <span class="feed-tab">Home</span>
+                <span class="feed-gear"><svg class="icon" aria-hidden="true"><use href="assets/icons/sprite.svg#i-gear" /></svg></span>
+                <span class="feed-count"><svg class="icon" aria-hidden="true"><use href="assets/icons/sprite.svg#i-eye-off" /></svg><b data-hidden-count>8</b></span>
+              </div>
+              <div class="feed-grid">
+                <div class="slot" data-cat="watched"><div class="vcard vcard-clutter t1"><div class="v-thumb"><span class="v-progress"></span><span class="v-time">12:04</span></div><div class="v-meta"><i class="v-avatar"></i><span class="v-lines"><i></i><i></i></span></div><span class="v-dim"><svg class="icon" aria-hidden="true"><use href="assets/icons/sprite.svg#i-eye-off" /></svg>Watched</span></div><div class="vcard vcard-fresh t9"><div class="v-thumb"><span class="v-time">9:58</span></div><div class="v-meta"><i class="v-avatar"></i><span class="v-lines"><i></i><i></i></span></div></div></div>
+                <div class="slot"><div class="vcard t2"><div class="v-thumb"><span class="v-time">8:31</span></div><div class="v-meta"><i class="v-avatar"></i><span class="v-lines"><i></i><i></i></span></div></div></div>
+                <div class="slot" data-cat="shorts"><div class="vcard vcard-clutter t3"><div class="v-thumb"><span class="v-vertical"></span><span class="v-chip">Shorts</span></div><div class="v-meta"><i class="v-avatar"></i><span class="v-lines"><i></i><i></i></span></div><span class="v-dim"><svg class="icon" aria-hidden="true"><use href="assets/icons/sprite.svg#i-eye-off" /></svg>Shorts</span></div><div class="vcard vcard-fresh t10"><div class="v-thumb"><span class="v-time">6:45</span></div><div class="v-meta"><i class="v-avatar"></i><span class="v-lines"><i></i><i></i></span></div></div></div>
+                <div class="slot"><div class="vcard t4"><div class="v-thumb"><span class="v-time">4:12</span></div><div class="v-meta"><i class="v-avatar"></i><span class="v-lines"><i></i><i></i></span></div></div></div>
+                <div class="slot" data-cat="mix"><div class="vcard vcard-clutter t5"><div class="v-thumb"><span class="v-stack"></span><span class="v-chip">Mix</span></div><div class="v-meta"><i class="v-avatar"></i><span class="v-lines"><i></i><i></i></span></div><span class="v-dim"><svg class="icon" aria-hidden="true"><use href="assets/icons/sprite.svg#i-eye-off" /></svg>Mix</span></div><div class="vcard vcard-fresh t11"><div class="v-thumb"><span class="v-time">18:02</span></div><div class="v-meta"><i class="v-avatar"></i><span class="v-lines"><i></i><i></i></span></div></div></div>
+                <div class="slot" data-cat="live"><div class="vcard vcard-clutter t6"><div class="v-thumb"><span class="v-chip v-chip-live">Live</span></div><div class="v-meta"><i class="v-avatar"></i><span class="v-lines"><i></i><i></i></span></div><span class="v-dim"><svg class="icon" aria-hidden="true"><use href="assets/icons/sprite.svg#i-eye-off" /></svg>Live</span></div><div class="vcard vcard-fresh t12"><div class="v-thumb"><span class="v-time">7:39</span></div><div class="v-meta"><i class="v-avatar"></i><span class="v-lines"><i></i><i></i></span></div></div></div>
+                <div class="slot"><div class="vcard t7"><div class="v-thumb"><span class="v-time">33:20</span></div><div class="v-meta"><i class="v-avatar"></i><span class="v-lines"><i></i><i></i></span></div></div></div>
+                <div class="slot" data-cat="views"><div class="vcard vcard-clutter t8"><div class="v-thumb"><span class="v-time">6:45</span></div><div class="v-meta"><i class="v-avatar"></i><span class="v-lines"><i></i><i></i><span class="v-views">312 views</span></span></div><span class="v-dim"><svg class="icon" aria-hidden="true"><use href="assets/icons/sprite.svg#i-eye-off" /></svg>Low views</span></div><div class="vcard vcard-fresh t13"><div class="v-thumb"><span class="v-time">12:04</span></div><div class="v-meta"><i class="v-avatar"></i><span class="v-lines"><i></i><i></i></span></div></div></div>
+                <div class="slot" data-cat="watched"><div class="vcard vcard-clutter t14"><div class="v-thumb"><span class="v-progress"></span><span class="v-time">11:16</span></div><div class="v-meta"><i class="v-avatar"></i><span class="v-lines"><i></i><i></i></span></div><span class="v-dim"><svg class="icon" aria-hidden="true"><use href="assets/icons/sprite.svg#i-eye-off" /></svg>Watched</span></div><div class="vcard vcard-fresh t15"><div class="v-thumb"><span class="v-time">8:31</span></div><div class="v-meta"><i class="v-avatar"></i><span class="v-lines"><i></i><i></i></span></div></div></div>
+                <div class="slot" data-cat="shorts"><div class="vcard vcard-clutter t16"><div class="v-thumb"><span class="v-vertical"></span><span class="v-chip">Shorts</span></div><div class="v-meta"><i class="v-avatar"></i><span class="v-lines"><i></i><i></i></span></div><span class="v-dim"><svg class="icon" aria-hidden="true"><use href="assets/icons/sprite.svg#i-eye-off" /></svg>Shorts</span></div><div class="vcard vcard-fresh t2"><div class="v-thumb"><span class="v-time">21:47</span></div><div class="v-meta"><i class="v-avatar"></i><span class="v-lines"><i></i><i></i></span></div></div></div>
+                <div class="slot"><div class="vcard t12"><div class="v-thumb"><span class="v-time">7:39</span></div><div class="v-meta"><i class="v-avatar"></i><span class="v-lines"><i></i><i></i></span></div></div></div>
+                <div class="slot" data-cat="views"><div class="vcard vcard-clutter t10"><div class="v-thumb"><span class="v-time">26:11</span></div><div class="v-meta"><i class="v-avatar"></i><span class="v-lines"><i></i><i></i><span class="v-views">312 views</span></span></div><span class="v-dim"><svg class="icon" aria-hidden="true"><use href="assets/icons/sprite.svg#i-eye-off" /></svg>Low views</span></div><div class="vcard vcard-fresh t5"><div class="v-thumb"><span class="v-time">15:09</span></div><div class="v-meta"><i class="v-avatar"></i><span class="v-lines"><i></i><i></i></span></div></div></div>
               </div>
             </div>
-            <div class="col-12 col-md-6 col-lg-6">
-              <div class="feature h-100">
-                <div class="feature-icon">
-                  <i class="fas fa-ban"></i>
-                </div>
-                <h3>Hide Shorts, Mixes, Playlists & Lives</h3>
-                <p>
-                  Eliminate distracting Shorts, Mix playlists, Playlists and
-                  live streams everywhere on YouTube.
-                </p>
-              </div>
-            </div>
-            <div class="col-12 col-md-6 col-lg-6">
-              <div class="feature h-100">
-                <div class="feature-icon">
-                  <i class="fas fa-filter"></i>
-                </div>
-                <h3>Views Filter</h3>
-                <p>
-                  Hide videos below a minimum view count, above a maximum one,
-                  or both together to keep only a popularity range. Quality over
-                  quantity.
-                </p>
-              </div>
-            </div>
-            <div class="col-12 col-md-6 col-lg-6">
-              <div class="feature h-100">
-                <div class="feature-icon">
-                  <i class="fas fa-calendar-days"></i>
-                </div>
-                <h3>Upload Date Filter</h3>
-                <p>
-                  Hide videos that are too new or too old. Set two independent
-                  thresholds to keep only content from a specific time window,
-                  with multi-language date parsing.
-                </p>
-              </div>
-            </div>
-            <div class="col-12 col-md-6 col-lg-6">
-              <div class="feature h-100">
-                <div class="feature-icon">
-                  <i class="fas fa-circle-half-stroke"></i>
-                </div>
-                <h3>Filter Mode: Hide or Dim</h3>
-                <p>
-                  Choose whether filtered videos disappear completely or stay
-                  visible with a dark overlay showing why they were filtered.
-                  Dim mode keeps elements clickable.
-                </p>
-              </div>
-            </div>
-            <div class="col-12 col-md-6 col-lg-6">
-              <div class="feature h-100">
-                <div class="feature-icon">
-                  <i class="fas fa-user-shield"></i>
-                </div>
-                <h3>Channel &amp; Title Whitelist</h3>
-                <p>
-                  Exempt your favorite channels from every filter. Add them
-                  straight from the filtered overlay, the Subscribe button,
-                  or the popup, with an undo window so a stray click never
-                  sticks. Or whitelist a word, and every video with it in
-                  its title is never filtered.
-                </p>
-              </div>
-            </div>
-            <div class="col-12 col-md-6 col-lg-6">
-              <div class="feature h-100">
-                <div class="feature-icon">
-                  <i class="fas fa-ban"></i>
-                </div>
-                <h3>Channel &amp; Title Blacklist</h3>
-                <p>
-                  The opposite of Whitelist: always hide a channel's videos
-                  everywhere, including Shorts, Mixes, Playlists and Lives.
-                  Add it from the Subscribe button, a hover button on any
-                  video card, filtered or not, or the popup, with the same
-                  undo window as Whitelist. Or blacklist a word, and every
-                  video with it in its title is always hidden, even from a
-                  whitelisted channel.
-                </p>
-              </div>
-            </div>
-            <div class="col-12 col-md-6 col-lg-6">
-              <div class="feature h-100">
-                <div class="feature-icon">
-                  <i class="fas fa-power-off"></i>
-                </div>
-                <h3>Master Extension Switch</h3>
-                <p>
-                  Instantly pause every filter with one switch in the popup
-                  header, without losing any of your settings.
-                </p>
-              </div>
+            <div class="pm">
+              <div class="pm-head"><img src="assets/icons/youtube-hider-logo-96.webp" alt="" width="26" height="26" /><span>YouTube Hider</span><span class="switch is-master"></span></div>
+                <div class="pm-row" data-cat="watched"><svg class="icon" aria-hidden="true"><use href="assets/icons/sprite.svg#i-eye-off" /></svg><span>Hide watched</span><span class="switch"></span></div>
+                <div class="pm-row" data-cat="shorts"><svg class="icon" aria-hidden="true"><use href="assets/icons/sprite.svg#i-phone" /></svg><span>Hide Shorts</span><span class="switch"></span></div>
+                <div class="pm-row" data-cat="mix"><svg class="icon" aria-hidden="true"><use href="assets/icons/sprite.svg#i-list" /></svg><span>Hide Mixes</span><span class="switch"></span></div>
+                <div class="pm-row" data-cat="live"><svg class="icon" aria-hidden="true"><use href="assets/icons/sprite.svg#i-pulse" /></svg><span>Hide Lives</span><span class="switch"></span></div>
+                <div class="pm-row" data-cat="views"><svg class="icon" aria-hidden="true"><use href="assets/icons/sprite.svg#i-filter" /></svg><span>Views filter</span><span class="switch"></span></div>
             </div>
           </div>
         </div>
-        <div class="col-12 col-lg-3 pe-4 d-flex flex-column align-items-center">
-          <div class="mode-label">ADVANCED MODE</div>
-          <img src="assets/images/full-no-easy.png" alt="YouTube Hider Full Screenshot" class="full-img-show img-fluid"
-            width="300" height="600" />
+      </div>
+    </section>
+
+    <section class="section stats" data-tone="blue">
+      <div class="container">
+        <h2 class="stats-title" data-reveal>Trusted by Chrome users</h2>
+        <div class="stats-grid" data-reveal-group>
+          <div class="stat-item">
+            <span class="stat-number" id="stat-users" data-odometer>1000+</span>
+            <span class="stat-label">Active Users</span>
+          </div>
+          <div class="stat-item">
+            <span class="stat-number" id="stat-rating" data-odometer>4.5★</span>
+            <span class="stat-label">Rating</span>
+          </div>
+          <div class="stat-item">
+            <span class="stat-number stat-icon"><svg class="icon" aria-hidden="true"><use href="assets/icons/sprite.svg#i-shield" /></svg></span>
+            <span class="stat-label">Featured</span>
+          </div>
         </div>
       </div>
-    </div>
-  </section>
+    </section>
 
-  <section class="watched-section section-edge">
-    <div class="container">
-      <h2 class="section-title">Mark as Watched</h2>
-      <p class="watched-lead">
-        YouTube sometimes forgets the progress bar on a video you already saw,
-        and it knows nothing about the ones you watched on another account.
-        Mark them yourself, and they go away like any other watched video.
-      </p>
-      <div class="row align-items-center g-5">
-        <div class="col-12 col-lg-5">
-          <ul class="watched-steps">
-            <li class="watched-step">
-              <div class="feature-icon">
-                <i class="fas fa-hand-pointer"></i>
-              </div>
-              <div>
-                <h3>Hover and click Watched</h3>
-                <p>
-                  A Watched button appears next to Blacklist at the top of any
-                  video thumbnail. The video is hidden or dimmed following your
-                  Hide Watched Videos settings, on the same pages.
-                </p>
-              </div>
-            </li>
-            <li class="watched-step">
-              <div class="feature-icon">
-                <i class="fas fa-rotate-left"></i>
-              </div>
-              <div>
-                <h3>Change your mind anytime</h3>
-                <p>
-                  A 3 second Undo catches a stray click before it counts. In
-                  Dim mode, the overlay of a marked video carries an Unmark
-                  button that brings it back right away.
-                </p>
-              </div>
-            </li>
-            <li class="watched-step">
-              <div class="feature-icon">
-                <i class="fas fa-list-check"></i>
-              </div>
-              <div>
-                <h3>Manage them in one page</h3>
-                <p>
-                  Manage, in the Hide Watched Videos card, opens every marked
-                  video newest first. Search by title, channel or ID, remove one
-                  or several with Undo, and export or import the list as a
-                  file.
-                </p>
-              </div>
-            </li>
-            <li class="watched-step">
-              <div class="feature-icon">
-                <i class="fas fa-arrows-rotate"></i>
-              </div>
-              <div>
-                <h3>Synced across devices</h3>
-                <p>
-                  Marks follow you to every computer signed into the same
-                  Chrome profile. Up to 3,000 videos are kept, and the page
-                  warns you well before the oldest ones start to drop.
-                </p>
-              </div>
-            </li>
-          </ul>
+    <section class="section video-section" id="demo">
+      <div class="container">
+        <div class="section-head" data-reveal>
+          <span class="eyebrow">Demo</span>
+          <h2 class="section-title">See It in Action</h2>
         </div>
-        <div class="col-12 col-lg-7">
-          <img src="assets/images/watched-manager.png"
-            alt="The Marked as watched page, listing marked videos with thumbnail, title, channel and date, a search box, and Export, Import and Clear all buttons"
-            class="watched-shot img-fluid" width="890" height="1054" loading="lazy" />
+        <div class="video-frame" data-reveal>
+          <button type="button" class="video-facade" data-video="T9KB02NlJQk" aria-label="Play the YouTube Hider demo video">
+            <img src="https://i.ytimg.com/vi/T9KB02NlJQk/sddefault.jpg" srcset="https://i.ytimg.com/vi/T9KB02NlJQk/sddefault.jpg 640w, https://i.ytimg.com/vi/T9KB02NlJQk/maxresdefault.jpg 1280w" sizes="(max-width: 1040px) 92vw, 980px" alt="" width="1280" height="720" loading="lazy" decoding="async" />
+            <span class="video-play"><svg class="icon icon-fill" aria-hidden="true"><use href="assets/icons/sprite.svg#i-play" /></svg></span>
+          </button>
+        </div>
+        <p class="video-caption">Watch how YouTube Hider transforms your viewing experience</p>
+      </div>
+    </section>
+
+    <section class="section features" id="features">
+      <div class="container">
+        <div class="section-head" data-reveal>
+          <span class="eyebrow">Features</span>
+          <h2 class="section-title">Powerful Features</h2>
+        </div>
+        <div class="features-layout" data-features>
+          <div class="modes">
+            <div class="modes-sticky">
+              <div class="mode-switch" role="radiogroup" aria-label="Popup mode">
+                <input class="visually-hidden" type="radio" name="mode" id="mode-simple" checked />
+                <label for="mode-simple">Simple mode</label>
+                <input class="visually-hidden" type="radio" name="mode" id="mode-advanced" />
+                <label for="mode-advanced">Advanced mode</label>
+                <span class="mode-thumb" aria-hidden="true"></span>
+              </div>
+              <div class="popup-frame">
+                <img class="shot shot-simple" src="assets/images/full-easy.png" alt="The YouTube Hider popup in Simple mode" width="400" height="2732" loading="lazy" decoding="async" />
+                <img class="shot shot-advanced" src="assets/images/full-no-easy.png" alt="The YouTube Hider popup in Advanced mode" width="400" height="3627" loading="lazy" decoding="async" />
+              </div>
+            </div>
+          </div>
+          <div class="feature-grid" data-reveal-group>
+            <article class="feature spotlight">
+              <span class="feature-icon"><svg class="icon" aria-hidden="true"><use href="assets/icons/sprite.svg#i-eye-off" /></svg></span>
+              <h3>Hide Watched Videos</h3>
+              <p>
+                Set your watch threshold and enjoy fresh content only. Never
+                see the same video twice. YouTube missed one? Hover it and
+                click Watched to hide it too, and manage every marked video
+                from one page.
+              </p>
+            </article>
+            <article class="feature spotlight">
+              <span class="feature-icon"><svg class="icon" aria-hidden="true"><use href="assets/icons/sprite.svg#i-ban" /></svg></span>
+              <h3>Hide Shorts, Mixes, Playlists &amp; Lives</h3>
+              <p>
+                Eliminate distracting Shorts, Mix playlists, Playlists and
+                live streams everywhere on YouTube.
+              </p>
+            </article>
+            <article class="feature spotlight">
+              <span class="feature-icon"><svg class="icon" aria-hidden="true"><use href="assets/icons/sprite.svg#i-filter" /></svg></span>
+              <h3>Views Filter</h3>
+              <p>
+                Hide videos below a minimum view count, above a maximum one,
+                or both together to keep only a popularity range. Quality over
+                quantity.
+              </p>
+            </article>
+            <article class="feature spotlight">
+              <span class="feature-icon"><svg class="icon" aria-hidden="true"><use href="assets/icons/sprite.svg#i-calendar" /></svg></span>
+              <h3>Upload Date Filter</h3>
+              <p>
+                Hide videos that are too new or too old. Set two independent
+                thresholds to keep only content from a specific time window,
+                with multi-language date parsing.
+              </p>
+            </article>
+            <article class="feature spotlight">
+              <span class="feature-icon"><svg class="icon" aria-hidden="true"><use href="assets/icons/sprite.svg#i-contrast" /></svg></span>
+              <h3>Filter Mode: Hide or Dim</h3>
+              <p>
+                Choose whether filtered videos disappear completely or stay
+                visible with a dark overlay showing why they were filtered.
+                Dim mode keeps elements clickable.
+              </p>
+            </article>
+            <article class="feature spotlight">
+              <span class="feature-icon"><svg class="icon" aria-hidden="true"><use href="assets/icons/sprite.svg#i-user-shield" /></svg></span>
+              <h3>Channel &amp; Title Whitelist</h3>
+              <p>
+                Exempt your favorite channels from every filter. Add them
+                straight from the filtered overlay, the Subscribe button,
+                or the popup, with an undo window so a stray click never
+                sticks. Or whitelist a word, and every video with it in
+                its title is never filtered.
+              </p>
+            </article>
+            <article class="feature spotlight">
+              <span class="feature-icon"><svg class="icon" aria-hidden="true"><use href="assets/icons/sprite.svg#i-ban" /></svg></span>
+              <h3>Channel &amp; Title Blacklist</h3>
+              <p>
+                The opposite of Whitelist: always hide a channel's videos
+                everywhere, including Shorts, Mixes, Playlists and Lives.
+                Add it from the Subscribe button, a hover button on any
+                video card, filtered or not, or the popup, with the same
+                undo window as Whitelist. Or blacklist a word, and every
+                video with it in its title is always hidden, even from a
+                whitelisted channel.
+              </p>
+            </article>
+            <article class="feature spotlight">
+              <span class="feature-icon"><svg class="icon" aria-hidden="true"><use href="assets/icons/sprite.svg#i-power" /></svg></span>
+              <h3>Master Extension Switch</h3>
+              <p>
+                Instantly pause every filter with one switch in the popup
+                header, without losing any of your settings.
+              </p>
+            </article>
+          </div>
         </div>
       </div>
-    </div>
-  </section>
+    </section>
 
-  <section class="cta-section section-edge">
-    <div class="container">
-      <h2><span>Ready to Transform Your YouTube?</span></h2>
-      <p>
-        Join thousands of users who have already simplified their streaming
-        experience
-      </p>
-      <a href="https://chromewebstore.google.com/detail/ebpikpmmnpjmlcpanakfcgchkdjaanmm" target="_blank"
-        rel="noopener noreferrer" class="btn">Install YouTube Hider Now</a>
-    </div>
-  </section>
+    <section class="section watched" id="watched" data-tone="green">
+      <div class="container">
+        <div class="section-head" data-reveal>
+          <span class="eyebrow">Watched</span>
+          <h2 class="section-title">Mark as Watched</h2>
+          <p class="section-subtitle">
+            YouTube sometimes forgets the progress bar on a video you already saw,
+            and it knows nothing about the ones you watched on another account.
+            Mark them yourself, and they go away like any other watched video.
+          </p>
+        </div>
+        <div class="watched-layout" data-watched>
+          <ol class="watched-steps">
+              <li class="watched-step" data-watched-step>
+                <span class="feature-icon"><svg class="icon" aria-hidden="true"><use href="assets/icons/sprite.svg#i-hand" /></svg></span>
+                <div>
+                  <h3>Hover and click Watched</h3>
+                  <p>
+                    A Watched button appears next to Blacklist at the top of any
+                    video thumbnail. The video is hidden or dimmed following your
+                    Hide Watched Videos settings, on the same pages.
+                  </p>
+                </div>
+              </li>
+              <li class="watched-step" data-watched-step>
+                <span class="feature-icon"><svg class="icon" aria-hidden="true"><use href="assets/icons/sprite.svg#i-undo" /></svg></span>
+                <div>
+                  <h3>Change your mind anytime</h3>
+                  <p>
+                    A 3 second Undo catches a stray click before it counts. In
+                    Dim mode, the overlay of a marked video carries an Unmark
+                    button that brings it back right away.
+                  </p>
+                </div>
+              </li>
+              <li class="watched-step" data-watched-step>
+                <span class="feature-icon"><svg class="icon" aria-hidden="true"><use href="assets/icons/sprite.svg#i-list" /></svg></span>
+                <div>
+                  <h3>Manage them in one page</h3>
+                  <p>
+                    Manage, in the Hide Watched Videos card, opens every marked
+                    video newest first. Search by title, channel or ID, remove one
+                    or several with Undo, and export or import the list as a
+                    file.
+                  </p>
+                </div>
+              </li>
+              <li class="watched-step" data-watched-step>
+                <span class="feature-icon"><svg class="icon" aria-hidden="true"><use href="assets/icons/sprite.svg#i-sync" /></svg></span>
+                <div>
+                  <h3>Synced across devices</h3>
+                  <p>
+                    Marks follow you to every computer signed into the same
+                    Chrome profile. Up to 3,000 videos are kept, and the page
+                    warns you well before the oldest ones start to drop.
+                  </p>
+                </div>
+              </li>
+          </ol>
+          <div class="watched-visual">
+            <div class="browser" data-wipe>
+              <div class="browser-bar"><span class="feed-dots"><i></i><i></i><i></i></span><span class="browser-url">Marked as watched</span></div>
+              <img src="assets/images/watched-manager.png"
+                alt="The Marked as watched page, listing marked videos with thumbnail, title, channel and date, a search box, and Export, Import and Clear all buttons"
+                width="890" height="1054" loading="lazy" decoding="async" />
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
 
-  <footer class="footer section-edge">
-    <p>Built for the efficiently lazy, by Matteo</p>
-    <div>
-      <a href="https://www.linkedin.com/in/matteo-lucerni-0725a526b/" target="_blank" rel="noopener noreferrer"
-        class="me-2">LinkedIn <i class="fa-brands fa-linkedin ms-1"></i></a>
-      |
-      <a href="https://github.com/MatteoLucerni?tab=repositories" target="_blank" rel="noopener noreferrer"
-        class="">GitHub <i class="fa-brands fa-github ms-1"></i></a>
+    <section class="section statement" data-tone="red">
+      <div class="container">
+        <p class="statement-text" data-redact>Because laziness deserves optimization</p>
+      </div>
+    </section>
+
+    <section class="section cta" data-tone="blue">
+      <div class="container">
+        <div class="cta-panel" data-blinds>
+          <div class="blinds" aria-hidden="true"><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i></div>
+          <div class="cta-inner">
+            <h2 class="section-title">Ready to Transform Your YouTube?</h2>
+            <p class="section-subtitle">
+              Join thousands of users who have already simplified their streaming
+              experience
+            </p>
+            <div class="cta-actions">
+              <a href="https://chromewebstore.google.com/detail/ebpikpmmnpjmlcpanakfcgchkdjaanmm" target="_blank" rel="noopener noreferrer" class="btn btn-primary btn-lg" data-magnetic><svg class="icon" aria-hidden="true"><use href="assets/icons/sprite.svg#i-chrome" /></svg>Install YouTube Hider Now</a>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+  </main>
+
+  <footer class="site-footer">
+    <div class="footer-marquee" aria-hidden="true">
+      <div class="footer-track"><span>Declutter Your Streaming</span><span>Built for the efficiently lazy</span><span>Declutter Your Streaming</span><span>Built for the efficiently lazy</span></div>
     </div>
-    <div class="footer-support">
-      <button type="button" class="yh-support-trigger" data-support-open aria-haspopup="dialog">
-        <i class="fas fa-heart"></i>
-        Support this project
-      </button>
+    <div class="container footer-row">
+      <a class="brand" href="/" aria-label="YouTube Hider Home">
+        <img src="assets/icons/youtube-hider-logo-96.webp" alt="" width="36" height="36" />
+        <span class="brand-name">YouTube <span>Hider</span></span>
+      </a>
+      <p class="footer-note">Built for the efficiently lazy, by Matteo</p>
+      <ul class="footer-links">
+        <li><a href="https://www.linkedin.com/in/matteo-lucerni-0725a526b/" target="_blank" rel="noopener noreferrer"><svg class="icon" aria-hidden="true"><use href="assets/icons/sprite.svg#i-linkedin" /></svg>LinkedIn</a></li>
+        <li><a href="https://github.com/MatteoLucerni?tab=repositories" target="_blank" rel="noopener noreferrer"><svg class="icon" aria-hidden="true"><use href="assets/icons/sprite.svg#i-github" /></svg>GitHub</a></li>
+      </ul>
+      <button type="button" class="btn btn-soft" data-support-open aria-haspopup="dialog"><svg class="icon" aria-hidden="true"><use href="assets/icons/sprite.svg#i-heart" /></svg>Support this project</button>
     </div>
   </footer>
 
-  <script src="https://cdnjs.cloudflare.com/ajax/libs/bootstrap/5.3.7/js/bootstrap.bundle.min.js"
-    integrity="sha512-ENjdO4Dr2bkBIFxQpeoE6A7MsXsP1UyJoMp4YLEuNSfAP+JcXn/tWtIaxVXM" crossorigin="anonymous"></script>
   <script src="assets/js/support-modal.js" defer></script>
   <script src="assets/js/feedback-widget.js" defer></script>
   <script src="assets/js/stats.js" defer></script>
+  <script src="assets/js/site.js" defer></script>
 </body>
 
 </html>
