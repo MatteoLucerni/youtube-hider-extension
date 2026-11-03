@@ -3,7 +3,7 @@
   const UNINSTALL_LINK = "https://forms.gle/EzdNzE2nWnSjcy2r9";
 
   const css = `
-    .fb-widget { position: fixed; bottom: 24px; right: 24px; z-index: 99999; font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, 'Helvetica Neue', Arial, sans-serif; }
+    .fb-widget { position: fixed; bottom: 24px; right: 24px; z-index: 99999; font-family: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, 'Helvetica Neue', Arial, sans-serif; }
 
     .fb-widget-fab {
       width: 56px; height: 56px; border-radius: 50%; border: none; cursor: pointer;
@@ -20,9 +20,9 @@
       background: #242424; border: 1px solid #3a3a3a; border-radius: 8px;
       box-shadow: 0 0 0 1px rgba(255,255,255,.05), 0 2px 8px rgba(0,0,0,.25), 0 10px 30px rgba(0,0,0,.35);
       padding: 24px 20px 20px; opacity: 0; transform: translateY(16px) scale(.96);
-      pointer-events: none; transition: opacity .25s, transform .25s;
+      pointer-events: none; visibility: hidden; transition: opacity .25s, transform .25s, visibility 0s linear .25s;
     }
-    .fb-widget-popup.fb-visible { opacity: 1; transform: translateY(0) scale(1); pointer-events: auto; }
+    .fb-widget-popup.fb-visible { opacity: 1; transform: translateY(0) scale(1); pointer-events: auto; visibility: visible; transition: opacity .25s, transform .25s, visibility 0s linear 0s; }
 
     .fb-widget-popup h3 { margin: 0 0 4px; font-size: 18px; font-weight: 700; color: #ebebeb; }
     .fb-widget-popup p.fb-subtitle { margin: 0 0 18px; font-size: 13px; color: #b8b8b8; line-height: 1.4; }
