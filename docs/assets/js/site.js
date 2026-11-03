@@ -4,7 +4,6 @@
 
   const reduceMq = window.matchMedia("(prefers-reduced-motion: reduce)");
   const fineMq = window.matchMedia("(hover: hover) and (pointer: fine)");
-  const pinnedMq = window.matchMedia("(min-width: 1024px) and (min-height: 640px)");
   const wideMq = window.matchMedia("(min-width: 1024px)");
   const hasIO = "IntersectionObserver" in window;
   const motion = !reduceMq.matches && hasIO;
@@ -231,7 +230,6 @@
   function initDeclutter() {
     const hero = document.querySelector("[data-declutter]");
     if (!hero) return;
-    const grid = hero.querySelector(".feed-grid");
     const slots = [...hero.querySelectorAll(".slot[data-cat]")];
     const rows = [...hero.querySelectorAll(".pm-row[data-cat]")];
     const counter = hero.querySelector("[data-hidden-count]");
@@ -240,28 +238,47 @@
     const plan = slots.map(slot => {
       const cat = slot.dataset.cat;
       seen[cat] = (seen[cat] || 0) + 1;
-      return { slot, k: order.indexOf(cat), j: seen[cat] - 1, d: -1, c: -1 };
+      return { slot, k: order.indexOf(cat), j: seen[cat] - 1, d: -1, c: -1, visible: true };
     });
-    pauseOffscreen(hero);
     if (!motion) return;
 
+    const IDLE = 1.6;
+    const ON = 10;
+    const HOLD = 3.2;
+    const OFF = 7;
+    const REST = 1.6;
+    const CYCLE = IDLE + ON + HOLD + OFF + REST;
+    const PEAK = order.length + 0.2;
+    const smooth = x => x * x * (3 - 2 * x);
+
+    const measure = () => plan.forEach(item => (item.visible = item.slot.offsetParent !== null));
+    measure();
+    window.addEventListener("resize", measure, { passive: true });
+
+    const segAt = t => {
+      if (t < IDLE) return 0;
+      t -= IDLE;
+      if (t < ON) return (t / ON) * PEAK;
+      t -= ON;
+      if (t < HOLD) return PEAK;
+      t -= HOLD;
+      if (t < OFF) return PEAK * (1 - t / OFF);
+      return 0;
+    };
+
+    let elapsed = 0;
+    let last = 0;
+    let raf = 0;
+    let visible = true;
     let lastCount = -1;
-    register(hero, vh => {
-      let p;
-      if (pinnedMq.matches) {
-        const rect = hero.getBoundingClientRect();
-        p = clamp(-rect.top / Math.max(1, rect.height - vh));
-      } else {
-        const rect = grid.getBoundingClientRect();
-        p = clamp((vh * 0.85 - rect.top) / (vh * 0.75));
-      }
-      const seg = clamp((p - 0.06) / 0.84) * order.length;
+
+    function render(seg) {
       rows.forEach(row => row.classList.toggle("is-on", seg - order.indexOf(row.dataset.cat) > 0.02));
       let hidden = 0;
       plan.forEach(item => {
         const local = seg - item.k - item.j * 0.15;
-        const d = round(clamp(local / 0.35));
-        const c = round(clamp((local - 0.45) / 0.5));
+        const d = round(smooth(clamp(local / 0.35)));
+        const c = round(smooth(clamp((local - 0.45) / 0.5)));
         if (d !== item.d) {
           item.d = d;
           item.slot.style.setProperty("--d", d);
@@ -270,13 +287,39 @@
           item.c = c;
           item.slot.style.setProperty("--c", c);
         }
-        if (c >= 0.5 && item.slot.offsetParent !== null) hidden++;
+        if (c >= 0.5 && item.visible) hidden++;
       });
       if (counter && hidden !== lastCount) {
         lastCount = hidden;
         counter.textContent = String(hidden);
       }
-    });
+    }
+
+    function tick(now) {
+      raf = 0;
+      if (last) elapsed = (elapsed + Math.min(0.1, (now - last) / 1000)) % CYCLE;
+      last = now;
+      render(segAt(elapsed));
+      if (visible && !document.hidden) raf = window.requestAnimationFrame(tick);
+    }
+
+    function start() {
+      if (raf || !visible || document.hidden) return;
+      last = 0;
+      raf = window.requestAnimationFrame(tick);
+    }
+
+    if (hasIO) {
+      new IntersectionObserver(entries => {
+        visible = entries[0].isIntersecting;
+        hero.classList.toggle("is-offscreen", !visible);
+        start();
+      }).observe(hero);
+    }
+
+    document.addEventListener("visibilitychange", start);
+    render(0);
+    start();
   }
 
   function initOdometers() {

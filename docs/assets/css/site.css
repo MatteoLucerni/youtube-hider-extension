@@ -680,7 +680,7 @@ strong {
   mask-image: radial-gradient(70% 60% at 50% 40%, #000, transparent 75%);
 }
 
-.hero-sticky {
+.hero-inner {
   display: grid;
   align-items: center;
   min-height: 100svh;
@@ -2280,20 +2280,6 @@ strong {
       animation-timeline: view();
       animation-range: entry 0% entry 80%;
     }
-  }
-}
-
-@media (prefers-reduced-motion: no-preference) and (min-width: 1024px) and (min-height: 640px) {
-  .has-motion .hero {
-    height: 250vh;
-  }
-
-  .has-motion .hero-sticky {
-    position: sticky;
-    top: 0;
-    height: 100svh;
-    min-height: 0;
-    padding: var(--nav-h) 0 0;
   }
 }
 
