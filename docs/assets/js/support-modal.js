@@ -22,7 +22,7 @@
     .yh-support-modal {
       position: fixed; inset: 0; z-index: 100000; display: flex;
       align-items: center; justify-content: center; padding: 24px;
-      font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, 'Helvetica Neue', Arial, sans-serif;
+      font-family: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, 'Helvetica Neue', Arial, sans-serif;
     }
     .yh-support-modal[hidden] { display: none; }
 
