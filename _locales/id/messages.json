@@ -443,32 +443,34 @@
   "manageImport": {
     "message": "Impor"
   },
-  "manageSyncTitle": {
-    "message": "Sinkronisasi antarperangkat"
+  "manageSyncHeadlineOk": {
+    "message": "Tersinkron di semua perangkat Anda"
   },
-  "manageSyncDescription": {
-    "message": "Daftar dan video yang Anda tandai disinkronkan ke setiap komputer yang masuk dengan profil Chrome yang sama. Chrome memberi setiap ekstensi 100 KB untuk ini, dibagi dengan setelannya."
+  "manageSyncHeadlineSyncing": {
+    "message": "Menyinkronkan perubahan terbaru Anda"
   },
-  "manageSyncOk": {
-    "message": "Terbaru"
+  "manageSyncHeadlineAlmostFull": {
+    "message": "Ruang sinkronisasi hampir penuh"
   },
-  "manageSyncSyncing": {
-    "message": "Menyinkronkan"
+  "manageSyncHeadlinePaused": {
+    "message": "Sinkronisasi dijeda"
   },
-  "manageSyncPaused": {
-    "message": "Dijeda"
+  "manageSyncHeadlineMarkedPaused": {
+    "message": "Video yang ditandai tidak disinkronkan"
   },
-  "manageSyncPartlyPaused": {
-    "message": "Dijeda sebagian"
+  "manageSyncHeadlineRetrying": {
+    "message": "Sinkronisasi akan segera dicoba lagi"
   },
-  "manageSyncRetrying": {
-    "message": "Segera dicoba lagi"
+  "manageSyncHeadlineOutdated": {
+    "message": "Perlu pembaruan agar tetap sinkron"
   },
-  "manageSyncOutdated": {
-    "message": "Perlu pembaruan"
-  },
-  "manageSyncAlmostFull": {
-    "message": "Hampir penuh"
+  "manageSyncRoomLeft_other": {
+    "message": "Masih ada ruang untuk sekitar $count$ entri lagi",
+    "placeholders": {
+      "count": {
+        "content": "$1"
+      }
+    }
   },
   "manageSyncMessageListsPaused": {
     "message": "Daftar Anda melebihi ruang yang diberikan Chrome kepada ekstensi untuk sinkronisasi, jadi sinkronisasinya dijeda. Semuanya tetap tersimpan dan berfungsi di browser ini, dan perangkat lain menyimpan versi terakhir yang muat. Sinkronisasi berlanjut dengan sendirinya setelah daftar muat lagi."
@@ -480,44 +482,12 @@
     "message": "Perangkat lain memakai versi YouTube Hider yang lebih baru. Perbarui ekstensi di browser ini agar tetap bisa sinkronisasi."
   },
   "manageSyncMessageNearFull": {
-    "message": "Hampir penuh. Jika daftar Anda melebihinya, sinkronisasi dijeda tetapi tidak ada yang hilang: semuanya tetap berfungsi di browser ini."
+    "message": "Jika daftar Anda melebihinya, sinkronisasi dijeda tetapi tidak ada yang hilang: semuanya tetap berfungsi di browser ini."
   },
   "manageSyncMeterText": {
-    "message": "$percent$% terpakai",
+    "message": "$percent$% ruang sinkronisasi terpakai",
     "placeholders": {
       "percent": {
-        "content": "$1"
-      }
-    }
-  },
-  "manageSyncLegendLists": {
-    "message": "Daftar: $size$",
-    "placeholders": {
-      "size": {
-        "content": "$1"
-      }
-    }
-  },
-  "manageSyncLegendMarked": {
-    "message": "Video ditandai: $size$",
-    "placeholders": {
-      "size": {
-        "content": "$1"
-      }
-    }
-  },
-  "manageSyncLegendSettings": {
-    "message": "Setelan: $size$",
-    "placeholders": {
-      "size": {
-        "content": "$1"
-      }
-    }
-  },
-  "manageSyncLegendFree": {
-    "message": "Kosong: $size$",
-    "placeholders": {
-      "size": {
         "content": "$1"
       }
     }

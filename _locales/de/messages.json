@@ -476,32 +476,42 @@
   "manageImport": {
     "message": "Importieren"
   },
-  "manageSyncTitle": {
-    "message": "Geräteübergreifende Synchronisierung"
+  "manageSyncHeadlineOk": {
+    "message": "Auf all deinen Geräten synchronisiert"
   },
-  "manageSyncDescription": {
-    "message": "Deine Listen und markierten Videos werden mit jedem Computer synchronisiert, der mit demselben Chrome-Profil angemeldet ist. Chrome gibt jeder Erweiterung dafür 100 KB, die sie mit ihren Einstellungen teilt."
+  "manageSyncHeadlineSyncing": {
+    "message": "Deine letzten Änderungen werden synchronisiert"
   },
-  "manageSyncOk": {
-    "message": "Aktuell"
+  "manageSyncHeadlineAlmostFull": {
+    "message": "Synchronisierungsspeicher fast voll"
   },
-  "manageSyncSyncing": {
-    "message": "Wird synchronisiert"
+  "manageSyncHeadlinePaused": {
+    "message": "Synchronisierung pausiert"
   },
-  "manageSyncPaused": {
-    "message": "Pausiert"
+  "manageSyncHeadlineMarkedPaused": {
+    "message": "Markierte Videos werden nicht synchronisiert"
   },
-  "manageSyncPartlyPaused": {
-    "message": "Teilweise pausiert"
+  "manageSyncHeadlineRetrying": {
+    "message": "Die Synchronisierung versucht es gleich erneut"
   },
-  "manageSyncRetrying": {
-    "message": "Neuer Versuch gleich"
+  "manageSyncHeadlineOutdated": {
+    "message": "Update nötig, um weiter zu synchronisieren"
   },
-  "manageSyncOutdated": {
-    "message": "Update nötig"
+  "manageSyncRoomLeft_one": {
+    "message": "Platz für etwa $count$ weiteren Eintrag",
+    "placeholders": {
+      "count": {
+        "content": "$1"
+      }
+    }
   },
-  "manageSyncAlmostFull": {
-    "message": "Fast voll"
+  "manageSyncRoomLeft_other": {
+    "message": "Platz für etwa $count$ weitere Einträge",
+    "placeholders": {
+      "count": {
+        "content": "$1"
+      }
+    }
   },
   "manageSyncMessageListsPaused": {
     "message": "Deine Listen sind größer als der Speicher, den Chrome Erweiterungen zum Synchronisieren gibt, deshalb ist ihre Synchronisierung pausiert. Alles bleibt in diesem Browser gespeichert und funktioniert, und deine anderen Geräte behalten die letzte Version, die gepasst hat. Die Synchronisierung läuft von selbst weiter, sobald die Listen wieder passen."
@@ -513,44 +523,12 @@
     "message": "Ein anderes Gerät nutzt eine neuere Version von YouTube Hider. Aktualisiere die Erweiterung in diesem Browser, um weiter zu synchronisieren."
   },
   "manageSyncMessageNearFull": {
-    "message": "Fast voll. Werden deine Listen größer, pausiert die Synchronisierung, aber nichts geht verloren: Alles funktioniert in diesem Browser weiter."
+    "message": "Werden deine Listen größer, pausiert die Synchronisierung, aber nichts geht verloren: Alles funktioniert in diesem Browser weiter."
   },
   "manageSyncMeterText": {
-    "message": "$percent$ % belegt",
+    "message": "$percent$ % des Synchronisierungsspeichers belegt",
     "placeholders": {
       "percent": {
-        "content": "$1"
-      }
-    }
-  },
-  "manageSyncLegendLists": {
-    "message": "Listen: $size$",
-    "placeholders": {
-      "size": {
-        "content": "$1"
-      }
-    }
-  },
-  "manageSyncLegendMarked": {
-    "message": "Markierte Videos: $size$",
-    "placeholders": {
-      "size": {
-        "content": "$1"
-      }
-    }
-  },
-  "manageSyncLegendSettings": {
-    "message": "Einstellungen: $size$",
-    "placeholders": {
-      "size": {
-        "content": "$1"
-      }
-    }
-  },
-  "manageSyncLegendFree": {
-    "message": "Frei: $size$",
-    "placeholders": {
-      "size": {
         "content": "$1"
       }
     }

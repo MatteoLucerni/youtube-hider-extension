@@ -443,32 +443,34 @@
   "manageImport": {
     "message": "インポート"
   },
-  "manageSyncTitle": {
-    "message": "デバイス間の同期"
+  "manageSyncHeadlineOk": {
+    "message": "すべてのデバイスで同期済み"
   },
-  "manageSyncDescription": {
-    "message": "リストと視聴済みにした動画は、同じ Chrome プロファイルでログインしているすべてのパソコンに同期されます。Chrome が拡張機能ごとに用意する同期容量は 100 KB で、設定と共有します。"
+  "manageSyncHeadlineSyncing": {
+    "message": "最新の変更を同期しています"
   },
-  "manageSyncOk": {
-    "message": "最新"
+  "manageSyncHeadlineAlmostFull": {
+    "message": "同期容量が残りわずかです"
   },
-  "manageSyncSyncing": {
-    "message": "同期中"
+  "manageSyncHeadlinePaused": {
+    "message": "同期を一時停止中"
   },
-  "manageSyncPaused": {
-    "message": "一時停止中"
+  "manageSyncHeadlineMarkedPaused": {
+    "message": "視聴済みにした動画は同期されていません"
   },
-  "manageSyncPartlyPaused": {
-    "message": "一部停止中"
+  "manageSyncHeadlineRetrying": {
+    "message": "まもなく同期を再試行します"
   },
-  "manageSyncRetrying": {
-    "message": "まもなく再試行します"
+  "manageSyncHeadlineOutdated": {
+    "message": "同期を続けるには更新が必要です"
   },
-  "manageSyncOutdated": {
-    "message": "更新が必要です"
-  },
-  "manageSyncAlmostFull": {
-    "message": "残りわずか"
+  "manageSyncRoomLeft_other": {
+    "message": "あと約 $count$ 件追加できます",
+    "placeholders": {
+      "count": {
+        "content": "$1"
+      }
+    }
   },
   "manageSyncMessageListsPaused": {
     "message": "リストが Chrome の拡張機能向け同期容量を超えたため、リストの同期を一時停止しています。すべてこのブラウザに保存され、正常に動作しています。他のデバイスには容量に収まった最後のバージョンが残ります。リストが再び収まると同期は自動的に再開されます。"
@@ -480,44 +482,12 @@
     "message": "別のデバイスで新しいバージョンの YouTube Hider が使われています。同期を続けるには、このブラウザの拡張機能を更新してください。"
   },
   "manageSyncMessageNearFull": {
-    "message": "残りわずかです。リストが容量を超えると同期は一時停止しますが、何も失われません。このブラウザではすべて引き続き動作します。"
+    "message": "リストが容量を超えると同期は一時停止しますが、何も失われません。このブラウザではすべて引き続き動作します。"
   },
   "manageSyncMeterText": {
-    "message": "$percent$% 使用中",
+    "message": "同期容量の $percent$% を使用中",
     "placeholders": {
       "percent": {
-        "content": "$1"
-      }
-    }
-  },
-  "manageSyncLegendLists": {
-    "message": "リスト: $size$",
-    "placeholders": {
-      "size": {
-        "content": "$1"
-      }
-    }
-  },
-  "manageSyncLegendMarked": {
-    "message": "視聴済みにした動画: $size$",
-    "placeholders": {
-      "size": {
-        "content": "$1"
-      }
-    }
-  },
-  "manageSyncLegendSettings": {
-    "message": "設定: $size$",
-    "placeholders": {
-      "size": {
-        "content": "$1"
-      }
-    }
-  },
-  "manageSyncLegendFree": {
-    "message": "空き: $size$",
-    "placeholders": {
-      "size": {
         "content": "$1"
       }
     }

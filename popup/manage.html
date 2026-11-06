@@ -42,11 +42,11 @@
     </header>
 
     <main class="manage-main">
-      <section class="sync-panel" id="sync-panel" aria-labelledby="sync-title">
+      <section class="sync-panel" id="sync-panel">
         <div class="sync-panel-head">
-          <span class="sync-indicator" id="sync-indicator" aria-hidden="true"></span>
-          <h2 data-i18n="manageSyncTitle" class="sync-title" id="sync-title">Sync across devices</h2>
-          <span class="sync-status" id="sync-status"></span>
+          <span class="sync-indicator" aria-hidden="true"></span>
+          <p class="sync-headline" id="sync-headline" aria-live="polite"></p>
+          <span class="sync-room" id="sync-room" hidden></span>
         </div>
         <div
           class="sync-meter"
@@ -55,18 +55,11 @@
           aria-valuemin="0"
           aria-valuemax="100"
           aria-valuenow="0"
-          aria-labelledby="sync-title"
+          aria-labelledby="sync-headline"
+          hidden
         >
-          <span class="sync-meter-segment sync-meter-lists" id="sync-meter-lists"></span>
-          <span class="sync-meter-segment sync-meter-marked" id="sync-meter-marked"></span>
-          <span class="sync-meter-segment sync-meter-settings" id="sync-meter-settings"></span>
+          <span class="sync-meter-fill" id="sync-meter-fill"></span>
         </div>
-        <ul class="sync-legend" id="sync-legend">
-          <li><span class="sync-swatch sync-meter-lists" aria-hidden="true"></span><span id="sync-legend-lists"></span></li>
-          <li><span class="sync-swatch sync-meter-marked" aria-hidden="true"></span><span id="sync-legend-marked"></span></li>
-          <li><span class="sync-swatch sync-meter-settings" aria-hidden="true"></span><span id="sync-legend-settings"></span></li>
-          <li><span class="sync-swatch sync-swatch-free" aria-hidden="true"></span><span id="sync-legend-free"></span></li>
-        </ul>
         <p class="sync-message" id="sync-message" hidden></p>
       </section>
 

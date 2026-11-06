@@ -542,32 +542,58 @@
   "manageImport": {
     "message": "Импорт"
   },
-  "manageSyncTitle": {
-    "message": "Синхронизация между устройствами"
+  "manageSyncHeadlineOk": {
+    "message": "Синхронизировано на всех ваших устройствах"
   },
-  "manageSyncDescription": {
-    "message": "Ваши списки и отмеченные видео синхронизируются на всех компьютерах с тем же профилем Chrome. Chrome выделяет каждому расширению для этого 100 КБ, общие с его настройками."
+  "manageSyncHeadlineSyncing": {
+    "message": "Синхронизируем последние изменения"
   },
-  "manageSyncOk": {
-    "message": "Актуально"
+  "manageSyncHeadlineAlmostFull": {
+    "message": "Место для синхронизации почти заполнено"
   },
-  "manageSyncSyncing": {
-    "message": "Синхронизация"
+  "manageSyncHeadlinePaused": {
+    "message": "Синхронизация приостановлена"
   },
-  "manageSyncPaused": {
-    "message": "Приостановлено"
+  "manageSyncHeadlineMarkedPaused": {
+    "message": "Отмеченные видео не синхронизируются"
   },
-  "manageSyncPartlyPaused": {
-    "message": "Частично приостановлено"
+  "manageSyncHeadlineRetrying": {
+    "message": "Синхронизация скоро повторит попытку"
   },
-  "manageSyncRetrying": {
-    "message": "Скоро повторим попытку"
+  "manageSyncHeadlineOutdated": {
+    "message": "Нужно обновление, чтобы продолжить синхронизацию"
   },
-  "manageSyncOutdated": {
-    "message": "Нужно обновление"
+  "manageSyncRoomLeft_one": {
+    "message": "Места ещё примерно на $count$ запись",
+    "placeholders": {
+      "count": {
+        "content": "$1"
+      }
+    }
   },
-  "manageSyncAlmostFull": {
-    "message": "Почти заполнено"
+  "manageSyncRoomLeft_few": {
+    "message": "Места ещё примерно на $count$ записи",
+    "placeholders": {
+      "count": {
+        "content": "$1"
+      }
+    }
+  },
+  "manageSyncRoomLeft_many": {
+    "message": "Места ещё примерно на $count$ записей",
+    "placeholders": {
+      "count": {
+        "content": "$1"
+      }
+    }
+  },
+  "manageSyncRoomLeft_other": {
+    "message": "Места ещё примерно на $count$ записи",
+    "placeholders": {
+      "count": {
+        "content": "$1"
+      }
+    }
   },
   "manageSyncMessageListsPaused": {
     "message": "Ваши списки превысили место, которое Chrome выделяет расширениям для синхронизации, поэтому их синхронизация приостановлена. Всё сохранено и работает в этом браузере, а на других устройствах остаётся последняя поместившаяся версия. Синхронизация возобновится сама, когда списки снова поместятся."
@@ -579,44 +605,12 @@
     "message": "На другом устройстве установлена более новая версия YouTube Hider. Обновите расширение в этом браузере, чтобы продолжить синхронизацию."
   },
   "manageSyncMessageNearFull": {
-    "message": "Почти заполнено. Если списки превысят лимит, синхронизация приостановится, но ничего не потеряется: всё продолжит работать в этом браузере."
+    "message": "Если списки превысят лимит, синхронизация приостановится, но ничего не потеряется: всё продолжит работать в этом браузере."
   },
   "manageSyncMeterText": {
-    "message": "Занято $percent$%",
+    "message": "Занято $percent$% места для синхронизации",
     "placeholders": {
       "percent": {
-        "content": "$1"
-      }
-    }
-  },
-  "manageSyncLegendLists": {
-    "message": "Списки: $size$",
-    "placeholders": {
-      "size": {
-        "content": "$1"
-      }
-    }
-  },
-  "manageSyncLegendMarked": {
-    "message": "Отмеченные видео: $size$",
-    "placeholders": {
-      "size": {
-        "content": "$1"
-      }
-    }
-  },
-  "manageSyncLegendSettings": {
-    "message": "Настройки: $size$",
-    "placeholders": {
-      "size": {
-        "content": "$1"
-      }
-    }
-  },
-  "manageSyncLegendFree": {
-    "message": "Свободно: $size$",
-    "placeholders": {
-      "size": {
         "content": "$1"
       }
     }

@@ -509,32 +509,50 @@
   "manageImport": {
     "message": "Importar"
   },
-  "manageSyncTitle": {
-    "message": "Sincronização entre dispositivos"
+  "manageSyncHeadlineOk": {
+    "message": "Sincronizado em todos os seus dispositivos"
   },
-  "manageSyncDescription": {
-    "message": "Suas listas e vídeos marcados são sincronizados com todos os computadores conectados ao mesmo perfil do Chrome. O Chrome dá a cada extensão 100 KB para isso, compartilhados com as configurações."
+  "manageSyncHeadlineSyncing": {
+    "message": "Sincronizando suas últimas alterações"
   },
-  "manageSyncOk": {
-    "message": "Atualizada"
+  "manageSyncHeadlineAlmostFull": {
+    "message": "Espaço de sincronização quase cheio"
   },
-  "manageSyncSyncing": {
-    "message": "Sincronizando"
+  "manageSyncHeadlinePaused": {
+    "message": "Sincronização pausada"
   },
-  "manageSyncPaused": {
-    "message": "Pausada"
+  "manageSyncHeadlineMarkedPaused": {
+    "message": "Os vídeos marcados não estão sincronizando"
   },
-  "manageSyncPartlyPaused": {
-    "message": "Pausada em parte"
+  "manageSyncHeadlineRetrying": {
+    "message": "A sincronização vai tentar de novo em breve"
   },
-  "manageSyncRetrying": {
-    "message": "Nova tentativa em breve"
+  "manageSyncHeadlineOutdated": {
+    "message": "Atualização necessária para continuar sincronizando"
   },
-  "manageSyncOutdated": {
-    "message": "Atualização necessária"
+  "manageSyncRoomLeft_one": {
+    "message": "Espaço para cerca de $count$ entrada a mais",
+    "placeholders": {
+      "count": {
+        "content": "$1"
+      }
+    }
   },
-  "manageSyncAlmostFull": {
-    "message": "Quase cheio"
+  "manageSyncRoomLeft_many": {
+    "message": "Espaço para cerca de $count$ entradas a mais",
+    "placeholders": {
+      "count": {
+        "content": "$1"
+      }
+    }
+  },
+  "manageSyncRoomLeft_other": {
+    "message": "Espaço para cerca de $count$ entradas a mais",
+    "placeholders": {
+      "count": {
+        "content": "$1"
+      }
+    }
   },
   "manageSyncMessageListsPaused": {
     "message": "Suas listas passaram do espaço que o Chrome dá às extensões para sincronizar, então a sincronização delas está pausada. Tudo continua salvo e funcionando neste navegador, e seus outros dispositivos mantêm a última versão que coube. A sincronização volta sozinha quando as listas couberem de novo."
@@ -546,44 +564,12 @@
     "message": "Outro dispositivo usa uma versão mais recente do YouTube Hider. Atualize a extensão neste navegador para continuar sincronizando."
   },
   "manageSyncMessageNearFull": {
-    "message": "Quase cheio. Se suas listas passarem do limite, a sincronização pausa, mas nada se perde: tudo continua funcionando neste navegador."
+    "message": "Se suas listas passarem do limite, a sincronização pausa, mas nada se perde: tudo continua funcionando neste navegador."
   },
   "manageSyncMeterText": {
-    "message": "$percent$% usado",
+    "message": "$percent$% do espaço de sincronização usado",
     "placeholders": {
       "percent": {
-        "content": "$1"
-      }
-    }
-  },
-  "manageSyncLegendLists": {
-    "message": "Listas: $size$",
-    "placeholders": {
-      "size": {
-        "content": "$1"
-      }
-    }
-  },
-  "manageSyncLegendMarked": {
-    "message": "Vídeos marcados: $size$",
-    "placeholders": {
-      "size": {
-        "content": "$1"
-      }
-    }
-  },
-  "manageSyncLegendSettings": {
-    "message": "Configurações: $size$",
-    "placeholders": {
-      "size": {
-        "content": "$1"
-      }
-    }
-  },
-  "manageSyncLegendFree": {
-    "message": "Livre: $size$",
-    "placeholders": {
-      "size": {
         "content": "$1"
       }
     }

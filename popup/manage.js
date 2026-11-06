@@ -4,7 +4,7 @@ const MANAGE_UNDO_MS = 10000;
 const MANAGE_SEARCH_DELAY_MS = 120;
 const MANAGE_PREVIEW_DELAY_MS = 120;
 const MANAGE_SYNC_REFRESH_MS = 300;
-const MANAGE_SYNC_WARN_RATIO = 0.9;
+const MANAGE_SYNC_WARN_RATIO = 0.8;
 const MANAGE_CHANNEL_SYNC_STATE_KEY = 'channelListsSyncState';
 const MANAGE_MARKED_SYNC_STATE_KEY = 'markedWatchedSyncState';
 const MANAGE_STRING_LIST_KEYS = ['channelWhitelist', 'channelBlacklist', 'titleWhitelist', 'titleBlacklist'];
@@ -1150,79 +1150,76 @@ document.addEventListener('DOMContentLoaded', () => {
   });
 
   const syncPanel = document.getElementById('sync-panel');
-  const syncStatus = document.getElementById('sync-status');
+  const syncHeadline = document.getElementById('sync-headline');
+  const syncRoom = document.getElementById('sync-room');
   const syncMeter = document.getElementById('sync-meter');
+  const syncMeterFill = document.getElementById('sync-meter-fill');
   const syncMessage = document.getElementById('sync-message');
-  const meterSegments = {
-    lists: document.getElementById('sync-meter-lists'),
-    marked: document.getElementById('sync-meter-marked'),
-    settings: document.getElementById('sync-meter-settings'),
-  };
-  const legend = {
-    lists: document.getElementById('sync-legend-lists'),
-    marked: document.getElementById('sync-legend-marked'),
-    settings: document.getElementById('sync-legend-settings'),
-    free: document.getElementById('sync-legend-free'),
-  };
   let syncRefreshTimer = null;
+
+  function countListEntries() {
+    return MANAGE_LISTS.filter(def => def.storageKey).reduce((sum, def) => sum + data[def.id].length, 0);
+  }
+
+  function describeSyncState(listState, markedState, ratio) {
+    if (listState.status === 'outdated' || markedState.status === 'outdated') {
+      return { tone: 'is-error', headline: 'manageSyncHeadlineOutdated', message: 'manageSyncMessageOutdated' };
+    }
+    if (listState.status === 'paused') {
+      return { tone: 'is-warning', headline: 'manageSyncHeadlinePaused', message: 'manageSyncMessageListsPaused' };
+    }
+    if (markedState.status === 'paused') {
+      return { tone: 'is-warning', headline: 'manageSyncHeadlineMarkedPaused', message: 'manageSyncMessageMarkedPaused' };
+    }
+    if (listState.status === 'error' || markedState.status === 'error') {
+      return { tone: '', headline: 'manageSyncHeadlineRetrying', message: null };
+    }
+    if (ratio >= MANAGE_SYNC_WARN_RATIO) {
+      return { tone: 'is-warning', headline: 'manageSyncHeadlineAlmostFull', message: 'manageSyncMessageNearFull', meter: true };
+    }
+    if (listState.status === 'pending' || markedState.status === 'pending') {
+      return { tone: '', headline: 'manageSyncHeadlineSyncing', message: null };
+    }
+    return { tone: '', headline: 'manageSyncHeadlineOk', message: null };
+  }
 
   async function refreshSyncPanel() {
     const [items, local] = await Promise.all([
       chrome.storage.sync.get(null),
       chrome.storage.local.get([MANAGE_CHANNEL_SYNC_STATE_KEY, MANAGE_MARKED_SYNC_STATE_KEY]),
     ]);
-    const bytes = { lists: 0, marked: 0, settings: 0 };
+    let listBytes = 0;
+    let settingsBytes = 0;
     Object.entries(items || {}).forEach(([key, value]) => {
-      const size = getSyncItemBytes(key, value);
-      if (isChannelListSyncKey(key)) bytes.lists += size;
-      else if (isMarkedWatchedSyncKey(key)) bytes.marked += size;
-      else bytes.settings += size;
+      if (isChannelListSyncKey(key)) listBytes += getSyncItemBytes(key, value);
+      else if (!isMarkedWatchedSyncKey(key)) settingsBytes += getSyncItemBytes(key, value);
     });
-    const used = bytes.lists + bytes.marked + bytes.settings;
-    const free = Math.max(0, SYNC_QUOTA_BYTES - used);
-    Object.entries(meterSegments).forEach(([key, el]) => {
-      el.style.width = Math.min(100, (bytes[key] / SYNC_QUOTA_BYTES) * 100) + '%';
-    });
-    legend.lists.textContent = getText('manageSyncLegendLists', formatBytes(bytes.lists));
-    legend.marked.textContent = getText('manageSyncLegendMarked', formatBytes(bytes.marked));
-    legend.settings.textContent = getText('manageSyncLegendSettings', formatBytes(bytes.settings));
-    legend.free.textContent = getText('manageSyncLegendFree', formatBytes(free));
-    const percent = Math.round((used / SYNC_QUOTA_BYTES) * 100);
-    syncMeter.setAttribute('aria-valuenow', String(percent));
-    syncMeter.setAttribute('aria-valuetext', getText('manageSyncMeterText', String(percent)));
-
+    const budget = Math.max(1, SYNC_QUOTA_BYTES - SYNC_RESERVED_BYTES - settingsBytes);
+    const ratio = Math.min(1, listBytes / budget);
     const listState = (local && local[MANAGE_CHANNEL_SYNC_STATE_KEY]) || {};
     const markedState = (local && local[MANAGE_MARKED_SYNC_STATE_KEY]) || {};
-    let tone = '';
-    let statusKey = 'manageSyncOk';
-    let messageKey = 'manageSyncDescription';
-    if (listState.status === 'outdated' || markedState.status === 'outdated') {
-      tone = 'is-error';
-      statusKey = 'manageSyncOutdated';
-      messageKey = 'manageSyncMessageOutdated';
-    } else if (listState.status === 'paused') {
-      tone = 'is-warning';
-      statusKey = 'manageSyncPaused';
-      messageKey = 'manageSyncMessageListsPaused';
-    } else if (markedState.status === 'paused') {
-      tone = 'is-warning';
-      statusKey = 'manageSyncPartlyPaused';
-      messageKey = 'manageSyncMessageMarkedPaused';
-    } else if (listState.status === 'error' || markedState.status === 'error') {
-      tone = 'is-warning';
-      statusKey = 'manageSyncRetrying';
-    } else if (listState.status === 'pending' || markedState.status === 'pending') {
-      statusKey = 'manageSyncSyncing';
-    } else if (used >= SYNC_QUOTA_BYTES * MANAGE_SYNC_WARN_RATIO) {
-      tone = 'is-warning';
-      statusKey = 'manageSyncAlmostFull';
-      messageKey = 'manageSyncMessageNearFull';
+    const state = describeSyncState(listState, markedState, ratio);
+
+    syncPanel.classList.toggle('is-warning', state.tone === 'is-warning');
+    syncPanel.classList.toggle('is-error', state.tone === 'is-error');
+    syncHeadline.textContent = getText(state.headline);
+    syncMessage.hidden = !state.message;
+    if (state.message) syncMessage.textContent = getText(state.message);
+
+    syncMeter.hidden = !state.meter;
+    const entries = countListEntries();
+    const room = state.meter && entries > 0 ? Math.max(0, Math.floor(((budget - listBytes) / listBytes) * entries)) : 0;
+    syncRoom.hidden = !state.meter || entries === 0;
+    if (state.meter) {
+      const percent = Math.round(ratio * 100);
+      syncMeterFill.style.width = percent + '%';
+      syncMeter.setAttribute('aria-valuenow', String(percent));
+      syncMeter.setAttribute('aria-valuetext', getText('manageSyncMeterText', String(percent)));
+      if (entries > 0) {
+        const rounded = room >= 1000 ? Math.floor(room / 100) * 100 : room >= 100 ? Math.floor(room / 10) * 10 : room;
+        syncRoom.textContent = getPluralText('manageSyncRoomLeft', rounded, formatLocaleNumber(rounded));
+      }
     }
-    syncPanel.classList.toggle('is-warning', tone === 'is-warning');
-    syncPanel.classList.toggle('is-error', tone === 'is-error');
-    syncStatus.textContent = getText(statusKey);
-    syncMessage.textContent = getText(messageKey);
-    syncMessage.hidden = false;
   }
 
   function scheduleSyncRefresh() {
@@ -1292,6 +1289,7 @@ document.addEventListener('DOMContentLoaded', () => {
     markedMeta = local[MARKED_WATCHED_META_KEY] || {};
     loaded = true;
     renderAll();
+    scheduleSyncRefresh();
   });
 
   refreshSyncPanel().catch(() => {});

@@ -95,7 +95,7 @@ Turning the whole Channel Blacklist toggle off removes every on-page Blacklist b
 
 ### List Sync
 
-The Channel Whitelist, Channel Blacklist, Title Whitelist and Title Blacklist follow you across devices, and there is no fixed limit on how many entries they hold. Each list is saved in the browser first, then synced to your other devices in a compact format: sorted, with the part each entry shares with the previous one stored only once, compressed and encoded densely. Chrome gives every extension 100 KB of synced storage, and that fits roughly 12,000 to 14,000 channels and words across the four lists, about half again as many as the format used before 3.7.0. Past that point the lists keep working and keep growing on the device where they were added: the list cards show a "Sync paused" notice that says nothing is lost, the Manage page explains it next to a meter of the synced space, other devices keep the last version that fit, and syncing resumes on its own once the lists are small enough again. Changes made on another device while sync is paused are still merged in, without dropping any entry that only this device has. The marked watched videos share this synced storage, but never at the lists' expense: when the lists need the room, the marked videos stop syncing instead.
+The Channel Whitelist, Channel Blacklist, Title Whitelist and Title Blacklist follow you across devices, and there is no fixed limit on how many entries they hold. Each list is saved in the browser first, then synced to your other devices in a compact format: sorted, with the part each entry shares with the previous one stored only once, compressed and encoded densely. Chrome gives every extension 100 KB of synced storage, and that fits roughly 12,000 to 14,000 channels and words across the four lists, about half again as many as the format used before 3.7.0. Past that point the lists keep working and keep growing on the device where they were added: the list cards show a "Sync paused" notice that says nothing is lost, the Manage page explains it in plain words, other devices keep the last version that fit, and syncing resumes on its own once the lists are small enough again. Changes made on another device while sync is paused are still merged in, without dropping any entry that only this device has. The marked watched videos share this synced storage, but never at the lists' expense: when the lists need the room, the marked videos stop syncing instead.
 
 ### Title Whitelist
 
@@ -113,7 +113,7 @@ Every **Manage** button in the settings menu opens one page, in its own browser 
 - **Search and sort**: the list filters while you type and says how many entries match; sort by most recently added or alphabetically. Rows load 50 at a time
 - **Select and act in bulk**: click a row or its checkbox, Shift-click to select a range, then select every matching entry at once. Remove the selection or move it to the opposite list
 - **Undo everything**: every add, removal and move offers **Undo** for 10 seconds, and the timer waits while the pointer or keyboard focus is on the message. **Clear all** is the only action that asks first, and its dialog offers to export a backup before anything is removed
-- **Sync at a glance**: a meter shows how much of Chrome's 100 KB the lists, the marked videos and the other settings use, and a paused or outdated sync is explained in plain words
+- **Sync status in plain words**: a single quiet line says the lists are synced. Only when the synced space is about 80% full does it turn into a warning with a bar and an estimate of how many more channels or words still fit, and a paused or outdated sync is explained there too, including that nothing is lost
 - **Export and import** all five lists in one JSON file. Importing only ever adds: the preview says what each list will gain, and nothing already listed is removed or changed. Files exported from the old marked videos page are still accepted
 
 Each list keeps its on/off switch on the page too, and the page is fully usable from the keyboard, with the arrow keys moving between tabs.
@@ -214,7 +214,7 @@ youtube-hider-extension
 │   ├── filters.css        Tooltips, date filter, overlap warning
 │   ├── support.css        Support button and support panel
 │   ├── manage.html        Manage page for all five lists, opened in a tab
-│   ├── manage.js          Manage page logic: tabs, add, search, select, undo, sync meter, export, import
+│   ├── manage.js          Manage page logic: tabs, add, search, select, undo, sync status, export, import
 │   └── manage.css         Manage page styles
 ├── tests/
 │   ├── parsers.test.js           Parser regression tests

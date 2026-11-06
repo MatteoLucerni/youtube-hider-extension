@@ -9,7 +9,7 @@
   - **Search and sort**: the list filters while you type and says how many entries match, sorted by most recently added or alphabetically, 50 rows at a time
   - **Select in bulk**: click a row or its checkbox, Shift-click to select a range, then select every matching entry at once, and remove the selection or move it to the opposite list
   - **Undo everything**: every add, removal and move can be undone for 10 seconds, and the countdown waits while the pointer or the keyboard is on the message. **Clear all** is the only action that asks first, and its dialog offers to export a backup before anything is removed
-  - **See how sync is doing**: a meter shows how much of the 100 KB Chrome gives extensions for syncing is used by the lists, the marked videos and the other settings, and a paused sync is explained in plain words
+  - **Know how sync is doing at a glance**: one quiet line at the top says your lists are synced across your devices. When the space Chrome gives extensions for syncing is about 80% full, it becomes a warning with a bar and an estimate of how many more channels or words still fit, and a paused sync is explained in plain words, starting with the fact that nothing is lost
   - **Export and import every list in one file**. Importing only ever adds, after a preview of what each list will gain. Files exported from the old marked videos page still import
 
 **Changed**

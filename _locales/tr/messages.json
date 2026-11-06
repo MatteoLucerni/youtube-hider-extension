@@ -476,32 +476,42 @@
   "manageImport": {
     "message": "İçe aktar"
   },
-  "manageSyncTitle": {
-    "message": "Cihazlar arası senkronizasyon"
+  "manageSyncHeadlineOk": {
+    "message": "Tüm cihazlarınızda senkronize"
   },
-  "manageSyncDescription": {
-    "message": "Listeleriniz ve işaretli videolarınız aynı Chrome profiliyle oturum açılmış her bilgisayarla senkronize edilir. Chrome bunun için her uzantıya, ayarlarıyla paylaşılan 100 KB alan verir."
+  "manageSyncHeadlineSyncing": {
+    "message": "Son değişiklikleriniz senkronize ediliyor"
   },
-  "manageSyncOk": {
-    "message": "Güncel"
+  "manageSyncHeadlineAlmostFull": {
+    "message": "Senkronizasyon alanı neredeyse dolu"
   },
-  "manageSyncSyncing": {
-    "message": "Senkronize ediliyor"
+  "manageSyncHeadlinePaused": {
+    "message": "Senkronizasyon duraklatıldı"
   },
-  "manageSyncPaused": {
-    "message": "Duraklatıldı"
+  "manageSyncHeadlineMarkedPaused": {
+    "message": "İşaretli videolar senkronize edilmiyor"
   },
-  "manageSyncPartlyPaused": {
-    "message": "Kısmen duraklatıldı"
+  "manageSyncHeadlineRetrying": {
+    "message": "Senkronizasyon kısa süre içinde yeniden denenecek"
   },
-  "manageSyncRetrying": {
-    "message": "Kısa süre içinde yeniden denenecek"
+  "manageSyncHeadlineOutdated": {
+    "message": "Senkronizasyona devam etmek için güncelleme gerekli"
   },
-  "manageSyncOutdated": {
-    "message": "Güncelleme gerekli"
+  "manageSyncRoomLeft_one": {
+    "message": "Yaklaşık $count$ kayıt için daha yer var",
+    "placeholders": {
+      "count": {
+        "content": "$1"
+      }
+    }
   },
-  "manageSyncAlmostFull": {
-    "message": "Neredeyse dolu"
+  "manageSyncRoomLeft_other": {
+    "message": "Yaklaşık $count$ kayıt için daha yer var",
+    "placeholders": {
+      "count": {
+        "content": "$1"
+      }
+    }
   },
   "manageSyncMessageListsPaused": {
     "message": "Listeleriniz Chrome'un uzantılara senkronizasyon için verdiği alanı aştığı için senkronizasyonları duraklatıldı. Her şey bu tarayıcıda kayıtlı ve çalışıyor; diğer cihazlarınız sığan son sürümü korur. Listeler yeniden sığdığında senkronizasyon kendiliğinden devam eder."
@@ -513,44 +523,12 @@
     "message": "Başka bir cihaz YouTube Hider'ın daha yeni bir sürümünü kullanıyor. Senkronizasyona devam etmek için bu tarayıcıdaki uzantıyı güncelleyin."
   },
   "manageSyncMessageNearFull": {
-    "message": "Neredeyse dolu. Listeleriniz alanı aşarsa senkronizasyon duraklar ama hiçbir şey kaybolmaz: her şey bu tarayıcıda çalışmaya devam eder."
+    "message": "Listeleriniz alanı aşarsa senkronizasyon duraklar ama hiçbir şey kaybolmaz: her şey bu tarayıcıda çalışmaya devam eder."
   },
   "manageSyncMeterText": {
-    "message": "%$percent$ kullanılıyor",
+    "message": "Senkronizasyon alanının %$percent$ kadarı kullanılıyor",
     "placeholders": {
       "percent": {
-        "content": "$1"
-      }
-    }
-  },
-  "manageSyncLegendLists": {
-    "message": "Listeler: $size$",
-    "placeholders": {
-      "size": {
-        "content": "$1"
-      }
-    }
-  },
-  "manageSyncLegendMarked": {
-    "message": "İşaretli videolar: $size$",
-    "placeholders": {
-      "size": {
-        "content": "$1"
-      }
-    }
-  },
-  "manageSyncLegendSettings": {
-    "message": "Ayarlar: $size$",
-    "placeholders": {
-      "size": {
-        "content": "$1"
-      }
-    }
-  },
-  "manageSyncLegendFree": {
-    "message": "Boş: $size$",
-    "placeholders": {
-      "size": {
         "content": "$1"
       }
     }

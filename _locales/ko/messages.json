@@ -443,32 +443,34 @@
   "manageImport": {
     "message": "가져오기"
   },
-  "manageSyncTitle": {
-    "message": "기기 간 동기화"
+  "manageSyncHeadlineOk": {
+    "message": "모든 기기에서 동기화됨"
   },
-  "manageSyncDescription": {
-    "message": "목록과 표시한 동영상은 같은 Chrome 프로필로 로그인한 모든 컴퓨터에 동기화됩니다. Chrome은 확장 프로그램마다 이를 위해 설정과 함께 쓰는 100KB를 제공합니다."
+  "manageSyncHeadlineSyncing": {
+    "message": "최근 변경 사항을 동기화하는 중"
   },
-  "manageSyncOk": {
-    "message": "최신 상태"
+  "manageSyncHeadlineAlmostFull": {
+    "message": "동기화 공간이 거의 가득 참"
   },
-  "manageSyncSyncing": {
-    "message": "동기화 중"
+  "manageSyncHeadlinePaused": {
+    "message": "동기화 일시중지됨"
   },
-  "manageSyncPaused": {
-    "message": "일시중지됨"
+  "manageSyncHeadlineMarkedPaused": {
+    "message": "표시한 동영상이 동기화되지 않음"
   },
-  "manageSyncPartlyPaused": {
-    "message": "일부 일시중지됨"
+  "manageSyncHeadlineRetrying": {
+    "message": "곧 동기화를 다시 시도합니다"
   },
-  "manageSyncRetrying": {
-    "message": "곧 다시 시도합니다"
+  "manageSyncHeadlineOutdated": {
+    "message": "계속 동기화하려면 업데이트가 필요합니다"
   },
-  "manageSyncOutdated": {
-    "message": "업데이트 필요"
-  },
-  "manageSyncAlmostFull": {
-    "message": "거의 가득 참"
+  "manageSyncRoomLeft_other": {
+    "message": "약 $count$개를 더 추가할 수 있습니다",
+    "placeholders": {
+      "count": {
+        "content": "$1"
+      }
+    }
   },
   "manageSyncMessageListsPaused": {
     "message": "목록이 Chrome이 확장 프로그램에 제공하는 동기화 공간을 넘어서 목록 동기화가 일시중지되었습니다. 모든 항목은 이 브라우저에 저장되어 정상적으로 작동하며, 다른 기기에는 공간에 맞았던 마지막 버전이 유지됩니다. 목록이 다시 공간에 맞으면 동기화가 자동으로 재개됩니다."
@@ -480,44 +482,12 @@
     "message": "다른 기기에서 더 최신 버전의 YouTube Hider를 사용하고 있습니다. 계속 동기화하려면 이 브라우저의 확장 프로그램을 업데이트하세요."
   },
   "manageSyncMessageNearFull": {
-    "message": "거의 가득 찼습니다. 목록이 공간을 넘으면 동기화가 일시중지되지만 잃는 것은 없습니다. 이 브라우저에서는 모두 계속 작동합니다."
+    "message": "목록이 공간을 넘으면 동기화가 일시중지되지만 잃는 것은 없습니다. 이 브라우저에서는 모두 계속 작동합니다."
   },
   "manageSyncMeterText": {
-    "message": "$percent$% 사용 중",
+    "message": "동기화 공간의 $percent$% 사용 중",
     "placeholders": {
       "percent": {
-        "content": "$1"
-      }
-    }
-  },
-  "manageSyncLegendLists": {
-    "message": "목록: $size$",
-    "placeholders": {
-      "size": {
-        "content": "$1"
-      }
-    }
-  },
-  "manageSyncLegendMarked": {
-    "message": "표시한 동영상: $size$",
-    "placeholders": {
-      "size": {
-        "content": "$1"
-      }
-    }
-  },
-  "manageSyncLegendSettings": {
-    "message": "설정: $size$",
-    "placeholders": {
-      "size": {
-        "content": "$1"
-      }
-    }
-  },
-  "manageSyncLegendFree": {
-    "message": "남은 공간: $size$",
-    "placeholders": {
-      "size": {
         "content": "$1"
       }
     }

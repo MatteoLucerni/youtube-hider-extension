@@ -627,41 +627,53 @@
     "message": "Import",
     "description": "Button that adds entries from an exported JSON file."
   },
-  "manageSyncTitle": {
-    "message": "Sync across devices",
-    "description": "Title of the panel showing how much of the synced storage the lists use."
+  "manageSyncHeadlineOk": {
+    "message": "Synced across your devices",
+    "description": "Sync status line at the top of the lists page when everything is synced."
   },
-  "manageSyncDescription": {
-    "message": "Your lists and marked videos sync to every computer signed into the same Chrome profile. Chrome gives each extension 100 KB for this, shared with its settings.",
-    "description": "Explanation under the sync panel title when everything syncs normally."
+  "manageSyncHeadlineSyncing": {
+    "message": "Syncing your latest changes",
+    "description": "Sync status line while a change is being synced."
   },
-  "manageSyncOk": {
-    "message": "Up to date",
-    "description": "Short sync status: everything is synced."
+  "manageSyncHeadlineAlmostFull": {
+    "message": "Sync space almost full",
+    "description": "Sync status line when the lists use most of the space Chrome allows for syncing."
   },
-  "manageSyncSyncing": {
-    "message": "Syncing",
-    "description": "Short sync status: a change is being synced."
+  "manageSyncHeadlinePaused": {
+    "message": "Sync paused",
+    "description": "Sync status line when the lists are too large to sync."
   },
-  "manageSyncPaused": {
-    "message": "Paused",
-    "description": "Short sync status: the lists are too large to sync."
+  "manageSyncHeadlineMarkedPaused": {
+    "message": "Marked videos are not syncing",
+    "description": "Sync status line when the lists sync but the marked videos do not."
   },
-  "manageSyncPartlyPaused": {
-    "message": "Partly paused",
-    "description": "Short sync status: the lists sync, the marked videos do not."
+  "manageSyncHeadlineRetrying": {
+    "message": "Sync will retry shortly",
+    "description": "Sync status line when the last sync attempt failed and will be retried."
   },
-  "manageSyncRetrying": {
-    "message": "Retrying soon",
-    "description": "Short sync status: the last write failed and will be retried."
+  "manageSyncHeadlineOutdated": {
+    "message": "Update needed to keep syncing",
+    "description": "Sync status line when another device uses a newer version."
   },
-  "manageSyncOutdated": {
-    "message": "Update needed",
-    "description": "Short sync status: another device uses a newer format, this one must be updated."
+  "manageSyncRoomLeft_one": {
+    "message": "Room for about $count$ more entry",
+    "description": "Estimate shown next to the almost-full sync status: roughly how many more channels or words can still sync.",
+    "placeholders": {
+      "count": {
+        "content": "$1",
+        "example": "1,200"
+      }
+    }
   },
-  "manageSyncAlmostFull": {
-    "message": "Almost full",
-    "description": "Short sync status: the synced storage is over 90% used."
+  "manageSyncRoomLeft_other": {
+    "message": "Room for about $count$ more entries",
+    "description": "Estimate shown next to the almost-full sync status: roughly how many more channels or words can still sync.",
+    "placeholders": {
+      "count": {
+        "content": "$1",
+        "example": "1,200"
+      }
+    }
   },
   "manageSyncMessageListsPaused": {
     "message": "Your lists have outgrown the space Chrome gives extensions to sync, so syncing them is paused. Everything is saved and working in this browser, and your other devices keep the last version that fit. Sync resumes by itself once the lists fit again.",
@@ -676,56 +688,16 @@
     "description": "Explanation shown when another device wrote a newer sync format. Keep 'YouTube Hider' untranslated."
   },
   "manageSyncMessageNearFull": {
-    "message": "Almost full. If your lists outgrow it, syncing pauses but nothing is lost: everything keeps working in this browser.",
-    "description": "Explanation shown when the synced storage is over 90% used."
+    "message": "If your lists outgrow it, syncing pauses but nothing is lost: everything keeps working in this browser.",
+    "description": "Explanation under the almost-full sync status. It must make clear that nothing is lost."
   },
   "manageSyncMeterText": {
-    "message": "$percent$% used",
-    "description": "Screen reader text for the sync usage bar.",
+    "message": "$percent$% of the sync space used",
+    "description": "Screen reader text for the bar that shows how full the sync space is.",
     "placeholders": {
       "percent": {
         "content": "$1",
-        "example": "42"
-      }
-    }
-  },
-  "manageSyncLegendLists": {
-    "message": "Lists: $size$",
-    "description": "Legend of the sync usage bar: space used by the four lists.",
-    "placeholders": {
-      "size": {
-        "content": "$1",
-        "example": "24 kB"
-      }
-    }
-  },
-  "manageSyncLegendMarked": {
-    "message": "Marked videos: $size$",
-    "description": "Legend of the sync usage bar: space used by the marked videos.",
-    "placeholders": {
-      "size": {
-        "content": "$1",
-        "example": "24 kB"
-      }
-    }
-  },
-  "manageSyncLegendSettings": {
-    "message": "Settings: $size$",
-    "description": "Legend of the sync usage bar: space used by the other settings.",
-    "placeholders": {
-      "size": {
-        "content": "$1",
-        "example": "24 kB"
-      }
-    }
-  },
-  "manageSyncLegendFree": {
-    "message": "Free: $size$",
-    "description": "Legend of the sync usage bar: space still free.",
-    "placeholders": {
-      "size": {
-        "content": "$1",
-        "example": "24 kB"
+        "example": "84"
       }
     }
   },
