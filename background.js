@@ -266,7 +266,7 @@ async function readLocalChannelListState() {
     CHANNEL_LIST_STATE_KEY,
   ]);
   return {
-    lists: normalizeChannelLists({ w: local.channelWhitelist, b: local.channelBlacklist }),
+    lists: readChannelListsFromStorage(local),
     base: local[CHANNEL_LIST_BASE_KEY] ? normalizeChannelLists(local[CHANNEL_LIST_BASE_KEY]) : null,
     state: local[CHANNEL_LIST_STATE_KEY] || {},
   };
@@ -274,7 +274,7 @@ async function readLocalChannelListState() {
 
 function getChannelListLocalUpdates(previous, next) {
   if (channelListsEqual(previous, next)) return {};
-  return { channelWhitelist: next.w, channelBlacklist: next.b };
+  return channelListsToStorage(next);
 }
 
 function markChannelListIncomplete(state, gen) {
@@ -297,7 +297,7 @@ async function pullChannelLists() {
   if (payload.status === 'complete' && payload.gen !== state.gen) {
     let remote = null;
     try {
-      remote = await decodeChannelLists(payload.encoded);
+      remote = await decodeChannelLists(payload.encoded, payload.version);
     } catch (e) {
       logger.log('Could not decode synced channel lists:', e);
     }
@@ -360,9 +360,11 @@ async function pushChannelLists() {
   }
 
   const stalled = isChannelListSyncStalled(state, payload);
+  const olderFormat = payload.status === 'complete' && payload.version !== CHANNEL_LIST_FORMAT_VERSION;
   const inSync = !!base && channelListsEqual(lists, base) && state.status === 'ok';
-  if (inSync && !stalled && !legacy) return;
-  if (!base && !state.gen && !lists.w.length && !lists.b.length && !legacy) return;
+  if (inSync && !stalled && !legacy && !olderFormat) return;
+  const hasEntries = Object.values(lists).some(list => list.length);
+  if (!base && !state.gen && !hasEntries && !legacy) return;
 
   const gen = createChannelListGeneration();
   const newItems = buildChannelListSyncItems(await encodeChannelLists(lists), gen, state.gen || null);
@@ -566,7 +568,6 @@ function refreshBadge() {
       viewsHideThreshold: 1000,
       channelBlacklist: [],
       channelBlacklistEnabled: true,
-      titleBlacklist: [],
       titleBlacklistEnabled: true,
     },
     prefs => {
@@ -575,10 +576,10 @@ function refreshBadge() {
         return;
       }
       if (!prefs) return;
-      chrome.storage.local.get('channelBlacklist', local => {
-        if (!chrome.runtime.lastError && local && Array.isArray(local.channelBlacklist)) {
-          prefs.channelBlacklist = local.channelBlacklist;
-        }
+      chrome.storage.local.get(['channelBlacklist', 'titleBlacklist'], local => {
+        const stored = !chrome.runtime.lastError && local ? local : {};
+        if (Array.isArray(stored.channelBlacklist)) prefs.channelBlacklist = stored.channelBlacklist;
+        if (Array.isArray(stored.titleBlacklist)) prefs.titleBlacklist = stored.titleBlacklist;
         updateBadge(prefs);
       });
     },
@@ -639,7 +640,7 @@ chrome.storage.onChanged.addListener((changes, area) => {
       scheduleChannelListPush();
     }
     if (MARKED_WATCHED_KEY in changes) scheduleMarkedWatchedPush();
-    if ('channelBlacklist' in changes) refreshBadge();
+    if ('channelBlacklist' in changes || 'titleBlacklist' in changes) refreshBadge();
     return;
   }
   if (area !== 'sync') return;
@@ -655,9 +656,7 @@ chrome.storage.onChanged.addListener((changes, area) => {
     'extensionEnabled',
     'hideThreshold',
     'viewsHideThreshold',
-    'channelBlacklist',
     'channelBlacklistEnabled',
-    'titleBlacklist',
     'titleBlacklistEnabled',
   ];
   if (Object.keys(changes).some(key => allBadgeKeys.includes(key))) {

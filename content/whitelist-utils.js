@@ -1,9 +1,10 @@
 const CHANNEL_LIST_STORAGE_KEYS = ['channelWhitelist', 'channelBlacklist'];
+const TITLE_LIST_STORAGE_KEYS = ['titleWhitelist', 'titleBlacklist'];
 const MARKED_WATCHED_KEY = 'markedWatched';
 const MARKED_WATCHED_META_KEY = 'markedWatchedMeta';
 const MARKED_WATCHED_LIMIT = 3000;
 const MARKED_WATCHED_WARN_AT = 2700;
-const LOCAL_PREF_KEYS = [...CHANNEL_LIST_STORAGE_KEYS, MARKED_WATCHED_KEY];
+const LOCAL_PREF_KEYS = [...CHANNEL_LIST_STORAGE_KEYS, ...TITLE_LIST_STORAGE_KEYS, MARKED_WATCHED_KEY];
 
 function splitChannelListUpdates(updates) {
   const local = {};
@@ -70,7 +71,6 @@ function computeWhitelistUpdate(
 }
 
 const TITLE_KEYWORD_MAX_LENGTH = 100;
-const TITLE_KEYWORD_LIST_MAX_BYTES = 8192;
 const TITLE_WORD_START = /^[\p{L}\p{N}]/u;
 const TITLE_WORD_CHAR = /^[\p{L}\p{N}\p{M}]$/u;
 const TITLE_UNSPACED_SCRIPT =
@@ -123,11 +123,6 @@ function findTitleKeywordMatch(title, keywords) {
 
 function titleMatchesKeyword(title, keywords) {
   return findTitleKeywordMatch(title, keywords) !== null;
-}
-
-function titleKeywordListFits(listKey, list) {
-  const bytes = new TextEncoder().encode(listKey + JSON.stringify(list)).length;
-  return bytes <= TITLE_KEYWORD_LIST_MAX_BYTES;
 }
 
 const MARKED_WATCHED_ID_PATTERN = /^[A-Za-z0-9_-]{11}$/;
@@ -226,6 +221,5 @@ if (typeof module !== 'undefined' && module.exports) {
     titleKeywordListIncludes,
     findTitleKeywordMatch,
     titleMatchesKeyword,
-    titleKeywordListFits,
   };
 }

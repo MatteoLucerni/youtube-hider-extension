@@ -382,9 +382,6 @@
       }
     }
   },
-  "titleWhitelistFull": {
-    "message": "Title Whitelist가 가득 찼습니다: 새 단어를 추가하려면 단어를 삭제하세요"
-  },
   "titleBlacklistAlreadyListed": {
     "message": "\"$word$\"은(는) 이미 Blacklist에 있습니다",
     "placeholders": {
@@ -392,9 +389,6 @@
         "content": "$1"
       }
     }
-  },
-  "titleBlacklistFull": {
-    "message": "Title Blacklist가 가득 찼습니다: 새 단어를 추가하려면 단어를 삭제하세요"
   },
   "watchedPageTitle": {
     "message": "시청함으로 표시한 동영상 | YouTube Hider"

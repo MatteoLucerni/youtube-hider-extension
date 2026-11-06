@@ -507,10 +507,6 @@
       }
     }
   },
-  "titleWhitelistFull": {
-    "message": "Title Whitelist is full: remove a word to add a new one",
-    "description": "Hint under the Title Whitelist text box when the list reached its storage limit. Keep 'Title Whitelist' in English."
-  },
   "titleBlacklistAlreadyListed": {
     "message": "\"$word$\" is already blacklisted",
     "description": "Hint under the Title Blacklist text box when the typed word is already in the list.",
@@ -520,10 +516,6 @@
         "example": "reaction"
       }
     }
-  },
-  "titleBlacklistFull": {
-    "message": "Title Blacklist is full: remove a word to add a new one",
-    "description": "Hint under the Title Blacklist text box when the list reached its storage limit. Keep 'Title Blacklist' in English."
   },
   "watchedPageTitle": {
     "message": "Marked as Watched | YouTube Hider",

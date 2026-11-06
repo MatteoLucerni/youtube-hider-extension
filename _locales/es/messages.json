@@ -382,9 +382,6 @@
       }
     }
   },
-  "titleWhitelistFull": {
-    "message": "La Title Whitelist está llena: quita una palabra para agregar otra"
-  },
   "titleBlacklistAlreadyListed": {
     "message": "\"$word$\" ya está en la Blacklist",
     "placeholders": {
@@ -392,9 +389,6 @@
         "content": "$1"
       }
     }
-  },
-  "titleBlacklistFull": {
-    "message": "La Title Blacklist está llena: quita una palabra para agregar otra"
   },
   "watchedPageTitle": {
     "message": "Marcados como vistos | YouTube Hider"

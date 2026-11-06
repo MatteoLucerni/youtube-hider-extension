@@ -391,12 +391,12 @@ document.addEventListener('DOMContentLoaded', () => {
         renderBlacklistChips(blacklistData);
         refreshAddBlacklistButtonState();
 
+        titleWhitelistUI.setData(lists.titleWhitelist);
+        titleBlacklistUI.setData(lists.titleBlacklist);
+
         renderChannelSyncWarning(local[CHANNEL_LIST_SYNC_STATE_KEY]);
       },
     );
-
-    titleWhitelistUI.setData(prefs.titleWhitelist);
-    titleBlacklistUI.setData(prefs.titleBlacklist);
   });
 
   function saveSettings() {
@@ -1031,7 +1031,7 @@ document.addEventListener('DOMContentLoaded', () => {
     });
   }
 
-  function createTitleKeywordList({ prefix, listKey, enabledKey, alreadyListedKey, fullKey, chipClass }) {
+  function createTitleKeywordList({ prefix, listKey, enabledKey, alreadyListedKey, chipClass }) {
     const toggle = document.getElementById(prefix + '-enabled');
     const chipsContainer = document.getElementById(prefix + '-chips');
     const emptyHint = document.getElementById(prefix + '-empty');
@@ -1045,13 +1045,8 @@ document.addEventListener('DOMContentLoaded', () => {
       if (!input || !addBtn) return;
       const keyword = normalizeTitleKeyword(input.value);
       const alreadyListed = titleKeywordListIncludes(keyword, data);
-      const full = !!keyword && !alreadyListed && !titleKeywordListFits(listKey, [...data, keyword]);
-      addBtn.disabled = !keyword || alreadyListed || full;
-      if (hint) {
-        if (alreadyListed) hint.textContent = getText(alreadyListedKey, keyword);
-        else if (full) hint.textContent = getText(fullKey);
-        else hint.textContent = '';
-      }
+      addBtn.disabled = !keyword || alreadyListed;
+      if (hint) hint.textContent = alreadyListed ? getText(alreadyListedKey, keyword) : '';
     }
 
     function renderChips() {
@@ -1072,7 +1067,7 @@ document.addEventListener('DOMContentLoaded', () => {
         remove.setAttribute('aria-label', getText('chipRemoveLabel', keyword));
         remove.addEventListener('click', () => {
           setData(data.filter(k => k !== keyword));
-          chrome.storage.sync.set({ [listKey]: data });
+          storeChannelListUpdates({ [listKey]: data });
         });
         chip.appendChild(label);
         chip.appendChild(remove);
@@ -1105,7 +1100,6 @@ document.addEventListener('DOMContentLoaded', () => {
         e.preventDefault();
         const keyword = normalizeTitleKeyword(input.value);
         if (!keyword || titleKeywordListIncludes(keyword, data)) return;
-        if (!titleKeywordListFits(listKey, [...data, keyword])) return;
 
         input.value = '';
         setData([...data, keyword]);
@@ -1115,7 +1109,7 @@ document.addEventListener('DOMContentLoaded', () => {
           toggle.checked = true;
           updates[enabledKey] = true;
         }
-        chrome.storage.sync.set(updates);
+        storeChannelListUpdates(updates);
       });
     }
 
@@ -1127,7 +1121,6 @@ document.addEventListener('DOMContentLoaded', () => {
     listKey: 'titleWhitelist',
     enabledKey: 'titleWhitelistEnabled',
     alreadyListedKey: 'titleWhitelistAlreadyListed',
-    fullKey: 'titleWhitelistFull',
     chipClass: 'whitelist-chip',
   });
 
@@ -1136,7 +1129,6 @@ document.addEventListener('DOMContentLoaded', () => {
     listKey: 'titleBlacklist',
     enabledKey: 'titleBlacklistEnabled',
     alreadyListedKey: 'titleBlacklistAlreadyListed',
-    fullKey: 'titleBlacklistFull',
     chipClass: 'whitelist-chip blacklist-chip',
   });
 

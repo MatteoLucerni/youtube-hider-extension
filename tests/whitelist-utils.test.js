@@ -20,7 +20,6 @@ const {
   titleKeywordListIncludes,
   findTitleKeywordMatch,
   titleMatchesKeyword,
-  titleKeywordListFits,
 } = require('../content/whitelist-utils.js');
 
 test('titleMatchesKeyword: finds a whitelisted word anywhere in the title', () => {
@@ -59,13 +58,6 @@ test('titleMatchesKeyword: scripts without spaces match anywhere and count as wo
   assert.equal(titleMatchesKeyword('初心者向けチュートリアル 完全版', ['チュートリアル']), true);
   assert.equal(titleMatchesKeyword('รีวิวมือถือใหม่ล่าสุด', ['มือถือ']), true);
   assert.equal(titleMatchesKeyword('これはAIの話です', ['AI']), true);
-});
-
-test('titleKeywordListFits: accepts lists under the sync item quota and rejects larger ones', () => {
-  assert.equal(titleKeywordListFits('titleWhitelist', []), true);
-  assert.equal(titleKeywordListFits('titleBlacklist', Array.from({ length: 300 }, (_, i) => 'keyword ' + i)), true);
-  assert.equal(titleKeywordListFits('titleWhitelist', Array.from({ length: 100 }, () => 'x'.repeat(100))), false);
-  assert.equal(titleKeywordListFits('titleBlacklist', Array.from({ length: 30 }, () => 'チ'.repeat(100))), false);
 });
 
 test('findTitleKeywordMatch: returns the first matching keyword as it was typed', () => {
@@ -197,6 +189,18 @@ test('local storage split: markedWatched lives in local next to the channel list
   assert.deepEqual(Object.keys(sync), ['dimMode']);
   assert.deepEqual(Object.keys(pickStorageChanges({ markedWatched: {} }, 'local')), ['markedWatched']);
   assert.equal(pickStorageChanges({ markedWatched: {} }, 'sync'), null);
+});
+
+test('local storage split: the title lists live in local, their switches stay in sync', () => {
+  const { local, sync } = splitChannelListUpdates({
+    titleWhitelist: ['ai'],
+    titleBlacklist: ['reaction'],
+    titleWhitelistEnabled: true,
+  });
+  assert.deepEqual(Object.keys(local).sort(), ['titleBlacklist', 'titleWhitelist']);
+  assert.deepEqual(Object.keys(sync), ['titleWhitelistEnabled']);
+  assert.equal(pickStorageChanges({ titleBlacklist: {} }, 'sync'), null);
+  assert.deepEqual(Object.keys(pickStorageChanges({ titleBlacklist: {} }, 'local')), ['titleBlacklist']);
 });
 
 test('describeMarkedWatchedCount: warns before the list is full and says what happens at the limit', () => {
