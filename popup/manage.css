@@ -744,11 +744,45 @@ body.manage-page {
 
 .list-header-check input,
 .item-check {
-    width: 16px;
-    height: 16px;
+    appearance: none;
+    -webkit-appearance: none;
+    display: inline-grid;
+    place-content: center;
+    width: 18px;
+    height: 18px;
     margin: 0;
-    accent-color: var(--accent-blue);
+    flex: 0 0 auto;
+    background-color: var(--bg-primary);
+    background-position: center;
+    background-repeat: no-repeat;
+    background-size: 14px 14px;
+    border: 1.5px solid #6b6b6b;
+    border-radius: var(--radius-knob);
     cursor: pointer;
+    transition: background-color 0.15s var(--ease-standard), border-color 0.15s var(--ease-standard), box-shadow 0.15s var(--ease-standard);
+}
+
+.list-header-check input:hover,
+.item-row:hover .item-check {
+    border-color: #9a9a9a;
+}
+
+.list-header-check input:checked,
+.list-header-check input:indeterminate,
+.item-check:checked {
+    border-color: transparent;
+    background-color: var(--accent-blue);
+    background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 16 16'%3E%3Cpath d='M3.5 8.5l3 3 6-7' fill='none' stroke='%231a1a1a' stroke-width='2.2' stroke-linecap='round' stroke-linejoin='round'/%3E%3C/svg%3E"), linear-gradient(135deg, #8ab4f8 0%, #6ba3ff 100%);
+    background-size: 14px 14px, 100% 100%;
+}
+
+.list-header-check input:indeterminate {
+    background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 16 16'%3E%3Cpath d='M4 8h8' fill='none' stroke='%231a1a1a' stroke-width='2.2' stroke-linecap='round'/%3E%3C/svg%3E"), linear-gradient(135deg, #8ab4f8 0%, #6ba3ff 100%);
+}
+
+.list-header-check input:disabled {
+    opacity: 0.4;
+    cursor: default;
 }
 
 .list-header-count {
