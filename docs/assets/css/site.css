@@ -1467,6 +1467,18 @@ strong {
   background: var(--bg-deep);
 }
 
+.watched.lists {
+  background: var(--bg-raised);
+}
+
+.watched-layout.is-reversed {
+  grid-template-columns: minmax(0, 1.1fr) minmax(0, 0.9fr);
+}
+
+.watched-layout.is-reversed .watched-visual {
+  order: -1;
+}
+
 .watched-layout {
   display: grid;
   grid-template-columns: minmax(0, 0.9fr) minmax(0, 1.1fr);
@@ -2351,8 +2363,13 @@ strong {
     grid-template-columns: repeat(2, minmax(0, 1fr));
   }
 
-  .watched-layout {
+  .watched-layout,
+  .watched-layout.is-reversed {
     grid-template-columns: 1fr;
+  }
+
+  .watched-layout.is-reversed .watched-visual {
+    order: 0;
   }
 
   .watched-visual {

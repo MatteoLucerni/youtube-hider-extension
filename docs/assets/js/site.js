@@ -421,8 +421,10 @@
   }
 
   function initWatched() {
-    const layout = document.querySelector("[data-watched]");
-    if (!layout) return;
+    document.querySelectorAll("[data-watched]").forEach(initWatchedLayout);
+  }
+
+  function initWatchedLayout(layout) {
     const steps = [...layout.querySelectorAll("[data-watched-step]")];
     const wipe = layout.querySelector("[data-wipe]");
     if (wipe && motion) {
