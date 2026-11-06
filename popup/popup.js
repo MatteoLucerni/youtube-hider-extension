@@ -384,19 +384,19 @@ document.addEventListener('DOMContentLoaded', () => {
         const lists = Object.assign({}, prefs, local);
 
         whitelistData = Array.isArray(lists.channelWhitelist) ? lists.channelWhitelist : [];
-        renderWhitelistChips(whitelistData);
+        renderListCount('channel-whitelist', whitelistData);
         refreshAddButtonState();
 
         blacklistData = Array.isArray(lists.channelBlacklist) ? lists.channelBlacklist : [];
-        renderBlacklistChips(blacklistData);
+        renderListCount('channel-blacklist', blacklistData);
         refreshAddBlacklistButtonState();
+
+        titleWhitelistUI.setData(lists.titleWhitelist);
+        titleBlacklistUI.setData(lists.titleBlacklist);
 
         renderChannelSyncWarning(local[CHANNEL_LIST_SYNC_STATE_KEY]);
       },
     );
-
-    titleWhitelistUI.setData(prefs.titleWhitelist);
-    titleBlacklistUI.setData(prefs.titleBlacklist);
   });
 
   function saveSettings() {
@@ -772,8 +772,6 @@ document.addEventListener('DOMContentLoaded', () => {
       });
     });
 
-  const chipsContainer = document.getElementById('channel-whitelist-chips');
-  const emptyHint = document.getElementById('channel-whitelist-empty');
   const addCurrentBtn = document.getElementById('add-current-channel-btn');
   const whitelistHint = document.getElementById('channel-whitelist-hint');
 
@@ -785,7 +783,32 @@ document.addEventListener('DOMContentLoaded', () => {
 
   const markedWatchedCount = document.getElementById('marked-watched-count');
   const markedWatchedSyncWarning = document.getElementById('marked-watched-sync-warning');
-  const markedWatchedManageBtn = document.getElementById('marked-watched-manage-btn');
+  const LIST_COUNT_KEYS = {
+    'channel-whitelist': ['manageCountChannels', 'channelWhitelistEmpty'],
+    'channel-blacklist': ['manageCountChannels', 'channelBlacklistEmpty'],
+    'title-whitelist': ['manageCountWords', 'titleWhitelistEmpty'],
+    'title-blacklist': ['manageCountWords', 'titleBlacklistEmpty'],
+  };
+
+  function renderListCount(listId, list) {
+    const el = document.getElementById(listId + '-count');
+    const keys = LIST_COUNT_KEYS[listId];
+    if (!el || !keys) return;
+    const count = Array.isArray(list) ? list.length : 0;
+    el.textContent = count ? getPluralText(keys[0], count, formatLocaleNumber(count)) : getText(keys[1]);
+    el.classList.toggle('is-empty', count === 0);
+  }
+
+  document.querySelectorAll('[data-manage-list]').forEach(button => {
+    if (button.dataset.manageTitle) {
+      button.setAttribute('aria-label', getText('manageListLabel', getText(button.dataset.manageTitle)));
+    }
+    button.addEventListener('click', () => {
+      chrome.runtime.sendMessage({ action: 'openManager', list: button.dataset.manageList }, () => {
+        void chrome.runtime.lastError;
+      });
+    });
+  });
 
   function renderMarkedWatchedCount(list) {
     if (!markedWatchedCount) return;
@@ -799,14 +822,6 @@ document.addEventListener('DOMContentLoaded', () => {
     markedWatchedSyncWarning.hidden = !(syncState && syncState.status === 'paused');
   }
 
-  if (markedWatchedManageBtn) {
-    markedWatchedManageBtn.addEventListener('click', () => {
-      chrome.runtime.sendMessage({ action: 'openWatchedManager' }, () => {
-        void chrome.runtime.lastError;
-      });
-    });
-  }
-
   function storeChannelListUpdates(updates) {
     const { local, sync } = splitChannelListUpdates(updates);
     if (Object.keys(local).length) chrome.storage.local.set(local);
@@ -818,10 +833,6 @@ document.addEventListener('DOMContentLoaded', () => {
     document.querySelectorAll('[data-channel-sync-warning]').forEach(el => {
       el.hidden = !paused;
     });
-  }
-
-  function saveWhitelist(list, extraUpdates) {
-    storeChannelListUpdates(Object.assign({ channelWhitelist: list }, extraUpdates));
   }
 
   function channelDisplayName(channel) {
@@ -845,36 +856,6 @@ document.addEventListener('DOMContentLoaded', () => {
     if (whitelistHint) whitelistHint.textContent = '';
   }
 
-  function renderWhitelistChips(list) {
-    if (!chipsContainer) return;
-    chipsContainer.querySelectorAll('.whitelist-chip').forEach(c => c.remove());
-    if (emptyHint) emptyHint.style.display = list.length === 0 ? '' : 'none';
-    list.forEach(channel => {
-      const chip = document.createElement('span');
-      chip.className = 'whitelist-chip';
-      const label = document.createElement('span');
-      label.className = 'whitelist-chip-label';
-      label.textContent = channel;
-      const remove = document.createElement('button');
-      remove.className = 'whitelist-chip-remove';
-      remove.type = 'button';
-      remove.textContent = '×';
-      remove.setAttribute('aria-label', getText('chipRemoveLabel', channel));
-      remove.addEventListener('click', () => {
-        const current = Array.isArray(whitelistData) ? [...whitelistData] : [];
-        const idx = current.indexOf(channel);
-        if (idx !== -1) current.splice(idx, 1);
-        whitelistData = current;
-        renderWhitelistChips(current);
-        saveWhitelist(current);
-        refreshAddButtonState();
-      });
-      chip.appendChild(label);
-      chip.appendChild(remove);
-      chipsContainer.appendChild(chip);
-    });
-  }
-
   chrome.tabs.query({ active: true, currentWindow: true }, tabs => {
     const tab = tabs && tabs[0];
     if (!tab || !tab.id) {
@@ -893,16 +874,10 @@ document.addEventListener('DOMContentLoaded', () => {
 
   const BLACKLIST_KEYS = { listKey: 'channelBlacklist', enabledKey: 'channelBlacklistEnabled' };
 
-  const blacklistChipsContainer = document.getElementById('channel-blacklist-chips');
-  const blacklistEmptyHint = document.getElementById('channel-blacklist-empty');
   const addCurrentBlacklistBtn = document.getElementById('add-current-channel-blacklist-btn');
   const blacklistHint = document.getElementById('channel-blacklist-hint');
 
   let blacklistData = [];
-
-  function saveBlacklist(list, extraUpdates) {
-    storeChannelListUpdates(Object.assign({ channelBlacklist: list }, extraUpdates));
-  }
 
   function refreshAddBlacklistButtonState() {
     if (!addCurrentBlacklistBtn) return;
@@ -921,36 +896,6 @@ document.addEventListener('DOMContentLoaded', () => {
     if (blacklistHint) blacklistHint.textContent = '';
   }
 
-  function renderBlacklistChips(list) {
-    if (!blacklistChipsContainer) return;
-    blacklistChipsContainer.querySelectorAll('.whitelist-chip').forEach(c => c.remove());
-    if (blacklistEmptyHint) blacklistEmptyHint.style.display = list.length === 0 ? '' : 'none';
-    list.forEach(channel => {
-      const chip = document.createElement('span');
-      chip.className = 'whitelist-chip blacklist-chip';
-      const label = document.createElement('span');
-      label.className = 'whitelist-chip-label';
-      label.textContent = channel;
-      const remove = document.createElement('button');
-      remove.className = 'whitelist-chip-remove';
-      remove.type = 'button';
-      remove.textContent = '×';
-      remove.setAttribute('aria-label', getText('chipRemoveLabel', channel));
-      remove.addEventListener('click', () => {
-        const current = Array.isArray(blacklistData) ? [...blacklistData] : [];
-        const idx = current.indexOf(channel);
-        if (idx !== -1) current.splice(idx, 1);
-        blacklistData = current;
-        renderBlacklistChips(current);
-        saveBlacklist(current);
-        refreshAddBlacklistButtonState();
-      });
-      chip.appendChild(label);
-      chip.appendChild(remove);
-      blacklistChipsContainer.appendChild(chip);
-    });
-  }
-
   if (addCurrentBtn) {
     addCurrentBtn.addEventListener('click', () => {
       if (!currentTabChannel) return;
@@ -964,7 +909,7 @@ document.addEventListener('DOMContentLoaded', () => {
       if (!result) return;
 
       whitelistData = result.list;
-      renderWhitelistChips(whitelistData);
+      renderListCount('channel-whitelist', whitelistData);
       if (result.updates.channelWhitelistEnabled) channelWhitelistToggle.checked = true;
       refreshAddButtonState();
 
@@ -982,7 +927,7 @@ document.addEventListener('DOMContentLoaded', () => {
       );
       if (unblacklist && unblacklist.updates.channelBlacklist) {
         blacklistData = unblacklist.list;
-        renderBlacklistChips(blacklistData);
+        renderListCount('channel-blacklist', blacklistData);
         refreshAddBlacklistButtonState();
         updates.channelBlacklist = blacklistData;
       }
@@ -1005,7 +950,7 @@ document.addEventListener('DOMContentLoaded', () => {
       if (!result) return;
 
       blacklistData = result.list;
-      renderBlacklistChips(blacklistData);
+      renderListCount('channel-blacklist', blacklistData);
       if (result.updates.channelBlacklistEnabled) channelBlacklistToggle.checked = true;
       refreshAddBlacklistButtonState();
 
@@ -1022,7 +967,7 @@ document.addEventListener('DOMContentLoaded', () => {
       );
       if (unwhitelist && unwhitelist.updates.channelWhitelist) {
         whitelistData = unwhitelist.list;
-        renderWhitelistChips(whitelistData);
+        renderListCount('channel-whitelist', whitelistData);
         refreshAddButtonState();
         updates.channelWhitelist = whitelistData;
       }
@@ -1031,10 +976,8 @@ document.addEventListener('DOMContentLoaded', () => {
     });
   }
 
-  function createTitleKeywordList({ prefix, listKey, enabledKey, alreadyListedKey, fullKey, chipClass }) {
+  function createTitleKeywordList({ prefix, listKey, enabledKey, alreadyListedKey, titleKey }) {
     const toggle = document.getElementById(prefix + '-enabled');
-    const chipsContainer = document.getElementById(prefix + '-chips');
-    const emptyHint = document.getElementById(prefix + '-empty');
     const form = document.getElementById(prefix + '-form');
     const input = document.getElementById(prefix + '-input');
     const addBtn = document.getElementById(prefix + '-add-btn');
@@ -1045,44 +988,13 @@ document.addEventListener('DOMContentLoaded', () => {
       if (!input || !addBtn) return;
       const keyword = normalizeTitleKeyword(input.value);
       const alreadyListed = titleKeywordListIncludes(keyword, data);
-      const full = !!keyword && !alreadyListed && !titleKeywordListFits(listKey, [...data, keyword]);
-      addBtn.disabled = !keyword || alreadyListed || full;
-      if (hint) {
-        if (alreadyListed) hint.textContent = getText(alreadyListedKey, keyword);
-        else if (full) hint.textContent = getText(fullKey);
-        else hint.textContent = '';
-      }
-    }
-
-    function renderChips() {
-      if (!chipsContainer) return;
-      chipsContainer.querySelectorAll('.whitelist-chip').forEach(c => c.remove());
-      if (emptyHint) emptyHint.style.display = data.length === 0 ? '' : 'none';
-      data.forEach(keyword => {
-        const chip = document.createElement('span');
-        chip.className = chipClass;
-        const label = document.createElement('span');
-        label.className = 'whitelist-chip-label';
-        label.textContent = keyword;
-        label.title = keyword;
-        const remove = document.createElement('button');
-        remove.className = 'whitelist-chip-remove';
-        remove.type = 'button';
-        remove.textContent = '×';
-        remove.setAttribute('aria-label', getText('chipRemoveLabel', keyword));
-        remove.addEventListener('click', () => {
-          setData(data.filter(k => k !== keyword));
-          chrome.storage.sync.set({ [listKey]: data });
-        });
-        chip.appendChild(label);
-        chip.appendChild(remove);
-        chipsContainer.appendChild(chip);
-      });
+      addBtn.disabled = !keyword || alreadyListed;
+      if (hint) hint.textContent = alreadyListed ? getText(alreadyListedKey, keyword) : '';
     }
 
     function setData(list) {
       data = Array.isArray(list) ? list : [];
-      renderChips();
+      renderListCount(prefix, data);
       refreshAddState();
     }
 
@@ -1105,17 +1017,17 @@ document.addEventListener('DOMContentLoaded', () => {
         e.preventDefault();
         const keyword = normalizeTitleKeyword(input.value);
         if (!keyword || titleKeywordListIncludes(keyword, data)) return;
-        if (!titleKeywordListFits(listKey, [...data, keyword])) return;
 
         input.value = '';
         setData([...data, keyword]);
+        if (hint) hint.textContent = getPluralText('manageAdded', 1, [formatLocaleNumber(1), getText(titleKey)]);
 
         const updates = { [listKey]: data };
         if (toggle && !toggle.checked) {
           toggle.checked = true;
           updates[enabledKey] = true;
         }
-        chrome.storage.sync.set(updates);
+        storeChannelListUpdates(updates);
       });
     }
 
@@ -1127,8 +1039,7 @@ document.addEventListener('DOMContentLoaded', () => {
     listKey: 'titleWhitelist',
     enabledKey: 'titleWhitelistEnabled',
     alreadyListedKey: 'titleWhitelistAlreadyListed',
-    fullKey: 'titleWhitelistFull',
-    chipClass: 'whitelist-chip',
+    titleKey: 'titleWhitelistTitle',
   });
 
   const titleBlacklistUI = createTitleKeywordList({
@@ -1136,8 +1047,7 @@ document.addEventListener('DOMContentLoaded', () => {
     listKey: 'titleBlacklist',
     enabledKey: 'titleBlacklistEnabled',
     alreadyListedKey: 'titleBlacklistAlreadyListed',
-    fullKey: 'titleBlacklistFull',
-    chipClass: 'whitelist-chip blacklist-chip',
+    titleKey: 'titleBlacklistTitle',
   });
 
   chrome.storage.onChanged.addListener((areaChanges, area) => {
@@ -1168,7 +1078,7 @@ document.addEventListener('DOMContentLoaded', () => {
       whitelistData = Array.isArray(changes.channelWhitelist.newValue)
         ? changes.channelWhitelist.newValue
         : [];
-      renderWhitelistChips(whitelistData);
+      renderListCount('channel-whitelist', whitelistData);
     }
     if (changes.channelWhitelistEnabled) {
       channelWhitelistToggle.checked = changes.channelWhitelistEnabled.newValue ?? true;
@@ -1177,7 +1087,7 @@ document.addEventListener('DOMContentLoaded', () => {
       blacklistData = Array.isArray(changes.channelBlacklist.newValue)
         ? changes.channelBlacklist.newValue
         : [];
-      renderBlacklistChips(blacklistData);
+      renderListCount('channel-blacklist', blacklistData);
     }
     if (changes.channelBlacklistEnabled) {
       channelBlacklistToggle.checked = changes.channelBlacklistEnabled.newValue ?? true;

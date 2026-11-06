@@ -89,6 +89,14 @@
   "markedWatchedManage": {
     "message": "관리"
   },
+  "manageListLabel": {
+    "message": "$list$ 관리",
+    "placeholders": {
+      "list": {
+        "content": "$1"
+      }
+    }
+  },
   "markedWatchedSyncPaused": {
     "message": "동기화 일시중지됨: 채널 목록이 기기 간에 공유되는 공간을 사용하고 있습니다. 표시한 동영상은 이 브라우저에 저장되어 있으며, 다시 공간이 생기면 동기화가 재개됩니다"
   },
@@ -216,7 +224,7 @@
     "message": "Channel Whitelist"
   },
   "channelWhitelistTooltip": {
-    "message": "Whitelist에 있는 채널은 모든 활성 필터를 건너뜁니다. 채널 페이지나 동영상에서 아래 버튼 또는 헤더 버튼으로 채널을 추가하세요. 칩을 삭제하면 해당 채널에 모든 필터가 즉시 다시 적용됩니다. Shorts는 항상 필터링됩니다"
+    "message": "Whitelist에 있는 채널은 모든 활성 필터를 건너뜁니다. 채널 페이지나 동영상에서 아래 버튼 또는 헤더 버튼으로 채널을 추가하세요. 전체 목록은 별도 페이지에서 열리며, 채널을 검색, 삭제, 이동할 수 있습니다. Shorts는 항상 필터링됩니다"
   },
   "channelWhitelistDescription": {
     "message": "이 목록의 채널은 필터링되지 않습니다. Shorts는 항상 필터링됩니다"
@@ -228,13 +236,13 @@
     "message": "+ 현재 채널 추가"
   },
   "channelListsSyncPaused": {
-    "message": "동기화 일시중지됨: 기기 간에 동기화하기에는 채널이 너무 많습니다. 목록은 이 브라우저에 저장되어 있으며, 다시 공간이 생기면 동기화가 재개됩니다"
+    "message": "동기화 일시중지됨: 목록이 너무 커서 다른 기기와 동기화할 수 없습니다. 잃는 것은 없습니다. 이 브라우저에서는 모두 계속 작동하며, 목록이 다시 공간에 맞으면 동기화가 재개됩니다"
   },
   "channelBlacklistTitle": {
     "message": "Channel Blacklist"
   },
   "channelBlacklistTooltip": {
-    "message": "Blacklist에 있는 채널은 다른 필터와 관계없이 항상 숨겨집니다. 채널 페이지나 동영상에서 아래 버튼 또는 헤더 버튼으로 채널을 추가하세요. 칩을 삭제하면 해당 채널의 동영상이 즉시 다시 표시됩니다. Shorts는 항상 필터링됩니다"
+    "message": "Blacklist에 있는 채널은 다른 필터와 관계없이 항상 숨겨집니다. 채널 페이지나 동영상에서 아래 버튼 또는 헤더 버튼으로 채널을 추가하세요. 전체 목록은 별도 페이지에서 열리며, 채널을 검색, 삭제, 이동할 수 있습니다. Shorts는 항상 필터링됩니다"
   },
   "channelBlacklistDescription": {
     "message": "이 목록의 채널은 어디서나 항상 숨겨집니다. Shorts는 항상 필터링됩니다"
@@ -366,14 +374,6 @@
       }
     }
   },
-  "chipRemoveLabel": {
-    "message": "$item$ 삭제",
-    "placeholders": {
-      "item": {
-        "content": "$1"
-      }
-    }
-  },
   "titleWhitelistAlreadyListed": {
     "message": "\"$word$\"은(는) 이미 Whitelist에 있습니다",
     "placeholders": {
@@ -382,9 +382,6 @@
       }
     }
   },
-  "titleWhitelistFull": {
-    "message": "Title Whitelist가 가득 찼습니다: 새 단어를 추가하려면 단어를 삭제하세요"
-  },
   "titleBlacklistAlreadyListed": {
     "message": "\"$word$\"은(는) 이미 Blacklist에 있습니다",
     "placeholders": {
@@ -392,48 +389,6 @@
         "content": "$1"
       }
     }
-  },
-  "titleBlacklistFull": {
-    "message": "Title Blacklist가 가득 찼습니다: 새 단어를 추가하려면 단어를 삭제하세요"
-  },
-  "watchedPageTitle": {
-    "message": "시청함으로 표시한 동영상 | YouTube Hider"
-  },
-  "watchedDescription": {
-    "message": "YouTube에서 시청함 버튼으로 표시한 동영상입니다. 시청한 동영상 숨기기 설정에 따라 시청한 동영상처럼 숨겨집니다. 다시 보이게 하려면 목록에서 삭제하세요. 최대 3,000개까지 보관되며, 이를 넘으면 가장 오래된 표시가 삭제됩니다."
-  },
-  "watchedSyncDescription": {
-    "message": "표시는 같은 Chrome 프로필로 로그인한 모든 컴퓨터에 자동으로 동기화되므로 기기 간에 내보내고 가져올 필요가 없습니다. 백업하거나 다른 프로필로 옮기려면 내보내기를 사용하세요."
-  },
-  "watchedExport": {
-    "message": "내보내기"
-  },
-  "watchedImport": {
-    "message": "가져오기"
-  },
-  "watchedClearAll": {
-    "message": "모두 삭제"
-  },
-  "watchedUndo": {
-    "message": "실행취소"
-  },
-  "watchedSelectAllShown": {
-    "message": "표시된 항목 모두 선택"
-  },
-  "watchedRemoveSelected": {
-    "message": "선택 항목 삭제"
-  },
-  "watchedClearSearch": {
-    "message": "검색어 지우기"
-  },
-  "watchedLoadMore": {
-    "message": "더보기"
-  },
-  "watchedSearchPlaceholder": {
-    "message": "제목, 채널 또는 동영상 ID로 검색"
-  },
-  "watchedSearchLabel": {
-    "message": "표시한 동영상 검색"
   },
   "markedCount_other": {
     "message": "동영상 $count$/$limit$개",
@@ -468,72 +423,263 @@
       }
     }
   },
-  "watchedSelectItem": {
-    "message": "$title$ 선택",
+  "managePageTitle": {
+    "message": "목록 | YouTube Hider"
+  },
+  "managePageTitleList": {
+    "message": "$list$ | YouTube Hider",
     "placeholders": {
-      "title": {
+      "list": {
         "content": "$1"
       }
     }
   },
-  "watchedTitleUnavailable": {
-    "message": "이 기기에서는 제목을 확인할 수 없습니다"
+  "manageHeading": {
+    "message": "목록"
   },
-  "watchedMarkedOn": {
-    "message": "$date$에 표시함",
-    "placeholders": {
-      "date": {
-        "content": "$1"
-      }
-    }
+  "manageExport": {
+    "message": "내보내기"
   },
-  "watchedRemove": {
-    "message": "삭제"
+  "manageImport": {
+    "message": "가져오기"
   },
-  "watchedRemoveItem": {
-    "message": "$title$ 삭제",
-    "placeholders": {
-      "title": {
-        "content": "$1"
-      }
-    }
+  "manageSyncHeadlineOk": {
+    "message": "모든 기기에서 동기화됨"
   },
-  "watchedRemoveSelectedCount_other": {
-    "message": "선택 항목 삭제 ($count$)",
-    "placeholders": {
-      "count": {
-        "content": "$1"
-      }
-    }
+  "manageSyncHeadlineSyncing": {
+    "message": "최근 변경 사항을 동기화하는 중"
   },
-  "watchedLoadMoreCount_other": {
-    "message": "더보기 ($count$개 남음)",
-    "placeholders": {
-      "count": {
-        "content": "$1"
-      }
-    }
+  "manageSyncHeadlineAlmostFull": {
+    "message": "동기화 공간이 거의 가득 참"
   },
-  "watchedEmpty": {
-    "message": "아직 표시한 동영상이 없습니다. YouTube에서 동영상에 마우스를 올리고 시청함을 클릭하면 여기에 추가됩니다."
+  "manageSyncHeadlinePaused": {
+    "message": "동기화 일시중지됨"
   },
-  "watchedNoMatch": {
-    "message": "\"$query$\"와(과) 일치하는 표시한 동영상이 없습니다.",
-    "placeholders": {
-      "query": {
-        "content": "$1"
-      }
-    }
+  "manageSyncHeadlineMarkedPaused": {
+    "message": "표시한 동영상이 동기화되지 않음"
   },
-  "watchedRestored_other": {
-    "message": "동영상 $count$개를 복원했습니다.",
+  "manageSyncHeadlineRetrying": {
+    "message": "곧 동기화를 다시 시도합니다"
+  },
+  "manageSyncHeadlineOutdated": {
+    "message": "계속 동기화하려면 업데이트가 필요합니다"
+  },
+  "manageSyncRoomLeft_other": {
+    "message": "약 $count$개를 더 추가할 수 있습니다",
     "placeholders": {
       "count": {
         "content": "$1"
       }
     }
   },
-  "watchedRemoved_other": {
+  "manageSyncMessageListsPaused": {
+    "message": "목록이 Chrome이 확장 프로그램에 제공하는 동기화 공간을 넘어서 목록 동기화가 일시중지되었습니다. 모든 항목은 이 브라우저에 저장되어 정상적으로 작동하며, 다른 기기에는 공간에 맞았던 마지막 버전이 유지됩니다. 목록이 다시 공간에 맞으면 동기화가 자동으로 재개됩니다."
+  },
+  "manageSyncMessageMarkedPaused": {
+    "message": "표시한 동영상은 지금 동기화되지 않습니다. 공유 공간에서는 목록이 우선합니다. 동영상은 이 브라우저에 저장되어 정상적으로 작동하며, 공간이 생기면 동기화가 재개됩니다."
+  },
+  "manageSyncMessageOutdated": {
+    "message": "다른 기기에서 더 최신 버전의 YouTube Hider를 사용하고 있습니다. 계속 동기화하려면 이 브라우저의 확장 프로그램을 업데이트하세요."
+  },
+  "manageSyncMessageNearFull": {
+    "message": "목록이 공간을 넘으면 동기화가 일시중지되지만 잃는 것은 없습니다. 이 브라우저에서는 모두 계속 작동합니다."
+  },
+  "manageSyncMeterText": {
+    "message": "동기화 공간의 $percent$% 사용 중",
+    "placeholders": {
+      "percent": {
+        "content": "$1"
+      }
+    }
+  },
+  "manageUndo": {
+    "message": "실행취소"
+  },
+  "manageDismiss": {
+    "message": "닫기"
+  },
+  "manageExportBackup": {
+    "message": "백업 내보내기"
+  },
+  "manageCancel": {
+    "message": "취소"
+  },
+  "manageImportTitle": {
+    "message": "목록 가져오기"
+  },
+  "manageImportIntro": {
+    "message": "항목은 추가되기만 합니다. 목록에 이미 있는 항목은 삭제되거나 변경되지 않습니다."
+  },
+  "manageImportNothing": {
+    "message": "가져올 새 항목이 없습니다. 이 파일의 내용은 모두 목록에 이미 있습니다."
+  },
+  "manageImportError": {
+    "message": "이 파일을 YouTube Hider 내보내기 파일로 읽을 수 없습니다."
+  },
+  "manageImportListFull": {
+    "message": "목록이 가득 차서 가장 오래된 표시가 삭제되었습니다."
+  },
+  "manageImportConfirm_other": {
+    "message": "$count$개 가져오기",
+    "placeholders": {
+      "count": {
+        "content": "$1"
+      }
+    }
+  },
+  "manageImportSkippedOther_other": {
+    "message": "$count$개 건너뜀: 이미 $list$에 있음",
+    "placeholders": {
+      "count": {
+        "content": "$1"
+      },
+      "list": {
+        "content": "$2"
+      }
+    }
+  },
+  "manageImported_other": {
+    "message": "새 항목 $count$개를 가져왔습니다.",
+    "placeholders": {
+      "count": {
+        "content": "$1"
+      }
+    }
+  },
+  "manageExported_other": {
+    "message": "$count$개를 내보냈습니다.",
+    "placeholders": {
+      "count": {
+        "content": "$1"
+      }
+    }
+  },
+  "manageMarkedDescription": {
+    "message": "YouTube에서 시청함 버튼으로 표시한 동영상입니다. 시청한 동영상 숨기기 설정에 따라 시청한 동영상처럼 숨겨집니다. 다시 보이게 하려면 목록에서 삭제하세요. 최대 3,000개까지 보관되며, 이를 넘으면 가장 오래된 표시가 삭제됩니다."
+  },
+  "manageMarkedNote": {
+    "message": "$setting$ 설정을 따릅니다. 표시한 동영상은 이 설정이 켜진 곳에서만 숨겨집니다.",
+    "placeholders": {
+      "setting": {
+        "content": "$1"
+      }
+    }
+  },
+  "manageSwitchOn": {
+    "message": "켜짐"
+  },
+  "manageSwitchOff": {
+    "message": "꺼짐"
+  },
+  "manageAddChannelsLabel": {
+    "message": "채널 추가"
+  },
+  "manageAddWordsLabel": {
+    "message": "단어 또는 구문 추가"
+  },
+  "manageAddChannelsPlaceholder": {
+    "message": "@핸들 또는 채널 링크. 한 줄에 하나씩 여러 개를 한 번에 붙여넣을 수 있습니다"
+  },
+  "manageAddWordsPlaceholder": {
+    "message": "단어 또는 구문. 한 줄에 하나씩 여러 개를 한 번에 붙여넣을 수 있습니다"
+  },
+  "manageAddChannelsHint": {
+    "message": "Enter로 추가하고 Shift+Enter로 줄을 바꿉니다. 예: @veritasium 또는 youtube.com/@veritasium"
+  },
+  "manageAddWordsHint": {
+    "message": "Enter로 추가하고 Shift+Enter로 줄을 바꿉니다. 단어는 제목 속 단어가 시작하는 위치에서 일치하며 대소문자는 구분하지 않습니다"
+  },
+  "manageAddButton": {
+    "message": "추가"
+  },
+  "manageAddButtonCount_other": {
+    "message": "$count$개 추가",
+    "placeholders": {
+      "count": {
+        "content": "$1"
+      }
+    }
+  },
+  "manageAddNew_other": {
+    "message": "새 항목 $count$개",
+    "placeholders": {
+      "count": {
+        "content": "$1"
+      }
+    }
+  },
+  "manageAddExisting_other": {
+    "message": "$count$개는 이미 목록에 있음",
+    "placeholders": {
+      "count": {
+        "content": "$1"
+      }
+    }
+  },
+  "manageAddMoving_other": {
+    "message": "$count$개는 $list$에서 이동됩니다",
+    "placeholders": {
+      "count": {
+        "content": "$1"
+      },
+      "list": {
+        "content": "$2"
+      }
+    }
+  },
+  "manageAddInvalid_other": {
+    "message": "$count$개를 인식하지 못함: $items$",
+    "placeholders": {
+      "count": {
+        "content": "$1"
+      },
+      "items": {
+        "content": "$2"
+      }
+    }
+  },
+  "manageAdded_other": {
+    "message": "$list$에 $count$개를 추가했습니다.",
+    "placeholders": {
+      "count": {
+        "content": "$1"
+      },
+      "list": {
+        "content": "$2"
+      }
+    }
+  },
+  "manageRemoved_other": {
+    "message": "$list$에서 $count$개를 삭제했습니다.",
+    "placeholders": {
+      "count": {
+        "content": "$1"
+      },
+      "list": {
+        "content": "$2"
+      }
+    }
+  },
+  "manageMoved_other": {
+    "message": "$count$개를 $list$(으)로 이동했습니다.",
+    "placeholders": {
+      "count": {
+        "content": "$1"
+      },
+      "list": {
+        "content": "$2"
+      }
+    }
+  },
+  "manageRestored_other": {
+    "message": "$count$개를 복원했습니다.",
+    "placeholders": {
+      "count": {
+        "content": "$1"
+      }
+    }
+  },
+  "manageMarkedRemoved_other": {
     "message": "동영상 $count$개를 삭제했습니다. YouTube에 다시 표시됩니다.",
     "placeholders": {
       "count": {
@@ -541,35 +687,193 @@
       }
     }
   },
-  "watchedExported_other": {
-    "message": "동영상 $count$개를 내보냈습니다.",
+  "manageSortLabel": {
+    "message": "정렬"
+  },
+  "manageSortRecent": {
+    "message": "최근 추가순"
+  },
+  "manageSortAz": {
+    "message": "이름순"
+  },
+  "manageSearchChannels": {
+    "message": "채널 검색"
+  },
+  "manageSearchWords": {
+    "message": "단어 검색"
+  },
+  "manageSearchMarked": {
+    "message": "제목, 채널 또는 동영상 ID로 검색"
+  },
+  "manageCountChannels_other": {
+    "message": "채널 $count$개",
     "placeholders": {
       "count": {
         "content": "$1"
       }
     }
   },
-  "watchedImportEmpty": {
-    "message": "이 파일에서 유효한 동영상을 찾지 못했습니다."
-  },
-  "watchedImported_other": {
-    "message": "새 동영상 $count$개를 가져왔습니다.",
+  "manageCountWords_other": {
+    "message": "단어 $count$개",
     "placeholders": {
       "count": {
         "content": "$1"
       }
     }
   },
-  "watchedImportListFull": {
-    "message": "목록이 가득 차서 가장 오래된 표시가 삭제되었습니다."
-  },
-  "watchedImportError": {
-    "message": "이 파일을 YouTube Hider 내보내기 파일로 읽을 수 없습니다."
-  },
-  "watchedClearConfirm_other": {
-    "message": "표시한 동영상 $count$개를 모두 삭제할까요? YouTube에 다시 표시됩니다.",
+  "manageCountVideos_other": {
+    "message": "동영상 $count$개",
     "placeholders": {
       "count": {
+        "content": "$1"
+      }
+    }
+  },
+  "manageCountMatches_other": {
+    "message": "$count$개 일치",
+    "placeholders": {
+      "count": {
+        "content": "$1"
+      }
+    }
+  },
+  "manageSelectedCount_other": {
+    "message": "$count$개 선택됨",
+    "placeholders": {
+      "count": {
+        "content": "$1"
+      }
+    }
+  },
+  "manageSelectAllMatching_other": {
+    "message": "$count$개 모두 선택",
+    "placeholders": {
+      "count": {
+        "content": "$1"
+      }
+    }
+  },
+  "manageSelectShown": {
+    "message": "표시된 항목 모두 선택"
+  },
+  "manageClearSelection": {
+    "message": "선택 해제"
+  },
+  "manageSelectItem": {
+    "message": "$title$ 선택",
+    "placeholders": {
+      "title": {
+        "content": "$1"
+      }
+    }
+  },
+  "manageRemove": {
+    "message": "삭제"
+  },
+  "manageRemoveItem": {
+    "message": "$title$ 삭제",
+    "placeholders": {
+      "title": {
+        "content": "$1"
+      }
+    }
+  },
+  "manageRemoveSelected_other": {
+    "message": "선택 항목 삭제 ($count$)",
+    "placeholders": {
+      "count": {
+        "content": "$1"
+      }
+    }
+  },
+  "manageMoveSelected": {
+    "message": "$list$(으)로 이동",
+    "placeholders": {
+      "list": {
+        "content": "$1"
+      }
+    }
+  },
+  "manageClearSearch": {
+    "message": "검색어 지우기"
+  },
+  "manageLoadMore_other": {
+    "message": "더보기 ($count$개 남음)",
+    "placeholders": {
+      "count": {
+        "content": "$1"
+      }
+    }
+  },
+  "manageClearAll": {
+    "message": "모두 삭제"
+  },
+  "manageClearTitle": {
+    "message": "$list$을(를) 비울까요?",
+    "placeholders": {
+      "list": {
+        "content": "$1"
+      }
+    }
+  },
+  "manageClearText_other": {
+    "message": "$list$의 항목 $count$개를 모두 삭제합니다. 바로 실행 취소하거나 먼저 백업을 내보낼 수 있습니다.",
+    "placeholders": {
+      "count": {
+        "content": "$1"
+      },
+      "list": {
+        "content": "$2"
+      }
+    }
+  },
+  "manageClearConfirm_other": {
+    "message": "$count$개 모두 삭제",
+    "placeholders": {
+      "count": {
+        "content": "$1"
+      }
+    }
+  },
+  "manageEmptyTitle": {
+    "message": "아직 항목이 없습니다"
+  },
+  "manageEmptyMarked": {
+    "message": "아직 표시한 동영상이 없습니다. YouTube에서 동영상에 마우스를 올리고 시청함을 클릭하면 여기에 추가됩니다."
+  },
+  "manageEmptyChannelWhitelist": {
+    "message": "채널 또는 동영상 페이지에서 구독 옆의 Whitelist 버튼을 사용하거나, 위 입력란에 채널을 붙여넣으세요."
+  },
+  "manageEmptyChannelBlacklist": {
+    "message": "YouTube에서 동영상에 마우스를 올리고 Blacklist를 클릭하거나, 채널 페이지에서 구독 옆의 Blacklist 버튼을 사용하거나, 위 입력란에 채널을 붙여넣으세요."
+  },
+  "manageEmptyTitleWhitelist": {
+    "message": "위 입력란에 단어나 구문을 입력하세요. 제목에 이 단어가 포함된 동영상은 필터링되지 않습니다."
+  },
+  "manageEmptyTitleBlacklist": {
+    "message": "위 입력란에 단어나 구문을 입력하세요. 제목에 이 단어가 포함된 동영상은 항상 숨겨집니다."
+  },
+  "manageNoMatchTitle": {
+    "message": "\"$query$\"에 대한 결과가 없습니다",
+    "placeholders": {
+      "query": {
+        "content": "$1"
+      }
+    }
+  },
+  "manageNoMatchText": {
+    "message": "철자를 확인하거나 이름의 일부만 검색해 보세요."
+  },
+  "manageChannelIdLabel": {
+    "message": "채널 ID"
+  },
+  "manageTitleUnavailable": {
+    "message": "이 기기에서는 제목을 확인할 수 없습니다"
+  },
+  "manageMarkedOn": {
+    "message": "$date$에 표시함",
+    "placeholders": {
+      "date": {
         "content": "$1"
       }
     }
@@ -773,10 +1077,20 @@
     "message": "설정한 기준보다 최근이거나 오래된 동영상을 숨깁니다. 둘을 함께 사용하면 특정 기간의 동영상만 남길 수 있습니다."
   },
   "tourChannelWhitelistDescription": {
-    "message": "좋아하는 채널을 모든 필터에서 제외하세요. 클릭 한 번으로 현재 채널을 추가하거나, 칩을 삭제해 필터를 즉시 다시 적용할 수 있습니다."
+    "message": "좋아하는 채널을 모든 필터에서 제외하세요. 클릭 한 번으로 현재 채널을 추가하고, $manage$에서 별도 페이지로 채널을 검색, 삭제, 이동할 수 있습니다.",
+    "placeholders": {
+      "manage": {
+        "content": "$1"
+      }
+    }
   },
   "tourChannelBlacklistDescription": {
-    "message": "Whitelist의 반대입니다. Shorts, 믹스, 재생목록, 실시간을 포함해 채널을 어디서나 항상 숨깁니다. 클릭 한 번으로 현재 채널을 추가하거나, 칩을 삭제해 즉시 다시 표시할 수 있습니다."
+    "message": "Whitelist의 반대입니다. Shorts, 믹스, 재생목록, 실시간을 포함해 채널을 어디서나 항상 숨깁니다. 클릭 한 번으로 현재 채널을 추가하고, $manage$에서 별도 페이지로 전체 목록을 볼 수 있습니다.",
+    "placeholders": {
+      "manage": {
+        "content": "$1"
+      }
+    }
   },
   "tourTitleWhitelistDescription": {
     "message": "채널 대신 제목의 단어로 동영상을 제외하세요. 제목에 내 단어 중 하나가 들어간 동영상은 어떤 필터도 건드리지 않습니다."

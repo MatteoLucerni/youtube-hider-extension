@@ -2,7 +2,7 @@ const { chromium } = require('playwright-core');
 const path = require('path');
 const fs = require('fs');
 const os = require('os');
-const { buildManagerSample } = require('./screenshot-utils');
+const { buildManagerSample, buildListsSample, LIST_SAMPLE_PASTE } = require('./screenshot-utils');
 
 const EXTENSION_PATH = path.resolve(__dirname, '..');
 const OUTPUT_DIR = path.join(EXTENSION_PATH, 'store-listing', 'screenshots');
@@ -32,8 +32,6 @@ const BASE_SETTINGS = {
   dateFilterOlderThreshold: 0,
   dateFilterHomeEnabled: true,
   dateFilterCorrEnabled: true,
-  titleWhitelist: [],
-  titleBlacklist: [],
 };
 const DIMMING_RESET_SETTINGS = {
   hideThreshold: BASE_SETTINGS.hideThreshold,
@@ -50,6 +48,8 @@ const BEFORE_AFTER_SETTINGS = {
 const BASE_LOCAL_SETTINGS = {
   channelWhitelist: [],
   channelBlacklist: [],
+  titleWhitelist: [],
+  titleBlacklist: [],
   markedWatched: [],
   markedWatchedMeta: {},
 };
@@ -660,7 +660,7 @@ function layoutCallouts(callouts) {
   const slide = document.querySelector('.slide');
   const svg = document.querySelector('.links');
   const ns = 'http://www.w3.org/2000/svg';
-  document.fonts.ready.then(() => {
+  Promise.all([document.fonts.load('600 19px Poppins'), document.fonts.ready]).then(() => {
     callouts.forEach(item => {
       const chip = document.createElement('div');
       chip.className = 'callout';
@@ -1128,65 +1128,137 @@ async function captureBeforeAfterSlide(page, serviceWorker) {
   }
 }
 
-async function captureChannelsSlide(page, serviceWorker, extensionId, ladders, homeCards) {
+const MANAGE_LIST_ID = 'channel-whitelist';
+const MARKED_COUNT_SAMPLE_SIZE = 37;
+
+function buildMarkedCountSample() {
+  const now = Math.floor(Date.now() / 1000);
+  return Array.from({ length: MARKED_COUNT_SAMPLE_SIZE }, (_, i) => [
+    'sampleVid' + String(i).padStart(2, '0'),
+    now - (MARKED_COUNT_SAMPLE_SIZE - i) * 3600,
+  ]);
+}
+const INSET_MARGIN = 24;
+
+async function captureInlineButtons(page, homeCards) {
   const video =
     homeCards.find(card => card.videoId && !card.dimmed && card.views !== null) ||
     homeCards.find(card => card.videoId);
   if (!video) {
     throw new Error('No video on the Home page to open for the watch page screenshot');
   }
-
-  await applySettings(
-    serviceWorker,
-    { ...DIMMING_RESET_SETTINGS, extensionEnabled: true, dimMode: true },
-    { markedWatched: [] }
-  );
   await page.goto(`https://www.youtube.com/watch?v=${video.videoId}&hl=en`, {
     waitUntil: 'domcontentloaded',
   });
   await ensureSignedIn(page);
   await page.addStyleTag({ content: YOUTUBE_CLEANUP_CSS });
   await waitForVideoPlayback(page);
-  await page.waitForSelector('#secondary yt-lockup-view-model, #secondary ytd-compact-video-renderer', {
-    state: 'attached',
-    timeout: 30000,
-  });
   await page.waitForSelector('#yt-hider-inline-blacklist-btn', { timeout: 20000 });
   await page.waitForTimeout(2500);
-  await waitForVisibleImages(page);
-
-  await applyDimmingPlan(page, serviceWorker, extensionId, ladders, 'Watch sidebar');
-
-  const clientWidth = await getClientWidth(page);
-  const region = regionForArea(STAGE, { x: 0, y: 0, width: clientWidth, height: VIEWPORT.height });
-  let whitelist = await getElementRect(page, '#yt-hider-inline-whitelist-btn');
-  const overflow = whitelist.y + whitelist.height + 28 - region.height;
-  if (overflow > 0) {
-    await page.evaluate(delta => window.scrollBy(0, delta), overflow);
-    await page.waitForTimeout(800);
-    whitelist = await getElementRect(page, '#yt-hider-inline-whitelist-btn');
-  }
-  const blacklist = await getElementRect(page, '#yt-hider-inline-blacklist-btn');
-
+  await page.evaluate(() =>
+    document.querySelector('#yt-hider-inline-blacklist-btn').scrollIntoView({ block: 'center' })
+  );
   await parkMouse(page);
-  await page
-    .waitForSelector('#movie_player.ytp-autohide', { timeout: 8000 })
-    .catch(() => console.warn('The player controls did not hide'));
-  const capture = await captureRegion(page, region);
-  const { panel, map } = fitCapture(capture, STAGE);
-  const whitelistRing = padRect(map(whitelist), 5);
-  const blacklistRing = padRect(map(blacklist), 5);
 
+  return withDeviceScale(page, 2, async () => {
+    const rects = await Promise.all(
+      [
+        'ytd-watch-metadata #owner',
+        '#yt-hider-inline-whitelist-btn',
+        '#yt-hider-inline-blacklist-btn',
+        'ytd-watch-metadata #title',
+      ].map(selector => getElementRect(page, selector))
+    );
+    const [owner, whitelist, blacklist, title] = rects;
+    if (!whitelist || !blacklist) throw new Error('The inline Whitelist and Blacklist buttons are not visible');
+    const parts = [owner, whitelist, blacklist].filter(Boolean);
+    const left = Math.min(...parts.map(rect => rect.x)) - 14;
+    const titleBottom = title ? title.y + title.height + 2 : -Infinity;
+    const top = Math.max(Math.min(...parts.map(rect => rect.y)) - 12, titleBottom);
+    const right = Math.max(...parts.map(rect => rect.x + rect.width)) + 14;
+    const bottom = Math.max(...parts.map(rect => rect.y + rect.height)) + 12;
+    const capture = await captureRegion(page, {
+      x: Math.round(left),
+      y: Math.round(top),
+      width: Math.round(right - left),
+      height: Math.round(bottom - top),
+    });
+    return { capture, whitelist, blacklist };
+  });
+}
+
+async function captureManagePage(context, serviceWorker, extensionId) {
+  await applySettings(
+    serviceWorker,
+    { channelWhitelistEnabled: true, channelBlacklistEnabled: true, titleWhitelistEnabled: true, titleBlacklistEnabled: true },
+    { ...buildListsSample(), markedWatched: buildMarkedCountSample() }
+  );
+  const managerPage = await context.newPage();
+  try {
+    await managerPage.setViewportSize({ width: STAGE.width, height: STAGE.height });
+    await managerPage.goto(`chrome-extension://${extensionId}/popup/manage.html#${MANAGE_LIST_ID}`);
+    await managerPage.waitForSelector(`#panel-${MANAGE_LIST_ID} .item-row`);
+    await managerPage.addStyleTag({ content: 'html { scrollbar-width: none; } ::-webkit-scrollbar { display: none; }' });
+    await managerPage.fill(`#add-input-${MANAGE_LIST_ID}`, LIST_SAMPLE_PASTE);
+    await managerPage.waitForSelector(`#panel-${MANAGE_LIST_ID} .add-preview li`);
+    await managerPage.evaluate(() => {
+      document.activeElement.blur();
+      window.scrollTo(0, document.querySelector('.manage-tabs-bar').offsetTop);
+    });
+    await managerPage.waitForTimeout(500);
+    const preview = await managerPage.evaluate(selector => {
+      const chips = [...document.querySelectorAll(selector)].map(chip => chip.getBoundingClientRect());
+      if (!chips.length) return null;
+      const left = Math.min(...chips.map(rect => rect.left));
+      const top = Math.min(...chips.map(rect => rect.top));
+      const right = Math.max(...chips.map(rect => rect.right));
+      const bottom = Math.max(...chips.map(rect => rect.bottom));
+      return { x: left, y: top, width: right - left, height: bottom - top };
+    }, `#panel-${MANAGE_LIST_ID} .add-preview li`);
+    if (!preview) throw new Error('The add box preview did not render');
+    const capture = await captureRegion(managerPage, { x: 0, y: 0, width: STAGE.width, height: STAGE.height });
+    return { capture, preview };
+  } finally {
+    await managerPage.close();
+    await applySettings(serviceWorker, null, BASE_LOCAL_SETTINGS);
+  }
+}
+
+async function captureChannelsSlide(context, page, serviceWorker, extensionId, homeCards) {
+  await applySettings(
+    serviceWorker,
+    { ...DIMMING_RESET_SETTINGS, extensionEnabled: true, dimMode: true },
+    { markedWatched: [] }
+  );
+  const inline = await captureInlineButtons(page, homeCards);
+  const manage = await captureManagePage(context, serviceWorker, extensionId);
+
+  const managed = fitCapture(manage.capture, STAGE);
+  const insetArea = {
+    x: STAGE.x + STAGE.width - inline.capture.region.width - INSET_MARGIN,
+    y: STAGE.y + STAGE.height - inline.capture.region.height - INSET_MARGIN,
+    width: inline.capture.region.width,
+    height: inline.capture.region.height,
+  };
+  const inset = fitCapture(inline.capture, insetArea);
+  const buttons = {
+    x: inline.whitelist.x,
+    y: Math.min(inline.whitelist.y, inline.blacklist.y),
+    width: inline.blacklist.x + inline.blacklist.width - inline.whitelist.x,
+    height: Math.max(inline.whitelist.height, inline.blacklist.height),
+  };
+  const rings = [padRect(managed.map(manage.preview), 6), padRect(inset.map(buttons), 5)];
+  const callouts = [
+    callout('Paste many, see what changes first', rings[0], 300, 0),
+    callout('Or add them from YouTube', rings[1], 0, -80),
+  ];
   return {
     file: '4-channels.png',
     title: 'Your channels, <em>your rules</em>',
-    subtitle: 'Whitelist a channel to never filter it, or blacklist it to hide it everywhere.',
-    panels: [panel],
-    rings: [whitelistRing, blacklistRing],
-    callouts: [
-      callout('Never filter this channel', whitelistRing, -180, -120),
-      callout('Hide this channel everywhere', blacklistRing, 240, -95),
-    ],
+    subtitle: 'Whitelist or blacklist channels from YouTube, then manage thousands of them on one page.',
+    panels: [managed.panel, inset.panel],
+    rings,
+    callouts,
   };
 }
 
@@ -1196,13 +1268,13 @@ async function captureMarkWatchedSlide(context, serviceWorker, extensionId, hove
   let manager;
   try {
     await managerPage.setViewportSize(VIEWPORT);
-    await managerPage.goto(`chrome-extension://${extensionId}/popup/watched.html`);
-    await managerPage.waitForSelector('.watched-item');
+    await managerPage.goto(`chrome-extension://${extensionId}/popup/manage.html#marked-watched`);
+    await managerPage.waitForSelector('#panel-marked-watched .item-row');
     await managerPage.waitForFunction(() =>
       Array.from(document.images).every(img => img.complete && img.naturalWidth > 0)
     );
     await managerPage.waitForTimeout(300);
-    const main = await getElementRect(managerPage, '.watched-main');
+    const main = await getElementRect(managerPage, '.manage-main');
     const rightArea = { x: 600, y: STAGE.y, width: STAGE.x + STAGE.width - 600, height: STAGE.height };
     const region = regionForArea(
       rightArea,
@@ -1302,7 +1374,7 @@ async function main() {
     const hover = await captureMarkWatchedCard(page, extensionId, homeCards);
     const settingsSlide = await captureSettingsSlide(page);
     const beforeAfterSlide = await captureBeforeAfterSlide(page, serviceWorker);
-    const channelsSlide = await captureChannelsSlide(page, serviceWorker, extensionId, ladders, homeCards);
+    const channelsSlide = await captureChannelsSlide(context, page, serviceWorker, extensionId, homeCards);
     const markWatchedSlide = await captureMarkWatchedSlide(context, serviceWorker, extensionId, hover);
 
     for (const slide of [homeSlide, beforeAfterSlide, settingsSlide, channelsSlide, markWatchedSlide]) {

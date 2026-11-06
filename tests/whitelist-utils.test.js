@@ -20,7 +20,17 @@ const {
   titleKeywordListIncludes,
   findTitleKeywordMatch,
   titleMatchesKeyword,
-  titleKeywordListFits,
+  LIST_EXPORT_FORMAT,
+  parseChannelEntry,
+  parseChannelInput,
+  parseTitleInput,
+  planListAddition,
+  removeListEntries,
+  restoreListEntries,
+  formatChannelForDisplay,
+  getChannelPageUrl,
+  matchesListQuery,
+  parseListsImport,
 } = require('../content/whitelist-utils.js');
 
 test('titleMatchesKeyword: finds a whitelisted word anywhere in the title', () => {
@@ -59,13 +69,6 @@ test('titleMatchesKeyword: scripts without spaces match anywhere and count as wo
   assert.equal(titleMatchesKeyword('初心者向けチュートリアル 完全版', ['チュートリアル']), true);
   assert.equal(titleMatchesKeyword('รีวิวมือถือใหม่ล่าสุด', ['มือถือ']), true);
   assert.equal(titleMatchesKeyword('これはAIの話です', ['AI']), true);
-});
-
-test('titleKeywordListFits: accepts lists under the sync item quota and rejects larger ones', () => {
-  assert.equal(titleKeywordListFits('titleWhitelist', []), true);
-  assert.equal(titleKeywordListFits('titleBlacklist', Array.from({ length: 300 }, (_, i) => 'keyword ' + i)), true);
-  assert.equal(titleKeywordListFits('titleWhitelist', Array.from({ length: 100 }, () => 'x'.repeat(100))), false);
-  assert.equal(titleKeywordListFits('titleBlacklist', Array.from({ length: 30 }, () => 'チ'.repeat(100))), false);
 });
 
 test('findTitleKeywordMatch: returns the first matching keyword as it was typed', () => {
@@ -199,6 +202,18 @@ test('local storage split: markedWatched lives in local next to the channel list
   assert.equal(pickStorageChanges({ markedWatched: {} }, 'sync'), null);
 });
 
+test('local storage split: the title lists live in local, their switches stay in sync', () => {
+  const { local, sync } = splitChannelListUpdates({
+    titleWhitelist: ['ai'],
+    titleBlacklist: ['reaction'],
+    titleWhitelistEnabled: true,
+  });
+  assert.deepEqual(Object.keys(local).sort(), ['titleBlacklist', 'titleWhitelist']);
+  assert.deepEqual(Object.keys(sync), ['titleWhitelistEnabled']);
+  assert.equal(pickStorageChanges({ titleBlacklist: {} }, 'sync'), null);
+  assert.deepEqual(Object.keys(pickStorageChanges({ titleBlacklist: {} }, 'local')), ['titleBlacklist']);
+});
+
 test('describeMarkedWatchedCount: warns before the list is full and says what happens at the limit', () => {
   assert.deepEqual(describeMarkedWatchedCount(0), { text: 'No videos marked yet', nearLimit: false });
   assert.deepEqual(describeMarkedWatchedCount(1), { text: '1 video of 3,000', nearLimit: false });
@@ -206,4 +221,94 @@ test('describeMarkedWatchedCount: warns before the list is full and says what ha
   assert.equal(describeMarkedWatchedCount(2700).nearLimit, true);
   assert.match(describeMarkedWatchedCount(2700).text, /^2,700 videos of 3,000\. Almost full/);
   assert.match(describeMarkedWatchedCount(MARKED_WATCHED_LIMIT).text, /Full: each new mark drops the oldest one$/);
+});
+
+test('parseChannelEntry: handles, channel links and ids become the stored lowercase path', () => {
+  assert.equal(parseChannelEntry('@MKBHD'), '/@mkbhd');
+  assert.equal(parseChannelEntry('https://www.youtube.com/@Veritasium/videos'), '/@veritasium');
+  assert.equal(parseChannelEntry('youtube.com/@veritasium'), '/@veritasium');
+  assert.equal(parseChannelEntry('m.youtube.com/@bbcnews?si=abc'), '/@bbcnews');
+  assert.equal(parseChannelEntry('https://www.youtube.com/channel/UCX6OQ3DkcsbYNE6H8uQQuVA'), '/channel/ucx6oq3dkcsbyne6h8uqquva');
+  assert.equal(parseChannelEntry('/user/Vsauce'), '/user/vsauce');
+});
+
+test('parseChannelEntry: a non-ASCII handle is percent-encoded like the paths YouTube links to', () => {
+  assert.equal(parseChannelEntry('@Ôngbômytạo'), '/@%c3%94ngb%c3%b4myt%e1%ba%a1o');
+});
+
+test('parseChannelEntry: anything that is not a YouTube channel is rejected', () => {
+  assert.equal(parseChannelEntry('bbcnews'), null);
+  assert.equal(parseChannelEntry('https://youtu.be/dQw4w9WgXcQ'), null);
+  assert.equal(parseChannelEntry('https://www.youtube.com/watch?v=dQw4w9WgXcQ'), null);
+  assert.equal(parseChannelEntry('https://example.com/@bbcnews'), null);
+  assert.equal(parseChannelEntry('@'), null);
+  assert.equal(parseChannelEntry(''), null);
+});
+
+test('parseChannelInput: splits on lines, spaces and commas, dedupes, and keeps what it could not read', () => {
+  const parsed = parseChannelInput(['@bbcnews, youtube.com/@BBCNews', '@theeconomist  hello', '', 'hello'].join('\n'));
+  assert.deepEqual(parsed.entries, ['/@bbcnews', '/@theeconomist']);
+  assert.deepEqual(parsed.invalid, ['hello']);
+});
+
+test('parseTitleInput: one entry per line, normalized and deduplicated case-insensitively', () => {
+  const text = ['  AI news ', 'reaction', 'ai NEWS', '', ''].join('\n');
+  assert.deepEqual(parseTitleInput(text).entries, ['AI news', 'reaction']);
+});
+
+test('planListAddition: splits new entries from ones already listed or in the opposite list', () => {
+  const plan = planListAddition('channel', ['/@a', '/@b', '/@c', '/@a'], ['/@b'], ['/@c']);
+  assert.deepEqual(plan, { add: ['/@a'], existing: ['/@b', '/@a'], moved: ['/@c'] });
+  assert.deepEqual(planListAddition('title', ['ai'], ['AI'], null), { add: [], existing: ['ai'], moved: [] });
+});
+
+test('removeListEntries and restoreListEntries: undo puts entries back where they were', () => {
+  const { list, removed } = removeListEntries('channel', ['/@a', '/@b', '/@c', '/@d'], ['/@b', '/@d']);
+  assert.deepEqual(list, ['/@a', '/@c']);
+  assert.deepEqual(restoreListEntries('channel', list, removed), ['/@a', '/@b', '/@c', '/@d']);
+  assert.deepEqual(restoreListEntries('channel', ['/@b'], removed), ['/@b', '/@d']);
+  assert.deepEqual(removeListEntries('title', ['AI', 'news'], ['ai']).list, ['news']);
+});
+
+test('formatChannelForDisplay and getChannelPageUrl: readable names, links only where the path is reliable', () => {
+  assert.equal(formatChannelForDisplay('/@%c3%94ngb%c3%b4myt%e1%ba%a1o'), '@Ôngbômytạo');
+  assert.equal(formatChannelForDisplay('/channel/ucx6oq3dkcsbyne6h8uqquva'), 'channel/ucx6oq3dkcsbyne6h8uqquva');
+  assert.equal(getChannelPageUrl('/@bbcnews'), 'https://www.youtube.com/@bbcnews');
+  assert.equal(getChannelPageUrl('/channel/ucx6oq3dkcsbyne6h8uqquva'), null);
+});
+
+test('matchesListQuery: case-insensitive substring over any of the given texts', () => {
+  assert.equal(matchesListQuery(['@BBCNews', '/@bbcnews'], 'news'), true);
+  assert.equal(matchesListQuery(['@bbcnews'], '  '), true);
+  assert.equal(matchesListQuery(['@bbcnews', ''], 'economist'), false);
+});
+
+test('parseListsImport: reads every list from an export and drops entries it cannot use', () => {
+  const imported = parseListsImport(
+    {
+      format: LIST_EXPORT_FORMAT,
+      version: 1,
+      channelWhitelist: ['/@bbcnews', 'not a channel', 42],
+      channelBlacklist: ['/channel/ucx6oq3dkcsbyne6h8uqquva'],
+      titleWhitelist: ['AI', 'ai', ''],
+      titleBlacklist: ['reaction'],
+      markedWatched: [{ id: '1Tl2FtV06qo', markedAt: 5, title: 'T', channel: '/@a' }, { id: 'bad' }],
+    },
+    100,
+  );
+  assert.deepEqual(imported.channelWhitelist, ['/@bbcnews']);
+  assert.deepEqual(imported.channelBlacklist, ['/channel/ucx6oq3dkcsbyne6h8uqquva']);
+  assert.deepEqual(imported.titleWhitelist, ['AI']);
+  assert.deepEqual(imported.titleBlacklist, ['reaction']);
+  assert.deepEqual(imported.markedWatched.list, [['1Tl2FtV06qo', 5]]);
+  assert.deepEqual(imported.markedWatched.meta, { '1Tl2FtV06qo': ['T', '/@a'] });
+});
+
+test('parseListsImport: still reads the older marked videos export and rejects unknown files', () => {
+  const legacy = parseListsImport({ format: 'youtube-hider-marked-watched', videos: [{ id: '1Tl2FtV06qo' }] }, 100);
+  assert.deepEqual(legacy.markedWatched.list, [['1Tl2FtV06qo', 100]]);
+  assert.deepEqual(legacy.channelBlacklist, []);
+  assert.deepEqual(parseListsImport(['1Tl2FtV06qo'], 7).markedWatched.list, [['1Tl2FtV06qo', 7]]);
+  assert.throws(() => parseListsImport({ hello: 'world' }));
+  assert.throws(() => parseListsImport(null));
 });
