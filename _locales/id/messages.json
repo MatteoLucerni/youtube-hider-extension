@@ -390,45 +390,6 @@
       }
     }
   },
-  "watchedPageTitle": {
-    "message": "Ditandai sudah ditonton | YouTube Hider"
-  },
-  "watchedDescription": {
-    "message": "Video yang Anda tandai dengan tombol Ditonton di YouTube. Video ini disembunyikan seperti video yang sudah ditonton, mengikuti setelan Sembunyikan Video yang Ditonton. Hapus salah satunya untuk menampilkannya lagi. Maksimal 3.000 video disimpan: lebih dari itu, tanda tertua dihapus."
-  },
-  "watchedSyncDescription": {
-    "message": "Tanda Anda disinkronkan otomatis ke semua komputer dengan profil Chrome yang sama, jadi tidak perlu ekspor dan impor antarperangkat. Gunakan Ekspor untuk menyimpan cadangan atau memindahkannya ke profil lain."
-  },
-  "watchedExport": {
-    "message": "Ekspor"
-  },
-  "watchedImport": {
-    "message": "Impor"
-  },
-  "watchedClearAll": {
-    "message": "Hapus semua"
-  },
-  "watchedUndo": {
-    "message": "Urungkan"
-  },
-  "watchedSelectAllShown": {
-    "message": "Pilih semua yang ditampilkan"
-  },
-  "watchedRemoveSelected": {
-    "message": "Hapus yang dipilih"
-  },
-  "watchedClearSearch": {
-    "message": "Hapus penelusuran"
-  },
-  "watchedLoadMore": {
-    "message": "Muat lebih banyak"
-  },
-  "watchedSearchPlaceholder": {
-    "message": "Telusuri judul, saluran, atau ID video"
-  },
-  "watchedSearchLabel": {
-    "message": "Telusuri video yang ditandai"
-  },
   "markedCount_other": {
     "message": "$count$ dari $limit$ video",
     "placeholders": {
@@ -462,72 +423,293 @@
       }
     }
   },
-  "watchedSelectItem": {
-    "message": "Pilih $title$",
+  "managePageTitle": {
+    "message": "Daftar | YouTube Hider"
+  },
+  "managePageTitleList": {
+    "message": "$list$ | YouTube Hider",
     "placeholders": {
-      "title": {
+      "list": {
         "content": "$1"
       }
     }
   },
-  "watchedTitleUnavailable": {
-    "message": "Judul tidak tersedia di perangkat ini"
+  "manageHeading": {
+    "message": "Daftar"
   },
-  "watchedMarkedOn": {
-    "message": "Ditandai $date$",
+  "manageExport": {
+    "message": "Ekspor"
+  },
+  "manageImport": {
+    "message": "Impor"
+  },
+  "manageSyncTitle": {
+    "message": "Sinkronisasi antarperangkat"
+  },
+  "manageSyncDescription": {
+    "message": "Daftar dan video yang Anda tandai disinkronkan ke setiap komputer yang masuk dengan profil Chrome yang sama. Chrome memberi setiap ekstensi 100 KB untuk ini, dibagi dengan setelannya."
+  },
+  "manageSyncOk": {
+    "message": "Terbaru"
+  },
+  "manageSyncSyncing": {
+    "message": "Menyinkronkan"
+  },
+  "manageSyncPaused": {
+    "message": "Dijeda"
+  },
+  "manageSyncPartlyPaused": {
+    "message": "Dijeda sebagian"
+  },
+  "manageSyncRetrying": {
+    "message": "Segera dicoba lagi"
+  },
+  "manageSyncOutdated": {
+    "message": "Perlu pembaruan"
+  },
+  "manageSyncAlmostFull": {
+    "message": "Hampir penuh"
+  },
+  "manageSyncMessageListsPaused": {
+    "message": "Daftar Anda melebihi ruang yang diberikan Chrome kepada ekstensi untuk sinkronisasi, jadi sinkronisasinya dijeda. Semuanya tetap tersimpan dan berfungsi di browser ini, dan perangkat lain menyimpan versi terakhir yang muat. Sinkronisasi berlanjut dengan sendirinya setelah daftar muat lagi."
+  },
+  "manageSyncMessageMarkedPaused": {
+    "message": "Video yang ditandai sedang tidak disinkronkan: daftar Anda didahulukan di ruang bersama. Video tetap tersimpan dan berfungsi di browser ini, dan sinkronisasi berlanjut setelah ada ruang lagi."
+  },
+  "manageSyncMessageOutdated": {
+    "message": "Perangkat lain memakai versi YouTube Hider yang lebih baru. Perbarui ekstensi di browser ini agar tetap bisa sinkronisasi."
+  },
+  "manageSyncMessageNearFull": {
+    "message": "Hampir penuh. Jika daftar Anda melebihinya, sinkronisasi dijeda tetapi tidak ada yang hilang: semuanya tetap berfungsi di browser ini."
+  },
+  "manageSyncMeterText": {
+    "message": "$percent$% terpakai",
     "placeholders": {
-      "date": {
+      "percent": {
         "content": "$1"
       }
     }
   },
-  "watchedRemove": {
-    "message": "Hapus"
-  },
-  "watchedRemoveItem": {
-    "message": "Hapus $title$",
+  "manageSyncLegendLists": {
+    "message": "Daftar: $size$",
     "placeholders": {
-      "title": {
+      "size": {
         "content": "$1"
       }
     }
   },
-  "watchedRemoveSelectedCount_other": {
-    "message": "Hapus yang dipilih ($count$)",
+  "manageSyncLegendMarked": {
+    "message": "Video ditandai: $size$",
+    "placeholders": {
+      "size": {
+        "content": "$1"
+      }
+    }
+  },
+  "manageSyncLegendSettings": {
+    "message": "Setelan: $size$",
+    "placeholders": {
+      "size": {
+        "content": "$1"
+      }
+    }
+  },
+  "manageSyncLegendFree": {
+    "message": "Kosong: $size$",
+    "placeholders": {
+      "size": {
+        "content": "$1"
+      }
+    }
+  },
+  "manageUndo": {
+    "message": "Urungkan"
+  },
+  "manageDismiss": {
+    "message": "Tutup"
+  },
+  "manageExportBackup": {
+    "message": "Ekspor cadangan"
+  },
+  "manageCancel": {
+    "message": "Batal"
+  },
+  "manageImportTitle": {
+    "message": "Impor daftar"
+  },
+  "manageImportIntro": {
+    "message": "Entri hanya ditambahkan: tidak ada yang sudah ada di daftar Anda yang dihapus atau diubah."
+  },
+  "manageImportNothing": {
+    "message": "Tidak ada yang baru untuk diimpor: semua isi file itu sudah ada di daftar Anda."
+  },
+  "manageImportError": {
+    "message": "File itu tidak dapat dibaca sebagai ekspor YouTube Hider."
+  },
+  "manageImportListFull": {
+    "message": "Daftar sudah penuh, jadi tanda tertua dihapus."
+  },
+  "manageImportConfirm_other": {
+    "message": "Impor $count$",
     "placeholders": {
       "count": {
         "content": "$1"
       }
     }
   },
-  "watchedLoadMoreCount_other": {
-    "message": "Muat lebih banyak ($count$ lagi)",
+  "manageImportSkippedOther_other": {
+    "message": "$count$ dilewati: sudah ada di $list$",
+    "placeholders": {
+      "count": {
+        "content": "$1"
+      },
+      "list": {
+        "content": "$2"
+      }
+    }
+  },
+  "manageImported_other": {
+    "message": "$count$ entri baru diimpor.",
     "placeholders": {
       "count": {
         "content": "$1"
       }
     }
   },
-  "watchedEmpty": {
-    "message": "Belum ada video yang ditandai. Di YouTube, arahkan kursor ke video dan klik Ditonton untuk menambahkannya ke sini."
-  },
-  "watchedNoMatch": {
-    "message": "Tidak ada video yang ditandai yang cocok dengan \"$query$\".",
-    "placeholders": {
-      "query": {
-        "content": "$1"
-      }
-    }
-  },
-  "watchedRestored_other": {
-    "message": "$count$ video dipulihkan.",
+  "manageExported_other": {
+    "message": "$count$ entri diekspor.",
     "placeholders": {
       "count": {
         "content": "$1"
       }
     }
   },
-  "watchedRemoved_other": {
+  "manageMarkedDescription": {
+    "message": "Video yang Anda tandai dengan tombol Ditonton di YouTube. Video ini disembunyikan seperti video yang sudah ditonton, mengikuti setelan Sembunyikan Video yang Ditonton. Hapus salah satunya untuk menampilkannya lagi. Maksimal 3.000 video disimpan: lebih dari itu, tanda tertua dihapus."
+  },
+  "manageMarkedNote": {
+    "message": "Mengikuti $setting$: video yang ditandai hanya disembunyikan di tempat setelan itu aktif.",
+    "placeholders": {
+      "setting": {
+        "content": "$1"
+      }
+    }
+  },
+  "manageSwitchOn": {
+    "message": "Aktif"
+  },
+  "manageSwitchOff": {
+    "message": "Nonaktif"
+  },
+  "manageAddChannelsLabel": {
+    "message": "Tambahkan saluran"
+  },
+  "manageAddWordsLabel": {
+    "message": "Tambahkan kata atau frasa"
+  },
+  "manageAddChannelsPlaceholder": {
+    "message": "@nama atau link saluran. Tempel beberapa sekaligus, satu per baris"
+  },
+  "manageAddWordsPlaceholder": {
+    "message": "Kata atau frasa. Tempel beberapa sekaligus, satu per baris"
+  },
+  "manageAddChannelsHint": {
+    "message": "Enter untuk menambahkan, Shift+Enter untuk baris baru. Contoh: @veritasium atau youtube.com/@veritasium"
+  },
+  "manageAddWordsHint": {
+    "message": "Enter untuk menambahkan, Shift+Enter untuk baris baru. Kata cocok di awal kata pada judul, tanpa membedakan huruf besar dan kecil"
+  },
+  "manageAddButton": {
+    "message": "Tambah"
+  },
+  "manageAddButtonCount_other": {
+    "message": "Tambah $count$",
+    "placeholders": {
+      "count": {
+        "content": "$1"
+      }
+    }
+  },
+  "manageAddNew_other": {
+    "message": "$count$ baru",
+    "placeholders": {
+      "count": {
+        "content": "$1"
+      }
+    }
+  },
+  "manageAddExisting_other": {
+    "message": "$count$ sudah ada di daftar",
+    "placeholders": {
+      "count": {
+        "content": "$1"
+      }
+    }
+  },
+  "manageAddMoving_other": {
+    "message": "$count$ akan dipindahkan dari $list$",
+    "placeholders": {
+      "count": {
+        "content": "$1"
+      },
+      "list": {
+        "content": "$2"
+      }
+    }
+  },
+  "manageAddInvalid_other": {
+    "message": "$count$ tidak dikenali: $items$",
+    "placeholders": {
+      "count": {
+        "content": "$1"
+      },
+      "items": {
+        "content": "$2"
+      }
+    }
+  },
+  "manageAdded_other": {
+    "message": "$count$ entri ditambahkan ke $list$.",
+    "placeholders": {
+      "count": {
+        "content": "$1"
+      },
+      "list": {
+        "content": "$2"
+      }
+    }
+  },
+  "manageRemoved_other": {
+    "message": "$count$ entri dihapus dari $list$.",
+    "placeholders": {
+      "count": {
+        "content": "$1"
+      },
+      "list": {
+        "content": "$2"
+      }
+    }
+  },
+  "manageMoved_other": {
+    "message": "$count$ entri dipindahkan ke $list$.",
+    "placeholders": {
+      "count": {
+        "content": "$1"
+      },
+      "list": {
+        "content": "$2"
+      }
+    }
+  },
+  "manageRestored_other": {
+    "message": "$count$ entri dipulihkan.",
+    "placeholders": {
+      "count": {
+        "content": "$1"
+      }
+    }
+  },
+  "manageMarkedRemoved_other": {
     "message": "$count$ video dihapus. Video akan muncul lagi di YouTube.",
     "placeholders": {
       "count": {
@@ -535,35 +717,193 @@
       }
     }
   },
-  "watchedExported_other": {
-    "message": "$count$ video diekspor.",
+  "manageSortLabel": {
+    "message": "Urutkan"
+  },
+  "manageSortRecent": {
+    "message": "Baru ditambahkan"
+  },
+  "manageSortAz": {
+    "message": "A sampai Z"
+  },
+  "manageSearchChannels": {
+    "message": "Cari saluran"
+  },
+  "manageSearchWords": {
+    "message": "Cari kata"
+  },
+  "manageSearchMarked": {
+    "message": "Telusuri judul, saluran, atau ID video"
+  },
+  "manageCountChannels_other": {
+    "message": "$count$ saluran",
     "placeholders": {
       "count": {
         "content": "$1"
       }
     }
   },
-  "watchedImportEmpty": {
-    "message": "Tidak ada video valid di file itu."
-  },
-  "watchedImported_other": {
-    "message": "$count$ video baru diimpor.",
+  "manageCountWords_other": {
+    "message": "$count$ kata",
     "placeholders": {
       "count": {
         "content": "$1"
       }
     }
   },
-  "watchedImportListFull": {
-    "message": "Daftar sudah penuh, jadi tanda tertua dihapus."
-  },
-  "watchedImportError": {
-    "message": "File itu tidak dapat dibaca sebagai ekspor YouTube Hider."
-  },
-  "watchedClearConfirm_other": {
-    "message": "Hapus semua $count$ video yang ditandai? Video akan muncul lagi di YouTube.",
+  "manageCountVideos_other": {
+    "message": "$count$ video",
     "placeholders": {
       "count": {
+        "content": "$1"
+      }
+    }
+  },
+  "manageCountMatches_other": {
+    "message": "$count$ hasil",
+    "placeholders": {
+      "count": {
+        "content": "$1"
+      }
+    }
+  },
+  "manageSelectedCount_other": {
+    "message": "$count$ dipilih",
+    "placeholders": {
+      "count": {
+        "content": "$1"
+      }
+    }
+  },
+  "manageSelectAllMatching_other": {
+    "message": "Pilih semua ($count$)",
+    "placeholders": {
+      "count": {
+        "content": "$1"
+      }
+    }
+  },
+  "manageSelectShown": {
+    "message": "Pilih semua yang ditampilkan"
+  },
+  "manageClearSelection": {
+    "message": "Hapus pilihan"
+  },
+  "manageSelectItem": {
+    "message": "Pilih $title$",
+    "placeholders": {
+      "title": {
+        "content": "$1"
+      }
+    }
+  },
+  "manageRemove": {
+    "message": "Hapus"
+  },
+  "manageRemoveItem": {
+    "message": "Hapus $title$",
+    "placeholders": {
+      "title": {
+        "content": "$1"
+      }
+    }
+  },
+  "manageRemoveSelected_other": {
+    "message": "Hapus yang dipilih ($count$)",
+    "placeholders": {
+      "count": {
+        "content": "$1"
+      }
+    }
+  },
+  "manageMoveSelected": {
+    "message": "Pindahkan ke $list$",
+    "placeholders": {
+      "list": {
+        "content": "$1"
+      }
+    }
+  },
+  "manageClearSearch": {
+    "message": "Hapus penelusuran"
+  },
+  "manageLoadMore_other": {
+    "message": "Muat lebih banyak ($count$ lagi)",
+    "placeholders": {
+      "count": {
+        "content": "$1"
+      }
+    }
+  },
+  "manageClearAll": {
+    "message": "Hapus semua"
+  },
+  "manageClearTitle": {
+    "message": "Kosongkan $list$?",
+    "placeholders": {
+      "list": {
+        "content": "$1"
+      }
+    }
+  },
+  "manageClearText_other": {
+    "message": "Semua $count$ entri di $list$ akan dihapus. Anda bisa langsung membatalkannya, atau mengekspor cadangan terlebih dahulu.",
+    "placeholders": {
+      "count": {
+        "content": "$1"
+      },
+      "list": {
+        "content": "$2"
+      }
+    }
+  },
+  "manageClearConfirm_other": {
+    "message": "Hapus semua ($count$)",
+    "placeholders": {
+      "count": {
+        "content": "$1"
+      }
+    }
+  },
+  "manageEmptyTitle": {
+    "message": "Belum ada apa pun di sini"
+  },
+  "manageEmptyMarked": {
+    "message": "Belum ada video yang ditandai. Di YouTube, arahkan kursor ke video dan klik Ditonton untuk menambahkannya ke sini."
+  },
+  "manageEmptyChannelWhitelist": {
+    "message": "Gunakan tombol Whitelist di samping Subscribe pada halaman saluran atau video, atau tempel saluran di kolom di atas."
+  },
+  "manageEmptyChannelBlacklist": {
+    "message": "Di YouTube, arahkan kursor ke video dan klik Blacklist, gunakan tombol Blacklist di samping Subscribe pada halaman saluran, atau tempel saluran di kolom di atas."
+  },
+  "manageEmptyTitleWhitelist": {
+    "message": "Ketik kata atau frasa di kolom di atas. Video yang judulnya memuat kata itu tidak pernah difilter."
+  },
+  "manageEmptyTitleBlacklist": {
+    "message": "Ketik kata atau frasa di kolom di atas. Video yang judulnya memuat kata itu selalu disembunyikan."
+  },
+  "manageNoMatchTitle": {
+    "message": "Tidak ada hasil untuk \"$query$\"",
+    "placeholders": {
+      "query": {
+        "content": "$1"
+      }
+    }
+  },
+  "manageNoMatchText": {
+    "message": "Periksa ejaan, atau cari sebagian nama saja."
+  },
+  "manageChannelIdLabel": {
+    "message": "ID saluran"
+  },
+  "manageTitleUnavailable": {
+    "message": "Judul tidak tersedia di perangkat ini"
+  },
+  "manageMarkedOn": {
+    "message": "Ditandai $date$",
+    "placeholders": {
+      "date": {
         "content": "$1"
       }
     }

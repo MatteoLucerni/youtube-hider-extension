@@ -698,15 +698,47 @@ chrome.runtime.onMessage.addListener((message, sender, sendResponse) => {
     });
     sendResponse({ success: true });
   }
-  if (message.action === 'openWatchedManager') {
-    chrome.tabs.create({
-      url: chrome.runtime.getURL('popup/watched.html'),
-      active: true,
-    });
+  if (message.action === 'openManager') {
+    openManagerPage(message.list).catch(e => logger.log('Could not open the Manage page:', e));
     sendResponse({ success: true });
   }
   return false;
 });
+
+const MANAGE_PAGE_LISTS = ['marked-watched', 'channel-whitelist', 'channel-blacklist', 'title-whitelist', 'title-blacklist'];
+
+async function findOpenManagerTab(pageUrl) {
+  if (!chrome.runtime.getContexts) return null;
+  const contexts = await chrome.runtime.getContexts({ contextTypes: ['TAB'] });
+  return (
+    contexts.find(
+      context =>
+        typeof context.tabId === 'number' &&
+        context.tabId >= 0 &&
+        typeof context.documentUrl === 'string' &&
+        context.documentUrl.split('#')[0] === pageUrl,
+    ) || null
+  );
+}
+
+async function openManagerPage(list) {
+  const pageUrl = chrome.runtime.getURL('popup/manage.html');
+  const hash = MANAGE_PAGE_LISTS.includes(list) ? '#' + list : '';
+  let existing = null;
+  try {
+    existing = await findOpenManagerTab(pageUrl);
+  } catch (e) {
+    logger.log('Could not look for an open Manage page:', e);
+  }
+  if (existing) {
+    await chrome.tabs.update(existing.tabId, hash ? { active: true, url: pageUrl + hash } : { active: true });
+    if (typeof existing.windowId === 'number' && existing.windowId >= 0) {
+      await chrome.windows.update(existing.windowId, { focused: true });
+    }
+    return;
+  }
+  await chrome.tabs.create({ url: pageUrl + hash, active: true });
+}
 
 initializeSettings();
 reconcileChannelLists();

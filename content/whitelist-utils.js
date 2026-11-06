@@ -199,12 +199,200 @@ function pruneMarkedWatchedMeta(meta, list) {
   return pruned;
 }
 
+const LIST_EXPORT_FORMAT = 'youtube-hider-lists';
+const LIST_EXPORT_VERSION = 1;
+const MARKED_WATCHED_EXPORT_FORMAT = 'youtube-hider-marked-watched';
+const CHANNEL_INPUT_HOST = /(^|\.)youtube\.com$/i;
+const CHANNEL_INPUT_SCHEME = /^[a-z][a-z0-9+.-]*:\/\//i;
+
+function normalizeChannelPath(pathname) {
+  if (typeof pathname !== 'string') return null;
+  const handle = pathname.match(/^\/@([^/?#\s]+)/);
+  if (handle) return ('/@' + handle[1]).toLowerCase();
+  const id = pathname.match(/^\/channel\/([A-Za-z0-9_-]+)/);
+  if (id) return ('/channel/' + id[1]).toLowerCase();
+  const user = pathname.match(/^\/user\/([^/?#\s]+)/);
+  if (user) return ('/user/' + user[1]).toLowerCase();
+  return null;
+}
+
+function parseChannelEntry(raw) {
+  const text = typeof raw === 'string' ? raw.trim() : '';
+  if (!text) return null;
+  let pathname;
+  if (text.startsWith('@')) {
+    pathname = '/' + text;
+  } else if (text.startsWith('/')) {
+    pathname = text;
+  } else {
+    try {
+      const url = new URL(CHANNEL_INPUT_SCHEME.test(text) ? text : 'https://' + text);
+      if (!CHANNEL_INPUT_HOST.test(url.hostname)) return null;
+      pathname = url.pathname;
+    } catch (_) {
+      return null;
+    }
+  }
+  try {
+    pathname = new URL(pathname, 'https://www.youtube.com').pathname;
+  } catch (_) {
+    return null;
+  }
+  return normalizeChannelPath(pathname);
+}
+
+function parseChannelInput(text) {
+  const tokens = typeof text === 'string' ? text.split(/[\s,]+/).filter(Boolean) : [];
+  const channels = [];
+  const invalid = [];
+  tokens.forEach(token => {
+    const channel = parseChannelEntry(token);
+    if (channel) {
+      if (!channels.includes(channel)) channels.push(channel);
+    } else if (!invalid.includes(token)) {
+      invalid.push(token);
+    }
+  });
+  return { entries: channels, invalid };
+}
+
+function parseTitleInput(text) {
+  const lines = typeof text === 'string' ? text.split(/\r?\n/) : [];
+  const words = [];
+  lines.forEach(line => {
+    const word = normalizeTitleKeyword(line);
+    if (word && !titleKeywordListIncludes(word, words)) words.push(word);
+  });
+  return { entries: words, invalid: [] };
+}
+
+function listEntryIdentity(kind, entry) {
+  return kind === 'title' ? titleKeywordKey(entry) : entry;
+}
+
+function planListAddition(kind, entries, list, otherList) {
+  const identity = entry => listEntryIdentity(kind, entry);
+  const present = new Set((Array.isArray(list) ? list : []).map(identity));
+  const inOther = new Set((Array.isArray(otherList) ? otherList : []).map(identity));
+  const plan = { add: [], existing: [], moved: [] };
+  (Array.isArray(entries) ? entries : []).forEach(entry => {
+    const key = identity(entry);
+    if (present.has(key)) plan.existing.push(entry);
+    else if (inOther.has(key)) plan.moved.push(entry);
+    else plan.add.push(entry);
+    present.add(key);
+  });
+  return plan;
+}
+
+function removeListEntries(kind, list, entries) {
+  const targets = new Set((Array.isArray(entries) ? entries : []).map(entry => listEntryIdentity(kind, entry)));
+  const kept = [];
+  const removed = [];
+  (Array.isArray(list) ? list : []).forEach((entry, index) => {
+    if (targets.has(listEntryIdentity(kind, entry))) removed.push([entry, index]);
+    else kept.push(entry);
+  });
+  return { list: kept, removed };
+}
+
+function restoreListEntries(kind, list, removed) {
+  const next = Array.isArray(list) ? [...list] : [];
+  const present = new Set(next.map(entry => listEntryIdentity(kind, entry)));
+  [...(Array.isArray(removed) ? removed : [])]
+    .sort((a, b) => a[1] - b[1])
+    .forEach(([entry, index]) => {
+      const key = listEntryIdentity(kind, entry);
+      if (present.has(key)) return;
+      next.splice(Math.min(index, next.length), 0, entry);
+      present.add(key);
+    });
+  return next;
+}
+
+function formatChannelForDisplay(channel) {
+  if (typeof channel !== 'string') return '';
+  let text = channel;
+  try {
+    text = decodeURIComponent(channel);
+  } catch (_) {}
+  return text.startsWith('/') ? text.slice(1) : text;
+}
+
+function getChannelPageUrl(channel) {
+  if (typeof channel !== 'string') return null;
+  if (channel.startsWith('/@') || channel.startsWith('/user/')) return 'https://www.youtube.com' + channel;
+  return null;
+}
+
+function matchesListQuery(texts, query) {
+  const needle = typeof query === 'string' ? query.replace(/\s+/g, ' ').trim().toLowerCase() : '';
+  if (!needle) return true;
+  return texts.some(text => typeof text === 'string' && text.toLowerCase().includes(needle));
+}
+
+function parseImportedMarkedVideos(videos, now) {
+  const list = [];
+  const meta = {};
+  videos.forEach(video => {
+    const id = typeof video === 'string' ? video : video && video.id;
+    if (!isValidVideoId(id)) return;
+    const markedAt = video && Number.isFinite(video.markedAt) ? video.markedAt : now;
+    list.push([id, markedAt]);
+    if (video && (video.title || video.channel)) meta[id] = normalizeMarkedWatchedMetaEntry(video.title, video.channel);
+  });
+  return { list, meta };
+}
+
+function parseListsImport(data, now = Math.floor(Date.now() / 1000)) {
+  const result = {
+    channelWhitelist: [],
+    channelBlacklist: [],
+    titleWhitelist: [],
+    titleBlacklist: [],
+    markedWatched: { list: [], meta: {} },
+  };
+  if (Array.isArray(data)) {
+    result.markedWatched = parseImportedMarkedVideos(data, now);
+    return result;
+  }
+  if (!data || typeof data !== 'object') throw new Error('unrecognized');
+  if (data.format === LIST_EXPORT_FORMAT) {
+    CHANNEL_LIST_STORAGE_KEYS.forEach(key => {
+      const raw = Array.isArray(data[key]) ? data[key] : [];
+      result[key] = parseChannelInput(raw.filter(entry => typeof entry === 'string').join('\n')).entries;
+    });
+    TITLE_LIST_STORAGE_KEYS.forEach(key => {
+      const raw = Array.isArray(data[key]) ? data[key] : [];
+      result[key] = parseTitleInput(raw.filter(entry => typeof entry === 'string').join('\n')).entries;
+    });
+    if (Array.isArray(data.markedWatched)) result.markedWatched = parseImportedMarkedVideos(data.markedWatched, now);
+    return result;
+  }
+  if (data.format === MARKED_WATCHED_EXPORT_FORMAT || Array.isArray(data.videos)) {
+    result.markedWatched = parseImportedMarkedVideos(Array.isArray(data.videos) ? data.videos : [], now);
+    return result;
+  }
+  throw new Error('unrecognized');
+}
+
 if (typeof module !== 'undefined' && module.exports) {
   module.exports = {
     MARKED_WATCHED_KEY,
     MARKED_WATCHED_META_KEY,
     MARKED_WATCHED_LIMIT,
     LOCAL_PREF_KEYS,
+    LIST_EXPORT_FORMAT,
+    parseChannelEntry,
+    parseChannelInput,
+    parseTitleInput,
+    planListAddition,
+    removeListEntries,
+    restoreListEntries,
+    formatChannelForDisplay,
+    getChannelPageUrl,
+    matchesListQuery,
+    parseListsImport,
     splitChannelListUpdates,
     pickStorageChanges,
     isValidVideoId,

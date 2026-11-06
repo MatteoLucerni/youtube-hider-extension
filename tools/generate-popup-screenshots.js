@@ -51,8 +51,8 @@ async function main() {
 
     const managerPage = await context.newPage();
     await managerPage.setViewportSize({ width: 900, height: 600 });
-    await managerPage.goto(`chrome-extension://${extensionId}/popup/watched.html`);
-    await managerPage.waitForSelector('.watched-item');
+    await managerPage.goto(`chrome-extension://${extensionId}/popup/manage.html#marked-watched`);
+    await managerPage.waitForSelector('#panel-marked-watched .item-row');
     await managerPage.waitForFunction(() =>
       Array.from(document.images).every(img => img.complete && img.naturalWidth > 0)
     );

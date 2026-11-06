@@ -1196,13 +1196,13 @@ async function captureMarkWatchedSlide(context, serviceWorker, extensionId, hove
   let manager;
   try {
     await managerPage.setViewportSize(VIEWPORT);
-    await managerPage.goto(`chrome-extension://${extensionId}/popup/watched.html`);
-    await managerPage.waitForSelector('.watched-item');
+    await managerPage.goto(`chrome-extension://${extensionId}/popup/manage.html#marked-watched`);
+    await managerPage.waitForSelector('#panel-marked-watched .item-row');
     await managerPage.waitForFunction(() =>
       Array.from(document.images).every(img => img.complete && img.naturalWidth > 0)
     );
     await managerPage.waitForTimeout(300);
-    const main = await getElementRect(managerPage, '.watched-main');
+    const main = await getElementRect(managerPage, '.manage-main');
     const rightArea = { x: 600, y: STAGE.y, width: STAGE.x + STAGE.width - 600, height: STAGE.height };
     const region = regionForArea(
       rightArea,

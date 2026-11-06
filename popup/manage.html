@@ -1,0 +1,216 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title data-i18n="managePageTitle">Lists | YouTube Hider</title>
+    <link rel="stylesheet" href="base.css" />
+    <link rel="stylesheet" href="toggles.css" />
+    <link rel="stylesheet" href="manage.css" />
+  </head>
+
+  <body class="manage-page">
+    <header class="manage-header">
+      <div class="manage-header-inner">
+        <div class="manage-brand">
+          <h1 class="header-title mb-0">
+            <span class="title-youtube">YouTube</span>
+            <span class="title-hider">Hider</span>
+          </h1>
+          <span data-i18n="manageHeading" class="manage-brand-subtitle">Lists</span>
+        </div>
+        <div class="manage-header-actions">
+          <button type="button" id="manage-export" class="manage-btn">
+            <svg class="manage-btn-icon" viewBox="0 0 24 24" aria-hidden="true">
+              <path d="M12 3v12"></path>
+              <path d="M7 10l5 5 5-5"></path>
+              <path d="M5 21h14"></path>
+            </svg>
+            <span data-i18n="manageExport">Export</span>
+          </button>
+          <button type="button" id="manage-import" class="manage-btn">
+            <svg class="manage-btn-icon" viewBox="0 0 24 24" aria-hidden="true">
+              <path d="M12 21V9"></path>
+              <path d="M7 14l5-5 5 5"></path>
+              <path d="M5 3h14"></path>
+            </svg>
+            <span data-i18n="manageImport">Import</span>
+          </button>
+          <input type="file" id="manage-import-file" accept="application/json,.json" hidden />
+        </div>
+      </div>
+    </header>
+
+    <main class="manage-main">
+      <section class="sync-panel" id="sync-panel" aria-labelledby="sync-title">
+        <div class="sync-panel-head">
+          <span class="sync-indicator" id="sync-indicator" aria-hidden="true"></span>
+          <h2 data-i18n="manageSyncTitle" class="sync-title" id="sync-title">Sync across devices</h2>
+          <span class="sync-status" id="sync-status"></span>
+        </div>
+        <div
+          class="sync-meter"
+          id="sync-meter"
+          role="meter"
+          aria-valuemin="0"
+          aria-valuemax="100"
+          aria-valuenow="0"
+          aria-labelledby="sync-title"
+        >
+          <span class="sync-meter-segment sync-meter-lists" id="sync-meter-lists"></span>
+          <span class="sync-meter-segment sync-meter-marked" id="sync-meter-marked"></span>
+          <span class="sync-meter-segment sync-meter-settings" id="sync-meter-settings"></span>
+        </div>
+        <ul class="sync-legend" id="sync-legend">
+          <li><span class="sync-swatch sync-meter-lists" aria-hidden="true"></span><span id="sync-legend-lists"></span></li>
+          <li><span class="sync-swatch sync-meter-marked" aria-hidden="true"></span><span id="sync-legend-marked"></span></li>
+          <li><span class="sync-swatch sync-meter-settings" aria-hidden="true"></span><span id="sync-legend-settings"></span></li>
+          <li><span class="sync-swatch sync-swatch-free" aria-hidden="true"></span><span id="sync-legend-free"></span></li>
+        </ul>
+        <p class="sync-message" id="sync-message" hidden></p>
+      </section>
+
+      <div class="manage-tabs-bar">
+        <div class="manage-tabs" id="manage-tabs" role="tablist" data-i18n-attr="aria-label:manageHeading" aria-label="Lists"></div>
+      </div>
+
+      <div id="manage-panels"></div>
+    </main>
+
+    <div class="manage-snackbar" id="manage-snackbar" role="status" aria-live="polite" hidden>
+      <span class="manage-snackbar-text" id="manage-snackbar-text"></span>
+      <button data-i18n="manageUndo" type="button" class="manage-snackbar-undo" id="manage-snackbar-undo" hidden>Undo</button>
+      <button
+        type="button"
+        class="manage-snackbar-close"
+        id="manage-snackbar-close"
+        data-i18n-attr="aria-label:manageDismiss"
+        aria-label="Dismiss"
+      >
+        <svg viewBox="0 0 24 24" aria-hidden="true">
+          <path d="M6 6l12 12"></path>
+          <path d="M18 6L6 18"></path>
+        </svg>
+      </button>
+    </div>
+
+    <dialog class="manage-dialog" id="clear-dialog" aria-labelledby="clear-dialog-title" aria-describedby="clear-dialog-text">
+      <h2 class="manage-dialog-title" id="clear-dialog-title"></h2>
+      <p class="manage-dialog-text" id="clear-dialog-text"></p>
+      <div class="manage-dialog-actions">
+        <button data-i18n="manageExportBackup" type="button" class="manage-btn manage-btn-quiet" id="clear-dialog-export">Export a backup</button>
+        <span class="manage-dialog-spacer"></span>
+        <button data-i18n="manageCancel" type="button" class="manage-btn" id="clear-dialog-cancel">Cancel</button>
+        <button type="button" class="manage-btn manage-btn-danger-solid" id="clear-dialog-confirm"></button>
+      </div>
+    </dialog>
+
+    <dialog class="manage-dialog" id="import-dialog" aria-labelledby="import-dialog-title">
+      <h2 data-i18n="manageImportTitle" class="manage-dialog-title" id="import-dialog-title">Import lists</h2>
+      <p data-i18n="manageImportIntro" class="manage-dialog-text">
+        Entries are only added. Nothing already in your lists is removed or changed.
+      </p>
+      <ul class="import-summary" id="import-summary"></ul>
+      <div class="manage-dialog-actions">
+        <span class="manage-dialog-spacer"></span>
+        <button data-i18n="manageCancel" type="button" class="manage-btn" id="import-dialog-cancel">Cancel</button>
+        <button type="button" class="manage-btn manage-btn-primary" id="import-dialog-confirm"></button>
+      </div>
+    </dialog>
+
+    <template id="list-panel-template">
+      <section class="list-panel" role="tabpanel" tabindex="-1" hidden>
+        <div class="panel-head">
+          <div class="panel-head-text">
+            <h2 class="panel-title" data-role="title"></h2>
+            <p class="panel-description" data-role="description"></p>
+          </div>
+          <label class="panel-switch" data-role="switch-wrap">
+            <span class="panel-switch-label" data-role="switch-label"></span>
+            <span class="toggle-switch-large">
+              <input type="checkbox" role="switch" data-role="switch" />
+              <span class="toggle-slider"></span>
+            </span>
+          </label>
+          <p class="panel-note" data-role="note" hidden></p>
+        </div>
+
+        <form class="add-box" data-role="add-form" novalidate hidden>
+          <label class="add-label" data-role="add-label"></label>
+          <div class="add-row">
+            <textarea class="add-input" data-role="add-input" rows="1" spellcheck="false" autocomplete="off"></textarea>
+            <button type="submit" class="manage-btn manage-btn-primary add-submit" data-role="add-submit" disabled></button>
+          </div>
+          <p class="add-hint" data-role="add-hint"></p>
+          <ul class="add-preview" data-role="add-preview" aria-live="polite"></ul>
+        </form>
+
+        <div class="list-toolbar" data-role="toolbar">
+          <div class="search-field">
+            <svg class="search-icon" viewBox="0 0 24 24" aria-hidden="true">
+              <circle cx="11" cy="11" r="7"></circle>
+              <path d="M20 20l-3.5-3.5"></path>
+            </svg>
+            <input type="search" class="search-input" data-role="search" autocomplete="off" spellcheck="false" />
+          </div>
+          <label class="sort-field">
+            <span class="sort-label" data-i18n="manageSortLabel">Sort</span>
+            <select class="sort-select" data-role="sort">
+              <option value="recent" data-i18n="manageSortRecent">Recently added</option>
+              <option value="az" data-i18n="manageSortAz">A to Z</option>
+            </select>
+          </label>
+        </div>
+
+        <div class="list-header" data-role="list-header">
+          <label class="list-header-check">
+            <input type="checkbox" data-role="select-page" />
+            <span class="visually-hidden" data-i18n="manageSelectShown">Select all shown</span>
+          </label>
+          <span class="list-header-count" data-role="count" aria-live="polite"></span>
+          <button type="button" class="link-button" data-role="select-all-matching" hidden></button>
+          <span class="list-header-spacer"></span>
+          <div class="list-header-actions" data-role="selection-actions" hidden>
+            <button type="button" class="manage-btn" data-role="move-selected"></button>
+            <button type="button" class="manage-btn manage-btn-danger" data-role="remove-selected"></button>
+            <button
+              type="button"
+              class="icon-button"
+              data-role="clear-selection"
+              data-i18n-attr="aria-label:manageClearSelection,title:manageClearSelection"
+              aria-label="Clear selection"
+              title="Clear selection"
+            >
+              <svg viewBox="0 0 24 24" aria-hidden="true">
+                <path d="M6 6l12 12"></path>
+                <path d="M18 6L6 18"></path>
+              </svg>
+            </button>
+          </div>
+        </div>
+
+        <ul class="item-list" data-role="list"></ul>
+
+        <div class="empty-state" data-role="empty" hidden>
+          <p class="empty-title" data-role="empty-title"></p>
+          <p class="empty-text" data-role="empty-text"></p>
+          <button data-i18n="manageClearSearch" type="button" class="manage-btn" data-role="clear-search" hidden>
+            Clear search
+          </button>
+        </div>
+
+        <button type="button" class="manage-btn load-more" data-role="load-more" hidden></button>
+
+        <div class="panel-footer" data-role="footer">
+          <button type="button" class="manage-btn manage-btn-danger" data-role="clear-all"></button>
+        </div>
+      </section>
+    </template>
+
+    <script src="../content/i18n.js"></script>
+    <script src="../content/whitelist-utils.js"></script>
+    <script src="../channel-list-sync.js"></script>
+    <script src="../marked-watched-sync.js"></script>
+    <script src="manage.js"></script>
+  </body>
+</html>

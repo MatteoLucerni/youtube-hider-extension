@@ -390,45 +390,6 @@
       }
     }
   },
-  "watchedPageTitle": {
-    "message": "İzlendi olarak işaretlenenler | YouTube Hider"
-  },
-  "watchedDescription": {
-    "message": "YouTube'da İzlendi düğmesiyle işaretlediğiniz videolar. İzlenen Videoları Gizle ayarlarına göre izlenen videolar gibi gizlenirler. Geri getirmek için birini kaldırın. En fazla 3.000 video saklanır: bunu aşınca en eski işaret silinir."
-  },
-  "watchedSyncDescription": {
-    "message": "İşaretleriniz aynı Chrome profiliyle oturum açılmış tüm bilgisayarlarda otomatik olarak senkronize edilir, bu yüzden cihazlar arasında dışa ve içe aktarmanıza gerek yoktur. Yedek almak veya başka bir profile taşımak için Dışa aktar'ı kullanın."
-  },
-  "watchedExport": {
-    "message": "Dışa aktar"
-  },
-  "watchedImport": {
-    "message": "İçe aktar"
-  },
-  "watchedClearAll": {
-    "message": "Tümünü temizle"
-  },
-  "watchedUndo": {
-    "message": "Geri al"
-  },
-  "watchedSelectAllShown": {
-    "message": "Gösterilenlerin tümünü seç"
-  },
-  "watchedRemoveSelected": {
-    "message": "Seçilenleri kaldır"
-  },
-  "watchedClearSearch": {
-    "message": "Aramayı temizle"
-  },
-  "watchedLoadMore": {
-    "message": "Daha fazla yükle"
-  },
-  "watchedSearchPlaceholder": {
-    "message": "Başlık, kanal veya video kimliğine göre ara"
-  },
-  "watchedSearchLabel": {
-    "message": "İşaretlenen videolarda ara"
-  },
   "markedCount_one": {
     "message": "$limit$ videodan $count$",
     "placeholders": {
@@ -495,96 +456,415 @@
       }
     }
   },
-  "watchedSelectItem": {
-    "message": "$title$ öğesini seç",
+  "managePageTitle": {
+    "message": "Listeler | YouTube Hider"
+  },
+  "managePageTitleList": {
+    "message": "$list$ | YouTube Hider",
     "placeholders": {
-      "title": {
+      "list": {
         "content": "$1"
       }
     }
   },
-  "watchedTitleUnavailable": {
-    "message": "Başlık bu cihazda kullanılamıyor"
+  "manageHeading": {
+    "message": "Listeler"
   },
-  "watchedMarkedOn": {
-    "message": "İşaretlenme: $date$",
+  "manageExport": {
+    "message": "Dışa aktar"
+  },
+  "manageImport": {
+    "message": "İçe aktar"
+  },
+  "manageSyncTitle": {
+    "message": "Cihazlar arası senkronizasyon"
+  },
+  "manageSyncDescription": {
+    "message": "Listeleriniz ve işaretli videolarınız aynı Chrome profiliyle oturum açılmış her bilgisayarla senkronize edilir. Chrome bunun için her uzantıya, ayarlarıyla paylaşılan 100 KB alan verir."
+  },
+  "manageSyncOk": {
+    "message": "Güncel"
+  },
+  "manageSyncSyncing": {
+    "message": "Senkronize ediliyor"
+  },
+  "manageSyncPaused": {
+    "message": "Duraklatıldı"
+  },
+  "manageSyncPartlyPaused": {
+    "message": "Kısmen duraklatıldı"
+  },
+  "manageSyncRetrying": {
+    "message": "Kısa süre içinde yeniden denenecek"
+  },
+  "manageSyncOutdated": {
+    "message": "Güncelleme gerekli"
+  },
+  "manageSyncAlmostFull": {
+    "message": "Neredeyse dolu"
+  },
+  "manageSyncMessageListsPaused": {
+    "message": "Listeleriniz Chrome'un uzantılara senkronizasyon için verdiği alanı aştığı için senkronizasyonları duraklatıldı. Her şey bu tarayıcıda kayıtlı ve çalışıyor; diğer cihazlarınız sığan son sürümü korur. Listeler yeniden sığdığında senkronizasyon kendiliğinden devam eder."
+  },
+  "manageSyncMessageMarkedPaused": {
+    "message": "İşaretli videolar şu anda senkronize edilmiyor: paylaşılan alanda listeleriniz önceliklidir. Videolar bu tarayıcıda kayıtlı ve çalışıyor; yer açıldığında senkronizasyon devam eder."
+  },
+  "manageSyncMessageOutdated": {
+    "message": "Başka bir cihaz YouTube Hider'ın daha yeni bir sürümünü kullanıyor. Senkronizasyona devam etmek için bu tarayıcıdaki uzantıyı güncelleyin."
+  },
+  "manageSyncMessageNearFull": {
+    "message": "Neredeyse dolu. Listeleriniz alanı aşarsa senkronizasyon duraklar ama hiçbir şey kaybolmaz: her şey bu tarayıcıda çalışmaya devam eder."
+  },
+  "manageSyncMeterText": {
+    "message": "%$percent$ kullanılıyor",
     "placeholders": {
-      "date": {
+      "percent": {
         "content": "$1"
       }
     }
   },
-  "watchedRemove": {
-    "message": "Kaldır"
-  },
-  "watchedRemoveItem": {
-    "message": "$title$ öğesini kaldır",
+  "manageSyncLegendLists": {
+    "message": "Listeler: $size$",
     "placeholders": {
-      "title": {
+      "size": {
         "content": "$1"
       }
     }
   },
-  "watchedRemoveSelectedCount_one": {
-    "message": "Seçilenleri kaldır ($count$)",
+  "manageSyncLegendMarked": {
+    "message": "İşaretli videolar: $size$",
+    "placeholders": {
+      "size": {
+        "content": "$1"
+      }
+    }
+  },
+  "manageSyncLegendSettings": {
+    "message": "Ayarlar: $size$",
+    "placeholders": {
+      "size": {
+        "content": "$1"
+      }
+    }
+  },
+  "manageSyncLegendFree": {
+    "message": "Boş: $size$",
+    "placeholders": {
+      "size": {
+        "content": "$1"
+      }
+    }
+  },
+  "manageUndo": {
+    "message": "Geri al"
+  },
+  "manageDismiss": {
+    "message": "Kapat"
+  },
+  "manageExportBackup": {
+    "message": "Yedek dışa aktar"
+  },
+  "manageCancel": {
+    "message": "İptal"
+  },
+  "manageImportTitle": {
+    "message": "Listeleri içe aktar"
+  },
+  "manageImportIntro": {
+    "message": "Kayıtlar yalnızca eklenir: listelerinizde zaten bulunan hiçbir şey kaldırılmaz veya değiştirilmez."
+  },
+  "manageImportNothing": {
+    "message": "İçe aktarılacak yeni bir şey yok: bu dosyadaki her şey zaten listelerinizde."
+  },
+  "manageImportError": {
+    "message": "Bu dosya bir YouTube Hider dışa aktarımı olarak okunamadı."
+  },
+  "manageImportListFull": {
+    "message": "Liste dolu olduğu için en eski işaretler silindi."
+  },
+  "manageImportConfirm_one": {
+    "message": "$count$ kaydı içe aktar",
     "placeholders": {
       "count": {
         "content": "$1"
       }
     }
   },
-  "watchedRemoveSelectedCount_other": {
-    "message": "Seçilenleri kaldır ($count$)",
+  "manageImportConfirm_other": {
+    "message": "$count$ kaydı içe aktar",
     "placeholders": {
       "count": {
         "content": "$1"
       }
     }
   },
-  "watchedLoadMoreCount_one": {
-    "message": "Daha fazla yükle ($count$ kaldı)",
+  "manageImportSkippedOther_one": {
+    "message": "$count$ atlandı: zaten $list$ listesinde",
+    "placeholders": {
+      "count": {
+        "content": "$1"
+      },
+      "list": {
+        "content": "$2"
+      }
+    }
+  },
+  "manageImportSkippedOther_other": {
+    "message": "$count$ atlandı: zaten $list$ listesinde",
+    "placeholders": {
+      "count": {
+        "content": "$1"
+      },
+      "list": {
+        "content": "$2"
+      }
+    }
+  },
+  "manageImported_one": {
+    "message": "$count$ yeni kayıt içe aktarıldı.",
     "placeholders": {
       "count": {
         "content": "$1"
       }
     }
   },
-  "watchedLoadMoreCount_other": {
-    "message": "Daha fazla yükle ($count$ kaldı)",
+  "manageImported_other": {
+    "message": "$count$ yeni kayıt içe aktarıldı.",
     "placeholders": {
       "count": {
         "content": "$1"
       }
     }
   },
-  "watchedEmpty": {
-    "message": "Henüz işaretlenmiş video yok. YouTube'da bir videonun üzerine gelin ve buraya eklemek için İzlendi'ye tıklayın."
-  },
-  "watchedNoMatch": {
-    "message": "\"$query$\" ile eşleşen işaretli video yok.",
-    "placeholders": {
-      "query": {
-        "content": "$1"
-      }
-    }
-  },
-  "watchedRestored_one": {
-    "message": "$count$ video geri yüklendi.",
+  "manageExported_one": {
+    "message": "$count$ kayıt dışa aktarıldı.",
     "placeholders": {
       "count": {
         "content": "$1"
       }
     }
   },
-  "watchedRestored_other": {
-    "message": "$count$ video geri yüklendi.",
+  "manageExported_other": {
+    "message": "$count$ kayıt dışa aktarıldı.",
     "placeholders": {
       "count": {
         "content": "$1"
       }
     }
   },
-  "watchedRemoved_one": {
+  "manageMarkedDescription": {
+    "message": "YouTube'da İzlendi düğmesiyle işaretlediğiniz videolar. İzlenen Videoları Gizle ayarlarına göre izlenen videolar gibi gizlenirler. Geri getirmek için birini kaldırın. En fazla 3.000 video saklanır: bunu aşınca en eski işaret silinir."
+  },
+  "manageMarkedNote": {
+    "message": "$setting$ ayarına bağlıdır: işaretli videolar yalnızca bu ayarın etkin olduğu yerlerde gizlenir.",
+    "placeholders": {
+      "setting": {
+        "content": "$1"
+      }
+    }
+  },
+  "manageSwitchOn": {
+    "message": "Açık"
+  },
+  "manageSwitchOff": {
+    "message": "Kapalı"
+  },
+  "manageAddChannelsLabel": {
+    "message": "Kanal ekle"
+  },
+  "manageAddWordsLabel": {
+    "message": "Kelime veya ifade ekle"
+  },
+  "manageAddChannelsPlaceholder": {
+    "message": "@kullanıcıadı veya kanal bağlantısı. Birkaçını aynı anda, her satıra bir tane yapıştırın"
+  },
+  "manageAddWordsPlaceholder": {
+    "message": "Kelime veya ifade. Birkaçını aynı anda, her satıra bir tane yapıştırın"
+  },
+  "manageAddChannelsHint": {
+    "message": "Enter ekler, Shift+Enter yeni satıra geçer. Örneğin @veritasium veya youtube.com/@veritasium"
+  },
+  "manageAddWordsHint": {
+    "message": "Enter ekler, Shift+Enter yeni satıra geçer. Bir kelime, başlıkta bir kelimenin başladığı yerde eşleşir; büyük/küçük harf fark etmez"
+  },
+  "manageAddButton": {
+    "message": "Ekle"
+  },
+  "manageAddButtonCount_one": {
+    "message": "$count$ ekle",
+    "placeholders": {
+      "count": {
+        "content": "$1"
+      }
+    }
+  },
+  "manageAddButtonCount_other": {
+    "message": "$count$ ekle",
+    "placeholders": {
+      "count": {
+        "content": "$1"
+      }
+    }
+  },
+  "manageAddNew_one": {
+    "message": "$count$ yeni",
+    "placeholders": {
+      "count": {
+        "content": "$1"
+      }
+    }
+  },
+  "manageAddNew_other": {
+    "message": "$count$ yeni",
+    "placeholders": {
+      "count": {
+        "content": "$1"
+      }
+    }
+  },
+  "manageAddExisting_one": {
+    "message": "$count$ zaten listede",
+    "placeholders": {
+      "count": {
+        "content": "$1"
+      }
+    }
+  },
+  "manageAddExisting_other": {
+    "message": "$count$ zaten listede",
+    "placeholders": {
+      "count": {
+        "content": "$1"
+      }
+    }
+  },
+  "manageAddMoving_one": {
+    "message": "$count$ tanesi $list$ listesinden taşınacak",
+    "placeholders": {
+      "count": {
+        "content": "$1"
+      },
+      "list": {
+        "content": "$2"
+      }
+    }
+  },
+  "manageAddMoving_other": {
+    "message": "$count$ tanesi $list$ listesinden taşınacak",
+    "placeholders": {
+      "count": {
+        "content": "$1"
+      },
+      "list": {
+        "content": "$2"
+      }
+    }
+  },
+  "manageAddInvalid_one": {
+    "message": "$count$ tanesi tanınmadı: $items$",
+    "placeholders": {
+      "count": {
+        "content": "$1"
+      },
+      "items": {
+        "content": "$2"
+      }
+    }
+  },
+  "manageAddInvalid_other": {
+    "message": "$count$ tanesi tanınmadı: $items$",
+    "placeholders": {
+      "count": {
+        "content": "$1"
+      },
+      "items": {
+        "content": "$2"
+      }
+    }
+  },
+  "manageAdded_one": {
+    "message": "$list$ listesine $count$ kayıt eklendi.",
+    "placeholders": {
+      "count": {
+        "content": "$1"
+      },
+      "list": {
+        "content": "$2"
+      }
+    }
+  },
+  "manageAdded_other": {
+    "message": "$list$ listesine $count$ kayıt eklendi.",
+    "placeholders": {
+      "count": {
+        "content": "$1"
+      },
+      "list": {
+        "content": "$2"
+      }
+    }
+  },
+  "manageRemoved_one": {
+    "message": "$list$ listesinden $count$ kayıt kaldırıldı.",
+    "placeholders": {
+      "count": {
+        "content": "$1"
+      },
+      "list": {
+        "content": "$2"
+      }
+    }
+  },
+  "manageRemoved_other": {
+    "message": "$list$ listesinden $count$ kayıt kaldırıldı.",
+    "placeholders": {
+      "count": {
+        "content": "$1"
+      },
+      "list": {
+        "content": "$2"
+      }
+    }
+  },
+  "manageMoved_one": {
+    "message": "$count$ kayıt $list$ listesine taşındı.",
+    "placeholders": {
+      "count": {
+        "content": "$1"
+      },
+      "list": {
+        "content": "$2"
+      }
+    }
+  },
+  "manageMoved_other": {
+    "message": "$count$ kayıt $list$ listesine taşındı.",
+    "placeholders": {
+      "count": {
+        "content": "$1"
+      },
+      "list": {
+        "content": "$2"
+      }
+    }
+  },
+  "manageRestored_one": {
+    "message": "$count$ kayıt geri yüklendi.",
+    "placeholders": {
+      "count": {
+        "content": "$1"
+      }
+    }
+  },
+  "manageRestored_other": {
+    "message": "$count$ kayıt geri yüklendi.",
+    "placeholders": {
+      "count": {
+        "content": "$1"
+      }
+    }
+  },
+  "manageMarkedRemoved_one": {
     "message": "$count$ video kaldırıldı. YouTube'da yeniden görünecek.",
     "placeholders": {
       "count": {
@@ -592,7 +872,7 @@
       }
     }
   },
-  "watchedRemoved_other": {
+  "manageMarkedRemoved_other": {
     "message": "$count$ video kaldırıldı. YouTube'da yeniden görünecekler.",
     "placeholders": {
       "count": {
@@ -600,59 +880,276 @@
       }
     }
   },
-  "watchedExported_one": {
-    "message": "$count$ video dışa aktarıldı.",
+  "manageSortLabel": {
+    "message": "Sırala"
+  },
+  "manageSortRecent": {
+    "message": "Son eklenenler"
+  },
+  "manageSortAz": {
+    "message": "A'dan Z'ye"
+  },
+  "manageSearchChannels": {
+    "message": "Kanal ara"
+  },
+  "manageSearchWords": {
+    "message": "Kelime ara"
+  },
+  "manageSearchMarked": {
+    "message": "Başlık, kanal veya video kimliğine göre ara"
+  },
+  "manageCountChannels_one": {
+    "message": "$count$ kanal",
     "placeholders": {
       "count": {
         "content": "$1"
       }
     }
   },
-  "watchedExported_other": {
-    "message": "$count$ video dışa aktarıldı.",
+  "manageCountChannels_other": {
+    "message": "$count$ kanal",
     "placeholders": {
       "count": {
         "content": "$1"
       }
     }
   },
-  "watchedImportEmpty": {
-    "message": "Bu dosyada geçerli video bulunamadı."
-  },
-  "watchedImported_one": {
-    "message": "$count$ yeni video içe aktarıldı.",
+  "manageCountWords_one": {
+    "message": "$count$ kelime",
     "placeholders": {
       "count": {
         "content": "$1"
       }
     }
   },
-  "watchedImported_other": {
-    "message": "$count$ yeni video içe aktarıldı.",
+  "manageCountWords_other": {
+    "message": "$count$ kelime",
     "placeholders": {
       "count": {
         "content": "$1"
       }
     }
   },
-  "watchedImportListFull": {
-    "message": "Liste dolu olduğu için en eski işaretler silindi."
-  },
-  "watchedImportError": {
-    "message": "Bu dosya bir YouTube Hider dışa aktarımı olarak okunamadı."
-  },
-  "watchedClearConfirm_one": {
-    "message": "İşaretlenen $count$ video kaldırılsın mı? YouTube'da yeniden görünecek.",
+  "manageCountVideos_one": {
+    "message": "$count$ video",
     "placeholders": {
       "count": {
         "content": "$1"
       }
     }
   },
-  "watchedClearConfirm_other": {
-    "message": "İşaretlenen $count$ videonun tümü kaldırılsın mı? YouTube'da yeniden görünecekler.",
+  "manageCountVideos_other": {
+    "message": "$count$ video",
     "placeholders": {
       "count": {
+        "content": "$1"
+      }
+    }
+  },
+  "manageCountMatches_one": {
+    "message": "$count$ sonuç",
+    "placeholders": {
+      "count": {
+        "content": "$1"
+      }
+    }
+  },
+  "manageCountMatches_other": {
+    "message": "$count$ sonuç",
+    "placeholders": {
+      "count": {
+        "content": "$1"
+      }
+    }
+  },
+  "manageSelectedCount_one": {
+    "message": "$count$ seçili",
+    "placeholders": {
+      "count": {
+        "content": "$1"
+      }
+    }
+  },
+  "manageSelectedCount_other": {
+    "message": "$count$ seçili",
+    "placeholders": {
+      "count": {
+        "content": "$1"
+      }
+    }
+  },
+  "manageSelectAllMatching_one": {
+    "message": "Tümünü seç ($count$)",
+    "placeholders": {
+      "count": {
+        "content": "$1"
+      }
+    }
+  },
+  "manageSelectAllMatching_other": {
+    "message": "Tümünü seç ($count$)",
+    "placeholders": {
+      "count": {
+        "content": "$1"
+      }
+    }
+  },
+  "manageSelectShown": {
+    "message": "Gösterilenlerin tümünü seç"
+  },
+  "manageClearSelection": {
+    "message": "Seçimi temizle"
+  },
+  "manageSelectItem": {
+    "message": "$title$ öğesini seç",
+    "placeholders": {
+      "title": {
+        "content": "$1"
+      }
+    }
+  },
+  "manageRemove": {
+    "message": "Kaldır"
+  },
+  "manageRemoveItem": {
+    "message": "$title$ öğesini kaldır",
+    "placeholders": {
+      "title": {
+        "content": "$1"
+      }
+    }
+  },
+  "manageRemoveSelected_one": {
+    "message": "Seçilenleri kaldır ($count$)",
+    "placeholders": {
+      "count": {
+        "content": "$1"
+      }
+    }
+  },
+  "manageRemoveSelected_other": {
+    "message": "Seçilenleri kaldır ($count$)",
+    "placeholders": {
+      "count": {
+        "content": "$1"
+      }
+    }
+  },
+  "manageMoveSelected": {
+    "message": "$list$ listesine taşı",
+    "placeholders": {
+      "list": {
+        "content": "$1"
+      }
+    }
+  },
+  "manageClearSearch": {
+    "message": "Aramayı temizle"
+  },
+  "manageLoadMore_one": {
+    "message": "Daha fazla yükle ($count$ kaldı)",
+    "placeholders": {
+      "count": {
+        "content": "$1"
+      }
+    }
+  },
+  "manageLoadMore_other": {
+    "message": "Daha fazla yükle ($count$ kaldı)",
+    "placeholders": {
+      "count": {
+        "content": "$1"
+      }
+    }
+  },
+  "manageClearAll": {
+    "message": "Tümünü temizle"
+  },
+  "manageClearTitle": {
+    "message": "$list$ temizlensin mi?",
+    "placeholders": {
+      "list": {
+        "content": "$1"
+      }
+    }
+  },
+  "manageClearText_one": {
+    "message": "$list$ listesindeki $count$ kaydın tümü kaldırılacak. Hemen ardından geri alabilir veya önce bir yedek dışa aktarabilirsiniz.",
+    "placeholders": {
+      "count": {
+        "content": "$1"
+      },
+      "list": {
+        "content": "$2"
+      }
+    }
+  },
+  "manageClearText_other": {
+    "message": "$list$ listesindeki $count$ kaydın tümü kaldırılacak. Hemen ardından geri alabilir veya önce bir yedek dışa aktarabilirsiniz.",
+    "placeholders": {
+      "count": {
+        "content": "$1"
+      },
+      "list": {
+        "content": "$2"
+      }
+    }
+  },
+  "manageClearConfirm_one": {
+    "message": "Tümünü kaldır ($count$)",
+    "placeholders": {
+      "count": {
+        "content": "$1"
+      }
+    }
+  },
+  "manageClearConfirm_other": {
+    "message": "Tümünü kaldır ($count$)",
+    "placeholders": {
+      "count": {
+        "content": "$1"
+      }
+    }
+  },
+  "manageEmptyTitle": {
+    "message": "Burada henüz bir şey yok"
+  },
+  "manageEmptyMarked": {
+    "message": "Henüz işaretlenmiş video yok. YouTube'da bir videonun üzerine gelin ve buraya eklemek için İzlendi'ye tıklayın."
+  },
+  "manageEmptyChannelWhitelist": {
+    "message": "Bir kanal veya video sayfasında Abone ol düğmesinin yanındaki Whitelist düğmesini kullanın ya da kanalları yukarıdaki alana yapıştırın."
+  },
+  "manageEmptyChannelBlacklist": {
+    "message": "YouTube'da bir videonun üzerine gelip Blacklist'e tıklayın, bir kanal sayfasında Abone ol düğmesinin yanındaki Blacklist düğmesini kullanın ya da kanalları yukarıdaki alana yapıştırın."
+  },
+  "manageEmptyTitleWhitelist": {
+    "message": "Yukarıdaki alana bir kelime veya ifade yazın. Başlığında bu kelime geçen videolar hiçbir zaman filtrelenmez."
+  },
+  "manageEmptyTitleBlacklist": {
+    "message": "Yukarıdaki alana bir kelime veya ifade yazın. Başlığında bu kelime geçen videolar her zaman gizlenir."
+  },
+  "manageNoMatchTitle": {
+    "message": "\"$query$\" için sonuç yok",
+    "placeholders": {
+      "query": {
+        "content": "$1"
+      }
+    }
+  },
+  "manageNoMatchText": {
+    "message": "Yazımı kontrol edin veya adın yalnızca bir kısmını arayın."
+  },
+  "manageChannelIdLabel": {
+    "message": "Kanal kimliği"
+  },
+  "manageTitleUnavailable": {
+    "message": "Başlık bu cihazda kullanılamıyor"
+  },
+  "manageMarkedOn": {
+    "message": "İşaretlenme: $date$",
+    "placeholders": {
+      "date": {
         "content": "$1"
       }
     }

@@ -390,45 +390,6 @@
       }
     }
   },
-  "watchedPageTitle": {
-    "message": "視聴済みにした動画 | YouTube Hider"
-  },
-  "watchedDescription": {
-    "message": "YouTube の「視聴済み」ボタンで印を付けた動画です。「視聴済み動画を非表示」の設定に従って、視聴済みの動画と同じように非表示になります。削除すると再び表示されます。保存できるのは 3,000 本までで、超えると最も古い印から削除されます。"
-  },
-  "watchedSyncDescription": {
-    "message": "印は同じ Chrome プロフィールでログインしているすべてのパソコンに自動で同期されるため、デバイス間でエクスポートやインポートをする必要はありません。「エクスポート」はバックアップや別のプロフィールへの移動に使えます。"
-  },
-  "watchedExport": {
-    "message": "エクスポート"
-  },
-  "watchedImport": {
-    "message": "インポート"
-  },
-  "watchedClearAll": {
-    "message": "すべて削除"
-  },
-  "watchedUndo": {
-    "message": "元に戻す"
-  },
-  "watchedSelectAllShown": {
-    "message": "表示中をすべて選択"
-  },
-  "watchedRemoveSelected": {
-    "message": "選択項目を削除"
-  },
-  "watchedClearSearch": {
-    "message": "検索をクリア"
-  },
-  "watchedLoadMore": {
-    "message": "さらに表示"
-  },
-  "watchedSearchPlaceholder": {
-    "message": "タイトル、チャンネル、動画 ID で検索"
-  },
-  "watchedSearchLabel": {
-    "message": "視聴済みにした動画を検索"
-  },
   "markedCount_other": {
     "message": "$count$ / $limit$ 本",
     "placeholders": {
@@ -462,72 +423,293 @@
       }
     }
   },
-  "watchedSelectItem": {
-    "message": "$title$ を選択",
+  "managePageTitle": {
+    "message": "リスト | YouTube Hider"
+  },
+  "managePageTitleList": {
+    "message": "$list$ | YouTube Hider",
     "placeholders": {
-      "title": {
+      "list": {
         "content": "$1"
       }
     }
   },
-  "watchedTitleUnavailable": {
-    "message": "このデバイスではタイトルを取得できません"
+  "manageHeading": {
+    "message": "リスト"
   },
-  "watchedMarkedOn": {
-    "message": "$date$ に印を付けました",
+  "manageExport": {
+    "message": "エクスポート"
+  },
+  "manageImport": {
+    "message": "インポート"
+  },
+  "manageSyncTitle": {
+    "message": "デバイス間の同期"
+  },
+  "manageSyncDescription": {
+    "message": "リストと視聴済みにした動画は、同じ Chrome プロファイルでログインしているすべてのパソコンに同期されます。Chrome が拡張機能ごとに用意する同期容量は 100 KB で、設定と共有します。"
+  },
+  "manageSyncOk": {
+    "message": "最新"
+  },
+  "manageSyncSyncing": {
+    "message": "同期中"
+  },
+  "manageSyncPaused": {
+    "message": "一時停止中"
+  },
+  "manageSyncPartlyPaused": {
+    "message": "一部停止中"
+  },
+  "manageSyncRetrying": {
+    "message": "まもなく再試行します"
+  },
+  "manageSyncOutdated": {
+    "message": "更新が必要です"
+  },
+  "manageSyncAlmostFull": {
+    "message": "残りわずか"
+  },
+  "manageSyncMessageListsPaused": {
+    "message": "リストが Chrome の拡張機能向け同期容量を超えたため、リストの同期を一時停止しています。すべてこのブラウザに保存され、正常に動作しています。他のデバイスには容量に収まった最後のバージョンが残ります。リストが再び収まると同期は自動的に再開されます。"
+  },
+  "manageSyncMessageMarkedPaused": {
+    "message": "視聴済みにした動画は現在同期されていません。共有容量ではリストが優先されます。動画はこのブラウザに保存され、正常に動作しています。空きができると同期が再開されます。"
+  },
+  "manageSyncMessageOutdated": {
+    "message": "別のデバイスで新しいバージョンの YouTube Hider が使われています。同期を続けるには、このブラウザの拡張機能を更新してください。"
+  },
+  "manageSyncMessageNearFull": {
+    "message": "残りわずかです。リストが容量を超えると同期は一時停止しますが、何も失われません。このブラウザではすべて引き続き動作します。"
+  },
+  "manageSyncMeterText": {
+    "message": "$percent$% 使用中",
     "placeholders": {
-      "date": {
+      "percent": {
         "content": "$1"
       }
     }
   },
-  "watchedRemove": {
-    "message": "削除"
-  },
-  "watchedRemoveItem": {
-    "message": "$title$ を削除",
+  "manageSyncLegendLists": {
+    "message": "リスト: $size$",
     "placeholders": {
-      "title": {
+      "size": {
         "content": "$1"
       }
     }
   },
-  "watchedRemoveSelectedCount_other": {
-    "message": "選択項目を削除 ($count$)",
+  "manageSyncLegendMarked": {
+    "message": "視聴済みにした動画: $size$",
+    "placeholders": {
+      "size": {
+        "content": "$1"
+      }
+    }
+  },
+  "manageSyncLegendSettings": {
+    "message": "設定: $size$",
+    "placeholders": {
+      "size": {
+        "content": "$1"
+      }
+    }
+  },
+  "manageSyncLegendFree": {
+    "message": "空き: $size$",
+    "placeholders": {
+      "size": {
+        "content": "$1"
+      }
+    }
+  },
+  "manageUndo": {
+    "message": "元に戻す"
+  },
+  "manageDismiss": {
+    "message": "閉じる"
+  },
+  "manageExportBackup": {
+    "message": "バックアップをエクスポート"
+  },
+  "manageCancel": {
+    "message": "キャンセル"
+  },
+  "manageImportTitle": {
+    "message": "リストをインポート"
+  },
+  "manageImportIntro": {
+    "message": "項目は追加されるだけです。リストにすでにあるものが削除されたり変更されたりすることはありません。"
+  },
+  "manageImportNothing": {
+    "message": "インポートする新しい項目はありません。このファイルの内容はすべてリストにあります。"
+  },
+  "manageImportError": {
+    "message": "このファイルは YouTube Hider のエクスポートとして読み込めませんでした。"
+  },
+  "manageImportListFull": {
+    "message": "リストがいっぱいのため、最も古い印が削除されました。"
+  },
+  "manageImportConfirm_other": {
+    "message": "$count$ 件をインポート",
     "placeholders": {
       "count": {
         "content": "$1"
       }
     }
   },
-  "watchedLoadMoreCount_other": {
-    "message": "さらに表示 (残り $count$ 本)",
+  "manageImportSkippedOther_other": {
+    "message": "$count$ 件をスキップ: すでに $list$ にあります",
+    "placeholders": {
+      "count": {
+        "content": "$1"
+      },
+      "list": {
+        "content": "$2"
+      }
+    }
+  },
+  "manageImported_other": {
+    "message": "新しい項目を $count$ 件インポートしました。",
     "placeholders": {
       "count": {
         "content": "$1"
       }
     }
   },
-  "watchedEmpty": {
-    "message": "視聴済みにした動画はまだありません。YouTube で動画にカーソルを合わせ、「視聴済み」をクリックするとここに追加されます。"
-  },
-  "watchedNoMatch": {
-    "message": "「$query$」に一致する動画はありません。",
-    "placeholders": {
-      "query": {
-        "content": "$1"
-      }
-    }
-  },
-  "watchedRestored_other": {
-    "message": "$count$ 本の動画を元に戻しました。",
+  "manageExported_other": {
+    "message": "$count$ 件をエクスポートしました。",
     "placeholders": {
       "count": {
         "content": "$1"
       }
     }
   },
-  "watchedRemoved_other": {
+  "manageMarkedDescription": {
+    "message": "YouTube の「視聴済み」ボタンで印を付けた動画です。「視聴済み動画を非表示」の設定に従って、視聴済みの動画と同じように非表示になります。削除すると再び表示されます。保存できるのは 3,000 本までで、超えると最も古い印から削除されます。"
+  },
+  "manageMarkedNote": {
+    "message": "「$setting$」に従います。視聴済みにした動画は、その設定が有効な場所でのみ非表示になります。",
+    "placeholders": {
+      "setting": {
+        "content": "$1"
+      }
+    }
+  },
+  "manageSwitchOn": {
+    "message": "オン"
+  },
+  "manageSwitchOff": {
+    "message": "オフ"
+  },
+  "manageAddChannelsLabel": {
+    "message": "チャンネルを追加"
+  },
+  "manageAddWordsLabel": {
+    "message": "語句を追加"
+  },
+  "manageAddChannelsPlaceholder": {
+    "message": "@ハンドルまたはチャンネルのリンク。1 行に 1 つずつ、まとめて貼り付けできます"
+  },
+  "manageAddWordsPlaceholder": {
+    "message": "語句。1 行に 1 つずつ、まとめて貼り付けできます"
+  },
+  "manageAddChannelsHint": {
+    "message": "Enter で追加、Shift+Enter で改行します。例: @veritasium、youtube.com/@veritasium"
+  },
+  "manageAddWordsHint": {
+    "message": "Enter で追加、Shift+Enter で改行します。語句はタイトル内の単語の先頭で一致し、大文字と小文字は区別しません"
+  },
+  "manageAddButton": {
+    "message": "追加"
+  },
+  "manageAddButtonCount_other": {
+    "message": "$count$ 件を追加",
+    "placeholders": {
+      "count": {
+        "content": "$1"
+      }
+    }
+  },
+  "manageAddNew_other": {
+    "message": "新規 $count$ 件",
+    "placeholders": {
+      "count": {
+        "content": "$1"
+      }
+    }
+  },
+  "manageAddExisting_other": {
+    "message": "$count$ 件はリストに登録済み",
+    "placeholders": {
+      "count": {
+        "content": "$1"
+      }
+    }
+  },
+  "manageAddMoving_other": {
+    "message": "$count$ 件を $list$ から移動します",
+    "placeholders": {
+      "count": {
+        "content": "$1"
+      },
+      "list": {
+        "content": "$2"
+      }
+    }
+  },
+  "manageAddInvalid_other": {
+    "message": "$count$ 件を認識できません: $items$",
+    "placeholders": {
+      "count": {
+        "content": "$1"
+      },
+      "items": {
+        "content": "$2"
+      }
+    }
+  },
+  "manageAdded_other": {
+    "message": "$list$ に $count$ 件追加しました。",
+    "placeholders": {
+      "count": {
+        "content": "$1"
+      },
+      "list": {
+        "content": "$2"
+      }
+    }
+  },
+  "manageRemoved_other": {
+    "message": "$list$ から $count$ 件削除しました。",
+    "placeholders": {
+      "count": {
+        "content": "$1"
+      },
+      "list": {
+        "content": "$2"
+      }
+    }
+  },
+  "manageMoved_other": {
+    "message": "$count$ 件を $list$ に移動しました。",
+    "placeholders": {
+      "count": {
+        "content": "$1"
+      },
+      "list": {
+        "content": "$2"
+      }
+    }
+  },
+  "manageRestored_other": {
+    "message": "$count$ 件を元に戻しました。",
+    "placeholders": {
+      "count": {
+        "content": "$1"
+      }
+    }
+  },
+  "manageMarkedRemoved_other": {
     "message": "$count$ 本の動画を削除しました。YouTube で再び表示されます。",
     "placeholders": {
       "count": {
@@ -535,35 +717,193 @@
       }
     }
   },
-  "watchedExported_other": {
-    "message": "$count$ 本の動画をエクスポートしました。",
+  "manageSortLabel": {
+    "message": "並べ替え"
+  },
+  "manageSortRecent": {
+    "message": "追加が新しい順"
+  },
+  "manageSortAz": {
+    "message": "名前順"
+  },
+  "manageSearchChannels": {
+    "message": "チャンネルを検索"
+  },
+  "manageSearchWords": {
+    "message": "語句を検索"
+  },
+  "manageSearchMarked": {
+    "message": "タイトル、チャンネル、動画 ID で検索"
+  },
+  "manageCountChannels_other": {
+    "message": "$count$ チャンネル",
     "placeholders": {
       "count": {
         "content": "$1"
       }
     }
   },
-  "watchedImportEmpty": {
-    "message": "このファイルに有効な動画は見つかりませんでした。"
-  },
-  "watchedImported_other": {
-    "message": "新しい動画を $count$ 本インポートしました。",
+  "manageCountWords_other": {
+    "message": "$count$ 語句",
     "placeholders": {
       "count": {
         "content": "$1"
       }
     }
   },
-  "watchedImportListFull": {
-    "message": "リストがいっぱいのため、最も古い印が削除されました。"
-  },
-  "watchedImportError": {
-    "message": "このファイルは YouTube Hider のエクスポートとして読み込めませんでした。"
-  },
-  "watchedClearConfirm_other": {
-    "message": "印を付けた動画 $count$ 本をすべて削除しますか？YouTube で再び表示されます。",
+  "manageCountVideos_other": {
+    "message": "$count$ 本の動画",
     "placeholders": {
       "count": {
+        "content": "$1"
+      }
+    }
+  },
+  "manageCountMatches_other": {
+    "message": "$count$ 件一致",
+    "placeholders": {
+      "count": {
+        "content": "$1"
+      }
+    }
+  },
+  "manageSelectedCount_other": {
+    "message": "$count$ 件を選択中",
+    "placeholders": {
+      "count": {
+        "content": "$1"
+      }
+    }
+  },
+  "manageSelectAllMatching_other": {
+    "message": "$count$ 件をすべて選択",
+    "placeholders": {
+      "count": {
+        "content": "$1"
+      }
+    }
+  },
+  "manageSelectShown": {
+    "message": "表示中をすべて選択"
+  },
+  "manageClearSelection": {
+    "message": "選択を解除"
+  },
+  "manageSelectItem": {
+    "message": "$title$ を選択",
+    "placeholders": {
+      "title": {
+        "content": "$1"
+      }
+    }
+  },
+  "manageRemove": {
+    "message": "削除"
+  },
+  "manageRemoveItem": {
+    "message": "$title$ を削除",
+    "placeholders": {
+      "title": {
+        "content": "$1"
+      }
+    }
+  },
+  "manageRemoveSelected_other": {
+    "message": "選択項目を削除 ($count$)",
+    "placeholders": {
+      "count": {
+        "content": "$1"
+      }
+    }
+  },
+  "manageMoveSelected": {
+    "message": "$list$ に移動",
+    "placeholders": {
+      "list": {
+        "content": "$1"
+      }
+    }
+  },
+  "manageClearSearch": {
+    "message": "検索をクリア"
+  },
+  "manageLoadMore_other": {
+    "message": "さらに表示 (残り $count$ 本)",
+    "placeholders": {
+      "count": {
+        "content": "$1"
+      }
+    }
+  },
+  "manageClearAll": {
+    "message": "すべて削除"
+  },
+  "manageClearTitle": {
+    "message": "$list$ を空にしますか？",
+    "placeholders": {
+      "list": {
+        "content": "$1"
+      }
+    }
+  },
+  "manageClearText_other": {
+    "message": "$list$ の $count$ 件をすべて削除します。直後に元に戻すことも、先にバックアップをエクスポートすることもできます。",
+    "placeholders": {
+      "count": {
+        "content": "$1"
+      },
+      "list": {
+        "content": "$2"
+      }
+    }
+  },
+  "manageClearConfirm_other": {
+    "message": "$count$ 件をすべて削除",
+    "placeholders": {
+      "count": {
+        "content": "$1"
+      }
+    }
+  },
+  "manageEmptyTitle": {
+    "message": "まだ何もありません"
+  },
+  "manageEmptyMarked": {
+    "message": "視聴済みにした動画はまだありません。YouTube で動画にカーソルを合わせ、「視聴済み」をクリックするとここに追加されます。"
+  },
+  "manageEmptyChannelWhitelist": {
+    "message": "チャンネルや動画のページで「登録」の横にある Whitelist ボタンを使うか、上の欄にチャンネルを貼り付けてください。"
+  },
+  "manageEmptyChannelBlacklist": {
+    "message": "YouTube で動画にカーソルを合わせて Blacklist をクリックするか、チャンネルページで「登録」の横にある Blacklist ボタンを使うか、上の欄にチャンネルを貼り付けてください。"
+  },
+  "manageEmptyTitleWhitelist": {
+    "message": "上の欄に語句を入力してください。タイトルにその語句を含む動画はフィルタされません。"
+  },
+  "manageEmptyTitleBlacklist": {
+    "message": "上の欄に語句を入力してください。タイトルにその語句を含む動画は常に非表示になります。"
+  },
+  "manageNoMatchTitle": {
+    "message": "「$query$」に一致する結果はありません",
+    "placeholders": {
+      "query": {
+        "content": "$1"
+      }
+    }
+  },
+  "manageNoMatchText": {
+    "message": "綴りを確認するか、名前の一部だけで検索してください。"
+  },
+  "manageChannelIdLabel": {
+    "message": "チャンネル ID"
+  },
+  "manageTitleUnavailable": {
+    "message": "このデバイスではタイトルを取得できません"
+  },
+  "manageMarkedOn": {
+    "message": "$date$ に印を付けました",
+    "placeholders": {
+      "date": {
         "content": "$1"
       }
     }

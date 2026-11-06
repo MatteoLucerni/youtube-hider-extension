@@ -801,7 +801,7 @@ document.addEventListener('DOMContentLoaded', () => {
 
   if (markedWatchedManageBtn) {
     markedWatchedManageBtn.addEventListener('click', () => {
-      chrome.runtime.sendMessage({ action: 'openWatchedManager' }, () => {
+      chrome.runtime.sendMessage({ action: 'openManager', list: 'marked-watched' }, () => {
         void chrome.runtime.lastError;
       });
     });
