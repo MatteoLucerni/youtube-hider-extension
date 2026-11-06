@@ -2,7 +2,7 @@ const { chromium } = require('playwright-core');
 const path = require('path');
 const fs = require('fs');
 const os = require('os');
-const { buildManagerSample } = require('./screenshot-utils');
+const { buildManagerSample, buildListsSample } = require('./screenshot-utils');
 
 const EXTENSION_PATH = path.resolve(__dirname, '..');
 const OUTPUT_DIR = path.join(EXTENSION_PATH, 'docs', 'assets', 'images');
@@ -25,6 +25,7 @@ async function main() {
       context.serviceWorkers()[0] ??
       (await context.waitForEvent('serviceworker'));
     const extensionId = new URL(serviceWorker.url()).hostname;
+    await serviceWorker.evaluate(data => chrome.storage.local.set(data), buildListsSample());
 
     const page = await context.newPage();
     await page.goto(
@@ -51,8 +52,8 @@ async function main() {
 
     const managerPage = await context.newPage();
     await managerPage.setViewportSize({ width: 900, height: 600 });
-    await managerPage.goto(`chrome-extension://${extensionId}/popup/watched.html`);
-    await managerPage.waitForSelector('.watched-item');
+    await managerPage.goto(`chrome-extension://${extensionId}/popup/manage.html#marked-watched`);
+    await managerPage.waitForSelector('#panel-marked-watched .item-row');
     await managerPage.waitForFunction(() =>
       Array.from(document.images).every(img => img.complete && img.naturalWidth > 0)
     );

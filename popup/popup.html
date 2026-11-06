@@ -439,6 +439,8 @@
                   type="button"
                   id="marked-watched-manage-btn"
                   class="add-channel-btn marked-watched-manage-btn"
+                  data-manage-list="marked-watched"
+                  data-manage-title="markedWatchedLabel"
                 >
                   Manage
                 </button>
@@ -1354,9 +1356,9 @@
                     <span data-i18n="channelWhitelistTooltip" class="tooltip-text"
                       >Whitelisted channels bypass all active filters. Add a
                       channel from the button below or from the header button
-                      while on a channel page or video. Removing a chip
-                      immediately re-applies all filters to that channel. Shorts
-                      are always filtered regardless</span
+                      while on a channel page or video. The full list opens on
+                      its own page, where you can search, remove and move
+                      channels. Shorts are always filtered regardless</span
                     >
                   </div>
                 </h3>
@@ -1373,13 +1375,18 @@
               </div>
             </div>
             <div class="setting-group whitelist-group">
-              <div
-                id="channel-whitelist-chips"
-                class="whitelist-chips-container"
-              >
-                <span data-i18n="channelWhitelistEmpty" class="whitelist-empty-hint" id="channel-whitelist-empty"
+              <div class="list-summary-row">
+                <span data-i18n="channelWhitelistEmpty" class="list-summary-count" id="channel-whitelist-count"
                   >No channels whitelisted yet</span
                 >
+                <button data-i18n="markedWatchedManage"
+                  type="button"
+                  class="add-channel-btn list-manage-btn"
+                  data-manage-list="channel-whitelist"
+                  data-manage-title="channelWhitelistTitle"
+                >
+                  Manage
+                </button>
               </div>
               <div class="whitelist-add-row">
                 <button data-i18n="addCurrentChannel"
@@ -1413,9 +1420,9 @@
                   <line x1="12" y1="9" x2="12" y2="13"></line>
                   <line x1="12" y1="17" x2="12.01" y2="17"></line>
                 </svg>
-                <span data-i18n="channelListsSyncPaused">Sync paused: too many channels to sync across devices.
-                  Your lists are saved in this browser, and syncing resumes
-                  once they fit again</span>
+                <span data-i18n="channelListsSyncPaused">Sync paused: your lists are too large to sync to your
+                  other devices. Nothing is lost: everything keeps working in
+                  this browser, and syncing resumes once they fit again</span>
               </div>
             </div>
           </div>
@@ -1456,8 +1463,9 @@
                       >Blacklisted channels are always hidden, regardless of
                       any other filter. Add a channel from the button below or
                       from the header button while on a channel page or video.
-                      Removing a chip immediately shows that channel's videos
-                      again. Shorts are always filtered regardless</span
+                      The full list opens on its own page, where you can
+                      search, remove and move channels. Shorts are always
+                      filtered regardless</span
                     >
                   </div>
                 </h3>
@@ -1474,13 +1482,18 @@
               </div>
             </div>
             <div class="setting-group whitelist-group">
-              <div
-                id="channel-blacklist-chips"
-                class="whitelist-chips-container"
-              >
-                <span data-i18n="channelBlacklistEmpty" class="whitelist-empty-hint" id="channel-blacklist-empty"
+              <div class="list-summary-row">
+                <span data-i18n="channelBlacklistEmpty" class="list-summary-count" id="channel-blacklist-count"
                   >No channels blacklisted yet</span
                 >
+                <button data-i18n="markedWatchedManage"
+                  type="button"
+                  class="add-channel-btn list-manage-btn"
+                  data-manage-list="channel-blacklist"
+                  data-manage-title="channelBlacklistTitle"
+                >
+                  Manage
+                </button>
               </div>
               <div class="whitelist-add-row">
                 <button data-i18n="addCurrentChannel"
@@ -1514,9 +1527,9 @@
                   <line x1="12" y1="9" x2="12" y2="13"></line>
                   <line x1="12" y1="17" x2="12.01" y2="17"></line>
                 </svg>
-                <span data-i18n="channelListsSyncPaused">Sync paused: too many channels to sync across devices.
-                  Your lists are saved in this browser, and syncing resumes
-                  once they fit again</span>
+                <span data-i18n="channelListsSyncPaused">Sync paused: your lists are too large to sync to your
+                  other devices. Nothing is lost: everything keeps working in
+                  this browser, and syncing resumes once they fit again</span>
               </div>
             </div>
           </div>
@@ -1576,13 +1589,18 @@
               </div>
             </div>
             <div class="setting-group whitelist-group">
-              <div
-                id="title-whitelist-chips"
-                class="whitelist-chips-container"
-              >
-                <span data-i18n="titleWhitelistEmpty" class="whitelist-empty-hint" id="title-whitelist-empty"
+              <div class="list-summary-row">
+                <span data-i18n="titleWhitelistEmpty" class="list-summary-count" id="title-whitelist-count"
                   >No title words whitelisted yet</span
                 >
+                <button data-i18n="markedWatchedManage"
+                  type="button"
+                  class="add-channel-btn list-manage-btn"
+                  data-manage-list="title-whitelist"
+                  data-manage-title="titleWhitelistTitle"
+                >
+                  Manage
+                </button>
               </div>
               <form class="title-list-add-row" id="title-whitelist-form">
                 <input data-i18n-attr="placeholder:titleWhitelistPlaceholder,aria-label:titleWhitelistInputLabel"
@@ -1608,6 +1626,28 @@
                 class="whitelist-btn-hint title-list-hint"
                 id="title-whitelist-hint"
               ></span>
+              <div class="channel-sync-warning" data-channel-sync-warning hidden>
+                <svg
+                  xmlns="http://www.w3.org/2000/svg"
+                  width="12"
+                  height="12"
+                  viewBox="0 0 24 24"
+                  fill="none"
+                  stroke="currentColor"
+                  stroke-width="2"
+                  stroke-linecap="round"
+                  stroke-linejoin="round"
+                >
+                  <path
+                    d="M10.29 3.86L1.82 18a2 2 0 0 0 1.71 3h16.94a2 2 0 0 0 1.71-3L13.71 3.86a2 2 0 0 0-3.42 0z"
+                  ></path>
+                  <line x1="12" y1="9" x2="12" y2="13"></line>
+                  <line x1="12" y1="17" x2="12.01" y2="17"></line>
+                </svg>
+                <span data-i18n="channelListsSyncPaused">Sync paused: your lists are too large to sync to your
+                  other devices. Nothing is lost: everything keeps working in
+                  this browser, and syncing resumes once they fit again</span>
+              </div>
             </div>
           </div>
 
@@ -1666,13 +1706,18 @@
               </div>
             </div>
             <div class="setting-group whitelist-group">
-              <div
-                id="title-blacklist-chips"
-                class="whitelist-chips-container"
-              >
-                <span data-i18n="titleBlacklistEmpty" class="whitelist-empty-hint" id="title-blacklist-empty"
+              <div class="list-summary-row">
+                <span data-i18n="titleBlacklistEmpty" class="list-summary-count" id="title-blacklist-count"
                   >No title words blacklisted yet</span
                 >
+                <button data-i18n="markedWatchedManage"
+                  type="button"
+                  class="add-channel-btn list-manage-btn"
+                  data-manage-list="title-blacklist"
+                  data-manage-title="titleBlacklistTitle"
+                >
+                  Manage
+                </button>
               </div>
               <form class="title-list-add-row" id="title-blacklist-form">
                 <input data-i18n-attr="placeholder:titleBlacklistPlaceholder,aria-label:titleBlacklistInputLabel"
@@ -1698,6 +1743,28 @@
                 class="whitelist-btn-hint title-list-hint"
                 id="title-blacklist-hint"
               ></span>
+              <div class="channel-sync-warning" data-channel-sync-warning hidden>
+                <svg
+                  xmlns="http://www.w3.org/2000/svg"
+                  width="12"
+                  height="12"
+                  viewBox="0 0 24 24"
+                  fill="none"
+                  stroke="currentColor"
+                  stroke-width="2"
+                  stroke-linecap="round"
+                  stroke-linejoin="round"
+                >
+                  <path
+                    d="M10.29 3.86L1.82 18a2 2 0 0 0 1.71 3h16.94a2 2 0 0 0 1.71-3L13.71 3.86a2 2 0 0 0-3.42 0z"
+                  ></path>
+                  <line x1="12" y1="9" x2="12" y2="13"></line>
+                  <line x1="12" y1="17" x2="12.01" y2="17"></line>
+                </svg>
+                <span data-i18n="channelListsSyncPaused">Sync paused: your lists are too large to sync to your
+                  other devices. Nothing is lost: everything keeps working in
+                  this browser, and syncing resumes once they fit again</span>
+              </div>
             </div>
           </div>
 

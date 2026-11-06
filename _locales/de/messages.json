@@ -89,6 +89,14 @@
   "markedWatchedManage": {
     "message": "Verwalten"
   },
+  "manageListLabel": {
+    "message": "$list$ verwalten",
+    "placeholders": {
+      "list": {
+        "content": "$1"
+      }
+    }
+  },
   "markedWatchedSyncPaused": {
     "message": "Synchronisierung pausiert: Die Kanallisten belegen den zwischen den Geräten geteilten Speicher. Deine markierten Videos bleiben in diesem Browser gespeichert, und die Synchronisierung läuft weiter, sobald sie wieder Platz haben"
   },
@@ -216,7 +224,7 @@
     "message": "Channel Whitelist"
   },
   "channelWhitelistTooltip": {
-    "message": "Kanäle auf der Whitelist umgehen alle aktiven Filter. Füge einen Kanal über die Schaltfläche unten oder über die Schaltfläche in der Kopfzeile hinzu, während du auf einer Kanalseite oder einem Video bist. Entfernst du einen Eintrag, gelten sofort wieder alle Filter für diesen Kanal. Shorts werden trotzdem immer gefiltert"
+    "message": "Kanäle auf der Whitelist umgehen alle aktiven Filter. Füge einen Kanal über die Schaltfläche unten oder über die Schaltfläche in der Kopfzeile hinzu, während du auf einer Kanalseite oder einem Video bist. Die vollständige Liste öffnet sich auf einer eigenen Seite, wo du Kanäle suchen, entfernen und verschieben kannst. Shorts werden trotzdem immer gefiltert"
   },
   "channelWhitelistDescription": {
     "message": "Kanäle in dieser Liste werden nicht gefiltert. Shorts werden trotzdem immer gefiltert"
@@ -228,13 +236,13 @@
     "message": "+ Aktuellen Kanal hinzufügen"
   },
   "channelListsSyncPaused": {
-    "message": "Synchronisierung pausiert: zu viele Kanäle für die geräteübergreifende Synchronisierung. Deine Listen bleiben in diesem Browser gespeichert, und die Synchronisierung läuft weiter, sobald sie wieder Platz haben"
+    "message": "Synchronisierung pausiert: Deine Listen sind zu groß für die Synchronisierung mit deinen anderen Geräten. Nichts geht verloren: Alles funktioniert in diesem Browser weiter, und die Synchronisierung läuft weiter, sobald sie wieder passen"
   },
   "channelBlacklistTitle": {
     "message": "Channel Blacklist"
   },
   "channelBlacklistTooltip": {
-    "message": "Kanäle auf der Blacklist werden immer ausgeblendet, egal welche anderen Filter aktiv sind. Füge einen Kanal über die Schaltfläche unten oder über die Schaltfläche in der Kopfzeile hinzu, während du auf einer Kanalseite oder einem Video bist. Entfernst du einen Eintrag, erscheinen die Videos dieses Kanals sofort wieder. Shorts werden trotzdem immer gefiltert"
+    "message": "Kanäle auf der Blacklist werden immer ausgeblendet, egal welche anderen Filter aktiv sind. Füge einen Kanal über die Schaltfläche unten oder über die Schaltfläche in der Kopfzeile hinzu, während du auf einer Kanalseite oder einem Video bist. Die vollständige Liste öffnet sich auf einer eigenen Seite, wo du Kanäle suchen, entfernen und verschieben kannst. Shorts werden trotzdem immer gefiltert"
   },
   "channelBlacklistDescription": {
     "message": "Kanäle in dieser Liste werden immer und überall ausgeblendet. Shorts werden trotzdem immer gefiltert"
@@ -366,14 +374,6 @@
       }
     }
   },
-  "chipRemoveLabel": {
-    "message": "$item$ entfernen",
-    "placeholders": {
-      "item": {
-        "content": "$1"
-      }
-    }
-  },
   "titleWhitelistAlreadyListed": {
     "message": "\"$word$\" ist bereits auf der Whitelist",
     "placeholders": {
@@ -382,9 +382,6 @@
       }
     }
   },
-  "titleWhitelistFull": {
-    "message": "Die Title Whitelist ist voll: Entferne ein Wort, um ein neues hinzuzufügen"
-  },
   "titleBlacklistAlreadyListed": {
     "message": "\"$word$\" ist bereits auf der Blacklist",
     "placeholders": {
@@ -392,48 +389,6 @@
         "content": "$1"
       }
     }
-  },
-  "titleBlacklistFull": {
-    "message": "Die Title Blacklist ist voll: Entferne ein Wort, um ein neues hinzuzufügen"
-  },
-  "watchedPageTitle": {
-    "message": "Als gesehen markiert | YouTube Hider"
-  },
-  "watchedDescription": {
-    "message": "Videos, die du auf YouTube mit der Schaltfläche Gesehen markiert hast. Sie werden wie gesehene Videos ausgeblendet und folgen den Einstellungen von Gesehene Videos ausblenden. Entferne eines, damit es wieder erscheint. Bis zu 3.000 Videos werden gespeichert: danach fällt die älteste Markierung weg."
-  },
-  "watchedSyncDescription": {
-    "message": "Deine Markierungen werden automatisch auf allen Computern mit demselben Chrome-Profil synchronisiert, du musst sie also nicht zwischen Geräten exportieren und importieren. Nutze Exportieren für ein Backup oder um sie in ein anderes Profil zu übertragen."
-  },
-  "watchedExport": {
-    "message": "Exportieren"
-  },
-  "watchedImport": {
-    "message": "Importieren"
-  },
-  "watchedClearAll": {
-    "message": "Alle löschen"
-  },
-  "watchedUndo": {
-    "message": "Rückgängig"
-  },
-  "watchedSelectAllShown": {
-    "message": "Alle angezeigten auswählen"
-  },
-  "watchedRemoveSelected": {
-    "message": "Auswahl entfernen"
-  },
-  "watchedClearSearch": {
-    "message": "Suche zurücksetzen"
-  },
-  "watchedLoadMore": {
-    "message": "Mehr laden"
-  },
-  "watchedSearchPlaceholder": {
-    "message": "Nach Titel, Kanal oder Video-ID suchen"
-  },
-  "watchedSearchLabel": {
-    "message": "Markierte Videos durchsuchen"
   },
   "markedCount_one": {
     "message": "$count$ Video von $limit$",
@@ -501,96 +456,393 @@
       }
     }
   },
-  "watchedSelectItem": {
-    "message": "$title$ auswählen",
+  "managePageTitle": {
+    "message": "Listen | YouTube Hider"
+  },
+  "managePageTitleList": {
+    "message": "$list$ | YouTube Hider",
     "placeholders": {
-      "title": {
+      "list": {
         "content": "$1"
       }
     }
   },
-  "watchedTitleUnavailable": {
-    "message": "Titel auf diesem Gerät nicht verfügbar"
+  "manageHeading": {
+    "message": "Listen"
   },
-  "watchedMarkedOn": {
-    "message": "Markiert am $date$",
-    "placeholders": {
-      "date": {
-        "content": "$1"
-      }
-    }
+  "manageExport": {
+    "message": "Exportieren"
   },
-  "watchedRemove": {
-    "message": "Entfernen"
+  "manageImport": {
+    "message": "Importieren"
   },
-  "watchedRemoveItem": {
-    "message": "$title$ entfernen",
-    "placeholders": {
-      "title": {
-        "content": "$1"
-      }
-    }
+  "manageSyncHeadlineOk": {
+    "message": "Auf all deinen Geräten synchronisiert"
   },
-  "watchedRemoveSelectedCount_one": {
-    "message": "Auswahl entfernen ($count$)",
-    "placeholders": {
-      "count": {
-        "content": "$1"
-      }
-    }
+  "manageSyncHeadlineSyncing": {
+    "message": "Deine letzten Änderungen werden synchronisiert"
   },
-  "watchedRemoveSelectedCount_other": {
-    "message": "Auswahl entfernen ($count$)",
-    "placeholders": {
-      "count": {
-        "content": "$1"
-      }
-    }
+  "manageSyncHeadlineAlmostFull": {
+    "message": "Synchronisierungsspeicher fast voll"
   },
-  "watchedLoadMoreCount_one": {
-    "message": "Mehr laden ($count$ übrig)",
+  "manageSyncHeadlinePaused": {
+    "message": "Synchronisierung pausiert"
+  },
+  "manageSyncHeadlineMarkedPaused": {
+    "message": "Markierte Videos werden nicht synchronisiert"
+  },
+  "manageSyncHeadlineRetrying": {
+    "message": "Die Synchronisierung versucht es gleich erneut"
+  },
+  "manageSyncHeadlineOutdated": {
+    "message": "Update nötig, um weiter zu synchronisieren"
+  },
+  "manageSyncRoomLeft_one": {
+    "message": "Platz für etwa $count$ weiteren Eintrag",
     "placeholders": {
       "count": {
         "content": "$1"
       }
     }
   },
-  "watchedLoadMoreCount_other": {
-    "message": "Mehr laden ($count$ übrig)",
+  "manageSyncRoomLeft_other": {
+    "message": "Platz für etwa $count$ weitere Einträge",
     "placeholders": {
       "count": {
         "content": "$1"
       }
     }
   },
-  "watchedEmpty": {
-    "message": "Noch keine Videos markiert. Fahre auf YouTube mit der Maus über ein Video und klicke auf Gesehen, um es hier hinzuzufügen."
+  "manageSyncMessageListsPaused": {
+    "message": "Deine Listen sind größer als der Speicher, den Chrome Erweiterungen zum Synchronisieren gibt, deshalb ist ihre Synchronisierung pausiert. Alles bleibt in diesem Browser gespeichert und funktioniert, und deine anderen Geräte behalten die letzte Version, die gepasst hat. Die Synchronisierung läuft von selbst weiter, sobald die Listen wieder passen."
   },
-  "watchedNoMatch": {
-    "message": "Keine markierten Videos passen zu \"$query$\".",
+  "manageSyncMessageMarkedPaused": {
+    "message": "Markierte Videos werden gerade nicht synchronisiert: Im geteilten Speicher haben deine Listen Vorrang. Sie bleiben in diesem Browser gespeichert und funktionieren, und die Synchronisierung läuft weiter, sobald wieder Platz ist."
+  },
+  "manageSyncMessageOutdated": {
+    "message": "Ein anderes Gerät nutzt eine neuere Version von YouTube Hider. Aktualisiere die Erweiterung in diesem Browser, um weiter zu synchronisieren."
+  },
+  "manageSyncMessageNearFull": {
+    "message": "Werden deine Listen größer, pausiert die Synchronisierung, aber nichts geht verloren: Alles funktioniert in diesem Browser weiter."
+  },
+  "manageSyncMeterText": {
+    "message": "$percent$ % des Synchronisierungsspeichers belegt",
     "placeholders": {
-      "query": {
+      "percent": {
         "content": "$1"
       }
     }
   },
-  "watchedRestored_one": {
-    "message": "$count$ Video wiederhergestellt.",
+  "manageUndo": {
+    "message": "Rückgängig"
+  },
+  "manageDismiss": {
+    "message": "Schließen"
+  },
+  "manageExportBackup": {
+    "message": "Backup exportieren"
+  },
+  "manageCancel": {
+    "message": "Abbrechen"
+  },
+  "manageImportTitle": {
+    "message": "Listen importieren"
+  },
+  "manageImportIntro": {
+    "message": "Einträge werden nur hinzugefügt: Nichts, was schon in deinen Listen steht, wird entfernt oder geändert."
+  },
+  "manageImportNothing": {
+    "message": "Nichts Neues zum Importieren: Alles aus dieser Datei steht schon in deinen Listen."
+  },
+  "manageImportError": {
+    "message": "Diese Datei konnte nicht als YouTube Hider-Export gelesen werden."
+  },
+  "manageImportListFull": {
+    "message": "Die Liste ist voll, deshalb wurden die ältesten Markierungen entfernt."
+  },
+  "manageImportConfirm_one": {
+    "message": "$count$ importieren",
     "placeholders": {
       "count": {
         "content": "$1"
       }
     }
   },
-  "watchedRestored_other": {
-    "message": "$count$ Videos wiederhergestellt.",
+  "manageImportConfirm_other": {
+    "message": "$count$ importieren",
     "placeholders": {
       "count": {
         "content": "$1"
       }
     }
   },
-  "watchedRemoved_one": {
+  "manageImportSkippedOther_one": {
+    "message": "$count$ übersprungen: schon in $list$",
+    "placeholders": {
+      "count": {
+        "content": "$1"
+      },
+      "list": {
+        "content": "$2"
+      }
+    }
+  },
+  "manageImportSkippedOther_other": {
+    "message": "$count$ übersprungen: schon in $list$",
+    "placeholders": {
+      "count": {
+        "content": "$1"
+      },
+      "list": {
+        "content": "$2"
+      }
+    }
+  },
+  "manageImported_one": {
+    "message": "$count$ neuer Eintrag importiert.",
+    "placeholders": {
+      "count": {
+        "content": "$1"
+      }
+    }
+  },
+  "manageImported_other": {
+    "message": "$count$ neue Einträge importiert.",
+    "placeholders": {
+      "count": {
+        "content": "$1"
+      }
+    }
+  },
+  "manageExported_one": {
+    "message": "$count$ Eintrag exportiert.",
+    "placeholders": {
+      "count": {
+        "content": "$1"
+      }
+    }
+  },
+  "manageExported_other": {
+    "message": "$count$ Einträge exportiert.",
+    "placeholders": {
+      "count": {
+        "content": "$1"
+      }
+    }
+  },
+  "manageMarkedDescription": {
+    "message": "Videos, die du auf YouTube mit der Schaltfläche Gesehen markiert hast. Sie werden wie gesehene Videos ausgeblendet und folgen den Einstellungen von Gesehene Videos ausblenden. Entferne eines, damit es wieder erscheint. Bis zu 3.000 Videos werden gespeichert: danach fällt die älteste Markierung weg."
+  },
+  "manageMarkedNote": {
+    "message": "Folgt $setting$: Markierte Videos werden nur dort ausgeblendet, wo diese Einstellung aktiv ist.",
+    "placeholders": {
+      "setting": {
+        "content": "$1"
+      }
+    }
+  },
+  "manageSwitchOn": {
+    "message": "An"
+  },
+  "manageSwitchOff": {
+    "message": "Aus"
+  },
+  "manageAddChannelsLabel": {
+    "message": "Kanäle hinzufügen"
+  },
+  "manageAddWordsLabel": {
+    "message": "Wörter oder Ausdrücke hinzufügen"
+  },
+  "manageAddChannelsPlaceholder": {
+    "message": "@Handle oder Kanallink. Füge auch mehrere ein, einen pro Zeile"
+  },
+  "manageAddWordsPlaceholder": {
+    "message": "Wort oder Ausdruck. Füge auch mehrere ein, einen pro Zeile"
+  },
+  "manageAddChannelsHint": {
+    "message": "Enter fügt hinzu, Umschalt+Enter beginnt eine neue Zeile. Zum Beispiel @veritasium oder youtube.com/@veritasium"
+  },
+  "manageAddWordsHint": {
+    "message": "Enter fügt hinzu, Umschalt+Enter beginnt eine neue Zeile. Ein Wort passt dort, wo ein Wort im Titel beginnt, unabhängig von Groß- und Kleinschreibung"
+  },
+  "manageAddButton": {
+    "message": "Hinzufügen"
+  },
+  "manageAddButtonCount_one": {
+    "message": "$count$ hinzufügen",
+    "placeholders": {
+      "count": {
+        "content": "$1"
+      }
+    }
+  },
+  "manageAddButtonCount_other": {
+    "message": "$count$ hinzufügen",
+    "placeholders": {
+      "count": {
+        "content": "$1"
+      }
+    }
+  },
+  "manageAddNew_one": {
+    "message": "$count$ neu",
+    "placeholders": {
+      "count": {
+        "content": "$1"
+      }
+    }
+  },
+  "manageAddNew_other": {
+    "message": "$count$ neu",
+    "placeholders": {
+      "count": {
+        "content": "$1"
+      }
+    }
+  },
+  "manageAddExisting_one": {
+    "message": "$count$ schon in der Liste",
+    "placeholders": {
+      "count": {
+        "content": "$1"
+      }
+    }
+  },
+  "manageAddExisting_other": {
+    "message": "$count$ schon in der Liste",
+    "placeholders": {
+      "count": {
+        "content": "$1"
+      }
+    }
+  },
+  "manageAddMoving_one": {
+    "message": "$count$ wird aus $list$ verschoben",
+    "placeholders": {
+      "count": {
+        "content": "$1"
+      },
+      "list": {
+        "content": "$2"
+      }
+    }
+  },
+  "manageAddMoving_other": {
+    "message": "$count$ werden aus $list$ verschoben",
+    "placeholders": {
+      "count": {
+        "content": "$1"
+      },
+      "list": {
+        "content": "$2"
+      }
+    }
+  },
+  "manageAddInvalid_one": {
+    "message": "$count$ nicht erkannt: $items$",
+    "placeholders": {
+      "count": {
+        "content": "$1"
+      },
+      "items": {
+        "content": "$2"
+      }
+    }
+  },
+  "manageAddInvalid_other": {
+    "message": "$count$ nicht erkannt: $items$",
+    "placeholders": {
+      "count": {
+        "content": "$1"
+      },
+      "items": {
+        "content": "$2"
+      }
+    }
+  },
+  "manageAdded_one": {
+    "message": "$count$ Eintrag zu $list$ hinzugefügt.",
+    "placeholders": {
+      "count": {
+        "content": "$1"
+      },
+      "list": {
+        "content": "$2"
+      }
+    }
+  },
+  "manageAdded_other": {
+    "message": "$count$ Einträge zu $list$ hinzugefügt.",
+    "placeholders": {
+      "count": {
+        "content": "$1"
+      },
+      "list": {
+        "content": "$2"
+      }
+    }
+  },
+  "manageRemoved_one": {
+    "message": "$count$ Eintrag aus $list$ entfernt.",
+    "placeholders": {
+      "count": {
+        "content": "$1"
+      },
+      "list": {
+        "content": "$2"
+      }
+    }
+  },
+  "manageRemoved_other": {
+    "message": "$count$ Einträge aus $list$ entfernt.",
+    "placeholders": {
+      "count": {
+        "content": "$1"
+      },
+      "list": {
+        "content": "$2"
+      }
+    }
+  },
+  "manageMoved_one": {
+    "message": "$count$ Eintrag nach $list$ verschoben.",
+    "placeholders": {
+      "count": {
+        "content": "$1"
+      },
+      "list": {
+        "content": "$2"
+      }
+    }
+  },
+  "manageMoved_other": {
+    "message": "$count$ Einträge nach $list$ verschoben.",
+    "placeholders": {
+      "count": {
+        "content": "$1"
+      },
+      "list": {
+        "content": "$2"
+      }
+    }
+  },
+  "manageRestored_one": {
+    "message": "$count$ Eintrag wiederhergestellt.",
+    "placeholders": {
+      "count": {
+        "content": "$1"
+      }
+    }
+  },
+  "manageRestored_other": {
+    "message": "$count$ Einträge wiederhergestellt.",
+    "placeholders": {
+      "count": {
+        "content": "$1"
+      }
+    }
+  },
+  "manageMarkedRemoved_one": {
     "message": "$count$ Video entfernt. Es erscheint wieder auf YouTube.",
     "placeholders": {
       "count": {
@@ -598,7 +850,7 @@
       }
     }
   },
-  "watchedRemoved_other": {
+  "manageMarkedRemoved_other": {
     "message": "$count$ Videos entfernt. Sie erscheinen wieder auf YouTube.",
     "placeholders": {
       "count": {
@@ -606,59 +858,276 @@
       }
     }
   },
-  "watchedExported_one": {
-    "message": "$count$ Video exportiert.",
+  "manageSortLabel": {
+    "message": "Sortieren"
+  },
+  "manageSortRecent": {
+    "message": "Zuletzt hinzugefügt"
+  },
+  "manageSortAz": {
+    "message": "A bis Z"
+  },
+  "manageSearchChannels": {
+    "message": "Kanäle suchen"
+  },
+  "manageSearchWords": {
+    "message": "Wörter suchen"
+  },
+  "manageSearchMarked": {
+    "message": "Nach Titel, Kanal oder Video-ID suchen"
+  },
+  "manageCountChannels_one": {
+    "message": "$count$ Kanal",
     "placeholders": {
       "count": {
         "content": "$1"
       }
     }
   },
-  "watchedExported_other": {
-    "message": "$count$ Videos exportiert.",
+  "manageCountChannels_other": {
+    "message": "$count$ Kanäle",
     "placeholders": {
       "count": {
         "content": "$1"
       }
     }
   },
-  "watchedImportEmpty": {
-    "message": "In dieser Datei wurden keine gültigen Videos gefunden."
-  },
-  "watchedImported_one": {
-    "message": "$count$ neues Video importiert.",
+  "manageCountWords_one": {
+    "message": "$count$ Wort",
     "placeholders": {
       "count": {
         "content": "$1"
       }
     }
   },
-  "watchedImported_other": {
-    "message": "$count$ neue Videos importiert.",
+  "manageCountWords_other": {
+    "message": "$count$ Wörter",
     "placeholders": {
       "count": {
         "content": "$1"
       }
     }
   },
-  "watchedImportListFull": {
-    "message": "Die Liste ist voll, deshalb wurden die ältesten Markierungen entfernt."
-  },
-  "watchedImportError": {
-    "message": "Diese Datei konnte nicht als YouTube Hider-Export gelesen werden."
-  },
-  "watchedClearConfirm_one": {
-    "message": "$count$ markiertes Video entfernen? Es erscheint dann wieder auf YouTube.",
+  "manageCountVideos_one": {
+    "message": "$count$ Video",
     "placeholders": {
       "count": {
         "content": "$1"
       }
     }
   },
-  "watchedClearConfirm_other": {
-    "message": "Alle $count$ markierten Videos entfernen? Sie erscheinen dann wieder auf YouTube.",
+  "manageCountVideos_other": {
+    "message": "$count$ Videos",
     "placeholders": {
       "count": {
+        "content": "$1"
+      }
+    }
+  },
+  "manageCountMatches_one": {
+    "message": "$count$ Treffer",
+    "placeholders": {
+      "count": {
+        "content": "$1"
+      }
+    }
+  },
+  "manageCountMatches_other": {
+    "message": "$count$ Treffer",
+    "placeholders": {
+      "count": {
+        "content": "$1"
+      }
+    }
+  },
+  "manageSelectedCount_one": {
+    "message": "$count$ ausgewählt",
+    "placeholders": {
+      "count": {
+        "content": "$1"
+      }
+    }
+  },
+  "manageSelectedCount_other": {
+    "message": "$count$ ausgewählt",
+    "placeholders": {
+      "count": {
+        "content": "$1"
+      }
+    }
+  },
+  "manageSelectAllMatching_one": {
+    "message": "Alle $count$ auswählen",
+    "placeholders": {
+      "count": {
+        "content": "$1"
+      }
+    }
+  },
+  "manageSelectAllMatching_other": {
+    "message": "Alle $count$ auswählen",
+    "placeholders": {
+      "count": {
+        "content": "$1"
+      }
+    }
+  },
+  "manageSelectShown": {
+    "message": "Alle angezeigten auswählen"
+  },
+  "manageClearSelection": {
+    "message": "Auswahl aufheben"
+  },
+  "manageSelectItem": {
+    "message": "$title$ auswählen",
+    "placeholders": {
+      "title": {
+        "content": "$1"
+      }
+    }
+  },
+  "manageRemove": {
+    "message": "Entfernen"
+  },
+  "manageRemoveItem": {
+    "message": "$title$ entfernen",
+    "placeholders": {
+      "title": {
+        "content": "$1"
+      }
+    }
+  },
+  "manageRemoveSelected_one": {
+    "message": "Auswahl entfernen ($count$)",
+    "placeholders": {
+      "count": {
+        "content": "$1"
+      }
+    }
+  },
+  "manageRemoveSelected_other": {
+    "message": "Auswahl entfernen ($count$)",
+    "placeholders": {
+      "count": {
+        "content": "$1"
+      }
+    }
+  },
+  "manageMoveSelected": {
+    "message": "Nach $list$ verschieben",
+    "placeholders": {
+      "list": {
+        "content": "$1"
+      }
+    }
+  },
+  "manageClearSearch": {
+    "message": "Suche zurücksetzen"
+  },
+  "manageLoadMore_one": {
+    "message": "Mehr laden ($count$ übrig)",
+    "placeholders": {
+      "count": {
+        "content": "$1"
+      }
+    }
+  },
+  "manageLoadMore_other": {
+    "message": "Mehr laden ($count$ übrig)",
+    "placeholders": {
+      "count": {
+        "content": "$1"
+      }
+    }
+  },
+  "manageClearAll": {
+    "message": "Alle löschen"
+  },
+  "manageClearTitle": {
+    "message": "$list$ leeren?",
+    "placeholders": {
+      "list": {
+        "content": "$1"
+      }
+    }
+  },
+  "manageClearText_one": {
+    "message": "Damit wird $count$ Eintrag aus $list$ entfernt. Du kannst das direkt danach rückgängig machen oder vorher ein Backup exportieren.",
+    "placeholders": {
+      "count": {
+        "content": "$1"
+      },
+      "list": {
+        "content": "$2"
+      }
+    }
+  },
+  "manageClearText_other": {
+    "message": "Damit werden alle $count$ Einträge aus $list$ entfernt. Du kannst das direkt danach rückgängig machen oder vorher ein Backup exportieren.",
+    "placeholders": {
+      "count": {
+        "content": "$1"
+      },
+      "list": {
+        "content": "$2"
+      }
+    }
+  },
+  "manageClearConfirm_one": {
+    "message": "$count$ entfernen",
+    "placeholders": {
+      "count": {
+        "content": "$1"
+      }
+    }
+  },
+  "manageClearConfirm_other": {
+    "message": "Alle $count$ entfernen",
+    "placeholders": {
+      "count": {
+        "content": "$1"
+      }
+    }
+  },
+  "manageEmptyTitle": {
+    "message": "Noch nichts hier"
+  },
+  "manageEmptyMarked": {
+    "message": "Noch keine Videos markiert. Fahre auf YouTube mit der Maus über ein Video und klicke auf Gesehen, um es hier hinzuzufügen."
+  },
+  "manageEmptyChannelWhitelist": {
+    "message": "Nutze den Whitelist-Button neben Abonnieren auf einer Kanal- oder Videoseite oder füge Kanäle oben ins Feld ein."
+  },
+  "manageEmptyChannelBlacklist": {
+    "message": "Fahre auf YouTube mit der Maus über ein Video und klicke auf Blacklist, nutze den Blacklist-Button neben Abonnieren auf einer Kanalseite oder füge Kanäle oben ins Feld ein."
+  },
+  "manageEmptyTitleWhitelist": {
+    "message": "Gib oben ein Wort oder einen Ausdruck ein. Videos mit diesem Wort im Titel werden nie gefiltert."
+  },
+  "manageEmptyTitleBlacklist": {
+    "message": "Gib oben ein Wort oder einen Ausdruck ein. Videos mit diesem Wort im Titel werden immer ausgeblendet."
+  },
+  "manageNoMatchTitle": {
+    "message": "Keine Ergebnisse für \"$query$\"",
+    "placeholders": {
+      "query": {
+        "content": "$1"
+      }
+    }
+  },
+  "manageNoMatchText": {
+    "message": "Prüfe die Schreibweise oder suche nur nach einem Teil des Namens."
+  },
+  "manageChannelIdLabel": {
+    "message": "Kanal-ID"
+  },
+  "manageTitleUnavailable": {
+    "message": "Titel auf diesem Gerät nicht verfügbar"
+  },
+  "manageMarkedOn": {
+    "message": "Markiert am $date$",
+    "placeholders": {
+      "date": {
         "content": "$1"
       }
     }
@@ -862,10 +1331,20 @@
     "message": "Blendet Videos aus, die neuer oder älter als ein einstellbarer Wert sind. Nutze beides zusammen, um nur Videos aus einem bestimmten Zeitraum zu behalten."
   },
   "tourChannelWhitelistDescription": {
-    "message": "Nimm deine Lieblingskanäle von allen Filtern aus. Füge den aktuellen Kanal mit einem Klick hinzu, oder entferne einen Eintrag, damit die Filter sofort wieder greifen."
+    "message": "Nimm deine Lieblingskanäle von allen Filtern aus. Füge den aktuellen Kanal mit einem Klick hinzu und nutze $manage$, um Kanäle auf einer eigenen Seite zu suchen, zu entfernen oder zu verschieben.",
+    "placeholders": {
+      "manage": {
+        "content": "$1"
+      }
+    }
   },
   "tourChannelBlacklistDescription": {
-    "message": "Das Gegenteil der Whitelist: Blendet einen Kanal immer und überall aus, auch bei Shorts, Mixen, Playlists und Livestreams. Füge den aktuellen Kanal mit einem Klick hinzu, oder entferne einen Eintrag, damit er sofort wieder erscheint."
+    "message": "Das Gegenteil der Whitelist: Blendet einen Kanal immer und überall aus, auch bei Shorts, Mixen, Playlists und Livestreams. Füge den aktuellen Kanal mit einem Klick hinzu und nutze $manage$, um die ganze Liste auf einer eigenen Seite zu sehen.",
+    "placeholders": {
+      "manage": {
+        "content": "$1"
+      }
+    }
   },
   "tourTitleWhitelistDescription": {
     "message": "Nimm Videos anhand eines Wortes im Titel statt anhand des Kanals aus. Videos, deren Titel eines deiner Wörter enthält, lässt jeder Filter in Ruhe."

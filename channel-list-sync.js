@@ -1,24 +1,81 @@
-const CHANNEL_LIST_LOCAL_KEYS = ['channelWhitelist', 'channelBlacklist'];
+const CHANNEL_LIST_LOCAL_KEYS = ['channelWhitelist', 'channelBlacklist', 'titleWhitelist', 'titleBlacklist'];
 const CHANNEL_LIST_INDEX_KEY = 'channelListsIndex';
 const CHANNEL_LIST_CHUNK_PREFIX = 'chl.';
 const CHANNEL_LIST_BASE_KEY = 'channelListsSyncBase';
 const CHANNEL_LIST_STATE_KEY = 'channelListsSyncState';
-const CHANNEL_LIST_FORMAT_VERSION = 1;
+const CHANNEL_LIST_FORMAT_VERSION = 2;
+const CHANNEL_LIST_READABLE_VERSIONS = [1, 2];
 const CHANNEL_LIST_CHUNK_LENGTH = 8000;
 const SYNC_QUOTA_BYTES = 102400;
 const SYNC_QUOTA_BYTES_PER_ITEM = 8192;
 const SYNC_RESERVED_BYTES = 4096;
 
+const LIST_KEYS = ['w', 'b', 'tw', 'tb'];
+const CHANNEL_LIST_KEYS = ['w', 'b'];
+const TITLE_LIST_KEYS = ['tw', 'tb'];
+const LIST_STORAGE_KEYS = {
+  w: 'channelWhitelist',
+  b: 'channelBlacklist',
+  tw: 'titleWhitelist',
+  tb: 'titleBlacklist',
+};
+
+function listEntryKey(listKey, entry) {
+  if (TITLE_LIST_KEYS.includes(listKey)) return entry.replace(/\s+/g, ' ').trim().toLowerCase();
+  return entry;
+}
+
+function normalizeListEntries(listKey, entries) {
+  if (!Array.isArray(entries)) return [];
+  const seen = new Set();
+  const result = [];
+  entries.forEach(entry => {
+    if (typeof entry !== 'string' || !entry) return;
+    const key = listEntryKey(listKey, entry);
+    if (!key || seen.has(key)) return;
+    seen.add(key);
+    result.push(entry);
+  });
+  return result;
+}
+
 function normalizeChannelLists(lists) {
   const source = lists || {};
-  return {
-    w: Array.isArray(source.w) ? source.w.filter(c => typeof c === 'string') : [],
-    b: Array.isArray(source.b) ? source.b.filter(c => typeof c === 'string') : [],
-  };
+  const normalized = {};
+  LIST_KEYS.forEach(key => {
+    normalized[key] = normalizeListEntries(key, source[key]);
+  });
+  return normalized;
+}
+
+function readChannelListsFromStorage(items) {
+  const source = items || {};
+  const lists = {};
+  LIST_KEYS.forEach(key => {
+    lists[key] = source[LIST_STORAGE_KEYS[key]];
+  });
+  return normalizeChannelLists(lists);
+}
+
+function channelListsToStorage(lists) {
+  const normalized = normalizeChannelLists(lists);
+  const items = {};
+  LIST_KEYS.forEach(key => {
+    items[LIST_STORAGE_KEYS[key]] = normalized[key];
+  });
+  return items;
+}
+
+function sortedListKeys(listKey, entries) {
+  return entries.map(entry => listEntryKey(listKey, entry)).sort();
 }
 
 function channelListsEqual(a, b) {
-  return JSON.stringify(normalizeChannelLists(a)) === JSON.stringify(normalizeChannelLists(b));
+  const left = normalizeChannelLists(a);
+  const right = normalizeChannelLists(b);
+  return LIST_KEYS.every(
+    key => JSON.stringify(sortedListKeys(key, left[key])) === JSON.stringify(sortedListKeys(key, right[key])),
+  );
 }
 
 function bytesToBase64(bytes) {
@@ -37,20 +94,181 @@ function base64ToBytes(text) {
   return bytes;
 }
 
+const BASE91_ALPHABET = (() => {
+  let alphabet = '';
+  for (let code = 0x21; code <= 0x7e; code++) {
+    const char = String.fromCharCode(code);
+    if (char !== '"' && char !== '\\' && char !== '`') alphabet += char;
+  }
+  return alphabet;
+})();
+
+const BASE91_INDEX = (() => {
+  const index = new Map();
+  for (let i = 0; i < BASE91_ALPHABET.length; i++) index.set(BASE91_ALPHABET.charCodeAt(i), i);
+  return index;
+})();
+
+function bytesToBase91(bytes) {
+  let out = '';
+  let queue = 0;
+  let bits = 0;
+  for (let i = 0; i < bytes.length; i++) {
+    queue |= bytes[i] << bits;
+    bits += 8;
+    if (bits > 13) {
+      let value = queue & 8191;
+      if (value > 88) {
+        queue >>>= 13;
+        bits -= 13;
+      } else {
+        value = queue & 16383;
+        queue >>>= 14;
+        bits -= 14;
+      }
+      out += BASE91_ALPHABET[value % 91] + BASE91_ALPHABET[Math.floor(value / 91)];
+    }
+  }
+  if (bits) {
+    out += BASE91_ALPHABET[queue % 91];
+    if (bits > 7 || queue > 90) out += BASE91_ALPHABET[Math.floor(queue / 91)];
+  }
+  return out;
+}
+
+function base91ToBytes(text) {
+  const out = [];
+  let value = -1;
+  let queue = 0;
+  let bits = 0;
+  for (let i = 0; i < text.length; i++) {
+    const digit = BASE91_INDEX.get(text.charCodeAt(i));
+    if (digit === undefined) throw new Error('Invalid base91 character');
+    if (value < 0) {
+      value = digit;
+      continue;
+    }
+    value += digit * 91;
+    queue |= value << bits;
+    bits += (value & 8191) > 88 ? 13 : 14;
+    do {
+      out.push(queue & 255);
+      queue >>>= 8;
+      bits -= 8;
+    } while (bits > 7);
+    value = -1;
+  }
+  if (value > -1) out.push((queue | (value << bits)) & 255);
+  return new Uint8Array(out);
+}
+
 async function pipeBytes(bytes, transform) {
   const stream = new Blob([bytes]).stream().pipeThrough(transform);
   return new Uint8Array(await new Response(stream).arrayBuffer());
 }
 
-async function encodeChannelLists(lists) {
-  const json = JSON.stringify(normalizeChannelLists(lists));
-  const compressed = await pipeBytes(new TextEncoder().encode(json), new CompressionStream('deflate-raw'));
-  return bytesToBase64(compressed);
+const LIST_SEPARATOR = '\u001e';
+const ENTRY_SEPARATOR = '\n';
+const FRONT_CODING_BASE = 0x21;
+const FRONT_CODING_MAX = 90;
+const CHANNEL_ID_MARKER = '#';
+const CHANNEL_RAW_MARKER = '!';
+const CHANNEL_HANDLE_PREFIX = '/@';
+const CHANNEL_ID_PREFIX = '/channel/';
+
+function sanitizeListEntry(entry) {
+  return entry.replace(/[\u0000-\u001f]+/g, ' ');
 }
 
-async function decodeChannelLists(text) {
+function isCompactMarker(char) {
+  return char === CHANNEL_ID_MARKER || char === CHANNEL_RAW_MARKER;
+}
+
+function compactChannel(channel) {
+  if (channel.startsWith(CHANNEL_HANDLE_PREFIX)) {
+    const handle = channel.slice(CHANNEL_HANDLE_PREFIX.length);
+    if (handle && !isCompactMarker(handle[0])) return handle;
+  }
+  if (channel.startsWith(CHANNEL_ID_PREFIX)) {
+    return CHANNEL_ID_MARKER + channel.slice(CHANNEL_ID_PREFIX.length);
+  }
+  return CHANNEL_RAW_MARKER + channel;
+}
+
+function expandChannel(compact) {
+  if (compact[0] === CHANNEL_ID_MARKER) return CHANNEL_ID_PREFIX + compact.slice(1);
+  if (compact[0] === CHANNEL_RAW_MARKER) return compact.slice(1);
+  return CHANNEL_HANDLE_PREFIX + compact;
+}
+
+function sharedPrefixLength(previous, current) {
+  const max = Math.min(previous.length, current.length, FRONT_CODING_MAX);
+  let length = 0;
+  while (length < max && previous.charCodeAt(length) === current.charCodeAt(length)) length++;
+  if (length > 0) {
+    const last = current.charCodeAt(length - 1);
+    if (last >= 0xd800 && last <= 0xdbff) length--;
+  }
+  return length;
+}
+
+function frontCodeEntries(entries) {
+  const sorted = [...entries].sort();
+  let previous = '';
+  return sorted
+    .map(entry => {
+      const shared = sharedPrefixLength(previous, entry);
+      previous = entry;
+      return String.fromCharCode(FRONT_CODING_BASE + shared) + entry.slice(shared);
+    })
+    .join(ENTRY_SEPARATOR);
+}
+
+function frontDecodeEntries(text) {
+  if (!text) return [];
+  let previous = '';
+  return text.split(ENTRY_SEPARATOR).map(line => {
+    const shared = line.charCodeAt(0) - FRONT_CODING_BASE;
+    const entry = previous.slice(0, shared) + line.slice(1);
+    previous = entry;
+    return entry;
+  });
+}
+
+function serializeChannelLists(lists) {
+  const normalized = normalizeChannelLists(lists);
+  return LIST_KEYS.map(key => {
+    const entries = normalized[key].map(sanitizeListEntry).filter(entry => entry.trim());
+    const stored = CHANNEL_LIST_KEYS.includes(key) ? entries.map(compactChannel) : entries;
+    return frontCodeEntries(stored);
+  }).join(LIST_SEPARATOR);
+}
+
+function deserializeChannelLists(text) {
+  const parts = text.split(LIST_SEPARATOR);
+  const lists = {};
+  LIST_KEYS.forEach((key, i) => {
+    const entries = frontDecodeEntries(parts[i] || '');
+    lists[key] = CHANNEL_LIST_KEYS.includes(key) ? entries.map(expandChannel) : entries;
+  });
+  return normalizeChannelLists(lists);
+}
+
+async function encodeChannelLists(lists) {
+  const text = serializeChannelLists(lists);
+  const compressed = await pipeBytes(new TextEncoder().encode(text), new CompressionStream('deflate-raw'));
+  return bytesToBase91(compressed);
+}
+
+async function decodeChannelListsV1(text) {
   const bytes = await pipeBytes(base64ToBytes(text), new DecompressionStream('deflate-raw'));
   return normalizeChannelLists(JSON.parse(new TextDecoder().decode(bytes)));
+}
+
+async function decodeChannelLists(text, version = CHANNEL_LIST_FORMAT_VERSION) {
+  if (version === 1) return decodeChannelListsV1(text);
+  const bytes = await pipeBytes(base91ToBytes(text), new DecompressionStream('deflate-raw'));
+  return deserializeChannelLists(new TextDecoder().decode(bytes));
 }
 
 function createChannelListGeneration(now = Date.now(), random = Math.random) {
@@ -68,6 +286,7 @@ function isChannelListChunkKey(key) {
 const CHANNEL_LIST_SYNC_LAYOUT = {
   indexKey: CHANNEL_LIST_INDEX_KEY,
   version: CHANNEL_LIST_FORMAT_VERSION,
+  readableVersions: CHANNEL_LIST_READABLE_VERSIONS,
   chunkKey: getChannelListChunkKey,
 };
 
@@ -92,7 +311,8 @@ function buildChunkedSyncItems(encoded, gen, parent, now, layout) {
 function readChunkedSyncPayload(items, layout) {
   const index = items && items[layout.indexKey];
   if (!index || typeof index.gen !== 'string') return { status: 'none' };
-  if (index.v !== layout.version) return { status: 'unsupported', gen: index.gen };
+  const readable = layout.readableVersions || [layout.version];
+  if (!readable.includes(index.v)) return { status: 'unsupported', gen: index.gen };
   const count = Number(index.n);
   if (!Number.isInteger(count) || count < 1) return { status: 'invalid', gen: index.gen };
   let encoded = '';
@@ -102,7 +322,7 @@ function readChunkedSyncPayload(items, layout) {
     encoded += chunk;
   }
   if (encoded.length !== index.len) return { status: 'incomplete', gen: index.gen };
-  return { status: 'complete', gen: index.gen, parent: index.p || null, encoded };
+  return { status: 'complete', gen: index.gen, parent: index.p || null, version: index.v, encoded };
 }
 
 function buildChannelListSyncItems(encoded, gen, parent = null, now = Date.now()) {
@@ -120,10 +340,9 @@ function resolveChannelListMergeBase(remoteParent, localGen, localBase) {
 
 function readLegacyChannelLists(items) {
   const source = items || {};
-  const hasWhitelist = Array.isArray(source.channelWhitelist);
-  const hasBlacklist = Array.isArray(source.channelBlacklist);
-  if (!hasWhitelist && !hasBlacklist) return null;
-  return normalizeChannelLists({ w: source.channelWhitelist, b: source.channelBlacklist });
+  const present = CHANNEL_LIST_LOCAL_KEYS.some(key => Array.isArray(source[key]));
+  if (!present) return null;
+  return readChannelListsFromStorage(source);
 }
 
 function getSyncItemBytes(key, value) {
@@ -173,19 +392,24 @@ function planChannelListSyncWrite(currentItems, newItems, isEvictableKey) {
   return planSyncWrite(currentItems, newItems, isChannelListSyncKey, isEvictableKey);
 }
 
+function mergeListEntries(listKey, local, base, remote) {
+  const toKey = entry => listEntryKey(listKey, entry);
+  const baseKeys = new Set(base ? base.map(toKey) : []);
+  const remoteKeys = new Set(remote.map(toKey));
+  const removed = base ? new Set(base.map(toKey).filter(key => !remoteKeys.has(key))) : new Set();
+  const kept = local.filter(entry => !removed.has(toKey(entry)));
+  const keptKeys = new Set(kept.map(toKey));
+  const added = remote.filter(entry => !baseKeys.has(toKey(entry)) && !keptKeys.has(toKey(entry)));
+  return normalizeListEntries(listKey, [...kept, ...added]);
+}
+
 function mergeChannelLists(local, base, remote) {
   const l = normalizeChannelLists(local);
   const r = normalizeChannelLists(remote);
-  const b = base ? normalizeChannelLists(base) : { w: [], b: [] };
+  const b = base ? normalizeChannelLists(base) : null;
   const merged = {};
-  ['w', 'b'].forEach(key => {
-    const baseSet = new Set(b[key]);
-    const remoteSet = new Set(r[key]);
-    const removed = base ? new Set(b[key].filter(c => !remoteSet.has(c))) : new Set();
-    const kept = l[key].filter(c => !removed.has(c));
-    const keptSet = new Set(kept);
-    const added = r[key].filter(c => !baseSet.has(c) && !keptSet.has(c));
-    merged[key] = [...kept, ...added];
+  LIST_KEYS.forEach(key => {
+    merged[key] = mergeListEntries(key, l[key], b ? b[key] : null, r[key]);
   });
   const remoteW = new Set(r.w);
   const remoteB = new Set(r.b);
@@ -205,30 +429,42 @@ function unionChannelLists(target, extra) {
   const e = normalizeChannelLists(extra);
   const w = [...t.w, ...e.w.filter(c => !t.w.includes(c) && !t.b.includes(c))];
   const b = [...t.b, ...e.b.filter(c => !t.b.includes(c) && !w.includes(c))];
-  return { w, b };
+  const tw = normalizeListEntries('tw', [...t.tw, ...e.tw]);
+  const tb = normalizeListEntries('tb', [...t.tb, ...e.tb]);
+  return { w, b, tw, tb };
 }
 
 if (typeof module !== 'undefined' && module.exports) {
   module.exports = {
     CHANNEL_LIST_INDEX_KEY,
+    CHANNEL_LIST_LOCAL_KEYS,
+    CHANNEL_LIST_FORMAT_VERSION,
     CHANNEL_LIST_CHUNK_LENGTH,
     SYNC_QUOTA_BYTES,
     SYNC_QUOTA_BYTES_PER_ITEM,
     SYNC_RESERVED_BYTES,
+    BASE91_ALPHABET,
     bytesToBase64,
     base64ToBytes,
+    bytesToBase91,
+    base91ToBytes,
     pipeBytes,
     getSyncItemBytes,
     planSyncWrite,
     buildChunkedSyncItems,
     readChunkedSyncPayload,
     normalizeChannelLists,
+    readChannelListsFromStorage,
+    channelListsToStorage,
     channelListsEqual,
+    serializeChannelLists,
+    deserializeChannelLists,
     encodeChannelLists,
     decodeChannelLists,
     createChannelListGeneration,
     getChannelListChunkKey,
     isChannelListChunkKey,
+    isChannelListSyncKey,
     buildChannelListSyncItems,
     readChannelListSyncPayload,
     resolveChannelListMergeBase,

@@ -89,6 +89,14 @@
   "markedWatchedManage": {
     "message": "Управлять"
   },
+  "manageListLabel": {
+    "message": "Управлять: $list$",
+    "placeholders": {
+      "list": {
+        "content": "$1"
+      }
+    }
+  },
   "markedWatchedSyncPaused": {
     "message": "Синхронизация приостановлена: списки каналов занимают общее место для синхронизации между устройствами. Отмеченные видео сохранены в этом браузере, и синхронизация возобновится, когда они снова поместятся"
   },
@@ -216,7 +224,7 @@
     "message": "Channel Whitelist"
   },
   "channelWhitelistTooltip": {
-    "message": "Каналы из Whitelist обходят все включённые фильтры. Добавьте канал кнопкой ниже или кнопкой в шапке, находясь на странице канала или видео. Если убрать метку, все фильтры сразу снова применяются к этому каналу. Shorts фильтруются всегда"
+    "message": "Каналы из Whitelist обходят все включённые фильтры. Добавьте канал кнопкой ниже или кнопкой в шапке, находясь на странице канала или видео. Полный список открывается на отдельной странице, где можно искать, удалять и переносить каналы. Shorts фильтруются всегда"
   },
   "channelWhitelistDescription": {
     "message": "Каналы из этого списка не фильтруются. Shorts фильтруются всегда"
@@ -228,13 +236,13 @@
     "message": "+ Добавить текущий канал"
   },
   "channelListsSyncPaused": {
-    "message": "Синхронизация приостановлена: слишком много каналов для синхронизации между устройствами. Списки сохранены в этом браузере, и синхронизация возобновится, когда они снова поместятся"
+    "message": "Синхронизация приостановлена: списки слишком велики для синхронизации с другими устройствами. Ничего не потеряно: в этом браузере всё продолжает работать, а синхронизация возобновится, когда списки снова поместятся"
   },
   "channelBlacklistTitle": {
     "message": "Channel Blacklist"
   },
   "channelBlacklistTooltip": {
-    "message": "Каналы из Blacklist скрываются всегда, независимо от других фильтров. Добавьте канал кнопкой ниже или кнопкой в шапке, находясь на странице канала или видео. Если убрать метку, видео этого канала сразу снова появятся. Shorts фильтруются всегда"
+    "message": "Каналы из Blacklist скрываются всегда, независимо от других фильтров. Добавьте канал кнопкой ниже или кнопкой в шапке, находясь на странице канала или видео. Полный список открывается на отдельной странице, где можно искать, удалять и переносить каналы. Shorts фильтруются всегда"
   },
   "channelBlacklistDescription": {
     "message": "Каналы из этого списка скрываются всегда и везде. Shorts фильтруются всегда"
@@ -366,14 +374,6 @@
       }
     }
   },
-  "chipRemoveLabel": {
-    "message": "Удалить $item$",
-    "placeholders": {
-      "item": {
-        "content": "$1"
-      }
-    }
-  },
   "titleWhitelistAlreadyListed": {
     "message": "«$word$» уже в Whitelist",
     "placeholders": {
@@ -382,9 +382,6 @@
       }
     }
   },
-  "titleWhitelistFull": {
-    "message": "Title Whitelist заполнен: удалите слово, чтобы добавить новое"
-  },
   "titleBlacklistAlreadyListed": {
     "message": "«$word$» уже в Blacklist",
     "placeholders": {
@@ -392,48 +389,6 @@
         "content": "$1"
       }
     }
-  },
-  "titleBlacklistFull": {
-    "message": "Title Blacklist заполнен: удалите слово, чтобы добавить новое"
-  },
-  "watchedPageTitle": {
-    "message": "Отмечены как просмотренные | YouTube Hider"
-  },
-  "watchedDescription": {
-    "message": "Видео, которые вы отметили кнопкой «Просмотрено» на YouTube. Они скрываются как просмотренные, по настройкам «Скрывать просмотренные». Удалите видео из списка, чтобы оно снова появилось. Хранится до 3000 видео: сверх этого удаляется самая старая отметка."
-  },
-  "watchedSyncDescription": {
-    "message": "Отметки автоматически синхронизируются на всех компьютерах с тем же профилем Chrome, поэтому экспортировать и импортировать их между устройствами не нужно. «Экспорт» пригодится для резервной копии или переноса в другой профиль."
-  },
-  "watchedExport": {
-    "message": "Экспорт"
-  },
-  "watchedImport": {
-    "message": "Импорт"
-  },
-  "watchedClearAll": {
-    "message": "Очистить всё"
-  },
-  "watchedUndo": {
-    "message": "Отменить"
-  },
-  "watchedSelectAllShown": {
-    "message": "Выбрать все показанные"
-  },
-  "watchedRemoveSelected": {
-    "message": "Удалить выбранные"
-  },
-  "watchedClearSearch": {
-    "message": "Сбросить поиск"
-  },
-  "watchedLoadMore": {
-    "message": "Показать ещё"
-  },
-  "watchedSearchPlaceholder": {
-    "message": "Поиск по названию, каналу или ID видео"
-  },
-  "watchedSearchLabel": {
-    "message": "Поиск по отмеченным видео"
   },
   "markedCount_one": {
     "message": "$count$ видео из $limit$",
@@ -567,144 +522,653 @@
       }
     }
   },
-  "watchedSelectItem": {
-    "message": "Выбрать «$title$»",
+  "managePageTitle": {
+    "message": "Списки | YouTube Hider"
+  },
+  "managePageTitleList": {
+    "message": "$list$ | YouTube Hider",
     "placeholders": {
-      "title": {
+      "list": {
         "content": "$1"
       }
     }
   },
-  "watchedTitleUnavailable": {
-    "message": "Название недоступно на этом устройстве"
+  "manageHeading": {
+    "message": "Списки"
   },
-  "watchedMarkedOn": {
-    "message": "Отмечено $date$",
-    "placeholders": {
-      "date": {
-        "content": "$1"
-      }
-    }
+  "manageExport": {
+    "message": "Экспорт"
   },
-  "watchedRemove": {
-    "message": "Удалить"
+  "manageImport": {
+    "message": "Импорт"
   },
-  "watchedRemoveItem": {
-    "message": "Удалить «$title$»",
-    "placeholders": {
-      "title": {
-        "content": "$1"
-      }
-    }
+  "manageSyncHeadlineOk": {
+    "message": "Синхронизировано на всех ваших устройствах"
   },
-  "watchedRemoveSelectedCount_one": {
-    "message": "Удалить выбранные ($count$)",
-    "placeholders": {
-      "count": {
-        "content": "$1"
-      }
-    }
+  "manageSyncHeadlineSyncing": {
+    "message": "Синхронизируем последние изменения"
   },
-  "watchedRemoveSelectedCount_few": {
-    "message": "Удалить выбранные ($count$)",
-    "placeholders": {
-      "count": {
-        "content": "$1"
-      }
-    }
+  "manageSyncHeadlineAlmostFull": {
+    "message": "Место для синхронизации почти заполнено"
   },
-  "watchedRemoveSelectedCount_many": {
-    "message": "Удалить выбранные ($count$)",
+  "manageSyncHeadlinePaused": {
+    "message": "Синхронизация приостановлена"
+  },
+  "manageSyncHeadlineMarkedPaused": {
+    "message": "Отмеченные видео не синхронизируются"
+  },
+  "manageSyncHeadlineRetrying": {
+    "message": "Синхронизация скоро повторит попытку"
+  },
+  "manageSyncHeadlineOutdated": {
+    "message": "Нужно обновление, чтобы продолжить синхронизацию"
+  },
+  "manageSyncRoomLeft_one": {
+    "message": "Места ещё примерно на $count$ запись",
     "placeholders": {
       "count": {
         "content": "$1"
       }
     }
   },
-  "watchedRemoveSelectedCount_other": {
-    "message": "Удалить выбранные ($count$)",
+  "manageSyncRoomLeft_few": {
+    "message": "Места ещё примерно на $count$ записи",
     "placeholders": {
       "count": {
         "content": "$1"
       }
     }
   },
-  "watchedLoadMoreCount_one": {
-    "message": "Показать ещё (осталось $count$)",
+  "manageSyncRoomLeft_many": {
+    "message": "Места ещё примерно на $count$ записей",
     "placeholders": {
       "count": {
         "content": "$1"
       }
     }
   },
-  "watchedLoadMoreCount_few": {
-    "message": "Показать ещё (осталось $count$)",
+  "manageSyncRoomLeft_other": {
+    "message": "Места ещё примерно на $count$ записи",
     "placeholders": {
       "count": {
         "content": "$1"
       }
     }
   },
-  "watchedLoadMoreCount_many": {
-    "message": "Показать ещё (осталось $count$)",
+  "manageSyncMessageListsPaused": {
+    "message": "Ваши списки превысили место, которое Chrome выделяет расширениям для синхронизации, поэтому их синхронизация приостановлена. Всё сохранено и работает в этом браузере, а на других устройствах остаётся последняя поместившаяся версия. Синхронизация возобновится сама, когда списки снова поместятся."
+  },
+  "manageSyncMessageMarkedPaused": {
+    "message": "Отмеченные видео сейчас не синхронизируются: в общем месте приоритет у ваших списков. Они сохранены и работают в этом браузере, а синхронизация возобновится, когда снова появится место."
+  },
+  "manageSyncMessageOutdated": {
+    "message": "На другом устройстве установлена более новая версия YouTube Hider. Обновите расширение в этом браузере, чтобы продолжить синхронизацию."
+  },
+  "manageSyncMessageNearFull": {
+    "message": "Если списки превысят лимит, синхронизация приостановится, но ничего не потеряется: всё продолжит работать в этом браузере."
+  },
+  "manageSyncMeterText": {
+    "message": "Занято $percent$% места для синхронизации",
+    "placeholders": {
+      "percent": {
+        "content": "$1"
+      }
+    }
+  },
+  "manageUndo": {
+    "message": "Отменить"
+  },
+  "manageDismiss": {
+    "message": "Закрыть"
+  },
+  "manageExportBackup": {
+    "message": "Экспортировать копию"
+  },
+  "manageCancel": {
+    "message": "Отмена"
+  },
+  "manageImportTitle": {
+    "message": "Импорт списков"
+  },
+  "manageImportIntro": {
+    "message": "Записи только добавляются: ничего из того, что уже есть в ваших списках, не удаляется и не меняется."
+  },
+  "manageImportNothing": {
+    "message": "Нечего импортировать: всё из этого файла уже есть в ваших списках."
+  },
+  "manageImportError": {
+    "message": "Не удалось прочитать этот файл как экспорт YouTube Hider."
+  },
+  "manageImportListFull": {
+    "message": "Список заполнен, поэтому самые старые отметки удалены."
+  },
+  "manageImportConfirm_one": {
+    "message": "Импортировать $count$",
     "placeholders": {
       "count": {
         "content": "$1"
       }
     }
   },
-  "watchedLoadMoreCount_other": {
-    "message": "Показать ещё (осталось $count$)",
+  "manageImportConfirm_few": {
+    "message": "Импортировать $count$",
     "placeholders": {
       "count": {
         "content": "$1"
       }
     }
   },
-  "watchedEmpty": {
-    "message": "Пока нет отмеченных видео. На YouTube наведите курсор на видео и нажмите «Просмотрено», чтобы добавить его сюда."
-  },
-  "watchedNoMatch": {
-    "message": "Нет отмеченных видео по запросу «$query$».",
-    "placeholders": {
-      "query": {
-        "content": "$1"
-      }
-    }
-  },
-  "watchedRestored_one": {
-    "message": "Восстановлено $count$ видео.",
+  "manageImportConfirm_many": {
+    "message": "Импортировать $count$",
     "placeholders": {
       "count": {
         "content": "$1"
       }
     }
   },
-  "watchedRestored_few": {
-    "message": "Восстановлено $count$ видео.",
+  "manageImportConfirm_other": {
+    "message": "Импортировать $count$",
     "placeholders": {
       "count": {
         "content": "$1"
       }
     }
   },
-  "watchedRestored_many": {
-    "message": "Восстановлено $count$ видео.",
+  "manageImportSkippedOther_one": {
+    "message": "$count$ пропущен: уже в $list$",
+    "placeholders": {
+      "count": {
+        "content": "$1"
+      },
+      "list": {
+        "content": "$2"
+      }
+    }
+  },
+  "manageImportSkippedOther_few": {
+    "message": "$count$ пропущено: уже в $list$",
+    "placeholders": {
+      "count": {
+        "content": "$1"
+      },
+      "list": {
+        "content": "$2"
+      }
+    }
+  },
+  "manageImportSkippedOther_many": {
+    "message": "$count$ пропущено: уже в $list$",
+    "placeholders": {
+      "count": {
+        "content": "$1"
+      },
+      "list": {
+        "content": "$2"
+      }
+    }
+  },
+  "manageImportSkippedOther_other": {
+    "message": "$count$ пропущено: уже в $list$",
+    "placeholders": {
+      "count": {
+        "content": "$1"
+      },
+      "list": {
+        "content": "$2"
+      }
+    }
+  },
+  "manageImported_one": {
+    "message": "Импортирована $count$ новая запись.",
     "placeholders": {
       "count": {
         "content": "$1"
       }
     }
   },
-  "watchedRestored_other": {
-    "message": "Восстановлено $count$ видео.",
+  "manageImported_few": {
+    "message": "Импортировано $count$ новые записи.",
     "placeholders": {
       "count": {
         "content": "$1"
       }
     }
   },
-  "watchedRemoved_one": {
+  "manageImported_many": {
+    "message": "Импортировано $count$ новых записей.",
+    "placeholders": {
+      "count": {
+        "content": "$1"
+      }
+    }
+  },
+  "manageImported_other": {
+    "message": "Импортировано $count$ новой записи.",
+    "placeholders": {
+      "count": {
+        "content": "$1"
+      }
+    }
+  },
+  "manageExported_one": {
+    "message": "Экспортирована $count$ запись.",
+    "placeholders": {
+      "count": {
+        "content": "$1"
+      }
+    }
+  },
+  "manageExported_few": {
+    "message": "Экспортировано $count$ записи.",
+    "placeholders": {
+      "count": {
+        "content": "$1"
+      }
+    }
+  },
+  "manageExported_many": {
+    "message": "Экспортировано $count$ записей.",
+    "placeholders": {
+      "count": {
+        "content": "$1"
+      }
+    }
+  },
+  "manageExported_other": {
+    "message": "Экспортировано $count$ записи.",
+    "placeholders": {
+      "count": {
+        "content": "$1"
+      }
+    }
+  },
+  "manageMarkedDescription": {
+    "message": "Видео, которые вы отметили кнопкой «Просмотрено» на YouTube. Они скрываются как просмотренные, по настройкам «Скрывать просмотренные». Удалите видео из списка, чтобы оно снова появилось. Хранится до 3000 видео: сверх этого удаляется самая старая отметка."
+  },
+  "manageMarkedNote": {
+    "message": "Зависит от «$setting$»: отмеченные видео скрываются только там, где включена эта настройка.",
+    "placeholders": {
+      "setting": {
+        "content": "$1"
+      }
+    }
+  },
+  "manageSwitchOn": {
+    "message": "Вкл."
+  },
+  "manageSwitchOff": {
+    "message": "Выкл."
+  },
+  "manageAddChannelsLabel": {
+    "message": "Добавить каналы"
+  },
+  "manageAddWordsLabel": {
+    "message": "Добавить слова или фразы"
+  },
+  "manageAddChannelsPlaceholder": {
+    "message": "@псевдоним или ссылка на канал. Можно вставить несколько, по одному на строку"
+  },
+  "manageAddWordsPlaceholder": {
+    "message": "Слово или фраза. Можно вставить несколько, по одному на строку"
+  },
+  "manageAddChannelsHint": {
+    "message": "Enter добавляет, Shift+Enter переносит строку. Например, @veritasium или youtube.com/@veritasium"
+  },
+  "manageAddWordsHint": {
+    "message": "Enter добавляет, Shift+Enter переносит строку. Слово совпадает там, где в названии начинается слово, регистр не учитывается"
+  },
+  "manageAddButton": {
+    "message": "Добавить"
+  },
+  "manageAddButtonCount_one": {
+    "message": "Добавить $count$",
+    "placeholders": {
+      "count": {
+        "content": "$1"
+      }
+    }
+  },
+  "manageAddButtonCount_few": {
+    "message": "Добавить $count$",
+    "placeholders": {
+      "count": {
+        "content": "$1"
+      }
+    }
+  },
+  "manageAddButtonCount_many": {
+    "message": "Добавить $count$",
+    "placeholders": {
+      "count": {
+        "content": "$1"
+      }
+    }
+  },
+  "manageAddButtonCount_other": {
+    "message": "Добавить $count$",
+    "placeholders": {
+      "count": {
+        "content": "$1"
+      }
+    }
+  },
+  "manageAddNew_one": {
+    "message": "$count$ новый",
+    "placeholders": {
+      "count": {
+        "content": "$1"
+      }
+    }
+  },
+  "manageAddNew_few": {
+    "message": "$count$ новых",
+    "placeholders": {
+      "count": {
+        "content": "$1"
+      }
+    }
+  },
+  "manageAddNew_many": {
+    "message": "$count$ новых",
+    "placeholders": {
+      "count": {
+        "content": "$1"
+      }
+    }
+  },
+  "manageAddNew_other": {
+    "message": "$count$ новых",
+    "placeholders": {
+      "count": {
+        "content": "$1"
+      }
+    }
+  },
+  "manageAddExisting_one": {
+    "message": "$count$ уже в списке",
+    "placeholders": {
+      "count": {
+        "content": "$1"
+      }
+    }
+  },
+  "manageAddExisting_few": {
+    "message": "$count$ уже в списке",
+    "placeholders": {
+      "count": {
+        "content": "$1"
+      }
+    }
+  },
+  "manageAddExisting_many": {
+    "message": "$count$ уже в списке",
+    "placeholders": {
+      "count": {
+        "content": "$1"
+      }
+    }
+  },
+  "manageAddExisting_other": {
+    "message": "$count$ уже в списке",
+    "placeholders": {
+      "count": {
+        "content": "$1"
+      }
+    }
+  },
+  "manageAddMoving_one": {
+    "message": "$count$ будет перенесён из $list$",
+    "placeholders": {
+      "count": {
+        "content": "$1"
+      },
+      "list": {
+        "content": "$2"
+      }
+    }
+  },
+  "manageAddMoving_few": {
+    "message": "$count$ будут перенесены из $list$",
+    "placeholders": {
+      "count": {
+        "content": "$1"
+      },
+      "list": {
+        "content": "$2"
+      }
+    }
+  },
+  "manageAddMoving_many": {
+    "message": "$count$ будут перенесены из $list$",
+    "placeholders": {
+      "count": {
+        "content": "$1"
+      },
+      "list": {
+        "content": "$2"
+      }
+    }
+  },
+  "manageAddMoving_other": {
+    "message": "$count$ будут перенесены из $list$",
+    "placeholders": {
+      "count": {
+        "content": "$1"
+      },
+      "list": {
+        "content": "$2"
+      }
+    }
+  },
+  "manageAddInvalid_one": {
+    "message": "$count$ не распознан: $items$",
+    "placeholders": {
+      "count": {
+        "content": "$1"
+      },
+      "items": {
+        "content": "$2"
+      }
+    }
+  },
+  "manageAddInvalid_few": {
+    "message": "$count$ не распознаны: $items$",
+    "placeholders": {
+      "count": {
+        "content": "$1"
+      },
+      "items": {
+        "content": "$2"
+      }
+    }
+  },
+  "manageAddInvalid_many": {
+    "message": "$count$ не распознаны: $items$",
+    "placeholders": {
+      "count": {
+        "content": "$1"
+      },
+      "items": {
+        "content": "$2"
+      }
+    }
+  },
+  "manageAddInvalid_other": {
+    "message": "$count$ не распознаны: $items$",
+    "placeholders": {
+      "count": {
+        "content": "$1"
+      },
+      "items": {
+        "content": "$2"
+      }
+    }
+  },
+  "manageAdded_one": {
+    "message": "В $list$ добавлена $count$ запись.",
+    "placeholders": {
+      "count": {
+        "content": "$1"
+      },
+      "list": {
+        "content": "$2"
+      }
+    }
+  },
+  "manageAdded_few": {
+    "message": "В $list$ добавлено $count$ записи.",
+    "placeholders": {
+      "count": {
+        "content": "$1"
+      },
+      "list": {
+        "content": "$2"
+      }
+    }
+  },
+  "manageAdded_many": {
+    "message": "В $list$ добавлено $count$ записей.",
+    "placeholders": {
+      "count": {
+        "content": "$1"
+      },
+      "list": {
+        "content": "$2"
+      }
+    }
+  },
+  "manageAdded_other": {
+    "message": "В $list$ добавлено $count$ записи.",
+    "placeholders": {
+      "count": {
+        "content": "$1"
+      },
+      "list": {
+        "content": "$2"
+      }
+    }
+  },
+  "manageRemoved_one": {
+    "message": "Из $list$ удалена $count$ запись.",
+    "placeholders": {
+      "count": {
+        "content": "$1"
+      },
+      "list": {
+        "content": "$2"
+      }
+    }
+  },
+  "manageRemoved_few": {
+    "message": "Из $list$ удалено $count$ записи.",
+    "placeholders": {
+      "count": {
+        "content": "$1"
+      },
+      "list": {
+        "content": "$2"
+      }
+    }
+  },
+  "manageRemoved_many": {
+    "message": "Из $list$ удалено $count$ записей.",
+    "placeholders": {
+      "count": {
+        "content": "$1"
+      },
+      "list": {
+        "content": "$2"
+      }
+    }
+  },
+  "manageRemoved_other": {
+    "message": "Из $list$ удалено $count$ записи.",
+    "placeholders": {
+      "count": {
+        "content": "$1"
+      },
+      "list": {
+        "content": "$2"
+      }
+    }
+  },
+  "manageMoved_one": {
+    "message": "В $list$ перенесена $count$ запись.",
+    "placeholders": {
+      "count": {
+        "content": "$1"
+      },
+      "list": {
+        "content": "$2"
+      }
+    }
+  },
+  "manageMoved_few": {
+    "message": "В $list$ перенесено $count$ записи.",
+    "placeholders": {
+      "count": {
+        "content": "$1"
+      },
+      "list": {
+        "content": "$2"
+      }
+    }
+  },
+  "manageMoved_many": {
+    "message": "В $list$ перенесено $count$ записей.",
+    "placeholders": {
+      "count": {
+        "content": "$1"
+      },
+      "list": {
+        "content": "$2"
+      }
+    }
+  },
+  "manageMoved_other": {
+    "message": "В $list$ перенесено $count$ записи.",
+    "placeholders": {
+      "count": {
+        "content": "$1"
+      },
+      "list": {
+        "content": "$2"
+      }
+    }
+  },
+  "manageRestored_one": {
+    "message": "Восстановлена $count$ запись.",
+    "placeholders": {
+      "count": {
+        "content": "$1"
+      }
+    }
+  },
+  "manageRestored_few": {
+    "message": "Восстановлено $count$ записи.",
+    "placeholders": {
+      "count": {
+        "content": "$1"
+      }
+    }
+  },
+  "manageRestored_many": {
+    "message": "Восстановлено $count$ записей.",
+    "placeholders": {
+      "count": {
+        "content": "$1"
+      }
+    }
+  },
+  "manageRestored_other": {
+    "message": "Восстановлено $count$ записи.",
+    "placeholders": {
+      "count": {
+        "content": "$1"
+      }
+    }
+  },
+  "manageMarkedRemoved_one": {
     "message": "Удалено $count$ видео. Снова появится на YouTube.",
     "placeholders": {
       "count": {
@@ -712,7 +1176,7 @@
       }
     }
   },
-  "watchedRemoved_few": {
+  "manageMarkedRemoved_few": {
     "message": "Удалено $count$ видео. Они снова появятся на YouTube.",
     "placeholders": {
       "count": {
@@ -720,7 +1184,7 @@
       }
     }
   },
-  "watchedRemoved_many": {
+  "manageMarkedRemoved_many": {
     "message": "Удалено $count$ видео. Они снова появятся на YouTube.",
     "placeholders": {
       "count": {
@@ -728,7 +1192,7 @@
       }
     }
   },
-  "watchedRemoved_other": {
+  "manageMarkedRemoved_other": {
     "message": "Удалено $count$ видео. Они снова появятся на YouTube.",
     "placeholders": {
       "count": {
@@ -736,107 +1200,442 @@
       }
     }
   },
-  "watchedExported_one": {
-    "message": "Экспортировано $count$ видео.",
+  "manageSortLabel": {
+    "message": "Сортировка"
+  },
+  "manageSortRecent": {
+    "message": "Недавно добавленные"
+  },
+  "manageSortAz": {
+    "message": "От А до Я"
+  },
+  "manageSearchChannels": {
+    "message": "Поиск каналов"
+  },
+  "manageSearchWords": {
+    "message": "Поиск слов"
+  },
+  "manageSearchMarked": {
+    "message": "Поиск по названию, каналу или ID видео"
+  },
+  "manageCountChannels_one": {
+    "message": "$count$ канал",
     "placeholders": {
       "count": {
         "content": "$1"
       }
     }
   },
-  "watchedExported_few": {
-    "message": "Экспортировано $count$ видео.",
+  "manageCountChannels_few": {
+    "message": "$count$ канала",
     "placeholders": {
       "count": {
         "content": "$1"
       }
     }
   },
-  "watchedExported_many": {
-    "message": "Экспортировано $count$ видео.",
+  "manageCountChannels_many": {
+    "message": "$count$ каналов",
     "placeholders": {
       "count": {
         "content": "$1"
       }
     }
   },
-  "watchedExported_other": {
-    "message": "Экспортировано $count$ видео.",
+  "manageCountChannels_other": {
+    "message": "$count$ канала",
     "placeholders": {
       "count": {
         "content": "$1"
       }
     }
   },
-  "watchedImportEmpty": {
-    "message": "В этом файле не найдено подходящих видео."
-  },
-  "watchedImported_one": {
-    "message": "Импортировано $count$ новое видео.",
+  "manageCountWords_one": {
+    "message": "$count$ слово",
     "placeholders": {
       "count": {
         "content": "$1"
       }
     }
   },
-  "watchedImported_few": {
-    "message": "Импортировано $count$ новых видео.",
+  "manageCountWords_few": {
+    "message": "$count$ слова",
     "placeholders": {
       "count": {
         "content": "$1"
       }
     }
   },
-  "watchedImported_many": {
-    "message": "Импортировано $count$ новых видео.",
+  "manageCountWords_many": {
+    "message": "$count$ слов",
     "placeholders": {
       "count": {
         "content": "$1"
       }
     }
   },
-  "watchedImported_other": {
-    "message": "Импортировано $count$ новых видео.",
+  "manageCountWords_other": {
+    "message": "$count$ слова",
     "placeholders": {
       "count": {
         "content": "$1"
       }
     }
   },
-  "watchedImportListFull": {
-    "message": "Список заполнен, поэтому самые старые отметки удалены."
-  },
-  "watchedImportError": {
-    "message": "Не удалось прочитать этот файл как экспорт YouTube Hider."
-  },
-  "watchedClearConfirm_one": {
-    "message": "Удалить все отмеченные видео ($count$)? Они снова появятся на YouTube.",
+  "manageCountVideos_one": {
+    "message": "$count$ видео",
     "placeholders": {
       "count": {
         "content": "$1"
       }
     }
   },
-  "watchedClearConfirm_few": {
-    "message": "Удалить все отмеченные видео ($count$)? Они снова появятся на YouTube.",
+  "manageCountVideos_few": {
+    "message": "$count$ видео",
     "placeholders": {
       "count": {
         "content": "$1"
       }
     }
   },
-  "watchedClearConfirm_many": {
-    "message": "Удалить все отмеченные видео ($count$)? Они снова появятся на YouTube.",
+  "manageCountVideos_many": {
+    "message": "$count$ видео",
     "placeholders": {
       "count": {
         "content": "$1"
       }
     }
   },
-  "watchedClearConfirm_other": {
-    "message": "Удалить все отмеченные видео ($count$)? Они снова появятся на YouTube.",
+  "manageCountVideos_other": {
+    "message": "$count$ видео",
     "placeholders": {
       "count": {
+        "content": "$1"
+      }
+    }
+  },
+  "manageCountMatches_one": {
+    "message": "$count$ совпадение",
+    "placeholders": {
+      "count": {
+        "content": "$1"
+      }
+    }
+  },
+  "manageCountMatches_few": {
+    "message": "$count$ совпадения",
+    "placeholders": {
+      "count": {
+        "content": "$1"
+      }
+    }
+  },
+  "manageCountMatches_many": {
+    "message": "$count$ совпадений",
+    "placeholders": {
+      "count": {
+        "content": "$1"
+      }
+    }
+  },
+  "manageCountMatches_other": {
+    "message": "$count$ совпадения",
+    "placeholders": {
+      "count": {
+        "content": "$1"
+      }
+    }
+  },
+  "manageSelectedCount_one": {
+    "message": "Выбран $count$",
+    "placeholders": {
+      "count": {
+        "content": "$1"
+      }
+    }
+  },
+  "manageSelectedCount_few": {
+    "message": "Выбрано $count$",
+    "placeholders": {
+      "count": {
+        "content": "$1"
+      }
+    }
+  },
+  "manageSelectedCount_many": {
+    "message": "Выбрано $count$",
+    "placeholders": {
+      "count": {
+        "content": "$1"
+      }
+    }
+  },
+  "manageSelectedCount_other": {
+    "message": "Выбрано $count$",
+    "placeholders": {
+      "count": {
+        "content": "$1"
+      }
+    }
+  },
+  "manageSelectAllMatching_one": {
+    "message": "Выбрать все ($count$)",
+    "placeholders": {
+      "count": {
+        "content": "$1"
+      }
+    }
+  },
+  "manageSelectAllMatching_few": {
+    "message": "Выбрать все ($count$)",
+    "placeholders": {
+      "count": {
+        "content": "$1"
+      }
+    }
+  },
+  "manageSelectAllMatching_many": {
+    "message": "Выбрать все ($count$)",
+    "placeholders": {
+      "count": {
+        "content": "$1"
+      }
+    }
+  },
+  "manageSelectAllMatching_other": {
+    "message": "Выбрать все ($count$)",
+    "placeholders": {
+      "count": {
+        "content": "$1"
+      }
+    }
+  },
+  "manageSelectShown": {
+    "message": "Выбрать все показанные"
+  },
+  "manageClearSelection": {
+    "message": "Снять выделение"
+  },
+  "manageSelectItem": {
+    "message": "Выбрать «$title$»",
+    "placeholders": {
+      "title": {
+        "content": "$1"
+      }
+    }
+  },
+  "manageRemove": {
+    "message": "Удалить"
+  },
+  "manageRemoveItem": {
+    "message": "Удалить «$title$»",
+    "placeholders": {
+      "title": {
+        "content": "$1"
+      }
+    }
+  },
+  "manageRemoveSelected_one": {
+    "message": "Удалить выбранные ($count$)",
+    "placeholders": {
+      "count": {
+        "content": "$1"
+      }
+    }
+  },
+  "manageRemoveSelected_few": {
+    "message": "Удалить выбранные ($count$)",
+    "placeholders": {
+      "count": {
+        "content": "$1"
+      }
+    }
+  },
+  "manageRemoveSelected_many": {
+    "message": "Удалить выбранные ($count$)",
+    "placeholders": {
+      "count": {
+        "content": "$1"
+      }
+    }
+  },
+  "manageRemoveSelected_other": {
+    "message": "Удалить выбранные ($count$)",
+    "placeholders": {
+      "count": {
+        "content": "$1"
+      }
+    }
+  },
+  "manageMoveSelected": {
+    "message": "Переместить в $list$",
+    "placeholders": {
+      "list": {
+        "content": "$1"
+      }
+    }
+  },
+  "manageClearSearch": {
+    "message": "Сбросить поиск"
+  },
+  "manageLoadMore_one": {
+    "message": "Показать ещё (осталось $count$)",
+    "placeholders": {
+      "count": {
+        "content": "$1"
+      }
+    }
+  },
+  "manageLoadMore_few": {
+    "message": "Показать ещё (осталось $count$)",
+    "placeholders": {
+      "count": {
+        "content": "$1"
+      }
+    }
+  },
+  "manageLoadMore_many": {
+    "message": "Показать ещё (осталось $count$)",
+    "placeholders": {
+      "count": {
+        "content": "$1"
+      }
+    }
+  },
+  "manageLoadMore_other": {
+    "message": "Показать ещё (осталось $count$)",
+    "placeholders": {
+      "count": {
+        "content": "$1"
+      }
+    }
+  },
+  "manageClearAll": {
+    "message": "Очистить всё"
+  },
+  "manageClearTitle": {
+    "message": "Очистить $list$?",
+    "placeholders": {
+      "list": {
+        "content": "$1"
+      }
+    }
+  },
+  "manageClearText_one": {
+    "message": "Из $list$ будет удалена $count$ запись. Это можно сразу отменить или сначала экспортировать копию.",
+    "placeholders": {
+      "count": {
+        "content": "$1"
+      },
+      "list": {
+        "content": "$2"
+      }
+    }
+  },
+  "manageClearText_few": {
+    "message": "Из $list$ будут удалены все записи ($count$). Это можно сразу отменить или сначала экспортировать копию.",
+    "placeholders": {
+      "count": {
+        "content": "$1"
+      },
+      "list": {
+        "content": "$2"
+      }
+    }
+  },
+  "manageClearText_many": {
+    "message": "Из $list$ будут удалены все записи ($count$). Это можно сразу отменить или сначала экспортировать копию.",
+    "placeholders": {
+      "count": {
+        "content": "$1"
+      },
+      "list": {
+        "content": "$2"
+      }
+    }
+  },
+  "manageClearText_other": {
+    "message": "Из $list$ будут удалены все записи ($count$). Это можно сразу отменить или сначала экспортировать копию.",
+    "placeholders": {
+      "count": {
+        "content": "$1"
+      },
+      "list": {
+        "content": "$2"
+      }
+    }
+  },
+  "manageClearConfirm_one": {
+    "message": "Удалить $count$",
+    "placeholders": {
+      "count": {
+        "content": "$1"
+      }
+    }
+  },
+  "manageClearConfirm_few": {
+    "message": "Удалить все ($count$)",
+    "placeholders": {
+      "count": {
+        "content": "$1"
+      }
+    }
+  },
+  "manageClearConfirm_many": {
+    "message": "Удалить все ($count$)",
+    "placeholders": {
+      "count": {
+        "content": "$1"
+      }
+    }
+  },
+  "manageClearConfirm_other": {
+    "message": "Удалить все ($count$)",
+    "placeholders": {
+      "count": {
+        "content": "$1"
+      }
+    }
+  },
+  "manageEmptyTitle": {
+    "message": "Здесь пока ничего нет"
+  },
+  "manageEmptyMarked": {
+    "message": "Пока нет отмеченных видео. На YouTube наведите курсор на видео и нажмите «Просмотрено», чтобы добавить его сюда."
+  },
+  "manageEmptyChannelWhitelist": {
+    "message": "Нажмите кнопку Whitelist рядом с «Подписаться» на странице канала или видео или вставьте каналы в поле выше."
+  },
+  "manageEmptyChannelBlacklist": {
+    "message": "На YouTube наведите курсор на видео и нажмите Blacklist, нажмите кнопку Blacklist рядом с «Подписаться» на странице канала или вставьте каналы в поле выше."
+  },
+  "manageEmptyTitleWhitelist": {
+    "message": "Введите слово или фразу в поле выше. Видео, в названии которых оно есть, никогда не фильтруются."
+  },
+  "manageEmptyTitleBlacklist": {
+    "message": "Введите слово или фразу в поле выше. Видео, в названии которых оно есть, всегда скрываются."
+  },
+  "manageNoMatchTitle": {
+    "message": "Ничего не найдено по запросу «$query$»",
+    "placeholders": {
+      "query": {
+        "content": "$1"
+      }
+    }
+  },
+  "manageNoMatchText": {
+    "message": "Проверьте написание или введите только часть названия."
+  },
+  "manageChannelIdLabel": {
+    "message": "ID канала"
+  },
+  "manageTitleUnavailable": {
+    "message": "Название недоступно на этом устройстве"
+  },
+  "manageMarkedOn": {
+    "message": "Отмечено $date$",
+    "placeholders": {
+      "date": {
         "content": "$1"
       }
     }
@@ -1040,10 +1839,20 @@
     "message": "Скрывает видео новее или старше заданного порога. Используйте оба порога, чтобы оставить только видео за определённый период."
   },
   "tourChannelWhitelistDescription": {
-    "message": "Освободите любимые каналы от всех фильтров. Добавьте текущий канал одним кликом или уберите метку, чтобы сразу снова применить фильтры."
+    "message": "Освободите любимые каналы от всех фильтров. Добавьте текущий канал одним кликом, а через «$manage$» ищите, удаляйте и переносите каналы на отдельной странице.",
+    "placeholders": {
+      "manage": {
+        "content": "$1"
+      }
+    }
   },
   "tourChannelBlacklistDescription": {
-    "message": "Противоположность Whitelist: всегда и везде скрывает канал, включая Shorts, миксы, плейлисты и трансляции. Добавьте текущий канал одним кликом или уберите метку, чтобы он сразу снова появился."
+    "message": "Противоположность Whitelist: всегда и везде скрывает канал, включая Shorts, миксы, плейлисты и трансляции. Добавьте текущий канал одним кликом, а через «$manage$» откройте полный список на отдельной странице.",
+    "placeholders": {
+      "manage": {
+        "content": "$1"
+      }
+    }
   },
   "tourTitleWhitelistDescription": {
     "message": "Освобождайте видео от фильтров по слову в названии, а не по каналу. Видео, в названии которых есть одно из ваших слов, ни один фильтр не трогает."

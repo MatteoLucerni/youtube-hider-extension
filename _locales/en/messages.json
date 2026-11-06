@@ -119,6 +119,16 @@
     "message": "Manage",
     "description": "Button that opens the page listing the marked videos. One short word."
   },
+  "manageListLabel": {
+    "message": "Manage $list$",
+    "description": "Accessible name of the Manage button on a list card. The placeholder is the list name, e.g. Channel Blacklist.",
+    "placeholders": {
+      "list": {
+        "content": "$1",
+        "example": "Channel Blacklist"
+      }
+    }
+  },
   "markedWatchedSyncPaused": {
     "message": "Sync paused: the channel lists need the space shared across devices. Your marked videos are saved in this browser, and syncing resumes once they fit again",
     "description": "Notice shown when the marked videos stop syncing because the channel lists use all the sync space."
@@ -288,8 +298,8 @@
     "description": "Card title. Keep 'Whitelist' in English."
   },
   "channelWhitelistTooltip": {
-    "message": "Whitelisted channels bypass all active filters. Add a channel from the button below or from the header button while on a channel page or video. Removing a chip immediately re-applies all filters to that channel. Shorts are always filtered regardless",
-    "description": "Tooltip of the Channel Whitelist card. A chip is one listed channel with a remove button."
+    "message": "Whitelisted channels bypass all active filters. Add a channel from the button below or from the header button while on a channel page or video. The full list opens on its own page, where you can search, remove and move channels. Shorts are always filtered regardless",
+    "description": "Tooltip of the Channel Whitelist card."
   },
   "channelWhitelistDescription": {
     "message": "Channels listed here will not be filtered. Shorts are always filtered regardless",
@@ -304,16 +314,16 @@
     "description": "Button that adds the channel of the open YouTube tab to the list. Keep the leading '+'."
   },
   "channelListsSyncPaused": {
-    "message": "Sync paused: too many channels to sync across devices. Your lists are saved in this browser, and syncing resumes once they fit again",
-    "description": "Notice shown when the channel lists are too large to sync across devices."
+    "message": "Sync paused: your lists are too large to sync to your other devices. Nothing is lost: everything keeps working in this browser, and syncing resumes once they fit again",
+    "description": "Notice in the list cards when the lists are too large to sync across devices. It must make clear that nothing is lost."
   },
   "channelBlacklistTitle": {
     "message": "Channel Blacklist",
     "description": "Card title. Keep 'Blacklist' in English."
   },
   "channelBlacklistTooltip": {
-    "message": "Blacklisted channels are always hidden, regardless of any other filter. Add a channel from the button below or from the header button while on a channel page or video. Removing a chip immediately shows that channel's videos again. Shorts are always filtered regardless",
-    "description": "Tooltip of the Channel Blacklist card. A chip is one listed channel with a remove button."
+    "message": "Blacklisted channels are always hidden, regardless of any other filter. Add a channel from the button below or from the header button while on a channel page or video. The full list opens on its own page, where you can search, remove and move channels. Shorts are always filtered regardless",
+    "description": "Tooltip of the Channel Blacklist card."
   },
   "channelBlacklistDescription": {
     "message": "Channels listed here are always hidden, everywhere. Shorts are always filtered regardless",
@@ -487,16 +497,6 @@
       }
     }
   },
-  "chipRemoveLabel": {
-    "message": "Remove $item$",
-    "description": "Accessible label of the x button on a list chip.",
-    "placeholders": {
-      "item": {
-        "content": "$1",
-        "example": "@veritasium"
-      }
-    }
-  },
   "titleWhitelistAlreadyListed": {
     "message": "\"$word$\" is already whitelisted",
     "description": "Hint under the Title Whitelist text box when the typed word is already in the list.",
@@ -507,10 +507,6 @@
       }
     }
   },
-  "titleWhitelistFull": {
-    "message": "Title Whitelist is full: remove a word to add a new one",
-    "description": "Hint under the Title Whitelist text box when the list reached its storage limit. Keep 'Title Whitelist' in English."
-  },
   "titleBlacklistAlreadyListed": {
     "message": "\"$word$\" is already blacklisted",
     "description": "Hint under the Title Blacklist text box when the typed word is already in the list.",
@@ -520,62 +516,6 @@
         "example": "reaction"
       }
     }
-  },
-  "titleBlacklistFull": {
-    "message": "Title Blacklist is full: remove a word to add a new one",
-    "description": "Hint under the Title Blacklist text box when the list reached its storage limit. Keep 'Title Blacklist' in English."
-  },
-  "watchedPageTitle": {
-    "message": "Marked as Watched | YouTube Hider",
-    "description": "Browser tab title of the page listing the marked videos. Keep 'YouTube Hider' untranslated."
-  },
-  "watchedDescription": {
-    "message": "Videos you marked with the Watched button on YouTube. They are hidden like watched videos, following the Hide Watched Videos settings. Remove one to bring it back. Up to 3,000 videos are kept: past that, the oldest mark is dropped.",
-    "description": "Intro paragraph of the marked videos page. 'Watched' is the on-page button label (buttonWatched) and 'Hide Watched Videos' the card title (hideWatchedTitle): keep them identical to those translations."
-  },
-  "watchedSyncDescription": {
-    "message": "Your marks sync automatically to every computer signed into the same Chrome profile, so there is no need to export and import them between devices. Use Export to keep a backup or to move them to a different profile.",
-    "description": "Second intro paragraph of the marked videos page. 'Export' is the button label (watchedExport)."
-  },
-  "watchedExport": {
-    "message": "Export",
-    "description": "Button that downloads the marked videos as a file. One short word."
-  },
-  "watchedImport": {
-    "message": "Import",
-    "description": "Button that loads marked videos from a file. One short word."
-  },
-  "watchedClearAll": {
-    "message": "Clear all",
-    "description": "Button that removes every marked video. Short."
-  },
-  "watchedUndo": {
-    "message": "Undo",
-    "description": "Button in the status message that undoes the last removal. One short word."
-  },
-  "watchedSelectAllShown": {
-    "message": "Select all shown",
-    "description": "Checkbox label that selects every video currently listed."
-  },
-  "watchedRemoveSelected": {
-    "message": "Remove selected",
-    "description": "Button that removes the selected videos, shown when nothing is selected."
-  },
-  "watchedClearSearch": {
-    "message": "Clear search",
-    "description": "Button that empties the search box when nothing matches."
-  },
-  "watchedLoadMore": {
-    "message": "Load more",
-    "description": "Button that shows the next videos of the list."
-  },
-  "watchedSearchPlaceholder": {
-    "message": "Search by title, channel or video ID",
-    "description": "Placeholder of the search box on the marked videos page."
-  },
-  "watchedSearchLabel": {
-    "message": "Search marked videos",
-    "description": "Accessible label of the search box on the marked videos page."
   },
   "markedCount_one": {
     "message": "$count$ video of $limit$",
@@ -661,47 +601,503 @@
       }
     }
   },
-  "watchedSelectItem": {
-    "message": "Select $title$",
-    "description": "Accessible label of the checkbox next to one marked video.",
+  "managePageTitle": {
+    "message": "Lists | YouTube Hider",
+    "description": "Browser tab title of the page that manages every list, before a tab is picked. Keep 'YouTube Hider' untranslated."
+  },
+  "managePageTitleList": {
+    "message": "$list$ | YouTube Hider",
+    "description": "Browser tab title of the lists page while one list is open. Keep 'YouTube Hider' untranslated.",
     "placeholders": {
-      "title": {
+      "list": {
         "content": "$1",
-        "example": "How to bake bread"
+        "example": "Channel Blacklist"
       }
     }
   },
-  "watchedTitleUnavailable": {
-    "message": "Title not available on this device",
-    "description": "Shown instead of a title for a video marked on another device whose title is not known here."
+  "manageHeading": {
+    "message": "Lists",
+    "description": "Heading next to the logo on the page that manages every list, and the name of its row of tabs."
   },
-  "watchedMarkedOn": {
-    "message": "Marked $date$",
-    "description": "Date a video was marked as watched, shown in its row.",
+  "manageExport": {
+    "message": "Export",
+    "description": "Button that downloads every list as one JSON file."
+  },
+  "manageImport": {
+    "message": "Import",
+    "description": "Button that adds entries from an exported JSON file."
+  },
+  "manageSyncHeadlineOk": {
+    "message": "Synced across your devices",
+    "description": "Sync status line at the top of the lists page when everything is synced."
+  },
+  "manageSyncHeadlineSyncing": {
+    "message": "Syncing your latest changes",
+    "description": "Sync status line while a change is being synced."
+  },
+  "manageSyncHeadlineAlmostFull": {
+    "message": "Sync space almost full",
+    "description": "Sync status line when the lists use most of the space Chrome allows for syncing."
+  },
+  "manageSyncHeadlinePaused": {
+    "message": "Sync paused",
+    "description": "Sync status line when the lists are too large to sync."
+  },
+  "manageSyncHeadlineMarkedPaused": {
+    "message": "Marked videos are not syncing",
+    "description": "Sync status line when the lists sync but the marked videos do not."
+  },
+  "manageSyncHeadlineRetrying": {
+    "message": "Sync will retry shortly",
+    "description": "Sync status line when the last sync attempt failed and will be retried."
+  },
+  "manageSyncHeadlineOutdated": {
+    "message": "Update needed to keep syncing",
+    "description": "Sync status line when another device uses a newer version."
+  },
+  "manageSyncRoomLeft_one": {
+    "message": "Room for about $count$ more entry",
+    "description": "Estimate shown next to the almost-full sync status: roughly how many more channels or words can still sync.",
     "placeholders": {
-      "date": {
+      "count": {
         "content": "$1",
-        "example": "Nov 1, 2026"
+        "example": "1,200"
       }
     }
   },
-  "watchedRemove": {
-    "message": "Remove",
-    "description": "Button in a video row that removes the mark. One short word."
-  },
-  "watchedRemoveItem": {
-    "message": "Remove $title$",
-    "description": "Accessible label of the Remove button in a video row.",
+  "manageSyncRoomLeft_other": {
+    "message": "Room for about $count$ more entries",
+    "description": "Estimate shown next to the almost-full sync status: roughly how many more channels or words can still sync.",
     "placeholders": {
-      "title": {
+      "count": {
         "content": "$1",
-        "example": "How to bake bread"
+        "example": "1,200"
       }
     }
   },
-  "watchedRemoveSelectedCount_one": {
-    "message": "Remove selected ($count$)",
-    "description": "Button that removes the selected videos, with how many are selected.",
+  "manageSyncMessageListsPaused": {
+    "message": "Your lists have outgrown the space Chrome gives extensions to sync, so syncing them is paused. Everything is saved and working in this browser, and your other devices keep the last version that fit. Sync resumes by itself once the lists fit again.",
+    "description": "Explanation shown when the lists are too large to sync. It must make clear that nothing is lost."
+  },
+  "manageSyncMessageMarkedPaused": {
+    "message": "Marked videos are not syncing right now: your lists come first in the shared space. They are saved and working in this browser, and sync resumes once there is room again.",
+    "description": "Explanation shown when the marked videos do not sync because the lists need the shared space."
+  },
+  "manageSyncMessageOutdated": {
+    "message": "Another device uses a newer version of YouTube Hider. Update the extension in this browser to keep syncing.",
+    "description": "Explanation shown when another device wrote a newer sync format. Keep 'YouTube Hider' untranslated."
+  },
+  "manageSyncMessageNearFull": {
+    "message": "If your lists outgrow it, syncing pauses but nothing is lost: everything keeps working in this browser.",
+    "description": "Explanation under the almost-full sync status. It must make clear that nothing is lost."
+  },
+  "manageSyncMeterText": {
+    "message": "$percent$% of the sync space used",
+    "description": "Screen reader text for the bar that shows how full the sync space is.",
+    "placeholders": {
+      "percent": {
+        "content": "$1",
+        "example": "84"
+      }
+    }
+  },
+  "manageUndo": {
+    "message": "Undo",
+    "description": "Button in the confirmation message that reverts the last change."
+  },
+  "manageDismiss": {
+    "message": "Dismiss",
+    "description": "Accessible name of the button that closes the confirmation message."
+  },
+  "manageExportBackup": {
+    "message": "Export a backup",
+    "description": "Link-styled button in the Clear all dialog that downloads a backup first."
+  },
+  "manageCancel": {
+    "message": "Cancel",
+    "description": "Button that closes a dialog without doing anything."
+  },
+  "manageImportTitle": {
+    "message": "Import lists",
+    "description": "Title of the dialog that previews an import."
+  },
+  "manageImportIntro": {
+    "message": "Entries are only added: nothing already in your lists is removed or changed.",
+    "description": "Text of the import preview dialog, before the per-list summary."
+  },
+  "manageImportNothing": {
+    "message": "Nothing new to import: everything in that file is already in your lists.",
+    "description": "Message when an imported file has nothing that is not already in the lists."
+  },
+  "manageImportError": {
+    "message": "That file could not be read as a YouTube Hider export.",
+    "description": "Message when the chosen file is not a YouTube Hider export."
+  },
+  "manageImportListFull": {
+    "message": "The list is full, so the oldest marks were dropped.",
+    "description": "Added after the import message when the marked videos hit their limit."
+  },
+  "manageImportConfirm_one": {
+    "message": "Import $count$",
+    "description": "Confirm button of the import preview dialog, with the number of new entries.",
+    "placeholders": {
+      "count": {
+        "content": "$1",
+        "example": "3"
+      }
+    }
+  },
+  "manageImportConfirm_other": {
+    "message": "Import $count$",
+    "description": "Confirm button of the import preview dialog, with the number of new entries.",
+    "placeholders": {
+      "count": {
+        "content": "$1",
+        "example": "3"
+      }
+    }
+  },
+  "manageImportSkippedOther_one": {
+    "message": "$count$ skipped: already in $list$",
+    "description": "Import preview: channels skipped because they are already in the opposite list.",
+    "placeholders": {
+      "count": {
+        "content": "$1",
+        "example": "3"
+      },
+      "list": {
+        "content": "$2",
+        "example": "Channel Blacklist"
+      }
+    }
+  },
+  "manageImportSkippedOther_other": {
+    "message": "$count$ skipped: already in $list$",
+    "description": "Import preview: channels skipped because they are already in the opposite list.",
+    "placeholders": {
+      "count": {
+        "content": "$1",
+        "example": "3"
+      },
+      "list": {
+        "content": "$2",
+        "example": "Channel Blacklist"
+      }
+    }
+  },
+  "manageImported_one": {
+    "message": "Imported $count$ new entry.",
+    "description": "Confirmation after an import.",
+    "placeholders": {
+      "count": {
+        "content": "$1",
+        "example": "3"
+      }
+    }
+  },
+  "manageImported_other": {
+    "message": "Imported $count$ new entries.",
+    "description": "Confirmation after an import.",
+    "placeholders": {
+      "count": {
+        "content": "$1",
+        "example": "3"
+      }
+    }
+  },
+  "manageExported_one": {
+    "message": "Exported $count$ entry.",
+    "description": "Confirmation after an export.",
+    "placeholders": {
+      "count": {
+        "content": "$1",
+        "example": "3"
+      }
+    }
+  },
+  "manageExported_other": {
+    "message": "Exported $count$ entries.",
+    "description": "Confirmation after an export.",
+    "placeholders": {
+      "count": {
+        "content": "$1",
+        "example": "3"
+      }
+    }
+  },
+  "manageMarkedDescription": {
+    "message": "Videos you marked with the Watched button on YouTube. They are hidden like watched videos, following the Hide Watched Videos settings. Remove one to bring it back. Up to 3,000 videos are kept: past that, the oldest mark is dropped.",
+    "description": "Intro paragraph of the Marked as watched tab. 'Watched' is the on-page button label (buttonWatched) and 'Hide Watched Videos' the card title (hideWatchedTitle): keep them identical to those translations."
+  },
+  "manageMarkedNote": {
+    "message": "Follows $setting$: marked videos are hidden only where that setting is active.",
+    "description": "Note in place of an on/off switch on the Marked as watched tab. The placeholder is the Hide Watched Videos card title.",
+    "placeholders": {
+      "setting": {
+        "content": "$1",
+        "example": "Hide Watched Videos"
+      }
+    }
+  },
+  "manageSwitchOn": {
+    "message": "On",
+    "description": "Visible state next to a list switch when the list is active."
+  },
+  "manageSwitchOff": {
+    "message": "Off",
+    "description": "Visible state next to a list switch when the list is paused."
+  },
+  "manageAddChannelsLabel": {
+    "message": "Add channels",
+    "description": "Label of the box that adds channels to a channel list."
+  },
+  "manageAddWordsLabel": {
+    "message": "Add words or phrases",
+    "description": "Label of the box that adds words to a title list."
+  },
+  "manageAddChannelsPlaceholder": {
+    "message": "@handle or channel link. Paste several at once, one per line",
+    "description": "Placeholder of the box that adds channels. '@handle' is YouTube's channel handle."
+  },
+  "manageAddWordsPlaceholder": {
+    "message": "Word or phrase. Paste several at once, one per line",
+    "description": "Placeholder of the box that adds words to a title list."
+  },
+  "manageAddChannelsHint": {
+    "message": "Enter adds, Shift+Enter starts a new line. For example @veritasium or youtube.com/@veritasium",
+    "description": "Help text under the box that adds channels. Keep the two examples unchanged."
+  },
+  "manageAddWordsHint": {
+    "message": "Enter adds, Shift+Enter starts a new line. A word matches where a word of the title starts, ignoring case",
+    "description": "Help text under the box that adds words: keyboard keys and the matching rule."
+  },
+  "manageAddButton": {
+    "message": "Add",
+    "description": "Add button of the add box while nothing valid is typed."
+  },
+  "manageAddButtonCount_one": {
+    "message": "Add $count$",
+    "description": "Add button of the add box with the number of entries it will add.",
+    "placeholders": {
+      "count": {
+        "content": "$1",
+        "example": "3"
+      }
+    }
+  },
+  "manageAddButtonCount_other": {
+    "message": "Add $count$",
+    "description": "Add button of the add box with the number of entries it will add.",
+    "placeholders": {
+      "count": {
+        "content": "$1",
+        "example": "3"
+      }
+    }
+  },
+  "manageAddNew_one": {
+    "message": "$count$ new",
+    "description": "Preview chip: entries that will be added.",
+    "placeholders": {
+      "count": {
+        "content": "$1",
+        "example": "3"
+      }
+    }
+  },
+  "manageAddNew_other": {
+    "message": "$count$ new",
+    "description": "Preview chip: entries that will be added.",
+    "placeholders": {
+      "count": {
+        "content": "$1",
+        "example": "3"
+      }
+    }
+  },
+  "manageAddExisting_one": {
+    "message": "$count$ already in this list",
+    "description": "Preview chip: entries already in this list, which are skipped.",
+    "placeholders": {
+      "count": {
+        "content": "$1",
+        "example": "3"
+      }
+    }
+  },
+  "manageAddExisting_other": {
+    "message": "$count$ already in this list",
+    "description": "Preview chip: entries already in this list, which are skipped.",
+    "placeholders": {
+      "count": {
+        "content": "$1",
+        "example": "3"
+      }
+    }
+  },
+  "manageAddMoving_one": {
+    "message": "$count$ will move from $list$",
+    "description": "Preview chip: channels that are in the opposite list and will be moved here.",
+    "placeholders": {
+      "count": {
+        "content": "$1",
+        "example": "3"
+      },
+      "list": {
+        "content": "$2",
+        "example": "Channel Blacklist"
+      }
+    }
+  },
+  "manageAddMoving_other": {
+    "message": "$count$ will move from $list$",
+    "description": "Preview chip: channels that are in the opposite list and will be moved here.",
+    "placeholders": {
+      "count": {
+        "content": "$1",
+        "example": "3"
+      },
+      "list": {
+        "content": "$2",
+        "example": "Channel Blacklist"
+      }
+    }
+  },
+  "manageAddInvalid_one": {
+    "message": "$count$ not recognized: $items$",
+    "description": "Preview chip: lines that are not a channel handle or link, followed by the first few of them.",
+    "placeholders": {
+      "count": {
+        "content": "$1",
+        "example": "2"
+      },
+      "items": {
+        "content": "$2",
+        "example": "bbc, news"
+      }
+    }
+  },
+  "manageAddInvalid_other": {
+    "message": "$count$ not recognized: $items$",
+    "description": "Preview chip: lines that are not a channel handle or link, followed by the first few of them.",
+    "placeholders": {
+      "count": {
+        "content": "$1",
+        "example": "2"
+      },
+      "items": {
+        "content": "$2",
+        "example": "bbc, news"
+      }
+    }
+  },
+  "manageAdded_one": {
+    "message": "Added $count$ entry to $list$.",
+    "description": "Confirmation after adding entries to a list. The second placeholder is the list name.",
+    "placeholders": {
+      "count": {
+        "content": "$1",
+        "example": "3"
+      },
+      "list": {
+        "content": "$2",
+        "example": "Channel Blacklist"
+      }
+    }
+  },
+  "manageAdded_other": {
+    "message": "Added $count$ entries to $list$.",
+    "description": "Confirmation after adding entries to a list. The second placeholder is the list name.",
+    "placeholders": {
+      "count": {
+        "content": "$1",
+        "example": "3"
+      },
+      "list": {
+        "content": "$2",
+        "example": "Channel Blacklist"
+      }
+    }
+  },
+  "manageRemoved_one": {
+    "message": "Removed $count$ entry from $list$.",
+    "description": "Confirmation after removing entries from a list. The second placeholder is the list name.",
+    "placeholders": {
+      "count": {
+        "content": "$1",
+        "example": "3"
+      },
+      "list": {
+        "content": "$2",
+        "example": "Channel Blacklist"
+      }
+    }
+  },
+  "manageRemoved_other": {
+    "message": "Removed $count$ entries from $list$.",
+    "description": "Confirmation after removing entries from a list. The second placeholder is the list name.",
+    "placeholders": {
+      "count": {
+        "content": "$1",
+        "example": "3"
+      },
+      "list": {
+        "content": "$2",
+        "example": "Channel Blacklist"
+      }
+    }
+  },
+  "manageMoved_one": {
+    "message": "Moved $count$ entry to $list$.",
+    "description": "Confirmation after moving entries to the opposite list. The second placeholder is the target list name.",
+    "placeholders": {
+      "count": {
+        "content": "$1",
+        "example": "3"
+      },
+      "list": {
+        "content": "$2",
+        "example": "Channel Blacklist"
+      }
+    }
+  },
+  "manageMoved_other": {
+    "message": "Moved $count$ entries to $list$.",
+    "description": "Confirmation after moving entries to the opposite list. The second placeholder is the target list name.",
+    "placeholders": {
+      "count": {
+        "content": "$1",
+        "example": "3"
+      },
+      "list": {
+        "content": "$2",
+        "example": "Channel Blacklist"
+      }
+    }
+  },
+  "manageRestored_one": {
+    "message": "Restored $count$ entry.",
+    "description": "Confirmation after Undo restored entries.",
+    "placeholders": {
+      "count": {
+        "content": "$1",
+        "example": "3"
+      }
+    }
+  },
+  "manageRestored_other": {
+    "message": "Restored $count$ entries.",
+    "description": "Confirmation after Undo restored entries.",
+    "placeholders": {
+      "count": {
+        "content": "$1",
+        "example": "3"
+      }
+    }
+  },
+  "manageMarkedRemoved_one": {
+    "message": "Removed $count$ video. It shows up on YouTube again.",
+    "description": "Confirmation after removing marked videos; they show up on YouTube again.",
     "placeholders": {
       "count": {
         "content": "$1",
@@ -709,9 +1105,205 @@
       }
     }
   },
-  "watchedRemoveSelectedCount_other": {
+  "manageMarkedRemoved_other": {
+    "message": "Removed $count$ videos. They show up on YouTube again.",
+    "description": "Confirmation after removing marked videos; they show up on YouTube again.",
+    "placeholders": {
+      "count": {
+        "content": "$1",
+        "example": "5"
+      }
+    }
+  },
+  "manageSortLabel": {
+    "message": "Sort",
+    "description": "Label of the sort dropdown."
+  },
+  "manageSortRecent": {
+    "message": "Recently added",
+    "description": "Sort option: newest entries first."
+  },
+  "manageSortAz": {
+    "message": "A to Z",
+    "description": "Sort option: alphabetical."
+  },
+  "manageSearchChannels": {
+    "message": "Search channels",
+    "description": "Placeholder and accessible name of the search box on a channel list."
+  },
+  "manageSearchWords": {
+    "message": "Search words",
+    "description": "Placeholder and accessible name of the search box on a title list."
+  },
+  "manageSearchMarked": {
+    "message": "Search by title, channel or video ID",
+    "description": "Placeholder and accessible name of the search box on the Marked as watched tab."
+  },
+  "manageCountChannels_one": {
+    "message": "$count$ channel",
+    "description": "Number of channels in a list.",
+    "placeholders": {
+      "count": {
+        "content": "$1",
+        "example": "3"
+      }
+    }
+  },
+  "manageCountChannels_other": {
+    "message": "$count$ channels",
+    "description": "Number of channels in a list.",
+    "placeholders": {
+      "count": {
+        "content": "$1",
+        "example": "3"
+      }
+    }
+  },
+  "manageCountWords_one": {
+    "message": "$count$ word",
+    "description": "Number of words or phrases in a title list.",
+    "placeholders": {
+      "count": {
+        "content": "$1",
+        "example": "3"
+      }
+    }
+  },
+  "manageCountWords_other": {
+    "message": "$count$ words",
+    "description": "Number of words or phrases in a title list.",
+    "placeholders": {
+      "count": {
+        "content": "$1",
+        "example": "3"
+      }
+    }
+  },
+  "manageCountVideos_one": {
+    "message": "$count$ video",
+    "description": "Number of marked videos.",
+    "placeholders": {
+      "count": {
+        "content": "$1",
+        "example": "3"
+      }
+    }
+  },
+  "manageCountVideos_other": {
+    "message": "$count$ videos",
+    "description": "Number of marked videos.",
+    "placeholders": {
+      "count": {
+        "content": "$1",
+        "example": "3"
+      }
+    }
+  },
+  "manageCountMatches_one": {
+    "message": "$count$ match",
+    "description": "Number of entries matching the search.",
+    "placeholders": {
+      "count": {
+        "content": "$1",
+        "example": "3"
+      }
+    }
+  },
+  "manageCountMatches_other": {
+    "message": "$count$ matches",
+    "description": "Number of entries matching the search.",
+    "placeholders": {
+      "count": {
+        "content": "$1",
+        "example": "3"
+      }
+    }
+  },
+  "manageSelectedCount_one": {
+    "message": "$count$ selected",
+    "description": "Number of selected entries, shown in the list header while a selection exists.",
+    "placeholders": {
+      "count": {
+        "content": "$1",
+        "example": "3"
+      }
+    }
+  },
+  "manageSelectedCount_other": {
+    "message": "$count$ selected",
+    "description": "Number of selected entries, shown in the list header while a selection exists.",
+    "placeholders": {
+      "count": {
+        "content": "$1",
+        "example": "3"
+      }
+    }
+  },
+  "manageSelectAllMatching_one": {
+    "message": "Select all $count$",
+    "description": "Link that extends the selection from the loaded rows to every matching entry.",
+    "placeholders": {
+      "count": {
+        "content": "$1",
+        "example": "3"
+      }
+    }
+  },
+  "manageSelectAllMatching_other": {
+    "message": "Select all $count$",
+    "description": "Link that extends the selection from the loaded rows to every matching entry.",
+    "placeholders": {
+      "count": {
+        "content": "$1",
+        "example": "3"
+      }
+    }
+  },
+  "manageSelectShown": {
+    "message": "Select all shown",
+    "description": "Accessible name of the checkbox that selects every loaded row."
+  },
+  "manageClearSelection": {
+    "message": "Clear selection",
+    "description": "Accessible name and tooltip of the button that clears the selection."
+  },
+  "manageSelectItem": {
+    "message": "Select $title$",
+    "description": "Accessible name of the checkbox of one row. The placeholder is the channel, word or video title.",
+    "placeholders": {
+      "title": {
+        "content": "$1",
+        "example": "How to bake bread"
+      }
+    }
+  },
+  "manageRemove": {
+    "message": "Remove",
+    "description": "Button that removes one entry."
+  },
+  "manageRemoveItem": {
+    "message": "Remove $title$",
+    "description": "Accessible name of the Remove button of one row. The placeholder is the channel, word or video title.",
+    "placeholders": {
+      "title": {
+        "content": "$1",
+        "example": "How to bake bread"
+      }
+    }
+  },
+  "manageRemoveSelected_one": {
     "message": "Remove selected ($count$)",
-    "description": "Button that removes the selected videos, with how many are selected.",
+    "description": "Button that removes every selected entry, with how many are selected.",
+    "placeholders": {
+      "count": {
+        "content": "$1",
+        "example": "1"
+      }
+    }
+  },
+  "manageRemoveSelected_other": {
+    "message": "Remove selected ($count$)",
+    "description": "Button that removes every selected entry, with how many are selected.",
     "placeholders": {
       "count": {
         "content": "$1",
@@ -719,9 +1311,23 @@
       }
     }
   },
-  "watchedLoadMoreCount_one": {
+  "manageMoveSelected": {
+    "message": "Move to $list$",
+    "description": "Button that moves the selected entries to the opposite list. The placeholder is that list name.",
+    "placeholders": {
+      "list": {
+        "content": "$1",
+        "example": "Channel Blacklist"
+      }
+    }
+  },
+  "manageClearSearch": {
+    "message": "Clear search",
+    "description": "Button shown when a search has no results."
+  },
+  "manageLoadMore_one": {
     "message": "Load more ($count$ left)",
-    "description": "Button that shows the next videos, with how many are still hidden.",
+    "description": "Button that shows the next rows, with how many are left.",
     "placeholders": {
       "count": {
         "content": "$1",
@@ -729,9 +1335,9 @@
       }
     }
   },
-  "watchedLoadMoreCount_other": {
+  "manageLoadMore_other": {
     "message": "Load more ($count$ left)",
-    "description": "Button that shows the next videos, with how many are still hidden.",
+    "description": "Button that shows the next rows, with how many are left.",
     "placeholders": {
       "count": {
         "content": "$1",
@@ -739,129 +1345,121 @@
       }
     }
   },
-  "watchedEmpty": {
-    "message": "No videos marked yet. On YouTube, hover a video and click Watched to add it here.",
-    "description": "Shown on the marked videos page when the list is empty. 'Watched' is the on-page button label (buttonWatched)."
+  "manageClearAll": {
+    "message": "Clear all",
+    "description": "Button at the bottom of a list that empties it, after a confirmation."
   },
-  "watchedNoMatch": {
-    "message": "No marked videos match \"$query$\".",
-    "description": "Shown when the search finds nothing.",
+  "manageClearTitle": {
+    "message": "Clear $list$?",
+    "description": "Title of the dialog confirming Clear all. The placeholder is the list name.",
+    "placeholders": {
+      "list": {
+        "content": "$1",
+        "example": "Channel Blacklist"
+      }
+    }
+  },
+  "manageClearText_one": {
+    "message": "This removes $count$ entry from $list$. You can undo it right after, or export a backup first.",
+    "description": "Text of the dialog confirming Clear all.",
+    "placeholders": {
+      "count": {
+        "content": "$1",
+        "example": "3"
+      },
+      "list": {
+        "content": "$2",
+        "example": "Channel Blacklist"
+      }
+    }
+  },
+  "manageClearText_other": {
+    "message": "This removes all $count$ entries from $list$. You can undo it right after, or export a backup first.",
+    "description": "Text of the dialog confirming Clear all.",
+    "placeholders": {
+      "count": {
+        "content": "$1",
+        "example": "3"
+      },
+      "list": {
+        "content": "$2",
+        "example": "Channel Blacklist"
+      }
+    }
+  },
+  "manageClearConfirm_one": {
+    "message": "Remove $count$",
+    "description": "Confirm button of the Clear all dialog.",
+    "placeholders": {
+      "count": {
+        "content": "$1",
+        "example": "3"
+      }
+    }
+  },
+  "manageClearConfirm_other": {
+    "message": "Remove all $count$",
+    "description": "Confirm button of the Clear all dialog.",
+    "placeholders": {
+      "count": {
+        "content": "$1",
+        "example": "3"
+      }
+    }
+  },
+  "manageEmptyTitle": {
+    "message": "Nothing here yet",
+    "description": "Title of the empty state of a list with no entries."
+  },
+  "manageEmptyMarked": {
+    "message": "No videos marked yet. On YouTube, hover a video and click Watched to add it here.",
+    "description": "Empty state of the Marked as watched tab. 'Watched' is the on-page button label (buttonWatched)."
+  },
+  "manageEmptyChannelWhitelist": {
+    "message": "Use the Whitelist button next to Subscribe on a channel or video page, or paste channels in the box above.",
+    "description": "Empty state of the Channel Whitelist tab: the ways to add a channel. 'Whitelist' is the on-page button label and 'Subscribe' YouTube's own button: use YouTube's word for it."
+  },
+  "manageEmptyChannelBlacklist": {
+    "message": "Hover a video on YouTube and click Blacklist, use the Blacklist button next to Subscribe on a channel page, or paste channels in the box above.",
+    "description": "Empty state of the Channel Blacklist tab: the ways to add a channel. 'Blacklist' is the on-page button label and 'Subscribe' YouTube's own button: use YouTube's word for it."
+  },
+  "manageEmptyTitleWhitelist": {
+    "message": "Type a word or phrase in the box above. Videos whose title contains it are never filtered.",
+    "description": "Empty state of the Title Whitelist tab."
+  },
+  "manageEmptyTitleBlacklist": {
+    "message": "Type a word or phrase in the box above. Videos whose title contains it are always hidden.",
+    "description": "Empty state of the Title Blacklist tab."
+  },
+  "manageNoMatchTitle": {
+    "message": "No results for \"$query$\"",
+    "description": "Title of the empty state when a search finds nothing. The placeholder is the search text.",
     "placeholders": {
       "query": {
         "content": "$1",
-        "example": "bread"
+        "example": "news"
       }
     }
   },
-  "watchedRestored_one": {
-    "message": "Restored $count$ video.",
-    "description": "Status message after Undo brought removed videos back.",
+  "manageNoMatchText": {
+    "message": "Check the spelling, or search for just part of the name.",
+    "description": "Text of the empty state when a search finds nothing."
+  },
+  "manageChannelIdLabel": {
+    "message": "Channel ID",
+    "description": "Small label under a channel saved by its ID instead of its handle."
+  },
+  "manageTitleUnavailable": {
+    "message": "Title not available on this device",
+    "description": "Shown instead of a marked video title this device does not know yet."
+  },
+  "manageMarkedOn": {
+    "message": "Marked $date$",
+    "description": "Date a video was marked as watched. The placeholder is the formatted date.",
     "placeholders": {
-      "count": {
+      "date": {
         "content": "$1",
-        "example": "1"
-      }
-    }
-  },
-  "watchedRestored_other": {
-    "message": "Restored $count$ videos.",
-    "description": "Status message after Undo brought removed videos back.",
-    "placeholders": {
-      "count": {
-        "content": "$1",
-        "example": "5"
-      }
-    }
-  },
-  "watchedRemoved_one": {
-    "message": "Removed $count$ video. It shows up on YouTube again.",
-    "description": "Status message after removing marks. An Undo button follows it.",
-    "placeholders": {
-      "count": {
-        "content": "$1",
-        "example": "1"
-      }
-    }
-  },
-  "watchedRemoved_other": {
-    "message": "Removed $count$ videos. They show up on YouTube again.",
-    "description": "Status message after removing marks. An Undo button follows it.",
-    "placeholders": {
-      "count": {
-        "content": "$1",
-        "example": "5"
-      }
-    }
-  },
-  "watchedExported_one": {
-    "message": "Exported $count$ video.",
-    "description": "Status message after downloading the export file.",
-    "placeholders": {
-      "count": {
-        "content": "$1",
-        "example": "1"
-      }
-    }
-  },
-  "watchedExported_other": {
-    "message": "Exported $count$ videos.",
-    "description": "Status message after downloading the export file.",
-    "placeholders": {
-      "count": {
-        "content": "$1",
-        "example": "120"
-      }
-    }
-  },
-  "watchedImportEmpty": {
-    "message": "No valid videos found in that file.",
-    "description": "Error after importing a file with no usable video."
-  },
-  "watchedImported_one": {
-    "message": "Imported $count$ new video.",
-    "description": "Status message after an import. watchedImportListFull may follow it as a second sentence.",
-    "placeholders": {
-      "count": {
-        "content": "$1",
-        "example": "1"
-      }
-    }
-  },
-  "watchedImported_other": {
-    "message": "Imported $count$ new videos.",
-    "description": "Status message after an import. watchedImportListFull may follow it as a second sentence.",
-    "placeholders": {
-      "count": {
-        "content": "$1",
-        "example": "40"
-      }
-    }
-  },
-  "watchedImportListFull": {
-    "message": "The list is full, so the oldest marks were dropped.",
-    "description": "Second sentence after watchedImported, when the import pushed the list past its maximum."
-  },
-  "watchedImportError": {
-    "message": "That file could not be read as a YouTube Hider export.",
-    "description": "Error after importing a file that is not an export of this page."
-  },
-  "watchedClearConfirm_one": {
-    "message": "Remove the $count$ marked video? It will show up on YouTube again.",
-    "description": "Confirmation dialog of the Clear all button.",
-    "placeholders": {
-      "count": {
-        "content": "$1",
-        "example": "1"
-      }
-    }
-  },
-  "watchedClearConfirm_other": {
-    "message": "Remove all $count$ marked videos? They will show up on YouTube again.",
-    "description": "Confirmation dialog of the Clear all button.",
-    "placeholders": {
-      "count": {
-        "content": "$1",
-        "example": "120"
+        "example": "Nov 1, 2026"
       }
     }
   },
@@ -1126,12 +1724,24 @@
     "description": "Tour step text for the Upload Date Filter card."
   },
   "tourChannelWhitelistDescription": {
-    "message": "Exempt your favorite channels from every filter. Add the current channel with one click, or remove a chip to re-apply filters immediately.",
-    "description": "Tour step text for the Channel Whitelist card. A chip is one listed channel with a remove button."
+    "message": "Exempt your favorite channels from every filter. Add the current channel with one click, and use $manage$ to search, remove or move channels on a page of their own.",
+    "description": "Tour step text for the Channel Whitelist card. The placeholder is the Manage button label (markedWatchedManage).",
+    "placeholders": {
+      "manage": {
+        "content": "$1",
+        "example": "Manage"
+      }
+    }
   },
   "tourChannelBlacklistDescription": {
-    "message": "The opposite of Whitelist: always hide a channel everywhere, including Shorts, Mixes, Playlists and Lives. Add the current channel with one click, or remove a chip to show it again immediately.",
-    "description": "Tour step text for the Channel Blacklist card. Keep 'Whitelist' in English."
+    "message": "The opposite of Whitelist: always hide a channel everywhere, including Shorts, Mixes, Playlists and Lives. Add the current channel with one click, and use $manage$ to see the full list on a page of its own.",
+    "description": "Tour step text for the Channel Blacklist card. Keep 'Whitelist' in English. The placeholder is the Manage button label (markedWatchedManage).",
+    "placeholders": {
+      "manage": {
+        "content": "$1",
+        "example": "Manage"
+      }
+    }
   },
   "tourTitleWhitelistDescription": {
     "message": "Exempt videos by a word in their title instead of by channel. Every video whose title contains one of your words is left alone by every filter.",

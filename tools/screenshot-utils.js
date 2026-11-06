@@ -44,4 +44,33 @@ async function buildManagerSample() {
   return { markedWatched, markedWatchedMeta };
 }
 
-module.exports = { buildManagerSample };
+const LIST_SAMPLE_WHITELIST = [
+  '/@vintagemapsclub',
+  '/@urbanbirdwatch',
+  '/@morningpianoroom',
+  '/@homebrewcircuits',
+  '/@deepseadispatch',
+  '/@citysketchbook',
+  '/@woodshopsundays',
+  '/@slowtravelfilms',
+  '/@pocketphysics',
+  '/@nightskyweekly',
+  '/@quietkitchenlab',
+  '/@alpinetrailnotes',
+];
+const LIST_SAMPLE_BLACKLIST_SIZE = 2431;
+const LIST_SAMPLE_TITLE_WHITELIST = ['tutorial', 'documentary', 'lecture', 'field notes', 'how to', 'recipe'];
+const LIST_SAMPLE_TITLE_BLACKLIST_SIZE = 24;
+const LIST_SAMPLE_PASTE = ['@paperboatstudio', 'youtube.com/@trailmixmusic', '@alpinetrailnotes'].join('\n');
+
+function buildListsSample() {
+  const pad = (value, size) => String(value).padStart(size, '0');
+  return {
+    channelWhitelist: [...LIST_SAMPLE_WHITELIST],
+    channelBlacklist: Array.from({ length: LIST_SAMPLE_BLACKLIST_SIZE }, (_, i) => '/@sample-channel-' + pad(i, 4)),
+    titleWhitelist: [...LIST_SAMPLE_TITLE_WHITELIST],
+    titleBlacklist: Array.from({ length: LIST_SAMPLE_TITLE_BLACKLIST_SIZE }, (_, i) => 'sample word ' + pad(i, 2)),
+  };
+}
+
+module.exports = { buildManagerSample, buildListsSample, LIST_SAMPLE_PASTE };
