@@ -3,7 +3,7 @@ Rimuovi in automatico i video già visti, filtra per visualizzazioni o data di c
 
 ✔ Nascondi i video già visti in base alla soglia di avanzamento che scegli
 ✔ Segna qualsiasi video come visto con un clic, anche quando YouTube non mostra la barra di avanzamento o l'hai guardato su un altro account
-✔ Gestisci tutte le liste da una pagina sola, pensata per migliaia di canali e parole: incollane tanti insieme, cerca, seleziona in blocco, annulla, esporta e importa
+✔ Gestisci i video segnati da una pagina dedicata: cerca, rimuovi, annulla, esporta e importa
 ✔ Filtra i video per numero di visualizzazioni: troppo poche, troppe, o entrambe
 ✔ Nascondi per data di caricamento: rimuovi i video troppo recenti, troppo vecchi, o entrambi
 ✔ Rimuovi Shorts, Mix, Playlist e dirette

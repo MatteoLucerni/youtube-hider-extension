@@ -3,7 +3,7 @@ Hapus video yang sudah ditonton secara otomatis, filter berdasarkan penayangan a
 
 ✔ Sembunyikan video yang sudah ditonton berdasarkan batas progres pilihan Anda
 ✔ Tandai video apa pun sebagai sudah ditonton dengan satu klik, bahkan saat YouTube tidak menampilkan bilah progres atau Anda menontonnya di akun lain
-✔ Kelola semua daftar dari satu halaman yang dirancang untuk ribuan saluran dan kata: tempel banyak sekaligus, telusuri, pilih massal, urungkan, ekspor, dan impor
+✔ Kelola video yang ditandai dari halaman khusus: telusuri, hapus, urungkan, ekspor, dan impor
 ✔ Filter video berdasarkan jumlah penayangan: terlalu sedikit, terlalu banyak, atau keduanya
 ✔ Sembunyikan berdasarkan tanggal upload: hapus video yang terlalu baru, terlalu lama, atau keduanya
 ✔ Hapus Shorts, Mix, Playlist, dan live streaming

@@ -3,7 +3,7 @@ YouTube Hider, görmek istemediklerinizi gizleyerek YouTube'u temizlemenize yard
 
 ✔ İzlenen videoları seçtiğiniz ilerleme eşiğine göre gizleyin
 ✔ YouTube ilerleme çubuğu göstermese ya da videoyu başka bir hesapta izlemiş olsanız bile, herhangi bir videoyu tek tıkla izlendi olarak işaretleyin
-✔ Tüm listeleri binlerce kanal ve kelime için tasarlanmış tek bir sayfadan yönetin: birçoğunu birden yapıştırın, arayın, toplu seçin, geri alın, dışa ve içe aktarın
+✔ İşaretlediğiniz videoları ayrı bir sayfadan yönetin: arayın, kaldırın, geri alın, dışa ve içe aktarın
 ✔ Videoları görüntüleme sayısına göre filtreleyin: çok az, çok fazla veya ikisi birden
 ✔ Yükleme tarihine göre gizleyin: çok yeni, çok eski veya ikisini birden kaldırın
 ✔ Shorts'u, Mix'leri, oynatma listelerini ve canlı yayınları kaldırın

@@ -3,7 +3,7 @@ Entferne gesehene Videos automatisch, filtere nach Aufrufen oder Upload-Datum un
 
 ✔ Gesehene Videos ab dem von dir gewählten Fortschritt ausblenden
 ✔ Jedes Video mit einem Klick als gesehen markieren, auch wenn YouTube keinen Fortschrittsbalken zeigt oder du es mit einem anderen Konto angesehen hast
-✔ Alle Listen auf einer Seite verwalten, gemacht für Tausende Kanäle und Wörter: viele auf einmal einfügen, suchen, mehrere auswählen, rückgängig machen, exportieren und importieren
+✔ Markierte Videos auf einer eigenen Seite verwalten: suchen, entfernen, rückgängig machen, exportieren und importieren
 ✔ Videos nach Aufrufzahl filtern: zu wenige, zu viele oder beides
 ✔ Nach Upload-Datum ausblenden: zu neue Videos, zu alte oder beides entfernen
 ✔ Shorts, Mixe, Playlists und Livestreams entfernen

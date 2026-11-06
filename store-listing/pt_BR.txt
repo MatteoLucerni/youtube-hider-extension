@@ -3,7 +3,7 @@ Remova automaticamente os vídeos assistidos, filtre por visualizações ou data
 
 ✔ Oculte vídeos assistidos de acordo com o limite de progresso que você escolher
 ✔ Marque qualquer vídeo como assistido com um clique, mesmo quando o YouTube não mostra a barra de progresso ou você assistiu em outra conta
-✔ Gerencie todas as listas em uma única página, feita para milhares de canais e palavras: cole vários de uma vez, pesquise, selecione em massa, desfaça, exporte e importe
+✔ Gerencie seus vídeos marcados em uma página própria: pesquise, remova, desfaça, exporte e importe
 ✔ Filtre vídeos pelo número de visualizações: poucas demais, muitas demais, ou ambos
 ✔ Oculte pela data de envio: remova vídeos recentes demais, antigos demais, ou ambos
 ✔ Remova Shorts, Mixes, playlists e lives

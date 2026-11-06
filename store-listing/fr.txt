@@ -3,7 +3,7 @@ Retirez automatiquement les vidéos déjà vues, filtrez par nombre de vues ou d
 
 ✔ Masquez les vidéos vues selon le seuil de progression de votre choix
 ✔ Marquez n'importe quelle vidéo comme vue en un clic, même quand YouTube n'affiche pas de barre de progression ou que vous l'avez regardée sur un autre compte
-✔ Gérez toutes vos listes depuis une seule page, pensée pour des milliers de chaînes et de mots : collage en masse, recherche, sélection multiple, annulation, export et import
+✔ Gérez vos vidéos marquées depuis une page dédiée : recherche, suppression, annulation, export et import
 ✔ Filtrez les vidéos par nombre de vues : trop peu, trop, ou les deux
 ✔ Masquez par date de mise en ligne : retirez les vidéos trop récentes, trop anciennes, ou les deux
 ✔ Retirez les Shorts, les Mix, les playlists et les directs
