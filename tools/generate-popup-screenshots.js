@@ -2,7 +2,7 @@ const { chromium } = require('playwright-core');
 const path = require('path');
 const fs = require('fs');
 const os = require('os');
-const { buildManagerSample, buildListsSample } = require('./screenshot-utils');
+const { buildManagerSample, buildListsSample, LIST_SAMPLE_PASTE } = require('./screenshot-utils');
 
 const EXTENSION_PATH = path.resolve(__dirname, '..');
 const OUTPUT_DIR = path.join(EXTENSION_PATH, 'docs', 'assets', 'images');
@@ -62,6 +62,19 @@ async function main() {
     await managerPage.screenshot({
       path: path.join(OUTPUT_DIR, 'watched-manager.png'),
       fullPage: true,
+    });
+
+    await managerPage.setViewportSize({ width: 900, height: 1000 });
+    await managerPage.goto(`chrome-extension://${extensionId}/popup/manage.html#channel-whitelist`);
+    await managerPage.waitForSelector('#panel-channel-whitelist .item-row');
+    await managerPage.addStyleTag({ content: 'html { scrollbar-width: none; } ::-webkit-scrollbar { display: none; }' });
+    await managerPage.fill('#add-input-channel-whitelist', LIST_SAMPLE_PASTE);
+    await managerPage.waitForSelector('#panel-channel-whitelist .add-preview li');
+    await managerPage.evaluate(() => document.activeElement.blur());
+    await managerPage.waitForTimeout(300);
+
+    await managerPage.screenshot({
+      path: path.join(OUTPUT_DIR, 'lists-manager.png'),
     });
 
     console.log(`Screenshots written to ${OUTPUT_DIR}`);
