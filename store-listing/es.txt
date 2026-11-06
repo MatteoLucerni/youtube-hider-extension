@@ -3,7 +3,7 @@ Quita automáticamente los videos que ya viste, filtra por vistas o fecha de sub
 
 ✔ Oculta los videos vistos según el umbral de progreso que elijas
 ✔ Marca cualquier video como visto con un clic, aunque YouTube no muestre la barra de progreso o lo hayas visto en otra cuenta
-✔ Gestiona tus videos marcados desde una página propia: busca, quita, deshaz, exporta e importa
+✔ Gestiona todas las listas desde una sola página, pensada para miles de canales y palabras: pega muchos a la vez, busca, selecciona en bloque, deshaz, exporta e importa
 ✔ Filtra videos por número de vistas: muy pocas, demasiadas, o ambas
 ✔ Oculta por fecha de subida: quita videos demasiado recientes, demasiado antiguos, o ambos
 ✔ Quita Shorts, Mixes, listas de reproducción y videos en vivo

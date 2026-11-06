@@ -39,7 +39,7 @@ YouTube does not always show a progress bar on a video you already watched, and 
 - Marked videos follow the **Hide Watched Videos** card: they are hidden only where that card is active (slider above 0 and the page's toggle on), and the **Watched** button only appears there
 - A marked video stays hidden even when its channel or title is whitelisted, since marking it is a choice about that one video
 - In Dim mode the overlay reads **Marked as watched** and carries an **Unmark** button that brings the video back immediately
-- The **Marked as watched** row in the Hide Watched Videos card shows how many videos are marked; **Manage** opens a full page that lists them newest first with thumbnail, title, channel and date, and lets you search, remove one or several, clear the list, and export or import it as a JSON file. Any removal can be undone for 10 seconds from the confirmation message
+- The **Marked as watched** row in the Hide Watched Videos card shows how many videos are marked; **Manage** opens the **Marked as watched** tab of the [Manage page](#manage-page), which lists them newest first with thumbnail, title, channel and date
 - Up to 3,000 videos are kept. Marking one more drops the video marked longest ago. From 2,700 on, the count turns amber and warns about it
 - The list syncs across devices like the channel lists, sharing the same synced storage with them. The channel lists always come first: when both do not fit, syncing of the marked videos pauses, the card shows a "Sync paused" notice, and the list keeps working in this browser. Titles and channels stay on the device where a video was marked; other devices show its thumbnail until they come across the video on YouTube
 
@@ -79,31 +79,44 @@ Exempt specific channels from every active filter - their videos are never hidde
 
 - The **"Whitelist" button** on a filtered/dimmed overlay - shows a 3-second undo countdown before the channel is actually exempted, so accidental clicks can be reverted
 - The **inline "Whitelist" button** next to the Subscribe button on video and channel pages
-- The **Channel Whitelist card** in the popup, which lists every whitelisted channel as a removable chip and lets you add the current tab's channel directly
+- The **Channel Whitelist card** in the popup, which shows how many channels are listed, adds the current tab's channel directly, and opens the full list on the [Manage page](#manage-page), where channels can also be pasted in bulk
 
 ### Channel Blacklist
 
-The opposite of Channel Whitelist: a blacklisted channel's videos are always hidden, everywhere, including Shorts, Mixes, Playlists and Lives, regardless of any other filter's own on/off state. A channel can never be on both lists at once, adding it to one removes it from the other. A channel can be blacklisted from three places:
+The opposite of Channel Whitelist: a blacklisted channel's videos are always hidden, everywhere, including Shorts, Mixes, Playlists and Lives, regardless of any other filter's own on/off state. A channel can never be on both lists at once, adding it to one removes it from the other. A channel can be blacklisted from three places, plus the Manage page:
 
 - The **inline "Blacklist" button** next to the inline "Whitelist" button on video and channel pages
 - A **hover "Blacklist" pill** that appears at the top of any video card's thumbnail on mouseover, filtered or not, with a 3-second undo countdown before the channel is actually written to the blacklist, so nothing disappears mid-countdown. Over a plain thumbnail the pill uses a solid dark style for readability; over an already-filtered/dimmed card it blends into the overlay instead
-- The **Channel Blacklist card** in the popup, which lists every blacklisted channel as a removable chip and lets you add the current tab's channel directly
+- The **Channel Blacklist card** in the popup, which shows how many channels are listed, adds the current tab's channel directly, and opens the full list on the [Manage page](#manage-page), where channels can also be pasted in bulk
 
 A filtered/dimmed overlay never carries its own "Blacklist" button, only "Whitelist" (or, for an already-blacklisted channel, "Unblacklist"); use the hover pill for adding a channel from any card, filtered or not.
 
 Turning the whole Channel Blacklist toggle off removes every on-page Blacklist button; the list itself is kept and resumes filtering once the toggle is turned back on.
 
-### Channel List Sync
+### List Sync
 
-Both lists follow you across devices, and there is no fixed limit on how many channels they hold. Each list is saved in the browser first, then compressed and synced to your other devices, which fits roughly 8,000 to 9,000 channels across the two lists inside Chrome's sync storage. Past that point the lists keep working and keep growing on the device where they were added: the Whitelist and Blacklist cards show a "Sync paused" notice, other devices keep the last version that fit, and syncing resumes on its own once the lists are small enough again. Changes made on another device while sync is paused are still merged in, without dropping any channel that only this device has. The marked watched videos share this synced storage, but never at the channel lists' expense: when the channel lists need the room, the marked videos stop syncing instead.
+The Channel Whitelist, Channel Blacklist, Title Whitelist and Title Blacklist follow you across devices, and there is no fixed limit on how many entries they hold. Each list is saved in the browser first, then synced to your other devices in a compact format: sorted, with the part each entry shares with the previous one stored only once, compressed and encoded densely. Chrome gives every extension 100 KB of synced storage, and that fits roughly 12,000 to 14,000 channels and words across the four lists, about half again as many as the format used before 3.7.0. Past that point the lists keep working and keep growing on the device where they were added: the list cards show a "Sync paused" notice that says nothing is lost, the Manage page explains it next to a meter of the synced space, other devices keep the last version that fit, and syncing resumes on its own once the lists are small enough again. Changes made on another device while sync is paused are still merged in, without dropping any entry that only this device has. The marked watched videos share this synced storage, but never at the lists' expense: when the lists need the room, the marked videos stop syncing instead.
 
 ### Title Whitelist
 
-Exempt videos by a word or phrase in their title rather than by channel. Type a word into the **Title Whitelist** card in the popup and press Enter or **+ Add**: every video whose title contains it is never hidden or dimmed by any filter, on every page. Matching is case-insensitive and looks for the word at the start of a word in the title: "tutorial" also matches "tutorials" and "AI" matches "AI-generated", but "AI" does not match "said". In languages written without spaces (Chinese, Japanese, Thai, ...) the word is found anywhere in the title. The list syncs across devices as a single setting and holds as many words as fit in Chrome's 8 KB per-setting quota, a few hundred in practice; once it is full, **+ Add** is disabled and the card says so. Each word is listed as a removable chip, changes apply to the open page immediately, and the card's switch pauses the whole list without clearing it. A blacklisted channel or a title containing a Title Blacklist word stays hidden even when a title matches, and Shorts are always filtered regardless.
+Exempt videos by a word or phrase in their title rather than by channel. Type a word into the **Title Whitelist** card in the popup and press Enter or **+ Add**: every video whose title contains it is never hidden or dimmed by any filter, on every page. Matching is case-insensitive and looks for the word at the start of a word in the title: "tutorial" also matches "tutorials" and "AI" matches "AI-generated", but "AI" does not match "said". In languages written without spaces (Chinese, Japanese, Thai, ...) the word is found anywhere in the title. The list syncs across devices together with the channel lists (see [List Sync](#list-sync)), with no size limit of its own. The card shows how many words are listed and opens the full list on the [Manage page](#manage-page), changes apply to the open page immediately, and the card's switch pauses the whole list without clearing it. A blacklisted channel or a title containing a Title Blacklist word stays hidden even when a title matches, and Shorts are always filtered regardless.
 
 ### Title Blacklist
 
-The opposite of Title Whitelist: every video whose title contains one of the listed words or phrases is always hidden, everywhere, including Shorts, Mixes and Playlists, regardless of any other filter's own on/off state. A blacklisted word always wins: it hides the video even from a whitelisted channel, and even when the same title also contains a Title Whitelist word. Matching follows the same rules as the Title Whitelist (case-insensitive, from the start of a word, anywhere in the title for languages written without spaces), and the list has the same size limit. Words are added and removed only from the **Title Blacklist** card in the popup; there is no on-page button for it. In Dim mode, the overlay names the word that matched, for example **Blacklisted word: "reaction"**, so it is always clear why a video was hidden. Removing a chip shows those videos again immediately, and the card's switch pauses the whole list without clearing it.
+The opposite of Title Whitelist: every video whose title contains one of the listed words or phrases is always hidden, everywhere, including Shorts, Mixes and Playlists, regardless of any other filter's own on/off state. A blacklisted word always wins: it hides the video even from a whitelisted channel, and even when the same title also contains a Title Whitelist word. Matching follows the same rules as the Title Whitelist (case-insensitive, from the start of a word, anywhere in the title for languages written without spaces), and the list syncs the same way. Words are added from the **Title Blacklist** card in the popup or from the [Manage page](#manage-page); there is no on-page button for it. In Dim mode, the overlay names the word that matched, for example **Blacklisted word: "reaction"**, so it is always clear why a video was hidden. Removing a word shows those videos again immediately, and the card's switch pauses the whole list without clearing it.
+
+### Manage Page
+
+Every **Manage** button in the settings menu opens one page, in its own browser tab, with a tab for each list in the same order as the menu: **Marked as watched**, **Channel Whitelist**, **Channel Blacklist**, **Title Whitelist** and **Title Blacklist**. If the page is already open, the button switches it to the right tab instead of opening a second copy. It is built for lists of thousands of entries:
+
+- **Add in bulk**: paste handles (`@veritasium`), channel links or words, one per line. Before anything is saved, a preview counts what is new, what is already listed, which channels will move over from the opposite list, and which lines were not recognized, which stay in the box for correction
+- **Search and sort**: the list filters while you type and says how many entries match; sort by most recently added or alphabetically. Rows load 50 at a time
+- **Select and act in bulk**: click a row or its checkbox, Shift-click to select a range, then select every matching entry at once. Remove the selection or move it to the opposite list
+- **Undo everything**: every add, removal and move offers **Undo** for 10 seconds, and the timer waits while the pointer or keyboard focus is on the message. **Clear all** is the only action that asks first, and its dialog offers to export a backup before anything is removed
+- **Sync at a glance**: a meter shows how much of Chrome's 100 KB the lists, the marked videos and the other settings use, and a paused or outdated sync is explained in plain words
+- **Export and import** all five lists in one JSON file. Importing only ever adds: the preview says what each list will gain, and nothing already listed is removed or changed. Files exported from the old marked videos page are still accepted
+
+Each list keeps its on/off switch on the page too, and the page is fully usable from the keyboard, with the arrow keys moving between tabs.
 
 ### Master Extension Switch
 
@@ -200,17 +213,17 @@ youtube-hider-extension
 │   ├── toggles.css        Toggle grid, switches, footer
 │   ├── filters.css        Tooltips, date filter, overlap warning
 │   ├── support.css        Support button and support panel
-│   ├── watched.html       Marked as watched manager page, opened in a tab
-│   ├── watched.js         Manager page logic: list, search, remove, export, import
-│   └── watched.css        Manager page styles
+│   ├── manage.html        Manage page for all five lists, opened in a tab
+│   ├── manage.js          Manage page logic: tabs, add, search, select, undo, sync meter, export, import
+│   └── manage.css         Manage page styles
 ├── tests/
 │   ├── parsers.test.js           Parser regression tests
-│   ├── channel-list-sync.test.js Channel list sync encoding, chunking and merge tests
+│   ├── channel-list-sync.test.js List sync encoding (v1 and v2), chunking, capacity and merge tests
 │   ├── marked-watched-sync.test.js Marked watched sync encoding, merge and quota priority tests
-│   ├── whitelist-utils.test.js   Title keyword matching, quota and marked watched list tests
+│   ├── whitelist-utils.test.js   Title keyword matching, list input parsing, import and marked watched list tests
 │   └── i18n.test.js              Translation catalog checks: keys, placeholders, plurals, store limits
 ├── background.js          Service worker (badge, lifecycle, messaging, channel list and marked watched sync)
-├── channel-list-sync.js   Pure channel list sync helpers: compression, chunking, quota planning, merge
+├── channel-list-sync.js   Pure list sync helpers: compact encoding, chunking, quota planning, merge
 ├── marked-watched-sync.js Pure marked watched sync helpers: encoding, chunk layout, merge
 ├── build.ps1              Build/packaging script
 ├── CHANGELOG.md           Version history
@@ -226,7 +239,7 @@ youtube-hider-extension
 
 1. **Content scripts** (13 files in `content/`) load on YouTube pages in the order defined by `manifest.json`. They share a global scope via Chrome's isolated world. `page-bridge.js` is the exception: it runs in the page's `MAIN` world at `document_start` to read YouTube's own internal data and expose a video-id-to-channel cache via a DOM attribute, since the isolated world can read the DOM but not the page's JavaScript globals.
 2. A **MutationObserver** watches for DOM changes and triggers hiding/filtering logic based on your preferences.
-3. Settings are stored in `chrome.storage.sync`, so they follow you across devices. The Channel Whitelist and Blacklist are the exception: they live in `chrome.storage.local`, and the service worker mirrors them into `chrome.storage.sync` compressed and split into chunks, so they sync too without being capped by the 8 KB per-item sync quota. The marked watched videos work the same way, with their titles and channels kept in `chrome.storage.local` only.
+3. Settings are stored in `chrome.storage.sync`, so they follow you across devices. The Channel Whitelist, Channel Blacklist, Title Whitelist and Title Blacklist are the exception: they live in `chrome.storage.local`, and the service worker mirrors them into `chrome.storage.sync` in one compact, compressed payload split into chunks, so they sync too without being capped by the 8 KB per-item sync quota. The marked watched videos work the same way, with their titles and channels kept in `chrome.storage.local` only.
 4. The **header button** (`content/header-button.js`) uses a closed Shadow DOM to encapsulate its styles from the host page. Its settings dropdown embeds `popup/popup.html` in an `<iframe>`, created fresh on every open, so the dropdown is always the same, unmodified popup UI.
 5. The **background service worker** manages badge updates, extension lifecycle events and messaging between popup/content scripts.
 
