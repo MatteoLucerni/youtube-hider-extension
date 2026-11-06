@@ -1,5 +1,25 @@
 # Changelog
 
+### Version 3.7.0
+
+**Added**
+
+- **One Manage page for every list.** The Manage buttons in the settings menu now open a single page, in its own tab, with a tab for each list in the same order as the menu: Marked as watched, Channel Whitelist, Channel Blacklist, Title Whitelist and Title Blacklist. If the page is already open, the button switches it to the right tab instead of opening another copy. It replaces the page that managed only the marked videos, and it is built for lists of thousands of entries:
+  - **Add many at once**: paste handles such as `@veritasium`, channel links or words, one per line. Before anything is saved, a preview counts what is new, what is already in the list, which channels will move over from the opposite list, and which lines were not recognized; those stay in the box so they can be fixed
+  - **Search and sort**: the list filters while you type and says how many entries match, sorted by most recently added or alphabetically, 50 rows at a time
+  - **Select in bulk**: click a row or its checkbox, Shift-click to select a range, then select every matching entry at once, and remove the selection or move it to the opposite list
+  - **Undo everything**: every add, removal and move can be undone for 10 seconds, and the countdown waits while the pointer or the keyboard is on the message. **Clear all** is the only action that asks first, and its dialog offers to export a backup before anything is removed
+  - **See how sync is doing**: a meter shows how much of the 100 KB Chrome gives extensions for syncing is used by the lists, the marked videos and the other settings, and a paused sync is explained in plain words
+  - **Export and import every list in one file**. Importing only ever adds, after a preview of what each list will gain. Files exported from the old marked videos page still import
+
+**Changed**
+
+- **The lists sync about half again as many entries.** Chrome caps what an extension can sync across devices at 100 KB, and nothing can raise that, so the lists now spend fewer bytes on each entry: they are sorted, each entry stores only the part that differs from the one before it, and the compressed result is written in a denser encoding. That fits roughly 12,000 to 14,000 channels and words across the four lists, up from 8,000 to 9,000 channels. Past that point nothing is lost: the lists keep working and growing in the browser where they were edited, and syncing resumes by itself once they fit again
+- **The Title Whitelist and Title Blacklist have no size limit any more.** Each used to be a single synced setting capped at 8 KB, a few hundred words, after which **+ Add** turned off. They are now saved in the browser and synced together with the channel lists, the same way and with the same protection against losing entries when two devices edit at once
+- The four list cards in the settings menu show how many entries each list has and a **Manage** button, instead of one removable chip per entry, which turned into a wall of chips that took ages to scroll with long lists. The quick actions stay in the menu: **+ Add current channel** on the channel lists and the word box on the title lists, which now confirms the word it added
+- The "Sync paused" notice now says plainly that nothing is lost, and it also appears on the title list cards, which share the synced space now
+- Devices still on an older version stop syncing the lists, without overwriting them, until Chrome updates them, and show their title lists as empty until then
+
 ### Version 3.6.0
 
 **Added**
