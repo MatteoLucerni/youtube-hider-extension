@@ -660,7 +660,7 @@ function layoutCallouts(callouts) {
   const slide = document.querySelector('.slide');
   const svg = document.querySelector('.links');
   const ns = 'http://www.w3.org/2000/svg';
-  document.fonts.ready.then(() => {
+  Promise.all([document.fonts.load('600 19px Poppins'), document.fonts.ready]).then(() => {
     callouts.forEach(item => {
       const chip = document.createElement('div');
       chip.className = 'callout';
@@ -1129,6 +1129,15 @@ async function captureBeforeAfterSlide(page, serviceWorker) {
 }
 
 const MANAGE_LIST_ID = 'channel-whitelist';
+const MARKED_COUNT_SAMPLE_SIZE = 37;
+
+function buildMarkedCountSample() {
+  const now = Math.floor(Date.now() / 1000);
+  return Array.from({ length: MARKED_COUNT_SAMPLE_SIZE }, (_, i) => [
+    'sampleVid' + String(i).padStart(2, '0'),
+    now - (MARKED_COUNT_SAMPLE_SIZE - i) * 3600,
+  ]);
+}
 const INSET_MARGIN = 24;
 
 async function captureInlineButtons(page, homeCards) {
@@ -1153,15 +1162,19 @@ async function captureInlineButtons(page, homeCards) {
 
   return withDeviceScale(page, 2, async () => {
     const rects = await Promise.all(
-      ['ytd-watch-metadata #owner', '#yt-hider-inline-whitelist-btn', '#yt-hider-inline-blacklist-btn'].map(selector =>
-        getElementRect(page, selector)
-      )
+      [
+        'ytd-watch-metadata #owner',
+        '#yt-hider-inline-whitelist-btn',
+        '#yt-hider-inline-blacklist-btn',
+        'ytd-watch-metadata #title',
+      ].map(selector => getElementRect(page, selector))
     );
-    const [owner, whitelist, blacklist] = rects;
+    const [owner, whitelist, blacklist, title] = rects;
     if (!whitelist || !blacklist) throw new Error('The inline Whitelist and Blacklist buttons are not visible');
     const parts = [owner, whitelist, blacklist].filter(Boolean);
     const left = Math.min(...parts.map(rect => rect.x)) - 14;
-    const top = Math.min(...parts.map(rect => rect.y)) - 12;
+    const titleBottom = title ? title.y + title.height + 2 : -Infinity;
+    const top = Math.max(Math.min(...parts.map(rect => rect.y)) - 12, titleBottom);
     const right = Math.max(...parts.map(rect => rect.x + rect.width)) + 14;
     const bottom = Math.max(...parts.map(rect => rect.y + rect.height)) + 12;
     const capture = await captureRegion(page, {
@@ -1178,13 +1191,14 @@ async function captureManagePage(context, serviceWorker, extensionId) {
   await applySettings(
     serviceWorker,
     { channelWhitelistEnabled: true, channelBlacklistEnabled: true, titleWhitelistEnabled: true, titleBlacklistEnabled: true },
-    buildListsSample()
+    { ...buildListsSample(), markedWatched: buildMarkedCountSample() }
   );
   const managerPage = await context.newPage();
   try {
     await managerPage.setViewportSize({ width: STAGE.width, height: STAGE.height });
     await managerPage.goto(`chrome-extension://${extensionId}/popup/manage.html#${MANAGE_LIST_ID}`);
     await managerPage.waitForSelector(`#panel-${MANAGE_LIST_ID} .item-row`);
+    await managerPage.addStyleTag({ content: 'html { scrollbar-width: none; } ::-webkit-scrollbar { display: none; }' });
     await managerPage.fill(`#add-input-${MANAGE_LIST_ID}`, LIST_SAMPLE_PASTE);
     await managerPage.waitForSelector(`#panel-${MANAGE_LIST_ID} .add-preview li`);
     await managerPage.evaluate(() => {
@@ -1192,7 +1206,16 @@ async function captureManagePage(context, serviceWorker, extensionId) {
       window.scrollTo(0, document.querySelector('.manage-tabs-bar').offsetTop);
     });
     await managerPage.waitForTimeout(500);
-    const preview = await getElementRect(managerPage, `#panel-${MANAGE_LIST_ID} .add-preview`);
+    const preview = await managerPage.evaluate(selector => {
+      const chips = [...document.querySelectorAll(selector)].map(chip => chip.getBoundingClientRect());
+      if (!chips.length) return null;
+      const left = Math.min(...chips.map(rect => rect.left));
+      const top = Math.min(...chips.map(rect => rect.top));
+      const right = Math.max(...chips.map(rect => rect.right));
+      const bottom = Math.max(...chips.map(rect => rect.bottom));
+      return { x: left, y: top, width: right - left, height: bottom - top };
+    }, `#panel-${MANAGE_LIST_ID} .add-preview li`);
+    if (!preview) throw new Error('The add box preview did not render');
     const capture = await captureRegion(managerPage, { x: 0, y: 0, width: STAGE.width, height: STAGE.height });
     return { capture, preview };
   } finally {
@@ -1226,7 +1249,7 @@ async function captureChannelsSlide(context, page, serviceWorker, extensionId, h
   };
   const rings = [padRect(managed.map(manage.preview), 6), padRect(inset.map(buttons), 5)];
   const callouts = [
-    callout('Paste many, see what changes first', rings[0], 330, 0),
+    callout('Paste many, see what changes first', rings[0], 300, 0),
     callout('Or add them from YouTube', rings[1], 0, -80),
   ];
   return {

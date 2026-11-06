@@ -2,7 +2,7 @@ body.manage-page {
     width: auto;
     max-width: none;
     min-height: 100vh;
-    --manage-max-width: 880px;
+    --manage-max-width: 1040px;
     --manage-gutter: var(--spacing-2xl);
     --tabs-bar-height: 54px;
     --tone-blue: #8ab4f8;
@@ -369,7 +369,7 @@ body.manage-page {
     align-items: center;
     gap: var(--spacing-sm);
     height: 100%;
-    padding: 0 var(--spacing-xl);
+    padding: 0 var(--spacing-lg);
     font: inherit;
     font-size: 0.9375rem;
     font-weight: 500;
