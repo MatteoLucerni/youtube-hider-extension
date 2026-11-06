@@ -89,6 +89,14 @@
   "markedWatchedManage": {
     "message": "Yönet"
   },
+  "manageListLabel": {
+    "message": "$list$ listesini yönet",
+    "placeholders": {
+      "list": {
+        "content": "$1"
+      }
+    }
+  },
   "markedWatchedSyncPaused": {
     "message": "Senkronizasyon duraklatıldı: kanal listeleri cihazlar arasında paylaşılan alanı kullanıyor. İşaretlediğiniz videolar bu tarayıcıda kayıtlı kalır ve tekrar sığdıklarında senkronizasyon devam eder"
   },
@@ -216,7 +224,7 @@
     "message": "Channel Whitelist"
   },
   "channelWhitelistTooltip": {
-    "message": "Whitelist'teki kanallar tüm etkin filtreleri atlar. Bir kanal sayfasında veya videoda iken aşağıdaki düğmeyle ya da üst bilgideki düğmeyle kanal ekleyin. Bir etiketi kaldırdığınızda o kanala tüm filtreler hemen yeniden uygulanır. Shorts her zaman filtrelenir"
+    "message": "Whitelist'teki kanallar tüm etkin filtreleri atlar. Bir kanal sayfasında veya videoda iken aşağıdaki düğmeyle ya da üst bilgideki düğmeyle kanal ekleyin. Listenin tamamı kendi sayfasında açılır; orada kanalları arayabilir, kaldırabilir ve taşıyabilirsiniz. Shorts her zaman filtrelenir"
   },
   "channelWhitelistDescription": {
     "message": "Bu listedeki kanallar filtrelenmez. Shorts her zaman filtrelenir"
@@ -228,13 +236,13 @@
     "message": "+ Bu kanalı ekle"
   },
   "channelListsSyncPaused": {
-    "message": "Senkronizasyon duraklatıldı: cihazlar arasında senkronize edilecek çok fazla kanal var. Listeleriniz bu tarayıcıda kayıtlı kalır ve tekrar sığdıklarında senkronizasyon devam eder"
+    "message": "Senkronizasyon duraklatıldı: listeleriniz diğer cihazlarınızla senkronize edilemeyecek kadar büyük. Hiçbir şey kaybolmaz: bu tarayıcıda her şey çalışmaya devam eder ve listeler yeniden sığdığında senkronizasyon devam eder"
   },
   "channelBlacklistTitle": {
     "message": "Channel Blacklist"
   },
   "channelBlacklistTooltip": {
-    "message": "Blacklist'teki kanallar diğer filtrelerden bağımsız olarak her zaman gizlenir. Bir kanal sayfasında veya videoda iken aşağıdaki düğmeyle ya da üst bilgideki düğmeyle kanal ekleyin. Bir etiketi kaldırdığınızda o kanalın videoları hemen yeniden görünür. Shorts her zaman filtrelenir"
+    "message": "Blacklist'teki kanallar diğer filtrelerden bağımsız olarak her zaman gizlenir. Bir kanal sayfasında veya videoda iken aşağıdaki düğmeyle ya da üst bilgideki düğmeyle kanal ekleyin. Listenin tamamı kendi sayfasında açılır; orada kanalları arayabilir, kaldırabilir ve taşıyabilirsiniz. Shorts her zaman filtrelenir"
   },
   "channelBlacklistDescription": {
     "message": "Bu listedeki kanallar her yerde her zaman gizlenir. Shorts her zaman filtrelenir"
@@ -362,14 +370,6 @@
     "message": "$channel$ zaten Blacklist'te",
     "placeholders": {
       "channel": {
-        "content": "$1"
-      }
-    }
-  },
-  "chipRemoveLabel": {
-    "message": "$item$ öğesini kaldır",
-    "placeholders": {
-      "item": {
         "content": "$1"
       }
     }
@@ -1353,10 +1353,20 @@
     "message": "Ayarlanabilir bir eşikten daha yeni veya daha eski videoları gizleyin. Yalnızca belirli bir dönemin videolarını tutmak için ikisini birlikte kullanın."
   },
   "tourChannelWhitelistDescription": {
-    "message": "Sevdiğiniz kanalları tüm filtrelerden muaf tutun. Mevcut kanalı tek tıkla ekleyin veya filtreleri hemen yeniden uygulamak için bir etiketi kaldırın."
+    "message": "Sevdiğiniz kanalları tüm filtrelerden muaf tutun. Mevcut kanalı tek tıkla ekleyin; kanalları kendi sayfasında aramak, kaldırmak veya taşımak için $manage$ düğmesini kullanın.",
+    "placeholders": {
+      "manage": {
+        "content": "$1"
+      }
+    }
   },
   "tourChannelBlacklistDescription": {
-    "message": "Whitelist'in tersi: bir kanalı Shorts, Mix, oynatma listeleri ve canlılar dahil her yerde her zaman gizler. Mevcut kanalı tek tıkla ekleyin veya hemen yeniden göstermek için bir etiketi kaldırın."
+    "message": "Whitelist'in tersi: bir kanalı Shorts, Mix, oynatma listeleri ve canlılar dahil her yerde her zaman gizler. Mevcut kanalı tek tıkla ekleyin; listenin tamamını kendi sayfasında görmek için $manage$ düğmesini kullanın.",
+    "placeholders": {
+      "manage": {
+        "content": "$1"
+      }
+    }
   },
   "tourTitleWhitelistDescription": {
     "message": "Videoları kanala göre değil, başlıklarındaki bir kelimeye göre muaf tutun. Başlığında kelimelerinizden biri geçen videolara hiçbir filtre dokunmaz."

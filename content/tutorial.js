@@ -252,13 +252,13 @@ function startSpotlightTour() {
     },
     {
       title: getText('channelWhitelistTitle'),
-      desc: getText('tourChannelWhitelistDescription'),
+      desc: getText('tourChannelWhitelistDescription', getText('markedWatchedManage')),
       getRect: () => getHeaderDropdownRect(),
       section: 'whitelist',
     },
     {
       title: getText('channelBlacklistTitle'),
-      desc: getText('tourChannelBlacklistDescription'),
+      desc: getText('tourChannelBlacklistDescription', getText('markedWatchedManage')),
       getRect: () => getHeaderDropdownRect(),
       section: 'blacklist',
     },

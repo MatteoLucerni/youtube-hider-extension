@@ -89,6 +89,14 @@
   "markedWatchedManage": {
     "message": "Gestisci"
   },
+  "manageListLabel": {
+    "message": "Gestisci $list$",
+    "placeholders": {
+      "list": {
+        "content": "$1"
+      }
+    }
+  },
   "markedWatchedSyncPaused": {
     "message": "Sincronizzazione in pausa: le liste dei canali occupano lo spazio condiviso tra i dispositivi. I video segnati restano salvati in questo browser e la sincronizzazione riprende quando c'è di nuovo spazio"
   },
@@ -216,7 +224,7 @@
     "message": "Channel Whitelist"
   },
   "channelWhitelistTooltip": {
-    "message": "I canali in Whitelist ignorano tutti i filtri attivi. Aggiungi un canale con il pulsante qui sotto o con il pulsante nell'header mentre sei sulla pagina di un canale o su un video. Togliendo un chip, i filtri si riapplicano subito a quel canale. Gli Shorts vengono sempre filtrati"
+    "message": "I canali in Whitelist ignorano tutti i filtri attivi. Aggiungi un canale con il pulsante qui sotto o con il pulsante nell'header mentre sei sulla pagina di un canale o su un video. L'elenco completo si apre in una pagina dedicata, dove puoi cercare, rimuovere e spostare i canali. Gli Shorts vengono sempre filtrati"
   },
   "channelWhitelistDescription": {
     "message": "I canali in questa lista non vengono filtrati. Gli Shorts vengono sempre filtrati"
@@ -228,13 +236,13 @@
     "message": "+ Aggiungi canale corrente"
   },
   "channelListsSyncPaused": {
-    "message": "Sincronizzazione in pausa: troppi canali da sincronizzare tra i dispositivi. Le liste restano salvate in questo browser e la sincronizzazione riprende quando c'è di nuovo spazio"
+    "message": "Sincronizzazione in pausa: le liste sono troppo grandi per sincronizzarle con gli altri dispositivi. Non si perde niente: tutto continua a funzionare in questo browser e la sincronizzazione riparte quando ci stanno di nuovo"
   },
   "channelBlacklistTitle": {
     "message": "Channel Blacklist"
   },
   "channelBlacklistTooltip": {
-    "message": "I canali in Blacklist vengono sempre nascosti, qualunque altro filtro sia attivo. Aggiungi un canale con il pulsante qui sotto o con il pulsante nell'header mentre sei sulla pagina di un canale o su un video. Togliendo un chip, i video di quel canale tornano subito visibili. Gli Shorts vengono sempre filtrati"
+    "message": "I canali in Blacklist vengono sempre nascosti, qualunque altro filtro sia attivo. Aggiungi un canale con il pulsante qui sotto o con il pulsante nell'header mentre sei sulla pagina di un canale o su un video. L'elenco completo si apre in una pagina dedicata, dove puoi cercare, rimuovere e spostare i canali. Gli Shorts vengono sempre filtrati"
   },
   "channelBlacklistDescription": {
     "message": "I canali in questa lista vengono sempre nascosti, ovunque. Gli Shorts vengono sempre filtrati"
@@ -362,14 +370,6 @@
     "message": "$channel$ è già in Blacklist",
     "placeholders": {
       "channel": {
-        "content": "$1"
-      }
-    }
-  },
-  "chipRemoveLabel": {
-    "message": "Rimuovi $item$",
-    "placeholders": {
-      "item": {
         "content": "$1"
       }
     }
@@ -1599,10 +1599,20 @@
     "message": "Nasconde i video più recenti o più vecchi di una soglia a scelta. Usale entrambe per tenere solo i video di un certo periodo."
   },
   "tourChannelWhitelistDescription": {
-    "message": "Escludi i tuoi canali preferiti da tutti i filtri. Aggiungi il canale corrente con un clic, o togli un chip per riapplicare subito i filtri."
+    "message": "Escludi i tuoi canali preferiti da tutti i filtri. Aggiungi il canale corrente con un clic e usa $manage$ per cercare, rimuovere o spostare i canali in una pagina dedicata.",
+    "placeholders": {
+      "manage": {
+        "content": "$1"
+      }
+    }
   },
   "tourChannelBlacklistDescription": {
-    "message": "L'opposto della Whitelist: nasconde sempre un canale ovunque, compresi Shorts, Mix, Playlist e Live. Aggiungi il canale corrente con un clic, o togli un chip per farlo ricomparire subito."
+    "message": "L'opposto della Whitelist: nasconde sempre un canale ovunque, compresi Shorts, Mix, Playlist e Live. Aggiungi il canale corrente con un clic e usa $manage$ per vedere l'elenco completo in una pagina dedicata.",
+    "placeholders": {
+      "manage": {
+        "content": "$1"
+      }
+    }
   },
   "tourTitleWhitelistDescription": {
     "message": "Escludi i video in base a una parola del titolo invece che al canale. Ogni video il cui titolo contiene una delle tue parole viene ignorato da tutti i filtri."

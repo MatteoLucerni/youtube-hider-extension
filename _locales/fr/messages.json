@@ -89,6 +89,14 @@
   "markedWatchedManage": {
     "message": "Gérer"
   },
+  "manageListLabel": {
+    "message": "Gérer $list$",
+    "placeholders": {
+      "list": {
+        "content": "$1"
+      }
+    }
+  },
   "markedWatchedSyncPaused": {
     "message": "Synchronisation en pause : les listes de chaînes occupent l'espace partagé entre les appareils. Vos vidéos marquées restent enregistrées dans ce navigateur, et la synchronisation reprend dès qu'il y a de nouveau de la place"
   },
@@ -216,7 +224,7 @@
     "message": "Channel Whitelist"
   },
   "channelWhitelistTooltip": {
-    "message": "Les chaînes de la Whitelist échappent à tous les filtres actifs. Ajoutez une chaîne avec le bouton ci-dessous ou avec le bouton de l'en-tête quand vous êtes sur la page d'une chaîne ou sur une vidéo. Retirer une étiquette réapplique aussitôt tous les filtres à cette chaîne. Les Shorts sont toujours filtrés"
+    "message": "Les chaînes de la Whitelist échappent à tous les filtres actifs. Ajoutez une chaîne avec le bouton ci-dessous ou avec le bouton de l'en-tête quand vous êtes sur la page d'une chaîne ou sur une vidéo. La liste complète s'ouvre sur sa propre page, où vous pouvez rechercher, retirer et déplacer des chaînes. Les Shorts sont toujours filtrés"
   },
   "channelWhitelistDescription": {
     "message": "Les chaînes de cette liste ne sont pas filtrées. Les Shorts sont toujours filtrés"
@@ -228,13 +236,13 @@
     "message": "+ Ajouter la chaîne actuelle"
   },
   "channelListsSyncPaused": {
-    "message": "Synchronisation en pause : trop de chaînes à synchroniser entre les appareils. Vos listes restent enregistrées dans ce navigateur, et la synchronisation reprend dès qu'il y a de nouveau de la place"
+    "message": "Synchronisation en pause : vos listes sont trop grandes pour être synchronisées avec vos autres appareils. Rien n'est perdu : tout continue de fonctionner dans ce navigateur, et la synchronisation reprend dès qu'elles tiennent à nouveau"
   },
   "channelBlacklistTitle": {
     "message": "Channel Blacklist"
   },
   "channelBlacklistTooltip": {
-    "message": "Les chaînes de la Blacklist sont toujours masquées, quels que soient les autres filtres. Ajoutez une chaîne avec le bouton ci-dessous ou avec le bouton de l'en-tête quand vous êtes sur la page d'une chaîne ou sur une vidéo. Retirer une étiquette réaffiche aussitôt les vidéos de cette chaîne. Les Shorts sont toujours filtrés"
+    "message": "Les chaînes de la Blacklist sont toujours masquées, quels que soient les autres filtres. Ajoutez une chaîne avec le bouton ci-dessous ou avec le bouton de l'en-tête quand vous êtes sur la page d'une chaîne ou sur une vidéo. La liste complète s'ouvre sur sa propre page, où vous pouvez rechercher, retirer et déplacer des chaînes. Les Shorts sont toujours filtrés"
   },
   "channelBlacklistDescription": {
     "message": "Les chaînes de cette liste sont toujours masquées, partout. Les Shorts sont toujours filtrés"
@@ -362,14 +370,6 @@
     "message": "$channel$ est déjà dans la Blacklist",
     "placeholders": {
       "channel": {
-        "content": "$1"
-      }
-    }
-  },
-  "chipRemoveLabel": {
-    "message": "Retirer $item$",
-    "placeholders": {
-      "item": {
         "content": "$1"
       }
     }
@@ -1599,10 +1599,20 @@
     "message": "Masque les vidéos plus récentes ou plus anciennes qu'un seuil réglable. Utilisez les deux à la fois pour ne garder que les vidéos d'une période précise."
   },
   "tourChannelWhitelistDescription": {
-    "message": "Exemptez vos chaînes préférées de tous les filtres. Ajoutez la chaîne actuelle en un clic, ou retirez une étiquette pour réappliquer aussitôt les filtres."
+    "message": "Exemptez vos chaînes préférées de tous les filtres. Ajoutez la chaîne actuelle en un clic, et utilisez $manage$ pour rechercher, retirer ou déplacer des chaînes sur une page dédiée.",
+    "placeholders": {
+      "manage": {
+        "content": "$1"
+      }
+    }
   },
   "tourChannelBlacklistDescription": {
-    "message": "L'inverse de la Whitelist : masque toujours une chaîne, partout, y compris les Shorts, Mix, playlists et directs. Ajoutez la chaîne actuelle en un clic, ou retirez une étiquette pour la faire réapparaître aussitôt."
+    "message": "L'inverse de la Whitelist : masque toujours une chaîne, partout, y compris les Shorts, Mix, playlists et directs. Ajoutez la chaîne actuelle en un clic, et utilisez $manage$ pour voir la liste complète sur une page dédiée.",
+    "placeholders": {
+      "manage": {
+        "content": "$1"
+      }
+    }
   },
   "tourTitleWhitelistDescription": {
     "message": "Exemptez des vidéos grâce à un mot de leur titre plutôt que par chaîne. Aucun filtre ne touche les vidéos dont le titre contient l'un de vos mots."

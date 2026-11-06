@@ -89,6 +89,14 @@
   "markedWatchedManage": {
     "message": "관리"
   },
+  "manageListLabel": {
+    "message": "$list$ 관리",
+    "placeholders": {
+      "list": {
+        "content": "$1"
+      }
+    }
+  },
   "markedWatchedSyncPaused": {
     "message": "동기화 일시중지됨: 채널 목록이 기기 간에 공유되는 공간을 사용하고 있습니다. 표시한 동영상은 이 브라우저에 저장되어 있으며, 다시 공간이 생기면 동기화가 재개됩니다"
   },
@@ -216,7 +224,7 @@
     "message": "Channel Whitelist"
   },
   "channelWhitelistTooltip": {
-    "message": "Whitelist에 있는 채널은 모든 활성 필터를 건너뜁니다. 채널 페이지나 동영상에서 아래 버튼 또는 헤더 버튼으로 채널을 추가하세요. 칩을 삭제하면 해당 채널에 모든 필터가 즉시 다시 적용됩니다. Shorts는 항상 필터링됩니다"
+    "message": "Whitelist에 있는 채널은 모든 활성 필터를 건너뜁니다. 채널 페이지나 동영상에서 아래 버튼 또는 헤더 버튼으로 채널을 추가하세요. 전체 목록은 별도 페이지에서 열리며, 채널을 검색, 삭제, 이동할 수 있습니다. Shorts는 항상 필터링됩니다"
   },
   "channelWhitelistDescription": {
     "message": "이 목록의 채널은 필터링되지 않습니다. Shorts는 항상 필터링됩니다"
@@ -228,13 +236,13 @@
     "message": "+ 현재 채널 추가"
   },
   "channelListsSyncPaused": {
-    "message": "동기화 일시중지됨: 기기 간에 동기화하기에는 채널이 너무 많습니다. 목록은 이 브라우저에 저장되어 있으며, 다시 공간이 생기면 동기화가 재개됩니다"
+    "message": "동기화 일시중지됨: 목록이 너무 커서 다른 기기와 동기화할 수 없습니다. 잃는 것은 없습니다. 이 브라우저에서는 모두 계속 작동하며, 목록이 다시 공간에 맞으면 동기화가 재개됩니다"
   },
   "channelBlacklistTitle": {
     "message": "Channel Blacklist"
   },
   "channelBlacklistTooltip": {
-    "message": "Blacklist에 있는 채널은 다른 필터와 관계없이 항상 숨겨집니다. 채널 페이지나 동영상에서 아래 버튼 또는 헤더 버튼으로 채널을 추가하세요. 칩을 삭제하면 해당 채널의 동영상이 즉시 다시 표시됩니다. Shorts는 항상 필터링됩니다"
+    "message": "Blacklist에 있는 채널은 다른 필터와 관계없이 항상 숨겨집니다. 채널 페이지나 동영상에서 아래 버튼 또는 헤더 버튼으로 채널을 추가하세요. 전체 목록은 별도 페이지에서 열리며, 채널을 검색, 삭제, 이동할 수 있습니다. Shorts는 항상 필터링됩니다"
   },
   "channelBlacklistDescription": {
     "message": "이 목록의 채널은 어디서나 항상 숨겨집니다. Shorts는 항상 필터링됩니다"
@@ -362,14 +370,6 @@
     "message": "$channel$은(는) 이미 Blacklist에 있습니다",
     "placeholders": {
       "channel": {
-        "content": "$1"
-      }
-    }
-  },
-  "chipRemoveLabel": {
-    "message": "$item$ 삭제",
-    "placeholders": {
-      "item": {
         "content": "$1"
       }
     }
@@ -1107,10 +1107,20 @@
     "message": "설정한 기준보다 최근이거나 오래된 동영상을 숨깁니다. 둘을 함께 사용하면 특정 기간의 동영상만 남길 수 있습니다."
   },
   "tourChannelWhitelistDescription": {
-    "message": "좋아하는 채널을 모든 필터에서 제외하세요. 클릭 한 번으로 현재 채널을 추가하거나, 칩을 삭제해 필터를 즉시 다시 적용할 수 있습니다."
+    "message": "좋아하는 채널을 모든 필터에서 제외하세요. 클릭 한 번으로 현재 채널을 추가하고, $manage$에서 별도 페이지로 채널을 검색, 삭제, 이동할 수 있습니다.",
+    "placeholders": {
+      "manage": {
+        "content": "$1"
+      }
+    }
   },
   "tourChannelBlacklistDescription": {
-    "message": "Whitelist의 반대입니다. Shorts, 믹스, 재생목록, 실시간을 포함해 채널을 어디서나 항상 숨깁니다. 클릭 한 번으로 현재 채널을 추가하거나, 칩을 삭제해 즉시 다시 표시할 수 있습니다."
+    "message": "Whitelist의 반대입니다. Shorts, 믹스, 재생목록, 실시간을 포함해 채널을 어디서나 항상 숨깁니다. 클릭 한 번으로 현재 채널을 추가하고, $manage$에서 별도 페이지로 전체 목록을 볼 수 있습니다.",
+    "placeholders": {
+      "manage": {
+        "content": "$1"
+      }
+    }
   },
   "tourTitleWhitelistDescription": {
     "message": "채널 대신 제목의 단어로 동영상을 제외하세요. 제목에 내 단어 중 하나가 들어간 동영상은 어떤 필터도 건드리지 않습니다."

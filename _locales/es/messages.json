@@ -89,6 +89,14 @@
   "markedWatchedManage": {
     "message": "Gestionar"
   },
+  "manageListLabel": {
+    "message": "Gestionar $list$",
+    "placeholders": {
+      "list": {
+        "content": "$1"
+      }
+    }
+  },
   "markedWatchedSyncPaused": {
     "message": "Sincronización en pausa: las listas de canales ocupan el espacio compartido entre dispositivos. Tus videos marcados se guardan en este navegador y la sincronización se reanuda cuando vuelvan a caber"
   },
@@ -216,7 +224,7 @@
     "message": "Channel Whitelist"
   },
   "channelWhitelistTooltip": {
-    "message": "Los canales en la Whitelist se saltan todos los filtros activos. Agrega un canal con el botón de abajo o con el botón del encabezado mientras estás en la página de un canal o en un video. Al quitar una etiqueta, los filtros se vuelven a aplicar de inmediato a ese canal. Los Shorts siempre se filtran"
+    "message": "Los canales en la Whitelist se saltan todos los filtros activos. Agrega un canal con el botón de abajo o con el botón del encabezado mientras estás en la página de un canal o en un video. La lista completa se abre en su propia página, donde puedes buscar, quitar y mover canales. Los Shorts siempre se filtran"
   },
   "channelWhitelistDescription": {
     "message": "Los canales de esta lista no se filtran. Los Shorts siempre se filtran"
@@ -228,13 +236,13 @@
     "message": "+ Agregar canal actual"
   },
   "channelListsSyncPaused": {
-    "message": "Sincronización en pausa: hay demasiados canales para sincronizar entre dispositivos. Tus listas se guardan en este navegador y la sincronización se reanuda cuando vuelvan a caber"
+    "message": "Sincronización en pausa: tus listas son demasiado grandes para sincronizarse con tus otros dispositivos. No se pierde nada: todo sigue funcionando en este navegador y la sincronización se reanuda cuando vuelvan a caber"
   },
   "channelBlacklistTitle": {
     "message": "Channel Blacklist"
   },
   "channelBlacklistTooltip": {
-    "message": "Los canales en la Blacklist siempre se ocultan, sin importar los demás filtros. Agrega un canal con el botón de abajo o con el botón del encabezado mientras estás en la página de un canal o en un video. Al quitar una etiqueta, los videos de ese canal vuelven a mostrarse de inmediato. Los Shorts siempre se filtran"
+    "message": "Los canales en la Blacklist siempre se ocultan, sin importar los demás filtros. Agrega un canal con el botón de abajo o con el botón del encabezado mientras estás en la página de un canal o en un video. La lista completa se abre en su propia página, donde puedes buscar, quitar y mover canales. Los Shorts siempre se filtran"
   },
   "channelBlacklistDescription": {
     "message": "Los canales de esta lista siempre se ocultan, en todas partes. Los Shorts siempre se filtran"
@@ -362,14 +370,6 @@
     "message": "$channel$ ya está en la Blacklist",
     "placeholders": {
       "channel": {
-        "content": "$1"
-      }
-    }
-  },
-  "chipRemoveLabel": {
-    "message": "Quitar $item$",
-    "placeholders": {
-      "item": {
         "content": "$1"
       }
     }
@@ -1599,10 +1599,20 @@
     "message": "Oculta los videos más recientes o más antiguos que un límite configurable. Usa ambos a la vez para quedarte solo con los videos de un periodo concreto."
   },
   "tourChannelWhitelistDescription": {
-    "message": "Excluye tus canales favoritos de todos los filtros. Agrega el canal actual con un clic, o quita una etiqueta para volver a aplicar los filtros al instante."
+    "message": "Excluye tus canales favoritos de todos los filtros. Agrega el canal actual con un clic y usa $manage$ para buscar, quitar o mover canales en su propia página.",
+    "placeholders": {
+      "manage": {
+        "content": "$1"
+      }
+    }
   },
   "tourChannelBlacklistDescription": {
-    "message": "Lo contrario de la Whitelist: oculta siempre un canal en todas partes, incluidos Shorts, Mixes, listas y videos en vivo. Agrega el canal actual con un clic, o quita una etiqueta para que vuelva a aparecer al instante."
+    "message": "Lo contrario de la Whitelist: oculta siempre un canal en todas partes, incluidos Shorts, Mixes, listas y videos en vivo. Agrega el canal actual con un clic y usa $manage$ para ver la lista completa en su propia página.",
+    "placeholders": {
+      "manage": {
+        "content": "$1"
+      }
+    }
   },
   "tourTitleWhitelistDescription": {
     "message": "Excluye videos por una palabra de su título en lugar de por canal. Ningún filtro toca los videos cuyo título contiene una de tus palabras."

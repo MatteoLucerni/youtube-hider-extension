@@ -89,6 +89,14 @@
   "markedWatchedManage": {
     "message": "Verwalten"
   },
+  "manageListLabel": {
+    "message": "$list$ verwalten",
+    "placeholders": {
+      "list": {
+        "content": "$1"
+      }
+    }
+  },
   "markedWatchedSyncPaused": {
     "message": "Synchronisierung pausiert: Die Kanallisten belegen den zwischen den Geräten geteilten Speicher. Deine markierten Videos bleiben in diesem Browser gespeichert, und die Synchronisierung läuft weiter, sobald sie wieder Platz haben"
   },
@@ -216,7 +224,7 @@
     "message": "Channel Whitelist"
   },
   "channelWhitelistTooltip": {
-    "message": "Kanäle auf der Whitelist umgehen alle aktiven Filter. Füge einen Kanal über die Schaltfläche unten oder über die Schaltfläche in der Kopfzeile hinzu, während du auf einer Kanalseite oder einem Video bist. Entfernst du einen Eintrag, gelten sofort wieder alle Filter für diesen Kanal. Shorts werden trotzdem immer gefiltert"
+    "message": "Kanäle auf der Whitelist umgehen alle aktiven Filter. Füge einen Kanal über die Schaltfläche unten oder über die Schaltfläche in der Kopfzeile hinzu, während du auf einer Kanalseite oder einem Video bist. Die vollständige Liste öffnet sich auf einer eigenen Seite, wo du Kanäle suchen, entfernen und verschieben kannst. Shorts werden trotzdem immer gefiltert"
   },
   "channelWhitelistDescription": {
     "message": "Kanäle in dieser Liste werden nicht gefiltert. Shorts werden trotzdem immer gefiltert"
@@ -228,13 +236,13 @@
     "message": "+ Aktuellen Kanal hinzufügen"
   },
   "channelListsSyncPaused": {
-    "message": "Synchronisierung pausiert: zu viele Kanäle für die geräteübergreifende Synchronisierung. Deine Listen bleiben in diesem Browser gespeichert, und die Synchronisierung läuft weiter, sobald sie wieder Platz haben"
+    "message": "Synchronisierung pausiert: Deine Listen sind zu groß für die Synchronisierung mit deinen anderen Geräten. Nichts geht verloren: Alles funktioniert in diesem Browser weiter, und die Synchronisierung läuft weiter, sobald sie wieder passen"
   },
   "channelBlacklistTitle": {
     "message": "Channel Blacklist"
   },
   "channelBlacklistTooltip": {
-    "message": "Kanäle auf der Blacklist werden immer ausgeblendet, egal welche anderen Filter aktiv sind. Füge einen Kanal über die Schaltfläche unten oder über die Schaltfläche in der Kopfzeile hinzu, während du auf einer Kanalseite oder einem Video bist. Entfernst du einen Eintrag, erscheinen die Videos dieses Kanals sofort wieder. Shorts werden trotzdem immer gefiltert"
+    "message": "Kanäle auf der Blacklist werden immer ausgeblendet, egal welche anderen Filter aktiv sind. Füge einen Kanal über die Schaltfläche unten oder über die Schaltfläche in der Kopfzeile hinzu, während du auf einer Kanalseite oder einem Video bist. Die vollständige Liste öffnet sich auf einer eigenen Seite, wo du Kanäle suchen, entfernen und verschieben kannst. Shorts werden trotzdem immer gefiltert"
   },
   "channelBlacklistDescription": {
     "message": "Kanäle in dieser Liste werden immer und überall ausgeblendet. Shorts werden trotzdem immer gefiltert"
@@ -362,14 +370,6 @@
     "message": "$channel$ ist bereits auf der Blacklist",
     "placeholders": {
       "channel": {
-        "content": "$1"
-      }
-    }
-  },
-  "chipRemoveLabel": {
-    "message": "$item$ entfernen",
-    "placeholders": {
-      "item": {
         "content": "$1"
       }
     }
@@ -1353,10 +1353,20 @@
     "message": "Blendet Videos aus, die neuer oder älter als ein einstellbarer Wert sind. Nutze beides zusammen, um nur Videos aus einem bestimmten Zeitraum zu behalten."
   },
   "tourChannelWhitelistDescription": {
-    "message": "Nimm deine Lieblingskanäle von allen Filtern aus. Füge den aktuellen Kanal mit einem Klick hinzu, oder entferne einen Eintrag, damit die Filter sofort wieder greifen."
+    "message": "Nimm deine Lieblingskanäle von allen Filtern aus. Füge den aktuellen Kanal mit einem Klick hinzu und nutze $manage$, um Kanäle auf einer eigenen Seite zu suchen, zu entfernen oder zu verschieben.",
+    "placeholders": {
+      "manage": {
+        "content": "$1"
+      }
+    }
   },
   "tourChannelBlacklistDescription": {
-    "message": "Das Gegenteil der Whitelist: Blendet einen Kanal immer und überall aus, auch bei Shorts, Mixen, Playlists und Livestreams. Füge den aktuellen Kanal mit einem Klick hinzu, oder entferne einen Eintrag, damit er sofort wieder erscheint."
+    "message": "Das Gegenteil der Whitelist: Blendet einen Kanal immer und überall aus, auch bei Shorts, Mixen, Playlists und Livestreams. Füge den aktuellen Kanal mit einem Klick hinzu und nutze $manage$, um die ganze Liste auf einer eigenen Seite zu sehen.",
+    "placeholders": {
+      "manage": {
+        "content": "$1"
+      }
+    }
   },
   "tourTitleWhitelistDescription": {
     "message": "Nimm Videos anhand eines Wortes im Titel statt anhand des Kanals aus. Videos, deren Titel eines deiner Wörter enthält, lässt jeder Filter in Ruhe."

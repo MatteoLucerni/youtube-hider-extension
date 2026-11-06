@@ -89,6 +89,14 @@
   "markedWatchedManage": {
     "message": "Kelola"
   },
+  "manageListLabel": {
+    "message": "Kelola $list$",
+    "placeholders": {
+      "list": {
+        "content": "$1"
+      }
+    }
+  },
   "markedWatchedSyncPaused": {
     "message": "Sinkronisasi dijeda: daftar saluran memakai ruang yang dibagi antarperangkat. Video yang Anda tandai tetap tersimpan di browser ini, dan sinkronisasi berlanjut setelah muat lagi"
   },
@@ -216,7 +224,7 @@
     "message": "Channel Whitelist"
   },
   "channelWhitelistTooltip": {
-    "message": "Saluran di Whitelist melewati semua filter aktif. Tambahkan saluran dengan tombol di bawah atau tombol di header saat Anda berada di halaman saluran atau video. Menghapus chip langsung menerapkan ulang semua filter ke saluran itu. Shorts tetap selalu difilter"
+    "message": "Saluran di Whitelist melewati semua filter aktif. Tambahkan saluran dengan tombol di bawah atau tombol di header saat Anda berada di halaman saluran atau video. Daftar lengkap terbuka di halamannya sendiri, tempat Anda bisa mencari, menghapus, dan memindahkan saluran. Shorts tetap selalu difilter"
   },
   "channelWhitelistDescription": {
     "message": "Saluran di daftar ini tidak difilter. Shorts tetap selalu difilter"
@@ -228,13 +236,13 @@
     "message": "+ Tambahkan saluran ini"
   },
   "channelListsSyncPaused": {
-    "message": "Sinkronisasi dijeda: terlalu banyak saluran untuk disinkronkan antarperangkat. Daftar Anda tetap tersimpan di browser ini, dan sinkronisasi berlanjut setelah muat lagi"
+    "message": "Sinkronisasi dijeda: daftar Anda terlalu besar untuk disinkronkan ke perangkat lain. Tidak ada yang hilang: semuanya tetap berfungsi di browser ini, dan sinkronisasi berlanjut setelah daftar muat lagi"
   },
   "channelBlacklistTitle": {
     "message": "Channel Blacklist"
   },
   "channelBlacklistTooltip": {
-    "message": "Saluran di Blacklist selalu disembunyikan, apa pun filter lainnya. Tambahkan saluran dengan tombol di bawah atau tombol di header saat Anda berada di halaman saluran atau video. Menghapus chip langsung menampilkan lagi video saluran itu. Shorts tetap selalu difilter"
+    "message": "Saluran di Blacklist selalu disembunyikan, apa pun filter lainnya. Tambahkan saluran dengan tombol di bawah atau tombol di header saat Anda berada di halaman saluran atau video. Daftar lengkap terbuka di halamannya sendiri, tempat Anda bisa mencari, menghapus, dan memindahkan saluran. Shorts tetap selalu difilter"
   },
   "channelBlacklistDescription": {
     "message": "Saluran di daftar ini selalu disembunyikan, di mana saja. Shorts tetap selalu difilter"
@@ -362,14 +370,6 @@
     "message": "$channel$ sudah ada di Blacklist",
     "placeholders": {
       "channel": {
-        "content": "$1"
-      }
-    }
-  },
-  "chipRemoveLabel": {
-    "message": "Hapus $item$",
-    "placeholders": {
-      "item": {
         "content": "$1"
       }
     }
@@ -1107,10 +1107,20 @@
     "message": "Sembunyikan video yang lebih baru atau lebih lama dari batas yang bisa diatur. Gunakan keduanya untuk menyisakan video dari periode tertentu saja."
   },
   "tourChannelWhitelistDescription": {
-    "message": "Kecualikan saluran favorit Anda dari semua filter. Tambahkan saluran saat ini dengan satu klik, atau hapus chip untuk langsung menerapkan ulang filter."
+    "message": "Kecualikan saluran favorit Anda dari semua filter. Tambahkan saluran saat ini dengan satu klik, lalu gunakan $manage$ untuk mencari, menghapus, atau memindahkan saluran di halaman tersendiri.",
+    "placeholders": {
+      "manage": {
+        "content": "$1"
+      }
+    }
   },
   "tourChannelBlacklistDescription": {
-    "message": "Kebalikan dari Whitelist: selalu sembunyikan sebuah saluran di mana saja, termasuk Shorts, Mix, Playlist, dan Live. Tambahkan saluran saat ini dengan satu klik, atau hapus chip untuk langsung menampilkannya lagi."
+    "message": "Kebalikan dari Whitelist: selalu sembunyikan sebuah saluran di mana saja, termasuk Shorts, Mix, Playlist, dan Live. Tambahkan saluran saat ini dengan satu klik, lalu gunakan $manage$ untuk melihat daftar lengkap di halaman tersendiri.",
+    "placeholders": {
+      "manage": {
+        "content": "$1"
+      }
+    }
   },
   "tourTitleWhitelistDescription": {
     "message": "Kecualikan video berdasarkan kata di judulnya, bukan berdasarkan saluran. Video yang judulnya mengandung salah satu kata Anda tidak disentuh filter apa pun."

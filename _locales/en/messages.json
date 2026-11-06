@@ -119,6 +119,16 @@
     "message": "Manage",
     "description": "Button that opens the page listing the marked videos. One short word."
   },
+  "manageListLabel": {
+    "message": "Manage $list$",
+    "description": "Accessible name of the Manage button on a list card. The placeholder is the list name, e.g. Channel Blacklist.",
+    "placeholders": {
+      "list": {
+        "content": "$1",
+        "example": "Channel Blacklist"
+      }
+    }
+  },
   "markedWatchedSyncPaused": {
     "message": "Sync paused: the channel lists need the space shared across devices. Your marked videos are saved in this browser, and syncing resumes once they fit again",
     "description": "Notice shown when the marked videos stop syncing because the channel lists use all the sync space."
@@ -288,8 +298,8 @@
     "description": "Card title. Keep 'Whitelist' in English."
   },
   "channelWhitelistTooltip": {
-    "message": "Whitelisted channels bypass all active filters. Add a channel from the button below or from the header button while on a channel page or video. Removing a chip immediately re-applies all filters to that channel. Shorts are always filtered regardless",
-    "description": "Tooltip of the Channel Whitelist card. A chip is one listed channel with a remove button."
+    "message": "Whitelisted channels bypass all active filters. Add a channel from the button below or from the header button while on a channel page or video. The full list opens on its own page, where you can search, remove and move channels. Shorts are always filtered regardless",
+    "description": "Tooltip of the Channel Whitelist card."
   },
   "channelWhitelistDescription": {
     "message": "Channels listed here will not be filtered. Shorts are always filtered regardless",
@@ -304,16 +314,16 @@
     "description": "Button that adds the channel of the open YouTube tab to the list. Keep the leading '+'."
   },
   "channelListsSyncPaused": {
-    "message": "Sync paused: too many channels to sync across devices. Your lists are saved in this browser, and syncing resumes once they fit again",
-    "description": "Notice shown when the channel lists are too large to sync across devices."
+    "message": "Sync paused: your lists are too large to sync to your other devices. Nothing is lost: everything keeps working in this browser, and syncing resumes once they fit again",
+    "description": "Notice in the list cards when the lists are too large to sync across devices. It must make clear that nothing is lost."
   },
   "channelBlacklistTitle": {
     "message": "Channel Blacklist",
     "description": "Card title. Keep 'Blacklist' in English."
   },
   "channelBlacklistTooltip": {
-    "message": "Blacklisted channels are always hidden, regardless of any other filter. Add a channel from the button below or from the header button while on a channel page or video. Removing a chip immediately shows that channel's videos again. Shorts are always filtered regardless",
-    "description": "Tooltip of the Channel Blacklist card. A chip is one listed channel with a remove button."
+    "message": "Blacklisted channels are always hidden, regardless of any other filter. Add a channel from the button below or from the header button while on a channel page or video. The full list opens on its own page, where you can search, remove and move channels. Shorts are always filtered regardless",
+    "description": "Tooltip of the Channel Blacklist card."
   },
   "channelBlacklistDescription": {
     "message": "Channels listed here are always hidden, everywhere. Shorts are always filtered regardless",
@@ -482,16 +492,6 @@
     "description": "Hint under the '+ Add current channel' button of the Channel Blacklist. Keep 'blacklisted' close to the English word.",
     "placeholders": {
       "channel": {
-        "content": "$1",
-        "example": "@veritasium"
-      }
-    }
-  },
-  "chipRemoveLabel": {
-    "message": "Remove $item$",
-    "description": "Accessible label of the x button on a list chip.",
-    "placeholders": {
-      "item": {
         "content": "$1",
         "example": "@veritasium"
       }
@@ -1752,12 +1752,24 @@
     "description": "Tour step text for the Upload Date Filter card."
   },
   "tourChannelWhitelistDescription": {
-    "message": "Exempt your favorite channels from every filter. Add the current channel with one click, or remove a chip to re-apply filters immediately.",
-    "description": "Tour step text for the Channel Whitelist card. A chip is one listed channel with a remove button."
+    "message": "Exempt your favorite channels from every filter. Add the current channel with one click, and use $manage$ to search, remove or move channels on a page of their own.",
+    "description": "Tour step text for the Channel Whitelist card. The placeholder is the Manage button label (markedWatchedManage).",
+    "placeholders": {
+      "manage": {
+        "content": "$1",
+        "example": "Manage"
+      }
+    }
   },
   "tourChannelBlacklistDescription": {
-    "message": "The opposite of Whitelist: always hide a channel everywhere, including Shorts, Mixes, Playlists and Lives. Add the current channel with one click, or remove a chip to show it again immediately.",
-    "description": "Tour step text for the Channel Blacklist card. Keep 'Whitelist' in English."
+    "message": "The opposite of Whitelist: always hide a channel everywhere, including Shorts, Mixes, Playlists and Lives. Add the current channel with one click, and use $manage$ to see the full list on a page of its own.",
+    "description": "Tour step text for the Channel Blacklist card. Keep 'Whitelist' in English. The placeholder is the Manage button label (markedWatchedManage).",
+    "placeholders": {
+      "manage": {
+        "content": "$1",
+        "example": "Manage"
+      }
+    }
   },
   "tourTitleWhitelistDescription": {
     "message": "Exempt videos by a word in their title instead of by channel. Every video whose title contains one of your words is left alone by every filter.",
