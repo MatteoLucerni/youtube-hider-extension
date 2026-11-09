@@ -1,5 +1,12 @@
 # Changelog
 
+### Version 3.7.1
+
+**Fixed**
+
+- **Mark several videos as watched in a row, without waiting.** After clicking **Watched** on a video, its 3-second countdown used to block the button on every other video until it finished, so marking five videos took fifteen seconds. Each countdown now stays on its own video with its own **Undo**, and the button appears on the next video right away, so all the countdowns run at the same time. The same goes for **Blacklist** on the thumbnails
+- When several videos were marked as watched at the same moment, one of them could lose its title and channel on the Manage page. Those details are now saved one after another, so none is lost
+
 ### Version 3.7.0
 
 **Added**

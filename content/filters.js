@@ -9,7 +9,7 @@ function preventHoverPreviewOnDimmedItems() {
 
     const isDimmedTarget =
       prefs.dimMode && e.target.closest('[data-yt-hider-dimmed]');
-    const isBlacklistPillTarget = hoverPillEl && hoverPillEl.contains(e.target);
+    const isBlacklistPillTarget = !!e.target.closest('.yt-hider-blacklist-hover-wrapper');
 
     if (isDimmedTarget || isBlacklistPillTarget) {
       e.stopPropagation();

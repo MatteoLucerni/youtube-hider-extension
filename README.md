@@ -34,7 +34,7 @@ Hide videos you've already watched from Home, Channel pages, Subscriptions, Sear
 
 ### Mark as Watched
 
-YouTube does not always show a progress bar on a video you already watched, and it never shows one for a video you watched on another account. Hover the video and click **Watched**, next to **Blacklist** at the top of the thumbnail, to hide it the same way. The button runs a 3-second countdown with **Undo** before anything is hidden.
+YouTube does not always show a progress bar on a video you already watched, and it never shows one for a video you watched on another account. Hover the video and click **Watched**, next to **Blacklist** at the top of the thumbnail, to hide it the same way. The button runs a 3-second countdown with **Undo** before anything is hidden, and you can move straight on to the next video: every countdown runs on its own.
 
 - Marked videos follow the **Hide Watched Videos** card: they are hidden only where that card is active (slider above 0 and the page's toggle on), and the **Watched** button only appears there
 - A marked video stays hidden even when its channel or title is whitelisted, since marking it is a choice about that one video

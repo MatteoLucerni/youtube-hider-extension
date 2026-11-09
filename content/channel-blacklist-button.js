@@ -37,6 +37,10 @@ function injectInlineBlacklistStyles() {
       max-width: 100%;
       min-width: 0;
     }
+    .yt-hider-blacklist-hover-wrapper .yt-hider-hover-pill-btn-dormant {
+      visibility: hidden;
+      pointer-events: none;
+    }
     .yt-hider-blacklist-hover-wrapper.yt-hider-blacklist-pill-quick {
       animation: yt-hider-blacklist-pill-quick-in 90ms ease-out;
     }
@@ -135,7 +139,7 @@ let hoverPillEl = null;
 let hoverPillContainer = null;
 let hoverPillAnchor = null;
 let hoverPillButtons = [];
-let hoverPillPending = false;
+let detachedHoverPills = [];
 let lastMouseClientX = 0;
 let lastMouseClientY = 0;
 let hoverPillWatchdog = null;
@@ -145,6 +149,9 @@ let hoverPillScrollIdleTimer = null;
 
 const HOVER_PILL_TOP_OFFSET = 14;
 const HOVER_PILL_SCROLL_IDLE_MS = 100;
+const HOVER_PILL_WRAPPER_CLASS = 'yt-hider-blacklist-hover-wrapper';
+const HOVER_PILL_DETACHED_CLASS = 'yt-hider-blacklist-pill-detached';
+const HOVER_PILL_DORMANT_BUTTON_CLASS = 'yt-hider-hover-pill-btn-dormant';
 
 function trackMouseForHoverPillWatchdog(e) {
   lastMouseClientX = e.clientX;
@@ -159,29 +166,35 @@ function getHoverPillViewportTop() {
   return rect.bottom;
 }
 
-function setHoverPillHidden(hidden) {
-  if (!hoverPillEl) return;
-  hoverPillEl.classList.toggle('yt-hider-blacklist-pill-hidden', hidden);
+function setHoverPillHidden(el, hidden) {
+  if (!el) return;
+  el.classList.toggle('yt-hider-blacklist-pill-hidden', hidden);
 }
 
-function positionHoverPill() {
-  if (!hoverPillEl || !hoverPillAnchor) return;
-  if (!hoverPillAnchor.isConnected) {
-    removeBlacklistHoverButton();
-    return;
-  }
-  const rect = hoverPillAnchor.getBoundingClientRect();
+function placeHoverPill(el, anchor) {
+  if (!anchor || !anchor.isConnected) return false;
+  const rect = anchor.getBoundingClientRect();
   const top = rect.top + HOVER_PILL_TOP_OFFSET;
 
   if (top < getHoverPillViewportTop() || top > window.innerHeight) {
-    setHoverPillHidden(true);
-    return;
+    setHoverPillHidden(el, true);
+    return true;
   }
 
-  setHoverPillHidden(false);
-  hoverPillEl.style.left = rect.left + rect.width / 2 + 'px';
-  hoverPillEl.style.top = top + 'px';
-  hoverPillEl.style.maxWidth = Math.max(24, rect.width - 12) + 'px';
+  setHoverPillHidden(el, false);
+  el.style.left = rect.left + rect.width / 2 + 'px';
+  el.style.top = top + 'px';
+  el.style.maxWidth = Math.max(24, rect.width - 12) + 'px';
+  return true;
+}
+
+function positionHoverPill() {
+  if (hoverPillEl && !placeHoverPill(hoverPillEl, hoverPillAnchor)) {
+    clearBlacklistHoverButton();
+  }
+  detachedHoverPills.slice().forEach(pill => {
+    if (!placeHoverPill(pill.el, pill.anchor)) removeDetachedHoverPill(pill, true);
+  });
 }
 
 function schedulePositionHoverPill() {
@@ -192,27 +205,7 @@ function schedulePositionHoverPill() {
   });
 }
 
-function onHoverPillScroll() {
-  hoverPillScrolling = true;
-  if (hoverPillScrollIdleTimer) clearTimeout(hoverPillScrollIdleTimer);
-  hoverPillScrollIdleTimer = setTimeout(onHoverPillScrollIdle, HOVER_PILL_SCROLL_IDLE_MS);
-  if (!hoverPillEl) return;
-  if (hoverPillPending) {
-    setHoverPillHidden(true);
-    return;
-  }
-  clearBlacklistHoverButton();
-}
-
-function onHoverPillScrollIdle() {
-  hoverPillScrollIdleTimer = null;
-  hoverPillScrolling = false;
-  if (hoverPillPending) {
-    positionHoverPill();
-    return;
-  }
-  if (hoverPillEl) return;
-
+function showHoverPillAtPointer() {
   const stack = document.elementsFromPoint(lastMouseClientX, lastMouseClientY);
   for (const el of stack) {
     tryShowBlacklistHoverPill(el, true);
@@ -220,22 +213,40 @@ function onHoverPillScrollIdle() {
   }
 }
 
+function onHoverPillScroll() {
+  hoverPillScrolling = true;
+  if (hoverPillScrollIdleTimer) clearTimeout(hoverPillScrollIdleTimer);
+  hoverPillScrollIdleTimer = setTimeout(onHoverPillScrollIdle, HOVER_PILL_SCROLL_IDLE_MS);
+  detachedHoverPills.forEach(pill => setHoverPillHidden(pill.el, true));
+  if (hoverPillEl) clearBlacklistHoverButton();
+}
+
+function onHoverPillScrollIdle() {
+  hoverPillScrollIdleTimer = null;
+  hoverPillScrolling = false;
+  positionHoverPill();
+  if (!hoverPillEl) showHoverPillAtPointer();
+}
+
 function startHoverPillWatchdog() {
   if (hoverPillWatchdog) return;
   hoverPillWatchdog = setInterval(() => {
-    positionHoverPill();
-    if (!hoverPillContainer || hoverPillPending) return;
-    const rect = hoverPillContainer.getBoundingClientRect();
-    const stillInside =
-      lastMouseClientX >= rect.left &&
-      lastMouseClientX <= rect.right &&
-      lastMouseClientY >= rect.top &&
-      lastMouseClientY <= rect.bottom;
-    if (!stillInside) clearBlacklistHoverButton();
+    if (!hoverPillScrolling) positionHoverPill();
+    if (hoverPillContainer) {
+      const rect = hoverPillContainer.getBoundingClientRect();
+      const stillInside =
+        lastMouseClientX >= rect.left &&
+        lastMouseClientX <= rect.right &&
+        lastMouseClientY >= rect.top &&
+        lastMouseClientY <= rect.bottom;
+      if (!stillInside) clearBlacklistHoverButton();
+    }
+    stopHoverPillWatchdogIfIdle();
   }, 400);
 }
 
-function stopHoverPillWatchdog() {
+function stopHoverPillWatchdogIfIdle() {
+  if (hoverPillEl || detachedHoverPills.length) return;
   if (hoverPillWatchdog) {
     clearInterval(hoverPillWatchdog);
     hoverPillWatchdog = null;
@@ -260,12 +271,6 @@ function isHoverPillButtonPending(btn) {
   return HOVER_PILL_PENDING_CLASSES.some(cls => btn.classList.contains(cls));
 }
 
-function cancelHoverPillPending() {
-  hoverPillButtons.forEach(btn => {
-    if (btn.ytHiderCancelPending) btn.ytHiderCancelPending();
-  });
-}
-
 function isContainerAlreadyFiltered(container) {
   return !!(container.dataset.ytHiderHidden || container.dataset.ytHiderDimmed);
 }
@@ -279,66 +284,106 @@ function getHoverThumbnailAnchor(container) {
   );
 }
 
-function clearBlacklistHoverButton() {
-  stopHoverPillWatchdog();
-  if (hoverPillEl) hoverPillEl.remove();
+function findDetachedHoverPill(match) {
+  return detachedHoverPills.find(pill => pill.el === match || pill.container === match) || null;
+}
+
+function detachHoverPill() {
+  if (!hoverPillEl) return;
+  const pill = {
+    el: hoverPillEl,
+    container: hoverPillContainer,
+    anchor: hoverPillAnchor,
+    buttons: hoverPillButtons,
+  };
+  pill.el.classList.add(HOVER_PILL_DETACHED_CLASS);
+  pill.buttons.forEach(btn => {
+    if (!isHoverPillButtonPending(btn)) btn.classList.add(HOVER_PILL_DORMANT_BUTTON_CLASS);
+  });
+  detachedHoverPills.push(pill);
   hoverPillEl = null;
   hoverPillContainer = null;
   hoverPillAnchor = null;
   hoverPillButtons = [];
 }
 
+function removeDetachedHoverPill(pill, cancelPending) {
+  const index = detachedHoverPills.indexOf(pill);
+  if (index === -1) return;
+  detachedHoverPills.splice(index, 1);
+  if (cancelPending) {
+    pill.buttons.forEach(btn => {
+      if (btn.ytHiderCancelPending) btn.ytHiderCancelPending();
+    });
+  }
+  pill.el.remove();
+  stopHoverPillWatchdogIfIdle();
+}
+
+function clearBlacklistHoverButton() {
+  if (hoverPillEl) hoverPillEl.remove();
+  hoverPillEl = null;
+  hoverPillContainer = null;
+  hoverPillAnchor = null;
+  hoverPillButtons = [];
+  stopHoverPillWatchdogIfIdle();
+}
+
 function removeBlacklistHoverButton() {
-  cancelHoverPillPending();
-  hoverPillPending = false;
+  detachedHoverPills.slice().forEach(pill => removeDetachedHoverPill(pill, true));
   clearBlacklistHoverButton();
 }
 
 function showBlacklistHoverButton(container, actions, quick) {
-  if (hoverPillPending) return;
   if (hoverPillContainer === container && hoverPillEl) return;
 
   clearBlacklistHoverButton();
   document
-    .querySelectorAll('.yt-hider-blacklist-hover-wrapper')
+    .querySelectorAll(`.${HOVER_PILL_WRAPPER_CLASS}:not(.${HOVER_PILL_DETACHED_CLASS})`)
     .forEach(stray => stray.remove());
 
   const anchor = getHoverThumbnailAnchor(container);
 
   const wrapper = document.createElement('div');
-  wrapper.className = 'yt-hider-blacklist-hover-wrapper';
+  wrapper.className = HOVER_PILL_WRAPPER_CLASS;
   if (quick) wrapper.classList.add('yt-hider-blacklist-pill-quick');
 
-  const buttons = [];
-  const onCommit = committed => () => {
-    if (hoverPillEl !== wrapper) return;
-    hoverPillPending = buttons.some(btn => btn !== committed.btn && isHoverPillButtonPending(btn));
-    if (!hoverPillPending) clearBlacklistHoverButton();
+  const onCommit = () => {
+    const detached = findDetachedHoverPill(wrapper);
+    if (detached) removeDetachedHoverPill(detached, false);
+    else if (hoverPillEl === wrapper) clearBlacklistHoverButton();
   };
 
+  const buttons = [];
   if (actions.videoId) {
-    const committed = {};
-    committed.btn = createMarkWatchedButton(
-      actions.videoId,
-      () => ({
-        title: extractTitleFromContainer(container),
-        channel: resolveChannelForElement(container),
-      }),
-      onCommit(committed),
+    buttons.push(
+      createMarkWatchedButton(
+        actions.videoId,
+        () => ({
+          title: extractTitleFromContainer(container),
+          channel: resolveChannelForElement(container),
+        }),
+        onCommit,
+      ),
     );
-    buttons.push(committed.btn);
   }
   if (actions.channel) {
-    const committed = {};
-    committed.btn = createBlacklistButton(actions.channel, onCommit(committed));
-    buttons.push(committed.btn);
+    buttons.push(createBlacklistButton(actions.channel, onCommit));
   }
 
   const solid = !isContainerAlreadyFiltered(container);
   buttons.forEach(btn => {
     if (solid) btn.classList.add('yt-hider-blacklist-btn--solid');
     btn.addEventListener('click', () => {
-      hoverPillPending = buttons.some(isHoverPillButtonPending);
+      const detached = findDetachedHoverPill(wrapper);
+      if (isHoverPillButtonPending(btn)) {
+        if (!detached && hoverPillEl === wrapper) detachHoverPill();
+        return;
+      }
+      if (detached) {
+        removeDetachedHoverPill(detached, false);
+        showHoverPillAtPointer();
+      }
     });
     wrapper.appendChild(btn);
   });
@@ -353,15 +398,6 @@ function showBlacklistHoverButton(container, actions, quick) {
 }
 
 function tryShowBlacklistHoverPill(target, quick) {
-  if (hoverPillPending) {
-    if (hoverPillContainer && !hoverPillContainer.isConnected) {
-      cancelHoverPillPending();
-      hoverPillPending = false;
-      clearBlacklistHoverButton();
-    } else {
-      return;
-    }
-  }
   const pathname = window.location.pathname;
   if (!isHoverPillEligible(pathname)) return;
   if (!target || !target.closest) return;
@@ -372,6 +408,7 @@ function tryShowBlacklistHoverPill(target, quick) {
   const container = findOutermostMatch(target, getVideoContainerSelectors());
   if (!container) return;
   if (hoverPillContainer === container && hoverPillEl) return;
+  if (findDetachedHoverPill(container)) return;
 
   const actions = { channel: null, videoId: null };
   if (isBlacklistHoverEligible(pathname)) {
@@ -393,7 +430,6 @@ function handleBlacklistHoverOver(e) {
 }
 
 function handleBlacklistHoverOut(e) {
-  if (hoverPillPending) return;
   if (!hoverPillContainer) return;
   if (!e.target || !hoverPillContainer.contains(e.target)) return;
 
