@@ -207,17 +207,36 @@ function hasMarkedWatchedVideos() {
   return Array.isArray(prefs.markedWatched) && prefs.markedWatched.length > 0;
 }
 
-function updateMarkedWatchedMeta(mutate) {
+let markedWatchedMetaQueue = Promise.resolve();
+
+function runMarkedWatchedMetaUpdate(mutate, done) {
   try {
     chrome.storage.local.get(MARKED_WATCHED_META_KEY, result => {
-      if (chrome.runtime.lastError) return;
-      const meta = pruneMarkedWatchedMeta(result && result[MARKED_WATCHED_META_KEY], prefs.markedWatched);
-      if (!mutate(meta)) return;
-      safeStorageSet('local', { [MARKED_WATCHED_META_KEY]: meta });
+      try {
+        if (chrome.runtime.lastError) return done();
+        const meta = pruneMarkedWatchedMeta(result && result[MARKED_WATCHED_META_KEY], prefs.markedWatched);
+        if (!mutate(meta)) return done();
+        chrome.storage.local.set({ [MARKED_WATCHED_META_KEY]: meta }, () => {
+          if (chrome.runtime.lastError) {
+            logger.warn('Storage set failed:', chrome.runtime.lastError.message);
+          }
+          done();
+        });
+      } catch (e) {
+        logger.warn('Could not update marked watched metadata (context invalidated?)', e);
+        done();
+      }
     });
   } catch (e) {
     logger.warn('Could not update marked watched metadata (context invalidated?)', e);
+    done();
   }
+}
+
+function updateMarkedWatchedMeta(mutate) {
+  markedWatchedMetaQueue = markedWatchedMetaQueue.then(
+    () => new Promise(resolve => runMarkedWatchedMetaUpdate(mutate, resolve)),
+  );
 }
 
 function setVideoMarkedWatched(videoId, shouldMark, details) {
