@@ -1,5 +1,6 @@
 const TIMING = {
   DEBOUNCE_MUTATIONS: 100,
+  MUTATIONS_MAX_WAIT: 300,
   PAGE_CHANGE_DELAY: 100,
   ELEMENT_POLL_INTERVAL: 50,
 };
@@ -12,6 +13,7 @@ const prefs = {
   hideSearchEnabled: true,
   hideSubsEnabled: true,
   hideCorrEnabled: true,
+  hideWatchedKeepMusic: false,
   viewsHideThreshold: 1000,
   viewsHideMaxThreshold: 0,
   viewsHideHomeEnabled: true,
@@ -52,6 +54,7 @@ const FILTER_REAPPLY_KEYS = new Set([
   'hideSearchEnabled',
   'hideSubsEnabled',
   'hideCorrEnabled',
+  'hideWatchedKeepMusic',
   'viewsHideThreshold',
   'viewsHideMaxThreshold',
   'viewsHideHomeEnabled',

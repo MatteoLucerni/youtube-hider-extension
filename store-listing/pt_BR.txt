@@ -1,7 +1,7 @@
 O YouTube Hider ajuda você a limpar o YouTube ocultando o que você não quer ver.
 Remova automaticamente os vídeos assistidos, filtre por visualizações ou data de envio e elimine Shorts, Mixes, playlists e lives: tudo com controles simples e personalizáveis que acompanham você em todos os dispositivos.
 
-✔ Oculte vídeos assistidos de acordo com o limite de progresso que você escolher
+✔ Oculte vídeos assistidos de acordo com o limite de progresso que você escolher e, se quiser, deixe as músicas visíveis para ouvir de novo
 ✔ Marque qualquer vídeo como assistido com um clique, mesmo quando o YouTube não mostra a barra de progresso ou você assistiu em outra conta
 ✔ Gerencie seus vídeos marcados em uma página própria: pesquise, remova, desfaça, exporte e importe
 ✔ Filtre vídeos pelo número de visualizações: poucas demais, muitas demais, ou ambos

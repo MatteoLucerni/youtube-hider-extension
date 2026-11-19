@@ -77,6 +77,12 @@
   "hideWatchedRelatedTooltip": {
     "message": "Blendet gesehene Videos in der Seitenleiste mit ähnlichen Videos aus"
   },
+  "keepMusicLabel": {
+    "message": "Musik sichtbar lassen"
+  },
+  "keepMusicTooltip": {
+    "message": "Songs, die du schon gehört hast, bleiben sichtbar, damit du sie erneut abspielen kannst. Ein Video gilt als Song, wenn YouTube selbst es als Musik kennzeichnet. Videos, die du als gesehen markiert hast, bleiben ausgeblendet"
+  },
   "markedWatchedLabel": {
     "message": "Als gesehen markiert"
   },

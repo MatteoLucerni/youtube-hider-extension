@@ -32,6 +32,8 @@
 
 Hide videos you've already watched from Home, Channel pages, Subscriptions, Search results and Related videos. Set a custom threshold (0-100%) to define how much you need to have watched before a video is hidden.
 
+Turn on **Keep music visible** in the same card to leave the songs you have already listened to on the page, so you can play them again. A video counts as a song when YouTube itself labels it as music, which is a label on the video rather than on the channel. The switch is off by default, applies only to this filter, and never brings back a video you marked as watched by hand.
+
 ### Mark as Watched
 
 YouTube does not always show a progress bar on a video you already watched, and it never shows one for a video you watched on another account. Hover the video and click **Watched**, next to **Blacklist** at the top of the thumbnail, to hide it the same way. The button runs a 3-second countdown with **Undo** before anything is hidden, and you can move straight on to the next video: every countdown runs on its own.
@@ -191,7 +193,7 @@ youtube-hider-extension
 │       ├── youtube-hider-logo.png
 │       └── YT Hider icon v6.png
 ├── content/
-│   ├── page-bridge.js     MAIN-world script: caches video-id-to-channel mappings from YouTube's internal data
+│   ├── page-bridge.js     MAIN-world script: caches video-id-to-channel mappings and music video IDs from YouTube's internal data
 │   ├── env.js             DEV_MODE flag
 │   ├── utils.js           Shared utilities (debounce, logger, safe storage)
 │   ├── i18n.js            Translation helpers: messages, plurals, number and date formatting
@@ -237,7 +239,7 @@ youtube-hider-extension
 
 ## How It Works
 
-1. **Content scripts** (13 files in `content/`) load on YouTube pages in the order defined by `manifest.json`. They share a global scope via Chrome's isolated world. `page-bridge.js` is the exception: it runs in the page's `MAIN` world at `document_start` to read YouTube's own internal data and expose a video-id-to-channel cache via a DOM attribute, since the isolated world can read the DOM but not the page's JavaScript globals.
+1. **Content scripts** (13 files in `content/`) load on YouTube pages in the order defined by `manifest.json`. They share a global scope via Chrome's isolated world. `page-bridge.js` is the exception: it runs in the page's `MAIN` world at `document_start` to read YouTube's own internal data and expose a video-id-to-channel cache and the IDs of videos YouTube labels as music via DOM attributes, since the isolated world can read the DOM but not the page's JavaScript globals.
 2. A **MutationObserver** watches for DOM changes and triggers hiding/filtering logic based on your preferences.
 3. Settings are stored in `chrome.storage.sync`, so they follow you across devices. The Channel Whitelist, Channel Blacklist, Title Whitelist and Title Blacklist are the exception: they live in `chrome.storage.local`, and the service worker mirrors them into `chrome.storage.sync` in one compact, compressed payload split into chunks, so they sync too without being capped by the 8 KB per-item sync quota. The marked watched videos work the same way, with their titles and channels kept in `chrome.storage.local` only.
 4. The **header button** (`content/header-button.js`) uses a closed Shadow DOM to encapsulate its styles from the host page. Its settings dropdown embeds `popup/popup.html` in an `<iframe>`, created fresh on every open, so the dropdown is always the same, unmodified popup UI.

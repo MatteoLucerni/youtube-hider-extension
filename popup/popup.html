@@ -399,6 +399,44 @@
                 </div>
               </div>
 
+              <div class="toggle-grid keep-music-grid" id="keep-music-grid">
+                <div class="toggle-item">
+                  <label class="toggle-label" for="hide-watched-keep-music">
+                    <div class="label-content">
+                      <span data-i18n="keepMusicLabel" class="toggle-text">Keep music visible</span>
+                      <div class="tooltip-container">
+                        <svg
+                          xmlns="http://www.w3.org/2000/svg"
+                          width="12"
+                          height="12"
+                          viewBox="0 0 24 24"
+                          fill="none"
+                          stroke="currentColor"
+                          stroke-width="2"
+                          stroke-linecap="round"
+                          stroke-linejoin="round"
+                          class="info-icon"
+                        >
+                          <circle cx="12" cy="12" r="10"></circle>
+                          <path d="M9.09 9a3 3 0 0 1 5.83 1c0 2-3 3-3 3"></path>
+                          <line x1="12" y1="17" x2="12.01" y2="17"></line>
+                        </svg>
+                        <span data-i18n="keepMusicTooltip" class="tooltip-text"
+                          >Songs you have already listened to stay visible, so
+                          you can play them again. A video counts as a song
+                          when YouTube itself labels it as music. Videos you
+                          marked as watched stay hidden</span
+                        >
+                      </div>
+                    </div>
+                    <div class="toggle-switch">
+                      <input type="checkbox" id="hide-watched-keep-music" />
+                      <span class="toggle-slider"></span>
+                    </div>
+                  </label>
+                </div>
+              </div>
+
               <div class="marked-watched-row">
                 <div class="marked-watched-info">
                   <div class="label-content">

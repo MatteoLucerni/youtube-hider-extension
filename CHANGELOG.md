@@ -1,5 +1,15 @@
 # Changelog
 
+### Version 3.8.0
+
+**Added**
+
+- **Keep music visible.** A new switch in the Hide Watched Videos card leaves the songs you have already listened to on the page, so you can play them again, while every other watched video is still hidden. A video counts as a song when YouTube itself labels it as music: the same label YouTube shows next to the length of a song, read from YouTube's own data, so it works the same in every language. That label belongs to the video, not to the channel, so a song posted by a fan channel stays visible while an interview posted by an artist's official channel is still hidden. The switch is off by default, so nothing changes until you turn it on. It applies only to Hide Watched Videos: the Views Filter, the Upload Date Filter and the lists keep filtering songs as before, and a song you marked as watched by hand stays hidden
+
+**Fixed**
+
+- **Videos opened in a background tab are filtered as soon as you switch to them.** A video opened with Ctrl+click or the middle button briefly showed already watched videos in its related videos column when you switched to its tab, before they were hidden. Chrome slows down the timers of a tab in the background, and the extension waited for the page to stop changing before filtering it, so while YouTube kept updating the page the filtering could be postponed again and again. The extension now filters the moment a tab becomes visible, and while the page keeps changing it filters at least every 300 ms instead of waiting for it to settle
+
 ### Version 3.7.1
 
 **Fixed**

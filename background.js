@@ -57,6 +57,7 @@ const defaultSettings = {
   hideSearchEnabled: true,
   hideSubsEnabled: true,
   hideCorrEnabled: true,
+  hideWatchedKeepMusic: false,
   viewsHideThreshold: 1000,
   viewsHideMaxThreshold: 0,
   viewsHideHomeEnabled: true,

@@ -77,6 +77,12 @@
   "hideWatchedRelatedTooltip": {
     "message": "Menyembunyikan video yang sudah ditonton di sidebar video terkait"
   },
+  "keepMusicLabel": {
+    "message": "Tetap tampilkan musik"
+  },
+  "keepMusicTooltip": {
+    "message": "Lagu yang sudah Anda dengarkan tetap terlihat, sehingga Anda bisa memutarnya lagi. Sebuah video dianggap lagu jika YouTube sendiri menandainya sebagai musik. Video yang Anda tandai sebagai sudah ditonton tetap tersembunyi"
+  },
   "markedWatchedLabel": {
     "message": "Ditandai sudah ditonton"
   },

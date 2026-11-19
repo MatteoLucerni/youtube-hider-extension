@@ -77,6 +77,12 @@
   "hideWatchedRelatedTooltip": {
     "message": "Oculta los videos vistos en la barra lateral de videos relacionados"
   },
+  "keepMusicLabel": {
+    "message": "Mantener visible la música"
+  },
+  "keepMusicTooltip": {
+    "message": "Las canciones que ya escuchaste siguen visibles, para que puedas volver a reproducirlas. Un video cuenta como canción cuando el propio YouTube lo etiqueta como música. Los videos que marcaste como vistos siguen ocultos"
+  },
   "markedWatchedLabel": {
     "message": "Marcados como vistos"
   },

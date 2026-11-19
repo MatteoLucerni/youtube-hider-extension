@@ -103,6 +103,14 @@
     "message": "Hides watched videos in the 'Related Videos' sidebar",
     "description": "Tooltip of the Related toggle in the Hide Watched Videos card."
   },
+  "keepMusicLabel": {
+    "message": "Keep music visible",
+    "description": "Label of the toggle in the Hide Watched Videos card that exempts videos YouTube labels as music."
+  },
+  "keepMusicTooltip": {
+    "message": "Songs you have already listened to stay visible, so you can play them again. A video counts as a song when YouTube itself labels it as music. Videos you marked as watched stay hidden",
+    "description": "Tooltip of the Keep music visible toggle in the Hide Watched Videos card."
+  },
   "markedWatchedLabel": {
     "message": "Marked as watched",
     "description": "Label of the row that shows how many videos were marked as watched by hand."

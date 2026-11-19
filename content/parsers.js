@@ -1990,6 +1990,30 @@ function readChannelIdentityCacheFromDOM() {
   }
 }
 
+let ytMusicVideoIds = new Set();
+const YT_HIDER_MUSIC_CACHE_ATTR = 'data-yt-hider-music-cache';
+
+function readMusicCacheFromDOM() {
+  try {
+    const root = document.documentElement;
+    if (!root) return [];
+    const raw = root.getAttribute(YT_HIDER_MUSIC_CACHE_ATTR);
+    if (!raw) return [];
+    const data = JSON.parse(raw);
+    if (!Array.isArray(data)) return [];
+    const next = new Set(data.filter(id => typeof id === 'string' && VIDEO_ID_PATTERN.test(id)));
+    const added = [...next].filter(id => !ytMusicVideoIds.has(id));
+    ytMusicVideoIds = next;
+    return added;
+  } catch (_) {
+    return [];
+  }
+}
+
+function isMusicVideo(videoId) {
+  return !!videoId && ytMusicVideoIds.has(videoId);
+}
+
 function resolveChannelIdentity(channel) {
   if (!channel) return channel;
   if (Array.isArray(channel)) return channel.map(c => ytChannelIdentityCache[c] || c);

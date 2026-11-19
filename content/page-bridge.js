@@ -1,14 +1,19 @@
 (function () {
   const ATTR = 'data-yt-hider-channel-cache';
   const CHANNEL_ID_ATTR = 'data-yt-hider-channelid-cache';
+  const MUSIC_ATTR = 'data-yt-hider-music-cache';
   const cache = {};
   const channelIdCache = {};
   const videoCacheOrder = [];
   const channelIdCacheOrder = [];
   const VIDEO_CACHE_MAX = 2000;
   const CHANNEL_ID_CACHE_MAX = 1000;
+  const musicVideoIds = new Set();
+  const musicVideoOrder = [];
+  const MUSIC_CACHE_MAX = 2000;
   let cacheDirty = false;
   let channelIdCacheDirty = false;
+  let musicCacheDirty = false;
 
   function cacheInsert(store, order, key, value, max) {
     if (!(key in store)) {
@@ -33,6 +38,39 @@
       cacheInsert(channelIdCache, channelIdCacheOrder, key, handle, CHANNEL_ID_CACHE_MAX);
       channelIdCacheDirty = true;
     }
+  }
+
+  function rememberMusicVideo(id) {
+    if (!id || musicVideoIds.has(id)) return;
+    musicVideoIds.add(id);
+    musicVideoOrder.push(id);
+    if (musicVideoOrder.length > MUSIC_CACHE_MAX) {
+      musicVideoIds.delete(musicVideoOrder.shift());
+    }
+    musicCacheDirty = true;
+  }
+
+  function lockupHasMusicBadge(lockup) {
+    const thumbnail = lockup && lockup.contentImage && lockup.contentImage.thumbnailViewModel;
+    const overlays = thumbnail && thumbnail.overlays;
+    if (!Array.isArray(overlays)) return false;
+    return overlays.some(overlay =>
+      overlay && typeof overlay === 'object' && Object.values(overlay).some(holder =>
+        holder && Array.isArray(holder.badges) && holder.badges.some(badge => {
+          const sources = badge && badge.thumbnailBadgeViewModel &&
+            badge.thumbnailBadgeViewModel.icon && badge.thumbnailBadgeViewModel.icon.sources;
+          return Array.isArray(sources) && sources.some(source =>
+            source && source.clientResource && source.clientResource.imageName === 'MUSIC');
+        })));
+  }
+
+  function rendererHasMusicBadge(renderer) {
+    const overlays = renderer && renderer.thumbnailOverlays;
+    if (!Array.isArray(overlays)) return false;
+    return overlays.some(overlay => {
+      const status = overlay && overlay.thumbnailOverlayTimeStatusRenderer;
+      return !!(status && status.icon && status.icon.iconType === 'MUSIC');
+    });
   }
 
   function browseToHandle(browse) {
@@ -199,6 +237,16 @@
       }
     } catch (_) {}
     try {
+      const lockup = node.lockupViewModel;
+      if (lockup && lockup.contentId && lockupHasMusicBadge(lockup)) rememberMusicVideo(lockup.contentId);
+    } catch (_) {}
+    try {
+      ['videoRenderer', 'compactVideoRenderer', 'gridVideoRenderer'].forEach(key => {
+        const renderer = node[key];
+        if (renderer && renderer.videoId && rendererHasMusicBadge(renderer)) rememberMusicVideo(renderer.videoId);
+      });
+    } catch (_) {}
+    try {
       const id = node.lockupViewModel && node.lockupViewModel.contentId;
       if (id && !cache[id]) {
         const handle = handleFromLockup(node.lockupViewModel);
@@ -264,11 +312,11 @@
 
   let flushScheduled = false;
   function flush() {
-    if (flushScheduled || (!cacheDirty && !channelIdCacheDirty)) return;
+    if (flushScheduled || (!cacheDirty && !channelIdCacheDirty && !musicCacheDirty)) return;
     flushScheduled = true;
     Promise.resolve().then(() => {
       flushScheduled = false;
-      if (!cacheDirty && !channelIdCacheDirty) return;
+      if (!cacheDirty && !channelIdCacheDirty && !musicCacheDirty) return;
       try {
         const root = document.documentElement;
         if (!root) return;
@@ -279,6 +327,10 @@
         if (channelIdCacheDirty) {
           channelIdCacheDirty = false;
           root.setAttribute(CHANNEL_ID_ATTR, JSON.stringify(channelIdCache));
+        }
+        if (musicCacheDirty) {
+          musicCacheDirty = false;
+          root.setAttribute(MUSIC_ATTR, JSON.stringify(musicVideoOrder));
         }
       } catch (_) {}
     });

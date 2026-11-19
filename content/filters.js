@@ -685,6 +685,20 @@ function hideMarkedWatched() {
   });
 }
 
+function isKeptAsMusic(element) {
+  if (!prefs.hideWatchedKeepMusic) return false;
+  const videoId = extractVideoIdFromContainer(element);
+  return isMusicVideo(videoId) && !isVideoMarkedWatched(videoId);
+}
+
+function hasHiddenMusicVideo(videoIds) {
+  if (!prefs.hideWatchedKeepMusic || !videoIds.length) return false;
+  const ids = new Set(videoIds);
+  return Array.from(
+    document.querySelectorAll('[data-yt-hider-hidden], [data-yt-hider-dimmed]'),
+  ).some(el => ids.has(extractVideoIdFromContainer(el)));
+}
+
 function hideWatched(pathname) {
   const { hideThreshold } = prefs;
 
@@ -717,6 +731,7 @@ function hideWatched(pathname) {
 
       const item = findOutermostMatch(bar, getVideoContainerSelectors());
       if (!item) return;
+      if (isKeptAsMusic(item)) return;
 
       applyFilter(item, 'reasonAlreadyWatched');
     });
