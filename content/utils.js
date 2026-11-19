@@ -1,10 +1,17 @@
 const DEV_MODE = window.DEV_MODE ?? false;
 
-function debounce(fn, delay) {
+function debounce(fn, delay, maxWait) {
   let t;
+  let firstCallAt = 0;
   return () => {
     clearTimeout(t);
-    t = setTimeout(fn, delay);
+    const now = Date.now();
+    if (!firstCallAt) firstCallAt = now;
+    const wait = maxWait ? Math.min(delay, Math.max(0, maxWait - (now - firstCallAt))) : delay;
+    t = setTimeout(() => {
+      firstCallAt = 0;
+      fn();
+    }, wait);
   };
 }
 

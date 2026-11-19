@@ -152,7 +152,14 @@ const debouncedHiding = debounce(() => {
   if (!detectPageChange()) {
     startHiding(currentPath);
   }
-}, TIMING.DEBOUNCE_MUTATIONS);
+}, TIMING.DEBOUNCE_MUTATIONS, TIMING.MUTATIONS_MAX_WAIT);
+
+function onVisibilityChange() {
+  if (document.visibilityState !== 'visible') return;
+  if (!detectPageChange()) {
+    startHiding(currentPath);
+  }
+}
 
 function onMutations(mutations) {
   const cacheChanged = mutations.some(
@@ -212,6 +219,8 @@ async function init() {
   });
 
   logger.log('MutationObserver started');
+
+  document.addEventListener('visibilitychange', onVisibilityChange);
 
   if (isYouTube() && prefs.extensionEnabled) {
     const tutorialPending = !prefs.tutorialCompleted;
