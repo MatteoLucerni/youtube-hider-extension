@@ -163,8 +163,17 @@ function onMutations(mutations) {
       m.type === 'attributes' &&
       m.attributeName === YT_HIDER_CHANNELID_CACHE_ATTR,
   );
+  const musicCacheChanged = mutations.some(
+    m =>
+      m.type === 'attributes' &&
+      m.attributeName === YT_HIDER_MUSIC_CACHE_ATTR,
+  );
   if (cacheChanged) readChannelCacheFromDOM();
   if (channelIdCacheChanged) readChannelIdentityCacheFromDOM();
+  if (musicCacheChanged && hasHiddenMusicVideo(readMusicCacheFromDOM())) {
+    resetAppliedFilters();
+    startHiding(currentPath);
+  }
 
   ensureHeaderButton();
 
@@ -184,12 +193,17 @@ async function init() {
   logger.log('Extension initialized on', currentPath);
   readChannelCacheFromDOM();
   readChannelIdentityCacheFromDOM();
+  readMusicCacheFromDOM();
   await startHiding(currentPath);
 
   const observer = new MutationObserver(onMutations);
   observer.observe(document.documentElement, {
     attributes: true,
-    attributeFilter: [YT_HIDER_CACHE_ATTR, YT_HIDER_CHANNELID_CACHE_ATTR],
+    attributeFilter: [
+      YT_HIDER_CACHE_ATTR,
+      YT_HIDER_CHANNELID_CACHE_ATTR,
+      YT_HIDER_MUSIC_CACHE_ATTR,
+    ],
   });
   observer.observe(document.body, {
     childList: true,

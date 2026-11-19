@@ -77,6 +77,12 @@
   "hideWatchedRelatedTooltip": {
     "message": "İlgili videolar kenar çubuğundaki izlenen videoları gizler"
   },
+  "keepMusicLabel": {
+    "message": "Müzikleri görünür tut"
+  },
+  "keepMusicTooltip": {
+    "message": "Daha önce dinlediğiniz şarkılar görünür kalır, böylece onları yeniden çalabilirsiniz. Bir video, YouTube'un kendisi onu müzik olarak etiketlediğinde şarkı sayılır. İzlendi olarak işaretlediğiniz videolar gizli kalır"
+  },
   "markedWatchedLabel": {
     "message": "İzlendi olarak işaretlenenler"
   },

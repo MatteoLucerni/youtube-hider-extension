@@ -1,7 +1,7 @@
 YouTube Hider vous aide à faire le ménage sur YouTube en masquant ce que vous ne voulez pas voir.
 Retirez automatiquement les vidéos déjà vues, filtrez par nombre de vues ou date de mise en ligne, et éliminez Shorts, Mix, playlists et directs : le tout avec des réglages simples et personnalisables qui vous suivent sur tous vos appareils.
 
-✔ Masquez les vidéos vues selon le seuil de progression de votre choix
+✔ Masquez les vidéos vues selon le seuil de progression de votre choix, et gardez si vous le souhaitez les morceaux visibles pour les réécouter
 ✔ Marquez n'importe quelle vidéo comme vue en un clic, même quand YouTube n'affiche pas de barre de progression ou que vous l'avez regardée sur un autre compte
 ✔ Gérez vos vidéos marquées depuis une page dédiée : recherche, suppression, annulation, export et import
 ✔ Filtrez les vidéos par nombre de vues : trop peu, trop, ou les deux

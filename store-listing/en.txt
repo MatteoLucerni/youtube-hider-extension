@@ -1,7 +1,7 @@
 YouTube Hider helps you clean up YouTube by hiding what you don't want to see.
 Automatically remove watched videos, filter by views or upload date, and eliminate Shorts, Mixes, Playlists and live streams: all with simple, customizable controls that follow you on every device.
 
-✔ Hide watched videos based on your chosen progress threshold
+✔ Hide watched videos based on your chosen progress threshold, and keep songs visible so you can play them again
 ✔ Mark any video as watched with one click, even when YouTube shows no progress bar or you watched it on another account
 ✔ Manage your marked videos from a dedicated page: search, remove, undo, export and import
 ✔ Filter videos by view count: too few, too many, or both

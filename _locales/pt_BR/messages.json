@@ -77,6 +77,12 @@
   "hideWatchedRelatedTooltip": {
     "message": "Oculta os vídeos assistidos na barra lateral de vídeos relacionados"
   },
+  "keepMusicLabel": {
+    "message": "Manter músicas visíveis"
+  },
+  "keepMusicTooltip": {
+    "message": "As músicas que você já ouviu continuam visíveis, para você poder tocá-las de novo. Um vídeo conta como música quando o próprio YouTube o identifica como música. Os vídeos que você marcou como assistidos continuam ocultos"
+  },
   "markedWatchedLabel": {
     "message": "Marcados como assistidos"
   },

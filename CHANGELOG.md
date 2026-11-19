@@ -1,5 +1,11 @@
 # Changelog
 
+### Version 3.8.0
+
+**Added**
+
+- **Keep music visible.** A new switch in the Hide Watched Videos card leaves the songs you have already listened to on the page, so you can play them again, while every other watched video is still hidden. A video counts as a song when YouTube itself labels it as music: the same label YouTube shows next to the length of a song, read from YouTube's own data, so it works the same in every language. That label belongs to the video, not to the channel, so a song posted by a fan channel stays visible while an interview posted by an artist's official channel is still hidden. The switch is off by default, so nothing changes until you turn it on. It applies only to Hide Watched Videos: the Views Filter, the Upload Date Filter and the lists keep filtering songs as before, and a song you marked as watched by hand stays hidden
+
 ### Version 3.7.1
 
 **Fixed**

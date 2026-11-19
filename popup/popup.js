@@ -61,6 +61,7 @@ document.addEventListener('DOMContentLoaded', () => {
   const easyMixesToggle = document.getElementById('hide-mixes-easy');
   const easyPlaylistsToggle = document.getElementById('hide-playlists-easy');
   const easyLivesToggle = document.getElementById('hide-lives-easy');
+  const keepMusicToggle = document.getElementById('hide-watched-keep-music');
 
   const supportButton = document.getElementById('support-button');
   const supportModal = document.getElementById('support-modal');
@@ -229,6 +230,7 @@ document.addEventListener('DOMContentLoaded', () => {
     'titleBlacklist',
     'titleBlacklistEnabled',
     'hideInterfaceElements',
+    'hideWatchedKeepMusic',
     ...Object.values(cfg.hide.keys),
     ...Object.values(cfg.views.keys),
     ...Object.values(cfg.shorts.keys),
@@ -254,6 +256,7 @@ document.addEventListener('DOMContentLoaded', () => {
     titleWhitelistUI.setEnabled(prefs.titleWhitelistEnabled);
     titleBlacklistUI.setEnabled(prefs.titleBlacklistEnabled);
     hideOnPageControlsToggle.checked = prefs.hideInterfaceElements ?? false;
+    keepMusicToggle.checked = prefs.hideWatchedKeepMusic ?? false;
 
     ['hide', 'shorts', 'mixesPlaylists'].forEach(sectionName => {
       const section = cfg[sectionName];
@@ -405,6 +408,7 @@ document.addEventListener('DOMContentLoaded', () => {
     const settings = {
       extensionEnabled: extensionToggle.checked,
       easyModeEnabled: easyMode,
+      hideWatchedKeepMusic: keepMusicToggle.checked,
       ...Object.fromEntries(
         Object.entries(cfg.hide.keys).map(([k, key]) => [
           key,
@@ -600,6 +604,8 @@ document.addEventListener('DOMContentLoaded', () => {
     if (card) {
       const grid = card.querySelector('.toggle-grid.easy-mode-advanced');
       if (grid) grid.classList.toggle('per-page-disabled', isOff);
+      const keepMusicGrid = card.querySelector('.keep-music-grid');
+      if (keepMusicGrid) keepMusicGrid.classList.toggle('per-page-disabled', isOff);
     }
   }
 
@@ -758,6 +764,7 @@ document.addEventListener('DOMContentLoaded', () => {
     ...Object.values(cfg.shorts.boxes),
     ...Object.values(cfg.mixesPlaylists.boxes),
     ...Object.values(cfg.date.boxes),
+    keepMusicToggle,
   ].forEach(box => box.addEventListener('change', saveSettings));
 
   document

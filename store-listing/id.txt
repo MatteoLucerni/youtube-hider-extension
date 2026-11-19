@@ -1,7 +1,7 @@
 YouTube Hider membantu Anda merapikan YouTube dengan menyembunyikan apa yang tidak ingin Anda lihat.
 Hapus video yang sudah ditonton secara otomatis, filter berdasarkan penayangan atau tanggal upload, dan singkirkan Shorts, Mix, Playlist, serta live streaming: semuanya dengan kontrol sederhana dan bisa diatur yang mengikuti Anda di setiap perangkat.
 
-✔ Sembunyikan video yang sudah ditonton berdasarkan batas progres pilihan Anda
+✔ Sembunyikan video yang sudah ditonton berdasarkan batas progres pilihan Anda, dan biarkan lagu tetap terlihat agar bisa diputar lagi jika Anda mau
 ✔ Tandai video apa pun sebagai sudah ditonton dengan satu klik, bahkan saat YouTube tidak menampilkan bilah progres atau Anda menontonnya di akun lain
 ✔ Kelola video yang ditandai dari halaman khusus: telusuri, hapus, urungkan, ekspor, dan impor
 ✔ Filter video berdasarkan jumlah penayangan: terlalu sedikit, terlalu banyak, atau keduanya

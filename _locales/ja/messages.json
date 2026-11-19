@@ -77,6 +77,12 @@
   "hideWatchedRelatedTooltip": {
     "message": "関連動画のサイドバーにある視聴済み動画を非表示にします"
   },
+  "keepMusicLabel": {
+    "message": "音楽は表示したままにする"
+  },
+  "keepMusicTooltip": {
+    "message": "すでに聴いた曲は表示されたままになり、もう一度再生できます。YouTube 自体が音楽として分類している動画を曲とみなします。視聴済みにした動画は非表示のままです"
+  },
   "markedWatchedLabel": {
     "message": "視聴済みにした動画"
   },

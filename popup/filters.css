@@ -359,6 +359,10 @@
     margin-top: 5px;
 }
 
+.keep-music-grid {
+    flex: 1 1 100%;
+}
+
 .marked-watched-row {
     display: flex;
     flex: 1 1 100%;
