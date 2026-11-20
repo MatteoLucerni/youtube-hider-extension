@@ -15,6 +15,6 @@ Automatically remove watched videos, filter by views or upload date, and elimina
 ✔ Everything syncs automatically across your devices: settings, whitelists, blacklists and marked videos, with no export needed
 
 Works on Home, Channel, Subscriptions, Search and related video pages.
-Fully open source, lightweight, and data-free: sync goes through your own Chrome account, never through external servers.
+Fully open source and lightweight, with no tracking and no servers of its own: your data stays in your browser and syncs only through your own browser account.
 
 Feature, Bug or Feedback: https://forms.gle/oAqtSjQHQeEp9TFKA

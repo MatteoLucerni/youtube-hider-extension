@@ -15,6 +15,6 @@ Entferne gesehene Videos automatisch, filtere nach Aufrufen oder Upload-Datum un
 ✔ Alles wird automatisch zwischen deinen Geräten synchronisiert: Einstellungen, Whitelists, Blacklists und markierte Videos, ganz ohne Export
 
 Funktioniert auf der Startseite, auf Kanälen, in den Abos, in der Suche und bei ähnlichen Videos.
-Komplett Open Source, schlank und ohne Datensammlung: Die Synchronisierung läuft über dein eigenes Chrome-Konto, nie über fremde Server.
+Komplett Open Source und schlank, ohne Tracking und ohne eigene Server: Deine Daten bleiben in deinem Browser und werden nur über dein eigenes Browser-Konto synchronisiert.
 
 Ideen, Fehler oder Feedback: https://forms.gle/oAqtSjQHQeEp9TFKA

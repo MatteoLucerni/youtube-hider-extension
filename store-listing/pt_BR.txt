@@ -15,6 +15,6 @@ Remova automaticamente os vídeos assistidos, filtre por visualizações ou data
 ✔ Tudo é sincronizado automaticamente entre seus dispositivos: configurações, Whitelist, Blacklist e vídeos marcados, sem precisar exportar
 
 Funciona no Início, nos canais, em Inscrições, na Pesquisa e nos vídeos relacionados.
-Totalmente open source, leve e sem coleta de dados: a sincronização passa pela sua própria conta do Chrome, nunca por servidores externos.
+Totalmente open source e leve, sem rastreamento e sem servidores próprios: seus dados ficam no seu navegador e só são sincronizados pela sua própria conta do navegador.
 
 Sugestões, bugs ou feedback: https://forms.gle/oAqtSjQHQeEp9TFKA

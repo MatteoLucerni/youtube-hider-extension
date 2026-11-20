@@ -15,6 +15,6 @@ Retirez automatiquement les vidéos déjà vues, filtrez par nombre de vues ou d
 ✔ Tout se synchronise automatiquement entre vos appareils : réglages, Whitelist, Blacklist et vidéos marquées, sans aucun export
 
 Fonctionne sur l'accueil, les chaînes, les abonnements, la recherche et les vidéos suggérées.
-Entièrement open source, léger et sans collecte de données : la synchronisation passe par votre propre compte Chrome, jamais par des serveurs externes.
+Entièrement open source et léger, sans pistage et sans aucun serveur propre : vos données restent dans votre navigateur et se synchronisent uniquement via votre propre compte de navigateur.
 
 Idées, bugs ou avis : https://forms.gle/oAqtSjQHQeEp9TFKA
