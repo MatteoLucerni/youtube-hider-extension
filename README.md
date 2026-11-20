@@ -24,6 +24,10 @@
   <a href="https://ko-fi.com/D5Y424F3EB">Support on Ko-fi</a>
 </p>
 
+<p align="center">
+  <img src="store-listing/screenshots/2-before-after.png" alt="The same YouTube Home page before and after turning YouTube Hider on: the Shorts shelf is gone and the feed shows only regular videos" width="900" />
+</p>
+
 ---
 
 ## Features

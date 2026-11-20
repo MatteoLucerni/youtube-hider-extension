@@ -15,6 +15,6 @@ Hapus video yang sudah ditonton secara otomatis, filter berdasarkan penayangan a
 ✔ Semuanya disinkronkan otomatis di semua perangkat Anda: setelan, Whitelist, Blacklist, dan video yang ditandai, tanpa perlu ekspor
 
 Berfungsi di Beranda, halaman saluran, Subscription, Penelusuran, dan video terkait.
-Sepenuhnya open source, ringan, dan tanpa pengumpulan data: sinkronisasi berjalan lewat akun Chrome Anda sendiri, tidak pernah lewat server eksternal.
+Sepenuhnya open source dan ringan, tanpa pelacakan dan tanpa server sendiri: data Anda tetap di browser dan hanya disinkronkan lewat akun browser Anda sendiri.
 
 Fitur, bug, atau masukan: https://forms.gle/oAqtSjQHQeEp9TFKA

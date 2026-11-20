@@ -15,6 +15,6 @@ Rimuovi in automatico i video già visti, filtra per visualizzazioni o data di c
 ✔ Tutto si sincronizza in automatico tra i tuoi dispositivi: impostazioni, Whitelist, Blacklist e video segnati, senza bisogno di esportare
 
 Funziona su Home, pagine dei canali, Iscrizioni, Ricerca e video correlati.
-Completamente open source, leggero e senza raccolta di dati: la sincronizzazione passa dal tuo account Chrome, mai da server esterni.
+Completamente open source e leggero, senza tracciamento e senza server propri: i tuoi dati restano nel browser e si sincronizzano solo tramite il tuo account del browser.
 
 Idee, bug o feedback: https://forms.gle/oAqtSjQHQeEp9TFKA

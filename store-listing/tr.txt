@@ -15,6 +15,6 @@ YouTube Hider, görmek istemediklerinizi gizleyerek YouTube'u temizlemenize yard
 ✔ Her şey cihazlarınız arasında otomatik olarak senkronize edilir: ayarlar, Whitelist'ler, Blacklist'ler ve işaretlenen videolar, dışa aktarmaya gerek yok
 
 Ana Sayfa, kanal, Abonelikler, Arama ve ilgili video sayfalarında çalışır.
-Tamamen açık kaynaklı, hafif ve veri toplamaz: senkronizasyon dış sunucular üzerinden değil, kendi Chrome hesabınız üzerinden yapılır.
+Tamamen açık kaynaklı ve hafif; izleme yapmaz ve kendi sunucusu yoktur: verileriniz tarayıcınızda kalır ve yalnızca kendi tarayıcı hesabınız üzerinden senkronize edilir.
 
 Öneri, hata veya geri bildirim: https://forms.gle/oAqtSjQHQeEp9TFKA

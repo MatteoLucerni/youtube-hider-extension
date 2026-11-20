@@ -15,6 +15,6 @@ Quita automáticamente los videos que ya viste, filtra por vistas o fecha de sub
 ✔ Todo se sincroniza automáticamente entre tus dispositivos: configuración, Whitelist, Blacklist y videos marcados, sin exportar nada
 
 Funciona en Inicio, canales, Suscripciones, Búsqueda y videos relacionados.
-Totalmente de código abierto, ligero y sin recopilar datos: la sincronización pasa por tu propia cuenta de Chrome, nunca por servidores externos.
+Totalmente de código abierto y ligero, sin rastreo y sin servidores propios: tus datos se quedan en tu navegador y solo se sincronizan a través de tu propia cuenta del navegador.
 
 Ideas, errores o comentarios: https://forms.gle/oAqtSjQHQeEp9TFKA
