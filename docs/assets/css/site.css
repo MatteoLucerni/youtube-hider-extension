@@ -1923,6 +1923,53 @@ strong {
   color: var(--text-tertiary);
 }
 
+.legal {
+  max-width: 72ch;
+  margin-inline: auto;
+  color: var(--text-secondary);
+  font-size: 1.02rem;
+  line-height: 1.7;
+}
+
+.legal h2 {
+  margin: 48px 0 14px;
+  font-size: clamp(1.3rem, 1.1rem + 0.8vw, 1.65rem);
+  letter-spacing: -0.02em;
+  color: var(--text-primary);
+}
+
+.legal p,
+.legal ul {
+  margin: 0 0 16px;
+}
+
+.legal ul {
+  padding-left: 1.3em;
+}
+
+.legal li {
+  margin-bottom: 8px;
+}
+
+.legal li::marker {
+  color: var(--accent-blue);
+}
+
+.legal strong {
+  color: var(--text-primary);
+}
+
+.legal a {
+  color: var(--accent-blue);
+  text-decoration: underline;
+  text-underline-offset: 3px;
+}
+
+.legal-updated {
+  font-size: 0.9rem;
+  color: var(--text-tertiary);
+}
+
 .not-found {
   position: relative;
   display: grid;
