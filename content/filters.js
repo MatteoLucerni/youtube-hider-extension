@@ -203,12 +203,12 @@ function buildWhitelistTooltipText(channel, { isWhitelisted = false } = {}) {
   const many = isMultiChannel(channel);
 
   if (isWhitelisted) {
-    return getText(many ? 'tooltipWhitelistRemoveMany' : 'tooltipWhitelistRemoveOne') + ' ' + ON_PAGE_CONTROLS_TIP;
+    return joinSentences(getText(many ? 'tooltipWhitelistRemoveMany' : 'tooltipWhitelistRemoveOne'), ON_PAGE_CONTROLS_TIP);
   }
   if (isChannelPaused(channel)) {
-    return getText('tooltipWhitelistPaused') + ' ' + ON_PAGE_CONTROLS_TIP;
+    return joinSentences(getText('tooltipWhitelistPaused'), ON_PAGE_CONTROLS_TIP);
   }
-  return getText(many ? 'tooltipWhitelistAddMany' : 'tooltipWhitelistAddOne') + ' ' + ON_PAGE_CONTROLS_TIP;
+  return joinSentences(getText(many ? 'tooltipWhitelistAddMany' : 'tooltipWhitelistAddOne'), ON_PAGE_CONTROLS_TIP);
 }
 
 function renderBadgeButtonLabel(btn, label, withCountdown) {

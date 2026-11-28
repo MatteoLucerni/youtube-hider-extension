@@ -6,7 +6,7 @@
     "message": "YouTube Hider : masquez vidéos déjà vues, Shorts et vidéos peu vues"
   },
   "extDescription": {
-    "message": "Masque sur YouTube les vidéos déjà regardées, les vidéos avec peu de vues et les Shorts."
+    "message": "Masque sur YouTube les vidéos déjà regardées, les vidéos avec peu de vues et les Shorts"
   },
   "popupPageTitle": {
     "message": "Extension YouTube Hider"
@@ -320,28 +320,28 @@
     "message": "Soutenir YouTube Hider"
   },
   "supportLead": {
-    "message": "YouTube Hider est gratuit, open source, sans publicité et sans pistage. Mais il vise une cible mouvante : YouTube remanie le code de ses pages sans prévenir, et un changement que personne n'annonce peut casser en silence un filtre qui marchait hier."
+    "message": "YouTube Hider est gratuit, open source, sans publicité et sans pistage. Mais il vise une cible mouvante : YouTube remanie le code de ses pages sans prévenir, et un changement que personne n'annonce peut casser en silence un filtre qui marchait hier"
   },
   "supportText": {
-    "message": "Le faire fonctionner, c'est traquer ces changements un sélecteur à la fois, sur le temps libre de quelqu'un. Chacune de ces trois options aide."
+    "message": "Le faire fonctionner, c'est traquer ces changements un sélecteur à la fois, sur le temps libre de quelqu'un. Chacune de ces trois options aide"
   },
   "supportKofiTitle": {
     "message": "Offrez-moi un café"
   },
   "supportKofiDescription": {
-    "message": "Une contribution ponctuelle sur Ko-fi. Ni compte ni abonnement nécessaires."
+    "message": "Une contribution ponctuelle sur Ko-fi. Ni compte ni abonnement nécessaires"
   },
   "supportGithubTitle": {
     "message": "Contribuer sur GitHub"
   },
   "supportGithubDescription": {
-    "message": "Envoyez une pull request, ou signalez un filtre cassé en indiquant la page concernée."
+    "message": "Envoyez une pull request, ou signalez un filtre cassé en indiquant la page concernée"
   },
   "supportReviewTitle": {
     "message": "Laisser un avis"
   },
   "supportReviewDescription": {
-    "message": "Une note sur le Chrome Web Store ne coûte rien et aide d'autres personnes à trouver l'extension."
+    "message": "Une note sur le Chrome Web Store ne coûte rien et aide d'autres personnes à trouver l'extension"
   },
   "titleWhitelistPlaceholder": {
     "message": "Mot ou expression, ex. tutoriel"
@@ -561,16 +561,16 @@
     }
   },
   "manageSyncMessageListsPaused": {
-    "message": "Vos listes dépassent l'espace que Chrome accorde aux extensions pour la synchronisation, leur synchronisation est donc en pause. Tout reste enregistré et fonctionne dans ce navigateur, et vos autres appareils gardent la dernière version qui tenait. La synchronisation reprend d'elle-même dès que les listes tiennent à nouveau."
+    "message": "Vos listes dépassent l'espace que Chrome accorde aux extensions pour la synchronisation, leur synchronisation est donc en pause. Tout reste enregistré et fonctionne dans ce navigateur, et vos autres appareils gardent la dernière version qui tenait. La synchronisation reprend d'elle-même dès que les listes tiennent à nouveau"
   },
   "manageSyncMessageMarkedPaused": {
-    "message": "Les vidéos marquées ne se synchronisent pas pour le moment : vos listes passent en premier dans l'espace partagé. Elles restent enregistrées et fonctionnent dans ce navigateur, et la synchronisation reprend dès qu'il y a de nouveau de la place."
+    "message": "Les vidéos marquées ne se synchronisent pas pour le moment : vos listes passent en premier dans l'espace partagé. Elles restent enregistrées et fonctionnent dans ce navigateur, et la synchronisation reprend dès qu'il y a de nouveau de la place"
   },
   "manageSyncMessageOutdated": {
-    "message": "Un autre appareil utilise une version plus récente de YouTube Hider. Mettez à jour l'extension dans ce navigateur pour continuer à synchroniser."
+    "message": "Un autre appareil utilise une version plus récente de YouTube Hider. Mettez à jour l'extension dans ce navigateur pour continuer à synchroniser"
   },
   "manageSyncMessageNearFull": {
-    "message": "Si vos listes le dépassent, la synchronisation se met en pause mais rien n'est perdu : tout continue de fonctionner dans ce navigateur."
+    "message": "Si vos listes le dépassent, la synchronisation se met en pause mais rien n'est perdu : tout continue de fonctionner dans ce navigateur"
   },
   "manageSyncMeterText": {
     "message": "$percent$ % de l'espace de synchronisation utilisé",
@@ -596,16 +596,16 @@
     "message": "Importer des listes"
   },
   "manageImportIntro": {
-    "message": "Les entrées sont uniquement ajoutées : rien de ce qui figure déjà dans vos listes n'est retiré ni modifié."
+    "message": "Les entrées sont uniquement ajoutées : rien de ce qui figure déjà dans vos listes n'est retiré ni modifié"
   },
   "manageImportNothing": {
-    "message": "Rien de nouveau à importer : tout le contenu de ce fichier figure déjà dans vos listes."
+    "message": "Rien de nouveau à importer : tout le contenu de ce fichier figure déjà dans vos listes"
   },
   "manageImportError": {
-    "message": "Ce fichier n'a pas pu être lu comme un export de YouTube Hider."
+    "message": "Ce fichier n'a pas pu être lu comme un export de YouTube Hider"
   },
   "manageImportListFull": {
-    "message": "La liste est pleine, les marques les plus anciennes ont donc été supprimées."
+    "message": "La liste est pleine, les marques les plus anciennes ont donc été supprimées"
   },
   "manageImportConfirm_one": {
     "message": "Importer $count$",
@@ -665,7 +665,7 @@
     }
   },
   "manageImported_one": {
-    "message": "$count$ nouvelle entrée importée.",
+    "message": "$count$ nouvelle entrée importée",
     "placeholders": {
       "count": {
         "content": "$1"
@@ -673,7 +673,7 @@
     }
   },
   "manageImported_many": {
-    "message": "$count$ nouvelles entrées importées.",
+    "message": "$count$ nouvelles entrées importées",
     "placeholders": {
       "count": {
         "content": "$1"
@@ -681,7 +681,7 @@
     }
   },
   "manageImported_other": {
-    "message": "$count$ nouvelles entrées importées.",
+    "message": "$count$ nouvelles entrées importées",
     "placeholders": {
       "count": {
         "content": "$1"
@@ -689,7 +689,7 @@
     }
   },
   "manageExported_one": {
-    "message": "$count$ entrée exportée.",
+    "message": "$count$ entrée exportée",
     "placeholders": {
       "count": {
         "content": "$1"
@@ -697,7 +697,7 @@
     }
   },
   "manageExported_many": {
-    "message": "$count$ entrées exportées.",
+    "message": "$count$ entrées exportées",
     "placeholders": {
       "count": {
         "content": "$1"
@@ -705,7 +705,7 @@
     }
   },
   "manageExported_other": {
-    "message": "$count$ entrées exportées.",
+    "message": "$count$ entrées exportées",
     "placeholders": {
       "count": {
         "content": "$1"
@@ -713,10 +713,10 @@
     }
   },
   "manageMarkedDescription": {
-    "message": "Les vidéos que vous avez marquées avec le bouton Vue sur YouTube. Elles sont masquées comme les vidéos vues, selon les réglages de Masquer les vidéos vues. Retirez-en une pour la faire réapparaître. Jusqu'à 3 000 vidéos sont conservées : au-delà, la marque la plus ancienne est supprimée."
+    "message": "Les vidéos que vous avez marquées avec le bouton Vue sur YouTube. Elles sont masquées comme les vidéos vues, selon les réglages de Masquer les vidéos vues. Retirez-en une pour la faire réapparaître. Jusqu'à 3 000 vidéos sont conservées : au-delà, la marque la plus ancienne est supprimée"
   },
   "manageMarkedNote": {
-    "message": "Suit $setting$ : les vidéos marquées ne sont masquées que là où ce réglage est actif.",
+    "message": "Suit $setting$ : les vidéos marquées ne sont masquées que là où ce réglage est actif",
     "placeholders": {
       "setting": {
         "content": "$1"
@@ -889,7 +889,7 @@
     }
   },
   "manageAdded_one": {
-    "message": "$count$ entrée ajoutée à $list$.",
+    "message": "$count$ entrée ajoutée à $list$",
     "placeholders": {
       "count": {
         "content": "$1"
@@ -900,7 +900,7 @@
     }
   },
   "manageAdded_many": {
-    "message": "$count$ entrées ajoutées à $list$.",
+    "message": "$count$ entrées ajoutées à $list$",
     "placeholders": {
       "count": {
         "content": "$1"
@@ -911,7 +911,7 @@
     }
   },
   "manageAdded_other": {
-    "message": "$count$ entrées ajoutées à $list$.",
+    "message": "$count$ entrées ajoutées à $list$",
     "placeholders": {
       "count": {
         "content": "$1"
@@ -922,7 +922,7 @@
     }
   },
   "manageRemoved_one": {
-    "message": "$count$ entrée retirée de $list$.",
+    "message": "$count$ entrée retirée de $list$",
     "placeholders": {
       "count": {
         "content": "$1"
@@ -933,7 +933,7 @@
     }
   },
   "manageRemoved_many": {
-    "message": "$count$ entrées retirées de $list$.",
+    "message": "$count$ entrées retirées de $list$",
     "placeholders": {
       "count": {
         "content": "$1"
@@ -944,7 +944,7 @@
     }
   },
   "manageRemoved_other": {
-    "message": "$count$ entrées retirées de $list$.",
+    "message": "$count$ entrées retirées de $list$",
     "placeholders": {
       "count": {
         "content": "$1"
@@ -955,7 +955,7 @@
     }
   },
   "manageMoved_one": {
-    "message": "$count$ entrée déplacée vers $list$.",
+    "message": "$count$ entrée déplacée vers $list$",
     "placeholders": {
       "count": {
         "content": "$1"
@@ -966,7 +966,7 @@
     }
   },
   "manageMoved_many": {
-    "message": "$count$ entrées déplacées vers $list$.",
+    "message": "$count$ entrées déplacées vers $list$",
     "placeholders": {
       "count": {
         "content": "$1"
@@ -977,7 +977,7 @@
     }
   },
   "manageMoved_other": {
-    "message": "$count$ entrées déplacées vers $list$.",
+    "message": "$count$ entrées déplacées vers $list$",
     "placeholders": {
       "count": {
         "content": "$1"
@@ -988,7 +988,7 @@
     }
   },
   "manageRestored_one": {
-    "message": "$count$ entrée restaurée.",
+    "message": "$count$ entrée restaurée",
     "placeholders": {
       "count": {
         "content": "$1"
@@ -996,7 +996,7 @@
     }
   },
   "manageRestored_many": {
-    "message": "$count$ entrées restaurées.",
+    "message": "$count$ entrées restaurées",
     "placeholders": {
       "count": {
         "content": "$1"
@@ -1004,7 +1004,7 @@
     }
   },
   "manageRestored_other": {
-    "message": "$count$ entrées restaurées.",
+    "message": "$count$ entrées restaurées",
     "placeholders": {
       "count": {
         "content": "$1"
@@ -1012,7 +1012,7 @@
     }
   },
   "manageMarkedRemoved_one": {
-    "message": "$count$ vidéo retirée. Elle réapparaît sur YouTube.",
+    "message": "$count$ vidéo retirée. Elle réapparaît sur YouTube",
     "placeholders": {
       "count": {
         "content": "$1"
@@ -1020,7 +1020,7 @@
     }
   },
   "manageMarkedRemoved_many": {
-    "message": "$count$ vidéos retirées. Elles réapparaissent sur YouTube.",
+    "message": "$count$ vidéos retirées. Elles réapparaissent sur YouTube",
     "placeholders": {
       "count": {
         "content": "$1"
@@ -1028,7 +1028,7 @@
     }
   },
   "manageMarkedRemoved_other": {
-    "message": "$count$ vidéos retirées. Elles réapparaissent sur YouTube.",
+    "message": "$count$ vidéos retirées. Elles réapparaissent sur YouTube",
     "placeholders": {
       "count": {
         "content": "$1"
@@ -1293,7 +1293,7 @@
     }
   },
   "manageClearText_one": {
-    "message": "Cela retire $count$ entrée de $list$. Vous pourrez annuler juste après, ou exporter une sauvegarde avant.",
+    "message": "Cela retire $count$ entrée de $list$. Vous pourrez annuler juste après, ou exporter une sauvegarde avant",
     "placeholders": {
       "count": {
         "content": "$1"
@@ -1304,7 +1304,7 @@
     }
   },
   "manageClearText_many": {
-    "message": "Cela retire les $count$ entrées de $list$. Vous pourrez annuler juste après, ou exporter une sauvegarde avant.",
+    "message": "Cela retire les $count$ entrées de $list$. Vous pourrez annuler juste après, ou exporter une sauvegarde avant",
     "placeholders": {
       "count": {
         "content": "$1"
@@ -1315,7 +1315,7 @@
     }
   },
   "manageClearText_other": {
-    "message": "Cela retire les $count$ entrées de $list$. Vous pourrez annuler juste après, ou exporter une sauvegarde avant.",
+    "message": "Cela retire les $count$ entrées de $list$. Vous pourrez annuler juste après, ou exporter une sauvegarde avant",
     "placeholders": {
       "count": {
         "content": "$1"
@@ -1353,19 +1353,19 @@
     "message": "Rien ici pour l'instant"
   },
   "manageEmptyMarked": {
-    "message": "Aucune vidéo marquée pour l'instant. Sur YouTube, survolez une vidéo et cliquez sur Vue pour l'ajouter ici."
+    "message": "Aucune vidéo marquée pour l'instant. Sur YouTube, survolez une vidéo et cliquez sur Vue pour l'ajouter ici"
   },
   "manageEmptyChannelWhitelist": {
-    "message": "Utilisez le bouton Whitelist à côté de S'abonner sur la page d'une chaîne ou d'une vidéo, ou collez des chaînes dans le champ ci-dessus."
+    "message": "Utilisez le bouton Whitelist à côté de S'abonner sur la page d'une chaîne ou d'une vidéo, ou collez des chaînes dans le champ ci-dessus"
   },
   "manageEmptyChannelBlacklist": {
-    "message": "Sur YouTube, survolez une vidéo et cliquez sur Blacklist, utilisez le bouton Blacklist à côté de S'abonner sur la page d'une chaîne, ou collez des chaînes dans le champ ci-dessus."
+    "message": "Sur YouTube, survolez une vidéo et cliquez sur Blacklist, utilisez le bouton Blacklist à côté de S'abonner sur la page d'une chaîne, ou collez des chaînes dans le champ ci-dessus"
   },
   "manageEmptyTitleWhitelist": {
-    "message": "Saisissez un mot ou une expression dans le champ ci-dessus. Les vidéos dont le titre le contient ne sont jamais filtrées."
+    "message": "Saisissez un mot ou une expression dans le champ ci-dessus. Les vidéos dont le titre le contient ne sont jamais filtrées"
   },
   "manageEmptyTitleBlacklist": {
-    "message": "Saisissez un mot ou une expression dans le champ ci-dessus. Les vidéos dont le titre le contient sont toujours masquées."
+    "message": "Saisissez un mot ou une expression dans le champ ci-dessus. Les vidéos dont le titre le contient sont toujours masquées"
   },
   "manageNoMatchTitle": {
     "message": "Aucun résultat pour \"$query$\"",
@@ -1376,7 +1376,7 @@
     }
   },
   "manageNoMatchText": {
-    "message": "Vérifiez l'orthographe ou recherchez seulement une partie du nom."
+    "message": "Vérifiez l'orthographe ou recherchez seulement une partie du nom"
   },
   "manageChannelIdLabel": {
     "message": "ID de la chaîne"
@@ -1432,7 +1432,7 @@
     "message": "Retirer la marque de vidéo vue"
   },
   "tooltipOnPageControls": {
-    "message": "Vous pouvez masquer ce bouton dans les paramètres de l'extension, sous \"$setting$\".",
+    "message": "Vous pouvez masquer ce bouton dans les paramètres de l'extension, sous \"$setting$\"",
     "placeholders": {
       "setting": {
         "content": "$1"
@@ -1440,31 +1440,31 @@
     }
   },
   "tooltipWhitelistAddOne": {
-    "message": "Ajoute cette chaîne à votre Whitelist YouTube Hider : ses vidéos ne seront pas filtrées (les Shorts sont toujours filtrés)."
+    "message": "Ajoute cette chaîne à votre Whitelist YouTube Hider : ses vidéos ne seront pas filtrées (les Shorts sont toujours filtrés)"
   },
   "tooltipWhitelistAddMany": {
-    "message": "Ajoute ces chaînes à votre Whitelist YouTube Hider : leurs vidéos ne seront pas filtrées (les Shorts sont toujours filtrés)."
+    "message": "Ajoute ces chaînes à votre Whitelist YouTube Hider : leurs vidéos ne seront pas filtrées (les Shorts sont toujours filtrés)"
   },
   "tooltipWhitelistRemoveOne": {
-    "message": "Retire cette chaîne de votre Whitelist YouTube Hider."
+    "message": "Retire cette chaîne de votre Whitelist YouTube Hider"
   },
   "tooltipWhitelistRemoveMany": {
-    "message": "Retire ces chaînes de votre Whitelist YouTube Hider."
+    "message": "Retire ces chaînes de votre Whitelist YouTube Hider"
   },
   "tooltipWhitelistPaused": {
-    "message": "Cette chaîne est dans la Whitelist, mais la Channel Whitelist est désactivée. Cliquez pour la réactiver."
+    "message": "Cette chaîne est dans la Whitelist, mais la Channel Whitelist est désactivée. Cliquez pour la réactiver"
   },
   "tooltipBlacklistAddOne": {
-    "message": "Ajoute cette chaîne à votre Blacklist YouTube Hider : ses vidéos seront toujours masquées (les Shorts sont toujours filtrés)."
+    "message": "Ajoute cette chaîne à votre Blacklist YouTube Hider : ses vidéos seront toujours masquées (les Shorts sont toujours filtrés)"
   },
   "tooltipBlacklistAddMany": {
-    "message": "Ajoute ces chaînes à votre Blacklist YouTube Hider : leurs vidéos seront toujours masquées (les Shorts sont toujours filtrés)."
+    "message": "Ajoute ces chaînes à votre Blacklist YouTube Hider : leurs vidéos seront toujours masquées (les Shorts sont toujours filtrés)"
   },
   "tooltipBlacklistRemoveOne": {
-    "message": "Retire cette chaîne de votre Blacklist YouTube Hider."
+    "message": "Retire cette chaîne de votre Blacklist YouTube Hider"
   },
   "tooltipBlacklistRemoveMany": {
-    "message": "Retire ces chaînes de votre Blacklist YouTube Hider."
+    "message": "Retire ces chaînes de votre Blacklist YouTube Hider"
   },
   "reasonAlreadyWatched": {
     "message": "Déjà vue"
@@ -1508,7 +1508,7 @@
     "message": "Bienvenue dans YouTube Hider !"
   },
   "tourWelcomeDescription": {
-    "message": "Faites un rapide tour pour découvrir le bouton YouTube Hider intégré à l'en-tête de YouTube, vos réglages et comment tirer le meilleur parti de l'extension."
+    "message": "Faites un rapide tour pour découvrir le bouton YouTube Hider intégré à l'en-tête de YouTube, vos réglages et comment tirer le meilleur parti de l'extension"
   },
   "tourStart": {
     "message": "Lancer le tutoriel"
@@ -1548,16 +1548,16 @@
     "message": "Votre bouton de réglages"
   },
   "tourSettingsButtonDescription": {
-    "message": "Voici le bouton en forme d'engrenage de YouTube Hider, intégré directement à l'en-tête de YouTube. Il apparaît sur toutes les pages, y compris pendant la lecture, et s'ouvre instantanément."
+    "message": "Voici le bouton en forme d'engrenage de YouTube Hider, intégré directement à l'en-tête de YouTube. Il apparaît sur toutes les pages, y compris pendant la lecture, et s'ouvre instantanément"
   },
   "tourFullSettingsTitle": {
     "message": "Tous vos réglages, ici même"
   },
   "tourFullSettingsDescription": {
-    "message": "Un clic ouvre tous les réglages de YouTube Hider, au même endroit. Voyons ce que vous y trouverez."
+    "message": "Un clic ouvre tous les réglages de YouTube Hider, au même endroit. Voyons ce que vous y trouverez"
   },
   "tourFilterModeDescription": {
-    "message": "Choisissez comment traiter les vidéos filtrées : $hide$ les retire complètement de l'affichage, $dim$ les recouvre d'un voile sombre sur lequel vous pouvez toujours cliquer. Cela s'applique à tous les filtres ci-dessous.",
+    "message": "Choisissez comment traiter les vidéos filtrées : $hide$ les retire complètement de l'affichage, $dim$ les recouvre d'un voile sombre sur lequel vous pouvez toujours cliquer. Cela s'applique à tous les filtres ci-dessous",
     "placeholders": {
       "hide": {
         "content": "$1"
@@ -1568,7 +1568,7 @@
     }
   },
   "tourHideWatchedDescription": {
-    "message": "Masque les vidéos selon la part que vous en avez déjà regardée. Faites glisser le curseur tout à gauche pour le désactiver, et utilisez les interrupteurs par page du mode avancé pour un contrôle plus fin. YouTube en a oublié une ? Survolez la vidéo et cliquez sur $watched$ pour la masquer aussi, et utilisez $manage$ pour la faire revenir.",
+    "message": "Masque les vidéos selon la part que vous en avez déjà regardée. Faites glisser le curseur tout à gauche pour le désactiver, et utilisez les interrupteurs par page du mode avancé pour un contrôle plus fin. YouTube en a oublié une ? Survolez la vidéo et cliquez sur $watched$ pour la masquer aussi, et utilisez $manage$ pour la faire revenir",
     "placeholders": {
       "watched": {
         "content": "$1"
@@ -1582,16 +1582,16 @@
     "message": "Shorts, Mix, playlists et directs"
   },
   "tourContentTypesDescription": {
-    "message": "Retirez séparément les Shorts, les playlists Mix, les playlists classiques et les diffusions en direct de votre flux et des résultats de recherche."
+    "message": "Retirez séparément les Shorts, les playlists Mix, les playlists classiques et les diffusions en direct de votre flux et des résultats de recherche"
   },
   "tourViewsDescription": {
-    "message": "Masque les vidéos sous un minimum de vues, au-dessus d'un maximum, ou les deux à la fois pour ne garder que les vidéos d'une certaine tranche de popularité."
+    "message": "Masque les vidéos sous un minimum de vues, au-dessus d'un maximum, ou les deux à la fois pour ne garder que les vidéos d'une certaine tranche de popularité"
   },
   "tourDateDescription": {
-    "message": "Masque les vidéos plus récentes ou plus anciennes qu'un seuil réglable. Utilisez les deux à la fois pour ne garder que les vidéos d'une période précise."
+    "message": "Masque les vidéos plus récentes ou plus anciennes qu'un seuil réglable. Utilisez les deux à la fois pour ne garder que les vidéos d'une période précise"
   },
   "tourChannelWhitelistDescription": {
-    "message": "Exemptez vos chaînes préférées de tous les filtres. Ajoutez la chaîne actuelle en un clic, et utilisez $manage$ pour rechercher, retirer ou déplacer des chaînes sur une page dédiée.",
+    "message": "Exemptez vos chaînes préférées de tous les filtres. Ajoutez la chaîne actuelle en un clic, et utilisez $manage$ pour rechercher, retirer ou déplacer des chaînes sur une page dédiée",
     "placeholders": {
       "manage": {
         "content": "$1"
@@ -1599,7 +1599,7 @@
     }
   },
   "tourChannelBlacklistDescription": {
-    "message": "L'inverse de la Whitelist : masque toujours une chaîne, partout, y compris les Shorts, Mix, playlists et directs. Ajoutez la chaîne actuelle en un clic, et utilisez $manage$ pour voir la liste complète sur une page dédiée.",
+    "message": "L'inverse de la Whitelist : masque toujours une chaîne, partout, y compris les Shorts, Mix, playlists et directs. Ajoutez la chaîne actuelle en un clic, et utilisez $manage$ pour voir la liste complète sur une page dédiée",
     "placeholders": {
       "manage": {
         "content": "$1"
@@ -1607,16 +1607,16 @@
     }
   },
   "tourTitleWhitelistDescription": {
-    "message": "Exemptez des vidéos grâce à un mot de leur titre plutôt que par chaîne. Aucun filtre ne touche les vidéos dont le titre contient l'un de vos mots."
+    "message": "Exemptez des vidéos grâce à un mot de leur titre plutôt que par chaîne. Aucun filtre ne touche les vidéos dont le titre contient l'un de vos mots"
   },
   "tourTitleBlacklistDescription": {
-    "message": "L'inverse de la Title Whitelist : masque toujours, partout, chaque vidéo dont le titre contient l'un de vos mots, même venant d'une chaîne de la Whitelist."
+    "message": "L'inverse de la Title Whitelist : masque toujours, partout, chaque vidéo dont le titre contient l'un de vos mots, même venant d'une chaîne de la Whitelist"
   },
   "tourExtraSettingsTitle": {
     "message": "Réglages supplémentaires"
   },
   "tourExtraSettingsDescription": {
-    "message": "Activez \"$advanced$\" pour passer à l'interface avancée, et activez \"$hidecontrols$\" à tout moment pour retirer ce bouton (et les boutons Whitelist, Blacklist et $watched$ sur la page) pendant que le filtrage continue en arrière-plan.",
+    "message": "Activez \"$advanced$\" pour passer à l'interface avancée, et activez \"$hidecontrols$\" à tout moment pour retirer ce bouton (et les boutons Whitelist, Blacklist et $watched$ sur la page) pendant que le filtrage continue en arrière-plan",
     "placeholders": {
       "advanced": {
         "content": "$1"
@@ -1626,6 +1626,17 @@
       },
       "watched": {
         "content": "$3"
+      }
+    }
+  },
+  "sentenceJoin": {
+    "message": "$first$. $second$",
+    "placeholders": {
+      "first": {
+        "content": "$1"
+      },
+      "second": {
+        "content": "$2"
       }
     }
   }

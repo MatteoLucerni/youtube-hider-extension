@@ -76,6 +76,10 @@ function getPluralText(baseKey, count, substitutions) {
   );
 }
 
+function joinSentences(first, second) {
+  return getText('sentenceJoin', [first, second]);
+}
+
 function formatLocaleNumber(value, options) {
   return new Intl.NumberFormat(getUiLocale(), options).format(value);
 }
@@ -105,6 +109,7 @@ if (typeof module !== 'undefined' && module.exports) {
     getUiLocale,
     getPluralCategory,
     getPluralText,
+    joinSentences,
     formatLocaleNumber,
     formatLocaleDate,
   };

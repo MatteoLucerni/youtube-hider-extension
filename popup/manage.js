@@ -1105,7 +1105,7 @@ document.addEventListener('DOMContentLoaded', () => {
         before.length + imported.markedWatched.list.length > MARKED_WATCHED_LIMIT && after.length === MARKED_WATCHED_LIMIT;
     }
     let message = getPluralText('manageImported', added, formatLocaleNumber(added));
-    if (markedFull) message += ' ' + getText('manageImportListFull');
+    if (markedFull) message = joinSentences(message, getText('manageImportListFull'));
     showSnackbar(message);
   }
 

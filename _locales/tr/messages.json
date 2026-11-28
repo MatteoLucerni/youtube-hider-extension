@@ -6,7 +6,7 @@
     "message": "YouTube Hider: izlenen videoları, Shorts'u ve az izlenenleri gizle"
   },
   "extDescription": {
-    "message": "YouTube'da daha önce izlediğiniz videoları, az görüntülenen videoları ve Shorts'u gizler."
+    "message": "YouTube'da daha önce izlediğiniz videoları, az görüntülenen videoları ve Shorts'u gizler"
   },
   "popupPageTitle": {
     "message": "YouTube Hider Uzantısı"
@@ -320,28 +320,28 @@
     "message": "YouTube Hider'ı destekleyin"
   },
   "supportLead": {
-    "message": "YouTube Hider ücretsiz, açık kaynaklı, reklamsız ve izlemesizdir. Ama hareketli bir hedefi kovalar: YouTube sayfa yapısını haber vermeden değiştirir ve kimsenin duyurmadığı bir değişiklik, dün çalışan bir filtreyi sessizce bozabilir."
+    "message": "YouTube Hider ücretsiz, açık kaynaklı, reklamsız ve izlemesizdir. Ama hareketli bir hedefi kovalar: YouTube sayfa yapısını haber vermeden değiştirir ve kimsenin duyurmadığı bir değişiklik, dün çalışan bir filtreyi sessizce bozabilir"
   },
   "supportText": {
-    "message": "Çalışır durumda tutmak, bu değişiklikleri birinin boş zamanında, seçici seçici bulmak demektir. Bu üç seçenekten herhangi biri yardımcı olur."
+    "message": "Çalışır durumda tutmak, bu değişiklikleri birinin boş zamanında, seçici seçici bulmak demektir. Bu üç seçenekten herhangi biri yardımcı olur"
   },
   "supportKofiTitle": {
     "message": "Bana bir kahve ısmarlayın"
   },
   "supportKofiDescription": {
-    "message": "Ko-fi üzerinden tek seferlik bir katkı. Hesap ve abonelik gerekmez."
+    "message": "Ko-fi üzerinden tek seferlik bir katkı. Hesap ve abonelik gerekmez"
   },
   "supportGithubTitle": {
     "message": "GitHub'da katkıda bulunun"
   },
   "supportGithubDescription": {
-    "message": "Bir pull request gönderin ya da bozuk bir filtreyi, olduğu sayfayla birlikte bildirin."
+    "message": "Bir pull request gönderin ya da bozuk bir filtreyi, olduğu sayfayla birlikte bildirin"
   },
   "supportReviewTitle": {
     "message": "Yorum bırakın"
   },
   "supportReviewDescription": {
-    "message": "Chrome Web Mağazası'nda bir puan hiçbir şeye mal olmaz ve başkalarının uzantıyı bulmasına yardım eder."
+    "message": "Chrome Web Mağazası'nda bir puan hiçbir şeye mal olmaz ve başkalarının uzantıyı bulmasına yardım eder"
   },
   "titleWhitelistPlaceholder": {
     "message": "Kelime veya ifade, ör. eğitim"
@@ -520,16 +520,16 @@
     }
   },
   "manageSyncMessageListsPaused": {
-    "message": "Listeleriniz Chrome'un uzantılara senkronizasyon için verdiği alanı aştığı için senkronizasyonları duraklatıldı. Her şey bu tarayıcıda kayıtlı ve çalışıyor; diğer cihazlarınız sığan son sürümü korur. Listeler yeniden sığdığında senkronizasyon kendiliğinden devam eder."
+    "message": "Listeleriniz Chrome'un uzantılara senkronizasyon için verdiği alanı aştığı için senkronizasyonları duraklatıldı. Her şey bu tarayıcıda kayıtlı ve çalışıyor; diğer cihazlarınız sığan son sürümü korur. Listeler yeniden sığdığında senkronizasyon kendiliğinden devam eder"
   },
   "manageSyncMessageMarkedPaused": {
-    "message": "İşaretli videolar şu anda senkronize edilmiyor: paylaşılan alanda listeleriniz önceliklidir. Videolar bu tarayıcıda kayıtlı ve çalışıyor; yer açıldığında senkronizasyon devam eder."
+    "message": "İşaretli videolar şu anda senkronize edilmiyor: paylaşılan alanda listeleriniz önceliklidir. Videolar bu tarayıcıda kayıtlı ve çalışıyor; yer açıldığında senkronizasyon devam eder"
   },
   "manageSyncMessageOutdated": {
-    "message": "Başka bir cihaz YouTube Hider'ın daha yeni bir sürümünü kullanıyor. Senkronizasyona devam etmek için bu tarayıcıdaki uzantıyı güncelleyin."
+    "message": "Başka bir cihaz YouTube Hider'ın daha yeni bir sürümünü kullanıyor. Senkronizasyona devam etmek için bu tarayıcıdaki uzantıyı güncelleyin"
   },
   "manageSyncMessageNearFull": {
-    "message": "Listeleriniz alanı aşarsa senkronizasyon duraklar ama hiçbir şey kaybolmaz: her şey bu tarayıcıda çalışmaya devam eder."
+    "message": "Listeleriniz alanı aşarsa senkronizasyon duraklar ama hiçbir şey kaybolmaz: her şey bu tarayıcıda çalışmaya devam eder"
   },
   "manageSyncMeterText": {
     "message": "Senkronizasyon alanının %$percent$ kadarı kullanılıyor",
@@ -555,16 +555,16 @@
     "message": "Listeleri içe aktar"
   },
   "manageImportIntro": {
-    "message": "Kayıtlar yalnızca eklenir: listelerinizde zaten bulunan hiçbir şey kaldırılmaz veya değiştirilmez."
+    "message": "Kayıtlar yalnızca eklenir: listelerinizde zaten bulunan hiçbir şey kaldırılmaz veya değiştirilmez"
   },
   "manageImportNothing": {
-    "message": "İçe aktarılacak yeni bir şey yok: bu dosyadaki her şey zaten listelerinizde."
+    "message": "İçe aktarılacak yeni bir şey yok: bu dosyadaki her şey zaten listelerinizde"
   },
   "manageImportError": {
-    "message": "Bu dosya bir YouTube Hider dışa aktarımı olarak okunamadı."
+    "message": "Bu dosya bir YouTube Hider dışa aktarımı olarak okunamadı"
   },
   "manageImportListFull": {
-    "message": "Liste dolu olduğu için en eski işaretler silindi."
+    "message": "Liste dolu olduğu için en eski işaretler silindi"
   },
   "manageImportConfirm_one": {
     "message": "$count$ kaydı içe aktar",
@@ -605,7 +605,7 @@
     }
   },
   "manageImported_one": {
-    "message": "$count$ yeni kayıt içe aktarıldı.",
+    "message": "$count$ yeni kayıt içe aktarıldı",
     "placeholders": {
       "count": {
         "content": "$1"
@@ -613,7 +613,7 @@
     }
   },
   "manageImported_other": {
-    "message": "$count$ yeni kayıt içe aktarıldı.",
+    "message": "$count$ yeni kayıt içe aktarıldı",
     "placeholders": {
       "count": {
         "content": "$1"
@@ -621,7 +621,7 @@
     }
   },
   "manageExported_one": {
-    "message": "$count$ kayıt dışa aktarıldı.",
+    "message": "$count$ kayıt dışa aktarıldı",
     "placeholders": {
       "count": {
         "content": "$1"
@@ -629,7 +629,7 @@
     }
   },
   "manageExported_other": {
-    "message": "$count$ kayıt dışa aktarıldı.",
+    "message": "$count$ kayıt dışa aktarıldı",
     "placeholders": {
       "count": {
         "content": "$1"
@@ -637,10 +637,10 @@
     }
   },
   "manageMarkedDescription": {
-    "message": "YouTube'da İzlendi düğmesiyle işaretlediğiniz videolar. İzlenen Videoları Gizle ayarlarına göre izlenen videolar gibi gizlenirler. Geri getirmek için birini kaldırın. En fazla 3.000 video saklanır: bunu aşınca en eski işaret silinir."
+    "message": "YouTube'da İzlendi düğmesiyle işaretlediğiniz videolar. İzlenen Videoları Gizle ayarlarına göre izlenen videolar gibi gizlenirler. Geri getirmek için birini kaldırın. En fazla 3.000 video saklanır: bunu aşınca en eski işaret silinir"
   },
   "manageMarkedNote": {
-    "message": "$setting$ ayarına bağlıdır: işaretli videolar yalnızca bu ayarın etkin olduğu yerlerde gizlenir.",
+    "message": "$setting$ ayarına bağlıdır: işaretli videolar yalnızca bu ayarın etkin olduğu yerlerde gizlenir",
     "placeholders": {
       "setting": {
         "content": "$1"
@@ -767,7 +767,7 @@
     }
   },
   "manageAdded_one": {
-    "message": "$list$ listesine $count$ kayıt eklendi.",
+    "message": "$list$ listesine $count$ kayıt eklendi",
     "placeholders": {
       "count": {
         "content": "$1"
@@ -778,7 +778,7 @@
     }
   },
   "manageAdded_other": {
-    "message": "$list$ listesine $count$ kayıt eklendi.",
+    "message": "$list$ listesine $count$ kayıt eklendi",
     "placeholders": {
       "count": {
         "content": "$1"
@@ -789,7 +789,7 @@
     }
   },
   "manageRemoved_one": {
-    "message": "$list$ listesinden $count$ kayıt kaldırıldı.",
+    "message": "$list$ listesinden $count$ kayıt kaldırıldı",
     "placeholders": {
       "count": {
         "content": "$1"
@@ -800,7 +800,7 @@
     }
   },
   "manageRemoved_other": {
-    "message": "$list$ listesinden $count$ kayıt kaldırıldı.",
+    "message": "$list$ listesinden $count$ kayıt kaldırıldı",
     "placeholders": {
       "count": {
         "content": "$1"
@@ -811,7 +811,7 @@
     }
   },
   "manageMoved_one": {
-    "message": "$count$ kayıt $list$ listesine taşındı.",
+    "message": "$count$ kayıt $list$ listesine taşındı",
     "placeholders": {
       "count": {
         "content": "$1"
@@ -822,7 +822,7 @@
     }
   },
   "manageMoved_other": {
-    "message": "$count$ kayıt $list$ listesine taşındı.",
+    "message": "$count$ kayıt $list$ listesine taşındı",
     "placeholders": {
       "count": {
         "content": "$1"
@@ -833,7 +833,7 @@
     }
   },
   "manageRestored_one": {
-    "message": "$count$ kayıt geri yüklendi.",
+    "message": "$count$ kayıt geri yüklendi",
     "placeholders": {
       "count": {
         "content": "$1"
@@ -841,7 +841,7 @@
     }
   },
   "manageRestored_other": {
-    "message": "$count$ kayıt geri yüklendi.",
+    "message": "$count$ kayıt geri yüklendi",
     "placeholders": {
       "count": {
         "content": "$1"
@@ -849,7 +849,7 @@
     }
   },
   "manageMarkedRemoved_one": {
-    "message": "$count$ video kaldırıldı. YouTube'da yeniden görünecek.",
+    "message": "$count$ video kaldırıldı. YouTube'da yeniden görünecek",
     "placeholders": {
       "count": {
         "content": "$1"
@@ -857,7 +857,7 @@
     }
   },
   "manageMarkedRemoved_other": {
-    "message": "$count$ video kaldırıldı. YouTube'da yeniden görünecekler.",
+    "message": "$count$ video kaldırıldı. YouTube'da yeniden görünecekler",
     "placeholders": {
       "count": {
         "content": "$1"
@@ -1058,7 +1058,7 @@
     }
   },
   "manageClearText_one": {
-    "message": "$list$ listesindeki $count$ kaydın tümü kaldırılacak. Hemen ardından geri alabilir veya önce bir yedek dışa aktarabilirsiniz.",
+    "message": "$list$ listesindeki $count$ kaydın tümü kaldırılacak. Hemen ardından geri alabilir veya önce bir yedek dışa aktarabilirsiniz",
     "placeholders": {
       "count": {
         "content": "$1"
@@ -1069,7 +1069,7 @@
     }
   },
   "manageClearText_other": {
-    "message": "$list$ listesindeki $count$ kaydın tümü kaldırılacak. Hemen ardından geri alabilir veya önce bir yedek dışa aktarabilirsiniz.",
+    "message": "$list$ listesindeki $count$ kaydın tümü kaldırılacak. Hemen ardından geri alabilir veya önce bir yedek dışa aktarabilirsiniz",
     "placeholders": {
       "count": {
         "content": "$1"
@@ -1099,19 +1099,19 @@
     "message": "Burada henüz bir şey yok"
   },
   "manageEmptyMarked": {
-    "message": "Henüz işaretlenmiş video yok. YouTube'da bir videonun üzerine gelin ve buraya eklemek için İzlendi'ye tıklayın."
+    "message": "Henüz işaretlenmiş video yok. YouTube'da bir videonun üzerine gelin ve buraya eklemek için İzlendi'ye tıklayın"
   },
   "manageEmptyChannelWhitelist": {
-    "message": "Bir kanal veya video sayfasında Abone ol düğmesinin yanındaki Whitelist düğmesini kullanın ya da kanalları yukarıdaki alana yapıştırın."
+    "message": "Bir kanal veya video sayfasında Abone ol düğmesinin yanındaki Whitelist düğmesini kullanın ya da kanalları yukarıdaki alana yapıştırın"
   },
   "manageEmptyChannelBlacklist": {
-    "message": "YouTube'da bir videonun üzerine gelip Blacklist'e tıklayın, bir kanal sayfasında Abone ol düğmesinin yanındaki Blacklist düğmesini kullanın ya da kanalları yukarıdaki alana yapıştırın."
+    "message": "YouTube'da bir videonun üzerine gelip Blacklist'e tıklayın, bir kanal sayfasında Abone ol düğmesinin yanındaki Blacklist düğmesini kullanın ya da kanalları yukarıdaki alana yapıştırın"
   },
   "manageEmptyTitleWhitelist": {
-    "message": "Yukarıdaki alana bir kelime veya ifade yazın. Başlığında bu kelime geçen videolar hiçbir zaman filtrelenmez."
+    "message": "Yukarıdaki alana bir kelime veya ifade yazın. Başlığında bu kelime geçen videolar hiçbir zaman filtrelenmez"
   },
   "manageEmptyTitleBlacklist": {
-    "message": "Yukarıdaki alana bir kelime veya ifade yazın. Başlığında bu kelime geçen videolar her zaman gizlenir."
+    "message": "Yukarıdaki alana bir kelime veya ifade yazın. Başlığında bu kelime geçen videolar her zaman gizlenir"
   },
   "manageNoMatchTitle": {
     "message": "\"$query$\" için sonuç yok",
@@ -1122,7 +1122,7 @@
     }
   },
   "manageNoMatchText": {
-    "message": "Yazımı kontrol edin veya adın yalnızca bir kısmını arayın."
+    "message": "Yazımı kontrol edin veya adın yalnızca bir kısmını arayın"
   },
   "manageChannelIdLabel": {
     "message": "Kanal kimliği"
@@ -1178,7 +1178,7 @@
     "message": "Bu videodaki izlendi işaretini kaldır"
   },
   "tooltipOnPageControls": {
-    "message": "Bu düğmeyi uzantı ayarlarında \"$setting$\" altından gizleyebilirsiniz.",
+    "message": "Bu düğmeyi uzantı ayarlarında \"$setting$\" altından gizleyebilirsiniz",
     "placeholders": {
       "setting": {
         "content": "$1"
@@ -1186,31 +1186,31 @@
     }
   },
   "tooltipWhitelistAddOne": {
-    "message": "Bu kanalı YouTube Hider Whitelist'inize ekler: videoları filtrelenmez (Shorts her zaman filtrelenir)."
+    "message": "Bu kanalı YouTube Hider Whitelist'inize ekler: videoları filtrelenmez (Shorts her zaman filtrelenir)"
   },
   "tooltipWhitelistAddMany": {
-    "message": "Bu kanalları YouTube Hider Whitelist'inize ekler: videoları filtrelenmez (Shorts her zaman filtrelenir)."
+    "message": "Bu kanalları YouTube Hider Whitelist'inize ekler: videoları filtrelenmez (Shorts her zaman filtrelenir)"
   },
   "tooltipWhitelistRemoveOne": {
-    "message": "Bu kanalı YouTube Hider Whitelist'inizden kaldırır."
+    "message": "Bu kanalı YouTube Hider Whitelist'inizden kaldırır"
   },
   "tooltipWhitelistRemoveMany": {
-    "message": "Bu kanalları YouTube Hider Whitelist'inizden kaldırır."
+    "message": "Bu kanalları YouTube Hider Whitelist'inizden kaldırır"
   },
   "tooltipWhitelistPaused": {
-    "message": "Bu kanal Whitelist'te, ancak Channel Whitelist şu anda kapalı. Yeniden açmak için tıklayın."
+    "message": "Bu kanal Whitelist'te, ancak Channel Whitelist şu anda kapalı. Yeniden açmak için tıklayın"
   },
   "tooltipBlacklistAddOne": {
-    "message": "Bu kanalı YouTube Hider Blacklist'inize ekler: videoları her zaman gizlenir (Shorts her zaman filtrelenir)."
+    "message": "Bu kanalı YouTube Hider Blacklist'inize ekler: videoları her zaman gizlenir (Shorts her zaman filtrelenir)"
   },
   "tooltipBlacklistAddMany": {
-    "message": "Bu kanalları YouTube Hider Blacklist'inize ekler: videoları her zaman gizlenir (Shorts her zaman filtrelenir)."
+    "message": "Bu kanalları YouTube Hider Blacklist'inize ekler: videoları her zaman gizlenir (Shorts her zaman filtrelenir)"
   },
   "tooltipBlacklistRemoveOne": {
-    "message": "Bu kanalı YouTube Hider Blacklist'inizden kaldırır."
+    "message": "Bu kanalı YouTube Hider Blacklist'inizden kaldırır"
   },
   "tooltipBlacklistRemoveMany": {
-    "message": "Bu kanalları YouTube Hider Blacklist'inizden kaldırır."
+    "message": "Bu kanalları YouTube Hider Blacklist'inizden kaldırır"
   },
   "reasonAlreadyWatched": {
     "message": "Zaten izlendi"
@@ -1254,7 +1254,7 @@
     "message": "YouTube Hider'a hoş geldiniz!"
   },
   "tourWelcomeDescription": {
-    "message": "YouTube'un üst bilgisine yerleşik YouTube Hider düğmesini, ayarlarınızı ve uzantıdan en iyi şekilde nasıl yararlanacağınızı keşfetmek için kısa bir tur atın."
+    "message": "YouTube'un üst bilgisine yerleşik YouTube Hider düğmesini, ayarlarınızı ve uzantıdan en iyi şekilde nasıl yararlanacağınızı keşfetmek için kısa bir tur atın"
   },
   "tourStart": {
     "message": "Eğitimi başlat"
@@ -1294,16 +1294,16 @@
     "message": "Ayarlar Düğmeniz"
   },
   "tourSettingsButtonDescription": {
-    "message": "Bu, YouTube'un üst bilgisine yerleşik YouTube Hider dişli düğmesidir. İzleme sayfası dahil her sayfada görünür ve anında açılır."
+    "message": "Bu, YouTube'un üst bilgisine yerleşik YouTube Hider dişli düğmesidir. İzleme sayfası dahil her sayfada görünür ve anında açılır"
   },
   "tourFullSettingsTitle": {
     "message": "Tüm Ayarlarınız Burada"
   },
   "tourFullSettingsDescription": {
-    "message": "Tıkladığınızda tüm YouTube Hider ayarları tek bir yerde açılır. İçinde neler olduğuna birlikte bakalım."
+    "message": "Tıkladığınızda tüm YouTube Hider ayarları tek bir yerde açılır. İçinde neler olduğuna birlikte bakalım"
   },
   "tourFilterModeDescription": {
-    "message": "Filtrelenen videolara ne olacağını seçin: $hide$ onları tamamen görünümden kaldırır, $dim$ yine de tıklayabileceğiniz koyu bir katmanla soldurur. Bu, aşağıdaki tüm filtreler için geçerlidir.",
+    "message": "Filtrelenen videolara ne olacağını seçin: $hide$ onları tamamen görünümden kaldırır, $dim$ yine de tıklayabileceğiniz koyu bir katmanla soldurur. Bu, aşağıdaki tüm filtreler için geçerlidir",
     "placeholders": {
       "hide": {
         "content": "$1"
@@ -1314,7 +1314,7 @@
     }
   },
   "tourHideWatchedDescription": {
-    "message": "Videoları ne kadarını izlediğinize göre gizler. Kapatmak için kaydırıcıyı tamamen sola sürükleyin, daha ince ayar için gelişmiş moddaki sayfa anahtarlarını kullanın. YouTube birini kaçırdı mı? Videonun üzerine gelip $watched$ düğmesine tıklayarak onu da gizleyin, geri getirmek için $manage$ düğmesini kullanın.",
+    "message": "Videoları ne kadarını izlediğinize göre gizler. Kapatmak için kaydırıcıyı tamamen sola sürükleyin, daha ince ayar için gelişmiş moddaki sayfa anahtarlarını kullanın. YouTube birini kaçırdı mı? Videonun üzerine gelip $watched$ düğmesine tıklayarak onu da gizleyin, geri getirmek için $manage$ düğmesini kullanın",
     "placeholders": {
       "watched": {
         "content": "$1"
@@ -1328,16 +1328,16 @@
     "message": "Shorts, Mix, Oynatma Listeleri ve Canlılar"
   },
   "tourContentTypesDescription": {
-    "message": "Akışınızdan ve arama sonuçlarından Shorts'u, Mix listelerini, normal oynatma listelerini ve canlı yayınları birbirinden bağımsız olarak kaldırın."
+    "message": "Akışınızdan ve arama sonuçlarından Shorts'u, Mix listelerini, normal oynatma listelerini ve canlı yayınları birbirinden bağımsız olarak kaldırın"
   },
   "tourViewsDescription": {
-    "message": "Belirli bir popülerlik aralığındaki videoları tutmak için en az görüntülemenin altındaki, en çok görüntülemenin üstündeki veya her ikisini birden gizleyin."
+    "message": "Belirli bir popülerlik aralığındaki videoları tutmak için en az görüntülemenin altındaki, en çok görüntülemenin üstündeki veya her ikisini birden gizleyin"
   },
   "tourDateDescription": {
-    "message": "Ayarlanabilir bir eşikten daha yeni veya daha eski videoları gizleyin. Yalnızca belirli bir dönemin videolarını tutmak için ikisini birlikte kullanın."
+    "message": "Ayarlanabilir bir eşikten daha yeni veya daha eski videoları gizleyin. Yalnızca belirli bir dönemin videolarını tutmak için ikisini birlikte kullanın"
   },
   "tourChannelWhitelistDescription": {
-    "message": "Sevdiğiniz kanalları tüm filtrelerden muaf tutun. Mevcut kanalı tek tıkla ekleyin; kanalları kendi sayfasında aramak, kaldırmak veya taşımak için $manage$ düğmesini kullanın.",
+    "message": "Sevdiğiniz kanalları tüm filtrelerden muaf tutun. Mevcut kanalı tek tıkla ekleyin; kanalları kendi sayfasında aramak, kaldırmak veya taşımak için $manage$ düğmesini kullanın",
     "placeholders": {
       "manage": {
         "content": "$1"
@@ -1345,7 +1345,7 @@
     }
   },
   "tourChannelBlacklistDescription": {
-    "message": "Whitelist'in tersi: bir kanalı Shorts, Mix, oynatma listeleri ve canlılar dahil her yerde her zaman gizler. Mevcut kanalı tek tıkla ekleyin; listenin tamamını kendi sayfasında görmek için $manage$ düğmesini kullanın.",
+    "message": "Whitelist'in tersi: bir kanalı Shorts, Mix, oynatma listeleri ve canlılar dahil her yerde her zaman gizler. Mevcut kanalı tek tıkla ekleyin; listenin tamamını kendi sayfasında görmek için $manage$ düğmesini kullanın",
     "placeholders": {
       "manage": {
         "content": "$1"
@@ -1353,16 +1353,16 @@
     }
   },
   "tourTitleWhitelistDescription": {
-    "message": "Videoları kanala göre değil, başlıklarındaki bir kelimeye göre muaf tutun. Başlığında kelimelerinizden biri geçen videolara hiçbir filtre dokunmaz."
+    "message": "Videoları kanala göre değil, başlıklarındaki bir kelimeye göre muaf tutun. Başlığında kelimelerinizden biri geçen videolara hiçbir filtre dokunmaz"
   },
   "tourTitleBlacklistDescription": {
-    "message": "Title Whitelist'in tersi: başlığında kelimelerinizden biri geçen her videoyu, Whitelist'teki bir kanaldan olsa bile, her yerde her zaman gizler."
+    "message": "Title Whitelist'in tersi: başlığında kelimelerinizden biri geçen her videoyu, Whitelist'teki bir kanaldan olsa bile, her yerde her zaman gizler"
   },
   "tourExtraSettingsTitle": {
     "message": "Ek Ayarlar"
   },
   "tourExtraSettingsDescription": {
-    "message": "Gelişmiş arayüze geçmek için \"$advanced$\" seçeneğini açın; filtreleme arka planda sürerken bu düğmeyi (ve sayfadaki Whitelist, Blacklist ve $watched$ düğmelerini) kaldırmak için istediğiniz zaman \"$hidecontrols$\" seçeneğini açın.",
+    "message": "Gelişmiş arayüze geçmek için \"$advanced$\" seçeneğini açın; filtreleme arka planda sürerken bu düğmeyi (ve sayfadaki Whitelist, Blacklist ve $watched$ düğmelerini) kaldırmak için istediğiniz zaman \"$hidecontrols$\" seçeneğini açın",
     "placeholders": {
       "advanced": {
         "content": "$1"
@@ -1372,6 +1372,17 @@
       },
       "watched": {
         "content": "$3"
+      }
+    }
+  },
+  "sentenceJoin": {
+    "message": "$first$. $second$",
+    "placeholders": {
+      "first": {
+        "content": "$1"
+      },
+      "second": {
+        "content": "$2"
       }
     }
   }

@@ -6,7 +6,7 @@
     "message": "YouTube Hider: 시청한 동영상, Shorts, 조회수 낮은 동영상 숨기기"
   },
   "extDescription": {
-    "message": "YouTube에서 이미 시청한 동영상, 조회수가 낮은 동영상, Shorts를 숨깁니다."
+    "message": "YouTube에서 이미 시청한 동영상, 조회수가 낮은 동영상, Shorts를 숨깁니다"
   },
   "popupPageTitle": {
     "message": "YouTube Hider 확장 프로그램"
@@ -320,28 +320,28 @@
     "message": "YouTube Hider 후원하기"
   },
   "supportLead": {
-    "message": "YouTube Hider는 무료 오픈소스이며 광고도 추적도 없습니다. 하지만 움직이는 과녁을 쫓고 있습니다. YouTube는 예고 없이 페이지 구조를 바꾸고, 아무도 알리지 않은 변경이 어제까지 잘 되던 필터를 조용히 망가뜨릴 수 있습니다."
+    "message": "YouTube Hider는 무료 오픈소스이며 광고도 추적도 없습니다. 하지만 움직이는 과녁을 쫓고 있습니다. YouTube는 예고 없이 페이지 구조를 바꾸고, 아무도 알리지 않은 변경이 어제까지 잘 되던 필터를 조용히 망가뜨릴 수 있습니다"
   },
   "supportText": {
-    "message": "제대로 작동하게 하려면 누군가 여가 시간에 그런 변경을 선택자 하나하나 찾아내야 합니다. 아래 세 가지 중 무엇이든 도움이 됩니다."
+    "message": "제대로 작동하게 하려면 누군가 여가 시간에 그런 변경을 선택자 하나하나 찾아내야 합니다. 아래 세 가지 중 무엇이든 도움이 됩니다"
   },
   "supportKofiTitle": {
     "message": "커피 한 잔 사 주기"
   },
   "supportKofiDescription": {
-    "message": "Ko-fi에서 한 번만 후원합니다. 계정도 구독도 필요 없습니다."
+    "message": "Ko-fi에서 한 번만 후원합니다. 계정도 구독도 필요 없습니다"
   },
   "supportGithubTitle": {
     "message": "GitHub에서 기여하기"
   },
   "supportGithubDescription": {
-    "message": "풀 리퀘스트를 보내거나, 고장 난 필터를 문제가 생긴 페이지와 함께 신고해 주세요."
+    "message": "풀 리퀘스트를 보내거나, 고장 난 필터를 문제가 생긴 페이지와 함께 신고해 주세요"
   },
   "supportReviewTitle": {
     "message": "리뷰 남기기"
   },
   "supportReviewDescription": {
-    "message": "Chrome 웹 스토어의 평점은 비용이 들지 않으며 다른 사람들이 이 확장 프로그램을 찾는 데 도움이 됩니다."
+    "message": "Chrome 웹 스토어의 평점은 비용이 들지 않으며 다른 사람들이 이 확장 프로그램을 찾는 데 도움이 됩니다"
   },
   "titleWhitelistPlaceholder": {
     "message": "단어 또는 구문, 예: 강좌"
@@ -479,16 +479,16 @@
     }
   },
   "manageSyncMessageListsPaused": {
-    "message": "목록이 Chrome이 확장 프로그램에 제공하는 동기화 공간을 넘어서 목록 동기화가 일시중지되었습니다. 모든 항목은 이 브라우저에 저장되어 정상적으로 작동하며, 다른 기기에는 공간에 맞았던 마지막 버전이 유지됩니다. 목록이 다시 공간에 맞으면 동기화가 자동으로 재개됩니다."
+    "message": "목록이 Chrome이 확장 프로그램에 제공하는 동기화 공간을 넘어서 목록 동기화가 일시중지되었습니다. 모든 항목은 이 브라우저에 저장되어 정상적으로 작동하며, 다른 기기에는 공간에 맞았던 마지막 버전이 유지됩니다. 목록이 다시 공간에 맞으면 동기화가 자동으로 재개됩니다"
   },
   "manageSyncMessageMarkedPaused": {
-    "message": "표시한 동영상은 지금 동기화되지 않습니다. 공유 공간에서는 목록이 우선합니다. 동영상은 이 브라우저에 저장되어 정상적으로 작동하며, 공간이 생기면 동기화가 재개됩니다."
+    "message": "표시한 동영상은 지금 동기화되지 않습니다. 공유 공간에서는 목록이 우선합니다. 동영상은 이 브라우저에 저장되어 정상적으로 작동하며, 공간이 생기면 동기화가 재개됩니다"
   },
   "manageSyncMessageOutdated": {
-    "message": "다른 기기에서 더 최신 버전의 YouTube Hider를 사용하고 있습니다. 계속 동기화하려면 이 브라우저의 확장 프로그램을 업데이트하세요."
+    "message": "다른 기기에서 더 최신 버전의 YouTube Hider를 사용하고 있습니다. 계속 동기화하려면 이 브라우저의 확장 프로그램을 업데이트하세요"
   },
   "manageSyncMessageNearFull": {
-    "message": "목록이 공간을 넘으면 동기화가 일시중지되지만 잃는 것은 없습니다. 이 브라우저에서는 모두 계속 작동합니다."
+    "message": "목록이 공간을 넘으면 동기화가 일시중지되지만 잃는 것은 없습니다. 이 브라우저에서는 모두 계속 작동합니다"
   },
   "manageSyncMeterText": {
     "message": "동기화 공간의 $percent$% 사용 중",
@@ -514,16 +514,16 @@
     "message": "목록 가져오기"
   },
   "manageImportIntro": {
-    "message": "항목은 추가되기만 합니다. 목록에 이미 있는 항목은 삭제되거나 변경되지 않습니다."
+    "message": "항목은 추가되기만 합니다. 목록에 이미 있는 항목은 삭제되거나 변경되지 않습니다"
   },
   "manageImportNothing": {
-    "message": "가져올 새 항목이 없습니다. 이 파일의 내용은 모두 목록에 이미 있습니다."
+    "message": "가져올 새 항목이 없습니다. 이 파일의 내용은 모두 목록에 이미 있습니다"
   },
   "manageImportError": {
-    "message": "이 파일을 YouTube Hider 내보내기 파일로 읽을 수 없습니다."
+    "message": "이 파일을 YouTube Hider 내보내기 파일로 읽을 수 없습니다"
   },
   "manageImportListFull": {
-    "message": "목록이 가득 차서 가장 오래된 표시가 삭제되었습니다."
+    "message": "목록이 가득 차서 가장 오래된 표시가 삭제되었습니다"
   },
   "manageImportConfirm_other": {
     "message": "$count$개 가져오기",
@@ -545,7 +545,7 @@
     }
   },
   "manageImported_other": {
-    "message": "새 항목 $count$개를 가져왔습니다.",
+    "message": "새 항목 $count$개를 가져왔습니다",
     "placeholders": {
       "count": {
         "content": "$1"
@@ -553,7 +553,7 @@
     }
   },
   "manageExported_other": {
-    "message": "$count$개를 내보냈습니다.",
+    "message": "$count$개를 내보냈습니다",
     "placeholders": {
       "count": {
         "content": "$1"
@@ -561,10 +561,10 @@
     }
   },
   "manageMarkedDescription": {
-    "message": "YouTube에서 시청함 버튼으로 표시한 동영상입니다. 시청한 동영상 숨기기 설정에 따라 시청한 동영상처럼 숨겨집니다. 다시 보이게 하려면 목록에서 삭제하세요. 최대 3,000개까지 보관되며, 이를 넘으면 가장 오래된 표시가 삭제됩니다."
+    "message": "YouTube에서 시청함 버튼으로 표시한 동영상입니다. 시청한 동영상 숨기기 설정에 따라 시청한 동영상처럼 숨겨집니다. 다시 보이게 하려면 목록에서 삭제하세요. 최대 3,000개까지 보관되며, 이를 넘으면 가장 오래된 표시가 삭제됩니다"
   },
   "manageMarkedNote": {
-    "message": "$setting$ 설정을 따릅니다. 표시한 동영상은 이 설정이 켜진 곳에서만 숨겨집니다.",
+    "message": "$setting$ 설정을 따릅니다. 표시한 동영상은 이 설정이 켜진 곳에서만 숨겨집니다",
     "placeholders": {
       "setting": {
         "content": "$1"
@@ -645,7 +645,7 @@
     }
   },
   "manageAdded_other": {
-    "message": "$list$에 $count$개를 추가했습니다.",
+    "message": "$list$에 $count$개를 추가했습니다",
     "placeholders": {
       "count": {
         "content": "$1"
@@ -656,7 +656,7 @@
     }
   },
   "manageRemoved_other": {
-    "message": "$list$에서 $count$개를 삭제했습니다.",
+    "message": "$list$에서 $count$개를 삭제했습니다",
     "placeholders": {
       "count": {
         "content": "$1"
@@ -667,7 +667,7 @@
     }
   },
   "manageMoved_other": {
-    "message": "$count$개를 $list$(으)로 이동했습니다.",
+    "message": "$count$개를 $list$(으)로 이동했습니다",
     "placeholders": {
       "count": {
         "content": "$1"
@@ -678,7 +678,7 @@
     }
   },
   "manageRestored_other": {
-    "message": "$count$개를 복원했습니다.",
+    "message": "$count$개를 복원했습니다",
     "placeholders": {
       "count": {
         "content": "$1"
@@ -686,7 +686,7 @@
     }
   },
   "manageMarkedRemoved_other": {
-    "message": "동영상 $count$개를 삭제했습니다. YouTube에 다시 표시됩니다.",
+    "message": "동영상 $count$개를 삭제했습니다. YouTube에 다시 표시됩니다",
     "placeholders": {
       "count": {
         "content": "$1"
@@ -823,7 +823,7 @@
     }
   },
   "manageClearText_other": {
-    "message": "$list$의 항목 $count$개를 모두 삭제합니다. 바로 실행 취소하거나 먼저 백업을 내보낼 수 있습니다.",
+    "message": "$list$의 항목 $count$개를 모두 삭제합니다. 바로 실행 취소하거나 먼저 백업을 내보낼 수 있습니다",
     "placeholders": {
       "count": {
         "content": "$1"
@@ -845,19 +845,19 @@
     "message": "아직 항목이 없습니다"
   },
   "manageEmptyMarked": {
-    "message": "아직 표시한 동영상이 없습니다. YouTube에서 동영상에 마우스를 올리고 시청함을 클릭하면 여기에 추가됩니다."
+    "message": "아직 표시한 동영상이 없습니다. YouTube에서 동영상에 마우스를 올리고 시청함을 클릭하면 여기에 추가됩니다"
   },
   "manageEmptyChannelWhitelist": {
-    "message": "채널 또는 동영상 페이지에서 구독 옆의 Whitelist 버튼을 사용하거나, 위 입력란에 채널을 붙여넣으세요."
+    "message": "채널 또는 동영상 페이지에서 구독 옆의 Whitelist 버튼을 사용하거나, 위 입력란에 채널을 붙여넣으세요"
   },
   "manageEmptyChannelBlacklist": {
-    "message": "YouTube에서 동영상에 마우스를 올리고 Blacklist를 클릭하거나, 채널 페이지에서 구독 옆의 Blacklist 버튼을 사용하거나, 위 입력란에 채널을 붙여넣으세요."
+    "message": "YouTube에서 동영상에 마우스를 올리고 Blacklist를 클릭하거나, 채널 페이지에서 구독 옆의 Blacklist 버튼을 사용하거나, 위 입력란에 채널을 붙여넣으세요"
   },
   "manageEmptyTitleWhitelist": {
-    "message": "위 입력란에 단어나 구문을 입력하세요. 제목에 이 단어가 포함된 동영상은 필터링되지 않습니다."
+    "message": "위 입력란에 단어나 구문을 입력하세요. 제목에 이 단어가 포함된 동영상은 필터링되지 않습니다"
   },
   "manageEmptyTitleBlacklist": {
-    "message": "위 입력란에 단어나 구문을 입력하세요. 제목에 이 단어가 포함된 동영상은 항상 숨겨집니다."
+    "message": "위 입력란에 단어나 구문을 입력하세요. 제목에 이 단어가 포함된 동영상은 항상 숨겨집니다"
   },
   "manageNoMatchTitle": {
     "message": "\"$query$\"에 대한 결과가 없습니다",
@@ -868,7 +868,7 @@
     }
   },
   "manageNoMatchText": {
-    "message": "철자를 확인하거나 이름의 일부만 검색해 보세요."
+    "message": "철자를 확인하거나 이름의 일부만 검색해 보세요"
   },
   "manageChannelIdLabel": {
     "message": "채널 ID"
@@ -924,7 +924,7 @@
     "message": "이 동영상의 시청함 표시를 해제합니다"
   },
   "tooltipOnPageControls": {
-    "message": "확장 프로그램 설정의 \"$setting$\"에서 이 버튼을 숨길 수 있습니다.",
+    "message": "확장 프로그램 설정의 \"$setting$\"에서 이 버튼을 숨길 수 있습니다",
     "placeholders": {
       "setting": {
         "content": "$1"
@@ -932,31 +932,31 @@
     }
   },
   "tooltipWhitelistAddOne": {
-    "message": "이 채널을 YouTube Hider Whitelist에 추가합니다. 이 채널의 동영상은 필터링되지 않습니다 (Shorts는 항상 필터링됨)."
+    "message": "이 채널을 YouTube Hider Whitelist에 추가합니다. 이 채널의 동영상은 필터링되지 않습니다 (Shorts는 항상 필터링됨)"
   },
   "tooltipWhitelistAddMany": {
-    "message": "이 채널들을 YouTube Hider Whitelist에 추가합니다. 이 채널들의 동영상은 필터링되지 않습니다 (Shorts는 항상 필터링됨)."
+    "message": "이 채널들을 YouTube Hider Whitelist에 추가합니다. 이 채널들의 동영상은 필터링되지 않습니다 (Shorts는 항상 필터링됨)"
   },
   "tooltipWhitelistRemoveOne": {
-    "message": "이 채널을 YouTube Hider Whitelist에서 삭제합니다."
+    "message": "이 채널을 YouTube Hider Whitelist에서 삭제합니다"
   },
   "tooltipWhitelistRemoveMany": {
-    "message": "이 채널들을 YouTube Hider Whitelist에서 삭제합니다."
+    "message": "이 채널들을 YouTube Hider Whitelist에서 삭제합니다"
   },
   "tooltipWhitelistPaused": {
-    "message": "이 채널은 Whitelist에 있지만 지금은 Channel Whitelist가 꺼져 있습니다. 다시 켜려면 클릭하세요."
+    "message": "이 채널은 Whitelist에 있지만 지금은 Channel Whitelist가 꺼져 있습니다. 다시 켜려면 클릭하세요"
   },
   "tooltipBlacklistAddOne": {
-    "message": "이 채널을 YouTube Hider Blacklist에 추가합니다. 이 채널의 동영상은 항상 숨겨집니다 (Shorts는 항상 필터링됨)."
+    "message": "이 채널을 YouTube Hider Blacklist에 추가합니다. 이 채널의 동영상은 항상 숨겨집니다 (Shorts는 항상 필터링됨)"
   },
   "tooltipBlacklistAddMany": {
-    "message": "이 채널들을 YouTube Hider Blacklist에 추가합니다. 이 채널들의 동영상은 항상 숨겨집니다 (Shorts는 항상 필터링됨)."
+    "message": "이 채널들을 YouTube Hider Blacklist에 추가합니다. 이 채널들의 동영상은 항상 숨겨집니다 (Shorts는 항상 필터링됨)"
   },
   "tooltipBlacklistRemoveOne": {
-    "message": "이 채널을 YouTube Hider Blacklist에서 삭제합니다."
+    "message": "이 채널을 YouTube Hider Blacklist에서 삭제합니다"
   },
   "tooltipBlacklistRemoveMany": {
-    "message": "이 채널들을 YouTube Hider Blacklist에서 삭제합니다."
+    "message": "이 채널들을 YouTube Hider Blacklist에서 삭제합니다"
   },
   "reasonAlreadyWatched": {
     "message": "이미 시청함"
@@ -1000,7 +1000,7 @@
     "message": "YouTube Hider에 오신 것을 환영합니다!"
   },
   "tourWelcomeDescription": {
-    "message": "짧은 투어로 YouTube 헤더에 들어 있는 YouTube Hider 버튼, 내 설정, 그리고 확장 프로그램을 최대한 활용하는 방법을 알아보세요."
+    "message": "짧은 투어로 YouTube 헤더에 들어 있는 YouTube Hider 버튼, 내 설정, 그리고 확장 프로그램을 최대한 활용하는 방법을 알아보세요"
   },
   "tourStart": {
     "message": "튜토리얼 시작"
@@ -1040,16 +1040,16 @@
     "message": "설정 버튼"
   },
   "tourSettingsButtonDescription": {
-    "message": "YouTube 헤더에 바로 들어 있는 YouTube Hider 톱니바퀴 버튼입니다. 시청 페이지를 포함한 모든 페이지에 표시되며 즉시 열립니다."
+    "message": "YouTube 헤더에 바로 들어 있는 YouTube Hider 톱니바퀴 버튼입니다. 시청 페이지를 포함한 모든 페이지에 표시되며 즉시 열립니다"
   },
   "tourFullSettingsTitle": {
     "message": "모든 설정을 바로 여기서"
   },
   "tourFullSettingsDescription": {
-    "message": "클릭하면 YouTube Hider의 모든 설정이 한곳에 열립니다. 안에 무엇이 있는지 함께 살펴보세요."
+    "message": "클릭하면 YouTube Hider의 모든 설정이 한곳에 열립니다. 안에 무엇이 있는지 함께 살펴보세요"
   },
   "tourFilterModeDescription": {
-    "message": "필터링된 동영상을 어떻게 처리할지 선택하세요. $hide$는 화면에서 완전히 없애고, $dim$는 클릭할 수 있는 어두운 오버레이로 덮습니다. 아래의 모든 필터에 적용됩니다.",
+    "message": "필터링된 동영상을 어떻게 처리할지 선택하세요. $hide$는 화면에서 완전히 없애고, $dim$는 클릭할 수 있는 어두운 오버레이로 덮습니다. 아래의 모든 필터에 적용됩니다",
     "placeholders": {
       "hide": {
         "content": "$1"
@@ -1060,7 +1060,7 @@
     }
   },
   "tourHideWatchedDescription": {
-    "message": "얼마나 시청했는지에 따라 동영상을 숨깁니다. 끄려면 슬라이더를 왼쪽 끝까지 드래그하고, 더 세밀하게 조정하려면 고급 모드의 페이지별 스위치를 사용하세요. YouTube가 놓친 동영상이 있나요? 동영상에 마우스를 올리고 $watched$을 클릭하면 숨겨지고, $manage$에서 다시 되돌릴 수 있습니다.",
+    "message": "얼마나 시청했는지에 따라 동영상을 숨깁니다. 끄려면 슬라이더를 왼쪽 끝까지 드래그하고, 더 세밀하게 조정하려면 고급 모드의 페이지별 스위치를 사용하세요. YouTube가 놓친 동영상이 있나요? 동영상에 마우스를 올리고 $watched$을 클릭하면 숨겨지고, $manage$에서 다시 되돌릴 수 있습니다",
     "placeholders": {
       "watched": {
         "content": "$1"
@@ -1074,16 +1074,16 @@
     "message": "Shorts, 믹스, 재생목록, 실시간"
   },
   "tourContentTypesDescription": {
-    "message": "피드와 검색 결과에서 Shorts, 믹스 재생목록, 일반 재생목록, 실시간 스트림을 각각 따로 없앨 수 있습니다."
+    "message": "피드와 검색 결과에서 Shorts, 믹스 재생목록, 일반 재생목록, 실시간 스트림을 각각 따로 없앨 수 있습니다"
   },
   "tourViewsDescription": {
-    "message": "조회수가 최솟값보다 적거나 최댓값보다 많은 동영상, 또는 둘 다를 숨겨 원하는 인기 범위의 동영상만 남길 수 있습니다."
+    "message": "조회수가 최솟값보다 적거나 최댓값보다 많은 동영상, 또는 둘 다를 숨겨 원하는 인기 범위의 동영상만 남길 수 있습니다"
   },
   "tourDateDescription": {
-    "message": "설정한 기준보다 최근이거나 오래된 동영상을 숨깁니다. 둘을 함께 사용하면 특정 기간의 동영상만 남길 수 있습니다."
+    "message": "설정한 기준보다 최근이거나 오래된 동영상을 숨깁니다. 둘을 함께 사용하면 특정 기간의 동영상만 남길 수 있습니다"
   },
   "tourChannelWhitelistDescription": {
-    "message": "좋아하는 채널을 모든 필터에서 제외하세요. 클릭 한 번으로 현재 채널을 추가하고, $manage$에서 별도 페이지로 채널을 검색, 삭제, 이동할 수 있습니다.",
+    "message": "좋아하는 채널을 모든 필터에서 제외하세요. 클릭 한 번으로 현재 채널을 추가하고, $manage$에서 별도 페이지로 채널을 검색, 삭제, 이동할 수 있습니다",
     "placeholders": {
       "manage": {
         "content": "$1"
@@ -1091,7 +1091,7 @@
     }
   },
   "tourChannelBlacklistDescription": {
-    "message": "Whitelist의 반대입니다. Shorts, 믹스, 재생목록, 실시간을 포함해 채널을 어디서나 항상 숨깁니다. 클릭 한 번으로 현재 채널을 추가하고, $manage$에서 별도 페이지로 전체 목록을 볼 수 있습니다.",
+    "message": "Whitelist의 반대입니다. Shorts, 믹스, 재생목록, 실시간을 포함해 채널을 어디서나 항상 숨깁니다. 클릭 한 번으로 현재 채널을 추가하고, $manage$에서 별도 페이지로 전체 목록을 볼 수 있습니다",
     "placeholders": {
       "manage": {
         "content": "$1"
@@ -1099,16 +1099,16 @@
     }
   },
   "tourTitleWhitelistDescription": {
-    "message": "채널 대신 제목의 단어로 동영상을 제외하세요. 제목에 내 단어 중 하나가 들어간 동영상은 어떤 필터도 건드리지 않습니다."
+    "message": "채널 대신 제목의 단어로 동영상을 제외하세요. 제목에 내 단어 중 하나가 들어간 동영상은 어떤 필터도 건드리지 않습니다"
   },
   "tourTitleBlacklistDescription": {
-    "message": "Title Whitelist의 반대입니다. 제목에 내 단어 중 하나가 들어간 동영상은 Whitelist에 있는 채널이라도 어디서나 항상 숨깁니다."
+    "message": "Title Whitelist의 반대입니다. 제목에 내 단어 중 하나가 들어간 동영상은 Whitelist에 있는 채널이라도 어디서나 항상 숨깁니다"
   },
   "tourExtraSettingsTitle": {
     "message": "추가 설정"
   },
   "tourExtraSettingsDescription": {
-    "message": "\"$advanced$\"을 켜면 고급 화면으로 전환되고, \"$hidecontrols$\"를 켜면 필터는 백그라운드에서 계속 작동하면서 언제든 이 버튼(과 페이지의 Whitelist, Blacklist, $watched$ 버튼)을 없앨 수 있습니다.",
+    "message": "\"$advanced$\"을 켜면 고급 화면으로 전환되고, \"$hidecontrols$\"를 켜면 필터는 백그라운드에서 계속 작동하면서 언제든 이 버튼(과 페이지의 Whitelist, Blacklist, $watched$ 버튼)을 없앨 수 있습니다",
     "placeholders": {
       "advanced": {
         "content": "$1"
@@ -1118,6 +1118,17 @@
       },
       "watched": {
         "content": "$3"
+      }
+    }
+  },
+  "sentenceJoin": {
+    "message": "$first$. $second$",
+    "placeholders": {
+      "first": {
+        "content": "$1"
+      },
+      "second": {
+        "content": "$2"
       }
     }
   }

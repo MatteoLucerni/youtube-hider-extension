@@ -72,9 +72,9 @@ function findInlineBlacklistTooltipText(channel, isBlacklisted) {
   const many = isMultiChannel(channel);
 
   if (isBlacklisted) {
-    return getText(many ? 'tooltipBlacklistRemoveMany' : 'tooltipBlacklistRemoveOne') + ' ' + ON_PAGE_CONTROLS_TIP;
+    return joinSentences(getText(many ? 'tooltipBlacklistRemoveMany' : 'tooltipBlacklistRemoveOne'), ON_PAGE_CONTROLS_TIP);
   }
-  return getText(many ? 'tooltipBlacklistAddMany' : 'tooltipBlacklistAddOne') + ' ' + ON_PAGE_CONTROLS_TIP;
+  return joinSentences(getText(many ? 'tooltipBlacklistAddMany' : 'tooltipBlacklistAddOne'), ON_PAGE_CONTROLS_TIP);
 }
 
 function createInlineBlacklistButton(channel, isFlexibleActionsRow) {

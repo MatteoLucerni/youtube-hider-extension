@@ -8,7 +8,7 @@
     "description": "Extension name shown in the Chrome Web Store and in chrome://extensions. Max 75 characters. Keep 'YouTube Hider' untranslated and use the words people search for in this language."
   },
   "extDescription": {
-    "message": "Hides already watched videos from YouTube, as well as low views videos and remove Shorts.",
+    "message": "Hides already watched videos from YouTube, as well as low views videos and remove Shorts",
     "description": "Short description shown in the Chrome Web Store. Max 132 characters."
   },
   "popupPageTitle": {
@@ -426,11 +426,11 @@
     "description": "Title of the support panel. Keep 'YouTube Hider' untranslated."
   },
   "supportLead": {
-    "message": "YouTube Hider is free, open source, and has no ads and no tracking. It also aims at a moving target: YouTube reshapes its page markup without warning, and a change nobody announces can quietly break a filter that worked yesterday.",
+    "message": "YouTube Hider is free, open source, and has no ads and no tracking. It also aims at a moving target: YouTube reshapes its page markup without warning, and a change nobody announces can quietly break a filter that worked yesterday",
     "description": "First paragraph of the support panel."
   },
   "supportText": {
-    "message": "Keeping it working means hunting those changes down one selector at a time, in someone's spare time. Any of these three helps.",
+    "message": "Keeping it working means hunting those changes down one selector at a time, in someone's spare time. Any of these three helps",
     "description": "Second paragraph of the support panel. 'these three' are the three options listed below it."
   },
   "supportKofiTitle": {
@@ -438,7 +438,7 @@
     "description": "Support option: donate on Ko-fi."
   },
   "supportKofiDescription": {
-    "message": "A one-off contribution on Ko-fi. No account and no subscription needed.",
+    "message": "A one-off contribution on Ko-fi. No account and no subscription needed",
     "description": "Description of the Ko-fi option."
   },
   "supportGithubTitle": {
@@ -446,7 +446,7 @@
     "description": "Support option: contribute on GitHub."
   },
   "supportGithubDescription": {
-    "message": "Send a pull request, or report a broken filter with the page it happened on.",
+    "message": "Send a pull request, or report a broken filter with the page it happened on",
     "description": "Description of the GitHub option."
   },
   "supportReviewTitle": {
@@ -454,7 +454,7 @@
     "description": "Support option: rate the extension on the Chrome Web Store."
   },
   "supportReviewDescription": {
-    "message": "A rating on the Chrome Web Store costs nothing and helps other people find the extension.",
+    "message": "A rating on the Chrome Web Store costs nothing and helps other people find the extension",
     "description": "Description of the review option."
   },
   "titleWhitelistPlaceholder": {
@@ -684,19 +684,19 @@
     }
   },
   "manageSyncMessageListsPaused": {
-    "message": "Your lists have outgrown the space Chrome gives extensions to sync, so syncing them is paused. Everything is saved and working in this browser, and your other devices keep the last version that fit. Sync resumes by itself once the lists fit again.",
+    "message": "Your lists have outgrown the space Chrome gives extensions to sync, so syncing them is paused. Everything is saved and working in this browser, and your other devices keep the last version that fit. Sync resumes by itself once the lists fit again",
     "description": "Explanation shown when the lists are too large to sync. It must make clear that nothing is lost."
   },
   "manageSyncMessageMarkedPaused": {
-    "message": "Marked videos are not syncing right now: your lists come first in the shared space. They are saved and working in this browser, and sync resumes once there is room again.",
+    "message": "Marked videos are not syncing right now: your lists come first in the shared space. They are saved and working in this browser, and sync resumes once there is room again",
     "description": "Explanation shown when the marked videos do not sync because the lists need the shared space."
   },
   "manageSyncMessageOutdated": {
-    "message": "Another device uses a newer version of YouTube Hider. Update the extension in this browser to keep syncing.",
+    "message": "Another device uses a newer version of YouTube Hider. Update the extension in this browser to keep syncing",
     "description": "Explanation shown when another device wrote a newer sync format. Keep 'YouTube Hider' untranslated."
   },
   "manageSyncMessageNearFull": {
-    "message": "If your lists outgrow it, syncing pauses but nothing is lost: everything keeps working in this browser.",
+    "message": "If your lists outgrow it, syncing pauses but nothing is lost: everything keeps working in this browser",
     "description": "Explanation under the almost-full sync status. It must make clear that nothing is lost."
   },
   "manageSyncMeterText": {
@@ -730,19 +730,19 @@
     "description": "Title of the dialog that previews an import."
   },
   "manageImportIntro": {
-    "message": "Entries are only added: nothing already in your lists is removed or changed.",
+    "message": "Entries are only added: nothing already in your lists is removed or changed",
     "description": "Text of the import preview dialog, before the per-list summary."
   },
   "manageImportNothing": {
-    "message": "Nothing new to import: everything in that file is already in your lists.",
+    "message": "Nothing new to import: everything in that file is already in your lists",
     "description": "Message when an imported file has nothing that is not already in the lists."
   },
   "manageImportError": {
-    "message": "That file could not be read as a YouTube Hider export.",
+    "message": "That file could not be read as a YouTube Hider export",
     "description": "Message when the chosen file is not a YouTube Hider export."
   },
   "manageImportListFull": {
-    "message": "The list is full, so the oldest marks were dropped.",
+    "message": "The list is full, so the oldest marks were dropped",
     "description": "Added after the import message when the marked videos hit their limit."
   },
   "manageImportConfirm_one": {
@@ -794,7 +794,7 @@
     }
   },
   "manageImported_one": {
-    "message": "Imported $count$ new entry.",
+    "message": "Imported $count$ new entry",
     "description": "Confirmation after an import.",
     "placeholders": {
       "count": {
@@ -804,7 +804,7 @@
     }
   },
   "manageImported_other": {
-    "message": "Imported $count$ new entries.",
+    "message": "Imported $count$ new entries",
     "description": "Confirmation after an import.",
     "placeholders": {
       "count": {
@@ -814,7 +814,7 @@
     }
   },
   "manageExported_one": {
-    "message": "Exported $count$ entry.",
+    "message": "Exported $count$ entry",
     "description": "Confirmation after an export.",
     "placeholders": {
       "count": {
@@ -824,7 +824,7 @@
     }
   },
   "manageExported_other": {
-    "message": "Exported $count$ entries.",
+    "message": "Exported $count$ entries",
     "description": "Confirmation after an export.",
     "placeholders": {
       "count": {
@@ -834,11 +834,11 @@
     }
   },
   "manageMarkedDescription": {
-    "message": "Videos you marked with the Watched button on YouTube. They are hidden like watched videos, following the Hide Watched Videos settings. Remove one to bring it back. Up to 3,000 videos are kept: past that, the oldest mark is dropped.",
+    "message": "Videos you marked with the Watched button on YouTube. They are hidden like watched videos, following the Hide Watched Videos settings. Remove one to bring it back. Up to 3,000 videos are kept: past that, the oldest mark is dropped",
     "description": "Intro paragraph of the Marked as watched tab. 'Watched' is the on-page button label (buttonWatched) and 'Hide Watched Videos' the card title (hideWatchedTitle): keep them identical to those translations."
   },
   "manageMarkedNote": {
-    "message": "Follows $setting$: marked videos are hidden only where that setting is active.",
+    "message": "Follows $setting$: marked videos are hidden only where that setting is active",
     "description": "Note in place of an on/off switch on the Marked as watched tab. The placeholder is the Hide Watched Videos card title.",
     "placeholders": {
       "setting": {
@@ -1000,7 +1000,7 @@
     }
   },
   "manageAdded_one": {
-    "message": "Added $count$ entry to $list$.",
+    "message": "Added $count$ entry to $list$",
     "description": "Confirmation after adding entries to a list. The second placeholder is the list name.",
     "placeholders": {
       "count": {
@@ -1014,7 +1014,7 @@
     }
   },
   "manageAdded_other": {
-    "message": "Added $count$ entries to $list$.",
+    "message": "Added $count$ entries to $list$",
     "description": "Confirmation after adding entries to a list. The second placeholder is the list name.",
     "placeholders": {
       "count": {
@@ -1028,7 +1028,7 @@
     }
   },
   "manageRemoved_one": {
-    "message": "Removed $count$ entry from $list$.",
+    "message": "Removed $count$ entry from $list$",
     "description": "Confirmation after removing entries from a list. The second placeholder is the list name.",
     "placeholders": {
       "count": {
@@ -1042,7 +1042,7 @@
     }
   },
   "manageRemoved_other": {
-    "message": "Removed $count$ entries from $list$.",
+    "message": "Removed $count$ entries from $list$",
     "description": "Confirmation after removing entries from a list. The second placeholder is the list name.",
     "placeholders": {
       "count": {
@@ -1056,7 +1056,7 @@
     }
   },
   "manageMoved_one": {
-    "message": "Moved $count$ entry to $list$.",
+    "message": "Moved $count$ entry to $list$",
     "description": "Confirmation after moving entries to the opposite list. The second placeholder is the target list name.",
     "placeholders": {
       "count": {
@@ -1070,7 +1070,7 @@
     }
   },
   "manageMoved_other": {
-    "message": "Moved $count$ entries to $list$.",
+    "message": "Moved $count$ entries to $list$",
     "description": "Confirmation after moving entries to the opposite list. The second placeholder is the target list name.",
     "placeholders": {
       "count": {
@@ -1084,7 +1084,7 @@
     }
   },
   "manageRestored_one": {
-    "message": "Restored $count$ entry.",
+    "message": "Restored $count$ entry",
     "description": "Confirmation after Undo restored entries.",
     "placeholders": {
       "count": {
@@ -1094,7 +1094,7 @@
     }
   },
   "manageRestored_other": {
-    "message": "Restored $count$ entries.",
+    "message": "Restored $count$ entries",
     "description": "Confirmation after Undo restored entries.",
     "placeholders": {
       "count": {
@@ -1104,7 +1104,7 @@
     }
   },
   "manageMarkedRemoved_one": {
-    "message": "Removed $count$ video. It shows up on YouTube again.",
+    "message": "Removed $count$ video. It shows up on YouTube again",
     "description": "Confirmation after removing marked videos; they show up on YouTube again.",
     "placeholders": {
       "count": {
@@ -1114,7 +1114,7 @@
     }
   },
   "manageMarkedRemoved_other": {
-    "message": "Removed $count$ videos. They show up on YouTube again.",
+    "message": "Removed $count$ videos. They show up on YouTube again",
     "description": "Confirmation after removing marked videos; they show up on YouTube again.",
     "placeholders": {
       "count": {
@@ -1368,7 +1368,7 @@
     }
   },
   "manageClearText_one": {
-    "message": "This removes $count$ entry from $list$. You can undo it right after, or export a backup first.",
+    "message": "This removes $count$ entry from $list$. You can undo it right after, or export a backup first",
     "description": "Text of the dialog confirming Clear all.",
     "placeholders": {
       "count": {
@@ -1382,7 +1382,7 @@
     }
   },
   "manageClearText_other": {
-    "message": "This removes all $count$ entries from $list$. You can undo it right after, or export a backup first.",
+    "message": "This removes all $count$ entries from $list$. You can undo it right after, or export a backup first",
     "description": "Text of the dialog confirming Clear all.",
     "placeholders": {
       "count": {
@@ -1420,23 +1420,23 @@
     "description": "Title of the empty state of a list with no entries."
   },
   "manageEmptyMarked": {
-    "message": "No videos marked yet. On YouTube, hover a video and click Watched to add it here.",
+    "message": "No videos marked yet. On YouTube, hover a video and click Watched to add it here",
     "description": "Empty state of the Marked as watched tab. 'Watched' is the on-page button label (buttonWatched)."
   },
   "manageEmptyChannelWhitelist": {
-    "message": "Use the Whitelist button next to Subscribe on a channel or video page, or paste channels in the box above.",
+    "message": "Use the Whitelist button next to Subscribe on a channel or video page, or paste channels in the box above",
     "description": "Empty state of the Channel Whitelist tab: the ways to add a channel. 'Whitelist' is the on-page button label and 'Subscribe' YouTube's own button: use YouTube's word for it."
   },
   "manageEmptyChannelBlacklist": {
-    "message": "Hover a video on YouTube and click Blacklist, use the Blacklist button next to Subscribe on a channel page, or paste channels in the box above.",
+    "message": "Hover a video on YouTube and click Blacklist, use the Blacklist button next to Subscribe on a channel page, or paste channels in the box above",
     "description": "Empty state of the Channel Blacklist tab: the ways to add a channel. 'Blacklist' is the on-page button label and 'Subscribe' YouTube's own button: use YouTube's word for it."
   },
   "manageEmptyTitleWhitelist": {
-    "message": "Type a word or phrase in the box above. Videos whose title contains it are never filtered.",
+    "message": "Type a word or phrase in the box above. Videos whose title contains it are never filtered",
     "description": "Empty state of the Title Whitelist tab."
   },
   "manageEmptyTitleBlacklist": {
-    "message": "Type a word or phrase in the box above. Videos whose title contains it are always hidden.",
+    "message": "Type a word or phrase in the box above. Videos whose title contains it are always hidden",
     "description": "Empty state of the Title Blacklist tab."
   },
   "manageNoMatchTitle": {
@@ -1450,7 +1450,7 @@
     }
   },
   "manageNoMatchText": {
-    "message": "Check the spelling, or search for just part of the name.",
+    "message": "Check the spelling, or search for just part of the name",
     "description": "Text of the empty state when a search finds nothing."
   },
   "manageChannelIdLabel": {
@@ -1524,7 +1524,7 @@
     "description": "Hover title of the Unmark button."
   },
   "tooltipOnPageControls": {
-    "message": "You can hide this button from the extension settings, under \"$setting$\".",
+    "message": "You can hide this button from the extension settings, under \"$setting$\"",
     "description": "Last sentence of the on-page Whitelist and Blacklist button tooltips.",
     "placeholders": {
       "setting": {
@@ -1534,39 +1534,39 @@
     }
   },
   "tooltipWhitelistAddOne": {
-    "message": "Adds this channel to your YouTube Hider whitelist: its videos won't be filtered (Shorts are always filtered).",
+    "message": "Adds this channel to your YouTube Hider whitelist: its videos won't be filtered (Shorts are always filtered)",
     "description": "Tooltip of the Whitelist button next to Subscribe, for one channel."
   },
   "tooltipWhitelistAddMany": {
-    "message": "Adds these channels to your YouTube Hider whitelist: their videos won't be filtered (Shorts are always filtered).",
+    "message": "Adds these channels to your YouTube Hider whitelist: their videos won't be filtered (Shorts are always filtered)",
     "description": "Tooltip of the Whitelist button next to Subscribe, for a video made by several channels together."
   },
   "tooltipWhitelistRemoveOne": {
-    "message": "Removes this channel from your YouTube Hider whitelist.",
+    "message": "Removes this channel from your YouTube Hider whitelist",
     "description": "Tooltip of the Whitelisted button, for one channel."
   },
   "tooltipWhitelistRemoveMany": {
-    "message": "Removes these channels from your YouTube Hider whitelist.",
+    "message": "Removes these channels from your YouTube Hider whitelist",
     "description": "Tooltip of the Whitelisted button, for a video made by several channels together."
   },
   "tooltipWhitelistPaused": {
-    "message": "This whitelist entry exists, but Channel Whitelist is currently turned off. Click to turn it back on.",
+    "message": "This whitelist entry exists, but Channel Whitelist is currently turned off. Click to turn it back on",
     "description": "Tooltip of the Resume Whitelist button. Keep 'Channel Whitelist' in English."
   },
   "tooltipBlacklistAddOne": {
-    "message": "Adds this channel to your YouTube Hider blacklist: its videos will always be hidden (Shorts are always filtered).",
+    "message": "Adds this channel to your YouTube Hider blacklist: its videos will always be hidden (Shorts are always filtered)",
     "description": "Tooltip of the Blacklist button next to Subscribe, for one channel."
   },
   "tooltipBlacklistAddMany": {
-    "message": "Adds these channels to your YouTube Hider blacklist: their videos will always be hidden (Shorts are always filtered).",
+    "message": "Adds these channels to your YouTube Hider blacklist: their videos will always be hidden (Shorts are always filtered)",
     "description": "Tooltip of the Blacklist button next to Subscribe, for a video made by several channels together."
   },
   "tooltipBlacklistRemoveOne": {
-    "message": "Removes this channel from your YouTube Hider blacklist.",
+    "message": "Removes this channel from your YouTube Hider blacklist",
     "description": "Tooltip of the Blacklisted button, for one channel."
   },
   "tooltipBlacklistRemoveMany": {
-    "message": "Removes these channels from your YouTube Hider blacklist.",
+    "message": "Removes these channels from your YouTube Hider blacklist",
     "description": "Tooltip of the Blacklisted button, for a video made by several channels together."
   },
   "reasonAlreadyWatched": {
@@ -1624,7 +1624,7 @@
     "description": "Title of the first-run welcome card shown on YouTube."
   },
   "tourWelcomeDescription": {
-    "message": "Take a quick tour to discover the YouTube Hider button built into YouTube's own header, your settings, and how to get the most out of the extension.",
+    "message": "Take a quick tour to discover the YouTube Hider button built into YouTube's own header, your settings, and how to get the most out of the extension",
     "description": "Text of the first-run welcome card."
   },
   "tourStart": {
@@ -1676,7 +1676,7 @@
     "description": "Tour step title, pointing at the gear button in YouTube's header."
   },
   "tourSettingsButtonDescription": {
-    "message": "This is the YouTube Hider gear button, built right into YouTube's own header. It appears on every page, including Watch, and opens instantly.",
+    "message": "This is the YouTube Hider gear button, built right into YouTube's own header. It appears on every page, including Watch, and opens instantly",
     "description": "Tour step text. 'Watch' is YouTube's video page."
   },
   "tourFullSettingsTitle": {
@@ -1684,11 +1684,11 @@
     "description": "Tour step title, pointing at the open settings menu."
   },
   "tourFullSettingsDescription": {
-    "message": "Clicking it opens your complete YouTube Hider settings, all in one place. Let's walk through what you'll find inside.",
+    "message": "Clicking it opens your complete YouTube Hider settings, all in one place. Let's walk through what you'll find inside",
     "description": "Tour step text."
   },
   "tourFilterModeDescription": {
-    "message": "Choose how filtered videos are treated: $hide$ removes them from view entirely, $dim$ fades them under a dark overlay you can still click through. This applies to every filter below.",
+    "message": "Choose how filtered videos are treated: $hide$ removes them from view entirely, $dim$ fades them under a dark overlay you can still click through. This applies to every filter below",
     "description": "Tour step text for the Filter Mode card.",
     "placeholders": {
       "hide": {
@@ -1702,7 +1702,7 @@
     }
   },
   "tourHideWatchedDescription": {
-    "message": "Hide videos based on how much of them you've already watched. Drag the slider all the way left to turn it off, and use the per-page toggles in Advanced mode for finer control. YouTube missed one? Hover the video and click $watched$ to hide it too, and use $manage$ to bring it back.",
+    "message": "Hide videos based on how much of them you've already watched. Drag the slider all the way left to turn it off, and use the per-page toggles in Advanced mode for finer control. YouTube missed one? Hover the video and click $watched$ to hide it too, and use $manage$ to bring it back",
     "description": "Tour step text for the Hide Watched Videos card.",
     "placeholders": {
       "watched": {
@@ -1720,19 +1720,19 @@
     "description": "Tour step title. Use YouTube's own names in this language."
   },
   "tourContentTypesDescription": {
-    "message": "Independently remove Shorts, Mix playlists, regular Playlists, and Live streams from your feed and search results.",
+    "message": "Independently remove Shorts, Mix playlists, regular Playlists, and Live streams from your feed and search results",
     "description": "Tour step text for the Shorts, Mixes, Playlists and Lives card."
   },
   "tourViewsDescription": {
-    "message": "Hide videos below a minimum view count, above a maximum one, or both together to keep only videos inside a popularity range.",
+    "message": "Hide videos below a minimum view count, above a maximum one, or both together to keep only videos inside a popularity range",
     "description": "Tour step text for the Views Filter card."
   },
   "tourDateDescription": {
-    "message": "Hide videos newer or older than a configurable threshold. Use both together to keep only videos from a specific time window.",
+    "message": "Hide videos newer or older than a configurable threshold. Use both together to keep only videos from a specific time window",
     "description": "Tour step text for the Upload Date Filter card."
   },
   "tourChannelWhitelistDescription": {
-    "message": "Exempt your favorite channels from every filter. Add the current channel with one click, and use $manage$ to search, remove or move channels on a page of their own.",
+    "message": "Exempt your favorite channels from every filter. Add the current channel with one click, and use $manage$ to search, remove or move channels on a page of their own",
     "description": "Tour step text for the Channel Whitelist card. The placeholder is the Manage button label (markedWatchedManage).",
     "placeholders": {
       "manage": {
@@ -1742,7 +1742,7 @@
     }
   },
   "tourChannelBlacklistDescription": {
-    "message": "The opposite of Whitelist: always hide a channel everywhere, including Shorts, Mixes, Playlists and Lives. Add the current channel with one click, and use $manage$ to see the full list on a page of its own.",
+    "message": "The opposite of Whitelist: always hide a channel everywhere, including Shorts, Mixes, Playlists and Lives. Add the current channel with one click, and use $manage$ to see the full list on a page of its own",
     "description": "Tour step text for the Channel Blacklist card. Keep 'Whitelist' in English. The placeholder is the Manage button label (markedWatchedManage).",
     "placeholders": {
       "manage": {
@@ -1752,11 +1752,11 @@
     }
   },
   "tourTitleWhitelistDescription": {
-    "message": "Exempt videos by a word in their title instead of by channel. Every video whose title contains one of your words is left alone by every filter.",
+    "message": "Exempt videos by a word in their title instead of by channel. Every video whose title contains one of your words is left alone by every filter",
     "description": "Tour step text for the Title Whitelist card."
   },
   "tourTitleBlacklistDescription": {
-    "message": "The opposite of Title Whitelist: always hide every video whose title contains one of your words, everywhere, even from a whitelisted channel.",
+    "message": "The opposite of Title Whitelist: always hide every video whose title contains one of your words, everywhere, even from a whitelisted channel",
     "description": "Tour step text for the Title Blacklist card. Keep 'Title Whitelist' in English."
   },
   "tourExtraSettingsTitle": {
@@ -1764,7 +1764,7 @@
     "description": "Tour step title for the last group of settings."
   },
   "tourExtraSettingsDescription": {
-    "message": "Turn on \"$advanced$\" to switch to the Advanced interface, and turn on \"$hidecontrols$\" anytime to remove this button (and the Whitelist, Blacklist and $watched$ buttons on the page) while filtering keeps working in the background.",
+    "message": "Turn on \"$advanced$\" to switch to the Advanced interface, and turn on \"$hidecontrols$\" anytime to remove this button (and the Whitelist, Blacklist and $watched$ buttons on the page) while filtering keeps working in the background",
     "description": "Tour step text for the extra settings. Keep 'Whitelist' and 'Blacklist' in English.",
     "placeholders": {
       "advanced": {
@@ -1778,6 +1778,20 @@
       "watched": {
         "content": "$3",
         "example": "Watched"
+      }
+    }
+  },
+  "sentenceJoin": {
+    "message": "$first$. $second$",
+    "description": "Joins two complete sentences into one text, as in the on-page button tooltips. UI sentences never end with a period, so this is the only place the separator between two sentences comes from. Use the sentence separator of this language.",
+    "placeholders": {
+      "first": {
+        "content": "$1",
+        "example": "Adds this channel to your YouTube Hider whitelist"
+      },
+      "second": {
+        "content": "$2",
+        "example": "You can hide this button from the extension settings"
       }
     }
   }

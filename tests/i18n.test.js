@@ -5,7 +5,7 @@ const assert = require('node:assert/strict');
 const fs = require('node:fs');
 const path = require('node:path');
 
-const { resolveI18nMessage, getText, getPluralText } = require('../content/i18n.js');
+const { resolveI18nMessage, getText, getPluralText, joinSentences } = require('../content/i18n.js');
 
 const LOCALES_DIR = path.join(__dirname, '..', '_locales');
 const DEFAULT_LOCALE = 'en';
@@ -138,6 +138,14 @@ test('i18n catalogs: no message is empty and none contains an em dash', () => {
   });
 });
 
+test('i18n catalogs: no message ends with a period', () => {
+  locales.forEach(locale => {
+    Object.entries(catalogs[locale]).forEach(([key, entry]) => {
+      assert.ok(!/(?<!\.)[.\u3002\uff0e]\s*$/.test(entry.message), locale + ' trailing period in ' + key);
+    });
+  });
+});
+
 test('i18n catalogs: store name and description fit the Chrome Web Store limits', () => {
   locales.forEach(locale => {
     assert.ok(catalogs[locale].extName.message.length <= 75, locale + ' extName');
@@ -189,6 +197,10 @@ test('getText: keeps answering from memory once the extension context is invalid
   } finally {
     delete globalThis.chrome;
   }
+});
+
+test('joinSentences: puts the sentence separator between two sentences', () => {
+  assert.equal(joinSentences('First one', 'Second one'), 'First one. Second one');
 });
 
 test('getText: falls back to the key when a message is missing', () => {
