@@ -14,9 +14,6 @@
   "headerSupport": {
     "message": "Поддержать"
   },
-  "hideWatchedTitle": {
-    "message": "Скрывать просмотренные"
-  },
   "pageHome": {
     "message": "Главная"
   },
@@ -304,7 +301,7 @@
     "message": "Импорт"
   },
   "manageSyncHeadlineOk": {
-    "message": "Синхронизировано на всех ваших устройствах"
+    "message": "Автоматически синхронизируется между устройствами"
   },
   "manageSyncHeadlineSyncing": {
     "message": "Синхронизируем последние изменения"
@@ -360,7 +357,7 @@
     "message": "Ваши списки превысили место, которое Chrome выделяет расширениям для синхронизации, поэтому их синхронизация приостановлена. Всё сохранено и работает в этом браузере, а на других устройствах остаётся последняя поместившаяся версия. Синхронизация возобновится сама, когда списки снова поместятся"
   },
   "manageSyncMessageMarkedPaused": {
-    "message": "Отмеченные видео сейчас не синхронизируются: в общем месте приоритет у ваших списков. Они сохранены и работают в этом браузере, а синхронизация возобновится, когда снова появится место"
+    "message": "Списки имеют приоритет в общем пространстве синхронизации. Отмеченные видео сохранены и работают в этом браузере, а синхронизация возобновится, когда снова появится место"
   },
   "manageSyncMessageOutdated": {
     "message": "На другом устройстве установлена более новая версия YouTube Hider. Обновите расширение в этом браузере, чтобы продолжить синхронизацию"
@@ -544,10 +541,10 @@
     }
   },
   "manageMarkedDescription": {
-    "message": "Видео, которые вы отметили кнопкой «Просмотрено» на YouTube. Они скрываются как просмотренные, по настройкам «Скрывать просмотренные». Удалите видео из списка, чтобы оно снова появилось. Хранится до 3000 видео: сверх этого удаляется самая старая отметка"
+    "message": "Видео, которые вы отметили кнопкой «Просмотрено» на YouTube. Они скрываются как просмотренные. Удалите видео из списка, чтобы оно снова появилось. Хранится до 3000 видео: сверх этого удаляется самая старая отметка"
   },
   "manageMarkedNote": {
-    "message": "Зависит от «$setting$»: отмеченные видео скрываются только там, где включена эта настройка",
+    "message": "Следует фильтру «$setting$»: отмеченные видео скрываются только на страницах, где он включён",
     "placeholders": {
       "setting": {
         "content": "$1"
@@ -717,50 +714,6 @@
         "content": "$1"
       },
       "list": {
-        "content": "$2"
-      }
-    }
-  },
-  "manageAddInvalid_one": {
-    "message": "$count$ не распознан: $items$",
-    "placeholders": {
-      "count": {
-        "content": "$1"
-      },
-      "items": {
-        "content": "$2"
-      }
-    }
-  },
-  "manageAddInvalid_few": {
-    "message": "$count$ не распознаны: $items$",
-    "placeholders": {
-      "count": {
-        "content": "$1"
-      },
-      "items": {
-        "content": "$2"
-      }
-    }
-  },
-  "manageAddInvalid_many": {
-    "message": "$count$ не распознаны: $items$",
-    "placeholders": {
-      "count": {
-        "content": "$1"
-      },
-      "items": {
-        "content": "$2"
-      }
-    }
-  },
-  "manageAddInvalid_other": {
-    "message": "$count$ не распознаны: $items$",
-    "placeholders": {
-      "count": {
-        "content": "$1"
-      },
-      "items": {
         "content": "$2"
       }
     }
@@ -2311,5 +2264,92 @@
         "content": "$4"
       }
     }
+  },
+  "manageAddInvalid_one": {
+    "message": "$count$ не распознана",
+    "placeholders": {
+      "count": {
+        "content": "$1"
+      }
+    }
+  },
+  "manageAddInvalid_few": {
+    "message": "$count$ не распознаны",
+    "placeholders": {
+      "count": {
+        "content": "$1"
+      }
+    }
+  },
+  "manageAddInvalid_many": {
+    "message": "$count$ не распознаны",
+    "placeholders": {
+      "count": {
+        "content": "$1"
+      }
+    }
+  },
+  "manageAddInvalid_other": {
+    "message": "$count$ не распознаны",
+    "placeholders": {
+      "count": {
+        "content": "$1"
+      }
+    }
+  },
+  "manageInvalidShow_one": {
+    "message": "Показать нераспознанную запись",
+    "placeholders": {
+      "count": {
+        "content": "$1"
+      }
+    }
+  },
+  "manageInvalidShow_few": {
+    "message": "Показать $count$ нераспознанные записи",
+    "placeholders": {
+      "count": {
+        "content": "$1"
+      }
+    }
+  },
+  "manageInvalidShow_many": {
+    "message": "Показать $count$ нераспознанных записей",
+    "placeholders": {
+      "count": {
+        "content": "$1"
+      }
+    }
+  },
+  "manageInvalidShow_other": {
+    "message": "Показать $count$ нераспознанной записи",
+    "placeholders": {
+      "count": {
+        "content": "$1"
+      }
+    }
+  },
+  "manageInvalidBareWord": {
+    "message": "Это не канал. Для псевдонима добавьте @"
+  },
+  "manageInvalidNotYouTube": {
+    "message": "Это не ссылка на YouTube"
+  },
+  "manageInvalidVideoLink": {
+    "message": "Ссылка на видео, а не на канал"
+  },
+  "manageInvalidNotChannel": {
+    "message": "Это не канал"
+  },
+  "manageInvalidNote": {
+    "message": "После добавления они останутся в поле, чтобы их можно было исправить. Слова добавляйте в $list$",
+    "placeholders": {
+      "list": {
+        "content": "$1"
+      }
+    }
+  },
+  "manageCurrentChannelBadge": {
+    "message": "Открыт во вкладке"
   }
 }

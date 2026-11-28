@@ -693,13 +693,13 @@ chrome.runtime.onInstalled.addListener(details => {
 
 chrome.runtime.onMessage.addListener((message, sender, sendResponse) => {
   if (message.action === 'openManager') {
-    openManagerPage(message.list).catch(e => logger.log('Could not open the Manage page:', e));
+    openManagerPage(message.list, message.current).catch(e => logger.log('Could not open the Manage page:', e));
     sendResponse({ success: true });
   }
   return false;
 });
 
-const MANAGE_PAGE_LISTS = ['marked-watched', 'channel-whitelist', 'channel-blacklist', 'title-whitelist', 'title-blacklist'];
+const MANAGE_PAGE_LISTS = ['channel-whitelist', 'channel-blacklist', 'title-whitelist', 'title-blacklist', 'marked-watched'];
 
 async function findOpenManagerTab(pageUrl) {
   if (!chrome.runtime.getContexts) return null;
@@ -715,9 +715,10 @@ async function findOpenManagerTab(pageUrl) {
   );
 }
 
-async function openManagerPage(list) {
+async function openManagerPage(list, current) {
   const pageUrl = chrome.runtime.getURL('popup/manage.html');
-  const hash = MANAGE_PAGE_LISTS.includes(list) ? '#' + list : '';
+  const currentParam = Array.isArray(current) && current.length ? '&current=' + encodeURIComponent(current.join(',')) : '';
+  const hash = MANAGE_PAGE_LISTS.includes(list) ? '#' + list + currentParam : '';
   let existing = null;
   try {
     existing = await findOpenManagerTab(pageUrl);

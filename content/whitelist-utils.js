@@ -241,19 +241,38 @@ function parseChannelEntry(raw) {
   return normalizeChannelPath(pathname);
 }
 
+function classifyChannelInputError(raw) {
+  const text = typeof raw === 'string' ? raw.trim() : '';
+  if (/^[\p{L}\p{N}_-]+$/u.test(text)) return 'bare-word';
+  if (text.startsWith('@') || text.startsWith('/')) return 'not-channel';
+  let url;
+  try {
+    url = new URL(CHANNEL_INPUT_SCHEME.test(text) ? text : 'https://' + text);
+  } catch (_) {
+    return 'not-channel';
+  }
+  if (!url.hostname.includes('.')) return 'not-channel';
+  if (/(^|\.)youtu\.be$/i.test(url.hostname)) return 'video-link';
+  if (!CHANNEL_INPUT_HOST.test(url.hostname)) return 'not-youtube';
+  if (/^\/(watch|shorts\/|live\/|embed\/)/i.test(url.pathname)) return 'video-link';
+  return 'not-channel';
+}
+
 function parseChannelInput(text) {
   const tokens = typeof text === 'string' ? text.split(/[\s,]+/).filter(Boolean) : [];
   const channels = [];
   const invalid = [];
+  const rejected = [];
   tokens.forEach(token => {
     const channel = parseChannelEntry(token);
     if (channel) {
       if (!channels.includes(channel)) channels.push(channel);
     } else if (!invalid.includes(token)) {
       invalid.push(token);
+      rejected.push({ text: token, reason: classifyChannelInputError(token) });
     }
   });
-  return { entries: channels, invalid };
+  return { entries: channels, invalid, rejected };
 }
 
 function parseTitleInput(text) {
@@ -263,7 +282,7 @@ function parseTitleInput(text) {
     const word = normalizeTitleKeyword(line);
     if (word && !titleKeywordListIncludes(word, words)) words.push(word);
   });
-  return { entries: words, invalid: [] };
+  return { entries: words, invalid: [], rejected: [] };
 }
 
 function listEntryIdentity(kind, entry) {
@@ -385,6 +404,7 @@ if (typeof module !== 'undefined' && module.exports) {
     LIST_EXPORT_FORMAT,
     parseChannelEntry,
     parseChannelInput,
+    classifyChannelInputError,
     parseTitleInput,
     planListAddition,
     removeListEntries,

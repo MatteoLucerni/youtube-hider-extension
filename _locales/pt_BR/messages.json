@@ -14,9 +14,6 @@
   "headerSupport": {
     "message": "Apoiar"
   },
-  "hideWatchedTitle": {
-    "message": "Ocultar vídeos assistidos"
-  },
   "pageHome": {
     "message": "Início"
   },
@@ -271,7 +268,7 @@
     "message": "Importar"
   },
   "manageSyncHeadlineOk": {
-    "message": "Sincronizado em todos os seus dispositivos"
+    "message": "Sincronizado automaticamente nos seus dispositivos"
   },
   "manageSyncHeadlineSyncing": {
     "message": "Sincronizando suas últimas alterações"
@@ -319,7 +316,7 @@
     "message": "Suas listas passaram do espaço que o Chrome dá às extensões para sincronizar, então a sincronização delas está pausada. Tudo continua salvo e funcionando neste navegador, e seus outros dispositivos mantêm a última versão que coube. A sincronização volta sozinha quando as listas couberem de novo"
   },
   "manageSyncMessageMarkedPaused": {
-    "message": "Os vídeos marcados não estão sendo sincronizados agora: suas listas têm prioridade no espaço compartilhado. Eles continuam salvos e funcionando neste navegador, e a sincronização volta quando houver espaço de novo"
+    "message": "Suas listas têm prioridade no espaço de sincronização compartilhado. Os vídeos marcados ficam salvos e continuam funcionando neste navegador, e a sincronização volta quando houver espaço"
   },
   "manageSyncMessageOutdated": {
     "message": "Outro dispositivo usa uma versão mais recente do YouTube Hider. Atualize a extensão neste navegador para continuar sincronizando"
@@ -468,10 +465,10 @@
     }
   },
   "manageMarkedDescription": {
-    "message": "Os vídeos que você marcou com o botão Assistido no YouTube. Eles são ocultados como vídeos assistidos, seguindo as configurações de Ocultar vídeos assistidos. Remova um para trazê-lo de volta. São mantidos até 3.000: depois disso, a marca mais antiga é descartada"
+    "message": "Os vídeos que você marcou com o botão Assistido no YouTube. Eles são ocultados como vídeos assistidos. Remova um para trazê-lo de volta. São mantidos até 3.000: depois disso, a marca mais antiga é descartada"
   },
   "manageMarkedNote": {
-    "message": "Segue $setting$: os vídeos marcados só são ocultados onde essa opção está ativa",
+    "message": "Segue \"$setting$\": os vídeos marcados só são ocultados nas páginas em que esse filtro está ativado",
     "placeholders": {
       "setting": {
         "content": "$1"
@@ -606,39 +603,6 @@
         "content": "$1"
       },
       "list": {
-        "content": "$2"
-      }
-    }
-  },
-  "manageAddInvalid_one": {
-    "message": "$count$ não reconhecido: $items$",
-    "placeholders": {
-      "count": {
-        "content": "$1"
-      },
-      "items": {
-        "content": "$2"
-      }
-    }
-  },
-  "manageAddInvalid_many": {
-    "message": "$count$ não reconhecidos: $items$",
-    "placeholders": {
-      "count": {
-        "content": "$1"
-      },
-      "items": {
-        "content": "$2"
-      }
-    }
-  },
-  "manageAddInvalid_other": {
-    "message": "$count$ não reconhecidos: $items$",
-    "placeholders": {
-      "count": {
-        "content": "$1"
-      },
-      "items": {
         "content": "$2"
       }
     }
@@ -1977,5 +1941,76 @@
         "content": "$4"
       }
     }
+  },
+  "manageAddInvalid_one": {
+    "message": "$count$ não reconhecida",
+    "placeholders": {
+      "count": {
+        "content": "$1"
+      }
+    }
+  },
+  "manageAddInvalid_many": {
+    "message": "$count$ não reconhecidas",
+    "placeholders": {
+      "count": {
+        "content": "$1"
+      }
+    }
+  },
+  "manageAddInvalid_other": {
+    "message": "$count$ não reconhecidas",
+    "placeholders": {
+      "count": {
+        "content": "$1"
+      }
+    }
+  },
+  "manageInvalidShow_one": {
+    "message": "Ver a entrada não reconhecida",
+    "placeholders": {
+      "count": {
+        "content": "$1"
+      }
+    }
+  },
+  "manageInvalidShow_many": {
+    "message": "Ver as $count$ entradas não reconhecidas",
+    "placeholders": {
+      "count": {
+        "content": "$1"
+      }
+    }
+  },
+  "manageInvalidShow_other": {
+    "message": "Ver as $count$ entradas não reconhecidas",
+    "placeholders": {
+      "count": {
+        "content": "$1"
+      }
+    }
+  },
+  "manageInvalidBareWord": {
+    "message": "Não é um canal. Adicione @ para um identificador"
+  },
+  "manageInvalidNotYouTube": {
+    "message": "Não é um link do YouTube"
+  },
+  "manageInvalidVideoLink": {
+    "message": "Link de vídeo, não de canal"
+  },
+  "manageInvalidNotChannel": {
+    "message": "Não é um canal"
+  },
+  "manageInvalidNote": {
+    "message": "Depois de adicionar, elas ficam na caixa para você corrigir. Palavras vão na $list$",
+    "placeholders": {
+      "list": {
+        "content": "$1"
+      }
+    }
+  },
+  "manageCurrentChannelBadge": {
+    "message": "Aberto na sua aba"
   }
 }

@@ -14,9 +14,6 @@
   "headerSupport": {
     "message": "후원하기"
   },
-  "hideWatchedTitle": {
-    "message": "시청한 동영상 숨기기"
-  },
   "pageHome": {
     "message": "홈"
   },
@@ -205,7 +202,7 @@
     "message": "가져오기"
   },
   "manageSyncHeadlineOk": {
-    "message": "모든 기기에서 동기화됨"
+    "message": "내 기기 간에 자동으로 동기화됩니다"
   },
   "manageSyncHeadlineSyncing": {
     "message": "최근 변경 사항을 동기화하는 중"
@@ -237,7 +234,7 @@
     "message": "목록이 Chrome이 확장 프로그램에 제공하는 동기화 공간을 넘어서 목록 동기화가 일시중지되었습니다. 모든 항목은 이 브라우저에 저장되어 정상적으로 작동하며, 다른 기기에는 공간에 맞았던 마지막 버전이 유지됩니다. 목록이 다시 공간에 맞으면 동기화가 자동으로 재개됩니다"
   },
   "manageSyncMessageMarkedPaused": {
-    "message": "표시한 동영상은 지금 동기화되지 않습니다. 공유 공간에서는 목록이 우선합니다. 동영상은 이 브라우저에 저장되어 정상적으로 작동하며, 공간이 생기면 동기화가 재개됩니다"
+    "message": "공유 동기화 공간에서는 목록이 먼저입니다. 표시한 동영상은 저장되어 이 브라우저에서 계속 작동하며, 공간이 생기면 동기화가 재개됩니다"
   },
   "manageSyncMessageOutdated": {
     "message": "다른 기기에서 더 최신 버전의 YouTube Hider를 사용하고 있습니다. 계속 동기화하려면 이 브라우저의 확장 프로그램을 업데이트하세요"
@@ -316,10 +313,10 @@
     }
   },
   "manageMarkedDescription": {
-    "message": "YouTube에서 시청함 버튼으로 표시한 동영상입니다. 시청한 동영상 숨기기 설정에 따라 시청한 동영상처럼 숨겨집니다. 다시 보이게 하려면 목록에서 삭제하세요. 최대 3,000개까지 보관되며, 이를 넘으면 가장 오래된 표시가 삭제됩니다"
+    "message": "YouTube에서 시청함 버튼으로 표시한 동영상입니다. 시청한 동영상처럼 숨겨집니다. 다시 보이게 하려면 목록에서 삭제하세요. 최대 3,000개까지 보관되며, 이를 넘으면 가장 오래된 표시가 삭제됩니다"
   },
   "manageMarkedNote": {
-    "message": "$setting$ 설정을 따릅니다. 표시한 동영상은 이 설정이 켜진 곳에서만 숨겨집니다",
+    "message": "\"$setting$\" 설정을 따릅니다. 표시한 동영상은 이 필터가 켜진 페이지에서만 숨겨집니다",
     "placeholders": {
       "setting": {
         "content": "$1"
@@ -384,17 +381,6 @@
         "content": "$1"
       },
       "list": {
-        "content": "$2"
-      }
-    }
-  },
-  "manageAddInvalid_other": {
-    "message": "$count$개를 인식하지 못함: $items$",
-    "placeholders": {
-      "count": {
-        "content": "$1"
-      },
-      "items": {
         "content": "$2"
       }
     }
@@ -1309,5 +1295,44 @@
         "content": "$4"
       }
     }
+  },
+  "manageAddInvalid_other": {
+    "message": "$count$개 인식 불가",
+    "placeholders": {
+      "count": {
+        "content": "$1"
+      }
+    }
+  },
+  "manageInvalidShow_other": {
+    "message": "인식하지 못한 항목 $count$개 보기",
+    "placeholders": {
+      "count": {
+        "content": "$1"
+      }
+    }
+  },
+  "manageInvalidBareWord": {
+    "message": "채널이 아닙니다. 핸들이라면 @를 붙이세요"
+  },
+  "manageInvalidNotYouTube": {
+    "message": "YouTube 링크가 아닙니다"
+  },
+  "manageInvalidVideoLink": {
+    "message": "채널이 아닌 동영상 링크입니다"
+  },
+  "manageInvalidNotChannel": {
+    "message": "채널이 아닙니다"
+  },
+  "manageInvalidNote": {
+    "message": "추가한 뒤에도 입력란에 남아 있어 고칠 수 있습니다. 단어는 $list$에 넣으세요",
+    "placeholders": {
+      "list": {
+        "content": "$1"
+      }
+    }
+  },
+  "manageCurrentChannelBadge": {
+    "message": "열린 탭의 채널"
   }
 }

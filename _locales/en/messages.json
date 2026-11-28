@@ -19,10 +19,6 @@
     "message": "Support",
     "description": "Header button that opens the panel about supporting the project. About 10 characters max."
   },
-  "hideWatchedTitle": {
-    "message": "Hide Watched Videos",
-    "description": "Card title of the filter that hides videos you already watched."
-  },
   "pageHome": {
     "message": "Home",
     "description": "Per-page toggle for YouTube's Home feed. Use the name YouTube itself shows in this language. Very short: the toggle is about 70px wide."
@@ -312,8 +308,8 @@
     "description": "Button that adds entries from an exported JSON file."
   },
   "manageSyncHeadlineOk": {
-    "message": "Synced across your devices",
-    "description": "Sync status line at the top of the lists page when everything is synced."
+    "message": "Synced automatically across your devices",
+    "description": "Sync status on the Manage page when everything syncs."
   },
   "manageSyncHeadlineSyncing": {
     "message": "Syncing your latest changes",
@@ -364,8 +360,8 @@
     "description": "Explanation shown when the lists are too large to sync. It must make clear that nothing is lost."
   },
   "manageSyncMessageMarkedPaused": {
-    "message": "Marked videos are not syncing right now: your lists come first in the shared space. They are saved and working in this browser, and sync resumes once there is room again",
-    "description": "Explanation shown when the marked videos do not sync because the lists need the shared space."
+    "message": "Your lists come first in the shared sync space. Marked videos are saved and keep working in this browser, and sync resumes once there is room again",
+    "description": "Explanation under \"Marked videos are not syncing\"."
   },
   "manageSyncMessageOutdated": {
     "message": "Another device uses a newer version of YouTube Hider. Update the extension in this browser to keep syncing",
@@ -510,16 +506,16 @@
     }
   },
   "manageMarkedDescription": {
-    "message": "Videos you marked with the Watched button on YouTube. They are hidden like watched videos, following the Hide Watched Videos settings. Remove one to bring it back. Up to 3,000 videos are kept: past that, the oldest mark is dropped",
+    "message": "Videos you marked with the Watched button on YouTube. They are hidden like watched videos. Remove one to bring it back. Up to 3,000 videos are kept: past that, the oldest mark is dropped",
     "description": "Intro paragraph of the Marked as watched tab. 'Watched' is the on-page button label (buttonWatched) and 'Hide Watched Videos' the card title (hideWatchedTitle): keep them identical to those translations."
   },
   "manageMarkedNote": {
-    "message": "Follows $setting$: marked videos are hidden only where that setting is active",
-    "description": "Note in place of an on/off switch on the Marked as watched tab. The placeholder is the Hide Watched Videos card title.",
+    "message": "Follows $setting$: marked videos are hidden only on the pages where that filter is on",
+    "description": "Note on the Marked as watched tab. $setting$ is the Watched videos filter name.",
     "placeholders": {
       "setting": {
         "content": "$1",
-        "example": "Hide Watched Videos"
+        "example": "Watched videos"
       }
     }
   },
@@ -644,34 +640,6 @@
       "list": {
         "content": "$2",
         "example": "Channel Blacklist"
-      }
-    }
-  },
-  "manageAddInvalid_one": {
-    "message": "$count$ not recognized: $items$",
-    "description": "Preview chip: lines that are not a channel handle or link, followed by the first few of them.",
-    "placeholders": {
-      "count": {
-        "content": "$1",
-        "example": "2"
-      },
-      "items": {
-        "content": "$2",
-        "example": "bbc, news"
-      }
-    }
-  },
-  "manageAddInvalid_other": {
-    "message": "$count$ not recognized: $items$",
-    "description": "Preview chip: lines that are not a channel handle or link, followed by the first few of them.",
-    "placeholders": {
-      "count": {
-        "content": "$1",
-        "example": "2"
-      },
-      "items": {
-        "content": "$2",
-        "example": "bbc, news"
       }
     }
   },
@@ -2116,5 +2084,75 @@
         "example": "Settings"
       }
     }
+  },
+  "manageAddInvalid_one": {
+    "message": "$count$ not recognized",
+    "description": "Red chip under the add box: how many entries could not be read as a channel.",
+    "placeholders": {
+      "count": {
+        "content": "$1",
+        "example": "7"
+      }
+    }
+  },
+  "manageAddInvalid_other": {
+    "message": "$count$ not recognized",
+    "description": "Red chip under the add box: how many entries could not be read as a channel.",
+    "placeholders": {
+      "count": {
+        "content": "$1",
+        "example": "7"
+      }
+    }
+  },
+  "manageInvalidShow_one": {
+    "message": "Show the entry that was not recognized",
+    "description": "Expandable line under the add box that lists the entries that could not be read.",
+    "placeholders": {
+      "count": {
+        "content": "$1",
+        "example": "7"
+      }
+    }
+  },
+  "manageInvalidShow_other": {
+    "message": "Show the $count$ entries that were not recognized",
+    "description": "Expandable line under the add box that lists the entries that could not be read.",
+    "placeholders": {
+      "count": {
+        "content": "$1",
+        "example": "7"
+      }
+    }
+  },
+  "manageInvalidBareWord": {
+    "message": "Not a channel. Add @ for a handle",
+    "description": "Reason next to an entry that is a single word without @."
+  },
+  "manageInvalidNotYouTube": {
+    "message": "Not a YouTube link",
+    "description": "Reason next to an entry that links to a site other than YouTube."
+  },
+  "manageInvalidVideoLink": {
+    "message": "Video link, not a channel",
+    "description": "Reason next to an entry that links to a video instead of a channel."
+  },
+  "manageInvalidNotChannel": {
+    "message": "Not a channel",
+    "description": "Reason next to any other entry that could not be read as a channel."
+  },
+  "manageInvalidNote": {
+    "message": "After you add, these stay in the box so you can fix them. Words go in the $list$ instead",
+    "description": "Note under the list of unrecognized entries. $list$ is the Title Whitelist or the Title Blacklist.",
+    "placeholders": {
+      "list": {
+        "content": "$1",
+        "example": "Title Whitelist"
+      }
+    }
+  },
+  "manageCurrentChannelBadge": {
+    "message": "Open in your tab",
+    "description": "Badge on the row of the channel open in the tab you came from."
   }
 }

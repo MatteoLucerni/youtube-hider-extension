@@ -11,17 +11,9 @@ const MANAGE_STRING_LIST_KEYS = ['channelWhitelist', 'channelBlacklist', 'titleW
 
 const MANAGE_LISTS = [
   {
-    id: 'marked-watched',
-    kind: 'marked',
-    titleKey: 'markedWatchedLabel',
-    descriptionKey: 'manageMarkedDescription',
-    searchKey: 'manageSearchMarked',
-    emptyKey: 'manageEmptyMarked',
-  },
-  {
     id: 'channel-whitelist',
     kind: 'channel',
-    tone: 'blue',
+    tone: 'green',
     storageKey: 'channelWhitelist',
     enabledKey: 'channelWhitelistEnabled',
     otherId: 'channel-blacklist',
@@ -45,7 +37,7 @@ const MANAGE_LISTS = [
   {
     id: 'title-whitelist',
     kind: 'title',
-    tone: 'blue',
+    tone: 'green',
     storageKey: 'titleWhitelist',
     enabledKey: 'titleWhitelistEnabled',
     otherId: 'title-blacklist',
@@ -66,12 +58,21 @@ const MANAGE_LISTS = [
     searchKey: 'manageSearchWords',
     emptyKey: 'manageEmptyTitleBlacklist',
   },
+  {
+    id: 'marked-watched',
+    kind: 'marked',
+    titleKey: 'markedWatchedLabel',
+    descriptionKey: 'manageMarkedDescription',
+    searchKey: 'manageSearchMarked',
+    emptyKey: 'manageEmptyMarked',
+  },
 ];
 
 document.addEventListener('DOMContentLoaded', () => {
   applyDocumentI18n(document);
 
   const listsById = Object.fromEntries(MANAGE_LISTS.map(def => [def.id, def]));
+  let currentChannels = new Set();
   const collator = new Intl.Collator(getUiLocale(), { sensitivity: 'base', numeric: true });
   const tabsEl = document.getElementById('manage-tabs');
   const panelsEl = document.getElementById('manage-panels');
@@ -208,7 +209,7 @@ document.addEventListener('DOMContentLoaded', () => {
 
   function createChannelAvatar(def, item) {
     const avatar = document.createElement('span');
-    avatar.className = 'item-avatar' + (def.tone === 'red' ? ' tone-red' : '');
+    avatar.className = 'item-avatar tone-' + def.tone;
     avatar.setAttribute('aria-hidden', 'true');
     const firstChar = item.label.replace(/^@/, '').replace(/^(channel|user)\//, '');
     avatar.textContent = firstChar ? String.fromCodePoint(firstChar.codePointAt(0)) : '?';
@@ -217,7 +218,7 @@ document.addEventListener('DOMContentLoaded', () => {
 
   function createWordAvatar(def) {
     const avatar = document.createElement('span');
-    avatar.className = 'item-avatar' + (def.tone === 'red' ? ' tone-red' : '');
+    avatar.className = 'item-avatar tone-' + def.tone;
     avatar.setAttribute('aria-hidden', 'true');
     const svgNs = 'http://www.w3.org/2000/svg';
     const svg = document.createElementNS(svgNs, 'svg');
@@ -299,13 +300,20 @@ document.addEventListener('DOMContentLoaded', () => {
       const label = createLink('item-label', url, item.label);
       label.dataset.focusRole = 'label';
       label.title = item.label;
-      main.appendChild(label);
-      if (item.id.startsWith('/channel/')) {
-        const sub = document.createElement('span');
-        sub.className = 'item-sub';
-        sub.textContent = getText('manageChannelIdLabel');
-        main.appendChild(sub);
+      const labelLine = document.createElement('span');
+      labelLine.className = 'item-label-line';
+      labelLine.appendChild(label);
+      if (currentChannels.has(item.id)) {
+        const badge = document.createElement('span');
+        badge.className = 'item-badge';
+        badge.textContent = getText('manageCurrentChannelBadge');
+        labelLine.appendChild(badge);
       }
+      main.appendChild(labelLine);
+      const sub = document.createElement('span');
+      sub.className = 'item-sub';
+      sub.textContent = url ? url.replace(/^https:\/\/www\./, '') : getText('manageChannelIdLabel');
+      main.appendChild(sub);
       accessibleName = item.label;
     } else {
       row.appendChild(createWordAvatar(def));
@@ -393,6 +401,8 @@ document.addEventListener('DOMContentLoaded', () => {
     if (def.otherId) {
       refs.moveSelected.hidden = false;
       refs.moveSelected.textContent = getText('manageMoveSelected', listName(listsById[def.otherId]));
+      refs.moveSelected.classList.toggle('btn-to-black', listsById[def.otherId].tone === 'red');
+      refs.moveSelected.classList.toggle('btn-to-white', listsById[def.otherId].tone === 'green');
     } else {
       refs.moveSelected.hidden = true;
     }
@@ -510,7 +520,12 @@ document.addEventListener('DOMContentLoaded', () => {
   }
 
   function readHash() {
-    const id = decodeURIComponent(location.hash.replace(/^#/, ''));
+    const [rawId, ...rest] = location.hash.replace(/^#/, '').split('&');
+    const params = new URLSearchParams(rest.join('&'));
+    if (params.has('current')) {
+      currentChannels = new Set(params.get('current').split(',').filter(Boolean));
+    }
+    const id = decodeURIComponent(rawId);
     return listsById[id] ? id : MANAGE_LISTS[0].id;
   }
 
@@ -593,12 +608,10 @@ document.addEventListener('DOMContentLoaded', () => {
     if (parsed.invalid.length) {
       chips.push([
         'is-invalid',
-        getPluralText('manageAddInvalid', parsed.invalid.length, [
-          formatLocaleNumber(parsed.invalid.length),
-          parsed.invalid.slice(0, 3).join(', ') + (parsed.invalid.length > 3 ? ', …' : ''),
-        ]),
+        getPluralText('manageAddInvalid', parsed.invalid.length, formatLocaleNumber(parsed.invalid.length)),
       ]);
     }
+    renderRejected(def, parsed.rejected || []);
     refs.addPreview.replaceChildren(
       ...chips.map(([className, text]) => {
         const li = document.createElement('li');
@@ -612,6 +625,41 @@ document.addEventListener('DOMContentLoaded', () => {
     refs.addSubmit.disabled = addable === 0;
     refs.addSubmit.textContent =
       addable > 0 ? getPluralText('manageAddButtonCount', addable, formatLocaleNumber(addable)) : getText('manageAddButton');
+  }
+
+  const REJECTED_REASON_KEYS = {
+    'bare-word': 'manageInvalidBareWord',
+    'not-youtube': 'manageInvalidNotYouTube',
+    'video-link': 'manageInvalidVideoLink',
+    'not-channel': 'manageInvalidNotChannel',
+  };
+
+  function renderRejected(def, rejected) {
+    const refs = views[def.id].refs;
+    if (!refs.addInvalid) return;
+    refs.addInvalid.hidden = rejected.length === 0;
+    if (!rejected.length) {
+      refs.addInvalid.open = false;
+      return;
+    }
+    refs.addInvalidSummary.textContent = getPluralText('manageInvalidShow', rejected.length, formatLocaleNumber(rejected.length));
+    refs.addInvalidList.replaceChildren(
+      ...rejected.map(entry => {
+        const li = document.createElement('li');
+        const text = document.createElement('span');
+        text.className = 'add-invalid-text';
+        text.textContent = entry.text;
+        text.title = entry.text;
+        const reason = document.createElement('span');
+        reason.className = 'add-invalid-reason';
+        reason.textContent = getText(REJECTED_REASON_KEYS[entry.reason] || 'manageInvalidNotChannel');
+        li.appendChild(text);
+        li.appendChild(reason);
+        return li;
+      }),
+    );
+    const titleList = def.tone === 'red' ? 'titleBlacklistTitle' : 'titleWhitelistTitle';
+    refs.addInvalidNote.textContent = getText('manageInvalidNote', getText(titleList));
   }
 
   async function readStringLists() {
@@ -810,6 +858,10 @@ document.addEventListener('DOMContentLoaded', () => {
       addSubmit: q('add-submit'),
       addHint: q('add-hint'),
       addPreview: q('add-preview'),
+      addInvalid: q('add-invalid'),
+      addInvalidSummary: q('add-invalid-summary'),
+      addInvalidList: q('add-invalid-list'),
+      addInvalidNote: q('add-invalid-note'),
       toolbar: q('toolbar'),
       search: q('search'),
       sort: q('sort'),
@@ -846,7 +898,7 @@ document.addEventListener('DOMContentLoaded', () => {
     } else {
       refs.switchWrap.hidden = true;
       refs.note.hidden = false;
-      refs.note.textContent = getText('manageMarkedNote', getText('hideWatchedTitle'));
+      refs.note.textContent = getText('manageMarkedNote', getText('filterWatchedTitle'));
     }
 
     if (def.kind !== 'marked') {

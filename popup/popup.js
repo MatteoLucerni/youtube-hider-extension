@@ -840,7 +840,8 @@ document.addEventListener('DOMContentLoaded', () => {
   document.querySelectorAll('[data-manage-list]').forEach(button => {
     button.setAttribute('aria-label', getText('manageListLabel', getText(button.dataset.manageTitle)));
     button.addEventListener('click', () => {
-      chrome.runtime.sendMessage({ action: 'openManager', list: button.dataset.manageList }, () => {
+      const current = button.dataset.manageList.startsWith('channel-') ? currentChannels() : [];
+      chrome.runtime.sendMessage({ action: 'openManager', list: button.dataset.manageList, current }, () => {
         void chrome.runtime.lastError;
       });
     });

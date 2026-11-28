@@ -14,9 +14,6 @@
   "headerSupport": {
     "message": "Unterstützen"
   },
-  "hideWatchedTitle": {
-    "message": "Gesehene Videos ausblenden"
-  },
   "pageHome": {
     "message": "Startseite"
   },
@@ -238,7 +235,7 @@
     "message": "Importieren"
   },
   "manageSyncHeadlineOk": {
-    "message": "Auf all deinen Geräten synchronisiert"
+    "message": "Wird automatisch auf deinen Geräten synchronisiert"
   },
   "manageSyncHeadlineSyncing": {
     "message": "Deine letzten Änderungen werden synchronisiert"
@@ -278,7 +275,7 @@
     "message": "Deine Listen sind größer als der Speicher, den Chrome Erweiterungen zum Synchronisieren gibt, deshalb ist ihre Synchronisierung pausiert. Alles bleibt in diesem Browser gespeichert und funktioniert, und deine anderen Geräte behalten die letzte Version, die gepasst hat. Die Synchronisierung läuft von selbst weiter, sobald die Listen wieder passen"
   },
   "manageSyncMessageMarkedPaused": {
-    "message": "Markierte Videos werden gerade nicht synchronisiert: Im geteilten Speicher haben deine Listen Vorrang. Sie bleiben in diesem Browser gespeichert und funktionieren, und die Synchronisierung läuft weiter, sobald wieder Platz ist"
+    "message": "Deine Listen haben im gemeinsamen Sync-Speicher Vorrang. Markierte Videos sind gespeichert und funktionieren in diesem Browser weiter, die Synchronisierung läuft weiter, sobald wieder Platz ist"
   },
   "manageSyncMessageOutdated": {
     "message": "Ein anderes Gerät nutzt eine neuere Version von YouTube Hider. Aktualisiere die Erweiterung in diesem Browser, um weiter zu synchronisieren"
@@ -392,10 +389,10 @@
     }
   },
   "manageMarkedDescription": {
-    "message": "Videos, die du auf YouTube mit der Schaltfläche Gesehen markiert hast. Sie werden wie gesehene Videos ausgeblendet und folgen den Einstellungen von Gesehene Videos ausblenden. Entferne eines, damit es wieder erscheint. Bis zu 3.000 Videos werden gespeichert: danach fällt die älteste Markierung weg"
+    "message": "Videos, die du auf YouTube mit der Schaltfläche Gesehen markiert hast. Sie werden wie gesehene Videos ausgeblendet. Entferne eines, damit es wieder erscheint. Bis zu 3.000 Videos werden gespeichert: danach fällt die älteste Markierung weg"
   },
   "manageMarkedNote": {
-    "message": "Folgt $setting$: Markierte Videos werden nur dort ausgeblendet, wo diese Einstellung aktiv ist",
+    "message": "Folgt „$setting$“: Markierte Videos werden nur auf den Seiten ausgeblendet, auf denen dieser Filter an ist",
     "placeholders": {
       "setting": {
         "content": "$1"
@@ -495,28 +492,6 @@
         "content": "$1"
       },
       "list": {
-        "content": "$2"
-      }
-    }
-  },
-  "manageAddInvalid_one": {
-    "message": "$count$ nicht erkannt: $items$",
-    "placeholders": {
-      "count": {
-        "content": "$1"
-      },
-      "items": {
-        "content": "$2"
-      }
-    }
-  },
-  "manageAddInvalid_other": {
-    "message": "$count$ nicht erkannt: $items$",
-    "placeholders": {
-      "count": {
-        "content": "$1"
-      },
-      "items": {
         "content": "$2"
       }
     }
@@ -1643,5 +1618,60 @@
         "content": "$4"
       }
     }
+  },
+  "manageAddInvalid_one": {
+    "message": "$count$ nicht erkannt",
+    "placeholders": {
+      "count": {
+        "content": "$1"
+      }
+    }
+  },
+  "manageAddInvalid_other": {
+    "message": "$count$ nicht erkannt",
+    "placeholders": {
+      "count": {
+        "content": "$1"
+      }
+    }
+  },
+  "manageInvalidShow_one": {
+    "message": "Nicht erkannten Eintrag anzeigen",
+    "placeholders": {
+      "count": {
+        "content": "$1"
+      }
+    }
+  },
+  "manageInvalidShow_other": {
+    "message": "Die $count$ nicht erkannten Einträge anzeigen",
+    "placeholders": {
+      "count": {
+        "content": "$1"
+      }
+    }
+  },
+  "manageInvalidBareWord": {
+    "message": "Kein Kanal. Setz ein @ für einen Handle davor"
+  },
+  "manageInvalidNotYouTube": {
+    "message": "Kein YouTube-Link"
+  },
+  "manageInvalidVideoLink": {
+    "message": "Videolink, kein Kanal"
+  },
+  "manageInvalidNotChannel": {
+    "message": "Kein Kanal"
+  },
+  "manageInvalidNote": {
+    "message": "Nach dem Hinzufügen bleiben sie im Feld, damit du sie korrigieren kannst. Wörter gehören stattdessen in die $list$",
+    "placeholders": {
+      "list": {
+        "content": "$1"
+      }
+    }
+  },
+  "manageCurrentChannelBadge": {
+    "message": "In deinem Tab geöffnet"
   }
 }

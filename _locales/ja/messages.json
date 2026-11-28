@@ -14,9 +14,6 @@
   "headerSupport": {
     "message": "支援する"
   },
-  "hideWatchedTitle": {
-    "message": "視聴済み動画を非表示"
-  },
   "pageHome": {
     "message": "ホーム"
   },
@@ -205,7 +202,7 @@
     "message": "インポート"
   },
   "manageSyncHeadlineOk": {
-    "message": "すべてのデバイスで同期済み"
+    "message": "お使いのデバイス間で自動的に同期されます"
   },
   "manageSyncHeadlineSyncing": {
     "message": "最新の変更を同期しています"
@@ -237,7 +234,7 @@
     "message": "リストが Chrome の拡張機能向け同期容量を超えたため、リストの同期を一時停止しています。すべてこのブラウザに保存され、正常に動作しています。他のデバイスには容量に収まった最後のバージョンが残ります。リストが再び収まると同期は自動的に再開されます"
   },
   "manageSyncMessageMarkedPaused": {
-    "message": "視聴済みにした動画は現在同期されていません。共有容量ではリストが優先されます。動画はこのブラウザに保存され、正常に動作しています。空きができると同期が再開されます"
+    "message": "共有の同期領域ではリストが優先されます。視聴済みにした動画は保存され、このブラウザでは引き続き動作します。空きができると同期が再開されます"
   },
   "manageSyncMessageOutdated": {
     "message": "別のデバイスで新しいバージョンの YouTube Hider が使われています。同期を続けるには、このブラウザの拡張機能を更新してください"
@@ -316,10 +313,10 @@
     }
   },
   "manageMarkedDescription": {
-    "message": "YouTube の「視聴済み」ボタンで印を付けた動画です。「視聴済み動画を非表示」の設定に従って、視聴済みの動画と同じように非表示になります。削除すると再び表示されます。保存できるのは 3,000 本までで、超えると最も古い印から削除されます"
+    "message": "YouTube の「視聴済み」ボタンで印を付けた動画です。視聴済みの動画と同じように非表示になります。削除すると再び表示されます。保存できるのは 3,000 本までで、超えると最も古い印から削除されます"
   },
   "manageMarkedNote": {
-    "message": "「$setting$」に従います。視聴済みにした動画は、その設定が有効な場所でのみ非表示になります",
+    "message": "「$setting$」に従います。視聴済みにした動画は、このフィルタが有効なページでのみ非表示になります",
     "placeholders": {
       "setting": {
         "content": "$1"
@@ -384,17 +381,6 @@
         "content": "$1"
       },
       "list": {
-        "content": "$2"
-      }
-    }
-  },
-  "manageAddInvalid_other": {
-    "message": "$count$ 件を認識できません: $items$",
-    "placeholders": {
-      "count": {
-        "content": "$1"
-      },
-      "items": {
         "content": "$2"
       }
     }
@@ -1309,5 +1295,44 @@
         "content": "$4"
       }
     }
+  },
+  "manageAddInvalid_other": {
+    "message": "$count$ 件を認識できません",
+    "placeholders": {
+      "count": {
+        "content": "$1"
+      }
+    }
+  },
+  "manageInvalidShow_other": {
+    "message": "認識できなかった $count$ 件を表示",
+    "placeholders": {
+      "count": {
+        "content": "$1"
+      }
+    }
+  },
+  "manageInvalidBareWord": {
+    "message": "チャンネルではありません。ハンドルなら @ を付けてください"
+  },
+  "manageInvalidNotYouTube": {
+    "message": "YouTube のリンクではありません"
+  },
+  "manageInvalidVideoLink": {
+    "message": "チャンネルではなく動画のリンクです"
+  },
+  "manageInvalidNotChannel": {
+    "message": "チャンネルではありません"
+  },
+  "manageInvalidNote": {
+    "message": "追加後もここに残るので修正できます。単語は $list$ に追加してください",
+    "placeholders": {
+      "list": {
+        "content": "$1"
+      }
+    }
+  },
+  "manageCurrentChannelBadge": {
+    "message": "開いているタブのチャンネル"
   }
 }

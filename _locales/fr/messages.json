@@ -14,9 +14,6 @@
   "headerSupport": {
     "message": "Soutenir"
   },
-  "hideWatchedTitle": {
-    "message": "Masquer les vidéos vues"
-  },
   "pageHome": {
     "message": "Accueil"
   },
@@ -271,7 +268,7 @@
     "message": "Importer"
   },
   "manageSyncHeadlineOk": {
-    "message": "Synchronisé sur tous vos appareils"
+    "message": "Synchronisé automatiquement sur vos appareils"
   },
   "manageSyncHeadlineSyncing": {
     "message": "Synchronisation de vos dernières modifications"
@@ -319,7 +316,7 @@
     "message": "Vos listes dépassent l'espace que Chrome accorde aux extensions pour la synchronisation, leur synchronisation est donc en pause. Tout reste enregistré et fonctionne dans ce navigateur, et vos autres appareils gardent la dernière version qui tenait. La synchronisation reprend d'elle-même dès que les listes tiennent à nouveau"
   },
   "manageSyncMessageMarkedPaused": {
-    "message": "Les vidéos marquées ne se synchronisent pas pour le moment : vos listes passent en premier dans l'espace partagé. Elles restent enregistrées et fonctionnent dans ce navigateur, et la synchronisation reprend dès qu'il y a de nouveau de la place"
+    "message": "Vos listes passent en priorité dans l'espace de synchronisation partagé. Les vidéos marquées sont enregistrées et continuent de fonctionner dans ce navigateur, et la synchronisation reprend dès qu'il y a de nouveau de la place"
   },
   "manageSyncMessageOutdated": {
     "message": "Un autre appareil utilise une version plus récente de YouTube Hider. Mettez à jour l'extension dans ce navigateur pour continuer à synchroniser"
@@ -468,10 +465,10 @@
     }
   },
   "manageMarkedDescription": {
-    "message": "Les vidéos que vous avez marquées avec le bouton Vue sur YouTube. Elles sont masquées comme les vidéos vues, selon les réglages de Masquer les vidéos vues. Retirez-en une pour la faire réapparaître. Jusqu'à 3 000 vidéos sont conservées : au-delà, la marque la plus ancienne est supprimée"
+    "message": "Les vidéos que vous avez marquées avec le bouton Vue sur YouTube. Elles sont masquées comme les vidéos vues. Retirez-en une pour la faire réapparaître. Jusqu'à 3 000 vidéos sont conservées : au-delà, la marque la plus ancienne est supprimée"
   },
   "manageMarkedNote": {
-    "message": "Suit $setting$ : les vidéos marquées ne sont masquées que là où ce réglage est actif",
+    "message": "Suit « $setting$ » : les vidéos marquées ne sont masquées que sur les pages où ce filtre est activé",
     "placeholders": {
       "setting": {
         "content": "$1"
@@ -606,39 +603,6 @@
         "content": "$1"
       },
       "list": {
-        "content": "$2"
-      }
-    }
-  },
-  "manageAddInvalid_one": {
-    "message": "$count$ non reconnu : $items$",
-    "placeholders": {
-      "count": {
-        "content": "$1"
-      },
-      "items": {
-        "content": "$2"
-      }
-    }
-  },
-  "manageAddInvalid_many": {
-    "message": "$count$ non reconnus : $items$",
-    "placeholders": {
-      "count": {
-        "content": "$1"
-      },
-      "items": {
-        "content": "$2"
-      }
-    }
-  },
-  "manageAddInvalid_other": {
-    "message": "$count$ non reconnus : $items$",
-    "placeholders": {
-      "count": {
-        "content": "$1"
-      },
-      "items": {
         "content": "$2"
       }
     }
@@ -1977,5 +1941,76 @@
         "content": "$4"
       }
     }
+  },
+  "manageAddInvalid_one": {
+    "message": "$count$ non reconnue",
+    "placeholders": {
+      "count": {
+        "content": "$1"
+      }
+    }
+  },
+  "manageAddInvalid_many": {
+    "message": "$count$ non reconnues",
+    "placeholders": {
+      "count": {
+        "content": "$1"
+      }
+    }
+  },
+  "manageAddInvalid_other": {
+    "message": "$count$ non reconnues",
+    "placeholders": {
+      "count": {
+        "content": "$1"
+      }
+    }
+  },
+  "manageInvalidShow_one": {
+    "message": "Afficher l'entrée non reconnue",
+    "placeholders": {
+      "count": {
+        "content": "$1"
+      }
+    }
+  },
+  "manageInvalidShow_many": {
+    "message": "Afficher les $count$ entrées non reconnues",
+    "placeholders": {
+      "count": {
+        "content": "$1"
+      }
+    }
+  },
+  "manageInvalidShow_other": {
+    "message": "Afficher les $count$ entrées non reconnues",
+    "placeholders": {
+      "count": {
+        "content": "$1"
+      }
+    }
+  },
+  "manageInvalidBareWord": {
+    "message": "Pas une chaîne. Ajoutez @ pour un identifiant"
+  },
+  "manageInvalidNotYouTube": {
+    "message": "Pas un lien YouTube"
+  },
+  "manageInvalidVideoLink": {
+    "message": "Lien vers une vidéo, pas une chaîne"
+  },
+  "manageInvalidNotChannel": {
+    "message": "Pas une chaîne"
+  },
+  "manageInvalidNote": {
+    "message": "Après l'ajout, elles restent dans le champ pour que vous puissiez les corriger. Les mots vont plutôt dans la $list$",
+    "placeholders": {
+      "list": {
+        "content": "$1"
+      }
+    }
+  },
+  "manageCurrentChannelBadge": {
+    "message": "Ouverte dans votre onglet"
   }
 }

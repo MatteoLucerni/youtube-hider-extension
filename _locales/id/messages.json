@@ -14,9 +14,6 @@
   "headerSupport": {
     "message": "Dukung"
   },
-  "hideWatchedTitle": {
-    "message": "Sembunyikan Video yang Ditonton"
-  },
   "pageHome": {
     "message": "Beranda"
   },
@@ -205,7 +202,7 @@
     "message": "Impor"
   },
   "manageSyncHeadlineOk": {
-    "message": "Tersinkron di semua perangkat Anda"
+    "message": "Disinkronkan otomatis di semua perangkat Anda"
   },
   "manageSyncHeadlineSyncing": {
     "message": "Menyinkronkan perubahan terbaru Anda"
@@ -237,7 +234,7 @@
     "message": "Daftar Anda melebihi ruang yang diberikan Chrome kepada ekstensi untuk sinkronisasi, jadi sinkronisasinya dijeda. Semuanya tetap tersimpan dan berfungsi di browser ini, dan perangkat lain menyimpan versi terakhir yang muat. Sinkronisasi berlanjut dengan sendirinya setelah daftar muat lagi"
   },
   "manageSyncMessageMarkedPaused": {
-    "message": "Video yang ditandai sedang tidak disinkronkan: daftar Anda didahulukan di ruang bersama. Video tetap tersimpan dan berfungsi di browser ini, dan sinkronisasi berlanjut setelah ada ruang lagi"
+    "message": "Daftar Anda didahulukan di ruang sinkronisasi bersama. Video yang ditandai tetap tersimpan dan berfungsi di browser ini, dan sinkronisasi berlanjut saat ada ruang lagi"
   },
   "manageSyncMessageOutdated": {
     "message": "Perangkat lain memakai versi YouTube Hider yang lebih baru. Perbarui ekstensi di browser ini agar tetap bisa sinkronisasi"
@@ -316,10 +313,10 @@
     }
   },
   "manageMarkedDescription": {
-    "message": "Video yang Anda tandai dengan tombol Ditonton di YouTube. Video ini disembunyikan seperti video yang sudah ditonton, mengikuti setelan Sembunyikan Video yang Ditonton. Hapus salah satunya untuk menampilkannya lagi. Maksimal 3.000 video disimpan: lebih dari itu, tanda tertua dihapus"
+    "message": "Video yang Anda tandai dengan tombol Ditonton di YouTube. Video ini disembunyikan seperti video yang sudah ditonton. Hapus salah satunya untuk menampilkannya lagi. Maksimal 3.000 video disimpan: lebih dari itu, tanda tertua dihapus"
   },
   "manageMarkedNote": {
-    "message": "Mengikuti $setting$: video yang ditandai hanya disembunyikan di tempat setelan itu aktif",
+    "message": "Mengikuti \"$setting$\": video yang ditandai hanya disembunyikan di halaman tempat filter itu aktif",
     "placeholders": {
       "setting": {
         "content": "$1"
@@ -384,17 +381,6 @@
         "content": "$1"
       },
       "list": {
-        "content": "$2"
-      }
-    }
-  },
-  "manageAddInvalid_other": {
-    "message": "$count$ tidak dikenali: $items$",
-    "placeholders": {
-      "count": {
-        "content": "$1"
-      },
-      "items": {
         "content": "$2"
       }
     }
@@ -1309,5 +1295,44 @@
         "content": "$4"
       }
     }
+  },
+  "manageAddInvalid_other": {
+    "message": "$count$ tidak dikenali",
+    "placeholders": {
+      "count": {
+        "content": "$1"
+      }
+    }
+  },
+  "manageInvalidShow_other": {
+    "message": "Tampilkan $count$ entri yang tidak dikenali",
+    "placeholders": {
+      "count": {
+        "content": "$1"
+      }
+    }
+  },
+  "manageInvalidBareWord": {
+    "message": "Bukan saluran. Tambahkan @ untuk nama pengguna"
+  },
+  "manageInvalidNotYouTube": {
+    "message": "Bukan link YouTube"
+  },
+  "manageInvalidVideoLink": {
+    "message": "Link video, bukan saluran"
+  },
+  "manageInvalidNotChannel": {
+    "message": "Bukan saluran"
+  },
+  "manageInvalidNote": {
+    "message": "Setelah ditambahkan, entri ini tetap di kotak agar bisa Anda perbaiki. Kata dimasukkan ke $list$",
+    "placeholders": {
+      "list": {
+        "content": "$1"
+      }
+    }
+  },
+  "manageCurrentChannelBadge": {
+    "message": "Terbuka di tab Anda"
   }
 }

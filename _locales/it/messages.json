@@ -14,9 +14,6 @@
   "headerSupport": {
     "message": "Supporta"
   },
-  "hideWatchedTitle": {
-    "message": "Nascondi video già visti"
-  },
   "pageHome": {
     "message": "Home"
   },
@@ -271,7 +268,7 @@
     "message": "Importa"
   },
   "manageSyncHeadlineOk": {
-    "message": "Sincronizzato su tutti i tuoi dispositivi"
+    "message": "Sincronizzato in automatico sui tuoi dispositivi"
   },
   "manageSyncHeadlineSyncing": {
     "message": "Sincronizzazione delle ultime modifiche"
@@ -319,7 +316,7 @@
     "message": "Le liste hanno superato lo spazio che Chrome concede alle estensioni per la sincronizzazione, quindi la sincronizzazione è in pausa. Tutto resta salvato e funziona in questo browser, e gli altri dispositivi tengono l'ultima versione che ci stava. La sincronizzazione riparte da sola quando le liste ci stanno di nuovo"
   },
   "manageSyncMessageMarkedPaused": {
-    "message": "I video segnati al momento non si sincronizzano: nello spazio condiviso hanno la precedenza le liste. Restano salvati e funzionano in questo browser, e la sincronizzazione riparte quando c'è di nuovo spazio"
+    "message": "Le liste hanno la precedenza nello spazio di sincronizzazione condiviso. I video segnati restano salvati e funzionano in questo browser, e la sincronizzazione riparte appena c’è di nuovo spazio"
   },
   "manageSyncMessageOutdated": {
     "message": "Un altro dispositivo usa una versione più recente di YouTube Hider. Aggiorna l'estensione in questo browser per continuare a sincronizzare"
@@ -468,10 +465,10 @@
     }
   },
   "manageMarkedDescription": {
-    "message": "I video che hai segnato con il pulsante Visto su YouTube. Vengono nascosti come i video già visti, seguendo le impostazioni di Nascondi video già visti. Rimuovine uno per farlo ricomparire. Se ne conservano fino a 3.000: oltre, si perde il segno più vecchio"
+    "message": "I video che hai segnato con il pulsante Visto su YouTube. Vengono nascosti come i video già visti. Rimuovine uno per farlo ricomparire. Se ne conservano fino a 3.000: oltre, si perde il segno più vecchio"
   },
   "manageMarkedNote": {
-    "message": "Segue $setting$: i video segnati vengono nascosti solo dove quell'impostazione è attiva",
+    "message": "Segue «$setting$»: i video segnati vengono nascosti solo nelle pagine in cui quel filtro è attivo",
     "placeholders": {
       "setting": {
         "content": "$1"
@@ -606,39 +603,6 @@
         "content": "$1"
       },
       "list": {
-        "content": "$2"
-      }
-    }
-  },
-  "manageAddInvalid_one": {
-    "message": "$count$ non riconosciuto: $items$",
-    "placeholders": {
-      "count": {
-        "content": "$1"
-      },
-      "items": {
-        "content": "$2"
-      }
-    }
-  },
-  "manageAddInvalid_many": {
-    "message": "$count$ non riconosciuti: $items$",
-    "placeholders": {
-      "count": {
-        "content": "$1"
-      },
-      "items": {
-        "content": "$2"
-      }
-    }
-  },
-  "manageAddInvalid_other": {
-    "message": "$count$ non riconosciuti: $items$",
-    "placeholders": {
-      "count": {
-        "content": "$1"
-      },
-      "items": {
         "content": "$2"
       }
     }
@@ -1977,5 +1941,76 @@
         "content": "$4"
       }
     }
+  },
+  "manageAddInvalid_one": {
+    "message": "$count$ non riconosciuta",
+    "placeholders": {
+      "count": {
+        "content": "$1"
+      }
+    }
+  },
+  "manageAddInvalid_many": {
+    "message": "$count$ non riconosciute",
+    "placeholders": {
+      "count": {
+        "content": "$1"
+      }
+    }
+  },
+  "manageAddInvalid_other": {
+    "message": "$count$ non riconosciute",
+    "placeholders": {
+      "count": {
+        "content": "$1"
+      }
+    }
+  },
+  "manageInvalidShow_one": {
+    "message": "Mostra la voce non riconosciuta",
+    "placeholders": {
+      "count": {
+        "content": "$1"
+      }
+    }
+  },
+  "manageInvalidShow_many": {
+    "message": "Mostra le $count$ voci non riconosciute",
+    "placeholders": {
+      "count": {
+        "content": "$1"
+      }
+    }
+  },
+  "manageInvalidShow_other": {
+    "message": "Mostra le $count$ voci non riconosciute",
+    "placeholders": {
+      "count": {
+        "content": "$1"
+      }
+    }
+  },
+  "manageInvalidBareWord": {
+    "message": "Non è un canale. Aggiungi @ per un handle"
+  },
+  "manageInvalidNotYouTube": {
+    "message": "Non è un link di YouTube"
+  },
+  "manageInvalidVideoLink": {
+    "message": "Link a un video, non a un canale"
+  },
+  "manageInvalidNotChannel": {
+    "message": "Non è un canale"
+  },
+  "manageInvalidNote": {
+    "message": "Dopo l’aggiunta restano nel campo così puoi correggerle. Le parole vanno invece nella $list$",
+    "placeholders": {
+      "list": {
+        "content": "$1"
+      }
+    }
+  },
+  "manageCurrentChannelBadge": {
+    "message": "Aperto nella tua scheda"
   }
 }

@@ -23,6 +23,7 @@ const {
   LIST_EXPORT_FORMAT,
   parseChannelEntry,
   parseChannelInput,
+  classifyChannelInputError,
   parseTitleInput,
   planListAddition,
   removeListEntries,
@@ -249,6 +250,22 @@ test('parseChannelInput: splits on lines, spaces and commas, dedupes, and keeps 
   const parsed = parseChannelInput(['@bbcnews, youtube.com/@BBCNews', '@theeconomist  hello', '', 'hello'].join('\n'));
   assert.deepEqual(parsed.entries, ['/@bbcnews', '/@theeconomist']);
   assert.deepEqual(parsed.invalid, ['hello']);
+});
+
+test('parseChannelInput: gives every entry it could not read a reason', () => {
+  const parsed = parseChannelInput(
+    ['veritasium', 'www.example.com/my-favourite-channels', 'https://youtu.be/dQw4w9WgXcQ', 'youtube.com/watch?v=dQw4w9WgXcQ', '#history', 'youtube.com/feed/history'].join('\n'),
+  );
+  assert.deepEqual(parsed.rejected, [
+    { text: 'veritasium', reason: 'bare-word' },
+    { text: 'www.example.com/my-favourite-channels', reason: 'not-youtube' },
+    { text: 'https://youtu.be/dQw4w9WgXcQ', reason: 'video-link' },
+    { text: 'youtube.com/watch?v=dQw4w9WgXcQ', reason: 'video-link' },
+    { text: '#history', reason: 'not-channel' },
+    { text: 'youtube.com/feed/history', reason: 'not-channel' },
+  ]);
+  assert.equal(classifyChannelInputError('youtube.com/shorts/abcdefghijk'), 'video-link');
+  assert.equal(classifyChannelInputError('@'), 'not-channel');
 });
 
 test('parseTitleInput: one entry per line, normalized and deduplicated case-insensitively', () => {
