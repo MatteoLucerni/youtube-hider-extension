@@ -50,7 +50,6 @@ const thresholdFlagKeys = [
 ];
 const defaultSettings = {
   extensionEnabled: true,
-  easyModeEnabled: true,
   hideThreshold: 20,
   hideHomeEnabled: true,
   hideChannelEnabled: true,
@@ -686,19 +685,13 @@ chrome.runtime.onInstalled.addListener(details => {
     logger.log('Uninstall URL updated');
 
     chrome.storage.local.remove('whatsNewVersion');
+    chrome.storage.sync.remove('easyModeEnabled');
   }
 
   initializeSettings();
 });
 
 chrome.runtime.onMessage.addListener((message, sender, sendResponse) => {
-  if (message.action === 'openSettings') {
-    chrome.tabs.create({
-      url: chrome.runtime.getURL('popup/popup.html?standalone=true'),
-      active: true,
-    });
-    sendResponse({ success: true });
-  }
   if (message.action === 'openManager') {
     openManagerPage(message.list).catch(e => logger.log('Could not open the Manage page:', e));
     sendResponse({ success: true });
