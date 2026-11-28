@@ -14,20 +14,8 @@
   "headerSupport": {
     "message": "Destekle"
   },
-  "headerExtensionToggle": {
-    "message": "Uzantı"
-  },
-  "sectionYouTubeVideos": {
-    "message": "YouTube Videoları"
-  },
   "filterModeTitle": {
     "message": "Filtre Modu"
-  },
-  "filterModeTooltip": {
-    "message": "Gizle, filtrelenen videoları tamamen kaldırır. Soldur, onları nedenini açıklayan bir etiketle koyu bir katmanın altında görünür bırakır ve tıklanabilir kalırlar. Shorts bu ayardan bağımsız olarak her zaman gizlenir"
-  },
-  "filterModeDescription": {
-    "message": "Filtrelenen videolara ne olacağını seçin. Shorts her zaman gizlenir"
   },
   "filterModeHide": {
     "message": "Gizle"
@@ -38,56 +26,26 @@
   "hideWatchedTitle": {
     "message": "İzlenen Videoları Gizle"
   },
-  "hideWatchedDescription": {
-    "message": "Videoları izlenme yüzdesine göre gizler"
-  },
-  "watchPercentageLabel": {
-    "message": "İzlenme Yüzdesi"
-  },
-  "watchPercentageTooltip": {
-    "message": "Süresinin bu yüzdesinden fazlasını izlediğiniz videoları gizler. Kapatmak için tamamen sola sürükleyin"
-  },
   "pageHome": {
     "message": "Ana Sayfa"
-  },
-  "hideWatchedHomeTooltip": {
-    "message": "Ana Sayfa'daki izlenen videoları gizler"
   },
   "pageChannel": {
     "message": "Kanal"
   },
-  "hideWatchedChannelTooltip": {
-    "message": "Kanal sayfalarındaki izlenen videoları gizler"
-  },
   "pageSubs": {
     "message": "Abonelikler"
-  },
-  "hideWatchedSubsTooltip": {
-    "message": "Abonelikler akışındaki izlenen videoları gizler"
   },
   "pageSearch": {
     "message": "Arama"
   },
-  "hideWatchedSearchTooltip": {
-    "message": "Arama sonuçlarındaki izlenen videoları gizler"
-  },
   "pageRelated": {
     "message": "İlgili"
-  },
-  "hideWatchedRelatedTooltip": {
-    "message": "İlgili videolar kenar çubuğundaki izlenen videoları gizler"
   },
   "keepMusicLabel": {
     "message": "Müzikleri görünür tut"
   },
-  "keepMusicTooltip": {
-    "message": "Daha önce dinlediğiniz şarkılar görünür kalır, böylece onları yeniden çalabilirsiniz. Bir video, YouTube'un kendisi onu müzik olarak etiketlediğinde şarkı sayılır. İzlendi olarak işaretlediğiniz videolar gizli kalır"
-  },
   "markedWatchedLabel": {
     "message": "İzlendi olarak işaretlenenler"
-  },
-  "markedWatchedTooltip": {
-    "message": "Bir videonun üzerine gelip İzlendi'ye tıklayarak, YouTube ilerleme çubuğu göstermese bile onu izlenmiş sayabilirsiniz. İşaretlenen videolar bu kartın kaydırıcısına ve sayfa anahtarlarına uyar, kanal Whitelist'te olsa bile gizli kalır. Aynı Chrome profiliyle oturum açılmış tüm cihazlarda otomatik olarak senkronize edilir, dışa aktarmaya gerek yoktur. En fazla 3.000 video saklanır: bunu aşınca en eski işaret silinir"
   },
   "markedCountNone": {
     "message": "Henüz işaretlenmiş video yok"
@@ -103,15 +61,6 @@
       }
     }
   },
-  "markedWatchedSyncPaused": {
-    "message": "Senkronizasyon duraklatıldı: kanal listeleri cihazlar arasında paylaşılan alanı kullanıyor. İşaretlediğiniz videolar bu tarayıcıda kayıtlı kalır ve tekrar sığdıklarında senkronizasyon devam eder"
-  },
-  "contentTypesTitle": {
-    "message": "Shorts, Mix, Oynatma Listeleri ve Canlıları Gizle"
-  },
-  "contentTypesDescription": {
-    "message": "YouTube'dan Shorts, Mix, oynatma listeleri ve canlı yayınları kaldırır"
-  },
   "contentShorts": {
     "message": "Shorts"
   },
@@ -124,191 +73,65 @@
   "contentLives": {
     "message": "Canlı"
   },
-  "hideShortsLabel": {
-    "message": "Shorts'u gizle"
-  },
-  "hideShortsTooltip": {
-    "message": "Shorts rafını ve Shorts sekmesini kaldırır"
-  },
-  "hideShortsSearchLabel": {
-    "message": "Aramada Shorts"
-  },
-  "hideShortsSearchTooltip": {
-    "message": "Arama sonuçlarından Shorts videolarını kaldırır"
-  },
-  "hideMixesLabel": {
-    "message": "Mix'leri gizle"
-  },
-  "hideMixesTooltip": {
-    "message": "YouTube akışınızdan Mix listelerini kaldırır"
-  },
-  "hidePlaylistsLabel": {
-    "message": "Listeleri gizle"
-  },
-  "hidePlaylistsTooltip": {
-    "message": "YouTube akışınızdan oynatma listelerini kaldırır"
-  },
-  "hideLivesLabel": {
-    "message": "Canlıları gizle"
-  },
-  "hideLivesTooltip": {
-    "message": "YouTube akışınızdan canlı yayınları kaldırır"
-  },
   "viewsFilterTitle": {
     "message": "Görüntüleme Filtresi"
-  },
-  "viewsFilterDescription": {
-    "message": "Videoları görüntüleme sayısına göre gizler"
-  },
-  "minViewsLabel": {
-    "message": "En Az Görüntüleme"
-  },
-  "minViewsTooltip": {
-    "message": "Bu sayıdan az görüntülenen videolar gizlenir. Kapatmak için tamamen sola sürükleyin"
-  },
-  "maxViewsLabel": {
-    "message": "En Çok Görüntüleme"
-  },
-  "maxViewsTooltip": {
-    "message": "Bu sayıdan çok görüntülenen videolar gizlenir. Kapatmak için tamamen sola sürükleyin"
   },
   "sliderOff": {
     "message": "Kapalı"
   },
-  "rangeOverlapWarning": {
-    "message": "Filtre etkin değil: aralıklar çakışıyor"
-  },
-  "viewsHomeTooltip": {
-    "message": "Ana Sayfa'da videoları görüntülemeye göre gizler"
-  },
-  "viewsChannelTooltip": {
-    "message": "Kanallarda videoları görüntülemeye göre gizler"
-  },
-  "viewsSubsTooltip": {
-    "message": "Aboneliklerde videoları görüntülemeye göre gizler"
-  },
-  "viewsSearchTooltip": {
-    "message": "Aramada videoları görüntülemeye göre gizler"
-  },
-  "viewsRelatedTooltip": {
-    "message": "İlgili videolarda görüntülemeye göre gizler"
-  },
   "dateFilterTitle": {
     "message": "Yükleme Tarihi Filtresi"
-  },
-  "dateFilterDescription": {
-    "message": "Videoları yükleme tarihine göre gizler"
   },
   "dateNewerLabel": {
     "message": "Daha yeni olanları gizle"
   },
-  "dateNewerTooltip": {
-    "message": "Bundan daha yakın zamanda yüklenen videoları gizler. Kapatmak için tamamen sola sürükleyin"
-  },
   "dateOlderLabel": {
     "message": "Daha eski olanları gizle"
-  },
-  "dateOlderTooltip": {
-    "message": "Bundan daha uzun süre önce yüklenen videoları gizler. Kapatmak için tamamen sola sürükleyin"
-  },
-  "dateHomeTooltip": {
-    "message": "Ana Sayfa'da videoları tarihe göre gizler"
-  },
-  "dateChannelTooltip": {
-    "message": "Kanallarda videoları tarihe göre gizler"
-  },
-  "dateSubsTooltip": {
-    "message": "Aboneliklerde videoları tarihe göre gizler"
-  },
-  "dateSearchTooltip": {
-    "message": "Aramada videoları tarihe göre gizler"
-  },
-  "dateRelatedTooltip": {
-    "message": "İlgili videolarda tarihe göre gizler"
   },
   "channelWhitelistTitle": {
     "message": "Channel Whitelist"
   },
-  "channelWhitelistTooltip": {
-    "message": "Whitelist'teki kanallar tüm etkin filtreleri atlar. Bir kanal sayfasında veya videoda iken aşağıdaki düğmeyle ya da üst bilgideki düğmeyle kanal ekleyin. Listenin tamamı kendi sayfasında açılır; orada kanalları arayabilir, kaldırabilir ve taşıyabilirsiniz. Shorts her zaman filtrelenir"
-  },
   "channelWhitelistDescription": {
     "message": "Bu listedeki kanallar filtrelenmez. Shorts her zaman filtrelenir"
   },
-  "channelWhitelistEmpty": {
-    "message": "Whitelist'te henüz kanal yok"
-  },
-  "addCurrentChannel": {
-    "message": "+ Bu kanalı ekle"
-  },
   "channelListsSyncPaused": {
-    "message": "Senkronizasyon duraklatıldı: listeleriniz diğer cihazlarınızla senkronize edilemeyecek kadar büyük. Hiçbir şey kaybolmaz: bu tarayıcıda her şey çalışmaya devam eder ve listeler yeniden sığdığında senkronizasyon devam eder"
+    "message": "Senkronizasyon duraklatıldı: listeleriniz çok büyük. Hiçbir şey kaybolmaz, bu tarayıcıda her şey çalışmaya devam eder"
   },
   "channelBlacklistTitle": {
     "message": "Channel Blacklist"
   },
-  "channelBlacklistTooltip": {
-    "message": "Blacklist'teki kanallar diğer filtrelerden bağımsız olarak her zaman gizlenir. Bir kanal sayfasında veya videoda iken aşağıdaki düğmeyle ya da üst bilgideki düğmeyle kanal ekleyin. Listenin tamamı kendi sayfasında açılır; orada kanalları arayabilir, kaldırabilir ve taşıyabilirsiniz. Shorts her zaman filtrelenir"
-  },
   "channelBlacklistDescription": {
     "message": "Bu listedeki kanallar her yerde her zaman gizlenir. Shorts her zaman filtrelenir"
-  },
-  "channelBlacklistEmpty": {
-    "message": "Blacklist'te henüz kanal yok"
   },
   "titleWhitelistTitle": {
     "message": "Title Whitelist"
   },
-  "titleWhitelistTooltip": {
-    "message": "Başlığında bu kelimelerden biri geçen videolar tüm etkin filtreleri atlar. Büyük ve küçük harf fark etmez ve eşleşme bir kelimenin başında aranır: \"ev\", \"evler\" ile eşleşir ama \"sevgi\" ile eşleşmez. Blacklist'teki kanallar ve kelimeler gizli kalır, Shorts her zaman filtrelenir"
-  },
   "titleWhitelistDescription": {
     "message": "Başlığında bu kelimelerden biri geçen videolar filtrelenmez"
-  },
-  "titleWhitelistEmpty": {
-    "message": "Title Whitelist'te henüz kelime yok"
-  },
-  "addTitleWord": {
-    "message": "+ Ekle"
   },
   "titleBlacklistTitle": {
     "message": "Title Blacklist"
   },
-  "titleBlacklistTooltip": {
-    "message": "Başlığında bu kelimelerden biri geçen videolar Shorts, Mix ve oynatma listeleri dahil her yerde her zaman gizlenir; kanal Whitelist'te olsa ya da başlıkta Whitelist'teki bir kelime de geçse bile. Büyük ve küçük harf fark etmez ve eşleşme bir kelimenin başında aranır: \"ev\", \"evler\" ile eşleşir ama \"sevgi\" ile eşleşmez"
-  },
   "titleBlacklistDescription": {
     "message": "Başlığında bu kelimelerden biri geçen videolar her zaman gizlenir"
   },
-  "titleBlacklistEmpty": {
-    "message": "Title Blacklist'te henüz kelime yok"
-  },
   "advancedControlsLabel": {
     "message": "Gelişmiş Kontroller"
-  },
-  "advancedControlsDescription": {
-    "message": "Basit anahtarlar yerine her filtre için sayfa bazında gelişmiş kontrolleri gösterir"
   },
   "hideOnPageControlsLabel": {
     "message": "Sayfadaki kontrolleri gizle"
   },
   "hideOnPageControlsDescription": {
-    "message": "Daha sade ve göze batmayan bir görünüm için YouTube Hider'ın ekrandaki tüm öğelerini gizler. Filtreleme arka planda çalışmaya devam eder"
-  },
-  "tutorialLabel": {
-    "message": "Eğitim"
-  },
-  "tutorialDescription": {
-    "message": "Üst bilgi düğmesinin rehberli turunu yeniden başlatır"
+    "message": "Dişli simgesini ve Whitelist, Blacklist, İzlendi düğmelerini kaldırır. Filtreler çalışmaya devam eder"
   },
   "tutorialRestart": {
     "message": "Yeniden başlat"
   },
   "tutorialRestartConfirm": {
-    "message": "Eğitim bir sonraki YouTube ziyaretinizde görünecek"
+    "message": "Tamam: bir sonraki YouTube ziyaretinizde başlar"
   },
   "footerFeedback": {
-    "message": "Öneri veya hata bildir"
+    "message": "Geri bildirim"
   },
   "footerChangelog": {
     "message": "Değişiklikler"
@@ -343,58 +166,8 @@
   "supportReviewDescription": {
     "message": "Chrome Web Mağazası'nda bir puan hiçbir şeye mal olmaz ve başkalarının uzantıyı bulmasına yardım eder"
   },
-  "titleWhitelistPlaceholder": {
-    "message": "Kelime veya ifade, ör. eğitim"
-  },
-  "titleWhitelistInputLabel": {
-    "message": "Whitelist'e eklenecek kelime veya ifade"
-  },
-  "titleBlacklistPlaceholder": {
-    "message": "Kelime veya ifade, ör. tepki"
-  },
-  "titleBlacklistInputLabel": {
-    "message": "Blacklist'e eklenecek kelime veya ifade"
-  },
-  "logoAlt": {
-    "message": "YouTube Hider uzantısı logosu"
-  },
   "closeLabel": {
     "message": "Kapat"
-  },
-  "channelAddHintNoChannel": {
-    "message": "Eklemek için bir kanal sayfası açın"
-  },
-  "channelAlreadyWhitelisted": {
-    "message": "$channel$ zaten Whitelist'te",
-    "placeholders": {
-      "channel": {
-        "content": "$1"
-      }
-    }
-  },
-  "channelAlreadyBlacklisted": {
-    "message": "$channel$ zaten Blacklist'te",
-    "placeholders": {
-      "channel": {
-        "content": "$1"
-      }
-    }
-  },
-  "titleWhitelistAlreadyListed": {
-    "message": "\"$word$\" zaten Whitelist'te",
-    "placeholders": {
-      "word": {
-        "content": "$1"
-      }
-    }
-  },
-  "titleBlacklistAlreadyListed": {
-    "message": "\"$word$\" zaten Blacklist'te",
-    "placeholders": {
-      "word": {
-        "content": "$1"
-      }
-    }
   },
   "markedCount_one": {
     "message": "$limit$ videodan $count$",
@@ -1383,6 +1156,540 @@
       },
       "second": {
         "content": "$2"
+      }
+    }
+  },
+  "stateOn": {
+    "message": "Açık"
+  },
+  "stateOff": {
+    "message": "Kapalı"
+  },
+  "extensionSwitchLabel": {
+    "message": "YouTube Hider açık"
+  },
+  "offTitle": {
+    "message": "YouTube Hider kapalı"
+  },
+  "offText": {
+    "message": "Hiçbir şey filtrelenmez. Ayarlarınız ve listeleriniz korunur"
+  },
+  "offTurnOn": {
+    "message": "Aç"
+  },
+  "offNote": {
+    "message": "Burada yaptığınız değişiklikler açıldığında uygulanır"
+  },
+  "tabsLabel": {
+    "message": "Bölümler"
+  },
+  "tabFilters": {
+    "message": "Filtreler"
+  },
+  "tabLists": {
+    "message": "Listeler"
+  },
+  "tabSettings": {
+    "message": "Ayarlar"
+  },
+  "contextYouAreOn": {
+    "message": "Şu anki sayfa: $page$",
+    "placeholders": {
+      "page": {
+        "content": "$1"
+      }
+    }
+  },
+  "contextPageHome": {
+    "message": "Ana Sayfa"
+  },
+  "contextPageSubs": {
+    "message": "Abonelikler"
+  },
+  "contextPageSearch": {
+    "message": "Arama sonuçları"
+  },
+  "contextPageVideo": {
+    "message": "Video"
+  },
+  "contextPageChannel": {
+    "message": "Kanal"
+  },
+  "contextNotYouTube": {
+    "message": "Hangi filtrelerin geçerli olduğunu görmek için YouTube’u açın"
+  },
+  "contextOtherPage": {
+    "message": "Bu sayfada filtreler uygulanmaz"
+  },
+  "contextFiltersHere_one": {
+    "message": "Burada $count$ filtre geçerli",
+    "placeholders": {
+      "count": {
+        "content": "$1"
+      }
+    }
+  },
+  "contextFiltersHere_other": {
+    "message": "Burada $count$ filtre geçerli",
+    "placeholders": {
+      "count": {
+        "content": "$1"
+      }
+    }
+  },
+  "contextFiltersSidebar_one": {
+    "message": "Kenar çubuğunda $count$ filtre geçerli",
+    "placeholders": {
+      "count": {
+        "content": "$1"
+      }
+    }
+  },
+  "contextFiltersSidebar_other": {
+    "message": "Kenar çubuğunda $count$ filtre geçerli",
+    "placeholders": {
+      "count": {
+        "content": "$1"
+      }
+    }
+  },
+  "contextNoFiltersHere": {
+    "message": "Burada geçerli filtre yok"
+  },
+  "filterModeGroupLabel": {
+    "message": "Filtre modu"
+  },
+  "filterModeLead": {
+    "message": "Filtrelenen videolar"
+  },
+  "filterModeHint": {
+    "message": "Soluk olanlar karartılmış görünür"
+  },
+  "filterModeHidden": {
+    "message": "Gizlenir"
+  },
+  "filterModeDimmed": {
+    "message": "Soluk"
+  },
+  "filterWatchedTitle": {
+    "message": "İzlenen videolar"
+  },
+  "filterViewsTitle": {
+    "message": "Görüntülenme"
+  },
+  "filterDateTitle": {
+    "message": "Yükleme tarihi"
+  },
+  "watchedSliderLabel": {
+    "message": "Şu kadar izlenince gizle"
+  },
+  "viewsMinLabel": {
+    "message": "Altını gizle"
+  },
+  "viewsMaxLabel": {
+    "message": "Üstünü gizle"
+  },
+  "viewsHint": {
+    "message": "İki sınır arasındaki videoları tutar. Atlamak için birini Kapalı yapın"
+  },
+  "dateHint": {
+    "message": "Bir sınır kullanın ya da yalnızca bir zaman aralığındaki videoları tutmak için ikisini birden"
+  },
+  "viewsOverlapWarning": {
+    "message": "\"$over$\", \"$under$\" değerinden yüksek olmalı. Düzeltene kadar duraklatıldı",
+    "placeholders": {
+      "over": {
+        "content": "$1"
+      },
+      "under": {
+        "content": "$2"
+      }
+    }
+  },
+  "dateOverlapWarning": {
+    "message": "\"$older$\", \"$newer$\" değerinden uzun olmalı. Düzeltene kadar duraklatıldı",
+    "placeholders": {
+      "older": {
+        "content": "$1"
+      },
+      "newer": {
+        "content": "$2"
+      }
+    }
+  },
+  "summaryWatched": {
+    "message": "$percent$ üzeri izlendi",
+    "placeholders": {
+      "percent": {
+        "content": "$1"
+      }
+    }
+  },
+  "summaryViewsUnder": {
+    "message": "$views$ görüntülenmenin altı",
+    "placeholders": {
+      "views": {
+        "content": "$1"
+      }
+    }
+  },
+  "summaryViewsOver": {
+    "message": "$views$ görüntülenmenin üstü",
+    "placeholders": {
+      "views": {
+        "content": "$1"
+      }
+    }
+  },
+  "summaryViewsBetween": {
+    "message": "$min$ ile $max$ arası görüntülenme",
+    "placeholders": {
+      "min": {
+        "content": "$1"
+      },
+      "max": {
+        "content": "$2"
+      }
+    }
+  },
+  "summaryDateNewer": {
+    "message": "$age$ süreden yeni",
+    "placeholders": {
+      "age": {
+        "content": "$1"
+      }
+    }
+  },
+  "summaryDateOlder": {
+    "message": "$age$ süreden eski",
+    "placeholders": {
+      "age": {
+        "content": "$1"
+      }
+    }
+  },
+  "summaryDateWindow": {
+    "message": "$newer$ ile $older$ arası olanları tutar",
+    "placeholders": {
+      "newer": {
+        "content": "$1"
+      },
+      "older": {
+        "content": "$2"
+      }
+    }
+  },
+  "summaryAllPages": {
+    "message": "Tüm sayfalar"
+  },
+  "summaryPages": {
+    "message": "$total$ sayfadan $count$",
+    "placeholders": {
+      "count": {
+        "content": "$1"
+      },
+      "total": {
+        "content": "$2"
+      }
+    }
+  },
+  "summaryOverlap": {
+    "message": "Filtrelemiyor: sınırlar çakışıyor"
+  },
+  "summaryNoPages": {
+    "message": "Filtrelemiyor: sayfa seçilmedi"
+  },
+  "applyOnLabel": {
+    "message": "Uygulanacak yer"
+  },
+  "chipAllPages": {
+    "message": "Tümü"
+  },
+  "relatedHint": {
+    "message": "İlgili, izlediğiniz videonun yanındaki kenar çubuğudur"
+  },
+  "keepMusicHint": {
+    "message": "Dinlediğiniz şarkılar akışta kalır"
+  },
+  "formatsTitle": {
+    "message": "Bu biçimleri gizle"
+  },
+  "shortsInSearchLabel": {
+    "message": "Arama sonuçlarındaki Shorts"
+  },
+  "channelCardLabel": {
+    "message": "Kanal"
+  },
+  "channelsOnVideo_one": {
+    "message": "Bu videoda $count$ kanal",
+    "placeholders": {
+      "count": {
+        "content": "$1"
+      }
+    }
+  },
+  "channelsOnVideo_other": {
+    "message": "Bu videoda $count$ kanal",
+    "placeholders": {
+      "count": {
+        "content": "$1"
+      }
+    }
+  },
+  "channelCardEmpty": {
+    "message": "Kanalını buradan Whitelist veya Blacklist’e eklemek için bir kanal ya da video açın"
+  },
+  "statusNotInList": {
+    "message": "Hiçbir listede değil"
+  },
+  "statusInWhitelist": {
+    "message": "Channel Whitelist’te"
+  },
+  "statusInWhitelistPaused": {
+    "message": "Channel Whitelist’te, duraklatıldı"
+  },
+  "statusInBlacklist": {
+    "message": "Channel Blacklist’te"
+  },
+  "statusInBlacklistPaused": {
+    "message": "Channel Blacklist’te, duraklatıldı"
+  },
+  "actionWhitelistChannel": {
+    "message": "Kanalı Whitelist’e al"
+  },
+  "actionBlacklistChannel": {
+    "message": "Kanalı Blacklist’e al"
+  },
+  "actionRemove": {
+    "message": "Kaldır"
+  },
+  "actionRemoveFromList": {
+    "message": "$channel$ kanalını $list$ listesinden kaldır",
+    "placeholders": {
+      "channel": {
+        "content": "$1"
+      },
+      "list": {
+        "content": "$2"
+      }
+    }
+  },
+  "actionMoveToList": {
+    "message": "$channel$ kanalını $list$ listesine taşı",
+    "placeholders": {
+      "channel": {
+        "content": "$1"
+      },
+      "list": {
+        "content": "$2"
+      }
+    }
+  },
+  "actionWhitelistNamed": {
+    "message": "$channel$ kanalını Whitelist’e al",
+    "placeholders": {
+      "channel": {
+        "content": "$1"
+      }
+    }
+  },
+  "actionBlacklistNamed": {
+    "message": "$channel$ kanalını Blacklist’e al",
+    "placeholders": {
+      "channel": {
+        "content": "$1"
+      }
+    }
+  },
+  "wordBoxLabel": {
+    "message": "Video başlıklarındaki bir kelime"
+  },
+  "wordPlaceholder": {
+    "message": "örn. tutorial"
+  },
+  "wordAlreadyInList": {
+    "message": "\"$word$\" zaten $list$ listesinde",
+    "placeholders": {
+      "word": {
+        "content": "$1"
+      },
+      "list": {
+        "content": "$2"
+      }
+    }
+  },
+  "wordAdded": {
+    "message": "\"$word$\", $list$ listesine eklendi",
+    "placeholders": {
+      "word": {
+        "content": "$1"
+      },
+      "list": {
+        "content": "$2"
+      }
+    }
+  },
+  "yourListsLabel": {
+    "message": "Listeleriniz"
+  },
+  "countChannelsNeverFiltered_one": {
+    "message": "$count$ kanal hiç filtrelenmez",
+    "placeholders": {
+      "count": {
+        "content": "$1"
+      }
+    }
+  },
+  "countChannelsNeverFiltered_other": {
+    "message": "$count$ kanal hiç filtrelenmez",
+    "placeholders": {
+      "count": {
+        "content": "$1"
+      }
+    }
+  },
+  "countChannelsAlwaysHidden_one": {
+    "message": "$count$ kanal her zaman gizli",
+    "placeholders": {
+      "count": {
+        "content": "$1"
+      }
+    }
+  },
+  "countChannelsAlwaysHidden_other": {
+    "message": "$count$ kanal her zaman gizli",
+    "placeholders": {
+      "count": {
+        "content": "$1"
+      }
+    }
+  },
+  "countWordsNeverFiltered_one": {
+    "message": "$count$ kelime hiç filtrelenmez",
+    "placeholders": {
+      "count": {
+        "content": "$1"
+      }
+    }
+  },
+  "countWordsNeverFiltered_other": {
+    "message": "$count$ kelime hiç filtrelenmez",
+    "placeholders": {
+      "count": {
+        "content": "$1"
+      }
+    }
+  },
+  "countWordsAlwaysHidden_one": {
+    "message": "$count$ kelime her zaman gizli",
+    "placeholders": {
+      "count": {
+        "content": "$1"
+      }
+    }
+  },
+  "countWordsAlwaysHidden_other": {
+    "message": "$count$ kelime her zaman gizli",
+    "placeholders": {
+      "count": {
+        "content": "$1"
+      }
+    }
+  },
+  "listPausedChannels_one": {
+    "message": "Duraklatıldı · $count$ kanal",
+    "placeholders": {
+      "count": {
+        "content": "$1"
+      }
+    }
+  },
+  "listPausedChannels_other": {
+    "message": "Duraklatıldı · $count$ kanal",
+    "placeholders": {
+      "count": {
+        "content": "$1"
+      }
+    }
+  },
+  "listPausedWords_one": {
+    "message": "Duraklatıldı · $count$ kelime",
+    "placeholders": {
+      "count": {
+        "content": "$1"
+      }
+    }
+  },
+  "listPausedWords_other": {
+    "message": "Duraklatıldı · $count$ kelime",
+    "placeholders": {
+      "count": {
+        "content": "$1"
+      }
+    }
+  },
+  "listNoChannels": {
+    "message": "Henüz kanal yok"
+  },
+  "listNoWords": {
+    "message": "Henüz kelime yok"
+  },
+  "markedFollowsWatched_one": {
+    "message": "$count$ video, \"İzlenen videolar\"ı izler",
+    "placeholders": {
+      "count": {
+        "content": "$1"
+      }
+    }
+  },
+  "markedFollowsWatched_other": {
+    "message": "$count$ video, \"İzlenen videolar\"ı izler",
+    "placeholders": {
+      "count": {
+        "content": "$1"
+      }
+    }
+  },
+  "markedNoneFollowsWatched": {
+    "message": "Henüz video yok, \"İzlenen videolar\"ı izler"
+  },
+  "markedNearLimit": {
+    "message": "$count$ / $limit$: sonrasında en eskiler silinir",
+    "placeholders": {
+      "count": {
+        "content": "$1"
+      },
+      "limit": {
+        "content": "$2"
+      }
+    }
+  },
+  "markedSyncPausedShort": {
+    "message": "Senkronizasyon duraklatıldı: bu tarayıcıda kayıtlı"
+  },
+  "settingsOnYouTube": {
+    "message": "YouTube’da"
+  },
+  "settingsSync": {
+    "message": "Senkronizasyon"
+  },
+  "settingsHelp": {
+    "message": "Yardım"
+  },
+  "syncOk": {
+    "message": "Cihazlarınız arasında otomatik senkronize edilir"
+  },
+  "tourLabel": {
+    "message": "İlk kullanım turu"
+  },
+  "tourRestartHint": {
+    "message": "Bir sonraki YouTube ziyaretinizde yeniden gösterilir"
+  },
+  "footerVersion": {
+    "message": "Sürüm $version$",
+    "placeholders": {
+      "version": {
+        "content": "$1"
       }
     }
   }

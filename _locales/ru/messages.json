@@ -14,20 +14,8 @@
   "headerSupport": {
     "message": "Поддержать"
   },
-  "headerExtensionToggle": {
-    "message": "Расширение"
-  },
-  "sectionYouTubeVideos": {
-    "message": "Видео на YouTube"
-  },
   "filterModeTitle": {
     "message": "Режим фильтра"
-  },
-  "filterModeTooltip": {
-    "message": "«Скрыть» полностью убирает отфильтрованные видео. «Затемнить» оставляет их видимыми под тёмным слоем с подписью о причине, и по ним по-прежнему можно кликнуть. Shorts скрываются всегда, независимо от этой настройки"
-  },
-  "filterModeDescription": {
-    "message": "Выберите, что делать с отфильтрованными видео. Shorts скрываются всегда"
   },
   "filterModeHide": {
     "message": "Скрыть"
@@ -38,56 +26,26 @@
   "hideWatchedTitle": {
     "message": "Скрывать просмотренные"
   },
-  "hideWatchedDescription": {
-    "message": "Скрывает видео в зависимости от просмотренной доли"
-  },
-  "watchPercentageLabel": {
-    "message": "Доля просмотра"
-  },
-  "watchPercentageTooltip": {
-    "message": "Скрывает видео, которые вы посмотрели больше чем на этот процент длительности. Перетащите влево до конца, чтобы выключить"
-  },
   "pageHome": {
     "message": "Главная"
-  },
-  "hideWatchedHomeTooltip": {
-    "message": "Скрывает просмотренные видео на главной"
   },
   "pageChannel": {
     "message": "Канал"
   },
-  "hideWatchedChannelTooltip": {
-    "message": "Скрывает просмотренные видео на страницах каналов"
-  },
   "pageSubs": {
     "message": "Подписки"
-  },
-  "hideWatchedSubsTooltip": {
-    "message": "Скрывает просмотренные видео в ленте подписок"
   },
   "pageSearch": {
     "message": "Поиск"
   },
-  "hideWatchedSearchTooltip": {
-    "message": "Скрывает просмотренные видео в результатах поиска"
-  },
   "pageRelated": {
     "message": "Похожие"
-  },
-  "hideWatchedRelatedTooltip": {
-    "message": "Скрывает просмотренные видео на боковой панели с похожими видео"
   },
   "keepMusicLabel": {
     "message": "Не скрывать музыку"
   },
-  "keepMusicTooltip": {
-    "message": "Уже прослушанные песни остаются видимыми, чтобы вы могли включить их снова. Видео считается песней, если YouTube сам помечает его как музыку. Видео, отмеченные вами как просмотренные, остаются скрытыми"
-  },
   "markedWatchedLabel": {
     "message": "Отмечены как просмотренные"
-  },
-  "markedWatchedTooltip": {
-    "message": "Наведите курсор на видео и нажмите «Просмотрено», чтобы считать его уже просмотренным, даже если YouTube не показывает полосу прогресса. Отмеченные видео подчиняются ползунку и переключателям страниц этой карточки и остаются скрытыми даже для каналов из Whitelist. Они автоматически синхронизируются на всех устройствах с тем же профилем Chrome, экспорт не нужен. Хранится до 3000 видео: сверх этого удаляется самая старая отметка"
   },
   "markedCountNone": {
     "message": "Пока нет отмеченных видео"
@@ -103,15 +61,6 @@
       }
     }
   },
-  "markedWatchedSyncPaused": {
-    "message": "Синхронизация приостановлена: списки каналов занимают общее место для синхронизации между устройствами. Отмеченные видео сохранены в этом браузере, и синхронизация возобновится, когда они снова поместятся"
-  },
-  "contentTypesTitle": {
-    "message": "Скрывать Shorts, миксы, плейлисты и трансляции"
-  },
-  "contentTypesDescription": {
-    "message": "Убирает с YouTube Shorts, миксы, плейлисты и трансляции"
-  },
   "contentShorts": {
     "message": "Shorts"
   },
@@ -124,191 +73,65 @@
   "contentLives": {
     "message": "Трансляции"
   },
-  "hideShortsLabel": {
-    "message": "Скрыть Shorts"
-  },
-  "hideShortsTooltip": {
-    "message": "Убирает полку Shorts и вкладку Shorts"
-  },
-  "hideShortsSearchLabel": {
-    "message": "Shorts в поиске"
-  },
-  "hideShortsSearchTooltip": {
-    "message": "Убирает Shorts из результатов поиска"
-  },
-  "hideMixesLabel": {
-    "message": "Скрыть миксы"
-  },
-  "hideMixesTooltip": {
-    "message": "Убирает миксы из вашей ленты YouTube"
-  },
-  "hidePlaylistsLabel": {
-    "message": "Скрыть плейлисты"
-  },
-  "hidePlaylistsTooltip": {
-    "message": "Убирает плейлисты из вашей ленты YouTube"
-  },
-  "hideLivesLabel": {
-    "message": "Скрыть трансляции"
-  },
-  "hideLivesTooltip": {
-    "message": "Убирает прямые трансляции из вашей ленты YouTube"
-  },
   "viewsFilterTitle": {
     "message": "Фильтр просмотров"
-  },
-  "viewsFilterDescription": {
-    "message": "Скрывает видео по числу просмотров"
-  },
-  "minViewsLabel": {
-    "message": "Минимум просмотров"
-  },
-  "minViewsTooltip": {
-    "message": "Видео с меньшим числом просмотров будут скрыты. Перетащите влево до конца, чтобы выключить"
-  },
-  "maxViewsLabel": {
-    "message": "Максимум просмотров"
-  },
-  "maxViewsTooltip": {
-    "message": "Видео с большим числом просмотров будут скрыты. Перетащите влево до конца, чтобы выключить"
   },
   "sliderOff": {
     "message": "Выкл"
   },
-  "rangeOverlapWarning": {
-    "message": "Фильтр не работает: диапазоны пересекаются"
-  },
-  "viewsHomeTooltip": {
-    "message": "Скрывает видео по просмотрам на главной"
-  },
-  "viewsChannelTooltip": {
-    "message": "Скрывает видео по просмотрам на каналах"
-  },
-  "viewsSubsTooltip": {
-    "message": "Скрывает видео по просмотрам в подписках"
-  },
-  "viewsSearchTooltip": {
-    "message": "Скрывает видео по просмотрам в поиске"
-  },
-  "viewsRelatedTooltip": {
-    "message": "Скрывает видео по просмотрам в похожих"
-  },
   "dateFilterTitle": {
     "message": "Фильтр по дате загрузки"
-  },
-  "dateFilterDescription": {
-    "message": "Скрывает видео по дате загрузки"
   },
   "dateNewerLabel": {
     "message": "Скрывать, если новее"
   },
-  "dateNewerTooltip": {
-    "message": "Скрывает видео, загруженные позже этого срока. Перетащите влево до конца, чтобы выключить"
-  },
   "dateOlderLabel": {
     "message": "Скрывать, если старше"
-  },
-  "dateOlderTooltip": {
-    "message": "Скрывает видео, загруженные раньше этого срока. Перетащите влево до конца, чтобы выключить"
-  },
-  "dateHomeTooltip": {
-    "message": "Скрывает видео по дате на главной"
-  },
-  "dateChannelTooltip": {
-    "message": "Скрывает видео по дате на каналах"
-  },
-  "dateSubsTooltip": {
-    "message": "Скрывает видео по дате в подписках"
-  },
-  "dateSearchTooltip": {
-    "message": "Скрывает видео по дате в поиске"
-  },
-  "dateRelatedTooltip": {
-    "message": "Скрывает видео по дате в похожих"
   },
   "channelWhitelistTitle": {
     "message": "Channel Whitelist"
   },
-  "channelWhitelistTooltip": {
-    "message": "Каналы из Whitelist обходят все включённые фильтры. Добавьте канал кнопкой ниже или кнопкой в шапке, находясь на странице канала или видео. Полный список открывается на отдельной странице, где можно искать, удалять и переносить каналы. Shorts фильтруются всегда"
-  },
   "channelWhitelistDescription": {
     "message": "Каналы из этого списка не фильтруются. Shorts фильтруются всегда"
   },
-  "channelWhitelistEmpty": {
-    "message": "В Whitelist пока нет каналов"
-  },
-  "addCurrentChannel": {
-    "message": "+ Добавить текущий канал"
-  },
   "channelListsSyncPaused": {
-    "message": "Синхронизация приостановлена: списки слишком велики для синхронизации с другими устройствами. Ничего не потеряно: в этом браузере всё продолжает работать, а синхронизация возобновится, когда списки снова поместятся"
+    "message": "Синхронизация приостановлена: списки слишком велики. Ничего не потеряно, в этом браузере всё работает"
   },
   "channelBlacklistTitle": {
     "message": "Channel Blacklist"
   },
-  "channelBlacklistTooltip": {
-    "message": "Каналы из Blacklist скрываются всегда, независимо от других фильтров. Добавьте канал кнопкой ниже или кнопкой в шапке, находясь на странице канала или видео. Полный список открывается на отдельной странице, где можно искать, удалять и переносить каналы. Shorts фильтруются всегда"
-  },
   "channelBlacklistDescription": {
     "message": "Каналы из этого списка скрываются всегда и везде. Shorts фильтруются всегда"
-  },
-  "channelBlacklistEmpty": {
-    "message": "В Blacklist пока нет каналов"
   },
   "titleWhitelistTitle": {
     "message": "Title Whitelist"
   },
-  "titleWhitelistTooltip": {
-    "message": "Видео, в названии которых есть одно из этих слов, обходят все включённые фильтры. Регистр не важен, а совпадение ищется с начала слова: «кот» найдёт «котёнок», но не «скот». Каналы и слова из Blacklist остаются скрытыми, а Shorts фильтруются всегда"
-  },
   "titleWhitelistDescription": {
     "message": "Видео с одним из этих слов в названии не фильтруются"
-  },
-  "titleWhitelistEmpty": {
-    "message": "В Title Whitelist пока нет слов"
-  },
-  "addTitleWord": {
-    "message": "+ Добавить"
   },
   "titleBlacklistTitle": {
     "message": "Title Blacklist"
   },
-  "titleBlacklistTooltip": {
-    "message": "Видео, в названии которых есть одно из этих слов, скрываются всегда и везде, включая Shorts, миксы и плейлисты, даже с каналов из Whitelist и даже если в названии есть слово из Whitelist. Регистр не важен, а совпадение ищется с начала слова: «кот» найдёт «котёнок», но не «скот»"
-  },
   "titleBlacklistDescription": {
     "message": "Видео с одним из этих слов в названии скрываются всегда"
   },
-  "titleBlacklistEmpty": {
-    "message": "В Title Blacklist пока нет слов"
-  },
   "advancedControlsLabel": {
     "message": "Расширенные настройки"
-  },
-  "advancedControlsDescription": {
-    "message": "Показывает для каждого фильтра настройки по страницам вместо упрощённых переключателей"
   },
   "hideOnPageControlsLabel": {
     "message": "Скрыть кнопки на странице"
   },
   "hideOnPageControlsDescription": {
-    "message": "Скрывает все элементы YouTube Hider на экране, чтобы интерфейс был чище и незаметнее. Фильтры продолжают работать в фоне"
-  },
-  "tutorialLabel": {
-    "message": "Обучение"
-  },
-  "tutorialDescription": {
-    "message": "Запускает заново экскурсию по кнопке в шапке"
+    "message": "Убирает шестерёнку и кнопки Whitelist, Blacklist и «Просмотрено». Фильтры продолжают работать"
   },
   "tutorialRestart": {
     "message": "Заново"
   },
   "tutorialRestartConfirm": {
-    "message": "Обучение появится при следующем посещении YouTube"
+    "message": "Готово: тур начнётся при следующем открытии YouTube"
   },
   "footerFeedback": {
-    "message": "Идеи и ошибки"
+    "message": "Отзыв"
   },
   "footerChangelog": {
     "message": "Изменения"
@@ -343,58 +166,8 @@
   "supportReviewDescription": {
     "message": "Оценка в Chrome Web Store ничего не стоит и помогает другим найти расширение"
   },
-  "titleWhitelistPlaceholder": {
-    "message": "Слово или фраза, напр. обзор"
-  },
-  "titleWhitelistInputLabel": {
-    "message": "Слово или фраза для Whitelist"
-  },
-  "titleBlacklistPlaceholder": {
-    "message": "Слово или фраза, напр. реакция"
-  },
-  "titleBlacklistInputLabel": {
-    "message": "Слово или фраза для Blacklist"
-  },
-  "logoAlt": {
-    "message": "Логотип расширения YouTube Hider"
-  },
   "closeLabel": {
     "message": "Закрыть"
-  },
-  "channelAddHintNoChannel": {
-    "message": "Откройте страницу канала, чтобы добавить его"
-  },
-  "channelAlreadyWhitelisted": {
-    "message": "$channel$ уже в Whitelist",
-    "placeholders": {
-      "channel": {
-        "content": "$1"
-      }
-    }
-  },
-  "channelAlreadyBlacklisted": {
-    "message": "$channel$ уже в Blacklist",
-    "placeholders": {
-      "channel": {
-        "content": "$1"
-      }
-    }
-  },
-  "titleWhitelistAlreadyListed": {
-    "message": "«$word$» уже в Whitelist",
-    "placeholders": {
-      "word": {
-        "content": "$1"
-      }
-    }
-  },
-  "titleBlacklistAlreadyListed": {
-    "message": "«$word$» уже в Blacklist",
-    "placeholders": {
-      "word": {
-        "content": "$1"
-      }
-    }
   },
   "markedCount_one": {
     "message": "$count$ видео из $limit$",
@@ -1891,6 +1664,700 @@
       },
       "second": {
         "content": "$2"
+      }
+    }
+  },
+  "stateOn": {
+    "message": "Вкл"
+  },
+  "stateOff": {
+    "message": "Выкл"
+  },
+  "extensionSwitchLabel": {
+    "message": "YouTube Hider включён"
+  },
+  "offTitle": {
+    "message": "YouTube Hider выключен"
+  },
+  "offText": {
+    "message": "Ничего не фильтруется. Настройки и списки сохранены"
+  },
+  "offTurnOn": {
+    "message": "Включить"
+  },
+  "offNote": {
+    "message": "Изменения вступят в силу после включения"
+  },
+  "tabsLabel": {
+    "message": "Разделы"
+  },
+  "tabFilters": {
+    "message": "Фильтры"
+  },
+  "tabLists": {
+    "message": "Списки"
+  },
+  "tabSettings": {
+    "message": "Настройки"
+  },
+  "contextYouAreOn": {
+    "message": "Вы здесь: $page$",
+    "placeholders": {
+      "page": {
+        "content": "$1"
+      }
+    }
+  },
+  "contextPageHome": {
+    "message": "Главная"
+  },
+  "contextPageSubs": {
+    "message": "Подписки"
+  },
+  "contextPageSearch": {
+    "message": "Поиск"
+  },
+  "contextPageVideo": {
+    "message": "видео"
+  },
+  "contextPageChannel": {
+    "message": "канал"
+  },
+  "contextNotYouTube": {
+    "message": "Откройте YouTube, чтобы увидеть действующие фильтры"
+  },
+  "contextOtherPage": {
+    "message": "На этой странице фильтры не действуют"
+  },
+  "contextFiltersHere_one": {
+    "message": "Здесь действует $count$ фильтр",
+    "placeholders": {
+      "count": {
+        "content": "$1"
+      }
+    }
+  },
+  "contextFiltersHere_few": {
+    "message": "Здесь действуют $count$ фильтра",
+    "placeholders": {
+      "count": {
+        "content": "$1"
+      }
+    }
+  },
+  "contextFiltersHere_many": {
+    "message": "Здесь действуют $count$ фильтров",
+    "placeholders": {
+      "count": {
+        "content": "$1"
+      }
+    }
+  },
+  "contextFiltersHere_other": {
+    "message": "Здесь действуют $count$ фильтра",
+    "placeholders": {
+      "count": {
+        "content": "$1"
+      }
+    }
+  },
+  "contextFiltersSidebar_one": {
+    "message": "В боковой панели действует $count$ фильтр",
+    "placeholders": {
+      "count": {
+        "content": "$1"
+      }
+    }
+  },
+  "contextFiltersSidebar_few": {
+    "message": "В боковой панели действуют $count$ фильтра",
+    "placeholders": {
+      "count": {
+        "content": "$1"
+      }
+    }
+  },
+  "contextFiltersSidebar_many": {
+    "message": "В боковой панели действуют $count$ фильтров",
+    "placeholders": {
+      "count": {
+        "content": "$1"
+      }
+    }
+  },
+  "contextFiltersSidebar_other": {
+    "message": "В боковой панели действуют $count$ фильтра",
+    "placeholders": {
+      "count": {
+        "content": "$1"
+      }
+    }
+  },
+  "contextNoFiltersHere": {
+    "message": "Здесь фильтры не действуют"
+  },
+  "filterModeGroupLabel": {
+    "message": "Режим фильтра"
+  },
+  "filterModeLead": {
+    "message": "Отфильтрованные видео"
+  },
+  "filterModeHint": {
+    "message": "Затемнённые остаются видны"
+  },
+  "filterModeHidden": {
+    "message": "Скрыты"
+  },
+  "filterModeDimmed": {
+    "message": "Затемнены"
+  },
+  "filterWatchedTitle": {
+    "message": "Просмотренные видео"
+  },
+  "filterViewsTitle": {
+    "message": "Просмотры"
+  },
+  "filterDateTitle": {
+    "message": "Дата загрузки"
+  },
+  "watchedSliderLabel": {
+    "message": "Скрывать после просмотра"
+  },
+  "viewsMinLabel": {
+    "message": "Скрывать меньше"
+  },
+  "viewsMaxLabel": {
+    "message": "Скрывать больше"
+  },
+  "viewsHint": {
+    "message": "Оставляет видео между двумя границами. Чтобы не использовать границу, выключите её"
+  },
+  "dateHint": {
+    "message": "Задайте одну границу или обе, чтобы оставить видео только за период"
+  },
+  "viewsOverlapWarning": {
+    "message": "«$over$» должно быть больше, чем «$under$». Фильтр приостановлен до исправления",
+    "placeholders": {
+      "over": {
+        "content": "$1"
+      },
+      "under": {
+        "content": "$2"
+      }
+    }
+  },
+  "dateOverlapWarning": {
+    "message": "«$older$» должно быть больше, чем «$newer$». Фильтр приостановлен до исправления",
+    "placeholders": {
+      "older": {
+        "content": "$1"
+      },
+      "newer": {
+        "content": "$2"
+      }
+    }
+  },
+  "summaryWatched": {
+    "message": "Просмотрено больше $percent$",
+    "placeholders": {
+      "percent": {
+        "content": "$1"
+      }
+    }
+  },
+  "summaryViewsUnder": {
+    "message": "Меньше $views$ просмотров",
+    "placeholders": {
+      "views": {
+        "content": "$1"
+      }
+    }
+  },
+  "summaryViewsOver": {
+    "message": "Больше $views$ просмотров",
+    "placeholders": {
+      "views": {
+        "content": "$1"
+      }
+    }
+  },
+  "summaryViewsBetween": {
+    "message": "Оставляет от $min$ до $max$ просмотров",
+    "placeholders": {
+      "min": {
+        "content": "$1"
+      },
+      "max": {
+        "content": "$2"
+      }
+    }
+  },
+  "summaryDateNewer": {
+    "message": "Новее, чем $age$",
+    "placeholders": {
+      "age": {
+        "content": "$1"
+      }
+    }
+  },
+  "summaryDateOlder": {
+    "message": "Старше, чем $age$",
+    "placeholders": {
+      "age": {
+        "content": "$1"
+      }
+    }
+  },
+  "summaryDateWindow": {
+    "message": "Оставляет возрастом от $newer$ до $older$",
+    "placeholders": {
+      "newer": {
+        "content": "$1"
+      },
+      "older": {
+        "content": "$2"
+      }
+    }
+  },
+  "summaryAllPages": {
+    "message": "Все страницы"
+  },
+  "summaryPages": {
+    "message": "Страниц: $count$ из $total$",
+    "placeholders": {
+      "count": {
+        "content": "$1"
+      },
+      "total": {
+        "content": "$2"
+      }
+    }
+  },
+  "summaryOverlap": {
+    "message": "Не работает: границы пересекаются"
+  },
+  "summaryNoPages": {
+    "message": "Не работает: не выбрана ни одна страница"
+  },
+  "applyOnLabel": {
+    "message": "Где применять"
+  },
+  "chipAllPages": {
+    "message": "Все"
+  },
+  "relatedHint": {
+    "message": "Похожие: боковая панель рядом с просматриваемым видео"
+  },
+  "keepMusicHint": {
+    "message": "Уже прослушанные песни остаются в ленте"
+  },
+  "formatsTitle": {
+    "message": "Скрывать форматы"
+  },
+  "shortsInSearchLabel": {
+    "message": "Shorts в результатах поиска"
+  },
+  "channelCardLabel": {
+    "message": "Канал"
+  },
+  "channelsOnVideo_one": {
+    "message": "$count$ канал в этом видео",
+    "placeholders": {
+      "count": {
+        "content": "$1"
+      }
+    }
+  },
+  "channelsOnVideo_few": {
+    "message": "$count$ канала в этом видео",
+    "placeholders": {
+      "count": {
+        "content": "$1"
+      }
+    }
+  },
+  "channelsOnVideo_many": {
+    "message": "$count$ каналов в этом видео",
+    "placeholders": {
+      "count": {
+        "content": "$1"
+      }
+    }
+  },
+  "channelsOnVideo_other": {
+    "message": "$count$ канала в этом видео",
+    "placeholders": {
+      "count": {
+        "content": "$1"
+      }
+    }
+  },
+  "channelCardEmpty": {
+    "message": "Откройте канал или видео, чтобы добавить канал в Whitelist или Blacklist отсюда"
+  },
+  "statusNotInList": {
+    "message": "Нет в списках"
+  },
+  "statusInWhitelist": {
+    "message": "В Channel Whitelist"
+  },
+  "statusInWhitelistPaused": {
+    "message": "В Channel Whitelist, приостановлен"
+  },
+  "statusInBlacklist": {
+    "message": "В Channel Blacklist"
+  },
+  "statusInBlacklistPaused": {
+    "message": "В Channel Blacklist, приостановлен"
+  },
+  "actionWhitelistChannel": {
+    "message": "В Whitelist"
+  },
+  "actionBlacklistChannel": {
+    "message": "В Blacklist"
+  },
+  "actionRemove": {
+    "message": "Убрать"
+  },
+  "actionRemoveFromList": {
+    "message": "Убрать $channel$ из $list$",
+    "placeholders": {
+      "channel": {
+        "content": "$1"
+      },
+      "list": {
+        "content": "$2"
+      }
+    }
+  },
+  "actionMoveToList": {
+    "message": "Перенести $channel$ в $list$",
+    "placeholders": {
+      "channel": {
+        "content": "$1"
+      },
+      "list": {
+        "content": "$2"
+      }
+    }
+  },
+  "actionWhitelistNamed": {
+    "message": "Добавить $channel$ в Whitelist",
+    "placeholders": {
+      "channel": {
+        "content": "$1"
+      }
+    }
+  },
+  "actionBlacklistNamed": {
+    "message": "Добавить $channel$ в Blacklist",
+    "placeholders": {
+      "channel": {
+        "content": "$1"
+      }
+    }
+  },
+  "wordBoxLabel": {
+    "message": "Слово в названиях видео"
+  },
+  "wordPlaceholder": {
+    "message": "например, обзор"
+  },
+  "wordAlreadyInList": {
+    "message": "«$word$» уже в $list$",
+    "placeholders": {
+      "word": {
+        "content": "$1"
+      },
+      "list": {
+        "content": "$2"
+      }
+    }
+  },
+  "wordAdded": {
+    "message": "«$word$» добавлено в $list$",
+    "placeholders": {
+      "word": {
+        "content": "$1"
+      },
+      "list": {
+        "content": "$2"
+      }
+    }
+  },
+  "yourListsLabel": {
+    "message": "Ваши списки"
+  },
+  "countChannelsNeverFiltered_one": {
+    "message": "$count$ канал не фильтруется",
+    "placeholders": {
+      "count": {
+        "content": "$1"
+      }
+    }
+  },
+  "countChannelsNeverFiltered_few": {
+    "message": "$count$ канала не фильтруются",
+    "placeholders": {
+      "count": {
+        "content": "$1"
+      }
+    }
+  },
+  "countChannelsNeverFiltered_many": {
+    "message": "$count$ каналов не фильтруются",
+    "placeholders": {
+      "count": {
+        "content": "$1"
+      }
+    }
+  },
+  "countChannelsNeverFiltered_other": {
+    "message": "$count$ канала не фильтруются",
+    "placeholders": {
+      "count": {
+        "content": "$1"
+      }
+    }
+  },
+  "countChannelsAlwaysHidden_one": {
+    "message": "$count$ канал всегда скрыт",
+    "placeholders": {
+      "count": {
+        "content": "$1"
+      }
+    }
+  },
+  "countChannelsAlwaysHidden_few": {
+    "message": "$count$ канала всегда скрыты",
+    "placeholders": {
+      "count": {
+        "content": "$1"
+      }
+    }
+  },
+  "countChannelsAlwaysHidden_many": {
+    "message": "$count$ каналов всегда скрыты",
+    "placeholders": {
+      "count": {
+        "content": "$1"
+      }
+    }
+  },
+  "countChannelsAlwaysHidden_other": {
+    "message": "$count$ канала всегда скрыты",
+    "placeholders": {
+      "count": {
+        "content": "$1"
+      }
+    }
+  },
+  "countWordsNeverFiltered_one": {
+    "message": "$count$ слово не фильтруется",
+    "placeholders": {
+      "count": {
+        "content": "$1"
+      }
+    }
+  },
+  "countWordsNeverFiltered_few": {
+    "message": "$count$ слова не фильтруются",
+    "placeholders": {
+      "count": {
+        "content": "$1"
+      }
+    }
+  },
+  "countWordsNeverFiltered_many": {
+    "message": "$count$ слов не фильтруются",
+    "placeholders": {
+      "count": {
+        "content": "$1"
+      }
+    }
+  },
+  "countWordsNeverFiltered_other": {
+    "message": "$count$ слова не фильтруются",
+    "placeholders": {
+      "count": {
+        "content": "$1"
+      }
+    }
+  },
+  "countWordsAlwaysHidden_one": {
+    "message": "$count$ слово всегда скрывается",
+    "placeholders": {
+      "count": {
+        "content": "$1"
+      }
+    }
+  },
+  "countWordsAlwaysHidden_few": {
+    "message": "$count$ слова всегда скрываются",
+    "placeholders": {
+      "count": {
+        "content": "$1"
+      }
+    }
+  },
+  "countWordsAlwaysHidden_many": {
+    "message": "$count$ слов всегда скрываются",
+    "placeholders": {
+      "count": {
+        "content": "$1"
+      }
+    }
+  },
+  "countWordsAlwaysHidden_other": {
+    "message": "$count$ слова всегда скрываются",
+    "placeholders": {
+      "count": {
+        "content": "$1"
+      }
+    }
+  },
+  "listPausedChannels_one": {
+    "message": "Приостановлен · $count$ канал",
+    "placeholders": {
+      "count": {
+        "content": "$1"
+      }
+    }
+  },
+  "listPausedChannels_few": {
+    "message": "Приостановлен · $count$ канала",
+    "placeholders": {
+      "count": {
+        "content": "$1"
+      }
+    }
+  },
+  "listPausedChannels_many": {
+    "message": "Приостановлен · $count$ каналов",
+    "placeholders": {
+      "count": {
+        "content": "$1"
+      }
+    }
+  },
+  "listPausedChannels_other": {
+    "message": "Приостановлен · $count$ канала",
+    "placeholders": {
+      "count": {
+        "content": "$1"
+      }
+    }
+  },
+  "listPausedWords_one": {
+    "message": "Приостановлен · $count$ слово",
+    "placeholders": {
+      "count": {
+        "content": "$1"
+      }
+    }
+  },
+  "listPausedWords_few": {
+    "message": "Приостановлен · $count$ слова",
+    "placeholders": {
+      "count": {
+        "content": "$1"
+      }
+    }
+  },
+  "listPausedWords_many": {
+    "message": "Приостановлен · $count$ слов",
+    "placeholders": {
+      "count": {
+        "content": "$1"
+      }
+    }
+  },
+  "listPausedWords_other": {
+    "message": "Приостановлен · $count$ слова",
+    "placeholders": {
+      "count": {
+        "content": "$1"
+      }
+    }
+  },
+  "listNoChannels": {
+    "message": "Каналов пока нет"
+  },
+  "listNoWords": {
+    "message": "Слов пока нет"
+  },
+  "markedFollowsWatched_one": {
+    "message": "$count$ видео, следует «Просмотренным видео»",
+    "placeholders": {
+      "count": {
+        "content": "$1"
+      }
+    }
+  },
+  "markedFollowsWatched_few": {
+    "message": "$count$ видео, следуют «Просмотренным видео»",
+    "placeholders": {
+      "count": {
+        "content": "$1"
+      }
+    }
+  },
+  "markedFollowsWatched_many": {
+    "message": "$count$ видео, следуют «Просмотренным видео»",
+    "placeholders": {
+      "count": {
+        "content": "$1"
+      }
+    }
+  },
+  "markedFollowsWatched_other": {
+    "message": "$count$ видео, следуют «Просмотренным видео»",
+    "placeholders": {
+      "count": {
+        "content": "$1"
+      }
+    }
+  },
+  "markedNoneFollowsWatched": {
+    "message": "Видео пока нет, следует «Просмотренным видео»"
+  },
+  "markedNearLimit": {
+    "message": "$count$ из $limit$: дальше самые старые удаляются",
+    "placeholders": {
+      "count": {
+        "content": "$1"
+      },
+      "limit": {
+        "content": "$2"
+      }
+    }
+  },
+  "markedSyncPausedShort": {
+    "message": "Синхронизация приостановлена: сохранено в этом браузере"
+  },
+  "settingsOnYouTube": {
+    "message": "На YouTube"
+  },
+  "settingsSync": {
+    "message": "Синхронизация"
+  },
+  "settingsHelp": {
+    "message": "Помощь"
+  },
+  "syncOk": {
+    "message": "Автоматически синхронизируется между устройствами"
+  },
+  "tourLabel": {
+    "message": "Вводный тур"
+  },
+  "tourRestartHint": {
+    "message": "Появится снова при следующем открытии YouTube"
+  },
+  "footerVersion": {
+    "message": "Версия $version$",
+    "placeholders": {
+      "version": {
+        "content": "$1"
       }
     }
   }

@@ -14,20 +14,8 @@
   "headerSupport": {
     "message": "Apoyar"
   },
-  "headerExtensionToggle": {
-    "message": "Extensión"
-  },
-  "sectionYouTubeVideos": {
-    "message": "Videos de YouTube"
-  },
   "filterModeTitle": {
     "message": "Modo de filtro"
-  },
-  "filterModeTooltip": {
-    "message": "Ocultar quita por completo los videos filtrados. Atenuar los deja visibles bajo una capa oscura con una etiqueta que explica el motivo, y siguen siendo clicables. Los Shorts siempre se ocultan, sin importar esta opción"
-  },
-  "filterModeDescription": {
-    "message": "Elige qué hacer con los videos filtrados. Los Shorts siempre se ocultan"
   },
   "filterModeHide": {
     "message": "Ocultar"
@@ -38,56 +26,26 @@
   "hideWatchedTitle": {
     "message": "Ocultar videos vistos"
   },
-  "hideWatchedDescription": {
-    "message": "Oculta videos según el porcentaje que ya viste"
-  },
-  "watchPercentageLabel": {
-    "message": "Porcentaje visto"
-  },
-  "watchPercentageTooltip": {
-    "message": "Oculta los videos de los que viste más de este porcentaje de la duración. Arrastra todo a la izquierda para desactivarlo"
-  },
   "pageHome": {
     "message": "Inicio"
-  },
-  "hideWatchedHomeTooltip": {
-    "message": "Oculta los videos vistos en Inicio"
   },
   "pageChannel": {
     "message": "Canal"
   },
-  "hideWatchedChannelTooltip": {
-    "message": "Oculta los videos vistos en las páginas de canales"
-  },
   "pageSubs": {
     "message": "Suscripciones"
-  },
-  "hideWatchedSubsTooltip": {
-    "message": "Oculta los videos vistos en Suscripciones"
   },
   "pageSearch": {
     "message": "Búsqueda"
   },
-  "hideWatchedSearchTooltip": {
-    "message": "Oculta los videos vistos en los resultados de búsqueda"
-  },
   "pageRelated": {
     "message": "Relacionados"
-  },
-  "hideWatchedRelatedTooltip": {
-    "message": "Oculta los videos vistos en la barra lateral de videos relacionados"
   },
   "keepMusicLabel": {
     "message": "Mantener visible la música"
   },
-  "keepMusicTooltip": {
-    "message": "Las canciones que ya escuchaste siguen visibles, para que puedas volver a reproducirlas. Un video cuenta como canción cuando el propio YouTube lo etiqueta como música. Los videos que marcaste como vistos siguen ocultos"
-  },
   "markedWatchedLabel": {
     "message": "Marcados como vistos"
-  },
-  "markedWatchedTooltip": {
-    "message": "Pasa el cursor sobre un video y haz clic en Visto para tratarlo como ya visto, aunque YouTube no muestre la barra de progreso. Los videos marcados siguen el control deslizante y los interruptores por página de esta tarjeta, y se ocultan incluso si el canal está en la Whitelist. Se sincronizan solos en todos los dispositivos con el mismo perfil de Chrome, sin necesidad de exportarlos. Se guardan hasta 3000: a partir de ahí, se elimina la marca más antigua"
   },
   "markedCountNone": {
     "message": "Aún no hay videos marcados"
@@ -103,15 +61,6 @@
       }
     }
   },
-  "markedWatchedSyncPaused": {
-    "message": "Sincronización en pausa: las listas de canales ocupan el espacio compartido entre dispositivos. Tus videos marcados se guardan en este navegador y la sincronización se reanuda cuando vuelvan a caber"
-  },
-  "contentTypesTitle": {
-    "message": "Ocultar Shorts, Mixes, listas y videos en vivo"
-  },
-  "contentTypesDescription": {
-    "message": "Quita Shorts, Mixes, listas de reproducción y videos en vivo de YouTube"
-  },
   "contentShorts": {
     "message": "Shorts"
   },
@@ -124,191 +73,65 @@
   "contentLives": {
     "message": "En vivo"
   },
-  "hideShortsLabel": {
-    "message": "Ocultar Shorts"
-  },
-  "hideShortsTooltip": {
-    "message": "Quita la sección de Shorts y la pestaña Shorts"
-  },
-  "hideShortsSearchLabel": {
-    "message": "Shorts en búsqueda"
-  },
-  "hideShortsSearchTooltip": {
-    "message": "Quita los Shorts de los resultados de búsqueda"
-  },
-  "hideMixesLabel": {
-    "message": "Ocultar Mixes"
-  },
-  "hideMixesTooltip": {
-    "message": "Quita las listas Mix de tu feed de YouTube"
-  },
-  "hidePlaylistsLabel": {
-    "message": "Ocultar listas"
-  },
-  "hidePlaylistsTooltip": {
-    "message": "Quita las listas de reproducción de tu feed de YouTube"
-  },
-  "hideLivesLabel": {
-    "message": "Ocultar en vivo"
-  },
-  "hideLivesTooltip": {
-    "message": "Quita las transmisiones en vivo de tu feed de YouTube"
-  },
   "viewsFilterTitle": {
     "message": "Filtro de vistas"
-  },
-  "viewsFilterDescription": {
-    "message": "Oculta videos según sus visualizaciones"
-  },
-  "minViewsLabel": {
-    "message": "Vistas mínimas"
-  },
-  "minViewsTooltip": {
-    "message": "Se ocultarán los videos con menos visualizaciones que este número. Arrastra todo a la izquierda para desactivarlo"
-  },
-  "maxViewsLabel": {
-    "message": "Vistas máximas"
-  },
-  "maxViewsTooltip": {
-    "message": "Se ocultarán los videos con más visualizaciones que este número. Arrastra todo a la izquierda para desactivarlo"
   },
   "sliderOff": {
     "message": "Desactivado"
   },
-  "rangeOverlapWarning": {
-    "message": "Filtro inactivo: los rangos se superponen"
-  },
-  "viewsHomeTooltip": {
-    "message": "Oculta videos según sus vistas en Inicio"
-  },
-  "viewsChannelTooltip": {
-    "message": "Oculta videos según sus vistas en los canales"
-  },
-  "viewsSubsTooltip": {
-    "message": "Oculta videos según sus vistas en Suscripciones"
-  },
-  "viewsSearchTooltip": {
-    "message": "Oculta videos según sus vistas en la búsqueda"
-  },
-  "viewsRelatedTooltip": {
-    "message": "Oculta videos según sus vistas en Relacionados"
-  },
   "dateFilterTitle": {
     "message": "Filtro por fecha de subida"
-  },
-  "dateFilterDescription": {
-    "message": "Oculta videos según su fecha de subida"
   },
   "dateNewerLabel": {
     "message": "Ocultar más recientes que"
   },
-  "dateNewerTooltip": {
-    "message": "Oculta los videos subidos hace menos de este tiempo. Arrastra todo a la izquierda para desactivarlo"
-  },
   "dateOlderLabel": {
     "message": "Ocultar más antiguos que"
-  },
-  "dateOlderTooltip": {
-    "message": "Oculta los videos subidos hace más de este tiempo. Arrastra todo a la izquierda para desactivarlo"
-  },
-  "dateHomeTooltip": {
-    "message": "Oculta videos según su fecha en Inicio"
-  },
-  "dateChannelTooltip": {
-    "message": "Oculta videos según su fecha en los canales"
-  },
-  "dateSubsTooltip": {
-    "message": "Oculta videos según su fecha en Suscripciones"
-  },
-  "dateSearchTooltip": {
-    "message": "Oculta videos según su fecha en la búsqueda"
-  },
-  "dateRelatedTooltip": {
-    "message": "Oculta videos según su fecha en Relacionados"
   },
   "channelWhitelistTitle": {
     "message": "Channel Whitelist"
   },
-  "channelWhitelistTooltip": {
-    "message": "Los canales en la Whitelist se saltan todos los filtros activos. Agrega un canal con el botón de abajo o con el botón del encabezado mientras estás en la página de un canal o en un video. La lista completa se abre en su propia página, donde puedes buscar, quitar y mover canales. Los Shorts siempre se filtran"
-  },
   "channelWhitelistDescription": {
     "message": "Los canales de esta lista no se filtran. Los Shorts siempre se filtran"
   },
-  "channelWhitelistEmpty": {
-    "message": "Aún no hay canales en la Whitelist"
-  },
-  "addCurrentChannel": {
-    "message": "+ Agregar canal actual"
-  },
   "channelListsSyncPaused": {
-    "message": "Sincronización en pausa: tus listas son demasiado grandes para sincronizarse con tus otros dispositivos. No se pierde nada: todo sigue funcionando en este navegador y la sincronización se reanuda cuando vuelvan a caber"
+    "message": "Sincronización en pausa: tus listas son demasiado grandes. No se pierde nada, todo sigue funcionando en este navegador"
   },
   "channelBlacklistTitle": {
     "message": "Channel Blacklist"
   },
-  "channelBlacklistTooltip": {
-    "message": "Los canales en la Blacklist siempre se ocultan, sin importar los demás filtros. Agrega un canal con el botón de abajo o con el botón del encabezado mientras estás en la página de un canal o en un video. La lista completa se abre en su propia página, donde puedes buscar, quitar y mover canales. Los Shorts siempre se filtran"
-  },
   "channelBlacklistDescription": {
     "message": "Los canales de esta lista siempre se ocultan, en todas partes. Los Shorts siempre se filtran"
-  },
-  "channelBlacklistEmpty": {
-    "message": "Aún no hay canales en la Blacklist"
   },
   "titleWhitelistTitle": {
     "message": "Title Whitelist"
   },
-  "titleWhitelistTooltip": {
-    "message": "Los videos cuyo título contiene una de estas palabras se saltan todos los filtros activos. No distingue mayúsculas de minúsculas y busca el comienzo de una palabra, así que \"sol\" coincide con \"soleado\" pero no con \"girasol\". Los canales y palabras en la Blacklist siguen ocultos, y los Shorts siempre se filtran"
-  },
   "titleWhitelistDescription": {
     "message": "Los videos con una de estas palabras en el título no se filtran"
-  },
-  "titleWhitelistEmpty": {
-    "message": "Aún no hay palabras en la Title Whitelist"
-  },
-  "addTitleWord": {
-    "message": "+ Agregar"
   },
   "titleBlacklistTitle": {
     "message": "Title Blacklist"
   },
-  "titleBlacklistTooltip": {
-    "message": "Los videos cuyo título contiene una de estas palabras siempre se ocultan, en todas partes, incluidos Shorts, Mixes y listas, incluso de canales en la Whitelist o si el título también contiene una palabra de la Whitelist. No distingue mayúsculas de minúsculas y busca el comienzo de una palabra, así que \"sol\" coincide con \"soleado\" pero no con \"girasol\""
-  },
   "titleBlacklistDescription": {
     "message": "Los videos con una de estas palabras en el título siempre se ocultan"
   },
-  "titleBlacklistEmpty": {
-    "message": "Aún no hay palabras en la Title Blacklist"
-  },
   "advancedControlsLabel": {
     "message": "Controles avanzados"
-  },
-  "advancedControlsDescription": {
-    "message": "Muestra controles avanzados por página para cada filtro en lugar de los interruptores simplificados"
   },
   "hideOnPageControlsLabel": {
     "message": "Ocultar controles en la página"
   },
   "hideOnPageControlsDescription": {
-    "message": "Oculta todos los elementos de YouTube Hider en pantalla para un aspecto más limpio y discreto. Los filtros siguen funcionando en segundo plano"
-  },
-  "tutorialLabel": {
-    "message": "Tutorial"
-  },
-  "tutorialDescription": {
-    "message": "Reinicia el recorrido guiado del botón del encabezado"
+    "message": "Quita el engranaje y los botones Whitelist, Blacklist y Visto. Los filtros siguen funcionando"
   },
   "tutorialRestart": {
     "message": "Reiniciar"
   },
   "tutorialRestartConfirm": {
-    "message": "El tutorial aparecerá en tu próxima visita a YouTube"
+    "message": "Listo: empieza en tu próxima visita a YouTube"
   },
   "footerFeedback": {
-    "message": "Ideas o errores"
+    "message": "Comentarios"
   },
   "footerChangelog": {
     "message": "Novedades"
@@ -343,58 +166,8 @@
   "supportReviewDescription": {
     "message": "Una valoración en Chrome Web Store no cuesta nada y ayuda a otras personas a encontrar la extensión"
   },
-  "titleWhitelistPlaceholder": {
-    "message": "Palabra o frase, p. ej. tutorial"
-  },
-  "titleWhitelistInputLabel": {
-    "message": "Palabra o frase para la Whitelist"
-  },
-  "titleBlacklistPlaceholder": {
-    "message": "Palabra o frase, p. ej. reacción"
-  },
-  "titleBlacklistInputLabel": {
-    "message": "Palabra o frase para la Blacklist"
-  },
-  "logoAlt": {
-    "message": "Logotipo de la extensión YouTube Hider"
-  },
   "closeLabel": {
     "message": "Cerrar"
-  },
-  "channelAddHintNoChannel": {
-    "message": "Abre la página de un canal para agregarlo"
-  },
-  "channelAlreadyWhitelisted": {
-    "message": "$channel$ ya está en la Whitelist",
-    "placeholders": {
-      "channel": {
-        "content": "$1"
-      }
-    }
-  },
-  "channelAlreadyBlacklisted": {
-    "message": "$channel$ ya está en la Blacklist",
-    "placeholders": {
-      "channel": {
-        "content": "$1"
-      }
-    }
-  },
-  "titleWhitelistAlreadyListed": {
-    "message": "\"$word$\" ya está en la Whitelist",
-    "placeholders": {
-      "word": {
-        "content": "$1"
-      }
-    }
-  },
-  "titleBlacklistAlreadyListed": {
-    "message": "\"$word$\" ya está en la Blacklist",
-    "placeholders": {
-      "word": {
-        "content": "$1"
-      }
-    }
   },
   "markedCount_one": {
     "message": "$count$ video de $limit$",
@@ -1637,6 +1410,620 @@
       },
       "second": {
         "content": "$2"
+      }
+    }
+  },
+  "stateOn": {
+    "message": "Activado"
+  },
+  "stateOff": {
+    "message": "Desactivado"
+  },
+  "extensionSwitchLabel": {
+    "message": "YouTube Hider activado"
+  },
+  "offTitle": {
+    "message": "YouTube Hider está desactivado"
+  },
+  "offText": {
+    "message": "No se filtra nada. Tus ajustes y listas se conservan"
+  },
+  "offTurnOn": {
+    "message": "Activar"
+  },
+  "offNote": {
+    "message": "Lo que cambies aquí se aplica cuando vuelva a estar activado"
+  },
+  "tabsLabel": {
+    "message": "Secciones"
+  },
+  "tabFilters": {
+    "message": "Filtros"
+  },
+  "tabLists": {
+    "message": "Listas"
+  },
+  "tabSettings": {
+    "message": "Ajustes"
+  },
+  "contextYouAreOn": {
+    "message": "Estás en $page$",
+    "placeholders": {
+      "page": {
+        "content": "$1"
+      }
+    }
+  },
+  "contextPageHome": {
+    "message": "Inicio"
+  },
+  "contextPageSubs": {
+    "message": "Suscripciones"
+  },
+  "contextPageSearch": {
+    "message": "resultados de búsqueda"
+  },
+  "contextPageVideo": {
+    "message": "un video"
+  },
+  "contextPageChannel": {
+    "message": "un canal"
+  },
+  "contextNotYouTube": {
+    "message": "Abre YouTube para ver qué filtros se aplican"
+  },
+  "contextOtherPage": {
+    "message": "Los filtros no se aplican en esta página"
+  },
+  "contextFiltersHere_one": {
+    "message": "$count$ filtro activo aquí",
+    "placeholders": {
+      "count": {
+        "content": "$1"
+      }
+    }
+  },
+  "contextFiltersHere_many": {
+    "message": "$count$ filtros activos aquí",
+    "placeholders": {
+      "count": {
+        "content": "$1"
+      }
+    }
+  },
+  "contextFiltersHere_other": {
+    "message": "$count$ filtros activos aquí",
+    "placeholders": {
+      "count": {
+        "content": "$1"
+      }
+    }
+  },
+  "contextFiltersSidebar_one": {
+    "message": "$count$ filtro activo en la barra lateral",
+    "placeholders": {
+      "count": {
+        "content": "$1"
+      }
+    }
+  },
+  "contextFiltersSidebar_many": {
+    "message": "$count$ filtros activos en la barra lateral",
+    "placeholders": {
+      "count": {
+        "content": "$1"
+      }
+    }
+  },
+  "contextFiltersSidebar_other": {
+    "message": "$count$ filtros activos en la barra lateral",
+    "placeholders": {
+      "count": {
+        "content": "$1"
+      }
+    }
+  },
+  "contextNoFiltersHere": {
+    "message": "Ningún filtro activo aquí"
+  },
+  "filterModeGroupLabel": {
+    "message": "Modo de filtro"
+  },
+  "filterModeLead": {
+    "message": "Los videos filtrados se muestran"
+  },
+  "filterModeHint": {
+    "message": "Atenuados los muestra oscurecidos"
+  },
+  "filterModeHidden": {
+    "message": "Ocultos"
+  },
+  "filterModeDimmed": {
+    "message": "Atenuados"
+  },
+  "filterWatchedTitle": {
+    "message": "Videos vistos"
+  },
+  "filterViewsTitle": {
+    "message": "Visualizaciones"
+  },
+  "filterDateTitle": {
+    "message": "Fecha de subida"
+  },
+  "watchedSliderLabel": {
+    "message": "Ocultar tras ver"
+  },
+  "viewsMinLabel": {
+    "message": "Ocultar menos de"
+  },
+  "viewsMaxLabel": {
+    "message": "Ocultar más de"
+  },
+  "viewsHint": {
+    "message": "Deja los videos entre los dos límites. Pon uno en Desactivado para no usarlo"
+  },
+  "dateHint": {
+    "message": "Usa un límite, o los dos para dejar solo videos de un periodo"
+  },
+  "viewsOverlapWarning": {
+    "message": "«$over$» debe ser mayor que «$under$». En pausa hasta que lo corrijas",
+    "placeholders": {
+      "over": {
+        "content": "$1"
+      },
+      "under": {
+        "content": "$2"
+      }
+    }
+  },
+  "dateOverlapWarning": {
+    "message": "«$older$» debe ser mayor que «$newer$». En pausa hasta que lo corrijas",
+    "placeholders": {
+      "older": {
+        "content": "$1"
+      },
+      "newer": {
+        "content": "$2"
+      }
+    }
+  },
+  "summaryWatched": {
+    "message": "Más del $percent$ visto",
+    "placeholders": {
+      "percent": {
+        "content": "$1"
+      }
+    }
+  },
+  "summaryViewsUnder": {
+    "message": "Menos de $views$ visualizaciones",
+    "placeholders": {
+      "views": {
+        "content": "$1"
+      }
+    }
+  },
+  "summaryViewsOver": {
+    "message": "Más de $views$ visualizaciones",
+    "placeholders": {
+      "views": {
+        "content": "$1"
+      }
+    }
+  },
+  "summaryViewsBetween": {
+    "message": "Deja de $min$ a $max$ visualizaciones",
+    "placeholders": {
+      "min": {
+        "content": "$1"
+      },
+      "max": {
+        "content": "$2"
+      }
+    }
+  },
+  "summaryDateNewer": {
+    "message": "Más recientes que $age$",
+    "placeholders": {
+      "age": {
+        "content": "$1"
+      }
+    }
+  },
+  "summaryDateOlder": {
+    "message": "Más antiguos que $age$",
+    "placeholders": {
+      "age": {
+        "content": "$1"
+      }
+    }
+  },
+  "summaryDateWindow": {
+    "message": "Deja los de $newer$ a $older$",
+    "placeholders": {
+      "newer": {
+        "content": "$1"
+      },
+      "older": {
+        "content": "$2"
+      }
+    }
+  },
+  "summaryAllPages": {
+    "message": "Todas las páginas"
+  },
+  "summaryPages": {
+    "message": "$count$ de $total$ páginas",
+    "placeholders": {
+      "count": {
+        "content": "$1"
+      },
+      "total": {
+        "content": "$2"
+      }
+    }
+  },
+  "summaryOverlap": {
+    "message": "No filtra: los límites se solapan"
+  },
+  "summaryNoPages": {
+    "message": "No filtra: ninguna página elegida"
+  },
+  "applyOnLabel": {
+    "message": "Aplicar en"
+  },
+  "chipAllPages": {
+    "message": "Todas"
+  },
+  "relatedHint": {
+    "message": "Relacionados es la barra lateral junto al video que estás viendo"
+  },
+  "keepMusicHint": {
+    "message": "Las canciones que ya escuchaste siguen en el feed"
+  },
+  "formatsTitle": {
+    "message": "Ocultar estos formatos"
+  },
+  "shortsInSearchLabel": {
+    "message": "Shorts en los resultados de búsqueda"
+  },
+  "channelCardLabel": {
+    "message": "Canal"
+  },
+  "channelsOnVideo_one": {
+    "message": "$count$ canal en este video",
+    "placeholders": {
+      "count": {
+        "content": "$1"
+      }
+    }
+  },
+  "channelsOnVideo_many": {
+    "message": "$count$ canales en este video",
+    "placeholders": {
+      "count": {
+        "content": "$1"
+      }
+    }
+  },
+  "channelsOnVideo_other": {
+    "message": "$count$ canales en este video",
+    "placeholders": {
+      "count": {
+        "content": "$1"
+      }
+    }
+  },
+  "channelCardEmpty": {
+    "message": "Abre un canal o un video para añadir su canal a la Whitelist o a la Blacklist desde aquí"
+  },
+  "statusNotInList": {
+    "message": "No está en ninguna lista"
+  },
+  "statusInWhitelist": {
+    "message": "En la Channel Whitelist"
+  },
+  "statusInWhitelistPaused": {
+    "message": "En la Channel Whitelist, en pausa"
+  },
+  "statusInBlacklist": {
+    "message": "En la Channel Blacklist"
+  },
+  "statusInBlacklistPaused": {
+    "message": "En la Channel Blacklist, en pausa"
+  },
+  "actionWhitelistChannel": {
+    "message": "Whitelist al canal"
+  },
+  "actionBlacklistChannel": {
+    "message": "Blacklist al canal"
+  },
+  "actionRemove": {
+    "message": "Quitar"
+  },
+  "actionRemoveFromList": {
+    "message": "Quitar $channel$ de $list$",
+    "placeholders": {
+      "channel": {
+        "content": "$1"
+      },
+      "list": {
+        "content": "$2"
+      }
+    }
+  },
+  "actionMoveToList": {
+    "message": "Mover $channel$ a $list$",
+    "placeholders": {
+      "channel": {
+        "content": "$1"
+      },
+      "list": {
+        "content": "$2"
+      }
+    }
+  },
+  "actionWhitelistNamed": {
+    "message": "Añadir $channel$ a la Whitelist",
+    "placeholders": {
+      "channel": {
+        "content": "$1"
+      }
+    }
+  },
+  "actionBlacklistNamed": {
+    "message": "Añadir $channel$ a la Blacklist",
+    "placeholders": {
+      "channel": {
+        "content": "$1"
+      }
+    }
+  },
+  "wordBoxLabel": {
+    "message": "Buscar una palabra en los títulos"
+  },
+  "wordPlaceholder": {
+    "message": "p. ej. tutorial"
+  },
+  "wordAlreadyInList": {
+    "message": "«$word$» ya está en la $list$",
+    "placeholders": {
+      "word": {
+        "content": "$1"
+      },
+      "list": {
+        "content": "$2"
+      }
+    }
+  },
+  "wordAdded": {
+    "message": "«$word$» añadida a la $list$",
+    "placeholders": {
+      "word": {
+        "content": "$1"
+      },
+      "list": {
+        "content": "$2"
+      }
+    }
+  },
+  "yourListsLabel": {
+    "message": "Tus listas"
+  },
+  "countChannelsNeverFiltered_one": {
+    "message": "$count$ canal nunca filtrado",
+    "placeholders": {
+      "count": {
+        "content": "$1"
+      }
+    }
+  },
+  "countChannelsNeverFiltered_many": {
+    "message": "$count$ canales nunca filtrados",
+    "placeholders": {
+      "count": {
+        "content": "$1"
+      }
+    }
+  },
+  "countChannelsNeverFiltered_other": {
+    "message": "$count$ canales nunca filtrados",
+    "placeholders": {
+      "count": {
+        "content": "$1"
+      }
+    }
+  },
+  "countChannelsAlwaysHidden_one": {
+    "message": "$count$ canal siempre oculto",
+    "placeholders": {
+      "count": {
+        "content": "$1"
+      }
+    }
+  },
+  "countChannelsAlwaysHidden_many": {
+    "message": "$count$ canales siempre ocultos",
+    "placeholders": {
+      "count": {
+        "content": "$1"
+      }
+    }
+  },
+  "countChannelsAlwaysHidden_other": {
+    "message": "$count$ canales siempre ocultos",
+    "placeholders": {
+      "count": {
+        "content": "$1"
+      }
+    }
+  },
+  "countWordsNeverFiltered_one": {
+    "message": "$count$ palabra nunca filtrada",
+    "placeholders": {
+      "count": {
+        "content": "$1"
+      }
+    }
+  },
+  "countWordsNeverFiltered_many": {
+    "message": "$count$ palabras nunca filtradas",
+    "placeholders": {
+      "count": {
+        "content": "$1"
+      }
+    }
+  },
+  "countWordsNeverFiltered_other": {
+    "message": "$count$ palabras nunca filtradas",
+    "placeholders": {
+      "count": {
+        "content": "$1"
+      }
+    }
+  },
+  "countWordsAlwaysHidden_one": {
+    "message": "$count$ palabra siempre oculta",
+    "placeholders": {
+      "count": {
+        "content": "$1"
+      }
+    }
+  },
+  "countWordsAlwaysHidden_many": {
+    "message": "$count$ palabras siempre ocultas",
+    "placeholders": {
+      "count": {
+        "content": "$1"
+      }
+    }
+  },
+  "countWordsAlwaysHidden_other": {
+    "message": "$count$ palabras siempre ocultas",
+    "placeholders": {
+      "count": {
+        "content": "$1"
+      }
+    }
+  },
+  "listPausedChannels_one": {
+    "message": "En pausa · $count$ canal",
+    "placeholders": {
+      "count": {
+        "content": "$1"
+      }
+    }
+  },
+  "listPausedChannels_many": {
+    "message": "En pausa · $count$ canales",
+    "placeholders": {
+      "count": {
+        "content": "$1"
+      }
+    }
+  },
+  "listPausedChannels_other": {
+    "message": "En pausa · $count$ canales",
+    "placeholders": {
+      "count": {
+        "content": "$1"
+      }
+    }
+  },
+  "listPausedWords_one": {
+    "message": "En pausa · $count$ palabra",
+    "placeholders": {
+      "count": {
+        "content": "$1"
+      }
+    }
+  },
+  "listPausedWords_many": {
+    "message": "En pausa · $count$ palabras",
+    "placeholders": {
+      "count": {
+        "content": "$1"
+      }
+    }
+  },
+  "listPausedWords_other": {
+    "message": "En pausa · $count$ palabras",
+    "placeholders": {
+      "count": {
+        "content": "$1"
+      }
+    }
+  },
+  "listNoChannels": {
+    "message": "Aún no hay canales"
+  },
+  "listNoWords": {
+    "message": "Aún no hay palabras"
+  },
+  "markedFollowsWatched_one": {
+    "message": "$count$ video, sigue a «Videos vistos»",
+    "placeholders": {
+      "count": {
+        "content": "$1"
+      }
+    }
+  },
+  "markedFollowsWatched_many": {
+    "message": "$count$ videos, siguen a «Videos vistos»",
+    "placeholders": {
+      "count": {
+        "content": "$1"
+      }
+    }
+  },
+  "markedFollowsWatched_other": {
+    "message": "$count$ videos, siguen a «Videos vistos»",
+    "placeholders": {
+      "count": {
+        "content": "$1"
+      }
+    }
+  },
+  "markedNoneFollowsWatched": {
+    "message": "Aún no hay videos, sigue a «Videos vistos»"
+  },
+  "markedNearLimit": {
+    "message": "$count$ de $limit$: después se quitan los más antiguos",
+    "placeholders": {
+      "count": {
+        "content": "$1"
+      },
+      "limit": {
+        "content": "$2"
+      }
+    }
+  },
+  "markedSyncPausedShort": {
+    "message": "Sincronización en pausa: guardados en este navegador"
+  },
+  "settingsOnYouTube": {
+    "message": "En YouTube"
+  },
+  "settingsSync": {
+    "message": "Sincronización"
+  },
+  "settingsHelp": {
+    "message": "Ayuda"
+  },
+  "syncOk": {
+    "message": "Se sincroniza solo en tus dispositivos"
+  },
+  "tourLabel": {
+    "message": "Recorrido inicial"
+  },
+  "tourRestartHint": {
+    "message": "Aparece de nuevo en tu próxima visita a YouTube"
+  },
+  "footerVersion": {
+    "message": "Versión $version$",
+    "placeholders": {
+      "version": {
+        "content": "$1"
       }
     }
   }

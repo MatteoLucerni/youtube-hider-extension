@@ -71,7 +71,7 @@ body {
     line-height: 1.55;
     /* 400px is the width Chrome measures the popup from, and the same width as
        the on-page settings dropdown, so the two surfaces match. It has to be a
-       real width and not a max-width on a 100% box: .content-wrapper clips its
+       real width and not a max-width on a 100% box: .panel-main clips its
        overflow, so the content's own intrinsic width is no longer visible to
        that measurement and the popup would collapse to almost nothing.
        max-width keeps it fluid in anything narrower, the dropdown iframe once
@@ -80,7 +80,7 @@ body {
     max-width: 100%;
     min-height: 400px;
     /* Last line of defence against a horizontal scrollbar. The clip that keeps
-       overflow out of the popup measurement is the one on .content-wrapper,
+       overflow out of the popup measurement is the one on .panel-main,
        since an overflow value set here propagates to the viewport instead. */
     overflow-x: hidden;
     overflow-x: clip;
@@ -149,75 +149,6 @@ hr {
     border-radius: 2px;
 }
 
-.yt-color {
-    color: var(--accent-red);
-}
-
-.easy-mode-toggle {
-    display: flex;
-    align-items: center;
-}
-
-.header-toggles {
-    display: flex;
-    align-items: center;
-    gap: 10px;
-    flex-shrink: 0;
-    max-width: 96px;
-}
-
-.extension-toggle-text {
-    color: #8fe3ac;
-}
-
-.easy-mode-label {
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    gap: 4px;
-    cursor: pointer;
-    user-select: none;
-}
-
-.easy-mode-text {
-    font-size: 10px;
-    font-weight: 600;
-    color: #9dc4f0;
-    text-transform: uppercase;
-    letter-spacing: 0.3px;
-    text-align: center;
-    overflow-wrap: normal;
-}
-
-.content-wrapper {
-    padding: var(--spacing-xl) var(--spacing-2xl) var(--spacing-3xl) var(--spacing-2xl);
-    /* Clips the tooltips that stick out past the right edge. It has to happen
-       on an in-flow element: on body it would propagate to the viewport, which
-       leaves the overflow in the document box the popup is sized from, and the
-       popup grows to fit an invisible tooltip. It must be clip and not hidden:
-       hidden would make this a scroll container and force the vertical axis to
-       auto, cutting off the tooltips, which open upwards out of their card. */
-    overflow-x: clip;
-}
-
-.setting-section {
-    margin-bottom: var(--spacing-3xl);
-}
-
-.section-header {
-    margin-bottom: var(--spacing-lg);
-}
-
-.section-title {
-    font-size: 17px;
-    font-weight: 700;
-    margin: 0;
-    padding-left: var(--spacing-lg);
-    color: #6ba3ff;
-    letter-spacing: -0.2px;
-    text-transform: none;
-}
-
 @media (prefers-reduced-motion: reduce) {
     * {
         transition-duration: 0.01ms !important;
@@ -240,61 +171,3 @@ body.standalone-page {
     }
 }
 
-@media (max-width: 380px) {
-    header {
-        padding: var(--spacing-2xl) var(--spacing-lg);
-    }
-
-    .content-wrapper {
-        padding: var(--spacing-lg) var(--spacing-lg) var(--spacing-2xl) var(--spacing-lg);
-    }
-
-    .setting-card {
-        padding: var(--spacing-lg);
-    }
-
-    .section-title {
-        padding-left: var(--spacing-sm);
-    }
-}
-
-.easy-mode-off .slider-control {
-    flex-direction: column;
-    align-items: stretch;
-    gap: var(--spacing-xs);
-}
-
-.easy-mode-off .slider-control-right {
-    align-items: center;
-    justify-content: center;
-    min-width: unset;
-    margin-top: var(--spacing-xs);
-}
-
-.easy-mode-off .slider-display {
-    margin-top: var(--spacing-xs);
-}
-
-body.easy-mode-on .card-compact-toggle.easy-mode-simple {
-    display: flex !important;
-}
-
-body.easy-mode-on .toggle-grid.easy-mode-simple {
-    display: flex !important;
-}
-
-body.easy-mode-on .easy-mode-advanced {
-    display: none !important;
-}
-
-body.easy-mode-off .card-compact-toggle.easy-mode-simple {
-    display: none !important;
-}
-
-body.easy-mode-off .easy-mode-advanced {
-    display: flex !important;
-}
-
-body.easy-mode-on .setting-card-compact .setting-group-compact {
-    display: none;
-}
