@@ -14,15 +14,6 @@
   "headerSupport": {
     "message": "Apoyar"
   },
-  "filterModeTitle": {
-    "message": "Modo de filtro"
-  },
-  "filterModeHide": {
-    "message": "Ocultar"
-  },
-  "filterModeDim": {
-    "message": "Atenuar"
-  },
   "hideWatchedTitle": {
     "message": "Ocultar videos vistos"
   },
@@ -73,14 +64,8 @@
   "contentLives": {
     "message": "En vivo"
   },
-  "viewsFilterTitle": {
-    "message": "Filtro de vistas"
-  },
   "sliderOff": {
     "message": "Desactivado"
-  },
-  "dateFilterTitle": {
-    "message": "Filtro por fecha de subida"
   },
   "dateNewerLabel": {
     "message": "Ocultar más recientes que"
@@ -114,9 +99,6 @@
   },
   "titleBlacklistDescription": {
     "message": "Los videos con una de estas palabras en el título siempre se ocultan"
-  },
-  "advancedControlsLabel": {
-    "message": "Controles avanzados"
   },
   "hideOnPageControlsLabel": {
     "message": "Ocultar controles en la página"
@@ -1278,24 +1260,18 @@
     }
   },
   "tourWelcomeTitle": {
-    "message": "¡Te damos la bienvenida a YouTube Hider!"
+    "message": "Te damos la bienvenida a YouTube Hider"
   },
   "tourWelcomeDescription": {
-    "message": "Haz un recorrido rápido para descubrir el botón de YouTube Hider integrado en el encabezado de YouTube, tu configuración y cómo sacarle el máximo partido a la extensión"
-  },
-  "tourStart": {
-    "message": "Empezar tutorial"
-  },
-  "tourSkip": {
-    "message": "Omitir"
-  },
-  "tourSkipCountdown": {
-    "message": "Omitir ($seconds$s)",
+    "message": "Un recorrido de $count$ pasos por dónde están tus ajustes y cómo usarlos. Lleva un minuto más o menos",
     "placeholders": {
-      "seconds": {
+      "count": {
         "content": "$1"
       }
     }
+  },
+  "tourStart": {
+    "message": "Empezar el recorrido"
   },
   "tourBack": {
     "message": "Atrás"
@@ -1314,91 +1290,6 @@
       },
       "total": {
         "content": "$2"
-      }
-    }
-  },
-  "tourSettingsButtonTitle": {
-    "message": "Tu botón de configuración"
-  },
-  "tourSettingsButtonDescription": {
-    "message": "Este es el botón de engranaje de YouTube Hider, integrado en el encabezado de YouTube. Aparece en todas las páginas, también mientras ves un video, y se abre al instante"
-  },
-  "tourFullSettingsTitle": {
-    "message": "Toda tu configuración, aquí mismo"
-  },
-  "tourFullSettingsDescription": {
-    "message": "Al hacer clic se abre toda la configuración de YouTube Hider, en un solo lugar. Veamos qué encontrarás dentro"
-  },
-  "tourFilterModeDescription": {
-    "message": "Elige qué hacer con los videos filtrados: $hide$ los quita por completo de la vista y $dim$ los cubre con una capa oscura en la que aún puedes hacer clic. Se aplica a todos los filtros de abajo",
-    "placeholders": {
-      "hide": {
-        "content": "$1"
-      },
-      "dim": {
-        "content": "$2"
-      }
-    }
-  },
-  "tourHideWatchedDescription": {
-    "message": "Oculta videos según cuánto de ellos ya viste. Arrastra el control deslizante todo a la izquierda para desactivarlo y usa los interruptores por página del modo avanzado para más control. ¿YouTube se saltó uno? Pasa el cursor sobre el video y haz clic en $watched$ para ocultarlo, y usa $manage$ para que vuelva a aparecer",
-    "placeholders": {
-      "watched": {
-        "content": "$1"
-      },
-      "manage": {
-        "content": "$2"
-      }
-    }
-  },
-  "tourContentTypesTitle": {
-    "message": "Shorts, Mixes, listas y videos en vivo"
-  },
-  "tourContentTypesDescription": {
-    "message": "Quita por separado Shorts, listas Mix, listas de reproducción normales y transmisiones en vivo de tu feed y de los resultados de búsqueda"
-  },
-  "tourViewsDescription": {
-    "message": "Oculta los videos por debajo de un mínimo de vistas, por encima de un máximo, o ambos a la vez para quedarte solo con los de cierto rango de popularidad"
-  },
-  "tourDateDescription": {
-    "message": "Oculta los videos más recientes o más antiguos que un límite configurable. Usa ambos a la vez para quedarte solo con los videos de un periodo concreto"
-  },
-  "tourChannelWhitelistDescription": {
-    "message": "Excluye tus canales favoritos de todos los filtros. Agrega el canal actual con un clic y usa $manage$ para buscar, quitar o mover canales en su propia página",
-    "placeholders": {
-      "manage": {
-        "content": "$1"
-      }
-    }
-  },
-  "tourChannelBlacklistDescription": {
-    "message": "Lo contrario de la Whitelist: oculta siempre un canal en todas partes, incluidos Shorts, Mixes, listas y videos en vivo. Agrega el canal actual con un clic y usa $manage$ para ver la lista completa en su propia página",
-    "placeholders": {
-      "manage": {
-        "content": "$1"
-      }
-    }
-  },
-  "tourTitleWhitelistDescription": {
-    "message": "Excluye videos por una palabra de su título en lugar de por canal. Ningún filtro toca los videos cuyo título contiene una de tus palabras"
-  },
-  "tourTitleBlacklistDescription": {
-    "message": "Lo contrario de la Title Whitelist: oculta siempre, en todas partes, cada video cuyo título contiene una de tus palabras, incluso de un canal en la Whitelist"
-  },
-  "tourExtraSettingsTitle": {
-    "message": "Configuración adicional"
-  },
-  "tourExtraSettingsDescription": {
-    "message": "Activa \"$advanced$\" para pasar a la interfaz avanzada, y activa \"$hidecontrols$\" cuando quieras para quitar este botón (y los botones Whitelist, Blacklist y $watched$ de la página) mientras los filtros siguen funcionando en segundo plano",
-    "placeholders": {
-      "advanced": {
-        "content": "$1"
-      },
-      "hidecontrols": {
-        "content": "$2"
-      },
-      "watched": {
-        "content": "$3"
       }
     }
   },
@@ -2024,6 +1915,66 @@
     "placeholders": {
       "version": {
         "content": "$1"
+      }
+    }
+  },
+  "tourNotNow": {
+    "message": "Ahora no"
+  },
+  "tourSkipLabel": {
+    "message": "Saltar el recorrido"
+  },
+  "tourRestartNote": {
+    "message": "Puedes volver a verlo cuando quieras desde $settings$",
+    "placeholders": {
+      "settings": {
+        "content": "$1"
+      }
+    }
+  },
+  "tourGearTitle": {
+    "message": "Aquí están tus ajustes"
+  },
+  "tourGearBody": {
+    "message": "Este engranaje está en la cabecera de YouTube, en todas las páginas. Haz clic en él para abrir YouTube Hider"
+  },
+  "tourFiltersTitle": {
+    "message": "Elige qué ocultar"
+  },
+  "tourFiltersBody": {
+    "message": "Activa un filtro y ábrelo para elegir en qué páginas funciona. Los filtros empiezan en todas las páginas, así que solo lo abres para hacer una excepción"
+  },
+  "tourListsTitle": {
+    "message": "Conservar o bloquear un canal"
+  },
+  "tourListsBody": {
+    "message": "En un canal o un video, $lists$ muestra su canal. Añádelo a la Whitelist para no filtrar nunca sus videos, o a la Blacklist para ocultarlos en todas partes. $manage$ abre las listas completas",
+    "placeholders": {
+      "lists": {
+        "content": "$1"
+      },
+      "manage": {
+        "content": "$2"
+      }
+    }
+  },
+  "tourVideoTitle": {
+    "message": "Actuar sobre un solo video"
+  },
+  "tourVideoBody": {
+    "message": "Al pasar el cursor por un video aparecen dos botones en la miniatura: $watched$ oculta ese video y $blacklist$ oculta su canal en todas partes. ¿No los quieres? Activa $setting$ en $settings$",
+    "placeholders": {
+      "watched": {
+        "content": "$1"
+      },
+      "blacklist": {
+        "content": "$2"
+      },
+      "setting": {
+        "content": "$3"
+      },
+      "settings": {
+        "content": "$4"
       }
     }
   }

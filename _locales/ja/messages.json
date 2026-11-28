@@ -14,15 +14,6 @@
   "headerSupport": {
     "message": "支援する"
   },
-  "filterModeTitle": {
-    "message": "フィルタモード"
-  },
-  "filterModeHide": {
-    "message": "非表示"
-  },
-  "filterModeDim": {
-    "message": "暗くする"
-  },
   "hideWatchedTitle": {
     "message": "視聴済み動画を非表示"
   },
@@ -73,14 +64,8 @@
   "contentLives": {
     "message": "ライブ"
   },
-  "viewsFilterTitle": {
-    "message": "再生回数フィルタ"
-  },
   "sliderOff": {
     "message": "オフ"
-  },
-  "dateFilterTitle": {
-    "message": "投稿日フィルタ"
   },
   "dateNewerLabel": {
     "message": "これより新しい動画を非表示"
@@ -114,9 +99,6 @@
   },
   "titleBlacklistDescription": {
     "message": "タイトルにこれらの語のいずれかを含む動画は常に非表示になります"
-  },
-  "advancedControlsLabel": {
-    "message": "詳細コントロール"
   },
   "hideOnPageControlsLabel": {
     "message": "ページ上のコントロールを非表示"
@@ -770,24 +752,18 @@
     }
   },
   "tourWelcomeTitle": {
-    "message": "YouTube Hider へようこそ！"
+    "message": "YouTube Hider へようこそ"
   },
   "tourWelcomeDescription": {
-    "message": "簡単なツアーで、YouTube のヘッダーに組み込まれた YouTube Hider のボタン、設定、拡張機能を使いこなすコツを紹介します"
-  },
-  "tourStart": {
-    "message": "チュートリアルを始める"
-  },
-  "tourSkip": {
-    "message": "スキップ"
-  },
-  "tourSkipCountdown": {
-    "message": "スキップ ($seconds$秒)",
+    "message": "設定の場所と使い方を $count$ ステップで紹介します。1 分ほどで終わります",
     "placeholders": {
-      "seconds": {
+      "count": {
         "content": "$1"
       }
     }
+  },
+  "tourStart": {
+    "message": "ツアーを始める"
   },
   "tourBack": {
     "message": "戻る"
@@ -806,91 +782,6 @@
       },
       "total": {
         "content": "$2"
-      }
-    }
-  },
-  "tourSettingsButtonTitle": {
-    "message": "設定ボタン"
-  },
-  "tourSettingsButtonDescription": {
-    "message": "これが YouTube のヘッダーに組み込まれた YouTube Hider の歯車ボタンです。再生ページを含むすべてのページに表示され、すぐに開きます"
-  },
-  "tourFullSettingsTitle": {
-    "message": "すべての設定がここに"
-  },
-  "tourFullSettingsDescription": {
-    "message": "クリックすると YouTube Hider のすべての設定が 1 か所に開きます。中身を順に見ていきましょう"
-  },
-  "tourFilterModeDescription": {
-    "message": "フィルタされた動画の扱い方を選びます。「$hide$」は画面から完全に取り除き、「$dim$」はクリックできる暗いオーバーレイで覆います。下のすべてのフィルタに適用されます",
-    "placeholders": {
-      "hide": {
-        "content": "$1"
-      },
-      "dim": {
-        "content": "$2"
-      }
-    }
-  },
-  "tourHideWatchedDescription": {
-    "message": "どれだけ視聴したかに応じて動画を非表示にします。スライダーを左端までドラッグするとオフになり、詳細モードのページ別スイッチでさらに細かく調整できます。YouTube が見落とした動画は、カーソルを合わせて「$watched$」をクリックすれば非表示にでき、「$manage$」から元に戻せます",
-    "placeholders": {
-      "watched": {
-        "content": "$1"
-      },
-      "manage": {
-        "content": "$2"
-      }
-    }
-  },
-  "tourContentTypesTitle": {
-    "message": "ショート・ミックス・再生リスト・ライブ"
-  },
-  "tourContentTypesDescription": {
-    "message": "フィードと検索結果から、ショート、ミックスリスト、通常の再生リスト、ライブ配信をそれぞれ個別に取り除けます"
-  },
-  "tourViewsDescription": {
-    "message": "再生回数が最小値より少ない動画、最大値より多い動画、またはその両方を非表示にして、一定の人気の範囲の動画だけを残せます"
-  },
-  "tourDateDescription": {
-    "message": "設定した期間より新しい動画や古い動画を非表示にします。両方を組み合わせると、特定の期間の動画だけを残せます"
-  },
-  "tourChannelWhitelistDescription": {
-    "message": "お気に入りのチャンネルをすべてのフィルタの対象外にします。現在のチャンネルはワンクリックで追加でき、「$manage$」から専用のページでチャンネルを検索、削除、移動できます",
-    "placeholders": {
-      "manage": {
-        "content": "$1"
-      }
-    }
-  },
-  "tourChannelBlacklistDescription": {
-    "message": "Whitelist の逆です。チャンネルをショート、ミックス、再生リスト、ライブも含めてどこでも常に非表示にします。現在のチャンネルはワンクリックで追加でき、「$manage$」から専用のページでリスト全体を確認できます",
-    "placeholders": {
-      "manage": {
-        "content": "$1"
-      }
-    }
-  },
-  "tourTitleWhitelistDescription": {
-    "message": "チャンネルではなくタイトルの語で動画を対象外にします。タイトルに登録した語を含む動画は、どのフィルタにもかかりません"
-  },
-  "tourTitleBlacklistDescription": {
-    "message": "Title Whitelist の逆です。タイトルに登録した語を含む動画を、Whitelist のチャンネルのものでも、どこでも常に非表示にします"
-  },
-  "tourExtraSettingsTitle": {
-    "message": "その他の設定"
-  },
-  "tourExtraSettingsDescription": {
-    "message": "「$advanced$」をオンにすると詳細画面に切り替わります。「$hidecontrols$」をオンにすれば、フィルタをバックグラウンドで動かしたまま、いつでもこのボタン (とページ上の Whitelist、Blacklist、$watched$ ボタン) を消せます",
-    "placeholders": {
-      "advanced": {
-        "content": "$1"
-      },
-      "hidecontrols": {
-        "content": "$2"
-      },
-      "watched": {
-        "content": "$3"
       }
     }
   },
@@ -1356,6 +1247,66 @@
     "placeholders": {
       "version": {
         "content": "$1"
+      }
+    }
+  },
+  "tourNotNow": {
+    "message": "今はしない"
+  },
+  "tourSkipLabel": {
+    "message": "ツアーをスキップ"
+  },
+  "tourRestartNote": {
+    "message": "$settings$ からいつでもやり直せます",
+    "placeholders": {
+      "settings": {
+        "content": "$1"
+      }
+    }
+  },
+  "tourGearTitle": {
+    "message": "設定はここにあります"
+  },
+  "tourGearBody": {
+    "message": "この歯車は YouTube のヘッダーにあり、どのページにも表示されます。クリックすると YouTube Hider が開きます"
+  },
+  "tourFiltersTitle": {
+    "message": "非表示にするものを選ぶ"
+  },
+  "tourFiltersBody": {
+    "message": "フィルタをオンにし、開いて対象のページを選びます。最初はすべてのページで有効なので、例外を作るときだけ開けば十分です"
+  },
+  "tourListsTitle": {
+    "message": "チャンネルを残すかブロック"
+  },
+  "tourListsBody": {
+    "message": "チャンネルや動画を開くと、$lists$ にそのチャンネルが表示されます。Whitelist に入れると動画がフィルタされず、Blacklist に入れるとどこでも非表示になります。$manage$ でリスト全体を開けます",
+    "placeholders": {
+      "lists": {
+        "content": "$1"
+      },
+      "manage": {
+        "content": "$2"
+      }
+    }
+  },
+  "tourVideoTitle": {
+    "message": "1 本の動画に対して操作する"
+  },
+  "tourVideoBody": {
+    "message": "動画にカーソルを合わせると、サムネイルに 2 つのボタンが出ます。$watched$ はその動画を、$blacklist$ はそのチャンネルをどこでも非表示にします。不要なら $settings$ で $setting$ をオンにしてください",
+    "placeholders": {
+      "watched": {
+        "content": "$1"
+      },
+      "blacklist": {
+        "content": "$2"
+      },
+      "setting": {
+        "content": "$3"
+      },
+      "settings": {
+        "content": "$4"
       }
     }
   }

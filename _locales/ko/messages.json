@@ -14,15 +14,6 @@
   "headerSupport": {
     "message": "후원하기"
   },
-  "filterModeTitle": {
-    "message": "필터 모드"
-  },
-  "filterModeHide": {
-    "message": "숨기기"
-  },
-  "filterModeDim": {
-    "message": "어둡게"
-  },
   "hideWatchedTitle": {
     "message": "시청한 동영상 숨기기"
   },
@@ -73,14 +64,8 @@
   "contentLives": {
     "message": "실시간"
   },
-  "viewsFilterTitle": {
-    "message": "조회수 필터"
-  },
   "sliderOff": {
     "message": "사용 안함"
-  },
-  "dateFilterTitle": {
-    "message": "업로드 날짜 필터"
   },
   "dateNewerLabel": {
     "message": "이보다 최근이면 숨기기"
@@ -114,9 +99,6 @@
   },
   "titleBlacklistDescription": {
     "message": "제목에 이 단어 중 하나가 들어간 동영상은 항상 숨겨집니다"
-  },
-  "advancedControlsLabel": {
-    "message": "고급 설정"
   },
   "hideOnPageControlsLabel": {
     "message": "페이지 내 버튼 숨기기"
@@ -770,24 +752,18 @@
     }
   },
   "tourWelcomeTitle": {
-    "message": "YouTube Hider에 오신 것을 환영합니다!"
+    "message": "YouTube Hider에 오신 것을 환영합니다"
   },
   "tourWelcomeDescription": {
-    "message": "짧은 투어로 YouTube 헤더에 들어 있는 YouTube Hider 버튼, 내 설정, 그리고 확장 프로그램을 최대한 활용하는 방법을 알아보세요"
-  },
-  "tourStart": {
-    "message": "튜토리얼 시작"
-  },
-  "tourSkip": {
-    "message": "건너뛰기"
-  },
-  "tourSkipCountdown": {
-    "message": "건너뛰기 ($seconds$초)",
+    "message": "설정 위치와 사용법을 $count$단계로 안내합니다. 1분 정도 걸립니다",
     "placeholders": {
-      "seconds": {
+      "count": {
         "content": "$1"
       }
     }
+  },
+  "tourStart": {
+    "message": "안내 시작"
   },
   "tourBack": {
     "message": "이전"
@@ -806,91 +782,6 @@
       },
       "total": {
         "content": "$2"
-      }
-    }
-  },
-  "tourSettingsButtonTitle": {
-    "message": "설정 버튼"
-  },
-  "tourSettingsButtonDescription": {
-    "message": "YouTube 헤더에 바로 들어 있는 YouTube Hider 톱니바퀴 버튼입니다. 시청 페이지를 포함한 모든 페이지에 표시되며 즉시 열립니다"
-  },
-  "tourFullSettingsTitle": {
-    "message": "모든 설정을 바로 여기서"
-  },
-  "tourFullSettingsDescription": {
-    "message": "클릭하면 YouTube Hider의 모든 설정이 한곳에 열립니다. 안에 무엇이 있는지 함께 살펴보세요"
-  },
-  "tourFilterModeDescription": {
-    "message": "필터링된 동영상을 어떻게 처리할지 선택하세요. $hide$는 화면에서 완전히 없애고, $dim$는 클릭할 수 있는 어두운 오버레이로 덮습니다. 아래의 모든 필터에 적용됩니다",
-    "placeholders": {
-      "hide": {
-        "content": "$1"
-      },
-      "dim": {
-        "content": "$2"
-      }
-    }
-  },
-  "tourHideWatchedDescription": {
-    "message": "얼마나 시청했는지에 따라 동영상을 숨깁니다. 끄려면 슬라이더를 왼쪽 끝까지 드래그하고, 더 세밀하게 조정하려면 고급 모드의 페이지별 스위치를 사용하세요. YouTube가 놓친 동영상이 있나요? 동영상에 마우스를 올리고 $watched$을 클릭하면 숨겨지고, $manage$에서 다시 되돌릴 수 있습니다",
-    "placeholders": {
-      "watched": {
-        "content": "$1"
-      },
-      "manage": {
-        "content": "$2"
-      }
-    }
-  },
-  "tourContentTypesTitle": {
-    "message": "Shorts, 믹스, 재생목록, 실시간"
-  },
-  "tourContentTypesDescription": {
-    "message": "피드와 검색 결과에서 Shorts, 믹스 재생목록, 일반 재생목록, 실시간 스트림을 각각 따로 없앨 수 있습니다"
-  },
-  "tourViewsDescription": {
-    "message": "조회수가 최솟값보다 적거나 최댓값보다 많은 동영상, 또는 둘 다를 숨겨 원하는 인기 범위의 동영상만 남길 수 있습니다"
-  },
-  "tourDateDescription": {
-    "message": "설정한 기준보다 최근이거나 오래된 동영상을 숨깁니다. 둘을 함께 사용하면 특정 기간의 동영상만 남길 수 있습니다"
-  },
-  "tourChannelWhitelistDescription": {
-    "message": "좋아하는 채널을 모든 필터에서 제외하세요. 클릭 한 번으로 현재 채널을 추가하고, $manage$에서 별도 페이지로 채널을 검색, 삭제, 이동할 수 있습니다",
-    "placeholders": {
-      "manage": {
-        "content": "$1"
-      }
-    }
-  },
-  "tourChannelBlacklistDescription": {
-    "message": "Whitelist의 반대입니다. Shorts, 믹스, 재생목록, 실시간을 포함해 채널을 어디서나 항상 숨깁니다. 클릭 한 번으로 현재 채널을 추가하고, $manage$에서 별도 페이지로 전체 목록을 볼 수 있습니다",
-    "placeholders": {
-      "manage": {
-        "content": "$1"
-      }
-    }
-  },
-  "tourTitleWhitelistDescription": {
-    "message": "채널 대신 제목의 단어로 동영상을 제외하세요. 제목에 내 단어 중 하나가 들어간 동영상은 어떤 필터도 건드리지 않습니다"
-  },
-  "tourTitleBlacklistDescription": {
-    "message": "Title Whitelist의 반대입니다. 제목에 내 단어 중 하나가 들어간 동영상은 Whitelist에 있는 채널이라도 어디서나 항상 숨깁니다"
-  },
-  "tourExtraSettingsTitle": {
-    "message": "추가 설정"
-  },
-  "tourExtraSettingsDescription": {
-    "message": "\"$advanced$\"을 켜면 고급 화면으로 전환되고, \"$hidecontrols$\"를 켜면 필터는 백그라운드에서 계속 작동하면서 언제든 이 버튼(과 페이지의 Whitelist, Blacklist, $watched$ 버튼)을 없앨 수 있습니다",
-    "placeholders": {
-      "advanced": {
-        "content": "$1"
-      },
-      "hidecontrols": {
-        "content": "$2"
-      },
-      "watched": {
-        "content": "$3"
       }
     }
   },
@@ -1356,6 +1247,66 @@
     "placeholders": {
       "version": {
         "content": "$1"
+      }
+    }
+  },
+  "tourNotNow": {
+    "message": "나중에"
+  },
+  "tourSkipLabel": {
+    "message": "안내 건너뛰기"
+  },
+  "tourRestartNote": {
+    "message": "$settings$에서 언제든지 다시 시작할 수 있습니다",
+    "placeholders": {
+      "settings": {
+        "content": "$1"
+      }
+    }
+  },
+  "tourGearTitle": {
+    "message": "설정은 여기에 있습니다"
+  },
+  "tourGearBody": {
+    "message": "이 톱니바퀴는 모든 페이지의 YouTube 상단에 있습니다. 클릭하면 YouTube Hider가 열립니다"
+  },
+  "tourFiltersTitle": {
+    "message": "숨길 항목 고르기"
+  },
+  "tourFiltersBody": {
+    "message": "필터를 켠 다음 열어서 적용할 페이지를 고르세요. 처음에는 모든 페이지에 적용되므로 예외를 둘 때만 열면 됩니다"
+  },
+  "tourListsTitle": {
+    "message": "채널 유지 또는 차단"
+  },
+  "tourListsBody": {
+    "message": "채널이나 동영상에서 $lists$ 탭에 해당 채널이 표시됩니다. Whitelist에 넣으면 동영상이 필터링되지 않고, Blacklist에 넣으면 어디서나 숨겨집니다. $manage$ 버튼으로 전체 목록을 엽니다",
+    "placeholders": {
+      "lists": {
+        "content": "$1"
+      },
+      "manage": {
+        "content": "$2"
+      }
+    }
+  },
+  "tourVideoTitle": {
+    "message": "동영상 하나에 적용하기"
+  },
+  "tourVideoBody": {
+    "message": "동영상에 마우스를 올리면 썸네일에 버튼 두 개가 나타납니다. $watched$은(는) 그 동영상을, $blacklist$은(는) 그 채널을 어디서나 숨깁니다. 필요 없다면 $settings$에서 $setting$을(를) 켜세요",
+    "placeholders": {
+      "watched": {
+        "content": "$1"
+      },
+      "blacklist": {
+        "content": "$2"
+      },
+      "setting": {
+        "content": "$3"
+      },
+      "settings": {
+        "content": "$4"
       }
     }
   }

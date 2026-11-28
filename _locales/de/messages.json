@@ -14,15 +14,6 @@
   "headerSupport": {
     "message": "Unterstützen"
   },
-  "filterModeTitle": {
-    "message": "Filtermodus"
-  },
-  "filterModeHide": {
-    "message": "Ausblenden"
-  },
-  "filterModeDim": {
-    "message": "Abdunkeln"
-  },
   "hideWatchedTitle": {
     "message": "Gesehene Videos ausblenden"
   },
@@ -73,14 +64,8 @@
   "contentLives": {
     "message": "Live"
   },
-  "viewsFilterTitle": {
-    "message": "Filter nach Aufrufen"
-  },
   "sliderOff": {
     "message": "Aus"
-  },
-  "dateFilterTitle": {
-    "message": "Filter nach Upload-Datum"
   },
   "dateNewerLabel": {
     "message": "Ausblenden, wenn neuer als"
@@ -114,9 +99,6 @@
   },
   "titleBlacklistDescription": {
     "message": "Videos mit einem dieser Wörter im Titel werden immer ausgeblendet"
-  },
-  "advancedControlsLabel": {
-    "message": "Erweiterte Steuerung"
   },
   "hideOnPageControlsLabel": {
     "message": "Steuerelemente auf der Seite ausblenden"
@@ -1024,24 +1006,18 @@
     }
   },
   "tourWelcomeTitle": {
-    "message": "Willkommen bei YouTube Hider!"
+    "message": "Willkommen bei YouTube Hider"
   },
   "tourWelcomeDescription": {
-    "message": "Mach eine kurze Tour und entdecke die YouTube Hider-Schaltfläche in der Kopfzeile von YouTube, deine Einstellungen und wie du das Beste aus der Erweiterung herausholst"
-  },
-  "tourStart": {
-    "message": "Tutorial starten"
-  },
-  "tourSkip": {
-    "message": "Überspringen"
-  },
-  "tourSkipCountdown": {
-    "message": "Überspringen ($seconds$s)",
+    "message": "Eine Tour in $count$ Schritten: wo deine Einstellungen sind und wie du sie nutzt. Dauert etwa eine Minute",
     "placeholders": {
-      "seconds": {
+      "count": {
         "content": "$1"
       }
     }
+  },
+  "tourStart": {
+    "message": "Tour starten"
   },
   "tourBack": {
     "message": "Zurück"
@@ -1060,91 +1036,6 @@
       },
       "total": {
         "content": "$2"
-      }
-    }
-  },
-  "tourSettingsButtonTitle": {
-    "message": "Deine Einstellungs-Schaltfläche"
-  },
-  "tourSettingsButtonDescription": {
-    "message": "Das ist die Zahnrad-Schaltfläche von YouTube Hider, direkt in die Kopfzeile von YouTube eingebaut. Sie erscheint auf jeder Seite, auch beim Ansehen eines Videos, und öffnet sich sofort"
-  },
-  "tourFullSettingsTitle": {
-    "message": "Alle Einstellungen, genau hier"
-  },
-  "tourFullSettingsDescription": {
-    "message": "Ein Klick öffnet alle Einstellungen von YouTube Hider an einem Ort. Schauen wir uns an, was du darin findest"
-  },
-  "tourFilterModeDescription": {
-    "message": "Lege fest, was mit gefilterten Videos passiert: $hide$ entfernt sie komplett, $dim$ legt eine dunkle Ebene darüber, die du trotzdem anklicken kannst. Das gilt für alle Filter darunter",
-    "placeholders": {
-      "hide": {
-        "content": "$1"
-      },
-      "dim": {
-        "content": "$2"
-      }
-    }
-  },
-  "tourHideWatchedDescription": {
-    "message": "Blendet Videos danach aus, wie viel du schon von ihnen angesehen hast. Zieh den Schieberegler ganz nach links, um ihn auszuschalten, und nutze im erweiterten Modus die Schalter pro Seite für mehr Kontrolle. YouTube hat eins übersehen? Fahre mit der Maus über das Video und klicke auf $watched$, um es auch auszublenden, und hol es mit $manage$ zurück",
-    "placeholders": {
-      "watched": {
-        "content": "$1"
-      },
-      "manage": {
-        "content": "$2"
-      }
-    }
-  },
-  "tourContentTypesTitle": {
-    "message": "Shorts, Mixe, Playlists und Livestreams"
-  },
-  "tourContentTypesDescription": {
-    "message": "Entferne Shorts, Mix-Playlists, normale Playlists und Livestreams unabhängig voneinander aus deinem Feed und den Suchergebnissen"
-  },
-  "tourViewsDescription": {
-    "message": "Blendet Videos unter einer Mindestzahl an Aufrufen, über einer Höchstzahl oder beides aus, damit nur Videos in einem bestimmten Beliebtheitsbereich bleiben"
-  },
-  "tourDateDescription": {
-    "message": "Blendet Videos aus, die neuer oder älter als ein einstellbarer Wert sind. Nutze beides zusammen, um nur Videos aus einem bestimmten Zeitraum zu behalten"
-  },
-  "tourChannelWhitelistDescription": {
-    "message": "Nimm deine Lieblingskanäle von allen Filtern aus. Füge den aktuellen Kanal mit einem Klick hinzu und nutze $manage$, um Kanäle auf einer eigenen Seite zu suchen, zu entfernen oder zu verschieben",
-    "placeholders": {
-      "manage": {
-        "content": "$1"
-      }
-    }
-  },
-  "tourChannelBlacklistDescription": {
-    "message": "Das Gegenteil der Whitelist: Blendet einen Kanal immer und überall aus, auch bei Shorts, Mixen, Playlists und Livestreams. Füge den aktuellen Kanal mit einem Klick hinzu und nutze $manage$, um die ganze Liste auf einer eigenen Seite zu sehen",
-    "placeholders": {
-      "manage": {
-        "content": "$1"
-      }
-    }
-  },
-  "tourTitleWhitelistDescription": {
-    "message": "Nimm Videos anhand eines Wortes im Titel statt anhand des Kanals aus. Videos, deren Titel eines deiner Wörter enthält, lässt jeder Filter in Ruhe"
-  },
-  "tourTitleBlacklistDescription": {
-    "message": "Das Gegenteil der Title Whitelist: Blendet immer und überall jedes Video aus, dessen Titel eines deiner Wörter enthält, selbst bei einem Kanal auf der Whitelist"
-  },
-  "tourExtraSettingsTitle": {
-    "message": "Weitere Einstellungen"
-  },
-  "tourExtraSettingsDescription": {
-    "message": "Schalte \"$advanced$\" ein, um zur erweiterten Oberfläche zu wechseln, und schalte \"$hidecontrols$\" jederzeit ein, um diese Schaltfläche (und die Schaltflächen Whitelist, Blacklist und $watched$ auf der Seite) zu entfernen, während die Filter im Hintergrund weiterarbeiten",
-    "placeholders": {
-      "advanced": {
-        "content": "$1"
-      },
-      "hidecontrols": {
-        "content": "$2"
-      },
-      "watched": {
-        "content": "$3"
       }
     }
   },
@@ -1690,6 +1581,66 @@
     "placeholders": {
       "version": {
         "content": "$1"
+      }
+    }
+  },
+  "tourNotNow": {
+    "message": "Nicht jetzt"
+  },
+  "tourSkipLabel": {
+    "message": "Tour überspringen"
+  },
+  "tourRestartNote": {
+    "message": "Du kannst sie jederzeit unter $settings$ neu starten",
+    "placeholders": {
+      "settings": {
+        "content": "$1"
+      }
+    }
+  },
+  "tourGearTitle": {
+    "message": "Hier sind deine Einstellungen"
+  },
+  "tourGearBody": {
+    "message": "Dieses Zahnrad sitzt auf jeder Seite in der Kopfzeile von YouTube. Klick darauf, um YouTube Hider zu öffnen"
+  },
+  "tourFiltersTitle": {
+    "message": "Wähle, was du ausblenden willst"
+  },
+  "tourFiltersBody": {
+    "message": "Schalte einen Filter ein und öffne ihn, um die Seiten zu wählen. Filter gelten anfangs überall, also öffnest du einen nur für eine Ausnahme"
+  },
+  "tourListsTitle": {
+    "message": "Kanal behalten oder sperren"
+  },
+  "tourListsBody": {
+    "message": "Auf einem Kanal oder Video zeigt $lists$ den Kanal. Setz ihn auf die Whitelist, damit seine Videos nie gefiltert werden, oder auf die Blacklist, um sie überall auszublenden. $manage$ öffnet die vollständigen Listen",
+    "placeholders": {
+      "lists": {
+        "content": "$1"
+      },
+      "manage": {
+        "content": "$2"
+      }
+    }
+  },
+  "tourVideoTitle": {
+    "message": "Für ein einzelnes Video"
+  },
+  "tourVideoBody": {
+    "message": "Wenn du mit der Maus über ein Video fährst, erscheinen zwei Buttons auf dem Vorschaubild: $watched$ blendet das Video aus, $blacklist$ blendet seinen Kanal überall aus. Willst du sie loswerden? Schalte $setting$ unter $settings$ ein",
+    "placeholders": {
+      "watched": {
+        "content": "$1"
+      },
+      "blacklist": {
+        "content": "$2"
+      },
+      "setting": {
+        "content": "$3"
+      },
+      "settings": {
+        "content": "$4"
       }
     }
   }

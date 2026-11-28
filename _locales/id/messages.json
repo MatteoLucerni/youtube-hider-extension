@@ -14,15 +14,6 @@
   "headerSupport": {
     "message": "Dukung"
   },
-  "filterModeTitle": {
-    "message": "Mode Filter"
-  },
-  "filterModeHide": {
-    "message": "Sembunyikan"
-  },
-  "filterModeDim": {
-    "message": "Redupkan"
-  },
   "hideWatchedTitle": {
     "message": "Sembunyikan Video yang Ditonton"
   },
@@ -73,14 +64,8 @@
   "contentLives": {
     "message": "Live"
   },
-  "viewsFilterTitle": {
-    "message": "Filter Penayangan"
-  },
   "sliderOff": {
     "message": "Nonaktif"
-  },
-  "dateFilterTitle": {
-    "message": "Filter Tanggal Upload"
   },
   "dateNewerLabel": {
     "message": "Sembunyikan yang lebih baru dari"
@@ -114,9 +99,6 @@
   },
   "titleBlacklistDescription": {
     "message": "Video dengan salah satu kata ini di judulnya selalu disembunyikan"
-  },
-  "advancedControlsLabel": {
-    "message": "Kontrol Lanjutan"
   },
   "hideOnPageControlsLabel": {
     "message": "Sembunyikan kontrol di halaman"
@@ -770,24 +752,18 @@
     }
   },
   "tourWelcomeTitle": {
-    "message": "Selamat datang di YouTube Hider!"
+    "message": "Selamat datang di YouTube Hider"
   },
   "tourWelcomeDescription": {
-    "message": "Ikuti tur singkat untuk mengenal tombol YouTube Hider yang terpasang di header YouTube, setelan Anda, dan cara memaksimalkan ekstensi ini"
-  },
-  "tourStart": {
-    "message": "Mulai Tutorial"
-  },
-  "tourSkip": {
-    "message": "Lewati"
-  },
-  "tourSkipCountdown": {
-    "message": "Lewati ($seconds$dtk)",
+    "message": "Tur $count$ langkah tentang letak pengaturan dan cara memakainya. Kira-kira satu menit",
     "placeholders": {
-      "seconds": {
+      "count": {
         "content": "$1"
       }
     }
+  },
+  "tourStart": {
+    "message": "Mulai tur"
   },
   "tourBack": {
     "message": "Kembali"
@@ -806,91 +782,6 @@
       },
       "total": {
         "content": "$2"
-      }
-    }
-  },
-  "tourSettingsButtonTitle": {
-    "message": "Tombol Setelan Anda"
-  },
-  "tourSettingsButtonDescription": {
-    "message": "Ini tombol roda gigi YouTube Hider, terpasang langsung di header YouTube. Tombol ini muncul di setiap halaman, termasuk saat menonton, dan terbuka seketika"
-  },
-  "tourFullSettingsTitle": {
-    "message": "Semua Setelan, di Sini"
-  },
-  "tourFullSettingsDescription": {
-    "message": "Mengkliknya membuka semua setelan YouTube Hider di satu tempat. Mari lihat apa saja isinya"
-  },
-  "tourFilterModeDescription": {
-    "message": "Pilih cara memperlakukan video yang terfilter: $hide$ menghilangkannya sepenuhnya dari tampilan, $dim$ meredupkannya di bawah lapisan gelap yang tetap bisa diklik. Ini berlaku untuk semua filter di bawahnya",
-    "placeholders": {
-      "hide": {
-        "content": "$1"
-      },
-      "dim": {
-        "content": "$2"
-      }
-    }
-  },
-  "tourHideWatchedDescription": {
-    "message": "Menyembunyikan video berdasarkan seberapa banyak yang sudah Anda tonton. Geser penggeser sampai ujung kiri untuk menonaktifkan, dan gunakan tombol per halaman di mode Lanjutan untuk kontrol lebih rinci. Ada yang terlewat oleh YouTube? Arahkan kursor ke video dan klik $watched$ untuk menyembunyikannya juga, lalu gunakan $manage$ untuk menampilkannya lagi",
-    "placeholders": {
-      "watched": {
-        "content": "$1"
-      },
-      "manage": {
-        "content": "$2"
-      }
-    }
-  },
-  "tourContentTypesTitle": {
-    "message": "Shorts, Mix, Playlist & Live"
-  },
-  "tourContentTypesDescription": {
-    "message": "Hapus Shorts, playlist Mix, playlist biasa, dan live streaming dari feed dan hasil penelusuran secara terpisah"
-  },
-  "tourViewsDescription": {
-    "message": "Sembunyikan video di bawah jumlah penayangan minimum, di atas maksimum, atau keduanya sekaligus untuk menyisakan video dalam rentang popularitas tertentu"
-  },
-  "tourDateDescription": {
-    "message": "Sembunyikan video yang lebih baru atau lebih lama dari batas yang bisa diatur. Gunakan keduanya untuk menyisakan video dari periode tertentu saja"
-  },
-  "tourChannelWhitelistDescription": {
-    "message": "Kecualikan saluran favorit Anda dari semua filter. Tambahkan saluran saat ini dengan satu klik, lalu gunakan $manage$ untuk mencari, menghapus, atau memindahkan saluran di halaman tersendiri",
-    "placeholders": {
-      "manage": {
-        "content": "$1"
-      }
-    }
-  },
-  "tourChannelBlacklistDescription": {
-    "message": "Kebalikan dari Whitelist: selalu sembunyikan sebuah saluran di mana saja, termasuk Shorts, Mix, Playlist, dan Live. Tambahkan saluran saat ini dengan satu klik, lalu gunakan $manage$ untuk melihat daftar lengkap di halaman tersendiri",
-    "placeholders": {
-      "manage": {
-        "content": "$1"
-      }
-    }
-  },
-  "tourTitleWhitelistDescription": {
-    "message": "Kecualikan video berdasarkan kata di judulnya, bukan berdasarkan saluran. Video yang judulnya mengandung salah satu kata Anda tidak disentuh filter apa pun"
-  },
-  "tourTitleBlacklistDescription": {
-    "message": "Kebalikan dari Title Whitelist: selalu sembunyikan setiap video yang judulnya mengandung salah satu kata Anda, di mana saja, bahkan dari saluran di Whitelist"
-  },
-  "tourExtraSettingsTitle": {
-    "message": "Setelan Tambahan"
-  },
-  "tourExtraSettingsDescription": {
-    "message": "Aktifkan \"$advanced$\" untuk beralih ke tampilan Lanjutan, dan aktifkan \"$hidecontrols$\" kapan saja untuk menghapus tombol ini (serta tombol Whitelist, Blacklist, dan $watched$ di halaman) sementara filter tetap berjalan di latar belakang",
-    "placeholders": {
-      "advanced": {
-        "content": "$1"
-      },
-      "hidecontrols": {
-        "content": "$2"
-      },
-      "watched": {
-        "content": "$3"
       }
     }
   },
@@ -1356,6 +1247,66 @@
     "placeholders": {
       "version": {
         "content": "$1"
+      }
+    }
+  },
+  "tourNotNow": {
+    "message": "Nanti saja"
+  },
+  "tourSkipLabel": {
+    "message": "Lewati tur"
+  },
+  "tourRestartNote": {
+    "message": "Anda bisa memulainya lagi kapan saja dari $settings$",
+    "placeholders": {
+      "settings": {
+        "content": "$1"
+      }
+    }
+  },
+  "tourGearTitle": {
+    "message": "Pengaturan Anda ada di sini"
+  },
+  "tourGearBody": {
+    "message": "Roda gigi ini ada di header YouTube, di setiap halaman. Klik untuk membuka YouTube Hider"
+  },
+  "tourFiltersTitle": {
+    "message": "Pilih yang ingin disembunyikan"
+  },
+  "tourFiltersBody": {
+    "message": "Aktifkan filter, lalu buka untuk memilih halaman tempat filter bekerja. Filter awalnya aktif di semua halaman, jadi Anda hanya membukanya untuk membuat pengecualian"
+  },
+  "tourListsTitle": {
+    "message": "Pertahankan atau blokir saluran"
+  },
+  "tourListsBody": {
+    "message": "Di saluran atau video, $lists$ menampilkan salurannya. Masukkan ke Whitelist agar videonya tidak pernah difilter, atau ke Blacklist untuk menyembunyikannya di mana saja. $manage$ membuka daftar lengkap",
+    "placeholders": {
+      "lists": {
+        "content": "$1"
+      },
+      "manage": {
+        "content": "$2"
+      }
+    }
+  },
+  "tourVideoTitle": {
+    "message": "Tindakan untuk satu video"
+  },
+  "tourVideoBody": {
+    "message": "Saat kursor berada di atas video, dua tombol muncul di thumbnail-nya: $watched$ menyembunyikan video itu, $blacklist$ menyembunyikan salurannya di mana saja. Tidak mau? Aktifkan $setting$ di $settings$",
+    "placeholders": {
+      "watched": {
+        "content": "$1"
+      },
+      "blacklist": {
+        "content": "$2"
+      },
+      "setting": {
+        "content": "$3"
+      },
+      "settings": {
+        "content": "$4"
       }
     }
   }

@@ -1030,6 +1030,19 @@ document.addEventListener('DOMContentLoaded', () => {
       if (tab) selectTab(tab);
       target.classList.add('yh-tour-highlight');
       target.scrollIntoView({ block: 'nearest' });
+      requestAnimationFrame(() => {
+        const rect = target.getBoundingClientRect();
+        const visibleTop = Math.max(0, rect.top);
+        const visibleBottom = Math.min(window.innerHeight, rect.bottom);
+        event.source.postMessage(
+          {
+            type: 'YH_TOUR_TARGET_RECT',
+            section: data.section,
+            rect: { top: visibleTop, left: rect.left, width: rect.width, height: Math.max(0, visibleBottom - visibleTop) },
+          },
+          event.origin,
+        );
+      });
     } else if (data.type === 'YH_TOUR_CLEAR') {
       clearTourHighlight();
     }

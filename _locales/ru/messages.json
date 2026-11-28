@@ -14,15 +14,6 @@
   "headerSupport": {
     "message": "Поддержать"
   },
-  "filterModeTitle": {
-    "message": "Режим фильтра"
-  },
-  "filterModeHide": {
-    "message": "Скрыть"
-  },
-  "filterModeDim": {
-    "message": "Затемнить"
-  },
   "hideWatchedTitle": {
     "message": "Скрывать просмотренные"
   },
@@ -73,14 +64,8 @@
   "contentLives": {
     "message": "Трансляции"
   },
-  "viewsFilterTitle": {
-    "message": "Фильтр просмотров"
-  },
   "sliderOff": {
     "message": "Выкл"
-  },
-  "dateFilterTitle": {
-    "message": "Фильтр по дате загрузки"
   },
   "dateNewerLabel": {
     "message": "Скрывать, если новее"
@@ -114,9 +99,6 @@
   },
   "titleBlacklistDescription": {
     "message": "Видео с одним из этих слов в названии скрываются всегда"
-  },
-  "advancedControlsLabel": {
-    "message": "Расширенные настройки"
   },
   "hideOnPageControlsLabel": {
     "message": "Скрыть кнопки на странице"
@@ -1532,24 +1514,18 @@
     }
   },
   "tourWelcomeTitle": {
-    "message": "Добро пожаловать в YouTube Hider!"
+    "message": "Добро пожаловать в YouTube Hider"
   },
   "tourWelcomeDescription": {
-    "message": "Пройдите короткую экскурсию: кнопка YouTube Hider в шапке YouTube, ваши настройки и как получить от расширения максимум"
-  },
-  "tourStart": {
-    "message": "Начать обучение"
-  },
-  "tourSkip": {
-    "message": "Пропустить"
-  },
-  "tourSkipCountdown": {
-    "message": "Пропустить ($seconds$с)",
+    "message": "Тур из $count$ шагов: где находятся настройки и как ими пользоваться. Займёт около минуты",
     "placeholders": {
-      "seconds": {
+      "count": {
         "content": "$1"
       }
     }
+  },
+  "tourStart": {
+    "message": "Начать тур"
   },
   "tourBack": {
     "message": "Назад"
@@ -1568,91 +1544,6 @@
       },
       "total": {
         "content": "$2"
-      }
-    }
-  },
-  "tourSettingsButtonTitle": {
-    "message": "Кнопка настроек"
-  },
-  "tourSettingsButtonDescription": {
-    "message": "Это кнопка-шестерёнка YouTube Hider, встроенная прямо в шапку YouTube. Она есть на каждой странице, включая просмотр видео, и открывается мгновенно"
-  },
-  "tourFullSettingsTitle": {
-    "message": "Все настройки прямо здесь"
-  },
-  "tourFullSettingsDescription": {
-    "message": "По клику открываются все настройки YouTube Hider в одном месте. Давайте посмотрим, что внутри"
-  },
-  "tourFilterModeDescription": {
-    "message": "Выберите, что делать с отфильтрованными видео: «$hide$» полностью убирает их, «$dim$» накрывает тёмным слоем, по которому всё равно можно кликнуть. Это действует на все фильтры ниже",
-    "placeholders": {
-      "hide": {
-        "content": "$1"
-      },
-      "dim": {
-        "content": "$2"
-      }
-    }
-  },
-  "tourHideWatchedDescription": {
-    "message": "Скрывает видео в зависимости от того, сколько вы уже посмотрели. Перетащите ползунок влево до конца, чтобы выключить, а для тонкой настройки используйте переключатели страниц в расширенном режиме. YouTube что-то пропустил? Наведите курсор на видео и нажмите «$watched$», чтобы скрыть и его, а вернуть его можно через «$manage$»",
-    "placeholders": {
-      "watched": {
-        "content": "$1"
-      },
-      "manage": {
-        "content": "$2"
-      }
-    }
-  },
-  "tourContentTypesTitle": {
-    "message": "Shorts, миксы, плейлисты и трансляции"
-  },
-  "tourContentTypesDescription": {
-    "message": "Убирайте из ленты и результатов поиска Shorts, миксы, обычные плейлисты и прямые трансляции независимо друг от друга"
-  },
-  "tourViewsDescription": {
-    "message": "Скрывает видео с числом просмотров ниже минимума, выше максимума или и то и другое, чтобы оставить только видео в нужном диапазоне популярности"
-  },
-  "tourDateDescription": {
-    "message": "Скрывает видео новее или старше заданного порога. Используйте оба порога, чтобы оставить только видео за определённый период"
-  },
-  "tourChannelWhitelistDescription": {
-    "message": "Освободите любимые каналы от всех фильтров. Добавьте текущий канал одним кликом, а через «$manage$» ищите, удаляйте и переносите каналы на отдельной странице",
-    "placeholders": {
-      "manage": {
-        "content": "$1"
-      }
-    }
-  },
-  "tourChannelBlacklistDescription": {
-    "message": "Противоположность Whitelist: всегда и везде скрывает канал, включая Shorts, миксы, плейлисты и трансляции. Добавьте текущий канал одним кликом, а через «$manage$» откройте полный список на отдельной странице",
-    "placeholders": {
-      "manage": {
-        "content": "$1"
-      }
-    }
-  },
-  "tourTitleWhitelistDescription": {
-    "message": "Освобождайте видео от фильтров по слову в названии, а не по каналу. Видео, в названии которых есть одно из ваших слов, ни один фильтр не трогает"
-  },
-  "tourTitleBlacklistDescription": {
-    "message": "Противоположность Title Whitelist: всегда и везде скрывает каждое видео, в названии которого есть одно из ваших слов, даже с канала из Whitelist"
-  },
-  "tourExtraSettingsTitle": {
-    "message": "Дополнительные настройки"
-  },
-  "tourExtraSettingsDescription": {
-    "message": "Включите «$advanced$», чтобы перейти к расширенному интерфейсу, и включите «$hidecontrols$» в любой момент, чтобы убрать эту кнопку (и кнопки Whitelist, Blacklist и «$watched$» на странице), а фильтры продолжат работать в фоне",
-    "placeholders": {
-      "advanced": {
-        "content": "$1"
-      },
-      "hidecontrols": {
-        "content": "$2"
-      },
-      "watched": {
-        "content": "$3"
       }
     }
   },
@@ -2358,6 +2249,66 @@
     "placeholders": {
       "version": {
         "content": "$1"
+      }
+    }
+  },
+  "tourNotNow": {
+    "message": "Не сейчас"
+  },
+  "tourSkipLabel": {
+    "message": "Пропустить тур"
+  },
+  "tourRestartNote": {
+    "message": "Его можно перезапустить в любой момент в разделе «$settings$»",
+    "placeholders": {
+      "settings": {
+        "content": "$1"
+      }
+    }
+  },
+  "tourGearTitle": {
+    "message": "Настройки здесь"
+  },
+  "tourGearBody": {
+    "message": "Эта шестерёнка находится в шапке YouTube на каждой странице. Нажмите на неё, чтобы открыть YouTube Hider"
+  },
+  "tourFiltersTitle": {
+    "message": "Выберите, что скрывать"
+  },
+  "tourFiltersBody": {
+    "message": "Включите фильтр, затем откройте его, чтобы выбрать страницы. Сначала фильтры работают везде, поэтому открывать их нужно только для исключений"
+  },
+  "tourListsTitle": {
+    "message": "Оставить или заблокировать канал"
+  },
+  "tourListsBody": {
+    "message": "На странице канала или видео раздел «$lists$» показывает его канал. Добавьте канал в Whitelist, чтобы его видео никогда не фильтровались, или в Blacklist, чтобы скрывать их везде. «$manage$» открывает полные списки",
+    "placeholders": {
+      "lists": {
+        "content": "$1"
+      },
+      "manage": {
+        "content": "$2"
+      }
+    }
+  },
+  "tourVideoTitle": {
+    "message": "Действия с отдельным видео"
+  },
+  "tourVideoBody": {
+    "message": "При наведении на видео на превью появляются две кнопки: «$watched$» скрывает это видео, «$blacklist$» скрывает его канал везде. Не нужны? Включите «$setting$» в разделе «$settings$»",
+    "placeholders": {
+      "watched": {
+        "content": "$1"
+      },
+      "blacklist": {
+        "content": "$2"
+      },
+      "setting": {
+        "content": "$3"
+      },
+      "settings": {
+        "content": "$4"
       }
     }
   }

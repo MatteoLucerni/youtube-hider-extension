@@ -14,15 +14,6 @@
   "headerSupport": {
     "message": "Destekle"
   },
-  "filterModeTitle": {
-    "message": "Filtre Modu"
-  },
-  "filterModeHide": {
-    "message": "Gizle"
-  },
-  "filterModeDim": {
-    "message": "Soldur"
-  },
   "hideWatchedTitle": {
     "message": "İzlenen Videoları Gizle"
   },
@@ -73,14 +64,8 @@
   "contentLives": {
     "message": "Canlı"
   },
-  "viewsFilterTitle": {
-    "message": "Görüntüleme Filtresi"
-  },
   "sliderOff": {
     "message": "Kapalı"
-  },
-  "dateFilterTitle": {
-    "message": "Yükleme Tarihi Filtresi"
   },
   "dateNewerLabel": {
     "message": "Daha yeni olanları gizle"
@@ -114,9 +99,6 @@
   },
   "titleBlacklistDescription": {
     "message": "Başlığında bu kelimelerden biri geçen videolar her zaman gizlenir"
-  },
-  "advancedControlsLabel": {
-    "message": "Gelişmiş Kontroller"
   },
   "hideOnPageControlsLabel": {
     "message": "Sayfadaki kontrolleri gizle"
@@ -1024,24 +1006,18 @@
     }
   },
   "tourWelcomeTitle": {
-    "message": "YouTube Hider'a hoş geldiniz!"
+    "message": "YouTube Hider’a hoş geldiniz"
   },
   "tourWelcomeDescription": {
-    "message": "YouTube'un üst bilgisine yerleşik YouTube Hider düğmesini, ayarlarınızı ve uzantıdan en iyi şekilde nasıl yararlanacağınızı keşfetmek için kısa bir tur atın"
-  },
-  "tourStart": {
-    "message": "Eğitimi başlat"
-  },
-  "tourSkip": {
-    "message": "Atla"
-  },
-  "tourSkipCountdown": {
-    "message": "Atla ($seconds$sn)",
+    "message": "Ayarlarınızın nerede olduğunu ve nasıl kullanılacağını gösteren $count$ adımlık bir tur. Yaklaşık bir dakika sürer",
     "placeholders": {
-      "seconds": {
+      "count": {
         "content": "$1"
       }
     }
+  },
+  "tourStart": {
+    "message": "Turu başlat"
   },
   "tourBack": {
     "message": "Geri"
@@ -1060,91 +1036,6 @@
       },
       "total": {
         "content": "$2"
-      }
-    }
-  },
-  "tourSettingsButtonTitle": {
-    "message": "Ayarlar Düğmeniz"
-  },
-  "tourSettingsButtonDescription": {
-    "message": "Bu, YouTube'un üst bilgisine yerleşik YouTube Hider dişli düğmesidir. İzleme sayfası dahil her sayfada görünür ve anında açılır"
-  },
-  "tourFullSettingsTitle": {
-    "message": "Tüm Ayarlarınız Burada"
-  },
-  "tourFullSettingsDescription": {
-    "message": "Tıkladığınızda tüm YouTube Hider ayarları tek bir yerde açılır. İçinde neler olduğuna birlikte bakalım"
-  },
-  "tourFilterModeDescription": {
-    "message": "Filtrelenen videolara ne olacağını seçin: $hide$ onları tamamen görünümden kaldırır, $dim$ yine de tıklayabileceğiniz koyu bir katmanla soldurur. Bu, aşağıdaki tüm filtreler için geçerlidir",
-    "placeholders": {
-      "hide": {
-        "content": "$1"
-      },
-      "dim": {
-        "content": "$2"
-      }
-    }
-  },
-  "tourHideWatchedDescription": {
-    "message": "Videoları ne kadarını izlediğinize göre gizler. Kapatmak için kaydırıcıyı tamamen sola sürükleyin, daha ince ayar için gelişmiş moddaki sayfa anahtarlarını kullanın. YouTube birini kaçırdı mı? Videonun üzerine gelip $watched$ düğmesine tıklayarak onu da gizleyin, geri getirmek için $manage$ düğmesini kullanın",
-    "placeholders": {
-      "watched": {
-        "content": "$1"
-      },
-      "manage": {
-        "content": "$2"
-      }
-    }
-  },
-  "tourContentTypesTitle": {
-    "message": "Shorts, Mix, Oynatma Listeleri ve Canlılar"
-  },
-  "tourContentTypesDescription": {
-    "message": "Akışınızdan ve arama sonuçlarından Shorts'u, Mix listelerini, normal oynatma listelerini ve canlı yayınları birbirinden bağımsız olarak kaldırın"
-  },
-  "tourViewsDescription": {
-    "message": "Belirli bir popülerlik aralığındaki videoları tutmak için en az görüntülemenin altındaki, en çok görüntülemenin üstündeki veya her ikisini birden gizleyin"
-  },
-  "tourDateDescription": {
-    "message": "Ayarlanabilir bir eşikten daha yeni veya daha eski videoları gizleyin. Yalnızca belirli bir dönemin videolarını tutmak için ikisini birlikte kullanın"
-  },
-  "tourChannelWhitelistDescription": {
-    "message": "Sevdiğiniz kanalları tüm filtrelerden muaf tutun. Mevcut kanalı tek tıkla ekleyin; kanalları kendi sayfasında aramak, kaldırmak veya taşımak için $manage$ düğmesini kullanın",
-    "placeholders": {
-      "manage": {
-        "content": "$1"
-      }
-    }
-  },
-  "tourChannelBlacklistDescription": {
-    "message": "Whitelist'in tersi: bir kanalı Shorts, Mix, oynatma listeleri ve canlılar dahil her yerde her zaman gizler. Mevcut kanalı tek tıkla ekleyin; listenin tamamını kendi sayfasında görmek için $manage$ düğmesini kullanın",
-    "placeholders": {
-      "manage": {
-        "content": "$1"
-      }
-    }
-  },
-  "tourTitleWhitelistDescription": {
-    "message": "Videoları kanala göre değil, başlıklarındaki bir kelimeye göre muaf tutun. Başlığında kelimelerinizden biri geçen videolara hiçbir filtre dokunmaz"
-  },
-  "tourTitleBlacklistDescription": {
-    "message": "Title Whitelist'in tersi: başlığında kelimelerinizden biri geçen her videoyu, Whitelist'teki bir kanaldan olsa bile, her yerde her zaman gizler"
-  },
-  "tourExtraSettingsTitle": {
-    "message": "Ek Ayarlar"
-  },
-  "tourExtraSettingsDescription": {
-    "message": "Gelişmiş arayüze geçmek için \"$advanced$\" seçeneğini açın; filtreleme arka planda sürerken bu düğmeyi (ve sayfadaki Whitelist, Blacklist ve $watched$ düğmelerini) kaldırmak için istediğiniz zaman \"$hidecontrols$\" seçeneğini açın",
-    "placeholders": {
-      "advanced": {
-        "content": "$1"
-      },
-      "hidecontrols": {
-        "content": "$2"
-      },
-      "watched": {
-        "content": "$3"
       }
     }
   },
@@ -1690,6 +1581,66 @@
     "placeholders": {
       "version": {
         "content": "$1"
+      }
+    }
+  },
+  "tourNotNow": {
+    "message": "Şimdi değil"
+  },
+  "tourSkipLabel": {
+    "message": "Turu atla"
+  },
+  "tourRestartNote": {
+    "message": "İstediğiniz zaman $settings$ bölümünden yeniden başlatabilirsiniz",
+    "placeholders": {
+      "settings": {
+        "content": "$1"
+      }
+    }
+  },
+  "tourGearTitle": {
+    "message": "Ayarlarınız burada"
+  },
+  "tourGearBody": {
+    "message": "Bu dişli her sayfada YouTube’un üst kısmında durur. YouTube Hider’ı açmak için tıklayın"
+  },
+  "tourFiltersTitle": {
+    "message": "Neyi gizleyeceğinizi seçin"
+  },
+  "tourFiltersBody": {
+    "message": "Bir filtreyi açın, sonra çalışacağı sayfaları seçmek için genişletin. Filtreler başta her sayfada çalışır, yani yalnızca istisna için birini açarsınız"
+  },
+  "tourListsTitle": {
+    "message": "Bir kanalı tutun veya engelleyin"
+  },
+  "tourListsBody": {
+    "message": "Bir kanal veya videoda $lists$ o kanalı gösterir. Videolarının hiç filtrelenmemesi için Whitelist’e, her yerde gizlenmesi için Blacklist’e ekleyin. $manage$ tüm listeleri açar",
+    "placeholders": {
+      "lists": {
+        "content": "$1"
+      },
+      "manage": {
+        "content": "$2"
+      }
+    }
+  },
+  "tourVideoTitle": {
+    "message": "Tek bir video için işlem yapın"
+  },
+  "tourVideoBody": {
+    "message": "Bir videonun üzerine geldiğinizde küçük resminde iki düğme belirir: $watched$ o videoyu, $blacklist$ ise kanalını her yerde gizler. İstemiyor musunuz? $settings$ bölümünde $setting$ seçeneğini açın",
+    "placeholders": {
+      "watched": {
+        "content": "$1"
+      },
+      "blacklist": {
+        "content": "$2"
+      },
+      "setting": {
+        "content": "$3"
+      },
+      "settings": {
+        "content": "$4"
       }
     }
   }

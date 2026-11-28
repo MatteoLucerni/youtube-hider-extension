@@ -19,18 +19,6 @@
     "message": "Support",
     "description": "Header button that opens the panel about supporting the project. About 10 characters max."
   },
-  "filterModeTitle": {
-    "message": "Filter Mode",
-    "description": "Card title. The setting chooses whether filtered videos are hidden or dimmed."
-  },
-  "filterModeHide": {
-    "message": "Hide",
-    "description": "Filter Mode option: filtered videos are removed completely. One short word, shown on a half-width button."
-  },
-  "filterModeDim": {
-    "message": "Dim",
-    "description": "Filter Mode option: filtered videos stay visible under a dark overlay. One short word, shown on a half-width button."
-  },
   "hideWatchedTitle": {
     "message": "Hide Watched Videos",
     "description": "Card title of the filter that hides videos you already watched."
@@ -97,17 +85,9 @@
     "message": "Lives",
     "description": "Toggle label for hiding live streams. Very short."
   },
-  "viewsFilterTitle": {
-    "message": "Views Filter",
-    "description": "Card title of the filter based on a video's view count."
-  },
   "sliderOff": {
     "message": "Off",
     "description": "Value shown by a slider when it is turned off. One short word."
-  },
-  "dateFilterTitle": {
-    "message": "Upload Date Filter",
-    "description": "Card title of the filter based on how long ago a video was uploaded."
   },
   "dateNewerLabel": {
     "message": "Hide newer than",
@@ -152,10 +132,6 @@
   "titleBlacklistDescription": {
     "message": "Videos with one of these words in their title are always hidden",
     "description": "Subtitle of the Title Blacklist card."
-  },
-  "advancedControlsLabel": {
-    "message": "Advanced Controls",
-    "description": "Toggle label. The tutorial quotes it, so keep the tutorial text in step."
   },
   "hideOnPageControlsLabel": {
     "message": "Hide on-page controls",
@@ -1320,30 +1296,22 @@
     }
   },
   "tourWelcomeTitle": {
-    "message": "Welcome to YouTube Hider!",
-    "description": "Title of the first-run welcome card shown on YouTube."
+    "message": "Welcome to YouTube Hider",
+    "description": "Title of the first-run welcome card. Keep YouTube Hider untranslated."
   },
   "tourWelcomeDescription": {
-    "message": "Take a quick tour to discover the YouTube Hider button built into YouTube's own header, your settings, and how to get the most out of the extension",
-    "description": "Text of the first-run welcome card."
-  },
-  "tourStart": {
-    "message": "Start Tutorial",
-    "description": "Button of the welcome card that starts the guided tour."
-  },
-  "tourSkip": {
-    "message": "Skip",
-    "description": "Button of the welcome card that dismisses it."
-  },
-  "tourSkipCountdown": {
-    "message": "Skip ($seconds$s)",
-    "description": "Skip button while it is still disabled, with the seconds left. 's' is the abbreviation for seconds.",
+    "message": "A $count$-step tour of where your settings are and how to use them. It takes about a minute",
+    "description": "Text of the welcome card. $count$ is the number of tour steps.",
     "placeholders": {
-      "seconds": {
+      "count": {
         "content": "$1",
-        "example": "5"
+        "example": "4"
       }
     }
+  },
+  "tourStart": {
+    "message": "Start the tour",
+    "description": "Button on the welcome card that starts the tour."
   },
   "tourBack": {
     "message": "Back",
@@ -1368,116 +1336,6 @@
       "total": {
         "content": "$2",
         "example": "12"
-      }
-    }
-  },
-  "tourSettingsButtonTitle": {
-    "message": "Your Settings Button",
-    "description": "Tour step title, pointing at the gear button in YouTube's header."
-  },
-  "tourSettingsButtonDescription": {
-    "message": "This is the YouTube Hider gear button, built right into YouTube's own header. It appears on every page, including Watch, and opens instantly",
-    "description": "Tour step text. 'Watch' is YouTube's video page."
-  },
-  "tourFullSettingsTitle": {
-    "message": "Your Full Settings, Right Here",
-    "description": "Tour step title, pointing at the open settings menu."
-  },
-  "tourFullSettingsDescription": {
-    "message": "Clicking it opens your complete YouTube Hider settings, all in one place. Let's walk through what you'll find inside",
-    "description": "Tour step text."
-  },
-  "tourFilterModeDescription": {
-    "message": "Choose how filtered videos are treated: $hide$ removes them from view entirely, $dim$ fades them under a dark overlay you can still click through. This applies to every filter below",
-    "description": "Tour step text for the Filter Mode card.",
-    "placeholders": {
-      "hide": {
-        "content": "$1",
-        "example": "Hide"
-      },
-      "dim": {
-        "content": "$2",
-        "example": "Dim"
-      }
-    }
-  },
-  "tourHideWatchedDescription": {
-    "message": "Hide videos based on how much of them you've already watched. Drag the slider all the way left to turn it off, and use the per-page toggles in Advanced mode for finer control. YouTube missed one? Hover the video and click $watched$ to hide it too, and use $manage$ to bring it back",
-    "description": "Tour step text for the Hide Watched Videos card.",
-    "placeholders": {
-      "watched": {
-        "content": "$1",
-        "example": "Watched"
-      },
-      "manage": {
-        "content": "$2",
-        "example": "Manage"
-      }
-    }
-  },
-  "tourContentTypesTitle": {
-    "message": "Shorts, Mixes, Playlists & Lives",
-    "description": "Tour step title. Use YouTube's own names in this language."
-  },
-  "tourContentTypesDescription": {
-    "message": "Independently remove Shorts, Mix playlists, regular Playlists, and Live streams from your feed and search results",
-    "description": "Tour step text for the Shorts, Mixes, Playlists and Lives card."
-  },
-  "tourViewsDescription": {
-    "message": "Hide videos below a minimum view count, above a maximum one, or both together to keep only videos inside a popularity range",
-    "description": "Tour step text for the Views Filter card."
-  },
-  "tourDateDescription": {
-    "message": "Hide videos newer or older than a configurable threshold. Use both together to keep only videos from a specific time window",
-    "description": "Tour step text for the Upload Date Filter card."
-  },
-  "tourChannelWhitelistDescription": {
-    "message": "Exempt your favorite channels from every filter. Add the current channel with one click, and use $manage$ to search, remove or move channels on a page of their own",
-    "description": "Tour step text for the Channel Whitelist card. The placeholder is the Manage button label (markedWatchedManage).",
-    "placeholders": {
-      "manage": {
-        "content": "$1",
-        "example": "Manage"
-      }
-    }
-  },
-  "tourChannelBlacklistDescription": {
-    "message": "The opposite of Whitelist: always hide a channel everywhere, including Shorts, Mixes, Playlists and Lives. Add the current channel with one click, and use $manage$ to see the full list on a page of its own",
-    "description": "Tour step text for the Channel Blacklist card. Keep 'Whitelist' in English. The placeholder is the Manage button label (markedWatchedManage).",
-    "placeholders": {
-      "manage": {
-        "content": "$1",
-        "example": "Manage"
-      }
-    }
-  },
-  "tourTitleWhitelistDescription": {
-    "message": "Exempt videos by a word in their title instead of by channel. Every video whose title contains one of your words is left alone by every filter",
-    "description": "Tour step text for the Title Whitelist card."
-  },
-  "tourTitleBlacklistDescription": {
-    "message": "The opposite of Title Whitelist: always hide every video whose title contains one of your words, everywhere, even from a whitelisted channel",
-    "description": "Tour step text for the Title Blacklist card. Keep 'Title Whitelist' in English."
-  },
-  "tourExtraSettingsTitle": {
-    "message": "Extra Settings",
-    "description": "Tour step title for the last group of settings."
-  },
-  "tourExtraSettingsDescription": {
-    "message": "Turn on \"$advanced$\" to switch to the Advanced interface, and turn on \"$hidecontrols$\" anytime to remove this button (and the Whitelist, Blacklist and $watched$ buttons on the page) while filtering keeps working in the background",
-    "description": "Tour step text for the extra settings. Keep 'Whitelist' and 'Blacklist' in English.",
-    "placeholders": {
-      "advanced": {
-        "content": "$1",
-        "example": "Advanced Controls"
-      },
-      "hidecontrols": {
-        "content": "$2",
-        "example": "Hide on-page controls"
-      },
-      "watched": {
-        "content": "$3",
-        "example": "Watched"
       }
     }
   },
@@ -2178,6 +2036,84 @@
       "version": {
         "content": "$1",
         "example": "4.0.0"
+      }
+    }
+  },
+  "tourNotNow": {
+    "message": "Not now",
+    "description": "Button on the welcome card that skips the tour."
+  },
+  "tourSkipLabel": {
+    "message": "Skip the tour",
+    "description": "Accessible name and tooltip of the close button of the tour."
+  },
+  "tourRestartNote": {
+    "message": "You can restart it anytime from $settings$",
+    "description": "Small note at the bottom of the welcome card. $settings$ is the name of the Settings tab.",
+    "placeholders": {
+      "settings": {
+        "content": "$1",
+        "example": "Settings"
+      }
+    }
+  },
+  "tourGearTitle": {
+    "message": "Your settings live here",
+    "description": "Tour step 1 title, pointing at the gear button in the YouTube header."
+  },
+  "tourGearBody": {
+    "message": "This gear sits in YouTube's own header, on every page. Click it to open YouTube Hider",
+    "description": "Tour step 1 text. Keep YouTube Hider untranslated."
+  },
+  "tourFiltersTitle": {
+    "message": "Pick what to hide",
+    "description": "Tour step 2 title, pointing at the filter rows."
+  },
+  "tourFiltersBody": {
+    "message": "Switch a filter on, then open it to choose the pages it works on. Filters start on every page, so you only open one to make an exception",
+    "description": "Tour step 2 text."
+  },
+  "tourListsTitle": {
+    "message": "Keep or block a channel",
+    "description": "Tour step 3 title, pointing at the channel card in the Lists tab."
+  },
+  "tourListsBody": {
+    "message": "On a channel or a video, $lists$ shows its channel. Whitelist it to never filter its videos, or Blacklist it to hide them everywhere. $manage$ opens the full lists",
+    "description": "Tour step 3 text. $lists$ is the Lists tab name, $manage$ the Manage button label.",
+    "placeholders": {
+      "lists": {
+        "content": "$1",
+        "example": "Lists"
+      },
+      "manage": {
+        "content": "$2",
+        "example": "Manage"
+      }
+    }
+  },
+  "tourVideoTitle": {
+    "message": "Act on a single video",
+    "description": "Tour step 4 title, about the buttons on a video thumbnail."
+  },
+  "tourVideoBody": {
+    "message": "When you hover a video, two buttons appear on its thumbnail: $watched$ hides that video, $blacklist$ hides its channel everywhere. Want them gone? Turn on $setting$ in $settings$",
+    "description": "Tour step 4 text. $watched$ and $blacklist$ are the button labels, $setting$ the Hide on-page controls label, $settings$ the Settings tab name.",
+    "placeholders": {
+      "watched": {
+        "content": "$1",
+        "example": "Watched"
+      },
+      "blacklist": {
+        "content": "$2",
+        "example": "Blacklist"
+      },
+      "setting": {
+        "content": "$3",
+        "example": "Hide on-page controls"
+      },
+      "settings": {
+        "content": "$4",
+        "example": "Settings"
       }
     }
   }

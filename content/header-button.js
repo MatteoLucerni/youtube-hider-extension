@@ -147,12 +147,13 @@ function positionHeaderDropdown(card) {
   if (!headerButtonElement) return;
   const GAP = 8;
   const EDGE_PAD = 8;
-  const WIDTH = 400;
+  const MAX_WIDTH = 400;
   const MAX_HEIGHT = 640;
 
   const rect = headerButtonElement.getBoundingClientRect();
   const vw = window.innerWidth;
   const vh = window.innerHeight;
+  const WIDTH = Math.max(1, Math.min(MAX_WIDTH, vw - EDGE_PAD * 2));
 
   let left = rect.right - WIDTH;
   left = Math.max(EDGE_PAD, Math.min(left, vw - WIDTH - EDGE_PAD));
