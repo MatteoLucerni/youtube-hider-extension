@@ -10,7 +10,7 @@ YouTube Hider, görmek istemediklerinizi gizleyerek YouTube'u temizlemenize yard
 ✔ Kanalları veya başlık kelimelerini tüm filtrelerden muaf tutmak için Whitelist'e ekleyin
 ✔ Kanalları veya başlık kelimelerini her zaman gizlemek için Blacklist'e ekleyin
 ✔ Filtrelenen içeriği tamamen gizleyin ya da filtre nedenini gösteren bir katmanla soldurun
-✔ Hızlı anahtarlar için Kolay Mod, sayfa bazında kontrol için Gelişmiş Mod
+✔ Üç net sekme: Filtreler, Listeler ve Ayarlar; her filtre tek tıkla sayfa bazında ayarlanır
 ✔ YouTube'un üst bilgisine yerleşik ayarlar düğmesiyle her sayfadan anında erişim
 ✔ Her şey cihazlarınız arasında otomatik olarak senkronize edilir: ayarlar, Whitelist'ler, Blacklist'ler ve işaretlenen videolar, dışa aktarmaya gerek yok
 

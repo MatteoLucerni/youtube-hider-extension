@@ -10,7 +10,7 @@ Retirez automatiquement les vidéos déjà vues, filtrez par nombre de vues ou d
 ✔ Mettez des chaînes ou des mots du titre dans la Whitelist pour les exempter de tous les filtres
 ✔ Mettez des chaînes ou des mots du titre dans la Blacklist pour les masquer toujours
 ✔ Choisissez de masquer complètement le contenu filtré ou de l'assombrir avec un voile qui affiche la raison du filtre
-✔ Mode simple avec des interrupteurs rapides, mode avancé avec un contrôle page par page
+✔ Trois onglets clairs : Filtres, Listes et Réglages, chaque filtre se règle page par page en un clic
 ✔ Bouton de réglages intégré à l'en-tête de YouTube, accessible instantanément depuis n'importe quelle page
 ✔ Tout se synchronise automatiquement entre vos appareils : réglages, Whitelist, Blacklist et vidéos marquées, sans aucun export
 

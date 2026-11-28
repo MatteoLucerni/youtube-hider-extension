@@ -10,7 +10,7 @@ Remova automaticamente os vídeos assistidos, filtre por visualizações ou data
 ✔ Coloque canais ou palavras do título na Whitelist para livrá-los de todos os filtros
 ✔ Coloque canais ou palavras do título na Blacklist para ocultá-los sempre
 ✔ Escolha entre ocultar totalmente o conteúdo filtrado ou esmaecê-lo com uma camada que mostra o motivo do filtro
-✔ Modo fácil com opções rápidas, modo avançado com controle por página
+✔ Três abas claras: Filtros, Listas e Configurações, com cada filtro ajustável por página em um clique
 ✔ Botão de configurações integrado ao cabeçalho do YouTube para acesso instantâneo em qualquer página
 ✔ Tudo é sincronizado automaticamente entre seus dispositivos: configurações, Whitelist, Blacklist e vídeos marcados, sem precisar exportar
 

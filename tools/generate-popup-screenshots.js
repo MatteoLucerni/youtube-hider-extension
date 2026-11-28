@@ -28,24 +28,20 @@ async function main() {
     await serviceWorker.evaluate(data => chrome.storage.local.set(data), buildListsSample());
 
     const page = await context.newPage();
+    await page.setViewportSize({ width: 400, height: 600 });
     await page.goto(
       `chrome-extension://${extensionId}/popup/popup.html?standalone=true`
     );
-    await page.waitForSelector('.setting-card');
+    await page.waitForSelector('.filter-card');
     await page.waitForTimeout(300);
 
-    await page.locator('body').screenshot({
-      path: path.join(OUTPUT_DIR, 'full-easy.png'),
-    });
-
-    await page.evaluate(() => {
-      document.getElementById('advanced-mode-enabled').click();
-    });
-    await page.waitForTimeout(300);
-
-    await page.locator('body').screenshot({
-      path: path.join(OUTPUT_DIR, 'full-no-easy.png'),
-    });
+    for (const tab of ['filters', 'lists', 'settings']) {
+      await page.click(`#tab-${tab}`);
+      await page.waitForTimeout(300);
+      await page.screenshot({
+        path: path.join(OUTPUT_DIR, `popup-${tab}.png`),
+      });
+    }
 
     const managerSample = await buildManagerSample();
     await serviceWorker.evaluate(data => chrome.storage.local.set(data), managerSample);

@@ -10,7 +10,7 @@ Entferne gesehene Videos automatisch, filtere nach Aufrufen oder Upload-Datum un
 ✔ Kanäle oder Wörter im Titel auf die Whitelist setzen, um sie von allen Filtern auszunehmen
 ✔ Kanäle oder Wörter im Titel auf die Blacklist setzen, um sie immer auszublenden
 ✔ Gefilterte Inhalte ganz ausblenden oder mit einer Ebene abdunkeln, die den Filtergrund anzeigt
-✔ Einfacher Modus mit schnellen Schaltern, erweiterter Modus mit Einstellungen pro Seite
+✔ Drei übersichtliche Tabs: Filter, Listen und Einstellungen, jeder Filter mit einem Klick pro Seite einstellbar
 ✔ Einstellungs-Schaltfläche direkt in der Kopfzeile von YouTube, auf jeder Seite sofort erreichbar
 ✔ Alles wird automatisch zwischen deinen Geräten synchronisiert: Einstellungen, Whitelists, Blacklists und markierte Videos, ganz ohne Export
 

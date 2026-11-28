@@ -7,8 +7,9 @@ youtube-hider-website
 │  ├─ icons
 │  │  └─ youtube-hider-logo.png
 │  ├─ images
-│  │  ├─ full-easy.png
-│  │  ├─ full-no-easy.png
+│  │  ├─ popup-filters.png
+│  │  ├─ popup-lists.png
+│  │  ├─ popup-settings.png
 │  │  ├─ youtube-hider-logo-128-128-filled-gray.png
 │  │  └─ youtube-hider-logo-black.png
 │  └─ js

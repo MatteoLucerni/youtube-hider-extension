@@ -32,36 +32,40 @@
 
 ## Features
 
+### Popup at a Glance
+
+The popup is split into three tabs: **Filters**, **Lists** and **Settings**. A bar under the header names the page you are on and how many filters apply there. Every filter has its own switch and opens in place to show its sliders and the pages it applies to (**Home**, **Subs**, **Search**, **Channel**, **Related**, or **All pages** at once). A filter you switch on works on every page, so you only open it to make an exception, and switching it off keeps your last values for the next time. There is no separate simple or advanced mode: every option is always one click away.
+
 ### Hide Watched Videos
 
-Hide videos you've already watched from Home, Channel pages, Subscriptions, Search results and Related videos. Set a custom threshold (0-100%) to define how much you need to have watched before a video is hidden.
+Hide videos you've already watched from Home, Channel pages, Subscriptions, Search results and Related videos. Set a custom threshold (1-100%) to define how much you need to have watched before a video is hidden.
 
-Turn on **Keep music visible** in the same card to leave the songs you have already listened to on the page, so you can play them again. A video counts as a song when YouTube itself labels it as music, which is a label on the video rather than on the channel. The switch is off by default, applies only to this filter, and never brings back a video you marked as watched by hand.
+Turn on **Keep music visible** in the same filter to leave the songs you have already listened to on the page, so you can play them again. A video counts as a song when YouTube itself labels it as music, which is a label on the video rather than on the channel. The switch is off by default, applies only to this filter, and never brings back a video you marked as watched by hand.
 
 ### Mark as Watched
 
 YouTube does not always show a progress bar on a video you already watched, and it never shows one for a video you watched on another account. Hover the video and click **Watched**, next to **Blacklist** at the top of the thumbnail, to hide it the same way. The button runs a 3-second countdown with **Undo** before anything is hidden, and you can move straight on to the next video: every countdown runs on its own.
 
-- Marked videos follow the **Hide Watched Videos** card: they are hidden only where that card is active (slider above 0 and the page's toggle on), and the **Watched** button only appears there
+- Marked videos follow the **Watched videos** filter: they are hidden only where that filter is on for the page, and the **Watched** button only appears there
 - A marked video stays hidden even when its channel or title is whitelisted, since marking it is a choice about that one video
 - In Dim mode the overlay reads **Marked as watched** and carries an **Unmark** button that brings the video back immediately
-- The **Marked as watched** row in the Hide Watched Videos card shows how many videos are marked; **Manage** opens the **Marked as watched** tab of the [Manage page](#manage-page), which lists them newest first with thumbnail, title, channel and date
+- The **Marked as watched** row in the **Lists** tab shows how many videos are marked; **Manage** opens the **Marked as watched** tab of the [Manage page](#manage-page), which lists them newest first with thumbnail, title, channel and date
 - Up to 3,000 videos are kept. Marking one more drops the video marked longest ago. From 2,700 on, the count turns amber and warns about it
-- The list syncs across devices like the channel lists, sharing the same synced storage with them. The channel lists always come first: when both do not fit, syncing of the marked videos pauses, the card shows a "Sync paused" notice, and the list keeps working in this browser. Titles and channels stay on the device where a video was marked; other devices show its thumbnail until they come across the video on YouTube
+- The list syncs across devices like the channel lists, sharing the same synced storage with them. The channel lists always come first: when both do not fit, syncing of the marked videos pauses, the row shows a "Sync paused" notice, and the list keeps working in this browser. Titles and channels stay on the device where a video was marked; other devices show its thumbnail until they come across the video on YouTube
 
 ### Views Filter
 
-Hide videos by their view count with two independent sliders: **Minimum Views** (50 to 10M) hides everything below the threshold, **Maximum Views** (1,000 to 10M) hides everything above it. Use either on its own, or both together to keep only videos inside a popularity range. Both share the card's per-page toggles. If the two ends cross over, the filter switches itself off and says so, rather than hiding everything. Reads YouTube's view counts in every interface language, including the ones that do not write the label in Latin script or place it before the number.
+Hide videos by their view count with two independent sliders: **Hide under** (50 to 10M) hides everything below the threshold, **Hide over** (1,000 to 10M) hides everything above it. Use either on its own, or both together to keep only videos inside a popularity range. Both share the filter's page choices. If the two ends cross over, the filter switches itself off and says so, rather than hiding everything. Reads YouTube's view counts in every interface language, including the ones that do not write the label in Latin script or place it before the number.
 
 ### Upload Date Filter
 
-Hide videos by their upload date with two independent sub-filters: **Hide newer than** and **Hide older than**. Each has its own toggle and slider with logarithmic time steps, from 1 hour to 10 years for **Hide newer than** and from 1 day to 10 years for **Hide older than**. Use both together to keep only videos in a specific age range - for example, hide recent AI-generated content and outdated videos at the same time. If the two thresholds cross over, the filter switches itself off and says so, rather than hiding everything. Reads YouTube's dates in every interface language, including the abbreviated forms the current layout uses ("13 gg fa", "vor 2 Std.", "12 h lalu").
+Hide videos by their upload date with two independent sliders: **Hide newer than** and **Hide older than**, each with logarithmic time steps and its own Off position, from 1 hour to 10 years for **Hide newer than** and from 1 day to 10 years for **Hide older than**. Use both together to keep only videos in a specific age range - for example, hide recent AI-generated content and outdated videos at the same time. If the two thresholds cross over, the filter switches itself off and says so, rather than hiding everything. Reads YouTube's dates in every interface language, including the abbreviated forms the current layout uses ("13 gg fa", "vor 2 Std.", "12 h lalu").
 
 ### Hide Shorts, Mixes, Playlists & Lives
 
-Selectively remove content types from your YouTube feed with individual toggles:
+Selectively remove content types from your YouTube feed with the switches of the **Hide these formats** card:
 
-- **Shorts** - removes the Shorts shelf, navigation tab and Shorts from search results
+- **Shorts** - removes the Shorts shelf and navigation tab; **Shorts in Search results** also removes them from search results
 - **Mixes** - removes YouTube Mix playlists from feed, search results and related sidebar
 - **Playlists** - removes playlists from feed, search results and related sidebar
 - **Lives** - removes live streams from your feed and search results
@@ -70,14 +74,14 @@ Selectively remove content types from your YouTube feed with individual toggles:
 
 Choose how filtered content is treated across all active filters:
 
-- **Hide** (default) - filtered elements are removed from view entirely
-- **Dim** - filtered elements stay visible under a dark semi-transparent overlay. The overlay displays a compact label indicating why the element was filtered ("Already watched", "Marked as watched", "Views too low", "Views too high", "Video too new", "Video too old", "Mix playlist", "Playlist", "Live stream", "Blacklisted channel"). Filtered elements remain fully clickable. Shorts are always hidden regardless of this setting.
+- **Hidden** (default) - filtered elements are removed from view entirely
+- **Dimmed** - filtered elements stay visible under a dark semi-transparent overlay. The overlay displays a compact label indicating why the element was filtered ("Already watched", "Marked as watched", "Views too low", "Views too high", "Video too new", "Video too old", "Mix playlist", "Playlist", "Live stream", "Blacklisted channel"). Filtered elements remain fully clickable. Shorts are always hidden regardless of this setting.
 
 In Hide mode, lockup-based cards are removed at the correct wrapper level to avoid empty placeholders in Home and Subscriptions grids.
 
 Filter updates are live in both directions: increasing thresholds hides more content, and lowering thresholds restores matching content immediately without refreshing the page.
 
-Filter Mode has its own dedicated card at the top of the popup, since it affects every other filter below it. It's available in both the popup and the header settings dropdown, since the dropdown embeds the full popup.
+Filter Mode is the **Filtered videos are Hidden / Dimmed** choice at the top of the **Filters** tab, since it affects every filter below it. It's available in both the popup and the header settings dropdown, since the dropdown embeds the full popup.
 
 ### Channel Whitelist
 
@@ -85,7 +89,7 @@ Exempt specific channels from every active filter - their videos are never hidde
 
 - The **"Whitelist" button** on a filtered/dimmed overlay - shows a 3-second undo countdown before the channel is actually exempted, so accidental clicks can be reverted
 - The **inline "Whitelist" button** next to the Subscribe button on video and channel pages
-- The **Channel Whitelist card** in the popup, which shows how many channels are listed, adds the current tab's channel directly, and opens the full list on the [Manage page](#manage-page), where channels can also be pasted in bulk
+- The **Lists** tab of the popup, which shows the channel of the current page with **Whitelist channel** and **Blacklist channel** buttons (one row per channel on a video made by several channels), counts the listed channels, and opens the full list on the [Manage page](#manage-page), where channels can also be pasted in bulk
 
 ### Channel Blacklist
 
@@ -93,7 +97,7 @@ The opposite of Channel Whitelist: a blacklisted channel's videos are always hid
 
 - The **inline "Blacklist" button** next to the inline "Whitelist" button on video and channel pages
 - A **hover "Blacklist" pill** that appears at the top of any video card's thumbnail on mouseover, filtered or not, with a 3-second undo countdown before the channel is actually written to the blacklist, so nothing disappears mid-countdown. Over a plain thumbnail the pill uses a solid dark style for readability; over an already-filtered/dimmed card it blends into the overlay instead
-- The **Channel Blacklist card** in the popup, which shows how many channels are listed, adds the current tab's channel directly, and opens the full list on the [Manage page](#manage-page), where channels can also be pasted in bulk
+- The **Lists** tab of the popup, the same channel card used for the whitelist
 
 A filtered/dimmed overlay never carries its own "Blacklist" button, only "Whitelist" (or, for an already-blacklisted channel, "Unblacklist"); use the hover pill for adding a channel from any card, filtered or not.
 
@@ -101,21 +105,21 @@ Turning the whole Channel Blacklist toggle off removes every on-page Blacklist b
 
 ### List Sync
 
-The Channel Whitelist, Channel Blacklist, Title Whitelist and Title Blacklist follow you across devices, and there is no fixed limit on how many entries they hold. Each list is saved in the browser first, then synced to your other devices in a compact format: sorted, with the part each entry shares with the previous one stored only once, compressed and encoded densely. Chrome gives every extension 100 KB of synced storage, and that fits roughly 12,000 to 14,000 channels and words across the four lists, about half again as many as the format used before 3.7.0. Past that point the lists keep working and keep growing on the device where they were added: the list cards show a "Sync paused" notice that says nothing is lost, the Manage page explains it in plain words, other devices keep the last version that fit, and syncing resumes on its own once the lists are small enough again. Changes made on another device while sync is paused are still merged in, without dropping any entry that only this device has. The marked watched videos share this synced storage, but never at the lists' expense: when the lists need the room, the marked videos stop syncing instead.
+The Channel Whitelist, Channel Blacklist, Title Whitelist and Title Blacklist follow you across devices, and there is no fixed limit on how many entries they hold. Each list is saved in the browser first, then synced to your other devices in a compact format: sorted, with the part each entry shares with the previous one stored only once, compressed and encoded densely. Chrome gives every extension 100 KB of synced storage, and that fits roughly 12,000 to 14,000 channels and words across the four lists, about half again as many as the format used before 3.7.0. Past that point the lists keep working and keep growing on the device where they were added: the **Lists** tab shows a "Sync paused" notice that says nothing is lost, the Manage page explains it in plain words, other devices keep the last version that fit, and syncing resumes on its own once the lists are small enough again. Changes made on another device while sync is paused are still merged in, without dropping any entry that only this device has. The marked watched videos share this synced storage, but never at the lists' expense: when the lists need the room, the marked videos stop syncing instead.
 
 ### Title Whitelist
 
-Exempt videos by a word or phrase in their title rather than by channel. Type a word into the **Title Whitelist** card in the popup and press Enter or **+ Add**: every video whose title contains it is never hidden or dimmed by any filter, on every page. Matching is case-insensitive and looks for the word at the start of a word in the title: "tutorial" also matches "tutorials" and "AI" matches "AI-generated", but "AI" does not match "said". In languages written without spaces (Chinese, Japanese, Thai, ...) the word is found anywhere in the title. The list syncs across devices together with the channel lists (see [List Sync](#list-sync)), with no size limit of its own. The card shows how many words are listed and opens the full list on the [Manage page](#manage-page), changes apply to the open page immediately, and the card's switch pauses the whole list without clearing it. A blacklisted channel or a title containing a Title Blacklist word stays hidden even when a title matches, and Shorts are always filtered regardless.
+Exempt videos by a word or phrase in their title rather than by channel. Type a word into the **Match a word in video titles** box of the **Lists** tab and press **Whitelist**: every video whose title contains it is never hidden or dimmed by any filter, on every page. Matching is case-insensitive and looks for the word at the start of a word in the title: "tutorial" also matches "tutorials" and "AI" matches "AI-generated", but "AI" does not match "said". In languages written without spaces (Chinese, Japanese, Thai, ...) the word is found anywhere in the title. The list syncs across devices together with the channel lists (see [List Sync](#list-sync)), with no size limit of its own. The list row shows how many words are listed and opens the full list on the [Manage page](#manage-page), changes apply to the open page immediately, and the row's switch pauses the whole list without clearing it. A blacklisted channel or a title containing a Title Blacklist word stays hidden even when a title matches, and Shorts are always filtered regardless.
 
 ### Title Blacklist
 
-The opposite of Title Whitelist: every video whose title contains one of the listed words or phrases is always hidden, everywhere, including Shorts, Mixes and Playlists, regardless of any other filter's own on/off state. A blacklisted word always wins: it hides the video even from a whitelisted channel, and even when the same title also contains a Title Whitelist word. Matching follows the same rules as the Title Whitelist (case-insensitive, from the start of a word, anywhere in the title for languages written without spaces), and the list syncs the same way. Words are added from the **Title Blacklist** card in the popup or from the [Manage page](#manage-page); there is no on-page button for it. In Dim mode, the overlay names the word that matched, for example **Blacklisted word: "reaction"**, so it is always clear why a video was hidden. Removing a word shows those videos again immediately, and the card's switch pauses the whole list without clearing it.
+The opposite of Title Whitelist: every video whose title contains one of the listed words or phrases is always hidden, everywhere, including Shorts, Mixes and Playlists, regardless of any other filter's own on/off state. A blacklisted word always wins: it hides the video even from a whitelisted channel, and even when the same title also contains a Title Whitelist word. Matching follows the same rules as the Title Whitelist (case-insensitive, from the start of a word, anywhere in the title for languages written without spaces), and the list syncs the same way. Words are added from the word box of the **Lists** tab, with **Blacklist**, or from the [Manage page](#manage-page); there is no on-page button for it. In Dim mode, the overlay names the word that matched, for example **Blacklisted word: "reaction"**, so it is always clear why a video was hidden. Removing a word shows those videos again immediately, and the row's switch pauses the whole list without clearing it.
 
 ### Manage Page
 
-Every **Manage** button in the settings menu opens one page, in its own browser tab, with a tab for each list in the same order as the menu: **Marked as watched**, **Channel Whitelist**, **Channel Blacklist**, **Title Whitelist** and **Title Blacklist**. If the page is already open, the button switches it to the right tab instead of opening a second copy. It is built for lists of thousands of entries:
+Every **Manage** button in the settings menu opens one page, in its own browser tab, with a tab for each list in the same order as the menu: **Channel Whitelist**, **Channel Blacklist**, **Title Whitelist**, **Title Blacklist** and **Marked as watched**. The channel of the page you came from is marked **Open in your tab**. If the page is already open, the button switches it to the right tab instead of opening a second copy. It is built for lists of thousands of entries:
 
-- **Add in bulk**: paste handles (`@veritasium`), channel links or words, one per line. Before anything is saved, a preview counts what is new, what is already listed, which channels will move over from the opposite list, and which lines were not recognized, which stay in the box for correction
+- **Add in bulk**: paste handles (`@veritasium`), channel links or words, one per line. Before anything is saved, a preview counts what is new, what is already listed, which channels will move over from the opposite list, and what was not recognized, with the reason for each entry (a word without @, a link to another site, a video link). Those stay in the box for correction
 - **Search and sort**: the list filters while you type and says how many entries match; sort by most recently added or alphabetically. Rows load 50 at a time
 - **Select and act in bulk**: click a row or its checkbox, Shift-click to select a range, then select every matching entry at once. Remove the selection or move it to the opposite list
 - **Undo everything**: every add, removal and move offers **Undo** for 10 seconds, and the timer waits while the pointer or keyboard focus is on the message. **Clear all** is the only action that asks first, and its dialog offers to export a backup before anything is removed
@@ -126,19 +130,15 @@ Each list keeps its on/off switch on the page too, and the page is fully usable 
 
 ### Master Extension Switch
 
-Use the **Extension** switch in the popup header to instantly enable or disable the entire extension. When disabled, filtering is paused globally and the badge shows **OFF**.
+Use the **On/Off** switch in the popup header to instantly enable or disable the entire extension. When disabled, filtering is paused globally, the badge shows **OFF** and the popup shows a banner with a **Turn on** button; you can still change settings, and they apply once it is on.
 
 ### Header Settings Button
 
-A small gear button lives right in YouTube's own header (desktop only), next to the Create button, giving you instant access to your full settings without opening the extension popup separately. Clicking it opens a dropdown with the exact same settings UI as the popup. It appears on every page, including Watch, since it lives in page chrome rather than floating over the video. On first install, a guided spotlight tutorial walks you through the button and its dropdown - you can restart it anytime from the popup.
+A small gear button lives right in YouTube's own header (desktop only), next to the Create button, giving you instant access to your full settings without opening the extension popup separately. Clicking it opens a dropdown with the exact same settings UI as the popup. It appears on every page, including Watch, since it lives in page chrome rather than floating over the video. On first install, a short 4-step tour shows the button, the filters, the channel actions of the **Lists** tab and the buttons on a video thumbnail. It adapts to narrow windows, and you can restart it anytime from the **Settings** tab.
 
 ### Hide On-Page Controls
 
-For a more discreet setup, enable **Hide on-page controls** in **Extra Settings** to remove all of the extension's on-screen elements from YouTube - the header settings button, the inline "Whitelist"/"Blacklist" buttons, the overlay's "Whitelist"/"Unblacklist"/"Unmark" button, and the hover "Blacklist"/"Watched" pill. Filtering keeps working in the background. This is the only way to hide the header button; there is no separate toggle for it.
-
-### Simple Mode & Advanced Mode
-
-The popup starts in **Simple Mode** for quick everyday use. When you need page-level control, open **Extra Settings** and turn on **Advanced Controls** to switch to **Advanced Mode**, where per-page toggles are available for each filter.
+For a more discreet setup, enable **Hide on-page controls** in the **Settings** tab to remove all of the extension's on-screen elements from YouTube - the header settings button, the inline "Whitelist"/"Blacklist" buttons, the overlay's "Whitelist"/"Unblacklist"/"Unmark" button, and the hover "Blacklist"/"Watched" pill. Filtering keeps working in the background. This is the only way to hide the header button; there is no separate toggle for it.
 
 ### Languages
 
@@ -204,7 +204,7 @@ youtube-hider-extension
 │   ├── whitelist-utils.js Pure list helpers shared by the Channel and Title Whitelist and Blacklist and the marked watched videos
 │   ├── state.js           Preferences, timing constants, storage listener
 │   ├── header-button.js  Header settings button and its iframe-embedded settings dropdown
-│   ├── tutorial.js        Guided spotlight tutorial
+│   ├── tutorial.js        First-run welcome card and 4-step tour
 │   ├── parsers.js         View count, upload date and channel parsers
 │   ├── filters.js         Video hiding/filtering logic, Channel Whitelist and Unblacklist overlay buttons
 │   ├── channel-whitelist-button.js  Inline Whitelist button next to Subscribe
@@ -214,10 +214,9 @@ youtube-hider-extension
 │   ├── popup.html         Settings popup UI
 │   ├── data.js            Popup constants and utility functions
 │   ├── popup.js           Popup initialization and event handling
-│   ├── base.css           Variables, reset, header, layout, simple/advanced states
-│   ├── cards.css          Setting cards and slider controls
-│   ├── toggles.css        Toggle grid, switches, footer
-│   ├── filters.css        Tooltips, date filter, overlap warning
+│   ├── base.css           Variables, reset, title, standalone tab
+│   ├── panel.css          Popup layout: header, context bar, tabs, filters, lists, settings
+│   ├── toggles.css        Switches, shared with the Manage page
 │   ├── support.css        Support button and support panel
 │   ├── manage.html        Manage page for all five lists, opened in a tab
 │   ├── manage.js          Manage page logic: tabs, add, search, select, undo, sync status, export, import

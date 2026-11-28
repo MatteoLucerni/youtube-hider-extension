@@ -1336,7 +1336,7 @@ strong {
 .mode-switch {
   position: relative;
   display: grid;
-  grid-template-columns: 1fr 1fr;
+  grid-template-columns: repeat(3, 1fr);
   padding: 4px;
   background: var(--bg-raised);
   border: 1px solid var(--border-strong);
@@ -1365,26 +1365,32 @@ strong {
   top: 4px;
   bottom: 4px;
   left: 4px;
-  width: calc(50% - 4px);
+  width: calc((100% - 8px) / 3);
   background: linear-gradient(135deg, var(--accent-blue), var(--accent-blue-dark));
   border-radius: 7px;
   box-shadow: 0 8px 20px -8px var(--accent-blue-glow);
   transition: transform 0.5s var(--ease-out);
 }
 
-#mode-simple:checked + label,
-#mode-advanced:checked + label {
+#mode-filters:checked + label,
+#mode-lists:checked + label,
+#mode-settings:checked + label {
   color: var(--on-accent);
 }
 
-#mode-simple:focus-visible + label,
-#mode-advanced:focus-visible + label {
+#mode-filters:focus-visible + label,
+#mode-lists:focus-visible + label,
+#mode-settings:focus-visible + label {
   outline: 2px solid var(--accent-blue);
   outline-offset: 2px;
 }
 
-.mode-switch:has(#mode-advanced:checked) .mode-thumb {
+.mode-switch:has(#mode-lists:checked) .mode-thumb {
   transform: translateX(100%);
+}
+
+.mode-switch:has(#mode-settings:checked) .mode-thumb {
+  transform: translateX(200%);
 }
 
 .popup-frame {
@@ -1419,15 +1425,18 @@ strong {
   translate: 0 calc(var(--shot-p, 0) * (var(--frame-h) - 100%));
 }
 
-.shot-advanced {
+.shot-lists,
+.shot-settings {
   opacity: 0;
 }
 
-.modes:has(#mode-advanced:checked) .shot-advanced {
+.modes:has(#mode-lists:checked) .shot-lists,
+.modes:has(#mode-settings:checked) .shot-settings {
   opacity: 1;
 }
 
-.modes:has(#mode-advanced:checked) .shot-simple {
+.modes:has(#mode-lists:checked) .shot-filters,
+.modes:has(#mode-settings:checked) .shot-filters {
   opacity: 0;
 }
 

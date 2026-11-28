@@ -10,7 +10,7 @@ Hapus video yang sudah ditonton secara otomatis, filter berdasarkan penayangan a
 ✔ Masukkan saluran atau kata di judul ke Whitelist agar dikecualikan dari semua filter
 ✔ Masukkan saluran atau kata di judul ke Blacklist agar selalu disembunyikan
 ✔ Pilih untuk menyembunyikan konten yang terfilter sepenuhnya atau meredupkannya dengan lapisan yang menampilkan alasan filter
-✔ Mode Mudah untuk tombol cepat, Mode Lanjutan untuk kontrol per halaman
+✔ Tiga tab yang jelas: Filter, Daftar, dan Pengaturan, setiap filter bisa diatur per halaman dengan satu klik
 ✔ Tombol setelan terpasang langsung di header YouTube untuk akses instan dari halaman mana pun
 ✔ Semuanya disinkronkan otomatis di semua perangkat Anda: setelan, Whitelist, Blacklist, dan video yang ditandai, tanpa perlu ekspor
 

@@ -857,7 +857,7 @@ async function capturePopupPanel(context, serviceWorker, extensionId) {
   try {
     await page.setViewportSize(POPUP_PANEL_VIEWPORT);
     await page.goto(`chrome-extension://${extensionId}/popup/popup.html?standalone=true`);
-    await page.waitForSelector('.setting-card');
+    await page.waitForSelector('.filter-card');
     await page.addStyleTag({ content: '* { scrollbar-width: none !important; }' });
     await page.waitForTimeout(500);
     return await withDeviceScale(page, 2, () =>
@@ -1027,7 +1027,7 @@ async function captureSettingsSlide(page) {
   if (!frame) {
     throw new Error('The settings dropdown did not open');
   }
-  await frame.waitForSelector('.setting-card', { timeout: 15000 });
+  await frame.waitForSelector('.filter-card', { timeout: 15000 });
   await page.waitForTimeout(1000);
   await parkMouse(page);
   const dropdown = await (await frame.frameElement()).boundingBox();

@@ -10,7 +10,7 @@ Rimuovi in automatico i video già visti, filtra per visualizzazioni o data di c
 ✔ Metti in Whitelist canali o parole del titolo per escluderli da ogni filtro
 ✔ Metti in Blacklist canali o parole del titolo per nasconderli sempre
 ✔ Scegli se nascondere del tutto i contenuti filtrati o attenuarli con una velatura che mostra il motivo del filtro
-✔ Modalità semplice per gli interruttori rapidi, modalità avanzata per il controllo pagina per pagina
+✔ Tre schede chiare: Filtri, Liste e Impostazioni, ogni filtro si imposta pagina per pagina con un clic
 ✔ Pulsante delle impostazioni integrato nell'header di YouTube, per un accesso immediato da ogni pagina
 ✔ Tutto si sincronizza in automatico tra i tuoi dispositivi: impostazioni, Whitelist, Blacklist e video segnati, senza bisogno di esportare
 

@@ -10,7 +10,7 @@ Automatically remove watched videos, filter by views or upload date, and elimina
 ✔ Whitelist channels or title words to exempt them from every filter
 ✔ Blacklist channels or title words to always hide them
 ✔ Choose to fully hide filtered content or dim it with an overlay showing the filter reason
-✔ Easy Mode for quick toggles, Advanced Mode for per-page control
+✔ Three clear tabs: Filters, Lists and Settings, with every filter set per page in one click
 ✔ Settings button built right into YouTube's header for instant access on any page
 ✔ Everything syncs automatically across your devices: settings, whitelists, blacklists and marked videos, with no export needed
 
