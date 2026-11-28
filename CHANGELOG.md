@@ -1,5 +1,23 @@
 # Changelog
 
+### Version 4.0.0
+
+**Changed**
+
+- **A new settings menu in three tabs: Filters, Lists and Settings.** The long single page is gone. A bar at the top says which page you are on and how many filters apply there. Watched videos, View count and Upload date are now rows with their own switch and a one-line summary; open one to set its sliders and the pages it applies to. Shorts, Mixes, Playlists and Lives sit together in one card. Nothing was removed: every option of the old menu is still there
+- **Simple mode and Advanced mode are gone, and everyone can choose the pages.** The page choices (All pages, Home, Subs, Search, Channel, Related) are always one click away inside each filter. A filter you switch on works on every page, so most people never need to open it
+- **Each filter's switch remembers its values.** Switching Watched videos, View count or Upload date off and on again brings back the thresholds you had. Switching Upload date on for the first time selects every page, so it filters straight away
+- **The Lists tab acts on the page you are on.** On a channel or a video it shows that channel with **Whitelist channel** and **Blacklist channel**, or with Remove when it is already listed. A video made by several channels gets one row per channel. One box adds a word to the Title Whitelist or the Title Blacklist, and each list has its count, **Manage** and its pause switch
+- **The settings moved to their own tab**, with Hide on-page controls, the sync status and the tour. The **Support** button stays in the header, and becomes a heart icon when a translation does not fit
+- **The tour is shorter and works in any window.** A welcome card and 4 steps: the gear button, the filters, the channel actions and the buttons on a video. It sits next to what it explains on a wide window and docks to the edge of a narrow one, closes with Escape, and no longer waits 5 seconds before it can be skipped
+- **Whitelist is green everywhere**, on YouTube's own pages too: the Whitelisted button, the Undo countdown of a Whitelist click and the Manage page. Blacklisted now shows a ban sign instead of a check mark
+- **The Manage page follows the menu**: Marked as watched is the last tab, the channel of the tab you came from is marked **Open in your tab**, the Move button takes the color of the list it moves to, and everything pasted that is not a channel is listed with the reason, such as a video link or a word without @
+- Interface sentences no longer end with a period, in every language
+
+**Removed**
+
+- The Advanced Controls setting and the old "Open settings in a tab" handler, which nothing used any more
+
 ### Version 3.8.0
 
 **Added**
