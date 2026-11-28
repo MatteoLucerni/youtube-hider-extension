@@ -1,5 +1,8 @@
 const INLINE_BLACKLIST_BTN_ID = 'yt-hider-inline-blacklist-btn';
 
+const INLINE_BLACKLIST_BAN_ICON =
+  '<svg width="12" height="12" viewBox="0 0 24 24" fill="none" aria-hidden="true"><circle cx="12" cy="12" r="9" stroke="currentColor" stroke-width="2.6"/><path d="m5.6 5.6 12.8 12.8" stroke="currentColor" stroke-width="2.6" stroke-linecap="round"/></svg>';
+
 function injectInlineBlacklistStyles() {
   injectInlineChannelActionStyles(
     'yt-hider-inline-blacklist-styles',
@@ -104,7 +107,7 @@ function updateInlineBlacklistButtonState(btn, channel) {
     isActive: isBlacklisted,
     activeClass: 'is-blacklisted',
     tooltipText: findInlineBlacklistTooltipText(channel, isBlacklisted),
-    iconMarkup: INLINE_WHITELIST_CHECK_ICON,
+    iconMarkup: INLINE_BLACKLIST_BAN_ICON,
     label: getText(isBlacklisted ? 'buttonBlacklisted' : 'buttonBlacklist'),
   });
 }

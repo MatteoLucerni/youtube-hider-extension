@@ -135,11 +135,11 @@ function injectDimStyles() {
       background: rgba(0, 0, 0, 0.92);
     }
     .yt-hider-whitelist-btn.yt-hider-whitelist-btn-pending {
-      background: #1b3a63;
-      color: #bcd6ff;
+      background: #123d2c;
+      color: #8fe3ac;
     }
     .yt-hider-whitelist-btn.yt-hider-whitelist-btn-pending:hover {
-      background: #234a7d;
+      background: #18513a;
     }
     .yt-hider-blacklist-btn.yt-hider-blacklist-btn-pending {
       background: #5c1a1a;

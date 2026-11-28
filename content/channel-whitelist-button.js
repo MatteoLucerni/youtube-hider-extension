@@ -127,14 +127,14 @@ function injectInlineWhitelistStyles() {
     'yt-hider-inline-whitelist-styles',
     'yt-hider-inline-whitelist',
     {
-      focusOutline: '#065fd4',
+      focusOutline: '#8ab4f8',
       activeClass: 'is-whitelisted',
-      activeBg: '#e8f0fe',
-      activeColor: '#065fd4',
-      activeHoverBg: '#d7e6fd',
-      activeDarkBg: '#1b3a63',
-      activeDarkColor: '#bcd6ff',
-      activeDarkHoverBg: '#234a7d',
+      activeBg: '#e6f4ea',
+      activeColor: '#137333',
+      activeHoverBg: '#ceead6',
+      activeDarkBg: '#123d2c',
+      activeDarkColor: '#8fe3ac',
+      activeDarkHoverBg: '#18513a',
     },
   );
 }
