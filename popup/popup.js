@@ -870,7 +870,7 @@ document.addEventListener('DOMContentLoaded', () => {
       refreshAddBlacklistButtonState();
       return;
     }
-    chrome.tabs.sendMessage(tab.id, { type: 'GET_CURRENT_CHANNEL' }, response => {
+    chrome.tabs.sendMessage(tab.id, { type: 'GET_PAGE_CONTEXT' }, response => {
       if (!chrome.runtime.lastError && response && response.channel) {
         currentTabChannel = response.channel;
       }

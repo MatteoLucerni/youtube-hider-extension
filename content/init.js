@@ -241,8 +241,13 @@ if (document.readyState === 'loading') {
 }
 
 chrome.runtime.onMessage.addListener((msg, _sender, sendResponse) => {
-  if (msg.type === 'GET_CURRENT_CHANNEL') {
-    sendResponse({ channel: getCurrentPageChannel() });
+  if (msg.type === 'GET_PAGE_CONTEXT') {
+    const pathname = window.location.pathname;
+    sendResponse({
+      page: getPageKind(pathname),
+      channel: getCurrentPageChannel(),
+      activeFilters: countActiveFilters(pathname),
+    });
     return true;
   }
 });

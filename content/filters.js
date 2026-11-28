@@ -1214,6 +1214,30 @@ function shouldHideLives(pathname) {
   return prefs.hideLivesEnabled && isCoreFilterPath(pathname);
 }
 
+function countActiveFilters(pathname) {
+  if (!prefs.extensionEnabled) return 0;
+  return [
+    shouldHideBlacklisted(pathname),
+    shouldHideTitleBlacklisted(pathname),
+    isMarkedWatchedActive(pathname),
+    shouldHideViews(pathname),
+    shouldHideDateFilter(pathname),
+    shouldHideShorts(pathname) && isCoreFilterPath(pathname),
+    shouldHideMixes(pathname),
+    shouldHidePlaylists(pathname),
+    shouldHideLives(pathname),
+  ].filter(Boolean).length;
+}
+
+function getPageKind(pathname) {
+  if (pathname === '/') return 'home';
+  if (pathname === '/feed/subscriptions') return 'subs';
+  if (pathname === '/results') return 'search';
+  if (pathname === '/watch') return 'watch';
+  if (isChannelPagePath(pathname)) return 'channel';
+  return 'other';
+}
+
 const BLACKLIST_EXTRA_SELECTORS =
   'ytd-playlist-renderer, ytd-compact-playlist-renderer, ytd-radio-renderer, ytd-compact-radio-renderer';
 
